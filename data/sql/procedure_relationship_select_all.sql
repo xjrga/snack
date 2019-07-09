@@ -1,0 +1,12 @@
+CREATE PROCEDURE Relationship_Select_All ()
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+DECLARE result CURSOR
+FOR
+SELECT
+RelationshipId,
+Name 
+FROM
+Relationship;
+OPEN result;
+END;
+/
