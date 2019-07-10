@@ -1,0 +1,22 @@
+CREATE PROCEDURE MixFood_Select (
+IN v_MixId INTEGER
+)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+DECLARE result CURSOR
+FOR
+SELECT
+MixId,
+FoodId,
+x
+FROM
+MixFood
+WHERE
+MixId = v_MixId
+ORDER BY
+MixId,
+FoodId;
+--
+OPEN result;
+--
+END;
+/

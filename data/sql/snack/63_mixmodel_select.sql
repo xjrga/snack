@@ -1,0 +1,21 @@
+CREATE PROCEDURE MixModel_Select (
+IN v_MixId INTEGER
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT
+MixId,
+NutrientId,
+Model
+FROM
+MixModel
+WHERE
+MixId = v_MixId;
+--
+OPEN result;
+--
+END;
+/

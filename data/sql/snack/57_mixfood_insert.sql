@@ -1,0 +1,14 @@
+CREATE PROCEDURE MixFood_Insert (
+IN v_MixId INTEGER,
+IN v_FoodId VARCHAR(8000)
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+INSERT INTO MixFood (
+MixId,
+FoodId
+) VALUES (
+v_MixId,
+v_FoodId
+);
+END;
+/

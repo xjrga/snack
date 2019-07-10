@@ -1,0 +1,14 @@
+CREATE FUNCTION getFoodName (IN v_FoodId VARCHAR(8000)) RETURNS VARCHAR(8000) 
+--
+READS SQL DATA BEGIN ATOMIC 
+--
+DECLARE v_name VARCHAR(8000);
+--
+SELECT name INTO v_name
+FROM food
+WHERE foodid = v_FoodId;
+--
+RETURN v_name;
+--
+END;
+/

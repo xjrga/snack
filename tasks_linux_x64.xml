@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="linux_x64" default="e:unzip">
+
+    <property name="project.artifactId" value="Snack2"/>
+    <property name="project.version" value="0.509"/>
+
+    <target name="a:copy_jre" depends="" description="copy_jre">
+        <!-- copy jre to snack dir -->
+        <copy todir="/opt/repo/Test/${project.artifactId}-${project.version}/jbr">
+            <fileset dir="/opt/jre/intellij/jbr"/>
+        </copy>
+    </target>
+
+    <target name="b:copy_snack_dir" depends="a:copy_jre" description="copy snack dir">
+        <!-- copy snack dir to snack_linux-->
+        <copy todir="/opt/repo/Test/${project.artifactId}-${project.version}_linux">
+            <fileset dir="/opt/repo/Test/${project.artifactId}-${project.version}"/>
+        </copy>
+    </target>
+
+    <target name="c:fix_permissions" depends="b:copy_snack_dir" description="fix permissions">
+        <chmod file="/opt/repo/Test/${project.artifactId}-${project.version}_linux/scripts/Snack2.sh" perm="700"/>
+        <chmod file="/opt/repo/Test/${project.artifactId}-${project.version}_linux/jbr/bin/java" perm="700"/>
+    </target>
+
+    <target name="d:zip" depends="c:fix_permissions" description="zip">
+        <!-- zip files up -->
+        <zip destfile="/opt/repo/Test/${project.artifactId}-${project.version}_linux.zip" basedir="/opt/repo/Test/${project.artifactId}-${project.version}_linux"/>
+    </target>
+
+    <target name="e:unzip" depends="d:zip" description="unzip">
+        <!-- unzip files up -->
+         <unzip src="/opt/repo/Test/${project.artifactId}-${project.version}_linux.zip" dest="/opt/repo/Test" overwrite="true"/>
+     </target>
+
+</project>
+

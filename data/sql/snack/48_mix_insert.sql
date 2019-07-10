@@ -1,0 +1,34 @@
+CREATE PROCEDURE Mix_Insert (
+--
+OUT newid INTEGER,
+--
+IN v_Name VARCHAR(8000)
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_ADate DATE;
+--
+DECLARE v_ATime TIME;
+--
+SELECT CURRENT_DATE INTO v_ADate FROM (VALUES(0));
+--
+SELECT LOCALTIME INTO v_ATime FROM (VALUES(0));
+--
+INSERT INTO Mix (
+MixId,
+Name,
+ADate,
+ATime
+) VALUES (
+DEFAULT,
+v_Name,
+v_ADate,
+v_ATime
+);
+--
+SET newid = IDENTITY();
+--
+END;
+/

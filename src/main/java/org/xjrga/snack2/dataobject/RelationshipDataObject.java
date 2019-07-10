@@ -20,43 +20,36 @@
 
 package org.xjrga.snack2.dataobject;
 
-public class RelationshipDataObject
-{
+public class RelationshipDataObject {
 
     private int relationshipid;
     private String name;
 
 
-    public RelationshipDataObject(int relationshipid, String name)
-    {
-            this.setRelationshipid(relationshipid);
-            this.setName(name);
+    public RelationshipDataObject(int relationshipid, String name) {
+        this.setRelationshipid(relationshipid);
+        this.setName(name);
     }
 
-    public int getRelationshipid()
-    {
+    public int getRelationshipid() {
         return relationshipid;
     }
 
-    public void setRelationshipid(int relationshipid)
-    {
+    public void setRelationshipid(int relationshipid) {
         this.relationshipid = relationshipid;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         //return "{"+relationshipid+":"+name+"}";
         return name;
     }

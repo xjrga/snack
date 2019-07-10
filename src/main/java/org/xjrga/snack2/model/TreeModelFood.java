@@ -21,6 +21,7 @@
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
+import org.xjrga.snack2.dataobject.FoodDataObject;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -31,7 +32,7 @@ import java.util.LinkedList;
 
 public class TreeModelFood extends DefaultTreeModel {
 
-    private DbLink dbLink;
+    private final DbLink dbLink;
     private DefaultMutableTreeNode node;
 
     public TreeModelFood(DbLink dblink) {
@@ -47,8 +48,7 @@ public class TreeModelFood extends DefaultTreeModel {
 
         HashMap hm = new HashMap();
         LinkedList list = null;
-        try
-        {
+        try {
             list = (LinkedList) dbLink.Food_Select_All();
             Iterator it = list.iterator();
 
@@ -59,10 +59,12 @@ public class TreeModelFood extends DefaultTreeModel {
                 HashMap row = (HashMap) it.next();
 
                 String categoryName = (String) row.get("CATEGORY");
+                String foodid = (String) row.get("FOODID");
                 String foodName = (String) row.get("FOOD");
 
                 DefaultMutableTreeNode category = new DefaultMutableTreeNode(categoryName);
-                DefaultMutableTreeNode food = new DefaultMutableTreeNode(foodName);
+                FoodDataObject foodobject = new FoodDataObject(foodid, foodName);
+                DefaultMutableTreeNode food = new DefaultMutableTreeNode(foodobject);
 
                 if (hm.containsKey(categoryName)) {
 
@@ -79,9 +81,7 @@ public class TreeModelFood extends DefaultTreeModel {
 
             }
             this.setRoot(node);
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

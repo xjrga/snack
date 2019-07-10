@@ -1,0 +1,15 @@
+CREATE PROCEDURE Food_Delete (
+--
+IN v_FoodId VARCHAR(8000)
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DELETE FROM
+Food
+WHERE
+FoodId = v_FoodId;
+--
+END;
+/

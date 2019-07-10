@@ -1,0 +1,26 @@
+CREATE PROCEDURE Mix_Update_Time (
+--
+IN v_MixId INTEGER
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_ADate DATE;
+--
+DECLARE v_ATime TIME;
+--
+SELECT CURRENT_DATE INTO v_ADate FROM (VALUES(0));
+--
+SELECT LOCALTIME INTO v_ATime FROM (VALUES(0));
+--
+UPDATE
+Mix
+SET
+ADate = v_ADate,
+ATime = v_ATime
+WHERE
+MixId = v_MixId;
+--
+END;
+/

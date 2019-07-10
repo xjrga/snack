@@ -21,7 +21,6 @@
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
-import org.xjrga.snack2.dataobject.NutrientDataObject;
 import org.xjrga.snack2.dataobject.RelationshipDataObject;
 
 import javax.swing.*;
@@ -32,7 +31,7 @@ import java.util.LinkedList;
 
 public class ComboBoxModelRelationships extends DefaultComboBoxModel {
 
-    private DbLink dbLink;
+    private final DbLink dbLink;
 
     public ComboBoxModelRelationships(DbLink dbLink) {
         this.dbLink = dbLink;
@@ -42,8 +41,7 @@ public class ComboBoxModelRelationships extends DefaultComboBoxModel {
 
         this.removeAllElements();
 
-        try
-        {
+        try {
             LinkedList all = (LinkedList) dbLink.Relationship_Select_All();
             Iterator it = all.iterator();
 
@@ -52,13 +50,11 @@ public class ComboBoxModelRelationships extends DefaultComboBoxModel {
                 HashMap row = (HashMap) it.next();
                 int relationshipid = (int) row.get("RELATIONSHIPID");
                 String name = (String) row.get("NAME");
-                RelationshipDataObject relationshipDataObject = new RelationshipDataObject(relationshipid,name);
+                RelationshipDataObject relationshipDataObject = new RelationshipDataObject(relationshipid, name);
 
                 this.addElement(relationshipDataObject);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

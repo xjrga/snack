@@ -1,0 +1,17 @@
+CREATE PROCEDURE Mix_Select_All_0 ()
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT
+MixId,
+Name
+FROM
+Mix
+WHERE Status = 0;
+--
+OPEN result;
+--
+END;
+/

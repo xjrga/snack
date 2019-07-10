@@ -31,7 +31,7 @@ import java.util.LinkedList;
 
 public class ComboBoxModelNutrients extends DefaultComboBoxModel {
 
-    private DbLink dbLink;
+    private final DbLink dbLink;
 
     public ComboBoxModelNutrients(DbLink dbLink) {
         this.dbLink = dbLink;
@@ -42,8 +42,7 @@ public class ComboBoxModelNutrients extends DefaultComboBoxModel {
         this.removeAllElements();
 
         LinkedList all = null;
-        try
-        {
+        try {
             all = (LinkedList) dbLink.Nutrient_Select_All();
 
             Iterator it = all.iterator();
@@ -54,13 +53,11 @@ public class ComboBoxModelNutrients extends DefaultComboBoxModel {
 
                 String nutrientid = (String) row.get("NUTRIENTID");
                 String name = (String) row.get("NAME");
-                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid,name);
+                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name);
 
                 this.addElement(nutrientDataObject);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

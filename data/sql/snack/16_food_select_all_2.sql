@@ -1,0 +1,16 @@
+CREATE PROCEDURE Food_Select_All_2 ()
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT foodid,
+       name
+FROM Food
+ORDER BY name;
+--
+OPEN result;
+
+--
+END;
+/

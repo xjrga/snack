@@ -1,0 +1,20 @@
+CREATE PROCEDURE Food_Select_All_Like (
+--
+IN v_txt VARCHAR(8000)
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT foodid,
+       name
+FROM Food
+WHERE LCASE(Name) LIKE LCASE(CONCAT(CONCAT('%',v_txt),'%'))
+ORDER BY Name;
+--
+OPEN result;
+--
+END;
+/

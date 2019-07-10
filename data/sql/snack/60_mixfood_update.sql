@@ -1,0 +1,16 @@
+CREATE PROCEDURE MixFood_Update (
+IN v_MixId INTEGER,
+IN v_FoodId VARCHAR(8000),
+IN v_x DOUBLE
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+UPDATE
+MixFood
+SET
+x = v_x
+WHERE
+MixId = v_MixId
+AND
+FoodId = v_FoodId;
+END;
+/

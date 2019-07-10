@@ -20,43 +20,36 @@
 
 package org.xjrga.snack2.dataobject;
 
-public class NutrientDataObject
-{
+public class NutrientDataObject {
 
     private String nutr_no;
     private String nutrdesc;
 
 
-    public NutrientDataObject(String nutrientid, String nutrdesc)
-    {
-            this.setNutr_no(nutrientid);
-            this.setNutrdesc(nutrdesc);
+    public NutrientDataObject(String nutrientid, String nutrdesc) {
+        this.setNutr_no(nutrientid);
+        this.setNutrdesc(nutrdesc);
     }
 
-    public String getNutr_no()
-    {
+    public String getNutr_no() {
         return nutr_no;
     }
 
-    public void setNutr_no(String nutr_no)
-    {
+    public void setNutr_no(String nutr_no) {
         this.nutr_no = nutr_no;
     }
 
-    public String getNutrdesc()
-    {
+    public String getNutrdesc() {
         return nutrdesc;
     }
 
-    public void setNutrdesc(String nutrdesc)
-    {
+    public void setNutrdesc(String nutrdesc) {
         this.nutrdesc = nutrdesc;
     }
 
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         //return "{"+nutr_no+":"+nutrdesc+"}";
         return nutrdesc;
     }
