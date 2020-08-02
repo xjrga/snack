@@ -1,8 +1,8 @@
 CREATE PROCEDURE Food_Update_Details (
 --
-IN v_foodid VARCHAR(8000),
+IN v_foodid LONGVARCHAR,
 --
-IN v_foodnom VARCHAR(8000),
+IN v_foodnom LONGVARCHAR,
 --
 IN v_serving_size DOUBLE,
 --
@@ -44,7 +44,7 @@ IN v_alcohol DOUBLE
 --
 modifies sql data BEGIN atomic
 --
-call Food_Update(v_FoodId,v_foodnom,v_serving_size);
+call Food_Update(v_FoodId,v_foodnom);
 --
 call FoodFact_Update(v_FoodId,'10000',v_serving_size);
 --

@@ -2,7 +2,7 @@ CREATE PROCEDURE Mix_Insert (
 --
 OUT newid INTEGER,
 --
-IN v_Name VARCHAR(8000)
+IN v_Name LONGVARCHAR
 --
 )
 --

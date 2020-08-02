@@ -1,7 +1,6 @@
 package org.xjrga.snack2.dataobject;
 
 public class MixResultDwPctDataObject {
-
     private Integer MixId;
     private Double Protein;
     private Double Fat;
@@ -10,7 +9,6 @@ public class MixResultDwPctDataObject {
     private Double Alcohol;
 
     public MixResultDwPctDataObject() {
-
     }
 
     public Integer getMixId() {
@@ -76,5 +74,4 @@ public class MixResultDwPctDataObject {
         sb.append(Alcohol);
         return sb.toString();
     }
-
 }

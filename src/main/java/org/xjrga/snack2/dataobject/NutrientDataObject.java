@@ -17,14 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.dataobject;
 
 public class NutrientDataObject {
-
     private String nutr_no;
     private String nutrdesc;
-
 
     public NutrientDataObject(String nutrientid, String nutrdesc) {
         this.setNutr_no(nutrientid);
@@ -47,11 +44,9 @@ public class NutrientDataObject {
         this.nutrdesc = nutrdesc;
     }
 
-
     @Override
     public String toString() {
         //return "{"+nutr_no+":"+nutrdesc+"}";
         return nutrdesc;
     }
-
 }

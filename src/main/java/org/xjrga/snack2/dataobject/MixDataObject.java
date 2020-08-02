@@ -17,16 +17,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.dataobject;
 
 public class MixDataObject {
-
     private Integer MixId;
     private String Name;
 
     public MixDataObject() {
+    }
 
+    public MixDataObject(Integer MixId, String Name) {
+        this.MixId = MixId;
+        this.Name = Name;
     }
 
     public Integer getMixId() {
@@ -44,7 +46,6 @@ public class MixDataObject {
     public void setName(String Name) {
         this.Name = Name;
     }
-
 
     public String toString() {
         StringBuilder sb = new StringBuilder();

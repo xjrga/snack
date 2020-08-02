@@ -1,17 +1,14 @@
 CREATE PROCEDURE Food_Insert (
-IN v_FoodId VARCHAR(8000),
-IN v_Name VARCHAR(8000),
-IN v_ServingSize DOUBLE
+IN v_FoodId LONGVARCHAR,
+IN v_Name LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 INSERT INTO Food (
 FoodId,
-Name,
-ServingSize
+Name
 ) VALUES (
 v_FoodId,
-v_Name,
-v_ServingSize
+v_Name
 );
 END;
 /

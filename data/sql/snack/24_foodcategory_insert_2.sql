@@ -1,6 +1,6 @@
 CREATE PROCEDURE FoodCategory_Insert_2 (
 --
-IN v_Name VARCHAR(8000)
+IN v_Name LONGVARCHAR
 --
 )
 --

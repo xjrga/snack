@@ -6,10 +6,12 @@ DECLARE result CURSOR
 FOR
 SELECT
 NutrientId,
-Name 
+Name,
+Visible
 FROM
 Nutrient
-WHERE NutrientId != '205'
+WHERE
+NutrientId != '205'
 ORDER BY Name;
 --
 OPEN result;

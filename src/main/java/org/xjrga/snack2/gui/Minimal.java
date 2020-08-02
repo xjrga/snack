@@ -7,11 +7,10 @@ import javax.swing.plaf.metal.MetalTheme;
 import java.awt.*;
 
 public class Minimal extends MetalTheme {
-
-    private final FontUIResource font = new FontUIResource("Liberation Mono", Font.PLAIN, 13);
-    private final ColorUIResource colorUIResource0 = new ColorUIResource(0xf2f2f2);
+    private final FontUIResource font = new FontUIResource("Dialog", Font.PLAIN, 13);
+    private final ColorUIResource colorUIResource0 = new ColorUIResource(0xF7F7F7);
+    private final ColorUIResource colorUIResource2 = new ColorUIResource(0xE6E6E6);
     private final ColorUIResource colorUIResource1 = new ColorUIResource(0, 0, 0);
-    private final ColorUIResource colorUIResource2 = new ColorUIResource(0xD4F0FA);
 
     public Minimal() {
         UIManager.put("TabbedPane.focus", colorUIResource2);

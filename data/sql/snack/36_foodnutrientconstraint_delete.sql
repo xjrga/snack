@@ -1,7 +1,7 @@
 CREATE PROCEDURE FoodNutrientConstraint_Delete (
 IN v_MixId INTEGER,
-IN v_FoodId VARCHAR(8000),
-IN v_NutrientId VARCHAR(8000),
+IN v_FoodId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC

@@ -1,6 +1,6 @@
 CREATE PROCEDURE Food_Delete (
 --
-IN v_FoodId VARCHAR(8000)
+IN v_FoodId LONGVARCHAR
 --
 )
 --

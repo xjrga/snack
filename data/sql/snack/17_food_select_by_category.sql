@@ -1,6 +1,6 @@
 CREATE PROCEDURE Food_Select_By_Category (
 --
-IN v_FoodCategoryId VARCHAR(8000)
+IN v_FoodCategoryId LONGVARCHAR
 --
 )
 --

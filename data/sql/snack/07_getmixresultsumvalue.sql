@@ -2,7 +2,7 @@ CREATE FUNCTION getMixResultSumValue (
 --
 IN v_MixId INTEGER,
 --
-IN v_NutrientId VARCHAR(8000)
+IN v_NutrientId LONGVARCHAR
 --
 )
 --

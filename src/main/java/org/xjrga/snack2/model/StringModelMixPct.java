@@ -2,14 +2,16 @@ package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
 import org.xjrga.snack2.dataobject.MixResultDwPctDataObject;
+import org.xjrga.snack2.other.Log;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class StringModelMixPct {
+public class StringModelMixPct implements RoundUp {
     private final DbLink dbLink;
+    private Integer precision = 0;
 
     public StringModelMixPct(DbLink dbLink) {
         this.dbLink = dbLink;
@@ -17,50 +19,29 @@ public class StringModelMixPct {
 
     public String reload(Integer MixId) {
         String s = "";
-
         try {
-            LinkedList all = (LinkedList) dbLink.MixResultDW_Select_Pct(MixId);
-
+            LinkedList all = (LinkedList) dbLink.MixResultDW_Select_Pct(MixId, precision);
             Iterator it = all.iterator();
-
             while (it.hasNext()) {
-
                 HashMap row = (HashMap) it.next();
                 Double calories = (Double) row.get("CALORIES");
                 Double fat = (Double) row.get("FAT");
                 Double carbs = (Double) row.get("CARBS");
                 Double protein = (Double) row.get("PROTEIN");
                 Double alcohol = (Double) row.get("ALCOHOL");
-                //Food quotient (FQ) calculated using the equation of Black et al
-                //Double fq = (carbs*1.00+fat*.71+protein*.81)/100;
                 Double fq = (Double) row.get("FQ");
-
-                if (calories == null) {
-                    calories = 0.0;
-                }
-                if (fat == null) {
-                    fat = 0.0;
-                }
-                if (carbs == null) {
-                    carbs = 0.0;
-                }
-                if (protein == null) {
-                    protein = 0.0;
-                }
-                if (alcohol == null) {
-                    alcohol = 0.0;
-                }
-
+                //Calories calculation result is different if we choose digestible carbohydrate or carbohydrate by difference. I chose to use digestible carbohydrate.
+                //It is an approximation.
                 MixResultDwPctDataObject mixResultDwPctDataObject = new MixResultDwPctDataObject();
                 mixResultDwPctDataObject.setCalories(calories);
                 mixResultDwPctDataObject.setFat(fat);
                 mixResultDwPctDataObject.setCarbs(carbs);
                 mixResultDwPctDataObject.setProtein(protein);
                 mixResultDwPctDataObject.setAlcohol(alcohol);
-
                 StringBuilder sb = new StringBuilder();
-//                sb.append("Calories: ");
-//                sb.append(mixResultDwPctDataObject.getCalories());
+                //This calories result is slightly different that the one reported because it uses digestible carbohydrate in calculation.
+                //sb.append("Calories: ");
+                //sb.append(mixResultDwPctDataObject.getCalories());
                 sb.append("Per cent of total energy: ");
                 sb.append("   ");
                 sb.append("Fat: ");
@@ -77,13 +58,19 @@ public class StringModelMixPct {
                 sb.append("     ");
                 sb.append("Food Quotient: ");
                 sb.append(fq);
-
                 s = sb.toString();
             }
         } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
-
         return s;
+    }
+
+    public void setPrecision(Integer precision) {
+        this.precision = precision;
     }
 }

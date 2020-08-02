@@ -1,7 +1,7 @@
 CREATE TABLE FoodFactCoefficient
 (
-FoodId VARCHAR(8000),
-NutrientId VARCHAR(8000),
+FoodId LONGVARCHAR,
+NutrientId LONGVARCHAR,
 c DOUBLE,
 CONSTRAINT FoodFactCoefficient_primaryKey PRIMARY KEY (FoodId, NutrientId)
 );
@@ -9,26 +9,25 @@ CONSTRAINT FoodFactCoefficient_primaryKey PRIMARY KEY (FoodId, NutrientId)
 
 CREATE TABLE FoodCategory
 (
-FoodCategoryId VARCHAR(8000),
-Name VARCHAR(8000),
+FoodCategoryId LONGVARCHAR,
+Name LONGVARCHAR,
 CONSTRAINT FoodCategory_primaryKey PRIMARY KEY (FoodCategoryId)
 );
 /
 
 CREATE TABLE Food
 (
-FoodId VARCHAR(8000),
-Name VARCHAR(8000),
-ServingSize DOUBLE DEFAULT 100,
+FoodId LONGVARCHAR,
+Name LONGVARCHAR,
 CONSTRAINT Food_primaryKey PRIMARY KEY (FoodId)
 );
 /
 
 CREATE TABLE FoodFact
 (
-FoodId VARCHAR(8000),
-NutrientId VARCHAR(8000),
-q DOUBLE,
+FoodId LONGVARCHAR,
+NutrientId LONGVARCHAR,
+q DOUBLE DEFAULT CAST(0 AS DOUBLE),
 CONSTRAINT FoodFact_primaryKey PRIMARY KEY (FoodId, NutrientId)
 );
 /
@@ -36,7 +35,7 @@ CONSTRAINT FoodFact_primaryKey PRIMARY KEY (FoodId, NutrientId)
 CREATE TABLE Relationship
 (
 RelationshipId IDENTITY,
-Name VARCHAR(8000),
+Name LONGVARCHAR,
 CONSTRAINT Relationship_primaryKey PRIMARY KEY (RelationshipId)
 );
 /
@@ -44,7 +43,7 @@ CONSTRAINT Relationship_primaryKey PRIMARY KEY (RelationshipId)
 CREATE TABLE Mix
 (
 MixId IDENTITY,
-Name VARCHAR(8000),
+Name LONGVARCHAR,
 ADate DATE,
 ATime TIME,
 Status INTEGER,
@@ -52,10 +51,21 @@ CONSTRAINT Mix_primaryKey PRIMARY KEY (MixId)
 );
 /
 
+CREATE TABLE NutrientCategory
+(
+NutrientCategoryId LONGVARCHAR,
+Name LONGVARCHAR,
+CONSTRAINT NutrientCategory_primaryKey PRIMARY KEY (NutrientCategoryId)
+);
+/
+
 CREATE TABLE Nutrient
 (
-NutrientId VARCHAR(8000),
-Name VARCHAR(8000),
+NutrientId LONGVARCHAR,
+Name LONGVARCHAR,
+Visible INTEGER DEFAULT 1,
+NutrientCategoryId LONGVARCHAR,
+Label LONGVARCHAR,
 CONSTRAINT Nutrient_primaryKey PRIMARY KEY (NutrientId)
 );
 /
@@ -63,7 +73,7 @@ CONSTRAINT Nutrient_primaryKey PRIMARY KEY (NutrientId)
 CREATE TABLE MixFood
 (
 MixId INTEGER,
-FoodId VARCHAR(8000),
+FoodId LONGVARCHAR,
 x DOUBLE,
 CONSTRAINT MixFood_primaryKey PRIMARY KEY (MixId, FoodId)
 );
@@ -72,13 +82,13 @@ CONSTRAINT MixFood_primaryKey PRIMARY KEY (MixId, FoodId)
 CREATE TABLE FoodNutrientRatio
 (
 MixId INTEGER,
-Food_Id_1 VARCHAR(8000),
-Nutrient_Id_1 VARCHAR(8000),
-Food_Id_2 VARCHAR(8000),
-Nutrient_Id_2 VARCHAR(8000),
+Food_Id_1 LONGVARCHAR,
+Nutrient_Id_1 LONGVARCHAR,
+Food_Id_2 LONGVARCHAR,
+Nutrient_Id_2 LONGVARCHAR,
 RelationshipId INTEGER,
-A INTEGER,
-B INTEGER,
+A DOUBLE,
+B DOUBLE,
 CONSTRAINT FoodNutrientRatio_primaryKey PRIMARY KEY (MixId, Food_Id_1, Nutrient_Id_1, Food_Id_2, Nutrient_Id_2, RelationshipId)
 );
 /
@@ -86,11 +96,11 @@ CONSTRAINT FoodNutrientRatio_primaryKey PRIMARY KEY (MixId, Food_Id_1, Nutrient_
 CREATE TABLE NutrientRatio
 (
 MixId INTEGER,
-Nutrient_Id_1 VARCHAR(8000),
-Nutrient_Id_2 VARCHAR(8000),
+Nutrient_Id_1 LONGVARCHAR,
+Nutrient_Id_2 LONGVARCHAR,
 RelationshipId INTEGER,
-A INTEGER,
-B INTEGER,
+A DOUBLE,
+B DOUBLE,
 CONSTRAINT NutrientRatio_primaryKey PRIMARY KEY (MixId, Nutrient_Id_1, Nutrient_Id_2, RelationshipId)
 );
 /
@@ -98,7 +108,7 @@ CONSTRAINT NutrientRatio_primaryKey PRIMARY KEY (MixId, Nutrient_Id_1, Nutrient_
 CREATE TABLE NutrientConstraint
 (
 MixId INTEGER,
-NutrientId VARCHAR(8000),
+NutrientId LONGVARCHAR,
 RelationshipId INTEGER,
 b DOUBLE,
 CONSTRAINT NutrientConstraint_primaryKey PRIMARY KEY (MixId, NutrientId, RelationshipId)
@@ -108,8 +118,8 @@ CONSTRAINT NutrientConstraint_primaryKey PRIMARY KEY (MixId, NutrientId, Relatio
 CREATE TABLE FoodNutrientConstraint
 (
 MixId INTEGER,
-FoodId VARCHAR(8000),
-NutrientId VARCHAR(8000),
+FoodId LONGVARCHAR,
+NutrientId LONGVARCHAR,
 RelationshipId INTEGER,
 b DOUBLE,
 CONSTRAINT FoodNutrientConstraint_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId, RelationshipId)
@@ -119,27 +129,55 @@ CONSTRAINT FoodNutrientConstraint_primaryKey PRIMARY KEY (MixId, FoodId, Nutrien
 CREATE TABLE MixResultDW
 (
 MixId INTEGER,
-FoodId VARCHAR(8000),
-Name VARCHAR(8000),
+FoodId LONGVARCHAR,
+Name LONGVARCHAR,
+Weight DOUBLE,
+CompleteProtein DOUBLE,
+IncompleteProtein DOUBLE,
+DigestibleCarbohydrate DOUBLE,
+Cost DOUBLE,
 Protein DOUBLE,
 Fat DOUBLE,
-CarbsByDifference DOUBLE,
-Kcal DOUBLE,
+CarbsByDiff DOUBLE,
+Energy DOUBLE,
+Sucrose DOUBLE,
+Fructose DOUBLE,
+Lactose DOUBLE,
 Alcohol DOUBLE,
+Water DOUBLE,
 Fiber DOUBLE,
 Calcium DOUBLE,
+Iron DOUBLE,
 Magnesium DOUBLE,
+Phosphorus DOUBLE,
 Potassium DOUBLE,
 Sodium DOUBLE,
+Zinc DOUBLE,
+Copper DOUBLE,
+Fluoride DOUBLE,
+Manganese DOUBLE,
+Selenium DOUBLE,
+VitaminA DOUBLE,
+VitaminE DOUBLE,
+VitaminD DOUBLE,
+VitaminC DOUBLE,
+Thiamin DOUBLE,
+Riboflavin DOUBLE,
+Niacin DOUBLE,
+Pantothenic DOUBLE,
+VitaminB6 DOUBLE,
+VitaminB12 DOUBLE,
+Choline DOUBLE,
+VitaminK DOUBLE,
+Folate DOUBLE,
 Cholesterol DOUBLE,
-SatFat DOUBLE,
-Monoufat DOUBLE,
-Polyufat DOUBLE,
-Quantity DOUBLE,
-Complete DOUBLE,
-Incomplete DOUBLE,
-CarbsDigestible DOUBLE,
-Cost DOUBLE,
+Saturated DOUBLE,
+DHA DOUBLE,
+EPA DOUBLE,
+Monounsaturated DOUBLE,
+Polyunsaturated DOUBLE,
+Linoleic DOUBLE,
+AlphaLinolenic DOUBLE,
 CONSTRAINT MixResultDW_primaryKey PRIMARY KEY (MixId, FoodId)
 );
 /
@@ -147,7 +185,7 @@ CONSTRAINT MixResultDW_primaryKey PRIMARY KEY (MixId, FoodId)
 CREATE TABLE MixModel
 (
 MixId INTEGER,
-NutrientId VARCHAR(8000),
+NutrientId LONGVARCHAR,
 Model LONGVARCHAR,
 CONSTRAINT MixModel_primaryKey PRIMARY KEY (MixId)
 );
@@ -155,8 +193,8 @@ CONSTRAINT MixModel_primaryKey PRIMARY KEY (MixId)
 
 CREATE TABLE CategoryLink
 (
-FoodCategoryId VARCHAR(8000),
-FoodId VARCHAR(8000),
+FoodCategoryId LONGVARCHAR,
+FoodId LONGVARCHAR,
 CONSTRAINT CategoryLink_primaryKey PRIMARY KEY (FoodCategoryId, FoodId)
 );
 /
@@ -164,12 +202,28 @@ CONSTRAINT CategoryLink_primaryKey PRIMARY KEY (FoodCategoryId, FoodId)
 CREATE TABLE PercentConstraint
 (
 MixId INTEGER,
-FoodId VARCHAR(8000),
-NutrientId VARCHAR(8000),
+FoodId LONGVARCHAR,
+NutrientId LONGVARCHAR,
 b DOUBLE,
 CONSTRAINT PercentConstraint_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId)
 );
 /
+
+CREATE TABLE Rda
+(
+NutrientId LONGVARCHAR,
+LifeStageId INTEGER,
+q DOUBLE DEFAULT CAST(0 AS DOUBLE),
+UL DOUBLE DEFAULT CAST(0 AS DOUBLE),
+CONSTRAINT Rda_primaryKey PRIMARY KEY (NutrientId, LifeStageId)
+);
+
+CREATE TABLE RdaLifeStage
+(
+LifeStageId INTEGER,
+Label LONGVARCHAR,
+CONSTRAINT RdaLifeStage_primaryKey PRIMARY KEY (LifeStageId)
+);
 
 ALTER TABLE CategoryLink ADD CONSTRAINT R0_FoodCategory_CategoryLink FOREIGN KEY ( FoodCategoryId ) REFERENCES FoodCategory ( FoodCategoryId ) ON DELETE CASCADE;
 /
@@ -224,4 +278,6 @@ ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R24_MixFood_FoodNutrientConstr
 ALTER TABLE MixResultDW ADD CONSTRAINT R25_MixFood_MixResultDW FOREIGN KEY ( MixId,FoodId ) REFERENCES MixFood ( MixId,FoodId ) ON DELETE CASCADE;
 /
 ALTER TABLE PercentConstraint ADD CONSTRAINT R26_MixFood_PercentConstraint FOREIGN KEY ( MixId,FoodId ) REFERENCES MixFood ( MixId,FoodId ) ON DELETE CASCADE;
+/
+ALTER TABLE Rda ADD CONSTRAINT R27_RdaLifeStage_Rda FOREIGN KEY ( LifeStageId ) REFERENCES RdaLifeStage ( LifeStageId ) ON DELETE CASCADE;
 /

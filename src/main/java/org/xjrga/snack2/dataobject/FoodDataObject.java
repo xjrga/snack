@@ -17,37 +17,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.dataobject;
 
 public class FoodDataObject {
-
     private String foodid;
     private String foodname;
 
-    public FoodDataObject(String foodid, String foodname) {
-        this.setFoodid(foodid);
-        this.setFoodname(foodname);
+    public FoodDataObject() {
     }
 
-    public String getFoodid() {
+    public FoodDataObject(String foodid, String foodname) {
+        this.setFoodId(foodid);
+        this.setFoodName(foodname);
+    }
+
+    public String getFoodId() {
         return foodid;
     }
 
-    public void setFoodid(String foodid) {
+    public void setFoodId(String foodid) {
         this.foodid = foodid;
     }
 
     @Override
     public String toString() {
-        return getFoodname();
+        return getFoodName();
     }
 
-    public String getFoodname() {
+    public String getFoodName() {
         return foodname;
     }
 
-    public void setFoodname(String foodname) {
+    public void setFoodName(String foodname) {
         this.foodname = foodname;
     }
 }

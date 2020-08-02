@@ -30,24 +30,28 @@ public class ImageUtilities {
         /*String format = "PNG";
         String pathname = "resources/myeditedimage.png";
         writeBufferedImage(subimage,format,pathname);*/
-
         try {
             ImageIO.write(subimage, format, new File(pathname));
         } catch (IOException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
     }
 
     public static BufferedImage readImage(String pathname) {
-
         BufferedImage img = null;
-
         try {
             img = ImageIO.read(new File(pathname));
         } catch (IOException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
-
         return img;
     }
 

@@ -17,11 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
 import org.xjrga.snack2.dataobject.FoodCategoryDataObject;
+import org.xjrga.snack2.other.Log;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -30,39 +30,32 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ListModelCategory extends DefaultListModel {
-
     private final DbLink dbLink;
 
     public ListModelCategory(DbLink dbLink) {
-
         this.dbLink = dbLink;
-
     }
 
     public void reload() {
-
         this.clear();
-
         try {
             LinkedList all = (LinkedList) dbLink.FoodCategory_Select_All();
-
             Iterator it = all.iterator();
-
             while (it.hasNext()) {
-
                 HashMap row = (HashMap) it.next();
                 String foodcategoryid = (String) row.get("FOODCATEGORYID");
                 String name = (String) row.get("NAME");
-
                 FoodCategoryDataObject foodCategoryDataObject = new FoodCategoryDataObject();
                 foodCategoryDataObject.setFoodCategoryId(foodcategoryid);
                 foodCategoryDataObject.setName(name);
-
                 this.addElement(foodCategoryDataObject);
             }
         } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
-
     }
 }

@@ -17,10 +17,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
+import org.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
@@ -30,7 +30,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelPercentNutrientConstraints extends DefaultTableModel {
-
     private final DbLink dbLink;
     private Vector columns;
 
@@ -40,7 +39,6 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
     }
 
     private void setColumnIdentifiers() {
-
         columns = new Vector();
         columns.add("MixId");
         columns.add("FoodId");
@@ -49,14 +47,11 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
         columns.add("Nutrient");
         columns.add("%");
         this.setColumnIdentifiers(columns);
-
     }
 
     public Class getColumnClass(int i) {
-
         Class returnValue = Object.class;
         switch (i) {
-
             case 0:
                 //mixid
                 returnValue = Integer.class;
@@ -91,41 +86,34 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
     }
 
     public void reload(Integer mixid) {
-
         Vector row = null;
         Vector table = new Vector();
-
         try {
             LinkedList list = (LinkedList) dbLink.PercentNutrientConstraint_Select(mixid);
             Iterator it = list.iterator();
-
             while (it.hasNext()) {
-
                 HashMap rowm = (HashMap) it.next();
-
                 Integer mixid2 = (Integer) rowm.get("MIXID");
                 String foodid = (String) rowm.get("FOODID");
                 String nutrientid = (String) rowm.get("NUTRIENTID");
                 String food = (String) rowm.get("FOOD");
                 String nutrient = (String) rowm.get("NUTRIENT");
-                double value = (double) rowm.get("B");
-
+                Double value = (Double) rowm.get("B");
                 row = new Vector();
-
                 row.add(mixid2);
                 row.add(foodid);
                 row.add(nutrientid);
                 row.add(food);
                 row.add(nutrient);
                 row.add(value);
-
                 table.add(row);
-
             }
-
             this.setDataVector(table, columns);
-
         } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
     }

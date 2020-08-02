@@ -17,11 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
 import org.xjrga.snack2.dataobject.FoodDataObject;
+import org.xjrga.snack2.other.Log;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -30,62 +30,51 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ListModelFood extends DefaultListModel {
-
     private final DbLink dbLink;
 
     public ListModelFood(DbLink dbLink) {
-
         this.dbLink = dbLink;
-
     }
 
     public void reload() {
-
         this.clear();
-
         try {
             LinkedList all = (LinkedList) dbLink.Food_Select_All_2();
-
             Iterator it = all.iterator();
-
             while (it.hasNext()) {
-
                 HashMap row = (HashMap) it.next();
                 String foodid = (String) row.get("FOODID");
                 String name = (String) row.get("NAME");
-
                 FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-
                 this.addElement(foodDataObject);
             }
         } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
-
     }
 
     public void reload(String txt) {
-
         this.clear();
-
         try {
             LinkedList all = (LinkedList) dbLink.Food_Select_All_Like(txt);
-
             Iterator it = all.iterator();
-
             while (it.hasNext()) {
-
                 HashMap row = (HashMap) it.next();
                 String foodid = (String) row.get("FOODID");
                 String name = (String) row.get("NAME");
-
                 FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-
                 this.addElement(foodDataObject);
             }
         } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
-
     }
 }

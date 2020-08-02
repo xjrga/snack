@@ -1,6 +1,6 @@
 CREATE PROCEDURE Food_Select_All_Like (
 --
-IN v_txt VARCHAR(8000)
+IN v_txt LONGVARCHAR
 --
 )
 --

@@ -17,14 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.dataobject;
 
 public class RelationshipDataObject {
-
     private int relationshipid;
     private String name;
-
 
     public RelationshipDataObject(int relationshipid, String name) {
         this.setRelationshipid(relationshipid);
@@ -47,11 +44,9 @@ public class RelationshipDataObject {
         this.name = name;
     }
 
-
     @Override
     public String toString() {
         //return "{"+relationshipid+":"+name+"}";
         return name;
     }
-
 }

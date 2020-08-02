@@ -1,6 +1,6 @@
 CREATE PROCEDURE FoodCategory_Delete (
 --
-IN v_FoodCategoryId VARCHAR(8000)
+IN v_FoodCategoryId LONGVARCHAR
 --
 )
 --

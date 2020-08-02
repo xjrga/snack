@@ -15,7 +15,11 @@ public class MyTableHeader extends JTableHeader {
     public String getToolTipText(MouseEvent e) {
         java.awt.Point p = e.getPoint();
         int index = columnModel.getColumnIndexAtX(p.x);
-        int realIndex = columnModel.getColumn(index).getModelIndex();
-        return this.tooltips[realIndex];
+        if (index > -1) {
+            int realIndex = columnModel.getColumn(index).getModelIndex();
+            return this.tooltips[realIndex];
+        } else {
+            return "";
+        }
     }
 }

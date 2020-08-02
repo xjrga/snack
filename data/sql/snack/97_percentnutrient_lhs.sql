@@ -2,9 +2,9 @@ CREATE PROCEDURE percentnutrient_lhs (
 --
 IN v_mixid INTEGER,
 --
-IN v_foodid VARCHAR(8000),
+IN v_foodid LONGVARCHAR,
 --
-IN v_nutrientid VARCHAR(8000),
+IN v_nutrientid LONGVARCHAR,
 --
 IN v_b DOUBLE
 

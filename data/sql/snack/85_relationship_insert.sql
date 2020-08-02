@@ -1,6 +1,6 @@
 CREATE PROCEDURE Relationship_Insert (
 IN v_RelationshipId INTEGER,
-IN v_Name VARCHAR(8000)
+IN v_Name LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 INSERT INTO Relationship (

@@ -17,10 +17,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
+import org.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
@@ -30,7 +30,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelNutrientRatioConstraints extends DefaultTableModel {
-
     private final DbLink dbLink;
     private Vector columns;
 
@@ -40,7 +39,6 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
     }
 
     private void setColumnIdentifiers() {
-
         columns = new Vector();
         columns.add("MixId");
         columns.add("NutrientIdA");
@@ -50,16 +48,12 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
         columns.add("NutrientB");
         columns.add("A");
         columns.add("B");
-
         this.setColumnIdentifiers(columns);
-
     }
 
     public Class getColumnClass(int i) {
-
         Class returnValue = Object.class;
         switch (i) {
-
             case 0:
                 //mixid
                 returnValue = Integer.class;
@@ -92,7 +86,6 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
                 //qB
                 returnValue = Integer.class;
                 break;
-
         }
         return returnValue;
     }
@@ -103,29 +96,22 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
     }
 
     public void reload(Integer mixid) {
-
         Vector row = null;
         Vector table = new Vector();
-
         try {
             LinkedList list = (LinkedList) dbLink.NutrientRatio_Select(mixid);
             Iterator it = list.iterator();
-
             while (it.hasNext()) {
-
                 HashMap rowm = (HashMap) it.next();
-
                 Integer mixid2 = (Integer) rowm.get("MIXID");
                 String nutrientidA = (String) rowm.get("NUTRIENT_ID_1");
                 String nutrientidB = (String) rowm.get("NUTRIENT_ID_2");
                 Integer relationshipid = (Integer) rowm.get("RELATIONSHIPID");
                 String nutrientA = (String) rowm.get("NUTRIENTA");
                 String nutrientB = (String) rowm.get("NUTRIENTB");
-                Integer qA = (Integer) rowm.get("A");
-                Integer qB = (Integer) rowm.get("B");
-
+                Double qA = (Double) rowm.get("A");
+                Double qB = (Double) rowm.get("B");
                 row = new Vector();
-
                 row.add(mixid2);
                 row.add(nutrientidA);
                 row.add(nutrientidB);
@@ -134,17 +120,15 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
                 row.add(nutrientB);
                 row.add(qA);
                 row.add(qB);
-
                 table.add(row);
-
             }
-
             this.setDataVector(table, columns);
-
         } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
             e.printStackTrace();
         }
-
-
     }
 }

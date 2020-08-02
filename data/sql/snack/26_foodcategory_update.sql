@@ -1,8 +1,8 @@
 CREATE PROCEDURE FoodCategory_Update (
 --
-IN v_FoodCategoryId VARCHAR(8000),
+IN v_FoodCategoryId LONGVARCHAR,
 --
-IN v_Name VARCHAR(8000)
+IN v_Name LONGVARCHAR
 --
 )
 --

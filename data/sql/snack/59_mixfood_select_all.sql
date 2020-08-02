@@ -10,7 +10,8 @@ MixFood a, Food b
 WHERE
 a.foodid = b.foodid
 AND
-a.mixid = v_mixid;
+a.mixid = v_mixid
+ORDER BY a.FoodId;
 OPEN result;
 END;
 /

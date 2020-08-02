@@ -1,8 +1,8 @@
 CREATE PROCEDURE CategoryLink_Delete (
 --
-IN v_FoodCategoryId VARCHAR(8000),
+IN v_FoodCategoryId LONGVARCHAR,
 --
-IN v_FoodId VARCHAR(8000)
+IN v_FoodId LONGVARCHAR
 --
 )
 --

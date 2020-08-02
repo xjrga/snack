@@ -81,3 +81,23 @@ RELEASE NOTES
 0.522
 
     Fix shutdown issue
+    
+0.523
+
+    Todo
+   
+524
+
+     Add settings panel
+
+600  
+
+      Add Dietary Reference Intake Comparison By Lifestage
+      Add Upper Limit Intake Comparison By Lifestage
+      Add Constraint Selection
+      Add Round Up Feature
+      Add Better Looking Reports
+      Add Result Tabs by Category (Energy, Protein, Fats, Carbohydrates, 
+      Vitamin, Mineral, Electrolytes, Water and Cost)
+      Add New Data Input Form
+     

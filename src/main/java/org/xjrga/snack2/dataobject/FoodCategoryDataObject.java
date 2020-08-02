@@ -1,12 +1,10 @@
 package org.xjrga.snack2.dataobject;
 
 public class FoodCategoryDataObject {
-
     private String FoodCategoryId;
     private String Name;
 
     public FoodCategoryDataObject() {
-
     }
 
     public String getFoodCategoryId() {

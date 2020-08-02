@@ -7,7 +7,6 @@ import javax.swing.plaf.metal.OceanTheme;
 import java.awt.*;
 
 public class OceanTheme01 extends OceanTheme {
-
     private final ColorUIResource primary1 = new ColorUIResource(99, 130, 191);
     private final ColorUIResource primary2 = new ColorUIResource(163, 184, 204);
     private final ColorUIResource primary3 = new ColorUIResource(184, 207, 229);
@@ -128,7 +127,6 @@ public class OceanTheme01 extends OceanTheme {
         return subTextFont;
     }
 }
-
 /* *
 Century Schoolbook L
 DejaVu Math TeX Gyre

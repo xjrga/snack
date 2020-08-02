@@ -2,13 +2,13 @@ CREATE PROCEDURE foodnutrientratio_lhs (
 --
 IN v_mixid INTEGER,
 --
-IN v_foodid1 VARCHAR(8000),
+IN v_foodid1 LONGVARCHAR,
 --
-IN v_nutrientid1 VARCHAR(8000),
+IN v_nutrientid1 LONGVARCHAR,
 --
-IN v_foodid2 VARCHAR(8000),
+IN v_foodid2 LONGVARCHAR,
 --
-IN v_nutrientid2 VARCHAR(8000),
+IN v_nutrientid2 LONGVARCHAR,
 --
 IN v_relationshipid INTEGER
 --

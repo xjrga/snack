@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.xjrga.snack2</groupId>
-    <artifactId>Snack2</artifactId>
-    <version>0.522</version>
+    <artifactId>Snack</artifactId>
+    <version>600</version>
 
     <name>Snack</name>
     <url>https://x-jrga.github.io/snack</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -30,7 +30,14 @@
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hsqldb/sqltool -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>sqltool</artifactId>
+            <version>2.5.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-common -->
@@ -52,14 +59,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>4.1.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.3</version>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -122,8 +121,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>

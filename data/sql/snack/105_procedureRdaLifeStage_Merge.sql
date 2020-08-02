@@ -1,0 +1,18 @@
+CREATE PROCEDURE RdaLifeStage_Merge (
+IN v_LifeStageId INTEGER,
+IN v_Label LONGVARCHAR
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+MERGE INTO RdaLifeStage USING ( VALUES (
+v_LifeStageId,
+v_Label
+) ) ON (
+LifeStageId = v_LifeStageId
+)
+WHEN MATCHED THEN UPDATE SET
+Label = v_Label
+WHEN NOT MATCHED THEN INSERT VALUES
+v_LifeStageId,
+v_Label;
+END;
+/

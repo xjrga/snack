@@ -19,4 +19,3 @@ public class AlcoholByVolumeFormula {
         return milliliter / 1000 * (alcohol_by_volume / 100 * VOLUMETRIC_MASS_DENSITY);
     }
 }
-

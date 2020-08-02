@@ -1,7 +1,7 @@
 CREATE PROCEDURE nutrient_lhs (
 --
 IN v_mixid INTEGER,
-IN v_nutrientid VARCHAR(8000),
+IN v_nutrientid LONGVARCHAR,
 IN v_relationshipid INTEGER
 --
 )

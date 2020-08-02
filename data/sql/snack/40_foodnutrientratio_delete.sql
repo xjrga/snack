@@ -1,9 +1,9 @@
 CREATE PROCEDURE FoodNutrientRatio_Delete (
 IN v_MixId INTEGER,
-IN v_Food_Id_1 VARCHAR(8000),
-IN v_Nutrient_Id_1 VARCHAR(8000),
-IN v_Food_Id_2 VARCHAR(8000),
-IN v_Nutrient_Id_2 VARCHAR(8000),
+IN v_Food_Id_1 LONGVARCHAR,
+IN v_Nutrient_Id_1 LONGVARCHAR,
+IN v_Food_Id_2 LONGVARCHAR,
+IN v_Nutrient_Id_2 LONGVARCHAR,
 IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC

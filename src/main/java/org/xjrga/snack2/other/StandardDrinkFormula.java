@@ -12,4 +12,3 @@ public class StandardDrinkFormula {
         return drinks * 14;
     }
 }
-

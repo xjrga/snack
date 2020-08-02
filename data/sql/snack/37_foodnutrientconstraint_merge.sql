@@ -1,7 +1,7 @@
 CREATE PROCEDURE FoodNutrientConstraint_Merge (
 IN v_MixId INTEGER,
-IN v_FoodId VARCHAR(8000),
-IN v_NutrientId VARCHAR(8000),
+IN v_FoodId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER,
 IN v_b DOUBLE
 )
