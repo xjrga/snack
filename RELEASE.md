@@ -101,3 +101,8 @@ RELEASE NOTES
       Vitamin, Mineral, Electrolytes, Water and Cost)
       Add New Data Input Form
      
+605  
+        
+      Fix Round Up Feature
+      Add Macronutrient RDA
+      Add Extra Tools   

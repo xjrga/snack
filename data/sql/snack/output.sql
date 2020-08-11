@@ -4047,7 +4047,21 @@ SELECT a.nutrientid,
             --Manganese
             nutrientid = '315' OR
             --Panthotenic Acid
-            nutrientid = '410'
+            nutrientid = '410' OR
+            --Water (g)
+            nutrientid = '255' OR
+            --Digestible Carbohydrate (g)
+            nutrientid = '10003' OR
+            --Fiber, total dietary (g)
+            nutrientid = '291' OR
+            --Total lipid (Fat) (g)
+            nutrientid = '204' OR
+            --18:2 n-6 c,c (Linoleic) (g)
+            nutrientid = '675' OR
+            --18:3 n-3 c,c,c (Alpha-Linolenic) (g)
+            nutrientid = '851' OR
+            --Complete Protein (g)
+            nutrientid = '10001'
             )
             GROUP BY nutrientid) a,
            (SELECT nutrientid, q AS rda, ul FROM rda WHERE lifestageid = v_LifeStageId) b

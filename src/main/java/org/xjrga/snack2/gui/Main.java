@@ -143,6 +143,8 @@ public class Main {
     private final JMenu menuTools = new JMenu();
     private final JMenuItem menuItemAbout = new JMenuItem();
     private final JMenuItem menuItemBmr = new JMenuItem();
+    private final JMenuItem menuItemNoCarb = new JMenuItem();
+    private final JMenuItem menuItemCarb = new JMenuItem();
     private final JMenuItem menuItemConstraintsShownInList = new JMenuItem();
     private final JMenuItem menuItemCredits = new JMenuItem();
     private final JMenuItem menuItemExit = new JMenuItem();
@@ -450,6 +452,8 @@ public class Main {
         menuProgram.add(menuSettings);
         menuProgram.add(menuItemExit);
         menuTools.add(menuItemBmr);
+        menuTools.add(menuItemNoCarb);
+        menuTools.add(menuItemCarb);
         menuData.add(menuExport);
         menuExport.add(menuItemExportFoodList);
         menuExport.add(menuItemExportFoodMixes);
@@ -468,6 +472,8 @@ public class Main {
         menuSettings.setText("Settings");
         menuItemExit.setText("Exit");
         menuItemBmr.setText("Calculate Basal Metabolic Rate");
+        menuItemNoCarb.setText("Complete Protein Required For Nitrogen Balance Under A No Carbohydrate Regimen");
+        menuItemCarb.setText("Carbohydrate Required to Inhibit Ketosis");
         menuExport.setText("Export");
         menuItemExportFoodList.setText("Food List");
         menuItemExportFoodMixes.setText("Food Mixes");
@@ -483,6 +489,16 @@ public class Main {
         menuItemBmr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 event_menuItemBmr();
+            }
+        });
+        menuItemNoCarb.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                event_menuItemNoCarb();
+            }
+        });
+        menuItemCarb.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                event_menuItemCarb();
             }
         });
         menuItemExportFoodList.addActionListener(new ActionListener() {
@@ -541,6 +557,101 @@ public class Main {
             }
         });
         return mnuBar;
+    }
+
+    private void event_menuItemBmr() {
+        JTextField textFieldLbs = new JTextField();
+        JComponent[] inputs = new JComponent[]{
+                new JLabel("What is your lean body mass in pounds?"),
+                textFieldLbs
+        };
+        Message.showOptionDialog(inputs, "Calculate Basal Metabolic Rate");
+        String s = textFieldLbs.getText();
+        if (s != null && s.length() > 0) {
+            StringBuffer sb = new StringBuffer();
+            NumberCheck checkNumber = new NumberCheck();
+            checkNumber.addToUncheckedList(s);
+            if (checkNumber.pass()) {
+                Double weightinlbs = Double.valueOf(s);
+                double rdee = new KatchMcArdleFormula(weightinlbs).getCalories();
+                sb.append("Katch-McArdle Formula (Resting Daily Energy Expenditure)\n");
+                sb.append(Math.round(rdee));
+                sb.append(" Kcals");
+                sb.append("\n");
+                double rdee2 = new CunninghamFormula(weightinlbs).getCalories();
+                sb.append("Cunningham Formula (Resting Metabolic Rate)\n");
+                sb.append(Math.round(rdee2));
+                sb.append(" Kcals");
+                sb.append("\n");
+                JTextArea textArea = new JTextArea(5, 40);
+                textArea.setText(sb.toString());
+                textArea.setEditable(false);
+                inputs = new JComponent[]{
+                        textArea
+                };
+                Message.showOptionDialog(inputs, "Calculate Basal Metabolic Rate");
+            } else {
+                Message.showMessage("Numbers only");
+            }
+        }
+    }
+
+    private void event_menuItemNoCarb() {
+        JTextField textFieldLbs = new JTextField();
+        JComponent[] inputs = new JComponent[]{
+                new JLabel("What is your lean body mass in pounds?"),
+                textFieldLbs
+        };
+        Message.showOptionDialog(inputs, "Complete Protein Required");
+        String s = textFieldLbs.getText();
+        if (s != null && s.length() > 0) {
+            StringBuffer sb = new StringBuffer();
+            NumberCheck checkNumber = new NumberCheck();
+            checkNumber.addToUncheckedList(s);
+            if (checkNumber.pass()) {
+                Double weightinlbs = Double.valueOf(s);
+                double protein = new MinimumNutrientRequirements(weightinlbs).getProtein();
+                sb.append("Complete Protein Required (No CHOs): ");
+                sb.append(Math.round(protein));
+                sb.append(" g");
+                sb.append("\n");
+                JTextArea textArea = new JTextArea(5, 40);
+                textArea.setText(sb.toString());
+                textArea.setEditable(false);
+                inputs = new JComponent[]{
+                        textArea
+                };
+                Message.showOptionDialog(inputs, "Complete Protein Required (No CHOs)");
+            } else {
+                Message.showMessage("Numbers only");
+            }
+        }
+    }
+
+    private void event_menuItemCarb() {
+        StringBuffer sb = new StringBuffer();
+        double carbohydrateLow = new MinimumNutrientRequirements(0.0).getCarbohydrateLow();
+        double carbohydrateMedium = new MinimumNutrientRequirements(0.0).getCarbohydrateMedium();
+        double carbohydrateHigh = new MinimumNutrientRequirements(0.0).getCarbohydrateHigh();
+        sb.append("Carbohydrate Required to Appreciably Reduce Ketosis: ");
+        sb.append(carbohydrateLow);
+        sb.append(" to ");
+        sb.append(carbohydrateMedium);
+        sb.append(" g");
+        sb.append("\n");
+        sb.append("Carbohydrate Required to Inhibit Ketosis: ");
+        sb.append(carbohydrateMedium);
+        sb.append(" to ");
+        sb.append(carbohydrateHigh);
+        sb.append(" g");
+        sb.append("\n");
+        JTextArea textArea = new JTextArea(5, 40);
+        textArea.setText(sb.toString());
+        textArea.setEditable(false);
+        JComponent[] inputs = new JComponent[]{
+                textArea
+        };
+        Message.showOptionDialog(inputs, "Carbohydrate Required to Inhibit Ketosis");
     }
 
     private JPanel getSolve() {
@@ -1740,7 +1851,9 @@ public class Main {
             modelTableCarbs.setPrecision(0);
             modelTableVitamins.setPrecision(0);
             modelTableMinerals.setPrecision(0);
+            modelTableElectrolytes.setPrecision(0);
             modelTableWater.setPrecision(0);
+            modelTableCost.setPrecision(0);
             modelTableFoodList.setPrecision(0);
             modelTableFoodJournal.setPrecision(0);
             modelTableMixDiff.setPrecision(0);
@@ -1755,7 +1868,9 @@ public class Main {
             modelTableCarbs.setPrecision(5);
             modelTableVitamins.setPrecision(5);
             modelTableMinerals.setPrecision(5);
+            modelTableElectrolytes.setPrecision(5);
             modelTableWater.setPrecision(5);
+            modelTableCost.setPrecision(5);
             modelTableFoodList.setPrecision(5);
             modelTableFoodJournal.setPrecision(5);
             modelTableMixDiff.setPrecision(5);
@@ -1855,43 +1970,6 @@ public class Main {
         dbLink.Shutdown();
         //frame.dispose();
         System.exit(0);
-    }
-
-    private void event_menuItemBmr() {
-        JTextField textFieldLbs = new JTextField();
-        JComponent[] inputs = new JComponent[]{
-                new JLabel("What is your lean body mass in pounds?"),
-                textFieldLbs
-        };
-        Message.showOptionDialog(inputs, "Calculate Basal Metabolic Rate");
-        String s = textFieldLbs.getText();
-        if (s != null && s.length() > 0) {
-            StringBuffer sb = new StringBuffer();
-            NumberCheck checkNumber = new NumberCheck();
-            checkNumber.addToUncheckedList(s);
-            if (checkNumber.pass()) {
-                Double weightinlbs = Double.valueOf(s);
-                double rdee = new KatchMcArdleFormula(weightinlbs).getCalories();
-                sb.append("Katch-McArdle Formula (Resting Daily Energy Expenditure)\n");
-                sb.append(Math.round(rdee));
-                sb.append(" Kcals");
-                sb.append("\n");
-                double rdee2 = new CunninghamFormula(weightinlbs).getCalories();
-                sb.append("Cunningham Formula (Resting Metabolic Rate)\n");
-                sb.append(Math.round(rdee2));
-                sb.append(" Kcals");
-                sb.append("\n");
-                JTextArea textArea = new JTextArea(5, 40);
-                textArea.setText(sb.toString());
-                textArea.setEditable(false);
-                inputs = new JComponent[]{
-                        textArea
-                };
-                Message.showOptionDialog(inputs, "Calculate Basal Metabolic Rate");
-            } else {
-                Message.showMessage("Numbers only");
-            }
-        }
     }
 
     private void event_menuItemFoodListExport() {
@@ -2003,7 +2081,7 @@ public class Main {
                         "   - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 600");
+        sb.append("This is build 605");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to snack.nutrition.software@gmail.com");
         JTextArea textArea = new JTextArea();
