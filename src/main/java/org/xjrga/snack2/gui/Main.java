@@ -51,6 +51,7 @@ public class Main {
     private final JButton buttonFoodListAdd = new JButton("+");
     private final JButton buttonFoodListDelete = new JButton("-");
     private final JButton buttonFoodListUpdate = new JButton("u");
+    private final JButton buttonFoodListDuplicate = new JButton("d");
     private final JButton buttonFoodNutrientConstraintAdd = new JButton("+");
     private final JButton buttonFoodNutrientConstraintDelete = new JButton("-");
     private final JButton buttonFoodNutrientRatioAdd = new JButton("+");
@@ -281,6 +282,7 @@ public class Main {
         reloadRelationshipComboBoxes();
         reloadMixes();
         reloadTableModelConstraints(-1);
+        resizeColumns();
         checkBoxCompleteProtein.setName("CompleteProtein");
         checkBoxIncompleteProtein.setName("IncompleteProtein");
         checkBoxProtein.setName("Protein");
@@ -870,26 +872,30 @@ public class Main {
 
     private void reloadTableModelsThatNeedMixId(Integer mixId) {
         modelTableEnergy.reload(mixId);
-        resizeColumns_EnergyTable();
         modelTableProtein.reload(mixId);
-        resizeColumns_ProteinTable();
         modelTableFat.reload(mixId);
-        resizeColumns_FatTable();
         modelTableCarbs.reload(mixId);
-        resizeColumns_CarbsTable();
         modelTableVitamins.reload(mixId);
-        resizeColumns_VitaminsTable();
         modelTableMinerals.reload(mixId);
-        resizeColumns_MineralsTable();
         modelTableWater.reload(mixId);
-        resizeColumns_WaterTable();
         modelTableCost.reload(mixId);
-        resizeColumns_CostTable();
         modelTableElectrolytes.reload(mixId);
-        resizeColumns_ElectrolytesTable();
         modelTableFoodJournal.reload(mixId);
         resizeColumns_JournalTable();
         reloadStatusBar(mixId);
+    }
+
+    private void resizeColumns(){
+        resizeColumns_EnergyTable();
+        resizeColumns_ProteinTable();
+        resizeColumns_FatTable();
+        resizeColumns_CarbsTable();
+        resizeColumns_VitaminsTable();
+        resizeColumns_MineralsTable();
+        resizeColumns_WaterTable();
+        resizeColumns_CostTable();
+        resizeColumns_ElectrolytesTable();
+        resizeColumns_JournalTable();
     }
 
     private void event_buttonDeleteMix() {
@@ -1360,7 +1366,7 @@ public class Main {
         searchPanel.setLayout(searchPanelLayout);
         JPanel buttonPanel = new JPanel();
         FormLayout buttonPanelLayout = new FormLayout(
-                "min:grow,min,min,min,min:grow", //columns
+                "min:grow,min,min,min,min,min:grow", //columns
                 "min" //rows
         );
         buttonPanel.setLayout(buttonPanelLayout);
@@ -1370,6 +1376,7 @@ public class Main {
         buttonPanel.add(buttonFoodListAdd, cc.xy(2, 1));
         buttonPanel.add(buttonFoodListDelete, cc.xy(3, 1));
         buttonPanel.add(buttonFoodListUpdate, cc.xy(4, 1));
+        buttonPanel.add(buttonFoodListDuplicate, cc.xy(5, 1));
         panel.add(searchPanel, cc.xy(1, 1));
         panel.add(scrollPaneTable, cc.xy(1, 2));
         panel.add(buttonPanel, cc.xy(1, 3));
@@ -1377,9 +1384,15 @@ public class Main {
         buttonFoodListAdd.setToolTipText("Add Food Item");
         buttonFoodListUpdate.setToolTipText("Update Food Item");
         buttonFoodListDelete.setToolTipText("Delete Food Item");
+        buttonFoodListDuplicate.setToolTipText("Duplicate Food Item");
         buttonFoodListAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 event_buttonFoodListAdd();
+            }
+        });
+        buttonFoodListDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                event_buttonFoodListDelete();
             }
         });
         buttonFoodListUpdate.addActionListener(new ActionListener() {
@@ -1387,9 +1400,9 @@ public class Main {
                 event_buttonFoodListUpdate();
             }
         });
-        buttonFoodListDelete.addActionListener(new ActionListener() {
+        buttonFoodListDuplicate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                event_buttonFoodListDelete();
+                event_buttonFoodListDuplicate();
             }
         });
         textFieldFoodListSearch.getDocument().addDocumentListener(
@@ -1438,6 +1451,14 @@ public class Main {
             }
         });
         return panel;
+    }
+
+    private void event_buttonFoodListDuplicate() {
+        int selectedRowNo = tableFoodList.getSelectedRow();
+        if (selectedRowNo != -1) {
+            String foodId = (String) tableFoodList.getValueAt(selectedRowNo, 0);
+            duplicateFoodItem(foodId);
+        }
     }
 
     private void nutrientSearchCheckCoefficientsFilter() {
@@ -1810,6 +1831,23 @@ public class Main {
         }
     }
 
+    private void duplicateFoodItem(String foodId) {
+        try {
+            dbLink.DuplicateFoodItem(foodId);
+            reloadFoodItems();
+            if (!listCategories.isSelectionEmpty()) {
+                FoodCategoryDataObject foodCategoryDataObject = (FoodCategoryDataObject) listCategories.getSelectedValue();
+                modelListFoodInCategory.reload(foodCategoryDataObject.getFoodCategoryId());
+            }
+        } catch (SQLException e) {
+            Log.getLog().start("files/exception.log");
+            Log.getLog().logMessage(e.toString());
+            Log.getLog().write();
+            Log.getLog().close();
+            e.printStackTrace();
+        }
+    }
+
     private JPanel getNutrientLookupList() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
@@ -1820,7 +1858,7 @@ public class Main {
         JScrollPane scrollPaneNutrientLookup = new JScrollPane(tableNutrientLookup);
         panel.add(new JLabel("Nutrient: "), cc.xy(1, 2));
         panel.add(comboBoxNutrientLookupListNutrient, cc.xy(2, 2));
-        panel.add(new JLabel("Weight: "), cc.xy(4, 2));
+        panel.add(new JLabel("Value: "), cc.xy(4, 2));
         panel.add(textFieldNutrientLookup, cc.xy(5, 2));
         panel.add(buttonNutrientLookupListRun, cc.xy(6, 2));
         panel.add(scrollPaneNutrientLookup, cc.xyw(1, 4, 6));
@@ -1883,6 +1921,7 @@ public class Main {
             MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
             Integer mixId = mixDataObject.getMixId();
             reloadTableModelsThatNeedMixId(mixId);
+            resizeColumns();
         }
         reloadFoodItems();
         reloadFoodJournal();
@@ -2081,7 +2120,7 @@ public class Main {
                         "   - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 605");
+        sb.append("This is build 610");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to snack.nutrition.software@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -2633,6 +2672,7 @@ public class Main {
                 reloadFoodComboBoxes(mixId);
                 reloadTableModelConstraints(mixId);
                 reloadTableModelsThatNeedMixId(mixId);
+                resizeColumns();
                 textAreaLPModel.setText(getLinearProgrammingModel(mixId));
                 listMixesJournal.setSelectedIndex(selectedIndex);
                 listCompareA.setSelectedIndex(selectedIndex);
@@ -2929,6 +2969,7 @@ public class Main {
                 reloadFoodComboBoxes(mixId);
                 reloadTableModelConstraints(mixId);
                 reloadTableModelsThatNeedMixId(mixId);
+                resizeColumns();
             } catch (SQLException e) {
                 Log.getLog().start("files/exception.log");
                 Log.getLog().logMessage(e.toString());
@@ -3060,6 +3101,7 @@ public class Main {
                         dbLink.MixFood_Update(mixId, foodid, v);
                     }
                     reloadTableModelsThatNeedMixId(mixId);
+                    resizeColumns();
                     listCompareA.setSelectedIndex(selectedIndex);
                     listCompareB.setSelectedIndex(selectedIndex);
                     reloadMixComparison();

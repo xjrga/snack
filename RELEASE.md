@@ -105,4 +105,8 @@ RELEASE NOTES
         
       Fix Round Up Feature
       Add Macronutrient RDA
-      Add Extra Tools   
+      Add Extra Tools
+
+610  
+        
+      Add Food Item Duplicate Option

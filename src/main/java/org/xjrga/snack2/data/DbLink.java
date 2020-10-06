@@ -1363,4 +1363,10 @@ public class DbLink {
         proc.setDouble(3, q);
         proc.execute();
     }
+
+    public void DuplicateFoodItem(String foodId) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.DuplicateFoodItem( ? )}");
+        proc.setString(1, foodId);
+        proc.execute();
+    }
 }

@@ -39,5 +39,8 @@ public class MinimumNutrientRequirements {
          */
         return 150.0D;
     }
+
+    /*Bistrian, Bruce R. "Clinical use of a protein-sparing modified fast." JAMA 240.21 (1978): 2299-2302.*/
+    /*Brosnan, J. T. "Comments on metabolic needs for glucose and the role of gluconeogenesis." European journal of clinical nutrition 53.1 (1999): s107-s111.*/
 }
 

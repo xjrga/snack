@@ -4137,7 +4137,8 @@ modifies sql data BEGIN atomic
 --
 DECLARE v_FoodId LONGVARCHAR;
 --
-SET v_FoodId = generateId('f','');SET v_OutFoodId = v_FoodId;
+SET v_FoodId = generateId('f','');
+SET v_OutFoodId = v_FoodId;
 --
 call Food_Insert(v_FoodId,v_FoodNom);
 call CategoryLink_Insert(v_FoodId,'5000');
@@ -4285,6 +4286,59 @@ FOR SELECT nutrientid FROM nutrient DO
 call FoodFact_Insert (v_FoodId,nutrientid,0);
 --
 END FOR;
+--
+END;
+/
+
+CREATE FUNCTION getCategoryId (IN v_FoodId LONGVARCHAR) RETURNS LONGVARCHAR
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_FoodCategoryId LONGVARCHAR;
+--
+SELECT FoodCategoryId INTO v_FoodCategoryId
+FROM CategoryLink
+WHERE FoodId = v_FoodId;
+--
+RETURN v_FoodCategoryId;
+--
+END;
+/
+
+CREATE PROCEDURE DuplicateFoodFact (IN v_FoodId LONGVARCHAR,IN v_FoodIdNew LONGVARCHAR)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+INSERT INTO FoodFact
+(
+         FoodId,
+         NutrientId,
+         q
+)
+SELECT v_FoodIdNew,
+       NutrientId,
+       q
+FROM FoodFact
+WHERE FoodId = v_FoodId;
+--
+END;
+/
+
+CREATE PROCEDURE DuplicateFoodItem (IN v_FoodId LONGVARCHAR)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_FoodIdNew LONGVARCHAR;
+DECLARE v_FoodNom LONGVARCHAR;
+DECLARE v_CategoryId LONGVARCHAR;
+--
+SET v_FoodIdNew = generateId('f','');
+SET v_FoodNom = getFoodName(v_FoodId);
+SET v_CategoryId = getCategoryId(v_FoodId);
+--
+call Food_Insert(v_FoodIdNew,v_FoodNom||'_duplicate');
+call CategoryLink_Insert(v_FoodIdNew,v_CategoryId);
+call DuplicateFoodFact(v_FoodId,v_FoodIdNew);
 --
 END;
 /
