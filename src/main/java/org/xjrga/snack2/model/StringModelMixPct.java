@@ -20,7 +20,7 @@ public class StringModelMixPct implements RoundUp {
     public String reload(Integer MixId) {
         String s = "";
         try {
-            LinkedList all = (LinkedList) dbLink.MixResultDW_Select_Pct(MixId, precision);
+            LinkedList all = (LinkedList) dbLink.MixResult_Select_Pct(MixId, precision);
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();

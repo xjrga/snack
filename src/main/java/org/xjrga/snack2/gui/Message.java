@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Message {
-    private static final BufferedImage logo = ImageUtilities.readImage("resources/apple_red.png");
+    private static final BufferedImage logo = ImageUtilities.readImage("resources/apple.png");
 
     public Message() {
     }
@@ -71,5 +71,12 @@ public class Message {
             value = (int) optionValue;
         }
         return value;
+    }
+
+    public static void showMessage(JComponent[] inputs, String title) {
+        JOptionPane optionPane = new JOptionPane(inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
+        JDialog dialog = optionPane.createDialog(title);
+        dialog.setIconImage(logo);
+        dialog.setVisible(true);
     }
 }

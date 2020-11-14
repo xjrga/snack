@@ -35,3 +35,9 @@ call FoodFact_Merge('123496753','303',1.5);
 --Potassium, K (mg)
 call FoodFact_Merge('123496753','306',87);
 /
+--Fiber, Insoluble (g)
+call FoodFact_Merge('123496753','10006',0.7875);
+/
+--Fiber, Soluble (g)
+call FoodFact_Merge('123496753','10007',6.2125);
+/

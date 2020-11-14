@@ -1,9 +1,0 @@
-CREATE TRIGGER MixFood_RowLevelAfterDelete_Trigger
-AFTER DELETE ON MixFood REFERENCING OLD as row
-FOR EACH ROW
-BEGIN ATOMIC
---
-DELETE FROM MixResultDw WHERE MixId = row.MixId;
---
-END;
-/

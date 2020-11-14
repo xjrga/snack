@@ -111,6 +111,21 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
                 row.add(diff);
                 table.add(row);
             }
+            list = (LinkedList) dbLink.Mix_GetMealGIDiff(MixId1, MixId2, precision);
+            it = list.iterator();
+            while (it.hasNext()) {
+                HashMap rowm = (HashMap) it.next();
+                String nutrient = (String) rowm.get("NUTRIENT");
+                double mix1 = (double) rowm.get("MIX1");
+                double mix2 = (double) rowm.get("MIX2");
+                double diff = (double) rowm.get("DIFF");
+                row = new Vector();
+                row.add(nutrient);
+                row.add(mix1);
+                row.add(mix2);
+                row.add(diff);
+                table.add(row);
+            }
             this.setDataVector(table, columns);
         } catch (SQLException e) {
             Log.getLog().start("files/exception.log");

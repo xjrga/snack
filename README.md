@@ -19,11 +19,15 @@
         - keep a food journal and track progress
         - compare two meals to see difference in nutritional value
         - compare meals against Required Daily Allowance (RDA) values
-        - compare meals against Upper Limit (UL) values
-        - Export data and create reports in spreadsheet
+        - compare meals against Upper Limit (UL) values       
+        - Export data and create reports in spreadsheet      
+        - quantify any popular diet for comparison and research purposes       
+        - annotate mixes
+        - calculate basal metabolic rate (BMR)
+        - calculate glycemic index (GI) and glycemic load (GL) of a meal
+        - check glycemic index range
+        - calculate food quotient (FQ)                
         - facilitate learning/teaching anyone with interest in nutrition
-        - quantify any popular diet for comparison and research purposes
-        - calculate food quotient (FQ)
         - is free and open source
     
     Requirements:
@@ -31,10 +35,10 @@
 
 Installing
 
-    1. Download Snack-610.zip from https://sourceforge.net/projects/snackmix
-    2. unzip Snack-610.zip
-    3. cd Snack-610
-    4. java -jar Snack-610.jar (if you are on windows double click on jar file) 
+    1. Download Snack-620.zip from https://sourceforge.net/projects/snackmix
+    2. unzip Snack-620.zip
+    3. cd Snack-620
+    4. java -jar Snack-620.jar (if you are on windows double click on jar file) 
     
 [Download](https://sourceforge.net/projects/snackmix "Snack: Learning Software for Nutrition")
 
@@ -42,7 +46,7 @@ Installing
 
 Build
  
-    610
+    620
 
 Authors
 
@@ -70,3 +74,4 @@ Snack uses a data subset from:
     2) Dietary Reference Intakes Nutrient Recommendations Report from 
        Food and Nutrition Board of the Institute of Medicine, 
        National Academy of Sciences
+              

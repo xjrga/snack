@@ -168,6 +168,12 @@ public class ExportFoodList {
             fillRowCellWithColumnName(45, Nutrient.WATER.getName());
             //Cost
             fillRowCellWithColumnName(46, "Cost ($)");
+            //Fiber, Insoluble
+            fillRowCellWithColumnName(47, Nutrient.FIBERINSOLUBLE.getName());
+            //Fiber, Soluble
+            fillRowCellWithColumnName(48, Nutrient.FIBERSOLUBLE.getName());
+            //Glycemic Index
+            fillRowCellWithColumnName(49, Nutrient.GLYCEMICLOAD.getName());
             LinkedList list = (LinkedList) dbLink.Food_Select_Details(5);
             Iterator it = list.iterator();
             Cell rowCell;
@@ -410,6 +416,21 @@ public class ExportFoodList {
                 rowCell = row.createCell(colnum++);
                 rowCell.setCellStyle(cellStyleFoodItem);
                 rowCell.setCellValue(Cost);
+                //Fiber, Insoluble
+                Double FiberInsoluble = fooddetailsDataObject.getFiberInsoluble();
+                rowCell = row.createCell(colnum++);
+                rowCell.setCellStyle(cellStyleFoodItem);
+                rowCell.setCellValue(FiberInsoluble);
+                //Fiber, Soluble
+                Double FiberSoluble = fooddetailsDataObject.getFiberSoluble();
+                rowCell = row.createCell(colnum++);
+                rowCell.setCellStyle(cellStyleFoodItem);
+                rowCell.setCellValue(FiberSoluble);
+                //Glycemic Index
+                Double GlycemicIndex = fooddetailsDataObject.getGlycemicIndex();
+                rowCell = row.createCell(colnum++);
+                rowCell.setCellStyle(cellStyleFoodItem);
+                rowCell.setCellValue(GlycemicIndex);
                 colnum = 0;
             }
             try {

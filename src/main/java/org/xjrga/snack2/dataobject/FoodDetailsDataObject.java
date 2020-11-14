@@ -50,6 +50,9 @@ public class FoodDetailsDataObject {
     private Double Polyunsaturated = -1.0;
     private Double Linoleic = -1.0;
     private Double AlphaLinolenic = -1.0;
+    private Double GlycemicIndex = -1.0;
+    private Double FiberInsoluble = -1.0;
+    private Double FiberSoluble = -1.0;
     private String CategoryId;
     private String FoodId;
 
@@ -448,6 +451,30 @@ public class FoodDetailsDataObject {
         this.AlphaLinolenic = AlphaLinolenic;
     }
 
+    public Double getGlycemicIndex() {
+        return GlycemicIndex;
+    }
+
+    public void setGlycemicIndex(Double GlycemicLoad) {
+        this.GlycemicIndex = GlycemicLoad;
+    }
+
+    public Double getFiberInsoluble() {
+        return FiberInsoluble;
+    }
+
+    public void setFiberInsoluble(Double FiberInsoluble) {
+        this.FiberInsoluble = FiberInsoluble;
+    }
+
+    public Double getFiberSoluble() {
+        return FiberSoluble;
+    }
+
+    public void setFiberSoluble(Double FiberSoluble) {
+        this.FiberSoluble = FiberSoluble;
+    }
+
     public String getCategoryId() {
         return CategoryId;
     }
@@ -563,6 +590,12 @@ public class FoodDetailsDataObject {
         sb.append(Linoleic);
         sb.append(":");
         sb.append(AlphaLinolenic);
+        sb.append(":");
+        sb.append(GlycemicIndex);
+        sb.append(":");
+        sb.append(FiberInsoluble);
+        sb.append(":");
+        sb.append(FiberSoluble);
         sb.append(":");
         sb.append(CategoryId);
         sb.append(":");

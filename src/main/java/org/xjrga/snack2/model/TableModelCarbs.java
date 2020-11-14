@@ -41,10 +41,12 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Name"); //0
+        columns.add("Name");
         columns.add("Weight");
-        columns.add("Carbohydrate");
+        columns.add("Carbs");
         columns.add("Fiber");
+        columns.add("Insoluble");
+        columns.add("Soluble");
         columns.add("Sucrose");
         columns.add("Fructose");
         columns.add("Lactose");
@@ -70,7 +72,7 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.MixResultDW_Select(mixid, precision);
+            LinkedList list = (LinkedList) dbLink.MixResult_Select(mixid, precision);
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
@@ -81,11 +83,15 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
                 Double Fiber = (Double) rowm.get("Fiber");
                 Double Weight = (Double) rowm.get("Weight");
                 Double DigestibleCarbohydrate = (Double) rowm.get("DigestibleCarbs");
+                Double FiberInsoluble = (Double) rowm.get("FiberInsoluble");
+                Double FiberSoluble = (Double) rowm.get("FiberSoluble");
                 row = new Vector();
                 row.add(Name);
                 row.add(Weight);
                 row.add(DigestibleCarbohydrate);
                 row.add(Fiber);
+                row.add(FiberInsoluble);
+                row.add(FiberSoluble);
                 row.add(Sucrose);
                 row.add(Fructose);
                 row.add(Lactose);

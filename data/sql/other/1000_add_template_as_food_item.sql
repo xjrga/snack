@@ -1,13 +1,13 @@
 --FOOD ITEM: Template
 --
 --Insert food item
-call Food_Insert('123456753','Template');
+call Food_Insert('1234567890','Template');
 /
 --Put in in a food category
-call CategoryLink_Insert('123456753','1400');
+call CategoryLink_Insert('1234567890','5000');
 /
 --Zero out food item food fact
-call FoodFact_ZeroOut_FoodId('123456753');
+call FoodFact_ZeroOut_FoodId('1234567890');
 /
 --Update food item food fact with whatever available values there are
 --
@@ -151,4 +151,13 @@ call FoodFact_Merge('1234567890','255',0);
 /
 --'10005','Cost (g)'
 call FoodFact_Merge('1234567890','10005',0);
+/
+--'10006','Glycemic Load'
+call FoodFact_Merge('1234567890','10006',0);
+/
+--'10007','Fiber, Insoluble (g)'
+call FoodFact_Merge('1234567890','10007',0);
+/
+--'10008','Fiber, Soluble (g)'
+call FoodFact_Merge('1234567890','10008',0);
 /

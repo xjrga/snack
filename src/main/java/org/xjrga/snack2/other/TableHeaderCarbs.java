@@ -9,7 +9,9 @@ public class TableHeaderCarbs extends MyTableHeader {
                 "Food Name",
                 "Weight (g)",
                 "Digestible Carbohydrate (g)",
-                "Fiber (g)",
+                "Fiber, Total (g)",
+                "Fiber, Insoluble (g)",
+                "Fiber, Soluble (g)",
                 "Sucrose (g)",
                 "Fructose (g)",
                 "Lactose (g)"

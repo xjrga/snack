@@ -65,7 +65,10 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         columns.add("EPA");
         //Carbohydrates
         columns.add("Carbohydrate");
+        columns.add("GL");
         columns.add("Fiber");
+        columns.add("Insoluble");
+        columns.add("Soluble");
         columns.add("Sucrose");
         columns.add("Fructose");
         columns.add("Lactose");
@@ -174,6 +177,9 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double IncompleteProtein = fooddetailsDataObject.getIncompleteProtein();
                 Double DigestibleCarbohydrate = fooddetailsDataObject.getDigestibleCarbohydrate();
                 Double Cost = fooddetailsDataObject.getCost();
+                Double FiberInsoluble = fooddetailsDataObject.getFiberInsoluble();
+                Double FiberSoluble = fooddetailsDataObject.getFiberSoluble();
+                Double GlycemicIndex = fooddetailsDataObject.getGlycemicIndex();
                 row = new Vector();
                 row.add(foodId);
                 //Food
@@ -198,7 +204,10 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 row.add(EPA);
                 //Carbohydrates
                 row.add(DigestibleCarbohydrate);
+                row.add(GlycemicIndex);
                 row.add(Fiber);
+                row.add(FiberInsoluble);
+                row.add(FiberSoluble);
                 row.add(Sucrose);
                 row.add(Fructose);
                 row.add(Lactose);

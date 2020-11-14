@@ -63,6 +63,8 @@ public class TableModelJournal extends DefaultTableModel implements RoundUp {
         //Carbohydrates
         columns.add("Carbohydrate");
         columns.add("Fiber");
+        columns.add("Insoluble");
+        columns.add("Soluble");
         columns.add("Sucrose");
         columns.add("Fructose");
         columns.add("Lactose");
@@ -96,6 +98,11 @@ public class TableModelJournal extends DefaultTableModel implements RoundUp {
         columns.add("Alcohol");
         columns.add("Water");
         columns.add("Cost");
+        //GI Stuff
+        columns.add("Carbs (%)");
+        columns.add("GI");
+        columns.add("GL");
+        columns.add("MealGI");
         this.setColumnIdentifiers(columns);
     }
 
@@ -118,11 +125,17 @@ public class TableModelJournal extends DefaultTableModel implements RoundUp {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.MixResultDW_Select(mixid, precision);
+            LinkedList list = (LinkedList) dbLink.MixResult_Select(mixid, precision);
+            LinkedList list2 = (LinkedList) dbLink.Mix_GetMealGi(mixid, precision);
+
             Iterator it = list.iterator();
+            Iterator it2 = list2.iterator();
+
             while (it.hasNext()) {
+                it2.hasNext();
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
+                HashMap row2m = (HashMap) it2.next();
+                String Name = (String) rowm.get("Name");
                 Double Protein = (Double) rowm.get("Protein");
                 Double Fat = (Double) rowm.get("Fat");
                 Double CarbsByDiff = (Double) rowm.get("CarbsByDiff");
@@ -169,9 +182,15 @@ public class TableModelJournal extends DefaultTableModel implements RoundUp {
                 Double CompleteProtein = (Double) rowm.get("CompleteProtein");
                 Double IncompleteProtein = (Double) rowm.get("IncompleteProtein");
                 Double DigestibleCarbohydrate = (Double) rowm.get("DigestibleCarbs");
-                Double Cost = (Double) rowm.get("Cost"); //68
+                Double Cost = (Double) rowm.get("Cost");
+                Double FiberInsoluble = (Double) rowm.get("FiberInsoluble");
+                Double FiberSoluble = (Double) rowm.get("FiberSoluble");
+                Double Pct = (Double) row2m.get("pct");
+                Double GlycemicIndex = (Double) row2m.get("gi");
+                Double GlycemicLoad = (Double) rowm.get("GlycemicLoad");
+                Double MealGI = (Double) row2m.get("mealgi");
                 row = new Vector();
-//Food
+                //Food
                 row.add(Name);
                 row.add(Weight);
                 //Energy
@@ -193,6 +212,8 @@ public class TableModelJournal extends DefaultTableModel implements RoundUp {
                 //Carbohydrates
                 row.add(DigestibleCarbohydrate);
                 row.add(Fiber);
+                row.add(FiberInsoluble);
+                row.add(FiberSoluble);
                 row.add(Sucrose);
                 row.add(Fructose);
                 row.add(Lactose);
@@ -226,6 +247,11 @@ public class TableModelJournal extends DefaultTableModel implements RoundUp {
                 row.add(Alcohol);
                 row.add(Water);
                 row.add(Cost);
+                //GI Stuff
+                row.add(Pct);
+                row.add(GlycemicIndex);
+                row.add(GlycemicLoad);
+                row.add(MealGI);
                 table.add(row);
             }
             this.setDataVector(table, columns);

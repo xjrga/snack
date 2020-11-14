@@ -22,7 +22,9 @@ public class TableHeaderFoodJournal extends MyTableHeader {
                 "DHA (g)",
                 "EPA (g)",
                 "Digestible Carbohydrate (g)",
-                "Fiber (g)",
+                "Fiber, Total (g)",
+                "Fiber, Insoluble (g)",
+                "Fiber, Soluble (g)",
                 "Sucrose (g)",
                 "Fructose (g)",
                 "Lactose (g)",
@@ -52,7 +54,11 @@ public class TableHeaderFoodJournal extends MyTableHeader {
                 "Selenium, Se (µg)",
                 "Alcohol, Ethyl (g)",
                 "Water (g)",
-                "Cost ($)"
+                "Cost ($)",
+                "Percent of Total Carbohydrate (%)",
+                "Glycemic Index",
+                "Glycemic Load",
+                "Contribution to Glycemic Index of Meal"
         });
     }
 

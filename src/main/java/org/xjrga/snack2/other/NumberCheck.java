@@ -41,7 +41,7 @@ public class NumberCheck {
 
     private boolean checkStringIsNumber(String s) {
         boolean pass = false;
-        String patternStr = "^([0-9]+(\\.[0-9]+)?|\\.[0-9]+)$";
+        String patternStr = "^[-+]?\\d+(\\.\\d+)?$";
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches()) {

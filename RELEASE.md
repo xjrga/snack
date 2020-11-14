@@ -110,3 +110,11 @@ RELEASE NOTES
 610  
         
       Add Food Item Duplicate Option
+      
+620
+        
+      Add Soluble and Insoluble Fiber Tracking
+      Add Glycemic Index Tracking
+      Add Glycemic Index Range Check     
+      Add Mix Note
+      

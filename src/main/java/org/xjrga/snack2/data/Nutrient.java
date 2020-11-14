@@ -48,7 +48,12 @@ public enum Nutrient {
     COMPLETEPROTEIN("10001", "Complete Protein  (g)", "CompleteProtein"),
     INCOMPLETEPROTEIN("10002", "Incomplete Protein (g)", "IncompleteProtein"),
     DIGESTIBLECARBS("10003", "Digestible Carbs (g)", "DigestibleCarbs"),
-    COST("10005", "Cost  (g)", "Cost");
+    COST("10005", "Cost  (g)", "Cost"),
+    FIBERINSOLUBLE("10006", "Fiber, Insoluble (g)", "FiberInsoluble"),
+    FIBERSOLUBLE("10007", "Fiber, Soluble (g)", "FiberSoluble"),
+    GLYCEMICLOAD("10008", "Glycemic Load", "GlycemicLoad"),
+    ;
+
     private final String Number;
     private final String Name;
     private final String Label;

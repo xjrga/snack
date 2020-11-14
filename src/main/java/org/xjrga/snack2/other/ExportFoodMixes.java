@@ -87,7 +87,7 @@ public class ExportFoodMixes {
             while (iteratorMix.hasNext()) {
                 HashMap rowMap = (HashMap) iteratorMix.next();
                 MixDataObject mixDataObject = new MixDataObject((int) rowMap.get("MIXID"), (String) rowMap.get("NAME"));
-//Set mix name
+                //Set mix name
                 createNewRow();
                 fillRowCellWithMixName(mixDataObject.getName());
                 //Set column names
@@ -186,9 +186,16 @@ public class ExportFoodMixes {
                 fillRowCellWithColumnName(45, Nutrient.WATER.getName());
                 //Cost
                 fillRowCellWithColumnName(46, "Cost ($)");
-//Set nutrient values
+                //Fiber, Insoluble
+                fillRowCellWithColumnName(47, Nutrient.FIBERINSOLUBLE.getName());
+                //Fiber, Soluble
+                fillRowCellWithColumnName(48, Nutrient.FIBERSOLUBLE.getName());
+                //Glycemic Load
+                fillRowCellWithColumnName(49, Nutrient.GLYCEMICLOAD.getName());
+
+                //Set nutrient values
                 try {
-                    LinkedList list = (LinkedList) dbLink.MixResultDW_Select(mixDataObject.getMixId(), 5);
+                    LinkedList list = (LinkedList) dbLink.MixResult_Select(mixDataObject.getMixId(), 5);
                     Iterator iteratorFoodItems = list.iterator();
                     while (iteratorFoodItems.hasNext()) {
                         createNewRow();
@@ -343,6 +350,16 @@ public class ExportFoodMixes {
                         //Cost
                         Double Cost = (Double) rowm.get("Cost");
                         fillRowCellWithValue(Cost, 46);
+                        //Fiber, Insoluble
+                        Double FiberInsoluble = (Double) rowm.get("FiberInsoluble");
+                        fillRowCellWithValue(FiberInsoluble, 47);
+                        //Fiber, Soluble
+                        Double FiberSoluble = (Double) rowm.get("FiberSoluble");
+                        fillRowCellWithValue(FiberSoluble, 48);
+                        //Glycemic Load
+                        Double GlycemicLoad = (Double) rowm.get("GlycemicLoad");
+                        fillRowCellWithValue(GlycemicLoad, 49);
+
                     }
                 } catch (SQLException e) {
                     Log.getLog().start("files/exception.log");

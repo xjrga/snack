@@ -78,7 +78,7 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.MixResultDW_Select(mixid, precision);
+            LinkedList list = (LinkedList) dbLink.MixResult_Select(mixid, precision);
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();

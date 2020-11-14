@@ -19,12 +19,17 @@
  */
 package org.xjrga.snack2.lp;
 
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.xjrga.snack2.gui.Message;
+import org.xjrga.snack2.other.GoldenRatio;
 import org.xjrga.snack2.other.Log;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 /*
@@ -43,6 +48,8 @@ public class LpModel {
     private String date;
     private String variables;
     private String results;
+    private final CellConstraints cc = new CellConstraints();
+    private JTabbedPane component;
 
     public LpModel() {
         constraints = new ArrayList();
@@ -72,7 +79,7 @@ public class LpModel {
                 relationship = Relationship.GEQ;
                 break;
         }
-//Linear Constraint
+        //Linear Constraint
         LinearConstraint c = new LinearConstraint(coefficients, relationship, amount);
         constraints.add(c);
         lp.constraintToLp(coefficients, rel, amount);
@@ -81,9 +88,9 @@ public class LpModel {
     public boolean solve() {
         boolean flag = false;
         try {
-//Constraint Set
+            //Constraint Set
             LinearConstraintSet linearConstraintSet = new LinearConstraintSet(constraints);
-//Solution
+            //Solution
             if (!linearConstraintSet.getConstraints().isEmpty()) {
                 GoalType minimize = GoalType.MINIMIZE;
                 NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint(true);
@@ -109,16 +116,10 @@ public class LpModel {
             Log.getLog().logMessage("*/");
             Log.getLog().write();
             Log.getLog().close();
-            StringBuilder sb = new StringBuilder();
-            sb.append(e.getMessage().toUpperCase());
-            sb.append("\n\n");
-            sb.append("Things you can try:");
-            sb.append("\n");
-            sb.append("1. Delete a constraint");
-            sb.append("\n");
-            sb.append("2. Add a food item");
-            sb.append("\n");
-            Message.showMessage(sb.toString());
+            JComponent[] inputs = new JComponent[]{
+                    component
+            };
+            Message.showMessage(inputs,"No Feasible Solution");
             //org.apache.commons.math3.optim.linear.NoFeasibleSolutionException: no feasible solution
         }
         return flag;
@@ -211,5 +212,9 @@ public class LpModel {
 
     public String getFeasibleMessage() {
         return "Model is feasible. A solution exists which satisfies all the constraints.";
+    }
+
+    public void setComponent(JTabbedPane component) {
+        this.component = component;
     }
 }

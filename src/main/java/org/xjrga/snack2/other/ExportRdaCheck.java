@@ -115,8 +115,6 @@ public class ExportRdaCheck {
         StringBuilder sb1 = new StringBuilder();
         sb1.append("RDA Check (");
         sb1.append(mixDataObject.getName());
-        sb1.append(" minus ");
-        sb1.append("RDA");
         sb1.append(" )");
         cell.setCellValue(sb1.toString());
         cell.setCellStyle(cellStyleMixName);
