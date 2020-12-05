@@ -46,7 +46,7 @@ public class ComboBoxModelNutrients extends DefaultComboBoxModel {
                 HashMap row = (HashMap) it.next();
                 String nutrientid = (String) row.get("NUTRIENTID");
                 String name = (String) row.get("NAME");
-                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name);
+                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name,null);
                 this.addElement(nutrientDataObject);
             }
         } catch (SQLException e) {

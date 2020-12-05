@@ -22,10 +22,12 @@ package org.xjrga.snack2.dataobject;
 public class NutrientDataObject {
     private String nutr_no;
     private String nutrdesc;
+    private Double q;
 
-    public NutrientDataObject(String nutrientid, String nutrdesc) {
+    public NutrientDataObject(String nutrientid, String nutrdesc, Double q) {
         this.setNutr_no(nutrientid);
         this.setNutrdesc(nutrdesc);
+        this.setQ(q);
     }
 
     public String getNutr_no() {
@@ -42,6 +44,14 @@ public class NutrientDataObject {
 
     public void setNutrdesc(String nutrdesc) {
         this.nutrdesc = nutrdesc;
+    }
+
+    public Double getQ() {
+        return q;
+    }
+
+    public void setQ(Double q) {
+        this.q = q;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.awt.*;
 public class Minimal extends MetalTheme {
     private final FontUIResource font = new FontUIResource("Dialog", Font.PLAIN, 13);
     private final ColorUIResource colorUIResource0 = new ColorUIResource(0xf2f2f2);
-    private final ColorUIResource colorUIResource2 = new ColorUIResource(0xFFF2D0);
+    private final ColorUIResource colorUIResource2 = new ColorUIResource(0xF8E0FD);
     private final ColorUIResource colorUIResource1 = new ColorUIResource(0, 0, 0);
 
     public Minimal() {

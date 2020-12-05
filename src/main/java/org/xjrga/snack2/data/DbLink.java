@@ -66,6 +66,22 @@ public class DbLink {
         return list;
     }
 
+    public List<Map<String, Object>> Nutrient_To_Pct_Select() throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall("{CALL public.Nutrient_To_Pct_Select()}");
+        ResultSet rs = proc.executeQuery();
+        while (rs.next()) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("NUTRIENTID", rs.getObject(1));
+            row.put("NAME", rs.getObject(2));
+            row.put("q", rs.getObject(3));
+            list.add(row);
+        }
+        proc.close();
+        return list;
+    }
+
     public List<Map<String, Object>> Nutrient_Select_All_Visible() throws SQLException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
@@ -127,7 +143,7 @@ public class DbLink {
         return list;
     }
 
-    public List<Map<String, Object>> Mix_Select_All_Visible() throws SQLException {
+    public List<Map<String, Object>> Mix_Select_All_1() throws SQLException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
         proc = connection.prepareCall("{CALL public.Mix_Select_All_1()}");

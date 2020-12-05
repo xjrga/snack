@@ -33701,6 +33701,9 @@ call RdaLifeStage_Merge(20,'Lactation (19–30 y)');
 --Lactation (31–50 y)
 call RdaLifeStage_Merge(21,'Lactation (31–50 y)');
 /
+--Daily Value
+call RdaLifeStage_Merge(22,'Daily Value');
+/
 
 --Infants (0–6 mo)    -> 0
 call Rda_Insert_q('320',0,400);
@@ -34780,7 +34783,76 @@ call Rda_Insert_q('317',21,70);
 /
 call Rda_Insert_q('309',21,12);
 /
-
+--Daily Value -> 22
+--'320','Vitamin A, RAE (µg)'
+call Rda_Insert_q('320',22,900);
+/
+--'401','Vitamin C, total (Ascorbic Acid) (mg)'
+call Rda_Insert_q('401',22,90);
+/
+--'328','Vitamin D (D2 + D3) (µg)'
+call Rda_Insert_q('328',22,20);
+/
+--'323','Vitamin E (Alpha-Tocopherol) (mg)'
+call Rda_Insert_q('323',22,15);
+/
+--'430','Vitamin K (Phylloquinone) (µg)'
+call Rda_Insert_q('430',22,120);
+/
+--'404','Thiamin (mg)'
+call Rda_Insert_q('404',22,1.2);
+/
+--'405','Riboflavin (mg)'
+call Rda_Insert_q('405',22,1.3);
+/
+--'406','Niacin (mg)'
+call Rda_Insert_q('406',22,16);
+/
+--'415','Vitamin B-6 (mg)'
+call Rda_Insert_q('415',22,1.7);
+/
+--'435','Folate, DFE (µg)'
+call Rda_Insert_q('435',22,400);
+/
+--'418','Vitamin B-12 (µg)'
+call Rda_Insert_q('418',22,2.4);
+/
+--'410','Pantothenic acid (mg)'
+call Rda_Insert_q('410',22,5);
+/
+--'421','Choline, total (mg)'
+call Rda_Insert_q('421',22,550);
+/
+--'301','Calcium, Ca (mg)'
+call Rda_Insert_q('301',22,1300);
+/
+--'306','Potassium, K (mg)'
+call Rda_Insert_q('306',22,4700);
+/
+--'307','Sodium, Na (mg)'
+call Rda_Insert_q('307',22,2300);
+/
+--'312','Copper, Cu (mg)'
+call Rda_Insert_q('312',22,0.9);
+/
+--'303','Iron, Fe (mg)'
+call Rda_Insert_q('303',22,18);
+/
+--'304','Magnesium, Mg (mg)'
+call Rda_Insert_q('304',22,420);
+/
+--'315','Manganese, Mn (mg)'
+call Rda_Insert_q('315',22,2.3);
+/
+--'305','Phosphorus, P (mg)'
+call Rda_Insert_q('305',22,1250);
+/
+--'317','Selenium, Se (µg)'
+call Rda_Insert_q('317',22,55);
+/
+--'309','Zinc, Zn (mg)'
+call Rda_Insert_q('309',22,11);
+/
 
 
 --Infants (0–6 mo)    -> 0

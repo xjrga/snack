@@ -45,6 +45,7 @@ public class Main {
     private final ComboBoxModelNutrients modelComboBox_NutrientAtNutrientConstraint = new ComboBoxModelNutrients(dbLink);
     private final ComboBoxModelNutrients modelComboBox_NutrientAtNutrientPctContraint = new ComboBoxModelNutrients(dbLink);
     private final ComboBoxModelNutrientsAll modelComboBox_NutrientLookupListNutrient = new ComboBoxModelNutrientsAll(dbLink);
+    private final ComboBoxModelNutrientsConvert modelComboBox_NutrientLookupListConvert = new ComboBoxModelNutrientsConvert(dbLink);
     private final ComboBoxModelRelationships modelComboBox_RelationshipAtFoodNutrient = new ComboBoxModelRelationships(dbLink);
     private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrient = new ComboBoxModelRelationships(dbLink);
     private final DefaultListModel modelListHighScore = new DefaultListModel();
@@ -149,6 +150,7 @@ public class Main {
     private final JMenu menuSettings = new JMenu();
     private final JMenu menuTools = new JMenu();
     private final JMenuItem menuItemAbout = new JMenuItem();
+    private final JMenuItem menuItemMicronutrientConversion = new JMenuItem();
     private final JMenuItem menuItemBmr = new JMenuItem();
     private final JMenuItem menuItemNitrogenBalance = new JMenuItem();
     private final JMenuItem menuItemKetosis = new JMenuItem();
@@ -203,8 +205,8 @@ public class Main {
     private final ListModelCategory modelListCategory = new ListModelCategory(dbLink);
     private final ListModelFood modelListFood = new ListModelFood(dbLink);
     private final ListModelFood2 modelListFoodInCategory = new ListModelFood2(dbLink);
-    private final ListModelMix modelList_1_MixDiff = new ListModelMix(dbLink);
-    private final ListModelMix modelList_0_MixDiff = new ListModelMix(dbLink);
+    private final ListModelMix modelList_A_MixDiff = new ListModelMix(dbLink);
+    private final ListModelMix modelList_B_MixDiff = new ListModelMix(dbLink);
     private final ListModelMix modelListFoodJournal = new ListModelMix(dbLink);
     private final ListModelMix modelListRda = new ListModelMix(dbLink);
     private final ListModelMix1 modelList_Solve = new ListModelMix1(dbLink);
@@ -414,6 +416,14 @@ public class Main {
             e.printStackTrace();
         }
         event_menuItemRoundUp();
+        selectFirstItemOnList();
+    }
+
+    private void selectFirstItemOnList() {
+        listMixesJournal.setSelectedIndex(0);
+        listCompareA.setSelectedIndex(0);
+        listCompareB.setSelectedIndex(0);
+        listRdaCheck.setSelectedIndex(0);
     }
 
     public static void main(String[] args) {
@@ -471,6 +481,7 @@ public class Main {
         mnuBar.add(menuHelp);
         menuProgram.add(menuSettings);
         menuProgram.add(menuItemExit);
+        menuTools.add(menuItemMicronutrientConversion);
         menuTools.add(menuItemBmr);
         menuTools.add(menuItemNitrogenBalance);
         menuTools.add(menuItemKetosis);
@@ -494,9 +505,10 @@ public class Main {
         menuHelp.setText("Help");
         menuSettings.setText("Settings");
         menuItemExit.setText("Exit");
+        menuItemMicronutrientConversion.setText("Percent Daily Value (%DV) to Grams");
         menuItemBmr.setText("Calculate Basal Metabolic Rate");
-        menuItemNitrogenBalance.setText("Calculate Complete Protein Required (Under A No Carbohydrate Regimen)");
-        menuItemKetosis.setText("Check Carbohydrate Required (to Inhibit Ketosis)");
+        menuItemNitrogenBalance.setText("Calculate Complete Protein Required (no fat, no carbs regimen)");
+        menuItemKetosis.setText("Check Carbohydrate Required (to inhibit ketosis)");
         menuItemDigestibleCarbs.setText("Calculate Digestible Carbohydrate");
         menuItemGlycemicLoad.setText("Calculate Glycemic Load");
         menuItemGlycemicIndexRange.setText("Check Glycemic Index Range");
@@ -512,6 +524,11 @@ public class Main {
         menuItemCredits.setText("Credits");
         menuItemAbout.setText("About");
         checkBoxResultRoundUp.setSelected(true);
+        menuItemMicronutrientConversion.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                event_menuItemMicronutrientConversion();
+            }
+        });
         menuItemBmr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 event_menuItemBmr();
@@ -721,7 +738,7 @@ public class Main {
             if (checkNumber.pass()) {
                 Double weightinlbs = Double.valueOf(s);
                 double protein = new MinimumNutrientRequirements(weightinlbs).getProtein();
-                sb.append("Complete Protein Required (No CHOs): ");
+                sb.append("Complete Protein Required (no carbs, no fats): ");
                 sb.append(Math.round(protein));
                 sb.append(" g");
                 sb.append("\n");
@@ -731,7 +748,7 @@ public class Main {
                 inputs = new JComponent[]{
                         textArea
                 };
-                Message.showOptionDialog(inputs, "Complete Protein Required (No CHOs)");
+                Message.showOptionDialog(inputs, "Complete Protein Required (no carbs, no fats)");
             } else {
                 Message.showMessage("Numbers only");
             }
@@ -762,6 +779,49 @@ public class Main {
                 textArea
         };
         Message.showOptionDialog(inputs, "Carbohydrate Required to Inhibit Ketosis");
+    }
+
+    private void event_menuItemMicronutrientConversion() {
+        FormLayout layout = new FormLayout("min:grow,min,min:grow", //columns
+                "fill:min:grow" //rows
+        );
+        JPanel panel = new JPanel();
+        panel.setLayout(layout);
+        JComboBox cboxNutrients = new JComboBox();
+        cboxNutrients.setModel(modelComboBox_NutrientLookupListConvert);
+        modelComboBox_NutrientLookupListConvert.reload();
+        JTextField dailyValuePct = new JTextField();
+        dailyValuePct.setMinimumSize(new Dimension(50, 20));
+        panel.add(cboxNutrients, cc.xy(1, 1));
+        panel.add(dailyValuePct, cc.xy(2, 1));
+        panel.add(new JLabel(" %DV"), cc.xy(3, 1));
+        JComponent[] inputs = new JComponent[]{
+                panel
+        };
+        Message.showOptionDialog(inputs, "Percent Daily Value (%DV) to Grams");
+        String s = dailyValuePct.getText();
+        if (s != null && s.length() > 0) {
+            NutrientDataObject nutrientDataObject = (NutrientDataObject)cboxNutrients.getSelectedItem();
+            StringBuffer sb = new StringBuffer();
+            NumberCheck checkNumber = new NumberCheck();
+            checkNumber.addToUncheckedList(s);
+            if (checkNumber.pass()) {
+                Double dvpct = Double.valueOf(s);
+                sb.append(dvpct * (nutrientDataObject.getQ() / 100));
+                sb.append(" ");
+                sb.append(nutrientDataObject.getNutrdesc());
+                sb.append("\n");
+                JTextArea textArea = new JTextArea(1, 20);
+                textArea.setText(sb.toString());
+                textArea.setEditable(false);
+                inputs = new JComponent[]{
+                        textArea
+                };
+                Message.showOptionDialog(inputs, "Percent Daily Value (%DV) to Grams");
+            } else {
+                Message.showMessage("Numbers only");
+            }
+        }
     }
 
     private JPanel getSolve() {
@@ -954,8 +1014,8 @@ public class Main {
     private void reloadMixes() {
         modelList_Solve.reload();
         modelListFoodJournal.reload();
-        modelList_0_MixDiff.reload();
-        modelList_1_MixDiff.reload();
+        modelList_A_MixDiff.reload();
+        modelList_B_MixDiff.reload();
         modelListRda.reload();
     }
 
@@ -972,7 +1032,7 @@ public class Main {
 
     private void reloadLifeStageComboBox() {
         modelComboBoxLifeStage.reload();
-        modelComboBoxLifeStage.setSelectedItem(new RdaLifeStageDataObject(7, "Males (31–50 y)"));
+        modelComboBoxLifeStage.setSelectedItem(new RdaLifeStageDataObject(22, "Daily Value"));
     }
 
 
@@ -1211,14 +1271,14 @@ public class Main {
                 event_listCompareB(e);
             }
         });
-        listCompareA.setModel(modelList_0_MixDiff);
-        listCompareB.setModel(modelList_1_MixDiff);
+        listCompareA.setModel(modelList_A_MixDiff);
+        listCompareB.setModel(modelList_B_MixDiff);
         tableMixComparison.setModel(modelTableMixDiff);
         tableMixComparison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableMixComparison.setFillsViewportHeight(true);
         tableMixComparison.getTableHeader().setReorderingAllowed(false);
-        modelList_0_MixDiff.reload();
-        modelList_1_MixDiff.reload();
+        modelList_A_MixDiff.reload();
+        modelList_B_MixDiff.reload();
         resizeColumns_MixComparisonTable();
         return panel;
     }
@@ -1327,7 +1387,7 @@ public class Main {
                     String nutrient = (String) tableRdaCheck.getValueAt(selectedRowNo, 1);
                     Double rda = (Double) tableRdaCheck.getValueAt(selectedRowNo, 3);
                     textFieldNutrientLookup.setText(String.valueOf(rda));
-                    NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, nutrient);
+                    NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, nutrient,null);
                     modelComboBox_NutrientLookupListNutrient.setSelectedItem(nutrientDataObject);
                     modelTableNutrientLookup.reload(nutrientid, rda);
                     resizeColumns_NutrientLookupTable();
@@ -2215,13 +2275,14 @@ public class Main {
                 "        - compare two meals to see difference in nutritional value\n" +
                 "        - compare meals against Required Daily Allowance (RDA) values\n" +
                 "        - compare meals against Upper Limit (UL) values       \n" +
-                "        - Export data and create reports in spreadsheet      \n" +
+                "        - export data and create reports in spreadsheet      \n" +
                 "        - quantify any popular diet for comparison and research purposes       \n" +
                 "        - annotate mixes\n" +
                 "        - calculate basal metabolic rate (BMR)\n" +
                 "        - calculate glycemic index (GI) and glycemic load (GL) of a meal\n" +
                 "        - check glycemic index range\n" +
                 "        - calculate food quotient (FQ)                \n" +
+                "        - convert percent daily value (%DV) to grams\n" +
                 "        - facilitate learning/teaching anyone with interest in nutrition\n" +
                 "        - is free and open source\n" +
                 "    \n" +
@@ -2229,7 +2290,7 @@ public class Main {
                 "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 620");
+        sb.append("This is build 625");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -2815,10 +2876,6 @@ public class Main {
                 resizeColumns();
                 textAreaLPModel.setText(getLinearProgrammingModel(mixId));
                 textAreaNote.setText(getNote(mixId));
-                listMixesJournal.setSelectedIndex(selectedIndex);
-                listCompareA.setSelectedIndex(selectedIndex);
-                listCompareB.setSelectedIndex(selectedIndex);
-                listRdaCheck.setSelectedIndex(selectedIndex);
             }
         }
     }
@@ -3261,12 +3318,10 @@ public class Main {
                     }
                     dbLink.FillMixResults(mixId);
                     reloadTableModelsThatNeedMixId(mixId);
-                    resizeColumns();
-                    listCompareA.setSelectedIndex(selectedIndex);
-                    listCompareB.setSelectedIndex(selectedIndex);
+                    reloadFoodJournal();
                     reloadMixComparison();
-                    listRdaCheck.setSelectedIndex(selectedIndex);
                     reloadRdaCheck();
+                    resizeColumns();
                     lpModel.setResults(sbResults.toString());
                     lpModel.save();
                     sbAll.append("/*\n");

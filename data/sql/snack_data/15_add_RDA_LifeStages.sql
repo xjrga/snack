@@ -64,3 +64,6 @@ call RdaLifeStage_Merge(20,'Lactation (19–30 y)');
 --Lactation (31–50 y)
 call RdaLifeStage_Merge(21,'Lactation (31–50 y)');
 /
+--Daily Value
+call RdaLifeStage_Merge(22,'Daily Value');
+/

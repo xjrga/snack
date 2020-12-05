@@ -20,7 +20,7 @@
 package org.xjrga.snack2.model;
 
 import org.xjrga.snack2.data.DbLink;
-import org.xjrga.snack2.dataobject.MixDataObject;
+import org.xjrga.snack2.dataobject.NutrientDataObject;
 import org.xjrga.snack2.other.Log;
 
 import javax.swing.*;
@@ -29,26 +29,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class ListModelMix1 extends DefaultListModel {
+public class ComboBoxModelNutrientsConvert extends DefaultComboBoxModel {
     private final DbLink dbLink;
 
-    public ListModelMix1(DbLink dbLink) {
+    public ComboBoxModelNutrientsConvert(DbLink dbLink) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
-        this.clear();
+        this.removeAllElements();
+        LinkedList all = null;
         try {
-            LinkedList all = (LinkedList) dbLink.Mix_Select_All_1();
+            all = (LinkedList) dbLink.Nutrient_To_Pct_Select();
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
-                int mixid = (int) row.get("MIXID");
+                String nutrientid = (String) row.get("NUTRIENTID");
                 String name = (String) row.get("NAME");
-                MixDataObject mixDataObject = new MixDataObject();
-                mixDataObject.setMixId(mixid);
-                mixDataObject.setName(name);
-                this.addElement(mixDataObject);
+                Double q = (Double) row.get("q");
+                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name,q);
+                this.addElement(nutrientDataObject);
             }
         } catch (SQLException e) {
             Log.getLog().start("files/exception.log");

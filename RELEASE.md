@@ -107,14 +107,20 @@ RELEASE NOTES
       Add Macronutrient RDA
       Add Extra Tools
 
-610  
-        
+610
+
       Add Food Item Duplicate Option
-      
+
 620
-        
+
       Add Soluble and Insoluble Fiber Tracking
       Add Glycemic Index Tracking
       Add Glycemic Index Range Check     
       Add Mix Note
+
+625
+
+      Added Latest Daily Values (%DV)
+      Added Percent Daily Value (%DV) to Grams Conversion
+
       
