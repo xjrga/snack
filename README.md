@@ -26,7 +26,8 @@
         - calculate basal metabolic rate (BMR)
         - calculate glycemic index (GI) and glycemic load (GL) of a meal
         - check glycemic index range
-        - calculate food quotient (FQ)                
+        - calculate food quotient (FQ)  
+        - convert percent daily value (%DV) to grams
         - facilitate learning/teaching anyone with interest in nutrition
         - is free and open source
     
