@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class Message {
-    private static final BufferedImage logo = ImageUtilities.readImage("resources/apple.png");
+    private static final BufferedImage logo = ImageUtilities.readImage("resources/images/apple.png");
 
     public Message() {
     }

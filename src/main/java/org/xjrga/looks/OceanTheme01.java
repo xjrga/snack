@@ -1,4 +1,4 @@
-package org.xjrga.snack2.gui;
+package org.xjrga.looks;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -127,39 +127,3 @@ public class OceanTheme01 extends OceanTheme {
         return subTextFont;
     }
 }
-/* *
-Century Schoolbook L
-DejaVu Math TeX Gyre
-DejaVu Sans
-DejaVu Sans Condensed
-DejaVu Sans Light
-DejaVu Sans Mono
-DejaVu Serif
-DejaVu Serif Condensed
-*Dialog
-*DialogInput
-Dingbats
-Droid Sans Fallback
-FreeMono
-FreeSans
-FreeSerif
-Liberation Mono
-Liberation Sans
-Liberation Sans Narrow
-Liberation Serif
-*Monospaced
-Nimbus Mono L
-Nimbus Roman No9 L
-Nimbus Sans L
-Noto Mono
-Quicksand
-Quicksand Light
-Quicksand Medium
-*SansSerif
-*Serif
-Standard Symbols L
-URW Bookman L
-URW Chancery L
-URW Gothic L
-URW Palladio L
-* */

@@ -28,9 +28,10 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.xjrga.looks.Dawn;
 
 public class Main {
-    private final BufferedImage logo = ImageUtilities.readImage("resources/apple.png");
+    private final BufferedImage logo = ImageUtilities.readImage("resources/images/apple.png");
     private final CellConstraints cc = new CellConstraints();
     private final DbLink dbLink = new DbLink();
     private final ComboBoxModelFood modelComboBox_1_FoodAtFoodNutrientRatio = new ComboBoxModelFood(dbLink);
@@ -427,11 +428,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        try {
-            MetalLookAndFeel.setCurrentTheme(new Minimal());
-            //MetalLookAndFeel.setCurrentTheme(new OceanTheme01());
-            //MetalLookAndFeel.setCurrentTheme(new OceanTheme02());
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        try {            
+            MetalLookAndFeel.setCurrentTheme(new Dawn());
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");           
         } catch (ClassNotFoundException e) {
         } catch (IllegalAccessException e) {
             Log.getLog().start("files/exception.log");
@@ -1208,14 +1207,14 @@ public class Main {
                 Double valueAt;
                 switch (columnIndex) {
                     case 0:
-                        component.setForeground(Color.black);
+                        //component.setForeground(Color.white);
                         break;
                     case 1:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
                         if (valueAt <= 0) {
                             component.setForeground(Color.red);
                         } else {
-                            component.setForeground(Color.black);
+                            //component.setForeground(Color.white);
                         }
                         break;
                     case 2:
@@ -1223,7 +1222,7 @@ public class Main {
                         if (valueAt <= 0) {
                             component.setForeground(Color.red);
                         } else {
-                            component.setForeground(Color.black);
+                            //component.setForeground(Color.white);
                         }
                         break;
                     case 3:
@@ -1231,7 +1230,7 @@ public class Main {
                         if (valueAt < 0) {
                             component.setForeground(Color.red);
                         } else {
-                            component.setForeground(Color.black);
+                            //component.setForeground(Color.white);
                         }
                         break;
                 }
@@ -1291,21 +1290,21 @@ public class Main {
                 Double valueAt;
                 switch (columnIndex) {
                     case 0:
-                        component.setForeground(Color.black);
+                        //component.setForeground(Color.white);
                         break;
                     case 1:
-                        component.setForeground(Color.black);
+                        //component.setForeground(Color.white);
                         break;
                     case 2:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
                         if (valueAt <= 0) {
                             component.setForeground(Color.red);
                         } else {
-                            component.setForeground(Color.black);
+                            //component.setForeground(Color.white);
                         }
                         break;
                     case 3:
-                        component.setForeground(Color.black);
+                        //component.setForeground(Color.white);
                         break;
                     case 4:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
@@ -1314,14 +1313,14 @@ public class Main {
                         }
                         break;
                     case 5:
-                        component.setForeground(Color.black);
+                        //component.setForeground(Color.white);
                         break;
                     case 6:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
                         if (valueAt > 100) {
                             component.setForeground(Color.red);
                         } else {
-                            component.setForeground(Color.black);
+                            //component.setForeground(Color.white);
                         }
                         break;
                 }
@@ -2290,7 +2289,7 @@ public class Main {
                 "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 625");
+        sb.append("This is build 630");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();

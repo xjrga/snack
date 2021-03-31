@@ -1,4 +1,4 @@
-package org.xjrga.snack2.gui;
+package org.xjrga.looks;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;

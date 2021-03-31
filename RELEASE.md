@@ -120,7 +120,9 @@ RELEASE NOTES
 
 625
 
-      Added Latest Daily Values (%DV)
-      Added Percent Daily Value (%DV) to Grams Conversion
+      Add Latest Daily Values (%DV)
+      Add Percent Daily Value (%DV) to Grams Conversion
 
-      
+630
+
+      Add Dawn Theme

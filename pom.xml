@@ -3,18 +3,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.xjrga.snack2</groupId>
     <artifactId>Snack</artifactId>
-    <version>625</version>
+    <version>630</version>
+
     <name>Snack</name>
     <url>https://x-jrga.github.io/snack</url>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    <dependencies>
 
+    <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -56,8 +59,8 @@
             <artifactId>poi</artifactId>
             <version>4.1.0</version>
         </dependency>
-
     </dependencies>
+
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
@@ -77,11 +80,16 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>2.22.1</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*.java</include>
+                        </includes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.0.2</version>  
                     <configuration>
                         <archive>
                             <manifest>
@@ -91,16 +99,23 @@
                                 <mainClass>org.xjrga.snack2.gui.Main</mainClass>
                             </manifest>
                         </archive>
-                    </configuration>
+                    </configuration>                                                      
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>2.5.2</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
+                <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.7.1</version>
@@ -109,65 +124,28 @@
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
-            </plugins>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>                   
+                </plugin>
+            </plugins>            
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
+                        <id>create-project</id>
                         <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <!-- copy data to tmp -->
-                                <delete dir="${project.basedir}/tmp"/>
-                                <copy todir="${project.basedir}/tmp/${project.artifactId}-${project.version}/data">
-                                    <fileset dir="${project.basedir}/data"/>
-                                </copy>
-                                <!-- copy lib to tmp -->
-                                <copy todir="${project.basedir}/tmp/${project.artifactId}-${project.version}/lib">
-                                    <fileset dir="${project.basedir}/lib"/>
-                                </copy>
-                                <!-- copy files to tmp -->
-                                <copy todir="${project.basedir}/tmp/${project.artifactId}-${project.version}/files">
-                                    <fileset dir="${project.basedir}/files"/>
-                                </copy>
-                                <!-- copy resources to tmp -->
-                                <copy todir="${project.basedir}/tmp/${project.artifactId}-${project.version}/resources">
-                                    <fileset dir="${project.basedir}/resources"/>
-                                </copy>
-                                <!-- copy scripts to tmp -->
-                                <copy todir="${project.basedir}/tmp/${project.artifactId}-${project.version}/scripts">
-                                    <fileset dir="${project.basedir}/scripts"/>
-                                </copy>
-                                <!-- copy src to tmp -->
-                                <copy todir="${project.basedir}/tmp/${project.artifactId}-${project.version}/src">
-                                    <fileset dir="${project.basedir}/src"/>
-                                </copy>
-                                <!-- copy pom.xml to tmp -->
-                                <copy file="${project.basedir}/pom.xml" tofile="${project.basedir}/tmp/${project.artifactId}-${project.version}/pom.bak"/>
-                                <!-- copy executable jar to tmp -->
-                                <copy file="target/${project.artifactId}-${project.version}.jar"
-                                      todir="${project.basedir}/tmp/${project.artifactId}-${project.version}"/>
-                                <!-- zip files up -->
-                                <zip destfile="product/${project.artifactId}-${project.version}.zip" basedir="${project.basedir}/tmp"/>
-                                <!--zip destfile="../${project.artifactId}-${project.version}.zip" basedir="${project.basedir}/tmp"/-->
-                                <!-- unzip files-->
-                                <unzip src="product/${project.artifactId}-${project.version}.zip" dest="product/" overwrite="true"/>
-                                <!--unzip src="../${project.artifactId}-${project.version}.zip" dest="../" overwrite="true"/-->
-                                <!-- run app -->
-                                <!--java jar="../${project.artifactId}-${project.version}/${project.artifactId}-${project.version}.jar" fork="true" failonerror="true"/-->
-                                <!-- delete tmp dir -->
-                                <delete dir="${project.basedir}/tmp"/>
-                                <!-- delete target dir -->
-                                <delete dir="${project.basedir}/target"/>
-                            </target>
-                        </configuration>
                         <goals>
-                            <goal>run</goal>
+                            <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <descriptors>                                
+                                <descriptor>src/assembly/app.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
