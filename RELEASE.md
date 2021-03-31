@@ -126,3 +126,8 @@ RELEASE NOTES
 630
 
       Add Dawn Theme
+
+631
+
+      Fix cosmetic text color issue
+

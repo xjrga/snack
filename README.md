@@ -36,10 +36,10 @@
 
 Installing
 
-    1. Download Snack-630.zip from https://sourceforge.net/projects/snackmix
-    2. unzip Snack-630.zip
-    3. cd Snack-630
-    4. java -jar Snack-630.jar (if you are on windows double click on jar file) 
+    1. Download Snack-631-app.zip from https://sourceforge.net/projects/snackmix
+    2. unzip Snack-631-app.zip
+    3. cd Snack-631
+    4. java -jar Snack-631.jar (if you are on windows double click on jar file) 
     
 [Download](https://sourceforge.net/projects/snackmix "Snack: Learning Software for Nutrition")
 
@@ -47,7 +47,7 @@ Installing
 
 Build
 
-    630
+    631
 
 Authors
 
