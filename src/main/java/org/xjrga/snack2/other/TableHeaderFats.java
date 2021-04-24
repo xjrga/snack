@@ -1,4 +1,4 @@
-package org.xjrga.snack2.other;
+package io.github.xjrga.snack2.other;
 
 import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseEvent;

@@ -1,4 +1,4 @@
-package org.xjrga.snack2.dataobject;
+package io.github.xjrga.snack2.dataobject;
 
 public class FoodFactSelectForDataInputDataObject {
     private String Category;

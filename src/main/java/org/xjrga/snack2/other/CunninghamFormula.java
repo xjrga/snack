@@ -1,4 +1,4 @@
-package org.xjrga.snack2.other;
+package io.github.xjrga.snack2.other;
 
 public class CunninghamFormula {
     private final Double weightinlbs;

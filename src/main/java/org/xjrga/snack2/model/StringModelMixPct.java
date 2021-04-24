@@ -1,8 +1,8 @@
-package org.xjrga.snack2.model;
+package io.github.xjrga.snack2.model;
 
-import org.xjrga.snack2.data.DbLink;
-import org.xjrga.snack2.dataobject.MixResultDwPctDataObject;
-import org.xjrga.snack2.other.Log;
+import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.dataobject.MixResultDwPctDataObject;
+import io.github.xjrga.snack2.other.Log;
 
 import java.sql.SQLException;
 import java.util.HashMap;

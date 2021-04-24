@@ -1,14 +1,15 @@
-package org.xjrga.snack2.gui;
+package io.github.xjrga.snack2.gui;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import org.xjrga.snack2.data.DbLink;
-import org.xjrga.snack2.data.Nutrient;
-import org.xjrga.snack2.dataobject.*;
-import org.xjrga.snack2.lp.LpModel;
-import org.xjrga.snack2.model.*;
-import org.xjrga.snack2.other.*;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -20,18 +21,16 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.net.URL;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import org.xjrga.looks.Dawn;
+import io.github.xjrga.looks.themes.Dawn180;
+import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
+import io.github.xjrga.snack2.dataobject.*;
+import io.github.xjrga.snack2.lp.LpModel;
+import io.github.xjrga.snack2.model.*;
+import io.github.xjrga.snack2.other.*;
 
 public class Main {
-    private final BufferedImage logo = ImageUtilities.readImage("resources/images/apple.png");
+    private final BufferedImage logo = ImageUtilities.readImage("resources/images/logo.png");
     private final CellConstraints cc = new CellConstraints();
     private final DbLink dbLink = new DbLink();
     private final ComboBoxModelFood modelComboBox_1_FoodAtFoodNutrientRatio = new ComboBoxModelFood(dbLink);
@@ -428,9 +427,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        try {            
-            MetalLookAndFeel.setCurrentTheme(new Dawn());
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");           
+        try {
+            Font font = new Font(Font.DIALOG, Font.PLAIN, 12);
+            MetalLookAndFeel.setCurrentTheme(new Dawn180(font));
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (ClassNotFoundException e) {
         } catch (IllegalAccessException e) {
             Log.getLog().start("files/exception.log");
@@ -2228,7 +2228,7 @@ public class Main {
     }
 
     private void event_menuItemGuide() {
-        openUrl("http://x-jrga.github.io/snack");
+        openUrl("http://xjrga.github.io/snack");
     }
 
     private void event_menuItemCredits() {
@@ -2241,9 +2241,11 @@ public class Main {
         sb.append("\n");
         sb.append("jgoodies-common-1.8.1.jar");
         sb.append("\n");
-        sb.append("jgoodies-forms-1.8.0.jar");
+        sb.append("jgoodies-forms-1.9.0.jar");
         sb.append("\n");
-        sb.append("poi-4.1.0.jar");
+        sb.append("poi-4.0.1.jar");
+        sb.append("\n");
+        sb.append("looks-01.jar");
         sb.append("\n\n\n");
         sb.append("Snack uses a data subset from:");
         sb.append("\n\n");
@@ -2289,7 +2291,7 @@ public class Main {
                 "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 631");
+        sb.append("This is build 635");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();

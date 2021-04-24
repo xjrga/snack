@@ -1,4 +1,4 @@
-[Snack](https://x-jrga.github.io/snack "Snack: Learning Software for Nutrition")
+[Snack](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
     Snack is learning software for nutrition, a meal design tool and calculator that
     could facilitate achieving your health goals and objectives by first helping you 
@@ -9,7 +9,7 @@
     lets you experiment and get faster, better, less expensive results so you can 
     rapidly learn. Its intended audience is anyone with interest in nutrition.
     
-    Home page: https://x-jrga.github.io/snack
+    Home page: https://xjrga.github.io/snack
     Download: https://sourceforge.net/projects/snackmix
     
     Features:
@@ -36,22 +36,22 @@
 
 Installing
 
-    1. Download Snack-631-app.zip from https://sourceforge.net/projects/snackmix
-    2. unzip Snack-631-app.zip
-    3. cd Snack-631
-    4. java -jar Snack-631.jar (if you are on windows double click on jar file) 
+    1. Download Snack-635-app.zip from https://sourceforge.net/projects/snackmix
+    2. unzip Snack-635-app.zip
+    3. cd Snack-635
+    4. java -jar Snack-635.jar (if you are on windows double click on jar file) 
     
 [Download](https://sourceforge.net/projects/snackmix "Snack: Learning Software for Nutrition")
 
-[User Guide](https://x-jrga.github.io/snack "Snack: Learning Software for Nutrition")
+[User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    631
+    635
 
 Authors
 
-[Jorge R Garcia de Alba](https://x-jrga.github.io "Snack: Learning Software for Nutrition")
+[Jorge R Garcia de Alba](https://xjrga.github.io "Snack: Learning Software for Nutrition")
 
 License
 
@@ -64,8 +64,8 @@ Snack uses the following libraries:
     commons-math3-3.6.1.jar
     hsqldb.jar (v2.5.1)
     jgoodies-common-1.8.1.jar
-    jgoodies-forms-1.8.0.jar
-    poi-4.1.0.jar
+    jgoodies-forms-1.9.0.jar
+    poi-4.0.1.jar
     sqltool-2.5.1.jar
    
 Snack uses a data subset from:

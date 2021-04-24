@@ -1,4 +1,4 @@
-package org.xjrga.snack2.data;
+package io.github.xjrga.snack2.data;
 
 public enum Nutrient {
     PROTEIN("203", "Protein (g)", "Protein"),

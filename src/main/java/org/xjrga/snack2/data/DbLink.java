@@ -1,10 +1,10 @@
-package org.xjrga.snack2.data;
+package io.github.xjrga.snack2.data;
 
-import org.xjrga.snack2.dataobject.FoodDataObject;
-import org.xjrga.snack2.dataobject.FoodDetailsDataObject;
-import org.xjrga.snack2.dataobject.FoodFactSelectForCheckCoefficientsDataObject;
-import org.xjrga.snack2.dataobject.FoodFactSelectForDataInputDataObject;
-import org.xjrga.snack2.other.Log;
+import io.github.xjrga.snack2.dataobject.FoodDataObject;
+import io.github.xjrga.snack2.dataobject.FoodDetailsDataObject;
+import io.github.xjrga.snack2.dataobject.FoodFactSelectForCheckCoefficientsDataObject;
+import io.github.xjrga.snack2.dataobject.FoodFactSelectForDataInputDataObject;
+import io.github.xjrga.snack2.other.Log;
 
 import java.sql.*;
 import java.util.HashMap;

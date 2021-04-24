@@ -1,10 +1,10 @@
-package org.xjrga.snack2.other;
+package io.github.xjrga.snack2.other;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.xjrga.snack2.data.DbLink;
-import org.xjrga.snack2.dataobject.MixDataObject;
-import org.xjrga.snack2.gui.Message;
+import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.dataobject.MixDataObject;
+import io.github.xjrga.snack2.gui.Message;
 
 import javax.swing.*;
 import java.io.FileOutputStream;

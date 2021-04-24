@@ -1,4 +1,4 @@
-package org.xjrga.snack2.dataobject;
+package io.github.xjrga.snack2.dataobject;
 
 public class FoodFactSelectForCheckCoefficientsDataObject {
     private String Category;

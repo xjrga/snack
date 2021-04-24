@@ -1,12 +1,11 @@
-package org.xjrga.snack2.gui;
+package io.github.xjrga.snack2.gui;
 
-import org.xjrga.snack2.other.ImageUtilities;
-
-import javax.swing.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
+import io.github.xjrga.snack2.other.ImageUtilities;
 
 public class Message {
-    private static final BufferedImage logo = ImageUtilities.readImage("resources/images/apple.png");
+    private static final BufferedImage logo = ImageUtilities.readImage("resources/images/logo.png");
 
     public Message() {
     }

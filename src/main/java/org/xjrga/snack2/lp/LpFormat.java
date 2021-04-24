@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.xjrga.snack2.lp;
+package io.github.xjrga.snack2.lp;
 
 public class LpFormat {
     private final StringBuilder sb;

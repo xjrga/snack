@@ -1,4 +1,4 @@
-[Snack](https://x-jrga.github.io/snack2 "Snack: Learning Software for Nutrition")
+[Snack](https://xjrga.github.io/snack2 "Snack: Learning Software for Nutrition")
 
 RELEASE NOTES
 
@@ -127,7 +127,8 @@ RELEASE NOTES
 
       Add Dawn Theme
 
-631
+635
 
-      Fix cosmetic text color issue
+      Add looks-01 library
+      Add new logo      
 

@@ -1,4 +1,4 @@
-package org.xjrga.snack2.data;
+package io.github.xjrga.snack2.data;
 /*
  * Copyright (C) 2018 Jorge R Garcia de Alba
  * License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
@@ -18,7 +18,7 @@ package org.xjrga.snack2.data;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import org.xjrga.snack2.other.Log;
+import io.github.xjrga.snack2.other.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

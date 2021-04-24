@@ -5,11 +5,11 @@
 *
 * (C) Copyright 2011-2020, Jorge Garcia de Alba
 *
-* Project Info: http://x-jrga.github.io/snack
+* Project Info: http://xjrga.github.io/snack
 *
 * If you like this project or if you find it useful, you can support us at:
 *
-* http://x-jrga.github.io/snack
+* http://xjrga.github.io/snack
 *
 * This file is part of Snack.
 *

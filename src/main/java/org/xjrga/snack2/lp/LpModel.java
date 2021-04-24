@@ -17,16 +17,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.xjrga.snack2.lp;
+package io.github.xjrga.snack2.lp;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.xjrga.snack2.gui.Message;
-import org.xjrga.snack2.other.GoldenRatio;
-import org.xjrga.snack2.other.Log;
+import io.github.xjrga.snack2.gui.Message;
+import io.github.xjrga.snack2.other.GoldenRatio;
+import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.*;
 import java.awt.*;
