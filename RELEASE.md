@@ -1,4 +1,4 @@
-[Snack](https://xjrga.github.io/snack2 "Snack: Learning Software for Nutrition")
+[Snack](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 RELEASE NOTES
 
@@ -132,3 +132,8 @@ RELEASE NOTES
       Add looks-01 library
       Add new logo      
 
+640
+
+      Fix src/main/java directory names
+      Add new logo
+      

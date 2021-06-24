@@ -6,7 +6,7 @@
 
     <groupId>io.github.xjrga.snack2</groupId>
     <artifactId>Snack</artifactId>
-    <version>635</version>
+    <version>640</version>
 
     <name>Snack</name>
     <url>https://xjrga.github.io/snack</url>
@@ -71,7 +71,7 @@
 	<dependency>
 	    <groupId>io.github.xjrga</groupId>
 	    <artifactId>looks</artifactId>
-	    <version>01</version>            
+	    <version>01</version>       
 	</dependency>
 	
     </dependencies>

@@ -36,10 +36,10 @@
 
 Installing
 
-    1. Download Snack-635-app.zip from https://sourceforge.net/projects/snackmix
-    2. unzip Snack-635-app.zip
-    3. cd Snack-635
-    4. java -jar Snack-635.jar (if you are on windows double click on jar file) 
+    1. Download Snack-640-app.zip from https://sourceforge.net/projects/snackmix
+    2. unzip Snack-640-app.zip
+    3. cd Snack-640
+    4. java -jar Snack-640.jar (if you are on windows double click on jar file) 
     
 [Download](https://sourceforge.net/projects/snackmix "Snack: Learning Software for Nutrition")
 

@@ -2291,7 +2291,7 @@ public class Main {
                 "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 635");
+        sb.append("This is build 640");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
