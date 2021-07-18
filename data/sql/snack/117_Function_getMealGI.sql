@@ -41,7 +41,7 @@ FROM (SELECT mixid,
              q AS gl
       FROM mixresult
       WHERE mixid = v_MixId
-      AND   nutrientid = '10008') d
+      AND   nutrientid = '10006') d
 WHERE a.mixid = b.mixid
 AND a.mixid = c.mixid
 AND a.mixid = d.mixid

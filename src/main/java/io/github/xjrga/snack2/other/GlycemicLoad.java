@@ -1,6 +1,7 @@
 package io.github.xjrga.snack2.other;
 
 public class GlycemicLoad {
+
     private final Double glycemicIndex;
     private final Double digestibleCarbs;
 

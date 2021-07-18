@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelCost extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -71,9 +73,10 @@ public class TableModelCost extends DefaultTableModel implements RoundUp {
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 String Name = (String) rowm.get("Name");
-                Double Weight = (Double) rowm.get("Weight");
-                Double Cost = (Double) rowm.get("Cost");
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
+                Double Cost = (Double) rowm.get(Nutrient.COST.getLabel());
                 row = new Vector();
+                //
                 row.add(Name);
                 row.add(Weight);
                 row.add(Cost);

@@ -1,6 +1,7 @@
 package io.github.xjrga.snack2.other;
 
 public class KatchMcArdleFormula {
+
     private final Double weightinlbs;
 
     public KatchMcArdleFormula(Double weightinlbs) {

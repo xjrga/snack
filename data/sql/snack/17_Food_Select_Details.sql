@@ -7,23 +7,31 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 --
-SELECT b.name AS "Category",
+SELECT
+       --Name
+       b.name AS "Category",
        a.name AS "Name",
+       --Mass
        ROUND(x0.q,v_Precision) AS "Weight",
-       ROUND(x1.q,v_Precision) AS "CompleteProtein",
-       ROUND(x2.q,v_Precision) AS "IncompleteProtein",
-       ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
-       ROUND(x4.q,v_Precision) AS "Cost",
-       ROUND(x5.q,v_Precision) AS "Protein",
+       --Energy
+       ROUND(x8.q,v_Precision) AS "EnergyGross",
+       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
+       ROUND(x54.q,v_Precision) AS "EnergyNoProtein",
+       ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
+       ROUND(x56.q,v_Precision) AS "EnergyProtein",
+       ROUND(x57.q,v_Precision) AS "EnergyFat",
+       ROUND(x58.q,v_Precision) AS "EnergyAlcohol",
+       --Macronutrient
        ROUND(x6.q,v_Precision) AS "Fat",
-       ROUND(x7.q,v_Precision) AS "CarbsByDiff",
-       ROUND(x8.q,v_Precision) AS "Energy",
-       ROUND(x9.q,v_Precision) AS "Sucrose",
-       ROUND(x10.q,v_Precision) AS "Fructose",
-       ROUND(x11.q,v_Precision) AS "Lactose",
+       ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
+       ROUND(x5.q,v_Precision) AS "Protein",
        ROUND(x12.q,v_Precision) AS "Alcohol",
-       ROUND(x13.q,v_Precision) AS "Water",
-       ROUND(x16.q,v_Precision) AS "Fiber",
+       --Protein       
+       ROUND(x1.q,v_Precision) AS "CompleteProtein",       
+       --Fiber
+       ROUND(x7.q,v_Precision) AS "CarbsByDiff",
+       ROUND(x16.q,v_Precision) AS "Fiber",       
+       --Minerals
        ROUND(x17.q,v_Precision) AS "Calcium",
        ROUND(x18.q,v_Precision) AS "Iron",
        ROUND(x19.q,v_Precision) AS "Magnesium",
@@ -35,6 +43,7 @@ SELECT b.name AS "Category",
        ROUND(x25.q,v_Precision) AS "Fluoride",
        ROUND(x26.q,v_Precision) AS "Manganese",
        ROUND(x27.q,v_Precision) AS "Selenium",
+       --Vitamins
        ROUND(x28.q,v_Precision) AS "VitaminA",
        ROUND(x29.q,v_Precision) AS "VitaminE",
        ROUND(x30.q,v_Precision) AS "VitaminD",
@@ -48,6 +57,7 @@ SELECT b.name AS "Category",
        ROUND(x14.q,v_Precision) AS "Choline",
        ROUND(x40.q,v_Precision) AS "VitaminK",
        ROUND(x41.q,v_Precision) AS "Folate",
+       --Fatty Acids
        ROUND(x42.q,v_Precision) AS "Cholesterol",
        ROUND(x43.q,v_Precision) AS "Saturated",
        ROUND(x44.q,v_Precision) AS "DHA",
@@ -56,26 +66,25 @@ SELECT b.name AS "Category",
        ROUND(x47.q,v_Precision) AS "Polyunsaturated",
        ROUND(x48.q,v_Precision) AS "Linoleic",
        ROUND(x49.q,v_Precision) AS "AlphaLinolenic",
-       ROUND(x50.q,v_Precision) AS "FiberInsoluble",
-       ROUND(x51.q,v_Precision) AS "FiberSoluble",
-       ROUND(x52.q,v_Precision) AS "GlycemicIndex",
+       --Glycemic
+       ROUND(x50.q,v_Precision) AS "GlycemicLoad",
+       --Other
+       ROUND(x13.q,v_Precision) AS "Water",
+       ROUND(x4.q,v_Precision) AS "Cost",
+       --Ids
        b.foodcategoryid AS "CategoryId",
        a.foodid AS "FoodId"
 FROM food a,
      foodcategory b,
      categorylink c,
      foodfact x0,
-     foodfact x1,
-     foodfact x2,
+     foodfact x1,     
      foodfact x3,
      foodfact x4,
      foodfact x5,
      foodfact x6,
      foodfact x7,
      foodfact x8,
-     foodfact x9,
-     foodfact x10,
-     foodfact x11,
      foodfact x12,
      foodfact x13,
      foodfact x16,
@@ -112,24 +121,24 @@ FROM food a,
      foodfact x48,
      foodfact x49,
      foodfact x50,
-     foodfact x51,
-     foodfact x52
+     foodfact x53,
+     foodfact x54,
+     foodfact x55,
+     foodfact x56,
+     foodfact x57,
+     foodfact x58
 WHERE
 (
 b.foodcategoryid =  c.foodcategoryid AND
 a.foodid = c.foodid AND
 a.foodid = x0.foodid AND
 a.foodid = x1.foodid AND
-a.foodid = x2.foodid AND
 a.foodid = x3.foodid AND
 a.foodid = x4.foodid AND
 a.foodid = x5.foodid AND
 a.foodid = x6.foodid AND
 a.foodid = x7.foodid AND
 a.foodid = x8.foodid AND
-a.foodid = x9.foodid AND
-a.foodid = x10.foodid AND
-a.foodid = x11.foodid AND
 a.foodid = x12.foodid AND
 a.foodid = x13.foodid AND
 a.foodid = x16.foodid AND
@@ -166,23 +175,23 @@ a.foodid = x47.foodid AND
 a.foodid = x48.foodid AND
 a.foodid = x49.foodid AND
 a.foodid = x50.foodid AND
-a.foodid = x51.foodid AND
-a.foodid = x52.foodid
+a.foodid = x53.foodid AND
+a.foodid = x54.foodid AND
+a.foodid = x55.foodid AND
+a.foodid = x56.foodid AND
+a.foodid = x57.foodid AND
+a.foodid = x58.foodid
 )
 AND
 (
 x0.nutrientid = '10000' AND
 x1.nutrientid = '10001' AND
-x2.nutrientid = '10002' AND
 x3.nutrientid = '10003' AND
 x4.nutrientid = '10005' AND
 x5.nutrientid = '203' AND
 x6.nutrientid = '204' AND
 x7.nutrientid = '205' AND
 x8.nutrientid = '208' AND
-x9.nutrientid = '210' AND
-x10.nutrientid = '212' AND
-x11.nutrientid = '213' AND
 x12.nutrientid = '221' AND
 x13.nutrientid = '255' AND
 x16.nutrientid = '291' AND
@@ -219,27 +228,39 @@ x47.nutrientid = '646' AND
 x48.nutrientid = '675' AND
 x49.nutrientid = '851' AND
 x50.nutrientid = '10006' AND
-x51.nutrientid = '10007' AND
-x52.nutrientid = '10008'
+x53.nutrientid = '10009' AND
+x54.nutrientid = '10010' AND
+x55.nutrientid = '10011' AND
+x56.nutrientid = '10012' AND
+x57.nutrientid = '10013' AND
+x58.nutrientid = '10014'
 )
 UNION
-SELECT null,
+SELECT
+       --Name
+       NULL,
        a.name AS "Name",
+       --Mass
        ROUND(x0.q,v_Precision) AS "Weight",
-       ROUND(x1.q,v_Precision) AS "CompleteProtein",
-       ROUND(x2.q,v_Precision) AS "IncompleteProtein",
-       ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
-       ROUND(x4.q,v_Precision) AS "Cost",
-       ROUND(x5.q,v_Precision) AS "Protein",
+       --Energy
+       ROUND(x8.q,v_Precision) AS "EnergyGross",
+       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
+       ROUND(x54.q,v_Precision) AS "EnergyNoProtein",
+       ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
+       ROUND(x56.q,v_Precision) AS "EnergyProtein",
+       ROUND(x57.q,v_Precision) AS "EnergyFat",
+       ROUND(x58.q,v_Precision) AS "EnergyAlcohol",
+       --Macronutrient
        ROUND(x6.q,v_Precision) AS "Fat",
-       ROUND(x7.q,v_Precision) AS "CarbsByDiff",
-       ROUND(x8.q,v_Precision) AS "Energy",
-       ROUND(x9.q,v_Precision) AS "Sucrose",
-       ROUND(x10.q,v_Precision) AS "Fructose",
-       ROUND(x11.q,v_Precision) AS "Lactose",
+       ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
+       ROUND(x5.q,v_Precision) AS "Protein",
        ROUND(x12.q,v_Precision) AS "Alcohol",
-       ROUND(x13.q,v_Precision) AS "Water",
+       --Protein       
+       ROUND(x1.q,v_Precision) AS "CompleteProtein",       
+       --Fiber
+       ROUND(x7.q,v_Precision) AS "CarbsByDiff",
        ROUND(x16.q,v_Precision) AS "Fiber",
+       --Minerals
        ROUND(x17.q,v_Precision) AS "Calcium",
        ROUND(x18.q,v_Precision) AS "Iron",
        ROUND(x19.q,v_Precision) AS "Magnesium",
@@ -251,6 +272,7 @@ SELECT null,
        ROUND(x25.q,v_Precision) AS "Fluoride",
        ROUND(x26.q,v_Precision) AS "Manganese",
        ROUND(x27.q,v_Precision) AS "Selenium",
+       --Vitamins
        ROUND(x28.q,v_Precision) AS "VitaminA",
        ROUND(x29.q,v_Precision) AS "VitaminE",
        ROUND(x30.q,v_Precision) AS "VitaminD",
@@ -264,6 +286,7 @@ SELECT null,
        ROUND(x14.q,v_Precision) AS "Choline",
        ROUND(x40.q,v_Precision) AS "VitaminK",
        ROUND(x41.q,v_Precision) AS "Folate",
+       --Fatty Acids
        ROUND(x42.q,v_Precision) AS "Cholesterol",
        ROUND(x43.q,v_Precision) AS "Saturated",
        ROUND(x44.q,v_Precision) AS "DHA",
@@ -272,32 +295,29 @@ SELECT null,
        ROUND(x47.q,v_Precision) AS "Polyunsaturated",
        ROUND(x48.q,v_Precision) AS "Linoleic",
        ROUND(x49.q,v_Precision) AS "AlphaLinolenic",
-       ROUND(x50.q,v_Precision) AS "FiberInsoluble",
-       ROUND(x51.q,v_Precision) AS "FiberSoluble",
-       ROUND(x52.q,v_Precision) AS "GlycemicIndex",
-       null,
+       --Glycemic
+       ROUND(x50.q,v_Precision) AS "GlycemicLoad",
+       --Other
+       ROUND(x13.q,v_Precision) AS "Water",
+       ROUND(x4.q,v_Precision) AS "Cost",
+       --Ids
+       NULL,
        a.foodid AS "FoodId"
-FROM (SELECT
-foodid,
-name
-FROM food
-WHERE foodid NOT IN (SELECT
-                     b.foodid
-                     FROM categorylink a,
-                          food b
-                     WHERE a.foodid = b.foodid)) a,
+FROM (SELECT foodid,
+             name
+      FROM food
+      WHERE foodid NOT IN (SELECT b.foodid
+                           FROM categorylink a,
+                                food b
+                           WHERE a.foodid = b.foodid)) a,
      foodfact x0,
-     foodfact x1,
-     foodfact x2,
+     foodfact x1,     
      foodfact x3,
      foodfact x4,
      foodfact x5,
      foodfact x6,
      foodfact x7,
      foodfact x8,
-     foodfact x9,
-     foodfact x10,
-     foodfact x11,
      foodfact x12,
      foodfact x13,
      foodfact x16,
@@ -334,22 +354,22 @@ WHERE foodid NOT IN (SELECT
      foodfact x48,
      foodfact x49,
      foodfact x50,
-     foodfact x51,
-     foodfact x52
+     foodfact x53,
+     foodfact x54,
+     foodfact x55,
+     foodfact x56,
+     foodfact x57,
+     foodfact x58
 WHERE
 (
 a.foodid = x0.foodid AND
 a.foodid = x1.foodid AND
-a.foodid = x2.foodid AND
 a.foodid = x3.foodid AND
 a.foodid = x4.foodid AND
 a.foodid = x5.foodid AND
 a.foodid = x6.foodid AND
 a.foodid = x7.foodid AND
 a.foodid = x8.foodid AND
-a.foodid = x9.foodid AND
-a.foodid = x10.foodid AND
-a.foodid = x11.foodid AND
 a.foodid = x12.foodid AND
 a.foodid = x13.foodid AND
 a.foodid = x16.foodid AND
@@ -386,23 +406,23 @@ a.foodid = x47.foodid AND
 a.foodid = x48.foodid AND
 a.foodid = x49.foodid AND
 a.foodid = x50.foodid AND
-a.foodid = x51.foodid AND
-a.foodid = x52.foodid
+a.foodid = x53.foodid AND
+a.foodid = x54.foodid AND
+a.foodid = x55.foodid AND
+a.foodid = x56.foodid AND
+a.foodid = x57.foodid AND
+a.foodid = x58.foodid
 )
 AND
 (
 x0.nutrientid = '10000' AND
 x1.nutrientid = '10001' AND
-x2.nutrientid = '10002' AND
 x3.nutrientid = '10003' AND
 x4.nutrientid = '10005' AND
 x5.nutrientid = '203' AND
 x6.nutrientid = '204' AND
 x7.nutrientid = '205' AND
 x8.nutrientid = '208' AND
-x9.nutrientid = '210' AND
-x10.nutrientid = '212' AND
-x11.nutrientid = '213' AND
 x12.nutrientid = '221' AND
 x13.nutrientid = '255' AND
 x16.nutrientid = '291' AND
@@ -439,8 +459,12 @@ x47.nutrientid = '646' AND
 x48.nutrientid = '675' AND
 x49.nutrientid = '851' AND
 x50.nutrientid = '10006' AND
-x51.nutrientid = '10007' AND
-x52.nutrientid = '10008'
+x53.nutrientid = '10009' AND
+x54.nutrientid = '10010' AND
+x55.nutrientid = '10011' AND
+x56.nutrientid = '10012' AND
+x57.nutrientid = '10013' AND
+x58.nutrientid = '10014'
 );
 --
 OPEN result;

@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelNutrientConstraints extends DefaultTableModel {
+
     private final DbLink dbLink;
     private Vector columns;
 

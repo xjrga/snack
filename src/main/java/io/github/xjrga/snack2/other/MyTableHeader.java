@@ -5,6 +5,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseEvent;
 
 public class MyTableHeader extends JTableHeader {
+
     String[] tooltips;
 
     public MyTableHeader(TableColumnModel columnModel, String[] columnTooltips) {

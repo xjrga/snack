@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelMinerals extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -78,18 +80,19 @@ public class TableModelMinerals extends DefaultTableModel implements RoundUp {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
-                Double Calcium = (Double) rowm.get("Calcium");
-                Double Iron = (Double) rowm.get("Iron");
-                Double Magnesium = (Double) rowm.get("Magnesium");
-                Double Phosphorus = (Double) rowm.get("Phosphorus");
-                Double Zinc = (Double) rowm.get("Zinc");
-                Double Copper = (Double) rowm.get("Copper");
-                Double Fluoride = (Double) rowm.get("Fluoride");
-                Double Manganese = (Double) rowm.get("Manganese");
-                Double Selenium = (Double) rowm.get("Selenium");
-                Double Weight = (Double) rowm.get("Weight");
+                String Name = (String) rowm.get("Name");
+                Double Calcium = (Double) rowm.get(Nutrient.CALCIUM.getLabel());
+                Double Iron = (Double) rowm.get(Nutrient.IRON.getLabel());
+                Double Magnesium = (Double) rowm.get(Nutrient.MAGNESIUM.getLabel());
+                Double Phosphorus = (Double) rowm.get(Nutrient.PHOSPHORUS.getLabel());
+                Double Zinc = (Double) rowm.get(Nutrient.ZINC.getLabel());
+                Double Copper = (Double) rowm.get(Nutrient.COPPER.getLabel());
+                Double Fluoride = (Double) rowm.get(Nutrient.FLUORIDE.getLabel());
+                Double Manganese = (Double) rowm.get(Nutrient.MANGANESE.getLabel());
+                Double Selenium = (Double) rowm.get(Nutrient.SELENIUM.getLabel());
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 row = new Vector();
+                //
                 row.add(Name);
                 row.add(Weight);
                 row.add(Calcium);

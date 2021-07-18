@@ -4,13 +4,7 @@ call Nutrient_Insert('204','Total lipid (Fat) (g)','2','Fat');
 /
 call Nutrient_Insert('205','Carbohydrate, by difference (g)','3','CarbsByDiff');
 /
-call Nutrient_Insert('208','Energy (kcal)','6','Energy');
-/
-call Nutrient_Insert('210','Sucrose (g)','3','Sucrose');
-/
-call Nutrient_Insert('212','Fructose (g)','3','Fructose');
-/
-call Nutrient_Insert('213','Lactose (g)','3','Lactose');
+call Nutrient_Insert('208','Energy, gross (kcal)','7','EnergyGross');
 /
 call Nutrient_Insert('221','Alcohol, ethyl (g)','6','Alcohol');
 /

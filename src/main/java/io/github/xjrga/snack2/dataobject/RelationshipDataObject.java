@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class RelationshipDataObject {
+
     private int relationshipid;
     private String name;
 

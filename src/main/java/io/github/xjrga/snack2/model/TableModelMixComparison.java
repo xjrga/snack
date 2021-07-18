@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelMixComparison extends DefaultTableModel implements RoundUp {
+
     public static int c = 0;
     private final DbLink dbLink;
     private Vector columns;

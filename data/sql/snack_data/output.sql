@@ -4,13 +4,7 @@ call Nutrient_Insert('204','Total lipid (Fat) (g)','2','Fat');
 /
 call Nutrient_Insert('205','Carbohydrate, by difference (g)','3','CarbsByDiff');
 /
-call Nutrient_Insert('208','Energy (kcal)','6','Energy');
-/
-call Nutrient_Insert('210','Sucrose (g)','3','Sucrose');
-/
-call Nutrient_Insert('212','Fructose (g)','3','Fructose');
-/
-call Nutrient_Insert('213','Lactose (g)','3','Lactose');
+call Nutrient_Insert('208','Energy, gross (kcal)','7','EnergyGross');
 /
 call Nutrient_Insert('221','Alcohol, ethyl (g)','6','Alcohol');
 /
@@ -86,20 +80,27 @@ call Nutrient_Insert('851','18:3 n-3 c,c,c (Alpha-Linolenic) (g)','2','AlphaLino
 
 call Nutrient_Insert('10000','Weight (g)','6','Weight');
 /
-call Nutrient_Insert('10001','Complete Protein (g)','1','CompleteProtein');
+call Nutrient_Insert('10001','Complete Protein  (g)','1','CompleteProtein');
 /
-call Nutrient_Insert('10002','Incomplete Protein (g)','1','IncompleteProtein');
-/
-call Nutrient_Insert('10003','Digestible Carbohydrate (g)','3','DigestibleCarbs');
+call Nutrient_Insert('10003','Digestible Carbs (g)','3','DigestibleCarbs');
 /
 call Nutrient_Insert('10005','Cost (g)','6','Cost');
 /
-call Nutrient_Insert('10006','Fiber, Insoluble (g)','3','FiberInsoluble');
+call Nutrient_Insert('10006','Glycemic Load (g)','3','GlycemicLoad');
 /
-call Nutrient_Insert('10007','Fiber, Soluble (g)','3','FiberSoluble');
+call Nutrient_Insert('10009','Energy, digestible (kcal)','7','EnergyDigestible');
 /
-call Nutrient_Insert('10008','Glycemic Load','3','GlycemicLoad');
+call Nutrient_Insert('10010','Energy, no protein (kcal)','7','EnergyNoProtein');
 /
+call Nutrient_Insert('10011','Energy, carbohydrate (kcal)','7','EnergyCarbohydrate');
+/
+call Nutrient_Insert('10012','Energy, protein (kcal)','7','EnergyProtein');
+/
+call Nutrient_Insert('10013','Energy, fat (kcal)','7','EnergyFat');
+/
+call Nutrient_Insert('10014','Energy, alcohol (kcal)','7','EnergyAlcohol');
+/
+
 
 call NutrientCategory_Insert('1','Protein');
 /
@@ -107,11 +108,13 @@ call NutrientCategory_Insert('2','Fats');
 /
 call NutrientCategory_Insert('3','Carbohydrates');
 /
-call NutrientCategory_Insert('4','Vitamins ');
+call NutrientCategory_Insert('4','Vitamins');
 /
 call NutrientCategory_Insert('5','Minerals');
 /
 call NutrientCategory_Insert('6','Other');
+/
+call NutrientCategory_Insert('7','Energy');
 /
 
 
@@ -714,6 +717,10 @@ call Food_Insert('15261','Fish, tilapia, raw');
 call Food_Insert('15262','Fish, tilapia, cooked, dry heat');
 /
 call Food_Insert('15270','Crustaceans, shrimp, raw (not previously frozen)');
+/
+call Food_Insert('16014','Beans, black, mature seeds, raw');
+/
+call Food_Insert('16015','Beans, black, mature seeds, cooked, boiled, without salt');
 /
 call Food_Insert('16027','Beans, kidney, all types, mature seeds, raw');
 /
@@ -1542,6 +1549,10 @@ call CategoryLink_Insert('15261','1500');
 call CategoryLink_Insert('15262','1500');
 /
 call CategoryLink_Insert('15270','1500');
+/
+call CategoryLink_Insert('16014','1600');
+/
+call CategoryLink_Insert('16015','1600');
 /
 call CategoryLink_Insert('16027','1600');
 /
@@ -2383,6 +2394,10 @@ call FoodFact_Merge('15262','10000',100);
 /
 call FoodFact_Merge('15270','10000',100);
 /
+call FoodFact_Merge('16014','10000',100);
+/
+call FoodFact_Merge('16015','10000',100);
+/
 call FoodFact_Merge('16027','10000',100);
 /
 call FoodFact_Merge('16028','10000',100);
@@ -2681,12 +2696,6 @@ CALL FoodFact_Merge('01014','205',6.66E0);
 /
 CALL FoodFact_Merge('01014','208',72.0E0);
 /
-CALL FoodFact_Merge('01014','210',0.0E0);
-/
-CALL FoodFact_Merge('01014','212',0.0E0);
-/
-CALL FoodFact_Merge('01014','213',1.56E0);
-/
 CALL FoodFact_Merge('01014','221',0.0E0);
 /
 CALL FoodFact_Merge('01014','255',81.01E0);
@@ -2760,12 +2769,6 @@ CALL FoodFact_Merge('01015','204',2.27E0);
 CALL FoodFact_Merge('01015','205',4.76E0);
 /
 CALL FoodFact_Merge('01015','208',81.0E0);
-/
-CALL FoodFact_Merge('01015','210',0.0E0);
-/
-CALL FoodFact_Merge('01015','212',0.0E0);
-/
-CALL FoodFact_Merge('01015','213',3.87E0);
 /
 CALL FoodFact_Merge('01015','221',0.0E0);
 /
@@ -2917,12 +2920,6 @@ CALL FoodFact_Merge('01077','205',4.8E0);
 /
 CALL FoodFact_Merge('01077','208',61.0E0);
 /
-CALL FoodFact_Merge('01077','210',0.0E0);
-/
-CALL FoodFact_Merge('01077','212',0.0E0);
-/
-CALL FoodFact_Merge('01077','213',5.05E0);
-/
 CALL FoodFact_Merge('01077','221',0.0E0);
 /
 CALL FoodFact_Merge('01077','255',88.13E0);
@@ -3059,12 +3056,6 @@ CALL FoodFact_Merge('01079','205',4.8E0);
 /
 CALL FoodFact_Merge('01079','208',50.0E0);
 /
-CALL FoodFact_Merge('01079','210',0.01E0);
-/
-CALL FoodFact_Merge('01079','212',0.01E0);
-/
-CALL FoodFact_Merge('01079','213',5.01E0);
-/
 CALL FoodFact_Merge('01079','221',0.0E0);
 /
 CALL FoodFact_Merge('01079','255',89.21E0);
@@ -3142,12 +3133,6 @@ CALL FoodFact_Merge('01082','204',0.97E0);
 CALL FoodFact_Merge('01082','205',4.99E0);
 /
 CALL FoodFact_Merge('01082','208',42.0E0);
-/
-CALL FoodFact_Merge('01082','210',0.0E0);
-/
-CALL FoodFact_Merge('01082','212',0.0E0);
-/
-CALL FoodFact_Merge('01082','213',5.2E0);
 /
 CALL FoodFact_Merge('01082','221',0.0E0);
 /
@@ -3286,12 +3271,6 @@ CALL FoodFact_Merge('01085','204',0.08E0);
 CALL FoodFact_Merge('01085','205',4.96E0);
 /
 CALL FoodFact_Merge('01085','208',34.0E0);
-/
-CALL FoodFact_Merge('01085','210',0.0E0);
-/
-CALL FoodFact_Merge('01085','212',0.0E0);
-/
-CALL FoodFact_Merge('01085','213',5.09E0);
 /
 CALL FoodFact_Merge('01085','221',0.0E0);
 /
@@ -3943,12 +3922,6 @@ CALL FoodFact_Merge('01123','205',0.72E0);
 /
 CALL FoodFact_Merge('01123','208',143.0E0);
 /
-CALL FoodFact_Merge('01123','210',0.0E0);
-/
-CALL FoodFact_Merge('01123','212',0.0E0);
-/
-CALL FoodFact_Merge('01123','213',0.0E0);
-/
 CALL FoodFact_Merge('01123','221',0.0E0);
 /
 CALL FoodFact_Merge('01123','255',76.15E0);
@@ -4026,12 +3999,6 @@ CALL FoodFact_Merge('01124','204',0.17E0);
 CALL FoodFact_Merge('01124','205',0.73E0);
 /
 CALL FoodFact_Merge('01124','208',52.0E0);
-/
-CALL FoodFact_Merge('01124','210',0.07E0);
-/
-CALL FoodFact_Merge('01124','212',0.07E0);
-/
-CALL FoodFact_Merge('01124','213',0.07E0);
 /
 CALL FoodFact_Merge('01124','221',0.0E0);
 /
@@ -4459,12 +4426,6 @@ CALL FoodFact_Merge('01256','205',3.6E0);
 /
 CALL FoodFact_Merge('01256','208',59.0E0);
 /
-CALL FoodFact_Merge('01256','210',0.0E0);
-/
-CALL FoodFact_Merge('01256','212',0.0E0);
-/
-CALL FoodFact_Merge('01256','213',2.54E0);
-/
 CALL FoodFact_Merge('01256','221',0.0E0);
 /
 CALL FoodFact_Merge('01256','255',85.1E0);
@@ -4685,12 +4646,6 @@ CALL FoodFact_Merge('02030','205',63.95E0);
 /
 CALL FoodFact_Merge('02030','208',251.0E0);
 /
-CALL FoodFact_Merge('02030','210',0.02E0);
-/
-CALL FoodFact_Merge('02030','212',0.23E0);
-/
-CALL FoodFact_Merge('02030','213',0.0E0);
-/
 CALL FoodFact_Merge('02030','221',0.0E0);
 /
 CALL FoodFact_Merge('02030','255',12.46E0);
@@ -4841,12 +4796,6 @@ CALL FoodFact_Merge('02069','205',17.03E0);
 /
 CALL FoodFact_Merge('02069','208',88.0E0);
 /
-CALL FoodFact_Merge('02069','210',0.0E0);
-/
-CALL FoodFact_Merge('02069','212',7.38E0);
-/
-CALL FoodFact_Merge('02069','213',0.0E0);
-/
 CALL FoodFact_Merge('02069','255',76.45E0);
 /
 CALL FoodFact_Merge('02069','301',27.0E0);
@@ -4880,12 +4829,6 @@ CALL FoodFact_Merge('03246','204',0.98E0);
 CALL FoodFact_Merge('03246','205',17.58E0);
 /
 CALL FoodFact_Merge('03246','208',86.0E0);
-/
-CALL FoodFact_Merge('03246','210',9.34E0);
-/
-CALL FoodFact_Merge('03246','212',0.26E0);
-/
-CALL FoodFact_Merge('03246','213',1.7E0);
 /
 CALL FoodFact_Merge('03246','221',0.0E0);
 /
@@ -6469,12 +6412,6 @@ CALL FoodFact_Merge('05219','205',0.14E0);
 /
 CALL FoodFact_Merge('05219','208',114.0E0);
 /
-CALL FoodFact_Merge('05219','210',0.05E0);
-/
-CALL FoodFact_Merge('05219','212',0.0E0);
-/
-CALL FoodFact_Merge('05219','213',0.0E0);
-/
 CALL FoodFact_Merge('05219','221',0.0E0);
 /
 CALL FoodFact_Merge('05219','255',74.89E0);
@@ -7107,12 +7044,6 @@ CALL FoodFact_Merge('07961','205',2.92E0);
 /
 CALL FoodFact_Merge('07961','208',98.0E0);
 /
-CALL FoodFact_Merge('07961','210',0.44E0);
-/
-CALL FoodFact_Merge('07961','212',0.0E0);
-/
-CALL FoodFact_Merge('07961','213',0.0E0);
-/
 CALL FoodFact_Merge('07961','221',0.0E0);
 /
 CALL FoodFact_Merge('07961','255',74.47E0);
@@ -7189,12 +7120,6 @@ CALL FoodFact_Merge('08001','205',74.24E0);
 /
 CALL FoodFact_Merge('08001','208',259.0E0);
 /
-CALL FoodFact_Merge('08001','210',13.2E0);
-/
-CALL FoodFact_Merge('08001','212',0.36E0);
-/
-CALL FoodFact_Merge('08001','213',0.0E0);
-/
 CALL FoodFact_Merge('08001','221',0.0E0);
 /
 CALL FoodFact_Merge('08001','255',2.12E0);
@@ -7267,12 +7192,6 @@ CALL FoodFact_Merge('08120','205',67.7E0);
 /
 CALL FoodFact_Merge('08120','208',379.0E0);
 /
-CALL FoodFact_Merge('08120','210',0.99E0);
-/
-CALL FoodFact_Merge('08120','212',0.0E0);
-/
-CALL FoodFact_Merge('08120','213',0.0E0);
-/
 CALL FoodFact_Merge('08120','221',0.0E0);
 /
 CALL FoodFact_Merge('08120','255',10.84E0);
@@ -7344,12 +7263,6 @@ CALL FoodFact_Merge('09003','204',0.17E0);
 CALL FoodFact_Merge('09003','205',13.81E0);
 /
 CALL FoodFact_Merge('09003','208',52.0E0);
-/
-CALL FoodFact_Merge('09003','210',2.07E0);
-/
-CALL FoodFact_Merge('09003','212',5.9E0);
-/
-CALL FoodFact_Merge('09003','213',0.0E0);
 /
 CALL FoodFact_Merge('09003','221',0.0E0);
 /
@@ -7425,12 +7338,6 @@ CALL FoodFact_Merge('09021','205',11.12E0);
 /
 CALL FoodFact_Merge('09021','208',48.0E0);
 /
-CALL FoodFact_Merge('09021','210',5.87E0);
-/
-CALL FoodFact_Merge('09021','212',0.94E0);
-/
-CALL FoodFact_Merge('09021','213',0.0E0);
-/
 CALL FoodFact_Merge('09021','221',0.0E0);
 /
 CALL FoodFact_Merge('09021','255',86.35E0);
@@ -7502,12 +7409,6 @@ CALL FoodFact_Merge('09037','204',14.66E0);
 CALL FoodFact_Merge('09037','205',8.53E0);
 /
 CALL FoodFact_Merge('09037','208',160.0E0);
-/
-CALL FoodFact_Merge('09037','210',0.06E0);
-/
-CALL FoodFact_Merge('09037','212',0.12E0);
-/
-CALL FoodFact_Merge('09037','213',0.0E0);
 /
 CALL FoodFact_Merge('09037','221',0.0E0);
 /
@@ -7585,12 +7486,6 @@ CALL FoodFact_Merge('09040','205',22.84E0);
 /
 CALL FoodFact_Merge('09040','208',89.0E0);
 /
-CALL FoodFact_Merge('09040','210',2.39E0);
-/
-CALL FoodFact_Merge('09040','212',4.85E0);
-/
-CALL FoodFact_Merge('09040','213',0.0E0);
-/
 CALL FoodFact_Merge('09040','221',0.0E0);
 /
 CALL FoodFact_Merge('09040','255',74.91E0);
@@ -7664,12 +7559,6 @@ CALL FoodFact_Merge('09042','204',0.49E0);
 CALL FoodFact_Merge('09042','205',9.61E0);
 /
 CALL FoodFact_Merge('09042','208',43.0E0);
-/
-CALL FoodFact_Merge('09042','210',0.07E0);
-/
-CALL FoodFact_Merge('09042','212',2.4E0);
-/
-CALL FoodFact_Merge('09042','213',0.0E0);
 /
 CALL FoodFact_Merge('09042','221',0.0E0);
 /
@@ -7815,12 +7704,6 @@ CALL FoodFact_Merge('09050','205',14.49E0);
 /
 CALL FoodFact_Merge('09050','208',57.0E0);
 /
-CALL FoodFact_Merge('09050','210',0.11E0);
-/
-CALL FoodFact_Merge('09050','212',4.97E0);
-/
-CALL FoodFact_Merge('09050','213',0.0E0);
-/
 CALL FoodFact_Merge('09050','221',0.0E0);
 /
 CALL FoodFact_Merge('09050','255',84.21E0);
@@ -7964,12 +7847,6 @@ CALL FoodFact_Merge('09070','204',0.2E0);
 CALL FoodFact_Merge('09070','205',16.01E0);
 /
 CALL FoodFact_Merge('09070','208',63.0E0);
-/
-CALL FoodFact_Merge('09070','210',0.15E0);
-/
-CALL FoodFact_Merge('09070','212',5.37E0);
-/
-CALL FoodFact_Merge('09070','213',0.0E0);
 /
 CALL FoodFact_Merge('09070','221',0.0E0);
 /
@@ -8116,12 +7993,6 @@ CALL FoodFact_Merge('09094','204',0.93E0);
 CALL FoodFact_Merge('09094','205',63.87E0);
 /
 CALL FoodFact_Merge('09094','208',249.0E0);
-/
-CALL FoodFact_Merge('09094','210',0.07E0);
-/
-CALL FoodFact_Merge('09094','212',22.93E0);
-/
-CALL FoodFact_Merge('09094','213',0.0E0);
 /
 CALL FoodFact_Merge('09094','221',0.0E0);
 /
@@ -8341,12 +8212,6 @@ CALL FoodFact_Merge('09129','205',13.93E0);
 /
 CALL FoodFact_Merge('09129','208',57.0E0);
 /
-CALL FoodFact_Merge('09129','210',0.57E0);
-/
-CALL FoodFact_Merge('09129','212',3.92E0);
-/
-CALL FoodFact_Merge('09129','213',0.0E0);
-/
 CALL FoodFact_Merge('09129','255',84.29E0);
 /
 CALL FoodFact_Merge('09129','291',3.9E0);
@@ -8454,12 +8319,6 @@ CALL FoodFact_Merge('09132','204',0.16E0);
 CALL FoodFact_Merge('09132','205',18.1E0);
 /
 CALL FoodFact_Merge('09132','208',69.0E0);
-/
-CALL FoodFact_Merge('09132','210',0.15E0);
-/
-CALL FoodFact_Merge('09132','212',8.13E0);
-/
-CALL FoodFact_Merge('09132','213',0.0E0);
 /
 CALL FoodFact_Merge('09132','221',0.0E0);
 /
@@ -8651,12 +8510,6 @@ CALL FoodFact_Merge('09148','205',14.66E0);
 /
 CALL FoodFact_Merge('09148','208',61.0E0);
 /
-CALL FoodFact_Merge('09148','210',0.15E0);
-/
-CALL FoodFact_Merge('09148','212',4.35E0);
-/
-CALL FoodFact_Merge('09148','213',0.0E0);
-/
 CALL FoodFact_Merge('09148','221',0.0E0);
 /
 CALL FoodFact_Merge('09148','255',83.07E0);
@@ -8800,12 +8653,6 @@ CALL FoodFact_Merge('09152','204',0.24E0);
 CALL FoodFact_Merge('09152','205',6.9E0);
 /
 CALL FoodFact_Merge('09152','208',22.0E0);
-/
-CALL FoodFact_Merge('09152','210',0.43E0);
-/
-CALL FoodFact_Merge('09152','212',1.1E0);
-/
-CALL FoodFact_Merge('09152','213',0.0E0);
 /
 CALL FoodFact_Merge('09152','221',0.0E0);
 /
@@ -8955,12 +8802,6 @@ CALL FoodFact_Merge('09160','205',8.42E0);
 /
 CALL FoodFact_Merge('09160','208',25.0E0);
 /
-CALL FoodFact_Merge('09160','210',0.48E0);
-/
-CALL FoodFact_Merge('09160','212',0.61E0);
-/
-CALL FoodFact_Merge('09160','213',0.0E0);
-/
 CALL FoodFact_Merge('09160','221',0.0E0);
 /
 CALL FoodFact_Merge('09160','255',90.79E0);
@@ -9033,12 +8874,6 @@ CALL FoodFact_Merge('09176','205',14.98E0);
 /
 CALL FoodFact_Merge('09176','208',60.0E0);
 /
-CALL FoodFact_Merge('09176','210',6.97E0);
-/
-CALL FoodFact_Merge('09176','212',4.68E0);
-/
-CALL FoodFact_Merge('09176','213',0.0E0);
-/
 CALL FoodFact_Merge('09176','221',0.0E0);
 /
 CALL FoodFact_Merge('09176','255',83.46E0);
@@ -9110,12 +8945,6 @@ CALL FoodFact_Merge('09181','204',0.19E0);
 CALL FoodFact_Merge('09181','205',8.16E0);
 /
 CALL FoodFact_Merge('09181','208',34.0E0);
-/
-CALL FoodFact_Merge('09181','210',4.35E0);
-/
-CALL FoodFact_Merge('09181','212',1.87E0);
-/
-CALL FoodFact_Merge('09181','213',0.0E0);
 /
 CALL FoodFact_Merge('09181','221',0.0E0);
 /
@@ -9191,12 +9020,6 @@ CALL FoodFact_Merge('09184','205',9.09E0);
 /
 CALL FoodFact_Merge('09184','208',36.0E0);
 /
-CALL FoodFact_Merge('09184','210',2.48E0);
-/
-CALL FoodFact_Merge('09184','212',2.96E0);
-/
-CALL FoodFact_Merge('09184','213',0.0E0);
-/
 CALL FoodFact_Merge('09184','221',0.0E0);
 /
 CALL FoodFact_Merge('09184','255',89.82E0);
@@ -9268,12 +9091,6 @@ CALL FoodFact_Merge('09191','204',0.32E0);
 CALL FoodFact_Merge('09191','205',10.55E0);
 /
 CALL FoodFact_Merge('09191','208',44.0E0);
-/
-CALL FoodFact_Merge('09191','210',4.87E0);
-/
-CALL FoodFact_Merge('09191','212',1.37E0);
-/
-CALL FoodFact_Merge('09191','213',0.0E0);
 /
 CALL FoodFact_Merge('09191','221',0.0E0);
 /
@@ -9635,12 +9452,6 @@ CALL FoodFact_Merge('09218','205',13.34E0);
 /
 CALL FoodFact_Merge('09218','208',53.0E0);
 /
-CALL FoodFact_Merge('09218','210',6.05E0);
-/
-CALL FoodFact_Merge('09218','212',2.4E0);
-/
-CALL FoodFact_Merge('09218','213',0.0E0);
-/
 CALL FoodFact_Merge('09218','221',0.0E0);
 /
 CALL FoodFact_Merge('09218','255',85.17E0);
@@ -9713,12 +9524,6 @@ CALL FoodFact_Merge('09226','205',10.82E0);
 /
 CALL FoodFact_Merge('09226','208',43.0E0);
 /
-CALL FoodFact_Merge('09226','210',0.0E0);
-/
-CALL FoodFact_Merge('09226','212',3.73E0);
-/
-CALL FoodFact_Merge('09226','213',0.0E0);
-/
 CALL FoodFact_Merge('09226','221',0.0E0);
 /
 CALL FoodFact_Merge('09226','255',88.06E0);
@@ -9790,12 +9595,6 @@ CALL FoodFact_Merge('09236','204',0.25E0);
 CALL FoodFact_Merge('09236','205',9.54E0);
 /
 CALL FoodFact_Merge('09236','208',39.0E0);
-/
-CALL FoodFact_Merge('09236','210',4.76E0);
-/
-CALL FoodFact_Merge('09236','212',1.53E0);
-/
-CALL FoodFact_Merge('09236','213',0.0E0);
 /
 CALL FoodFact_Merge('09236','221',0.0E0);
 /
@@ -9871,12 +9670,6 @@ CALL FoodFact_Merge('09252','205',15.23E0);
 /
 CALL FoodFact_Merge('09252','208',57.0E0);
 /
-CALL FoodFact_Merge('09252','210',0.71E0);
-/
-CALL FoodFact_Merge('09252','212',6.42E0);
-/
-CALL FoodFact_Merge('09252','213',0.0E0);
-/
 CALL FoodFact_Merge('09252','221',0.0E0);
 /
 CALL FoodFact_Merge('09252','255',83.96E0);
@@ -9951,12 +9744,6 @@ CALL FoodFact_Merge('09266','205',13.12E0);
 /
 CALL FoodFact_Merge('09266','208',50.0E0);
 /
-CALL FoodFact_Merge('09266','210',5.99E0);
-/
-CALL FoodFact_Merge('09266','212',2.12E0);
-/
-CALL FoodFact_Merge('09266','213',0.0E0);
-/
 CALL FoodFact_Merge('09266','221',0.0E0);
 /
 CALL FoodFact_Merge('09266','255',86.0E0);
@@ -10028,12 +9815,6 @@ CALL FoodFact_Merge('09279','204',0.28E0);
 CALL FoodFact_Merge('09279','205',11.42E0);
 /
 CALL FoodFact_Merge('09279','208',46.0E0);
-/
-CALL FoodFact_Merge('09279','210',1.57E0);
-/
-CALL FoodFact_Merge('09279','212',3.07E0);
-/
-CALL FoodFact_Merge('09279','213',0.0E0);
 /
 CALL FoodFact_Merge('09279','221',0.0E0);
 /
@@ -10387,12 +10168,6 @@ CALL FoodFact_Merge('09298','205',79.18E0);
 /
 CALL FoodFact_Merge('09298','208',299.0E0);
 /
-CALL FoodFact_Merge('09298','210',0.45E0);
-/
-CALL FoodFact_Merge('09298','212',29.68E0);
-/
-CALL FoodFact_Merge('09298','213',0.0E0);
-/
 CALL FoodFact_Merge('09298','221',0.0E0);
 /
 CALL FoodFact_Merge('09298','255',15.43E0);
@@ -10467,12 +10242,6 @@ CALL FoodFact_Merge('09302','205',11.94E0);
 /
 CALL FoodFact_Merge('09302','208',52.0E0);
 /
-CALL FoodFact_Merge('09302','210',0.2E0);
-/
-CALL FoodFact_Merge('09302','212',2.35E0);
-/
-CALL FoodFact_Merge('09302','213',0.0E0);
-/
 CALL FoodFact_Merge('09302','221',0.0E0);
 /
 CALL FoodFact_Merge('09302','255',85.75E0);
@@ -10544,12 +10313,6 @@ CALL FoodFact_Merge('09316','204',0.3E0);
 CALL FoodFact_Merge('09316','205',7.68E0);
 /
 CALL FoodFact_Merge('09316','208',32.0E0);
-/
-CALL FoodFact_Merge('09316','210',0.47E0);
-/
-CALL FoodFact_Merge('09316','212',2.44E0);
-/
-CALL FoodFact_Merge('09316','213',0.0E0);
 /
 CALL FoodFact_Merge('09316','221',0.0E0);
 /
@@ -10624,10 +10387,6 @@ CALL FoodFact_Merge('09318','204',0.11E0);
 CALL FoodFact_Merge('09318','205',9.13E0);
 /
 CALL FoodFact_Merge('09318','208',35.0E0);
-/
-CALL FoodFact_Merge('09318','210',0.37E0);
-/
-CALL FoodFact_Merge('09318','212',2.17E0);
 /
 CALL FoodFact_Merge('09318','221',0.0E0);
 /
@@ -10770,12 +10529,6 @@ CALL FoodFact_Merge('09326','204',0.15E0);
 CALL FoodFact_Merge('09326','205',7.55E0);
 /
 CALL FoodFact_Merge('09326','208',30.0E0);
-/
-CALL FoodFact_Merge('09326','210',1.21E0);
-/
-CALL FoodFact_Merge('09326','212',3.36E0);
-/
-CALL FoodFact_Merge('09326','213',0.0E0);
 /
 CALL FoodFact_Merge('09326','221',0.0E0);
 /
@@ -11131,12 +10884,6 @@ CALL FoodFact_Merge('09401','205',11.27E0);
 /
 CALL FoodFact_Merge('09401','208',42.0E0);
 /
-CALL FoodFact_Merge('09401','210',1.13E0);
-/
-CALL FoodFact_Merge('09401','212',5.88E0);
-/
-CALL FoodFact_Merge('09401','213',0.0E0);
-/
 CALL FoodFact_Merge('09401','255',88.22E0);
 /
 CALL FoodFact_Merge('09401','291',1.1E0);
@@ -11259,8 +11006,6 @@ CALL FoodFact_Merge('09423','205',65.1E0);
 /
 CALL FoodFact_Merge('09423','208',257.0E0);
 /
-CALL FoodFact_Merge('09423','212',13.87E0);
-/
 CALL FoodFact_Merge('09423','255',30.0E0);
 /
 CALL FoodFact_Merge('09423','291',3.3E0);
@@ -11296,12 +11041,6 @@ CALL FoodFact_Merge('09438','204',0.15E0);
 CALL FoodFact_Merge('09438','205',15.65E0);
 /
 CALL FoodFact_Merge('09438','208',61.0E0);
-/
-CALL FoodFact_Merge('09438','210',1.82E0);
-/
-CALL FoodFact_Merge('09438','212',3.25E0);
-/
-CALL FoodFact_Merge('09438','213',0.0E0);
 /
 CALL FoodFact_Merge('09438','255',83.43E0);
 /
@@ -11353,12 +11092,6 @@ CALL FoodFact_Merge('09440','205',16.21E0);
 /
 CALL FoodFact_Merge('09440','208',62.0E0);
 /
-CALL FoodFact_Merge('09440','210',0.35E0);
-/
-CALL FoodFact_Merge('09440','212',5.67E0);
-/
-CALL FoodFact_Merge('09440','213',0.0E0);
-/
 CALL FoodFact_Merge('09440','255',83.16E0);
 /
 CALL FoodFact_Merge('09440','291',1.6E0);
@@ -11406,12 +11139,6 @@ CALL FoodFact_Merge('09442','204',0.29E0);
 CALL FoodFact_Merge('09442','205',13.13E0);
 /
 CALL FoodFact_Merge('09442','208',54.0E0);
-/
-CALL FoodFact_Merge('09442','210',0.0E0);
-/
-CALL FoodFact_Merge('09442','212',6.37E0);
-/
-CALL FoodFact_Merge('09442','213',0.0E0);
 /
 CALL FoodFact_Merge('09442','221',0.0E0);
 /
@@ -11789,12 +11516,6 @@ CALL FoodFact_Merge('11011','205',3.88E0);
 /
 CALL FoodFact_Merge('11011','208',20.0E0);
 /
-CALL FoodFact_Merge('11011','210',0.23E0);
-/
-CALL FoodFact_Merge('11011','212',1.0E0);
-/
-CALL FoodFact_Merge('11011','213',0.0E0);
-/
 CALL FoodFact_Merge('11011','221',0.0E0);
 /
 CALL FoodFact_Merge('11011','255',93.22E0);
@@ -11866,12 +11587,6 @@ CALL FoodFact_Merge('11012','204',0.22E0);
 CALL FoodFact_Merge('11012','205',4.11E0);
 /
 CALL FoodFact_Merge('11012','208',22.0E0);
-/
-CALL FoodFact_Merge('11012','210',0.08E0);
-/
-CALL FoodFact_Merge('11012','212',0.79E0);
-/
-CALL FoodFact_Merge('11012','213',0.0E0);
 /
 CALL FoodFact_Merge('11012','221',0.0E0);
 /
@@ -12165,12 +11880,6 @@ CALL FoodFact_Merge('11090','205',6.64E0);
 /
 CALL FoodFact_Merge('11090','208',34.0E0);
 /
-CALL FoodFact_Merge('11090','210',0.1E0);
-/
-CALL FoodFact_Merge('11090','212',0.68E0);
-/
-CALL FoodFact_Merge('11090','213',0.21E0);
-/
 CALL FoodFact_Merge('11090','221',0.0E0);
 /
 CALL FoodFact_Merge('11090','255',89.3E0);
@@ -12242,12 +11951,6 @@ CALL FoodFact_Merge('11091','204',0.41E0);
 CALL FoodFact_Merge('11091','205',7.18E0);
 /
 CALL FoodFact_Merge('11091','208',35.0E0);
-/
-CALL FoodFact_Merge('11091','210',0.08E0);
-/
-CALL FoodFact_Merge('11091','212',0.74E0);
-/
-CALL FoodFact_Merge('11091','213',0.0E0);
 /
 CALL FoodFact_Merge('11091','221',0.0E0);
 /
@@ -12323,12 +12026,6 @@ CALL FoodFact_Merge('11109','205',5.8E0);
 /
 CALL FoodFact_Merge('11109','208',25.0E0);
 /
-CALL FoodFact_Merge('11109','210',0.08E0);
-/
-CALL FoodFact_Merge('11109','212',1.45E0);
-/
-CALL FoodFact_Merge('11109','213',0.0E0);
-/
 CALL FoodFact_Merge('11109','221',0.0E0);
 /
 CALL FoodFact_Merge('11109','255',92.18E0);
@@ -12402,12 +12099,6 @@ CALL FoodFact_Merge('11110','204',0.06E0);
 CALL FoodFact_Merge('11110','205',5.51E0);
 /
 CALL FoodFact_Merge('11110','208',23.0E0);
-/
-CALL FoodFact_Merge('11110','210',0.0E0);
-/
-CALL FoodFact_Merge('11110','212',1.16E0);
-/
-CALL FoodFact_Merge('11110','213',0.0E0);
 /
 CALL FoodFact_Merge('11110','221',0.0E0);
 /
@@ -12483,12 +12174,6 @@ CALL FoodFact_Merge('11112','205',7.37E0);
 /
 CALL FoodFact_Merge('11112','208',31.0E0);
 /
-CALL FoodFact_Merge('11112','210',0.6E0);
-/
-CALL FoodFact_Merge('11112','212',1.48E0);
-/
-CALL FoodFact_Merge('11112','213',0.0E0);
-/
 CALL FoodFact_Merge('11112','221',0.0E0);
 /
 CALL FoodFact_Merge('11112','255',90.39E0);
@@ -12561,12 +12246,6 @@ CALL FoodFact_Merge('11113','205',6.94E0);
 /
 CALL FoodFact_Merge('11113','208',29.0E0);
 /
-CALL FoodFact_Merge('11113','210',0.71E0);
-/
-CALL FoodFact_Merge('11113','212',1.2E0);
-/
-CALL FoodFact_Merge('11113','213',0.0E0);
-/
 CALL FoodFact_Merge('11113','221',0.0E0);
 /
 CALL FoodFact_Merge('11113','255',90.84E0);
@@ -12638,12 +12317,6 @@ CALL FoodFact_Merge('11124','204',0.24E0);
 CALL FoodFact_Merge('11124','205',9.58E0);
 /
 CALL FoodFact_Merge('11124','208',41.0E0);
-/
-CALL FoodFact_Merge('11124','210',3.59E0);
-/
-CALL FoodFact_Merge('11124','212',0.55E0);
-/
-CALL FoodFact_Merge('11124','213',0.0E0);
 /
 CALL FoodFact_Merge('11124','221',0.0E0);
 /
@@ -12719,12 +12392,6 @@ CALL FoodFact_Merge('11125','205',8.22E0);
 /
 CALL FoodFact_Merge('11125','208',35.0E0);
 /
-CALL FoodFact_Merge('11125','210',2.7E0);
-/
-CALL FoodFact_Merge('11125','212',0.36E0);
-/
-CALL FoodFact_Merge('11125','213',0.0E0);
-/
 CALL FoodFact_Merge('11125','221',0.0E0);
 /
 CALL FoodFact_Merge('11125','255',90.17E0);
@@ -12798,12 +12465,6 @@ CALL FoodFact_Merge('11135','204',0.28E0);
 CALL FoodFact_Merge('11135','205',4.97E0);
 /
 CALL FoodFact_Merge('11135','208',25.0E0);
-/
-CALL FoodFact_Merge('11135','210',0.0E0);
-/
-CALL FoodFact_Merge('11135','212',0.97E0);
-/
-CALL FoodFact_Merge('11135','213',0.0E0);
 /
 CALL FoodFact_Merge('11135','221',0.0E0);
 /
@@ -13099,12 +12760,6 @@ CALL FoodFact_Merge('11143','205',2.97E0);
 /
 CALL FoodFact_Merge('11143','208',16.0E0);
 /
-CALL FoodFact_Merge('11143','210',0.08E0);
-/
-CALL FoodFact_Merge('11143','212',0.37E0);
-/
-CALL FoodFact_Merge('11143','213',0.0E0);
-/
 CALL FoodFact_Merge('11143','221',0.0E0);
 /
 CALL FoodFact_Merge('11143','255',95.43E0);
@@ -13178,12 +12833,6 @@ CALL FoodFact_Merge('11144','204',0.16E0);
 CALL FoodFact_Merge('11144','205',4.0E0);
 /
 CALL FoodFact_Merge('11144','208',18.0E0);
-/
-CALL FoodFact_Merge('11144','210',0.14E0);
-/
-CALL FoodFact_Merge('11144','212',0.66E0);
-/
-CALL FoodFact_Merge('11144','213',0.0E0);
 /
 CALL FoodFact_Merge('11144','221',0.0E0);
 /
@@ -13329,12 +12978,6 @@ CALL FoodFact_Merge('11167','205',18.7E0);
 /
 CALL FoodFact_Merge('11167','208',86.0E0);
 /
-CALL FoodFact_Merge('11167','210',0.89E0);
-/
-CALL FoodFact_Merge('11167','212',1.94E0);
-/
-CALL FoodFact_Merge('11167','213',0.0E0);
-/
 CALL FoodFact_Merge('11167','221',0.0E0);
 /
 CALL FoodFact_Merge('11167','255',76.05E0);
@@ -13411,12 +13054,6 @@ CALL FoodFact_Merge('11168','205',20.98E0);
 /
 CALL FoodFact_Merge('11168','208',96.0E0);
 /
-CALL FoodFact_Merge('11168','210',2.74E0);
-/
-CALL FoodFact_Merge('11168','212',0.79E0);
-/
-CALL FoodFact_Merge('11168','213',0.0E0);
-/
 CALL FoodFact_Merge('11168','221',0.0E0);
 /
 CALL FoodFact_Merge('11168','255',73.41E0);
@@ -13488,12 +13125,6 @@ CALL FoodFact_Merge('11205','204',0.11E0);
 CALL FoodFact_Merge('11205','205',3.63E0);
 /
 CALL FoodFact_Merge('11205','208',15.0E0);
-/
-CALL FoodFact_Merge('11205','210',0.03E0);
-/
-CALL FoodFact_Merge('11205','212',0.87E0);
-/
-CALL FoodFact_Merge('11205','213',0.0E0);
 /
 CALL FoodFact_Merge('11205','221',0.0E0);
 /
@@ -13569,12 +13200,6 @@ CALL FoodFact_Merge('11206','205',2.16E0);
 /
 CALL FoodFact_Merge('11206','208',12.0E0);
 /
-CALL FoodFact_Merge('11206','210',0.0E0);
-/
-CALL FoodFact_Merge('11206','212',0.75E0);
-/
-CALL FoodFact_Merge('11206','213',0.0E0);
-/
 CALL FoodFact_Merge('11206','221',0.0E0);
 /
 CALL FoodFact_Merge('11206','255',96.73E0);
@@ -13648,12 +13273,6 @@ CALL FoodFact_Merge('11212','204',5.2E0);
 CALL FoodFact_Merge('11212','205',8.91E0);
 /
 CALL FoodFact_Merge('11212','208',121.0E0);
-/
-CALL FoodFact_Merge('11212','210',1.12E0);
-/
-CALL FoodFact_Merge('11212','212',0.12E0);
-/
-CALL FoodFact_Merge('11212','213',0.0E0);
 /
 CALL FoodFact_Merge('11212','221',0.0E0);
 /
@@ -14019,12 +13638,6 @@ CALL FoodFact_Merge('11238','205',6.79E0);
 /
 CALL FoodFact_Merge('11238','208',34.0E0);
 /
-CALL FoodFact_Merge('11238','210',0.0E0);
-/
-CALL FoodFact_Merge('11238','212',0.0E0);
-/
-CALL FoodFact_Merge('11238','213',0.0E0);
-/
 CALL FoodFact_Merge('11238','255',89.74E0);
 /
 CALL FoodFact_Merge('11238','291',2.5E0);
@@ -14070,12 +13683,6 @@ CALL FoodFact_Merge('11243','204',0.58E0);
 CALL FoodFact_Merge('11243','205',4.44E0);
 /
 CALL FoodFact_Merge('11243','208',29.0E0);
-/
-CALL FoodFact_Merge('11243','210',0.0E0);
-/
-CALL FoodFact_Merge('11243','212',0.0E0);
-/
-CALL FoodFact_Merge('11243','213',0.0E0);
 /
 CALL FoodFact_Merge('11243','221',0.0E0);
 /
@@ -14153,12 +13760,6 @@ CALL FoodFact_Merge('11251','205',3.29E0);
 /
 CALL FoodFact_Merge('11251','208',17.0E0);
 /
-CALL FoodFact_Merge('11251','210',0.0E0);
-/
-CALL FoodFact_Merge('11251','212',0.8E0);
-/
-CALL FoodFact_Merge('11251','213',0.0E0);
-/
 CALL FoodFact_Merge('11251','221',0.0E0);
 /
 CALL FoodFact_Merge('11251','255',94.61E0);
@@ -14230,12 +13831,6 @@ CALL FoodFact_Merge('11252','204',0.14E0);
 CALL FoodFact_Merge('11252','205',2.97E0);
 /
 CALL FoodFact_Merge('11252','208',14.0E0);
-/
-CALL FoodFact_Merge('11252','210',0.05E0);
-/
-CALL FoodFact_Merge('11252','212',1.0E0);
-/
-CALL FoodFact_Merge('11252','213',0.0E0);
 /
 CALL FoodFact_Merge('11252','221',0.0E0);
 /
@@ -14309,12 +13904,6 @@ CALL FoodFact_Merge('11253','205',2.87E0);
 /
 CALL FoodFact_Merge('11253','208',15.0E0);
 /
-CALL FoodFact_Merge('11253','210',0.0E0);
-/
-CALL FoodFact_Merge('11253','212',0.43E0);
-/
-CALL FoodFact_Merge('11253','213',0.0E0);
-/
 CALL FoodFact_Merge('11253','221',0.0E0);
 /
 CALL FoodFact_Merge('11253','255',94.98E0);
@@ -14386,12 +13975,6 @@ CALL FoodFact_Merge('11257','204',0.22E0);
 CALL FoodFact_Merge('11257','205',2.26E0);
 /
 CALL FoodFact_Merge('11257','208',16.0E0);
-/
-CALL FoodFact_Merge('11257','210',0.0E0);
-/
-CALL FoodFact_Merge('11257','212',0.28E0);
-/
-CALL FoodFact_Merge('11257','213',0.0E0);
 /
 CALL FoodFact_Merge('11257','221',0.0E0);
 /
@@ -14465,12 +14048,6 @@ CALL FoodFact_Merge('11260','205',3.26E0);
 /
 CALL FoodFact_Merge('11260','208',22.0E0);
 /
-CALL FoodFact_Merge('11260','210',0.0E0);
-/
-CALL FoodFact_Merge('11260','212',0.17E0);
-/
-CALL FoodFact_Merge('11260','213',0.0E0);
-/
 CALL FoodFact_Merge('11260','221',0.0E0);
 /
 CALL FoodFact_Merge('11260','255',92.45E0);
@@ -14542,12 +14119,6 @@ CALL FoodFact_Merge('11263','204',0.33E0);
 CALL FoodFact_Merge('11263','205',4.04E0);
 /
 CALL FoodFact_Merge('11263','208',26.0E0);
-/
-CALL FoodFact_Merge('11263','210',0.0E0);
-/
-CALL FoodFact_Merge('11263','212',0.0E0);
-/
-CALL FoodFact_Merge('11263','213',0.0E0);
 /
 CALL FoodFact_Merge('11263','221',0.0E0);
 /
@@ -14621,12 +14192,6 @@ CALL FoodFact_Merge('11265','205',3.87E0);
 /
 CALL FoodFact_Merge('11265','208',22.0E0);
 /
-CALL FoodFact_Merge('11265','210',0.0E0);
-/
-CALL FoodFact_Merge('11265','212',0.49E0);
-/
-CALL FoodFact_Merge('11265','213',0.0E0);
-/
 CALL FoodFact_Merge('11265','221',0.0E0);
 /
 CALL FoodFact_Merge('11265','255',92.82E0);
@@ -14696,12 +14261,6 @@ CALL FoodFact_Merge('11267','204',0.35E0);
 CALL FoodFact_Merge('11267','205',7.68E0);
 /
 CALL FoodFact_Merge('11267','208',39.0E0);
-/
-CALL FoodFact_Merge('11267','210',0.0E0);
-/
-CALL FoodFact_Merge('11267','212',0.0E0);
-/
-CALL FoodFact_Merge('11267','213',0.0E0);
 /
 CALL FoodFact_Merge('11267','221',0.0E0);
 /
@@ -14774,12 +14333,6 @@ CALL FoodFact_Merge('11278','204',0.19E0);
 CALL FoodFact_Merge('11278','205',7.45E0);
 /
 CALL FoodFact_Merge('11278','208',33.0E0);
-/
-CALL FoodFact_Merge('11278','210',0.6E0);
-/
-CALL FoodFact_Merge('11278','212',0.57E0);
-/
-CALL FoodFact_Merge('11278','213',0.0E0);
 /
 CALL FoodFact_Merge('11278','221',0.0E0);
 /
@@ -14925,12 +14478,6 @@ CALL FoodFact_Merge('11282','205',9.34E0);
 /
 CALL FoodFact_Merge('11282','208',40.0E0);
 /
-CALL FoodFact_Merge('11282','210',0.99E0);
-/
-CALL FoodFact_Merge('11282','212',1.29E0);
-/
-CALL FoodFact_Merge('11282','213',0.0E0);
-/
 CALL FoodFact_Merge('11282','221',0.0E0);
 /
 CALL FoodFact_Merge('11282','255',89.11E0);
@@ -15005,12 +14552,6 @@ CALL FoodFact_Merge('11283','205',10.15E0);
 /
 CALL FoodFact_Merge('11283','208',44.0E0);
 /
-CALL FoodFact_Merge('11283','210',1.1E0);
-/
-CALL FoodFact_Merge('11283','212',1.44E0);
-/
-CALL FoodFact_Merge('11283','213',0.0E0);
-/
 CALL FoodFact_Merge('11283','221',0.0E0);
 /
 CALL FoodFact_Merge('11283','255',87.86E0);
@@ -15082,12 +14623,6 @@ CALL FoodFact_Merge('11304','204',0.4E0);
 CALL FoodFact_Merge('11304','205',14.45E0);
 /
 CALL FoodFact_Merge('11304','208',81.0E0);
-/
-CALL FoodFact_Merge('11304','210',4.99E0);
-/
-CALL FoodFact_Merge('11304','212',0.39E0);
-/
-CALL FoodFact_Merge('11304','213',0.0E0);
 /
 CALL FoodFact_Merge('11304','221',0.0E0);
 /
@@ -15161,12 +14696,6 @@ CALL FoodFact_Merge('11305','205',15.63E0);
 /
 CALL FoodFact_Merge('11305','208',84.0E0);
 /
-CALL FoodFact_Merge('11305','210',5.22E0);
-/
-CALL FoodFact_Merge('11305','212',0.41E0);
-/
-CALL FoodFact_Merge('11305','213',0.0E0);
-/
 CALL FoodFact_Merge('11305','221',0.0E0);
 /
 CALL FoodFact_Merge('11305','255',77.87E0);
@@ -15239,12 +14768,6 @@ CALL FoodFact_Merge('11312','205',13.62E0);
 /
 CALL FoodFact_Merge('11312','208',77.0E0);
 /
-CALL FoodFact_Merge('11312','210',4.6E0);
-/
-CALL FoodFact_Merge('11312','212',0.25E0);
-/
-CALL FoodFact_Merge('11312','213',0.0E0);
-/
 CALL FoodFact_Merge('11312','221',0.0E0);
 /
 CALL FoodFact_Merge('11312','255',79.98E0);
@@ -15316,12 +14839,6 @@ CALL FoodFact_Merge('11313','204',0.27E0);
 CALL FoodFact_Merge('11313','205',14.26E0);
 /
 CALL FoodFact_Merge('11313','208',78.0E0);
-/
-CALL FoodFact_Merge('11313','210',4.06E0);
-/
-CALL FoodFact_Merge('11313','212',0.13E0);
-/
-CALL FoodFact_Merge('11313','213',0.0E0);
 /
 CALL FoodFact_Merge('11313','221',0.0E0);
 /
@@ -15533,12 +15050,6 @@ CALL FoodFact_Merge('11333','205',4.64E0);
 /
 CALL FoodFact_Merge('11333','208',20.0E0);
 /
-CALL FoodFact_Merge('11333','210',0.11E0);
-/
-CALL FoodFact_Merge('11333','212',1.12E0);
-/
-CALL FoodFact_Merge('11333','213',0.0E0);
-/
 CALL FoodFact_Merge('11333','221',0.0E0);
 /
 CALL FoodFact_Merge('11333','255',93.89E0);
@@ -15613,12 +15124,6 @@ CALL FoodFact_Merge('11352','205',17.49E0);
 /
 CALL FoodFact_Merge('11352','208',77.0E0);
 /
-CALL FoodFact_Merge('11352','210',0.17E0);
-/
-CALL FoodFact_Merge('11352','212',0.26E0);
-/
-CALL FoodFact_Merge('11352','213',0.0E0);
-/
 CALL FoodFact_Merge('11352','221',0.0E0);
 /
 CALL FoodFact_Merge('11352','255',79.25E0);
@@ -15691,12 +15196,6 @@ CALL FoodFact_Merge('11353','205',18.07E0);
 /
 CALL FoodFact_Merge('11353','208',79.0E0);
 /
-CALL FoodFact_Merge('11353','210',0.13E0);
-/
-CALL FoodFact_Merge('11353','212',0.23E0);
-/
-CALL FoodFact_Merge('11353','213',0.0E0);
-/
 CALL FoodFact_Merge('11353','255',78.58E0);
 /
 CALL FoodFact_Merge('11353','291',1.3E0);
@@ -15766,12 +15265,6 @@ CALL FoodFact_Merge('11354','204',0.1E0);
 CALL FoodFact_Merge('11354','205',15.71E0);
 /
 CALL FoodFact_Merge('11354','208',69.0E0);
-/
-CALL FoodFact_Merge('11354','210',0.28E0);
-/
-CALL FoodFact_Merge('11354','212',0.34E0);
-/
-CALL FoodFact_Merge('11354','213',0.0E0);
 /
 CALL FoodFact_Merge('11354','221',0.0E0);
 /
@@ -15845,12 +15338,6 @@ CALL FoodFact_Merge('11355','205',15.9E0);
 /
 CALL FoodFact_Merge('11355','208',70.0E0);
 /
-CALL FoodFact_Merge('11355','210',0.29E0);
-/
-CALL FoodFact_Merge('11355','212',0.31E0);
-/
-CALL FoodFact_Merge('11355','213',0.0E0);
-/
 CALL FoodFact_Merge('11355','221',0.0E0);
 /
 CALL FoodFact_Merge('11355','255',80.96E0);
@@ -15922,12 +15409,6 @@ CALL FoodFact_Merge('11357','204',0.15E0);
 CALL FoodFact_Merge('11357','205',21.08E0);
 /
 CALL FoodFact_Merge('11357','208',94.0E0);
-/
-CALL FoodFact_Merge('11357','210',0.4E0);
-/
-CALL FoodFact_Merge('11357','212',0.36E0);
-/
-CALL FoodFact_Merge('11357','213',0.0E0);
 /
 CALL FoodFact_Merge('11357','221',0.0E0);
 /
@@ -16060,12 +15541,6 @@ CALL FoodFact_Merge('11365','204',0.1E0);
 CALL FoodFact_Merge('11365','205',20.13E0);
 /
 CALL FoodFact_Merge('11365','208',87.0E0);
-/
-CALL FoodFact_Merge('11365','210',0.19E0);
-/
-CALL FoodFact_Merge('11365','212',0.29E0);
-/
-CALL FoodFact_Merge('11365','213',0.0E0);
 /
 CALL FoodFact_Merge('11365','221',0.0E0);
 /
@@ -16200,12 +15675,6 @@ CALL FoodFact_Merge('11429','204',0.1E0);
 CALL FoodFact_Merge('11429','205',3.4E0);
 /
 CALL FoodFact_Merge('11429','208',16.0E0);
-/
-CALL FoodFact_Merge('11429','210',0.1E0);
-/
-CALL FoodFact_Merge('11429','212',0.71E0);
-/
-CALL FoodFact_Merge('11429','213',0.0E0);
 /
 CALL FoodFact_Merge('11429','221',0.0E0);
 /
@@ -16479,12 +15948,6 @@ CALL FoodFact_Merge('11457','205',3.63E0);
 /
 CALL FoodFact_Merge('11457','208',23.0E0);
 /
-CALL FoodFact_Merge('11457','210',0.07E0);
-/
-CALL FoodFact_Merge('11457','212',0.15E0);
-/
-CALL FoodFact_Merge('11457','213',0.0E0);
-/
 CALL FoodFact_Merge('11457','221',0.0E0);
 /
 CALL FoodFact_Merge('11457','255',91.4E0);
@@ -16703,12 +16166,6 @@ CALL FoodFact_Merge('11477','205',3.11E0);
 /
 CALL FoodFact_Merge('11477','208',17.0E0);
 /
-CALL FoodFact_Merge('11477','210',0.05E0);
-/
-CALL FoodFact_Merge('11477','212',1.38E0);
-/
-CALL FoodFact_Merge('11477','213',0.0E0);
-/
 CALL FoodFact_Merge('11477','221',0.0E0);
 /
 CALL FoodFact_Merge('11477','255',94.79E0);
@@ -16785,12 +16242,6 @@ CALL FoodFact_Merge('11507','205',20.12E0);
 /
 CALL FoodFact_Merge('11507','208',86.0E0);
 /
-CALL FoodFact_Merge('11507','210',2.52E0);
-/
-CALL FoodFact_Merge('11507','212',0.7E0);
-/
-CALL FoodFact_Merge('11507','213',0.0E0);
-/
 CALL FoodFact_Merge('11507','221',0.0E0);
 /
 CALL FoodFact_Merge('11507','255',77.28E0);
@@ -16863,12 +16314,6 @@ CALL FoodFact_Merge('11508','205',20.71E0);
 /
 CALL FoodFact_Merge('11508','208',90.0E0);
 /
-CALL FoodFact_Merge('11508','210',2.28E0);
-/
-CALL FoodFact_Merge('11508','212',0.5E0);
-/
-CALL FoodFact_Merge('11508','213',0.0E0);
-/
 CALL FoodFact_Merge('11508','221',0.0E0);
 /
 CALL FoodFact_Merge('11508','255',75.78E0);
@@ -16940,12 +16385,6 @@ CALL FoodFact_Merge('11529','204',0.2E0);
 CALL FoodFact_Merge('11529','205',3.89E0);
 /
 CALL FoodFact_Merge('11529','208',18.0E0);
-/
-CALL FoodFact_Merge('11529','210',0.0E0);
-/
-CALL FoodFact_Merge('11529','212',1.37E0);
-/
-CALL FoodFact_Merge('11529','213',0.0E0);
 /
 CALL FoodFact_Merge('11529','221',0.0E0);
 /
@@ -17021,12 +16460,6 @@ CALL FoodFact_Merge('11546','205',18.91E0);
 /
 CALL FoodFact_Merge('11546','208',82.0E0);
 /
-CALL FoodFact_Merge('11546','210',0.3E0);
-/
-CALL FoodFact_Merge('11546','212',5.85E0);
-/
-CALL FoodFact_Merge('11546','213',0.0E0);
-/
 CALL FoodFact_Merge('11546','221',0.0E0);
 /
 CALL FoodFact_Merge('11546','255',73.5E0);
@@ -17099,12 +16532,6 @@ CALL FoodFact_Merge('11547','205',8.98E0);
 /
 CALL FoodFact_Merge('11547','208',38.0E0);
 /
-CALL FoodFact_Merge('11547','210',0.0E0);
-/
-CALL FoodFact_Merge('11547','212',2.38E0);
-/
-CALL FoodFact_Merge('11547','213',0.0E0);
-/
 CALL FoodFact_Merge('11547','221',0.0E0);
 /
 CALL FoodFact_Merge('11547','255',87.88E0);
@@ -17176,12 +16603,6 @@ CALL FoodFact_Merge('11549','204',0.3E0);
 CALL FoodFact_Merge('11549','205',5.31E0);
 /
 CALL FoodFact_Merge('11549','208',24.0E0);
-/
-CALL FoodFact_Merge('11549','210',0.07E0);
-/
-CALL FoodFact_Merge('11549','212',1.67E0);
-/
-CALL FoodFact_Merge('11549','213',0.0E0);
 /
 CALL FoodFact_Merge('11549','221',0.0E0);
 /
@@ -17613,10 +17034,6 @@ CALL FoodFact_Merge('11641','205',3.35E0);
 /
 CALL FoodFact_Merge('11641','208',16.0E0);
 /
-CALL FoodFact_Merge('11641','210',0.03E0);
-/
-CALL FoodFact_Merge('11641','212',0.95E0);
-/
 CALL FoodFact_Merge('11641','221',0.0E0);
 /
 CALL FoodFact_Merge('11641','255',94.64E0);
@@ -17971,12 +17388,6 @@ CALL FoodFact_Merge('11674','205',21.15E0);
 /
 CALL FoodFact_Merge('11674','208',93.0E0);
 /
-CALL FoodFact_Merge('11674','210',0.4E0);
-/
-CALL FoodFact_Merge('11674','212',0.34E0);
-/
-CALL FoodFact_Merge('11674','213',0.0E0);
-/
 CALL FoodFact_Merge('11674','221',0.0E0);
 /
 CALL FoodFact_Merge('11674','255',74.89E0);
@@ -18048,12 +17459,6 @@ CALL FoodFact_Merge('11821','204',0.3E0);
 CALL FoodFact_Merge('11821','205',6.03E0);
 /
 CALL FoodFact_Merge('11821','208',31.0E0);
-/
-CALL FoodFact_Merge('11821','210',0.0E0);
-/
-CALL FoodFact_Merge('11821','212',2.26E0);
-/
-CALL FoodFact_Merge('11821','213',0.0E0);
 /
 CALL FoodFact_Merge('11821','221',0.0E0);
 /
@@ -18193,12 +17598,6 @@ CALL FoodFact_Merge('11901','205',21.71E0);
 /
 CALL FoodFact_Merge('11901','208',97.0E0);
 /
-CALL FoodFact_Merge('11901','210',6.02E0);
-/
-CALL FoodFact_Merge('11901','212',1.02E0);
-/
-CALL FoodFact_Merge('11901','213',0.0E0);
-/
 CALL FoodFact_Merge('11901','221',0.0E0);
 /
 CALL FoodFact_Merge('11901','255',72.84E0);
@@ -18270,12 +17669,6 @@ CALL FoodFact_Merge('11935','204',0.1E0);
 CALL FoodFact_Merge('11935','205',27.4E0);
 /
 CALL FoodFact_Merge('11935','208',101.0E0);
-/
-CALL FoodFact_Merge('11935','210',2.3E0);
-/
-CALL FoodFact_Merge('11935','212',8.72E0);
-/
-CALL FoodFact_Merge('11935','213',0.0E0);
 /
 CALL FoodFact_Merge('11935','221',0.0E0);
 /
@@ -18350,12 +17743,6 @@ CALL FoodFact_Merge('11949','204',0.1E0);
 CALL FoodFact_Merge('11949','205',27.4E0);
 /
 CALL FoodFact_Merge('11949','208',101.0E0);
-/
-CALL FoodFact_Merge('11949','210',2.3E0);
-/
-CALL FoodFact_Merge('11949','212',8.72E0);
-/
-CALL FoodFact_Merge('11949','213',0.0E0);
 /
 CALL FoodFact_Merge('11949','221',0.0E0);
 /
@@ -18500,12 +17887,6 @@ CALL FoodFact_Merge('11960','204',0.13E0);
 CALL FoodFact_Merge('11960','205',8.24E0);
 /
 CALL FoodFact_Merge('11960','208',35.0E0);
-/
-CALL FoodFact_Merge('11960','210',2.72E0);
-/
-CALL FoodFact_Merge('11960','212',1.0E0);
-/
-CALL FoodFact_Merge('11960','213',0.0E0);
 /
 CALL FoodFact_Merge('11960','255',90.35E0);
 /
@@ -18787,12 +18168,6 @@ CALL FoodFact_Merge('11979','205',6.5E0);
 /
 CALL FoodFact_Merge('11979','208',29.0E0);
 /
-CALL FoodFact_Merge('11979','210',0.0E0);
-/
-CALL FoodFact_Merge('11979','212',2.63E0);
-/
-CALL FoodFact_Merge('11979','213',0.0E0);
-/
 CALL FoodFact_Merge('11979','221',0.0E0);
 /
 CALL FoodFact_Merge('11979','255',91.69E0);
@@ -18999,12 +18374,6 @@ CALL FoodFact_Merge('12061','205',21.55E0);
 /
 CALL FoodFact_Merge('12061','208',579.0E0);
 /
-CALL FoodFact_Merge('12061','210',3.95E0);
-/
-CALL FoodFact_Merge('12061','212',0.11E0);
-/
-CALL FoodFact_Merge('12061','213',0.0E0);
-/
 CALL FoodFact_Merge('12061','221',0.0E0);
 /
 CALL FoodFact_Merge('12061','255',4.41E0);
@@ -19080,12 +18449,6 @@ CALL FoodFact_Merge('12063','204',52.54E0);
 CALL FoodFact_Merge('12063','205',21.01E0);
 /
 CALL FoodFact_Merge('12063','208',598.0E0);
-/
-CALL FoodFact_Merge('12063','210',4.75E0);
-/
-CALL FoodFact_Merge('12063','212',0.01E0);
-/
-CALL FoodFact_Merge('12063','213',0.0E0);
 /
 CALL FoodFact_Merge('12063','221',0.0E0);
 /
@@ -19235,12 +18598,6 @@ CALL FoodFact_Merge('12087','205',30.19E0);
 /
 CALL FoodFact_Merge('12087','208',553.0E0);
 /
-CALL FoodFact_Merge('12087','210',5.81E0);
-/
-CALL FoodFact_Merge('12087','212',0.05E0);
-/
-CALL FoodFact_Merge('12087','213',0.0E0);
-/
 CALL FoodFact_Merge('12087','255',5.2E0);
 /
 CALL FoodFact_Merge('12087','291',3.3E0);
@@ -19371,12 +18728,6 @@ CALL FoodFact_Merge('12122','205',17.6E0);
 /
 CALL FoodFact_Merge('12122','208',646.0E0);
 /
-CALL FoodFact_Merge('12122','210',4.75E0);
-/
-CALL FoodFact_Merge('12122','212',0.07E0);
-/
-CALL FoodFact_Merge('12122','213',0.0E0);
-/
 CALL FoodFact_Merge('12122','221',0.0E0);
 /
 CALL FoodFact_Merge('12122','255',2.52E0);
@@ -19445,12 +18796,6 @@ CALL FoodFact_Merge('12131','205',13.82E0);
 /
 CALL FoodFact_Merge('12131','208',718.0E0);
 /
-CALL FoodFact_Merge('12131','210',4.43E0);
-/
-CALL FoodFact_Merge('12131','212',0.07E0);
-/
-CALL FoodFact_Merge('12131','213',0.0E0);
-/
 CALL FoodFact_Merge('12131','221',0.0E0);
 /
 CALL FoodFact_Merge('12131','255',1.36E0);
@@ -19518,12 +18863,6 @@ CALL FoodFact_Merge('12132','204',76.08E0);
 CALL FoodFact_Merge('12132','205',13.38E0);
 /
 CALL FoodFact_Merge('12132','208',718.0E0);
-/
-CALL FoodFact_Merge('12132','210',4.0E0);
-/
-CALL FoodFact_Merge('12132','212',0.07E0);
-/
-CALL FoodFact_Merge('12132','213',0.0E0);
 /
 CALL FoodFact_Merge('12132','255',1.61E0);
 /
@@ -19594,12 +18933,6 @@ CALL FoodFact_Merge('12135','204',53.5E0);
 CALL FoodFact_Merge('12135','205',22.42E0);
 /
 CALL FoodFact_Merge('12135','208',607.0E0);
-/
-CALL FoodFact_Merge('12135','210',5.0E0);
-/
-CALL FoodFact_Merge('12135','212',0.0E0);
-/
-CALL FoodFact_Merge('12135','213',0.0E0);
 /
 CALL FoodFact_Merge('12135','221',0.0E0);
 /
@@ -19675,12 +19008,6 @@ CALL FoodFact_Merge('12136','205',22.51E0);
 /
 CALL FoodFact_Merge('12136','208',580.0E0);
 /
-CALL FoodFact_Merge('12136','210',4.45E0);
-/
-CALL FoodFact_Merge('12136','212',0.0E0);
-/
-CALL FoodFact_Merge('12136','213',0.0E0);
-/
 CALL FoodFact_Merge('12136','255',2.91E0);
 /
 CALL FoodFact_Merge('12136','291',8.1E0);
@@ -19738,12 +19065,6 @@ CALL FoodFact_Merge('12142','204',71.97E0);
 CALL FoodFact_Merge('12142','205',13.86E0);
 /
 CALL FoodFact_Merge('12142','208',691.0E0);
-/
-CALL FoodFact_Merge('12142','210',3.9E0);
-/
-CALL FoodFact_Merge('12142','212',0.04E0);
-/
-CALL FoodFact_Merge('12142','213',0.0E0);
 /
 CALL FoodFact_Merge('12142','221',0.0E0);
 /
@@ -19819,12 +19140,6 @@ CALL FoodFact_Merge('12143','205',13.55E0);
 /
 CALL FoodFact_Merge('12143','208',710.0E0);
 /
-CALL FoodFact_Merge('12143','210',4.0E0);
-/
-CALL FoodFact_Merge('12143','212',0.04E0);
-/
-CALL FoodFact_Merge('12143','213',0.0E0);
-/
 CALL FoodFact_Merge('12143','221',0.0E0);
 /
 CALL FoodFact_Merge('12143','255',1.12E0);
@@ -19892,12 +19207,6 @@ CALL FoodFact_Merge('12151','204',45.32E0);
 CALL FoodFact_Merge('12151','205',27.17E0);
 /
 CALL FoodFact_Merge('12151','208',560.0E0);
-/
-CALL FoodFact_Merge('12151','210',6.87E0);
-/
-CALL FoodFact_Merge('12151','212',0.24E0);
-/
-CALL FoodFact_Merge('12151','213',0.0E0);
 /
 CALL FoodFact_Merge('12151','221',0.0E0);
 /
@@ -19970,12 +19279,6 @@ CALL FoodFact_Merge('12152','204',45.82E0);
 CALL FoodFact_Merge('12152','205',28.28E0);
 /
 CALL FoodFact_Merge('12152','208',572.0E0);
-/
-CALL FoodFact_Merge('12152','210',7.09E0);
-/
-CALL FoodFact_Merge('12152','212',0.22E0);
-/
-CALL FoodFact_Merge('12152','213',0.0E0);
 /
 CALL FoodFact_Merge('12152','221',0.0E0);
 /
@@ -20052,12 +19355,6 @@ CALL FoodFact_Merge('12155','204',65.21E0);
 CALL FoodFact_Merge('12155','205',13.71E0);
 /
 CALL FoodFact_Merge('12155','208',654.0E0);
-/
-CALL FoodFact_Merge('12155','210',2.43E0);
-/
-CALL FoodFact_Merge('12155','212',0.09E0);
-/
-CALL FoodFact_Merge('12155','213',0.0E0);
 /
 CALL FoodFact_Merge('12155','221',0.0E0);
 /
@@ -20257,12 +19554,6 @@ CALL FoodFact_Merge('12220','205',28.88E0);
 /
 CALL FoodFact_Merge('12220','208',534.0E0);
 /
-CALL FoodFact_Merge('12220','210',1.15E0);
-/
-CALL FoodFact_Merge('12220','212',0.0E0);
-/
-CALL FoodFact_Merge('12220','213',0.0E0);
-/
 CALL FoodFact_Merge('12220','221',0.0E0);
 /
 CALL FoodFact_Merge('12220','255',6.96E0);
@@ -20334,12 +19625,6 @@ CALL FoodFact_Merge('14003','204',0.0E0);
 CALL FoodFact_Merge('14003','205',3.55E0);
 /
 CALL FoodFact_Merge('14003','208',43.0E0);
-/
-CALL FoodFact_Merge('14003','210',0.0E0);
-/
-CALL FoodFact_Merge('14003','212',0.0E0);
-/
-CALL FoodFact_Merge('14003','213',0.0E0);
 /
 CALL FoodFact_Merge('14003','221',3.9E0);
 /
@@ -20414,12 +19699,6 @@ CALL FoodFact_Merge('14006','204',0.0E0);
 CALL FoodFact_Merge('14006','205',1.64E0);
 /
 CALL FoodFact_Merge('14006','208',29.0E0);
-/
-CALL FoodFact_Merge('14006','210',0.0E0);
-/
-CALL FoodFact_Merge('14006','212',0.0E0);
-/
-CALL FoodFact_Merge('14006','213',0.0E0);
 /
 CALL FoodFact_Merge('14006','221',3.1E0);
 /
@@ -20643,10 +19922,6 @@ CALL FoodFact_Merge('14145','205',10.14E0);
 /
 CALL FoodFact_Merge('14145','208',40.0E0);
 /
-CALL FoodFact_Merge('14145','210',0.65E0);
-/
-CALL FoodFact_Merge('14145','212',5.19E0);
-/
 CALL FoodFact_Merge('14145','221',0.0E0);
 /
 CALL FoodFact_Merge('14145','255',89.78E0);
@@ -20721,12 +19996,6 @@ CALL FoodFact_Merge('14185','205',0.15E0);
 /
 CALL FoodFact_Merge('14185','208',1.0E0);
 /
-CALL FoodFact_Merge('14185','210',0.0E0);
-/
-CALL FoodFact_Merge('14185','212',0.0E0);
-/
-CALL FoodFact_Merge('14185','213',0.0E0);
-/
 CALL FoodFact_Merge('14185','221',0.0E0);
 /
 CALL FoodFact_Merge('14185','255',99.84E0);
@@ -20798,12 +20067,6 @@ CALL FoodFact_Merge('14209','204',0.02E0);
 CALL FoodFact_Merge('14209','205',0.0E0);
 /
 CALL FoodFact_Merge('14209','208',1.0E0);
-/
-CALL FoodFact_Merge('14209','210',0.0E0);
-/
-CALL FoodFact_Merge('14209','212',0.0E0);
-/
-CALL FoodFact_Merge('14209','213',0.0E0);
 /
 CALL FoodFact_Merge('14209','221',0.0E0);
 /
@@ -20880,12 +20143,6 @@ CALL FoodFact_Merge('14278','204',0.0E0);
 CALL FoodFact_Merge('14278','205',0.0E0);
 /
 CALL FoodFact_Merge('14278','208',1.0E0);
-/
-CALL FoodFact_Merge('14278','210',0.0E0);
-/
-CALL FoodFact_Merge('14278','212',0.0E0);
-/
-CALL FoodFact_Merge('14278','213',0.0E0);
 /
 CALL FoodFact_Merge('14278','221',0.0E0);
 /
@@ -21414,12 +20671,6 @@ CALL FoodFact_Merge('15089','204',10.45E0);
 CALL FoodFact_Merge('15089','205',0.54E0);
 /
 CALL FoodFact_Merge('15089','208',185.0E0);
-/
-CALL FoodFact_Merge('15089','210',0.03E0);
-/
-CALL FoodFact_Merge('15089','212',0.17E0);
-/
-CALL FoodFact_Merge('15089','213',0.0E0);
 /
 CALL FoodFact_Merge('15089','221',0.0E0);
 /
@@ -22313,6 +21564,150 @@ CALL FoodFact_Merge('15270','675',0.03E0);
 /
 CALL FoodFact_Merge('15270','851',0.002E0);
 /
+CALL FoodFact_Merge('16014','203',21.6E0);
+/
+CALL FoodFact_Merge('16014','204',1.42E0);
+/
+CALL FoodFact_Merge('16014','205',62.36E0);
+/
+CALL FoodFact_Merge('16014','208',341.0E0);
+/
+CALL FoodFact_Merge('16014','221',0.0E0);
+/
+CALL FoodFact_Merge('16014','255',11.02E0);
+/
+CALL FoodFact_Merge('16014','291',15.5E0);
+/
+CALL FoodFact_Merge('16014','301',123.0E0);
+/
+CALL FoodFact_Merge('16014','303',5.02E0);
+/
+CALL FoodFact_Merge('16014','304',171.0E0);
+/
+CALL FoodFact_Merge('16014','305',352.0E0);
+/
+CALL FoodFact_Merge('16014','306',1483.0E0);
+/
+CALL FoodFact_Merge('16014','307',5.0E0);
+/
+CALL FoodFact_Merge('16014','309',3.65E0);
+/
+CALL FoodFact_Merge('16014','312',0.84E0);
+/
+CALL FoodFact_Merge('16014','315',1.06E0);
+/
+CALL FoodFact_Merge('16014','317',3.2E0);
+/
+CALL FoodFact_Merge('16014','320',0.0E0);
+/
+CALL FoodFact_Merge('16014','323',0.21E0);
+/
+CALL FoodFact_Merge('16014','328',0.0E0);
+/
+CALL FoodFact_Merge('16014','401',0.0E0);
+/
+CALL FoodFact_Merge('16014','404',0.9E0);
+/
+CALL FoodFact_Merge('16014','405',0.19E0);
+/
+CALL FoodFact_Merge('16014','406',1.95E0);
+/
+CALL FoodFact_Merge('16014','410',0.89E0);
+/
+CALL FoodFact_Merge('16014','415',0.28E0);
+/
+CALL FoodFact_Merge('16014','418',0.0E0);
+/
+CALL FoodFact_Merge('16014','421',66.4E0);
+/
+CALL FoodFact_Merge('16014','430',5.6E0);
+/
+CALL FoodFact_Merge('16014','435',444.0E0);
+/
+CALL FoodFact_Merge('16014','601',0.0E0);
+/
+CALL FoodFact_Merge('16014','606',0.36E0);
+/
+CALL FoodFact_Merge('16014','621',0.0E0);
+/
+CALL FoodFact_Merge('16014','629',0.0E0);
+/
+CALL FoodFact_Merge('16014','645',0.12E0);
+/
+CALL FoodFact_Merge('16014','646',0.61E0);
+/
+CALL FoodFact_Merge('16015','203',8.86E0);
+/
+CALL FoodFact_Merge('16015','204',0.54E0);
+/
+CALL FoodFact_Merge('16015','205',23.71E0);
+/
+CALL FoodFact_Merge('16015','208',132.0E0);
+/
+CALL FoodFact_Merge('16015','221',0.0E0);
+/
+CALL FoodFact_Merge('16015','255',65.74E0);
+/
+CALL FoodFact_Merge('16015','291',8.7E0);
+/
+CALL FoodFact_Merge('16015','301',27.0E0);
+/
+CALL FoodFact_Merge('16015','303',2.1E0);
+/
+CALL FoodFact_Merge('16015','304',70.0E0);
+/
+CALL FoodFact_Merge('16015','305',140.0E0);
+/
+CALL FoodFact_Merge('16015','306',355.0E0);
+/
+CALL FoodFact_Merge('16015','307',1.0E0);
+/
+CALL FoodFact_Merge('16015','309',1.12E0);
+/
+CALL FoodFact_Merge('16015','312',0.2E0);
+/
+CALL FoodFact_Merge('16015','315',0.44E0);
+/
+CALL FoodFact_Merge('16015','317',1.2E0);
+/
+CALL FoodFact_Merge('16015','320',0.0E0);
+/
+CALL FoodFact_Merge('16015','323',0.87E0);
+/
+CALL FoodFact_Merge('16015','328',0.0E0);
+/
+CALL FoodFact_Merge('16015','401',0.0E0);
+/
+CALL FoodFact_Merge('16015','404',0.24E0);
+/
+CALL FoodFact_Merge('16015','405',0.05E0);
+/
+CALL FoodFact_Merge('16015','406',0.5E0);
+/
+CALL FoodFact_Merge('16015','410',0.24E0);
+/
+CALL FoodFact_Merge('16015','415',0.06E0);
+/
+CALL FoodFact_Merge('16015','418',0.0E0);
+/
+CALL FoodFact_Merge('16015','421',32.6E0);
+/
+CALL FoodFact_Merge('16015','430',3.3E0);
+/
+CALL FoodFact_Merge('16015','435',149.0E0);
+/
+CALL FoodFact_Merge('16015','601',0.0E0);
+/
+CALL FoodFact_Merge('16015','606',0.13E0);
+/
+CALL FoodFact_Merge('16015','621',0.0E0);
+/
+CALL FoodFact_Merge('16015','629',0.0E0);
+/
+CALL FoodFact_Merge('16015','645',0.04E0);
+/
+CALL FoodFact_Merge('16015','646',0.23E0);
+/
 CALL FoodFact_Merge('16027','203',23.58E0);
 /
 CALL FoodFact_Merge('16027','204',0.83E0);
@@ -22729,12 +22124,6 @@ CALL FoodFact_Merge('16042','205',62.55E0);
 /
 CALL FoodFact_Merge('16042','208',347.0E0);
 /
-CALL FoodFact_Merge('16042','210',1.98E0);
-/
-CALL FoodFact_Merge('16042','212',0.0E0);
-/
-CALL FoodFact_Merge('16042','213',0.0E0);
-/
 CALL FoodFact_Merge('16042','221',0.0E0);
 /
 CALL FoodFact_Merge('16042','255',11.33E0);
@@ -22806,12 +22195,6 @@ CALL FoodFact_Merge('16043','204',0.65E0);
 CALL FoodFact_Merge('16043','205',26.22E0);
 /
 CALL FoodFact_Merge('16043','208',143.0E0);
-/
-CALL FoodFact_Merge('16043','210',0.34E0);
-/
-CALL FoodFact_Merge('16043','212',0.0E0);
-/
-CALL FoodFact_Merge('16043','213',0.0E0);
 /
 CALL FoodFact_Merge('16043','221',0.0E0);
 /
@@ -23030,12 +22413,6 @@ CALL FoodFact_Merge('16069','204',1.06E0);
 CALL FoodFact_Merge('16069','205',63.35E0);
 /
 CALL FoodFact_Merge('16069','208',352.0E0);
-/
-CALL FoodFact_Merge('16069','210',1.47E0);
-/
-CALL FoodFact_Merge('16069','212',0.27E0);
-/
-CALL FoodFact_Merge('16069','213',0.0E0);
 /
 CALL FoodFact_Merge('16069','221',0.0E0);
 /
@@ -23324,12 +22701,6 @@ CALL FoodFact_Merge('16097','204',49.94E0);
 CALL FoodFact_Merge('16097','205',21.57E0);
 /
 CALL FoodFact_Merge('16097','208',589.0E0);
-/
-CALL FoodFact_Merge('16097','210',4.19E0);
-/
-CALL FoodFact_Merge('16097','212',0.0E0);
-/
-CALL FoodFact_Merge('16097','213',0.0E0);
 /
 CALL FoodFact_Merge('16097','221',0.0E0);
 /
@@ -23881,12 +23252,6 @@ CALL FoodFact_Merge('16390','205',21.26E0);
 /
 CALL FoodFact_Merge('16390','208',587.0E0);
 /
-CALL FoodFact_Merge('16390','210',4.9E0);
-/
-CALL FoodFact_Merge('16390','212',0.0E0);
-/
-CALL FoodFact_Merge('16390','213',0.0E0);
-/
 CALL FoodFact_Merge('16390','221',0.0E0);
 /
 CALL FoodFact_Merge('16390','255',1.81E0);
@@ -23962,12 +23327,6 @@ CALL FoodFact_Merge('16397','204',49.94E0);
 CALL FoodFact_Merge('16397','205',21.57E0);
 /
 CALL FoodFact_Merge('16397','208',589.0E0);
-/
-CALL FoodFact_Merge('16397','210',4.19E0);
-/
-CALL FoodFact_Merge('16397','212',0.0E0);
-/
-CALL FoodFact_Merge('16397','213',0.0E0);
 /
 CALL FoodFact_Merge('16397','221',0.0E0);
 /
@@ -24333,12 +23692,6 @@ CALL FoodFact_Merge('18967','205',43.91E0);
 /
 CALL FoodFact_Merge('18967','208',238.0E0);
 /
-CALL FoodFact_Merge('18967','210',0.0E0);
-/
-CALL FoodFact_Merge('18967','212',2.7E0);
-/
-CALL FoodFact_Merge('18967','213',0.0E0);
-/
 CALL FoodFact_Merge('18967','221',0.0E0);
 /
 CALL FoodFact_Merge('18967','255',39.6E0);
@@ -24488,8 +23841,6 @@ CALL FoodFact_Merge('19047','204',2.93E0);
 CALL FoodFact_Merge('19047','205',80.39E0);
 /
 CALL FoodFact_Merge('19047','208',384.0E0);
-/
-CALL FoodFact_Merge('19047','212',0.31E0);
 /
 CALL FoodFact_Merge('19047','221',0.0E0);
 /
@@ -24789,10 +24140,6 @@ CALL FoodFact_Merge('19296','205',82.4E0);
 /
 CALL FoodFact_Merge('19296','208',304.0E0);
 /
-CALL FoodFact_Merge('19296','210',0.89E0);
-/
-CALL FoodFact_Merge('19296','212',40.94E0);
-/
 CALL FoodFact_Merge('19296','221',0.0E0);
 /
 CALL FoodFact_Merge('19296','255',17.1E0);
@@ -24866,12 +24213,6 @@ CALL FoodFact_Merge('19335','204',0.0E0);
 CALL FoodFact_Merge('19335','205',99.98E0);
 /
 CALL FoodFact_Merge('19335','208',387.0E0);
-/
-CALL FoodFact_Merge('19335','210',99.8E0);
-/
-CALL FoodFact_Merge('19335','212',0.0E0);
-/
-CALL FoodFact_Merge('19335','213',0.0E0);
 /
 CALL FoodFact_Merge('19335','221',0.0E0);
 /
@@ -25399,12 +24740,6 @@ CALL FoodFact_Merge('19902','205',61.17E0);
 /
 CALL FoodFact_Merge('19902','208',546.0E0);
 /
-CALL FoodFact_Merge('19902','210',46.25E0);
-/
-CALL FoodFact_Merge('19902','212',0.0E0);
-/
-CALL FoodFact_Merge('19902','213',1.65E0);
-/
 CALL FoodFact_Merge('19902','255',0.97E0);
 /
 CALL FoodFact_Merge('19902','291',7.0E0);
@@ -25471,12 +24806,6 @@ CALL FoodFact_Merge('19903','205',52.42E0);
 /
 CALL FoodFact_Merge('19903','208',579.0E0);
 /
-CALL FoodFact_Merge('19903','210',36.39E0);
-/
-CALL FoodFact_Merge('19903','212',0.0E0);
-/
-CALL FoodFact_Merge('19903','213',0.31E0);
-/
 CALL FoodFact_Merge('19903','255',1.25E0);
 /
 CALL FoodFact_Merge('19903','291',8.0E0);
@@ -25542,12 +24871,6 @@ CALL FoodFact_Merge('19904','204',42.63E0);
 CALL FoodFact_Merge('19904','205',45.9E0);
 /
 CALL FoodFact_Merge('19904','208',598.0E0);
-/
-CALL FoodFact_Merge('19904','210',23.99E0);
-/
-CALL FoodFact_Merge('19904','212',0.0E0);
-/
-CALL FoodFact_Merge('19904','213',0.0E0);
 /
 CALL FoodFact_Merge('19904','255',1.37E0);
 /
@@ -25686,12 +25009,6 @@ CALL FoodFact_Merge('20001','204',7.02E0);
 CALL FoodFact_Merge('20001','205',65.25E0);
 /
 CALL FoodFact_Merge('20001','208',371.0E0);
-/
-CALL FoodFact_Merge('20001','210',1.4E0);
-/
-CALL FoodFact_Merge('20001','212',0.01E0);
-/
-CALL FoodFact_Merge('20001','213',0.0E0);
 /
 CALL FoodFact_Merge('20001','221',0.0E0);
 /
@@ -26625,12 +25942,6 @@ CALL FoodFact_Merge('20036','205',76.25E0);
 /
 CALL FoodFact_Merge('20036','208',367.0E0);
 /
-CALL FoodFact_Merge('20036','210',0.66E0);
-/
-CALL FoodFact_Merge('20036','212',0.0E0);
-/
-CALL FoodFact_Merge('20036','213',0.0E0);
-/
 CALL FoodFact_Merge('20036','221',0.0E0);
 /
 CALL FoodFact_Merge('20036','255',11.8E0);
@@ -26706,12 +26017,6 @@ CALL FoodFact_Merge('20037','204',0.97E0);
 CALL FoodFact_Merge('20037','205',25.58E0);
 /
 CALL FoodFact_Merge('20037','208',123.0E0);
-/
-CALL FoodFact_Merge('20037','210',0.24E0);
-/
-CALL FoodFact_Merge('20037','212',0.0E0);
-/
-CALL FoodFact_Merge('20037','213',0.0E0);
 /
 CALL FoodFact_Merge('20037','221',0.0E0);
 /
@@ -26966,12 +26271,6 @@ CALL FoodFact_Merge('20044','204',0.66E0);
 CALL FoodFact_Merge('20044','205',79.95E0);
 /
 CALL FoodFact_Merge('20044','208',365.0E0);
-/
-CALL FoodFact_Merge('20044','210',0.08E0);
-/
-CALL FoodFact_Merge('20044','212',0.02E0);
-/
-CALL FoodFact_Merge('20044','213',0.0E0);
 /
 CALL FoodFact_Merge('20044','221',0.0E0);
 /
@@ -27491,10 +26790,6 @@ CALL FoodFact_Merge('20060','205',49.69E0);
 /
 CALL FoodFact_Merge('20060','208',316.0E0);
 /
-CALL FoodFact_Merge('20060','210',0.5E0);
-/
-CALL FoodFact_Merge('20060','212',0.2E0);
-/
 CALL FoodFact_Merge('20060','221',0.0E0);
 /
 CALL FoodFact_Merge('20060','255',6.13E0);
@@ -27566,12 +26861,6 @@ CALL FoodFact_Merge('20062','204',1.63E0);
 CALL FoodFact_Merge('20062','205',75.86E0);
 /
 CALL FoodFact_Merge('20062','208',338.0E0);
-/
-CALL FoodFact_Merge('20062','210',0.71E0);
-/
-CALL FoodFact_Merge('20062','212',0.11E0);
-/
-CALL FoodFact_Merge('20062','213',0.0E0);
 /
 CALL FoodFact_Merge('20062','221',0.0E0);
 /
@@ -27897,8 +27186,6 @@ CALL FoodFact_Merge('20088','205',74.9E0);
 /
 CALL FoodFact_Merge('20088','208',357.0E0);
 /
-CALL FoodFact_Merge('20088','210',0.67E0);
-/
 CALL FoodFact_Merge('20088','221',0.0E0);
 /
 CALL FoodFact_Merge('20088','255',7.76E0);
@@ -27971,10 +27258,6 @@ CALL FoodFact_Merge('20089','205',21.34E0);
 /
 CALL FoodFact_Merge('20089','208',101.0E0);
 /
-CALL FoodFact_Merge('20089','210',0.33E0);
-/
-CALL FoodFact_Merge('20089','212',0.2E0);
-/
 CALL FoodFact_Merge('20089','221',0.0E0);
 /
 CALL FoodFact_Merge('20089','255',73.93E0);
@@ -28046,12 +27329,6 @@ CALL FoodFact_Merge('20120','204',1.51E0);
 CALL FoodFact_Merge('20120','205',74.67E0);
 /
 CALL FoodFact_Merge('20120','208',371.0E0);
-/
-CALL FoodFact_Merge('20120','210',0.48E0);
-/
-CALL FoodFact_Merge('20120','212',0.11E0);
-/
-CALL FoodFact_Merge('20120','213',0.0E0);
 /
 CALL FoodFact_Merge('20120','221',0.0E0);
 /
@@ -28129,12 +27406,6 @@ CALL FoodFact_Merge('20121','205',30.86E0);
 /
 CALL FoodFact_Merge('20121','208',158.0E0);
 /
-CALL FoodFact_Merge('20121','210',0.09E0);
-/
-CALL FoodFact_Merge('20121','212',0.03E0);
-/
-CALL FoodFact_Merge('20121','213',0.0E0);
-/
 CALL FoodFact_Merge('20121','221',0.0E0);
 /
 CALL FoodFact_Merge('20121','255',62.13E0);
@@ -28210,12 +27481,6 @@ CALL FoodFact_Merge('20124','204',2.93E0);
 CALL FoodFact_Merge('20124','205',73.37E0);
 /
 CALL FoodFact_Merge('20124','208',352.0E0);
-/
-CALL FoodFact_Merge('20124','210',0.68E0);
-/
-CALL FoodFact_Merge('20124','212',0.3E0);
-/
-CALL FoodFact_Merge('20124','213',0.0E0);
 /
 CALL FoodFact_Merge('20124','255',8.21E0);
 /
@@ -28354,12 +27619,6 @@ CALL FoodFact_Merge('20138','204',2.13E0);
 CALL FoodFact_Merge('20138','205',70.58E0);
 /
 CALL FoodFact_Merge('20138','208',337.0E0);
-/
-CALL FoodFact_Merge('20138','210',0.55E0);
-/
-CALL FoodFact_Merge('20138','212',0.11E0);
-/
-CALL FoodFact_Merge('20138','213',0.0E0);
 /
 CALL FoodFact_Merge('20138','255',11.07E0);
 /
@@ -28591,12 +27850,6 @@ CALL FoodFact_Merge('21207','205',22.42E0);
 /
 CALL FoodFact_Merge('21207','208',147.0E0);
 /
-CALL FoodFact_Merge('21207','210',0.0E0);
-/
-CALL FoodFact_Merge('21207','212',1.28E0);
-/
-CALL FoodFact_Merge('21207','213',0.0E0);
-/
 CALL FoodFact_Merge('21207','255',64.33E0);
 /
 CALL FoodFact_Merge('21207','291',1.3E0);
@@ -28663,12 +27916,6 @@ CALL FoodFact_Merge('21210','205',20.34E0);
 /
 CALL FoodFact_Merge('21210','208',155.0E0);
 /
-CALL FoodFact_Merge('21210','210',0.0E0);
-/
-CALL FoodFact_Merge('21210','212',1.4E0);
-/
-CALL FoodFact_Merge('21210','213',0.0E0);
-/
 CALL FoodFact_Merge('21210','255',63.08E0);
 /
 CALL FoodFact_Merge('21210','291',0.7E0);
@@ -28734,12 +27981,6 @@ CALL FoodFact_Merge('21211','204',3.15E0);
 CALL FoodFact_Merge('21211','205',21.35E0);
 /
 CALL FoodFact_Merge('21211','208',157.0E0);
-/
-CALL FoodFact_Merge('21211','210',0.0E0);
-/
-CALL FoodFact_Merge('21211','212',1.3E0);
-/
-CALL FoodFact_Merge('21211','213',0.0E0);
 /
 CALL FoodFact_Merge('21211','255',63.15E0);
 /
@@ -29685,12 +28926,6 @@ CALL FoodFact_Merge('25000','205',76.04E0);
 /
 CALL FoodFact_Merge('25000','208',402.0E0);
 /
-CALL FoodFact_Merge('25000','210',0.65E0);
-/
-CALL FoodFact_Merge('25000','212',0.0E0);
-/
-CALL FoodFact_Merge('25000','213',0.0E0);
-/
 CALL FoodFact_Merge('25000','221',0.0E0);
 /
 CALL FoodFact_Merge('25000','255',4.22E0);
@@ -29905,12 +29140,6 @@ CALL FoodFact_Merge('25037','205',68.26E0);
 /
 CALL FoodFact_Merge('25037','208',457.0E0);
 /
-CALL FoodFact_Merge('25037','210',0.0E0);
-/
-CALL FoodFact_Merge('25037','212',1.35E0);
-/
-CALL FoodFact_Merge('25037','213',0.0E0);
-/
 CALL FoodFact_Merge('25037','221',0.0E0);
 /
 CALL FoodFact_Merge('25037','255',2.0E0);
@@ -29988,12 +29217,6 @@ CALL FoodFact_Merge('28307','204',5.65E0);
 CALL FoodFact_Merge('28307','205',50.43E0);
 /
 CALL FoodFact_Merge('28307','208',291.0E0);
-/
-CALL FoodFact_Merge('28307','210',0.0E0);
-/
-CALL FoodFact_Merge('28307','212',0.85E0);
-/
-CALL FoodFact_Merge('28307','213',0.25E0);
 /
 CALL FoodFact_Merge('28307','255',32.6E0);
 /
@@ -30279,12 +29502,6 @@ CALL FoodFact_Merge('35015','205',9.84E0);
 /
 CALL FoodFact_Merge('35015','208',52.0E0);
 /
-CALL FoodFact_Merge('35015','210',0.01E0);
-/
-CALL FoodFact_Merge('35015','212',1.95E0);
-/
-CALL FoodFact_Merge('35015','213',0.0E0);
-/
 CALL FoodFact_Merge('35015','221',0.0E0);
 /
 CALL FoodFact_Merge('35015','255',88.05E0);
@@ -30391,12 +29608,6 @@ CALL FoodFact_Merge('35150','205',0.0E0);
 /
 CALL FoodFact_Merge('35150','208',140.0E0);
 /
-CALL FoodFact_Merge('35150','210',0.0E0);
-/
-CALL FoodFact_Merge('35150','212',0.0E0);
-/
-CALL FoodFact_Merge('35150','213',0.0E0);
-/
 CALL FoodFact_Merge('35150','221',0.0E0);
 /
 CALL FoodFact_Merge('35150','255',69.38E0);
@@ -30467,12 +29678,6 @@ CALL FoodFact_Merge('35151','205',0.0E0);
 /
 CALL FoodFact_Merge('35151','208',153.0E0);
 /
-CALL FoodFact_Merge('35151','210',0.0E0);
-/
-CALL FoodFact_Merge('35151','212',0.0E0);
-/
-CALL FoodFact_Merge('35151','213',0.0E0);
-/
 CALL FoodFact_Merge('35151','221',0.0E0);
 /
 CALL FoodFact_Merge('35151','255',69.64E0);
@@ -30540,12 +29745,6 @@ CALL FoodFact_Merge('35152','204',3.67E0);
 CALL FoodFact_Merge('35152','205',0.0E0);
 /
 CALL FoodFact_Merge('35152','208',116.0E0);
-/
-CALL FoodFact_Merge('35152','210',0.0E0);
-/
-CALL FoodFact_Merge('35152','212',0.0E0);
-/
-CALL FoodFact_Merge('35152','213',0.0E0);
 /
 CALL FoodFact_Merge('35152','221',0.0E0);
 /
@@ -30615,12 +29814,6 @@ CALL FoodFact_Merge('35153','205',0.0E0);
 /
 CALL FoodFact_Merge('35153','208',187.0E0);
 /
-CALL FoodFact_Merge('35153','210',0.0E0);
-/
-CALL FoodFact_Merge('35153','212',0.0E0);
-/
-CALL FoodFact_Merge('35153','213',0.0E0);
-/
 CALL FoodFact_Merge('35153','221',0.0E0);
 /
 CALL FoodFact_Merge('35153','255',65.96E0);
@@ -30683,12 +29876,6 @@ CALL FoodFact_Merge('35155','205',12.31E0);
 /
 CALL FoodFact_Merge('35155','208',61.0E0);
 /
-CALL FoodFact_Merge('35155','210',0.01E0);
-/
-CALL FoodFact_Merge('35155','212',3.35E0);
-/
-CALL FoodFact_Merge('35155','213',0.0E0);
-/
 CALL FoodFact_Merge('35155','221',0.0E0);
 /
 CALL FoodFact_Merge('35155','255',85.48E0);
@@ -30744,12 +29931,6 @@ CALL FoodFact_Merge('35179','204',0.98E0);
 CALL FoodFact_Merge('35179','205',33.88E0);
 /
 CALL FoodFact_Merge('35179','208',156.0E0);
-/
-CALL FoodFact_Merge('35179','210',0.0E0);
-/
-CALL FoodFact_Merge('35179','212',5.38E0);
-/
-CALL FoodFact_Merge('35179','213',0.0E0);
 /
 CALL FoodFact_Merge('35179','221',0.0E0);
 /
@@ -30809,12 +29990,6 @@ CALL FoodFact_Merge('35198','205',10.17E0);
 /
 CALL FoodFact_Merge('35198','208',42.0E0);
 /
-CALL FoodFact_Merge('35198','210',0.38E0);
-/
-CALL FoodFact_Merge('35198','212',0.21E0);
-/
-CALL FoodFact_Merge('35198','213',0.0E0);
-/
 CALL FoodFact_Merge('35198','255',89.22E0);
 /
 CALL FoodFact_Merge('35198','291',5.3E0);
@@ -30860,12 +30035,6 @@ CALL FoodFact_Merge('35202','204',0.28E0);
 CALL FoodFact_Merge('35202','205',13.85E0);
 /
 CALL FoodFact_Merge('35202','208',62.0E0);
-/
-CALL FoodFact_Merge('35202','210',0.07E0);
-/
-CALL FoodFact_Merge('35202','212',3.04E0);
-/
-CALL FoodFact_Merge('35202','213',0.0E0);
 /
 CALL FoodFact_Merge('35202','255',84.48E0);
 /
@@ -30917,12 +30086,6 @@ CALL FoodFact_Merge('35204','205',33.62E0);
 /
 CALL FoodFact_Merge('35204','208',162.0E0);
 /
-CALL FoodFact_Merge('35204','210',0.07E0);
-/
-CALL FoodFact_Merge('35204','212',4.35E0);
-/
-CALL FoodFact_Merge('35204','213',0.0E0);
-/
 CALL FoodFact_Merge('35204','255',60.72E0);
 /
 CALL FoodFact_Merge('35204','291',20.0E0);
@@ -30973,12 +30136,6 @@ CALL FoodFact_Merge('35206','205',21.95E0);
 /
 CALL FoodFact_Merge('35206','208',91.0E0);
 /
-CALL FoodFact_Merge('35206','210',0.07E0);
-/
-CALL FoodFact_Merge('35206','212',5.47E0);
-/
-CALL FoodFact_Merge('35206','213',0.0E0);
-/
 CALL FoodFact_Merge('35206','255',76.68E0);
 /
 CALL FoodFact_Merge('35206','291',6.0E0);
@@ -31028,12 +30185,6 @@ CALL FoodFact_Merge('35239','204',1.4E0);
 CALL FoodFact_Merge('35239','205',58.12E0);
 /
 CALL FoodFact_Merge('35239','208',276.0E0);
-/
-CALL FoodFact_Merge('35239','210',0.0E0);
-/
-CALL FoodFact_Merge('35239','212',0.0E0);
-/
-CALL FoodFact_Merge('35239','213',0.0E0);
 /
 CALL FoodFact_Merge('35239','255',29.89E0);
 /
@@ -31094,12 +30245,6 @@ CALL FoodFact_Merge('35240','204',1.53E0);
 CALL FoodFact_Merge('35240','205',39.84E0);
 /
 CALL FoodFact_Merge('35240','208',186.0E0);
-/
-CALL FoodFact_Merge('35240','210',12.94E0);
-/
-CALL FoodFact_Merge('35240','212',0.0E0);
-/
-CALL FoodFact_Merge('35240','213',0.0E0);
 /
 CALL FoodFact_Merge('35240','255',55.01E0);
 /
@@ -31793,12 +30938,6 @@ CALL FoodFact_Merge('43364','205',65.32E0);
 /
 CALL FoodFact_Merge('43364','208',503.0E0);
 /
-CALL FoodFact_Merge('43364','210',0.85E0);
-/
-CALL FoodFact_Merge('43364','212',0.07E0);
-/
-CALL FoodFact_Merge('43364','213',0.0E0);
-/
 CALL FoodFact_Merge('43364','221',0.0E0);
 /
 CALL FoodFact_Merge('43364','255',2.09E0);
@@ -32087,12 +31226,6 @@ call FoodFact_Merge('10973','10001',21.1E0);
 /
 call FoodFact_Merge('10979','10001',31.69E0);
 /
-call FoodFact_Merge('11450','10001',12.95E0);
-/
-call FoodFact_Merge('11451','10001',12.35E0);
-/
-call FoodFact_Merge('11453','10001',8.47E0);
-/
 call FoodFact_Merge('15023','10001',18.5E0);
 /
 call FoodFact_Merge('15076','10001',19.84E0);
@@ -32127,14 +31260,6 @@ call FoodFact_Merge('15262','10001',26.15E0);
 /
 call FoodFact_Merge('15270','10001',20.1E0);
 /
-call FoodFact_Merge('16108','10001',36.49E0);
-/
-call FoodFact_Merge('16109','10001',18.21E0);
-/
-call FoodFact_Merge('16119','10001',49.2E0);
-/
-call FoodFact_Merge('16122','10001',88.32E0);
-/
 call FoodFact_Merge('23261','10001',23.04E0);
 /
 call FoodFact_Merge('23354','10001',23.59E0);
@@ -32166,666 +31291,6 @@ call FoodFact_Merge('42304','10001',31.7E0);
 call FoodFact_Merge('43352','10001',12.4E0);
 /
 call FoodFact_Merge('43589','10001',28.4E0);
-/
-
-
-call FoodFact_Merge('02030','10002',10.39E0);
-/
-call FoodFact_Merge('02047','10002',0.0E0);
-/
-call FoodFact_Merge('02069','10002',0.49E0);
-/
-call FoodFact_Merge('03246','10002',1.76E0);
-/
-call FoodFact_Merge('04038','10002',0.0E0);
-/
-call FoodFact_Merge('04042','10002',0.0E0);
-/
-call FoodFact_Merge('04044','10002',0.0E0);
-/
-call FoodFact_Merge('04053','10002',0.0E0);
-/
-call FoodFact_Merge('04058','10002',0.0E0);
-/
-call FoodFact_Merge('04502','10002',0.0E0);
-/
-call FoodFact_Merge('04517','10002',0.0E0);
-/
-call FoodFact_Merge('04518','10002',0.0E0);
-/
-call FoodFact_Merge('04528','10002',0.0E0);
-/
-call FoodFact_Merge('04529','10002',0.0E0);
-/
-call FoodFact_Merge('04531','10002',0.0E0);
-/
-call FoodFact_Merge('04581','10002',0.0E0);
-/
-call FoodFact_Merge('04582','10002',0.0E0);
-/
-call FoodFact_Merge('04589','10002',0.0E0);
-/
-call FoodFact_Merge('04590','10002',0.0E0);
-/
-call FoodFact_Merge('04591','10002',0.0E0);
-/
-call FoodFact_Merge('04593','10002',0.0E0);
-/
-call FoodFact_Merge('04594','10002',0.0E0);
-/
-call FoodFact_Merge('04679','10002',0.26E0);
-/
-call FoodFact_Merge('04708','10002',0.37E0);
-/
-call FoodFact_Merge('08001','10002',13.14E0);
-/
-call FoodFact_Merge('08120','10002',13.15E0);
-/
-call FoodFact_Merge('09003','10002',0.26E0);
-/
-call FoodFact_Merge('09021','10002',1.4E0);
-/
-call FoodFact_Merge('09037','10002',2.0E0);
-/
-call FoodFact_Merge('09040','10002',1.09E0);
-/
-call FoodFact_Merge('09042','10002',1.39E0);
-/
-call FoodFact_Merge('09048','10002',1.18E0);
-/
-call FoodFact_Merge('09050','10002',0.74E0);
-/
-call FoodFact_Merge('09054','10002',0.42E0);
-/
-call FoodFact_Merge('09070','10002',1.06E0);
-/
-call FoodFact_Merge('09089','10002',0.75E0);
-/
-call FoodFact_Merge('09094','10002',3.3E0);
-/
-call FoodFact_Merge('09095','10002',1.42E0);
-/
-call FoodFact_Merge('09111','10002',0.63E0);
-/
-call FoodFact_Merge('09129','10002',0.81E0);
-/
-call FoodFact_Merge('09131','10002',0.63E0);
-/
-call FoodFact_Merge('09132','10002',0.72E0);
-/
-call FoodFact_Merge('09139','10002',2.55E0);
-/
-call FoodFact_Merge('09140','10002',0.58E0);
-/
-call FoodFact_Merge('09148','10002',1.14E0);
-/
-call FoodFact_Merge('09150','10002',1.1E0);
-/
-call FoodFact_Merge('09152','10002',0.35E0);
-/
-call FoodFact_Merge('09159','10002',0.7E0);
-/
-call FoodFact_Merge('09160','10002',0.42E0);
-/
-call FoodFact_Merge('09176','10002',0.82E0);
-/
-call FoodFact_Merge('09181','10002',0.84E0);
-/
-call FoodFact_Merge('09184','10002',0.54E0);
-/
-call FoodFact_Merge('09191','10002',1.06E0);
-/
-call FoodFact_Merge('09193','10002',0.84E0);
-/
-call FoodFact_Merge('09194','10002',0.97E0);
-/
-call FoodFact_Merge('09200','10002',0.94E0);
-/
-call FoodFact_Merge('09206','10002',0.7E0);
-/
-call FoodFact_Merge('09218','10002',0.81E0);
-/
-call FoodFact_Merge('09226','10002',0.47E0);
-/
-call FoodFact_Merge('09236','10002',0.91E0);
-/
-call FoodFact_Merge('09252','10002',0.36E0);
-/
-call FoodFact_Merge('09266','10002',0.54E0);
-/
-call FoodFact_Merge('09279','10002',0.7E0);
-/
-call FoodFact_Merge('09286','10002',1.67E0);
-/
-call FoodFact_Merge('09287','10002',0.73E0);
-/
-call FoodFact_Merge('09294','10002',0.61E0);
-/
-call FoodFact_Merge('09297','10002',3.39E0);
-/
-call FoodFact_Merge('09298','10002',3.07E0);
-/
-call FoodFact_Merge('09302','10002',1.2E0);
-/
-call FoodFact_Merge('09316','10002',0.67E0);
-/
-call FoodFact_Merge('09318','10002',0.43E0);
-/
-call FoodFact_Merge('09322','10002',2.8E0);
-/
-call FoodFact_Merge('09326','10002',0.61E0);
-/
-call FoodFact_Merge('09340','10002',0.5E0);
-/
-call FoodFact_Merge('09351','10002',0.47E0);
-/
-call FoodFact_Merge('09357','10002',0.64E0);
-/
-call FoodFact_Merge('09367','10002',0.73E0);
-/
-call FoodFact_Merge('09401','10002',0.17E0);
-/
-call FoodFact_Merge('09404','10002',0.5E0);
-/
-call FoodFact_Merge('09423','10002',2.1E0);
-/
-call FoodFact_Merge('09438','10002',0.56E0);
-/
-call FoodFact_Merge('09440','10002',0.28E0);
-/
-call FoodFact_Merge('09442','10002',0.15E0);
-/
-call FoodFact_Merge('11011','10002',2.2E0);
-/
-call FoodFact_Merge('11012','10002',2.4E0);
-/
-call FoodFact_Merge('11080','10002',1.61E0);
-/
-call FoodFact_Merge('11081','10002',1.68E0);
-/
-call FoodFact_Merge('11084','10002',0.91E0);
-/
-call FoodFact_Merge('11090','10002',2.82E0);
-/
-call FoodFact_Merge('11091','10002',2.38E0);
-/
-call FoodFact_Merge('11109','10002',1.28E0);
-/
-call FoodFact_Merge('11110','10002',1.27E0);
-/
-call FoodFact_Merge('11112','10002',1.43E0);
-/
-call FoodFact_Merge('11113','10002',1.51E0);
-/
-call FoodFact_Merge('11124','10002',0.93E0);
-/
-call FoodFact_Merge('11125','10002',0.76E0);
-/
-call FoodFact_Merge('11135','10002',1.92E0);
-/
-call FoodFact_Merge('11136','10002',1.84E0);
-/
-call FoodFact_Merge('11137','10002',2.01E0);
-/
-call FoodFact_Merge('11138','10002',1.61E0);
-/
-call FoodFact_Merge('11143','10002',0.69E0);
-/
-call FoodFact_Merge('11144','10002',0.83E0);
-/
-call FoodFact_Merge('11165','10002',2.13E0);
-/
-call FoodFact_Merge('11167','10002',3.27E0);
-/
-call FoodFact_Merge('11168','10002',3.41E0);
-/
-call FoodFact_Merge('11205','10002',0.65E0);
-/
-call FoodFact_Merge('11206','10002',0.59E0);
-/
-call FoodFact_Merge('11212','10002',11.91E0);
-/
-call FoodFact_Merge('11215','10002',6.36E0);
-/
-call FoodFact_Merge('11216','10002',1.82E0);
-/
-call FoodFact_Merge('11233','10002',4.28E0);
-/
-call FoodFact_Merge('11234','10002',1.9E0);
-/
-call FoodFact_Merge('11238','10002',2.24E0);
-/
-call FoodFact_Merge('11243','10002',3.28E0);
-/
-call FoodFact_Merge('11251','10002',1.23E0);
-/
-call FoodFact_Merge('11252','10002',0.9E0);
-/
-call FoodFact_Merge('11253','10002',1.36E0);
-/
-call FoodFact_Merge('11257','10002',1.33E0);
-/
-call FoodFact_Merge('11260','10002',3.09E0);
-/
-call FoodFact_Merge('11263','10002',3.58E0);
-/
-call FoodFact_Merge('11265','10002',2.11E0);
-/
-call FoodFact_Merge('11267','10002',3.45E0);
-/
-call FoodFact_Merge('11278','10002',1.93E0);
-/
-call FoodFact_Merge('11279','10002',1.87E0);
-/
-call FoodFact_Merge('11282','10002',1.1E0);
-/
-call FoodFact_Merge('11283','10002',1.36E0);
-/
-call FoodFact_Merge('11304','10002',5.42E0);
-/
-call FoodFact_Merge('11305','10002',5.36E0);
-/
-call FoodFact_Merge('11312','10002',5.22E0);
-/
-call FoodFact_Merge('11313','10002',5.15E0);
-/
-call FoodFact_Merge('11322','10002',3.4E0);
-/
-call FoodFact_Merge('11323','10002',3.09E0);
-/
-call FoodFact_Merge('11333','10002',0.86E0);
-/
-call FoodFact_Merge('11352','10002',2.05E0);
-/
-call FoodFact_Merge('11353','10002',2.14E0);
-/
-call FoodFact_Merge('11354','10002',1.68E0);
-/
-call FoodFact_Merge('11355','10002',1.89E0);
-/
-call FoodFact_Merge('11357','10002',2.1E0);
-/
-call FoodFact_Merge('11362','10002',2.57E0);
-/
-call FoodFact_Merge('11365','10002',1.87E0);
-/
-call FoodFact_Merge('11369','10002',4.39E0);
-/
-call FoodFact_Merge('11429','10002',0.68E0);
-/
-call FoodFact_Merge('11457','10002',2.86E0);
-/
-call FoodFact_Merge('11458','10002',2.97E0);
-/
-call FoodFact_Merge('11461','10002',2.81E0);
-/
-call FoodFact_Merge('11477','10002',1.21E0);
-/
-call FoodFact_Merge('11507','10002',1.57E0);
-/
-call FoodFact_Merge('11508','10002',2.01E0);
-/
-call FoodFact_Merge('11529','10002',0.88E0);
-/
-call FoodFact_Merge('11546','10002',4.32E0);
-/
-call FoodFact_Merge('11547','10002',1.65E0);
-/
-call FoodFact_Merge('11549','10002',1.2E0);
-/
-call FoodFact_Merge('11581','10002',2.59E0);
-/
-call FoodFact_Merge('11583','10002',3.33E0);
-/
-call FoodFact_Merge('11601','10002',1.53E0);
-/
-call FoodFact_Merge('11602','10002',1.49E0);
-/
-call FoodFact_Merge('11603','10002',0.72E0);
-/
-call FoodFact_Merge('11641','10002',1.21E0);
-/
-call FoodFact_Merge('11642','10002',0.91E0);
-/
-call FoodFact_Merge('11643','10002',0.95E0);
-/
-call FoodFact_Merge('11647','10002',1.28E0);
-/
-call FoodFact_Merge('11655','10002',0.95E0);
-/
-call FoodFact_Merge('11674','10002',2.5E0);
-/
-call FoodFact_Merge('11821','10002',0.99E0);
-/
-call FoodFact_Merge('11900','10002',3.22E0);
-/
-call FoodFact_Merge('11901','10002',3.34E0);
-/
-call FoodFact_Merge('11935','10002',1.04E0);
-/
-call FoodFact_Merge('11949','10002',1.04E0);
-/
-call FoodFact_Merge('11954','10002',0.96E0);
-/
-call FoodFact_Merge('11960','10002',0.64E0);
-/
-call FoodFact_Merge('11963','10002',1.32E0);
-/
-call FoodFact_Merge('11964','10002',1.35E0);
-/
-call FoodFact_Merge('11977','10002',1.74E0);
-/
-call FoodFact_Merge('11979','10002',0.91E0);
-/
-call FoodFact_Merge('12037','10002',19.33E0);
-/
-call FoodFact_Merge('12039','10002',17.21E0);
-/
-call FoodFact_Merge('12061','10002',21.15E0);
-/
-call FoodFact_Merge('12063','10002',20.96E0);
-/
-call FoodFact_Merge('12085','10002',15.31E0);
-/
-call FoodFact_Merge('12087','10002',18.22E0);
-/
-call FoodFact_Merge('12088','10002',17.56E0);
-/
-call FoodFact_Merge('12122','10002',15.03E0);
-/
-call FoodFact_Merge('12131','10002',7.91E0);
-/
-call FoodFact_Merge('12132','10002',7.79E0);
-/
-call FoodFact_Merge('12135','10002',19.5E0);
-/
-call FoodFact_Merge('12136','10002',21.95E0);
-/
-call FoodFact_Merge('12142','10002',9.17E0);
-/
-call FoodFact_Merge('12143','10002',9.5E0);
-/
-call FoodFact_Merge('12151','10002',20.16E0);
-/
-call FoodFact_Merge('12152','10002',21.05E0);
-/
-call FoodFact_Merge('12155','10002',15.23E0);
-/
-call FoodFact_Merge('12157','10002',14.29E0);
-/
-call FoodFact_Merge('12206','10002',18.17E0);
-/
-call FoodFact_Merge('12220','10002',18.29E0);
-/
-call FoodFact_Merge('14003','10002',0.46E0);
-/
-call FoodFact_Merge('14006','10002',0.24E0);
-/
-call FoodFact_Merge('14096','10002',0.07E0);
-/
-call FoodFact_Merge('14106','10002',0.07E0);
-/
-call FoodFact_Merge('14145','10002',0.05E0);
-/
-call FoodFact_Merge('14185','10002',0.0E0);
-/
-call FoodFact_Merge('14209','10002',0.12E0);
-/
-call FoodFact_Merge('14278','10002',0.22E0);
-/
-call FoodFact_Merge('14355','10002',0.0E0);
-/
-call FoodFact_Merge('14414','10002',0.1E0);
-/
-call FoodFact_Merge('14475','10002',0.0E0);
-/
-call FoodFact_Merge('16027','10002',23.58E0);
-/
-call FoodFact_Merge('16028','10002',8.67E0);
-/
-call FoodFact_Merge('16030','10002',24.37E0);
-/
-call FoodFact_Merge('16031','10002',9.13E0);
-/
-call FoodFact_Merge('16032','10002',22.53E0);
-/
-call FoodFact_Merge('16033','10002',8.67E0);
-/
-call FoodFact_Merge('16042','10002',21.42E0);
-/
-call FoodFact_Merge('16043','10002',9.01E0);
-/
-call FoodFact_Merge('16056','10002',20.47E0);
-/
-call FoodFact_Merge('16057','10002',8.86E0);
-/
-call FoodFact_Merge('16069','10002',24.63E0);
-/
-call FoodFact_Merge('16070','10002',9.02E0);
-/
-call FoodFact_Merge('16085','10002',23.82E0);
-/
-call FoodFact_Merge('16086','10002',8.34E0);
-/
-call FoodFact_Merge('16097','10002',24.06E0);
-/
-call FoodFact_Merge('16137','10002',4.86E0);
-/
-call FoodFact_Merge('16358','10002',7.05E0);
-/
-call FoodFact_Merge('16370','10002',9.02E0);
-/
-call FoodFact_Merge('16390','10002',24.35E0);
-/
-call FoodFact_Merge('16397','10002',24.06E0);
-/
-call FoodFact_Merge('18005','10002',9.8E0);
-/
-call FoodFact_Merge('18041','10002',9.1E0);
-/
-call FoodFact_Merge('18042','10002',9.8E0);
-/
-call FoodFact_Merge('18060','10002',8.5E0);
-/
-call FoodFact_Merge('18967','10002',10.66E0);
-/
-call FoodFact_Merge('18968','10002',10.2E0);
-/
-call FoodFact_Merge('19047','10002',10.04E0);
-/
-call FoodFact_Merge('19059','10002',13.8E0);
-/
-call FoodFact_Merge('19165','10002',19.6E0);
-/
-call FoodFact_Merge('19166','10002',18.1E0);
-/
-call FoodFact_Merge('19171','10002',20.0E0);
-/
-call FoodFact_Merge('19296','10002',0.3E0);
-/
-call FoodFact_Merge('19335','10002',0.0E0);
-/
-call FoodFact_Merge('19337','10002',2.17E0);
-/
-call FoodFact_Merge('19806','10002',12.0E0);
-/
-call FoodFact_Merge('19816','10002',8.2E0);
-/
-call FoodFact_Merge('19818','10002',8.5E0);
-/
-call FoodFact_Merge('19821','10002',13.8E0);
-/
-call FoodFact_Merge('19833','10002',11.0E0);
-/
-call FoodFact_Merge('19868','10002',0.0E0);
-/
-call FoodFact_Merge('19902','10002',4.88E0);
-/
-call FoodFact_Merge('19903','10002',6.12E0);
-/
-call FoodFact_Merge('19904','10002',7.79E0);
-/
-call FoodFact_Merge('19918','10002',0.0E0);
-/
-call FoodFact_Merge('20001','10002',13.56E0);
-/
-call FoodFact_Merge('20002','10002',3.8E0);
-/
-call FoodFact_Merge('20005','10002',9.91E0);
-/
-call FoodFact_Merge('20006','10002',2.26E0);
-/
-call FoodFact_Merge('20014','10002',9.42E0);
-/
-call FoodFact_Merge('20015','10002',8.36E0);
-/
-call FoodFact_Merge('20028','10002',12.76E0);
-/
-call FoodFact_Merge('20029','10002',3.79E0);
-/
-call FoodFact_Merge('20030','10002',1.48E0);
-/
-call FoodFact_Merge('20031','10002',11.02E0);
-/
-call FoodFact_Merge('20032','10002',3.51E0);
-/
-call FoodFact_Merge('20033','10002',17.3E0);
-/
-call FoodFact_Merge('20034','10002',3.21E0);
-/
-call FoodFact_Merge('20035','10002',14.12E0);
-/
-call FoodFact_Merge('20036','10002',7.54E0);
-/
-call FoodFact_Merge('20037','10002',2.74E0);
-/
-call FoodFact_Merge('20038','10002',16.89E0);
-/
-call FoodFact_Merge('20040','10002',7.5E0);
-/
-call FoodFact_Merge('20041','10002',2.32E0);
-/
-call FoodFact_Merge('20044','10002',7.13E0);
-/
-call FoodFact_Merge('20045','10002',2.69E0);
-/
-call FoodFact_Merge('20050','10002',6.61E0);
-/
-call FoodFact_Merge('20051','10002',2.38E0);
-/
-call FoodFact_Merge('20052','10002',6.5E0);
-/
-call FoodFact_Merge('20053','10002',2.36E0);
-/
-call FoodFact_Merge('20054','10002',6.81E0);
-/
-call FoodFact_Merge('20055','10002',2.02E0);
-/
-call FoodFact_Merge('20060','10002',13.35E0);
-/
-call FoodFact_Merge('20062','10002',10.34E0);
-/
-call FoodFact_Merge('20067','10002',10.62E0);
-/
-call FoodFact_Merge('20069','10002',13.05E0);
-/
-call FoodFact_Merge('20077','10002',15.55E0);
-/
-call FoodFact_Merge('20078','10002',23.15E0);
-/
-call FoodFact_Merge('20088','10002',14.73E0);
-/
-call FoodFact_Merge('20089','10002',3.99E0);
-/
-call FoodFact_Merge('20120','10002',13.04E0);
-/
-call FoodFact_Merge('20121','10002',5.8E0);
-/
-call FoodFact_Merge('20124','10002',13.87E0);
-/
-call FoodFact_Merge('20137','10002',4.4E0);
-/
-call FoodFact_Merge('20138','10002',14.54E0);
-/
-call FoodFact_Merge('20139','10002',5.71E0);
-/
-call FoodFact_Merge('20314','10002',9.42E0);
-/
-call FoodFact_Merge('20330','10002',1.48E0);
-/
-call FoodFact_Merge('21207','10002',9.12E0);
-/
-call FoodFact_Merge('21210','10002',12.17E0);
-/
-call FoodFact_Merge('21211','10002',10.84E0);
-/
-call FoodFact_Merge('25000','10002',10.72E0);
-/
-call FoodFact_Merge('25012','10002',2.94E0);
-/
-call FoodFact_Merge('25024','10002',8.2E0);
-/
-call FoodFact_Merge('25037','10002',11.79E0);
-/
-call FoodFact_Merge('28307','10002',9.62E0);
-/
-call FoodFact_Merge('28322','10002',9.9E0);
-/
-call FoodFact_Merge('31001','10002',0.82E0);
-/
-call FoodFact_Merge('31002','10002',0.82E0);
-/
-call FoodFact_Merge('31008','10002',0.82E0);
-/
-call FoodFact_Merge('31010','10002',0.82E0);
-/
-call FoodFact_Merge('31013','10002',0.82E0);
-/
-call FoodFact_Merge('35015','10002',0.84E0);
-/
-call FoodFact_Merge('35017','10002',0.7E0);
-/
-call FoodFact_Merge('35029','10002',1.1E0);
-/
-call FoodFact_Merge('35150','10002',22.56E0);
-/
-call FoodFact_Merge('35151','10002',21.94E0);
-/
-call FoodFact_Merge('35152','10002',20.69E0);
-/
-call FoodFact_Merge('35153','10002',20.25E0);
-/
-call FoodFact_Merge('35155','10002',1.22E0);
-/
-call FoodFact_Merge('35179','10002',2.89E0);
-/
-call FoodFact_Merge('35198','10002',0.12E0);
-/
-call FoodFact_Merge('35202','10002',1.12E0);
-/
-call FoodFact_Merge('35204','10002',3.04E0);
-/
-call FoodFact_Merge('35206','10002',0.43E0);
-/
-call FoodFact_Merge('35239','10002',7.83E0);
-/
-call FoodFact_Merge('35240','10002',3.1E0);
-/
-call FoodFact_Merge('42231','10002',0.11E0);
-/
-call FoodFact_Merge('42289','10002',0.0E0);
-/
-call FoodFact_Merge('43026','10002',0.8E0);
-/
-call FoodFact_Merge('43060','10002',0.0E0);
-/
-call FoodFact_Merge('43158','10002',0.94E0);
-/
-call FoodFact_Merge('43312','10002',1.4E0);
-/
-call FoodFact_Merge('43364','10002',7.79E0);
-/
-call FoodFact_Merge('43566','10002',8.7E0);
 /
 
 
@@ -33360,6 +31825,10 @@ CALL FoodFact_Merge('15237','10003',0.0E0);
 CALL FoodFact_Merge('15261','10003',0.0E0);
 /
 CALL FoodFact_Merge('15262','10003',0.0E0);
+/
+CALL FoodFact_Merge('16014','10003',46.86E0);
+/
+CALL FoodFact_Merge('16015','10003',15.010000000000002E0);
 /
 CALL FoodFact_Merge('16027','10003',35.11E0);
 /
@@ -35984,131 +34453,131 @@ call Rda_Insert_q('851',21,1.3);
 call Rda_Insert_q('10001',21,71);
 /
 
-CALL FoodFact_Merge('01085','10008',1.5872E0);
+CALL FoodFact_Merge('01085','10006',1.5872E0);
 /
-CALL FoodFact_Merge('01095','10008',33.184E0);
+CALL FoodFact_Merge('01095','10006',33.184E0);
 /
-CALL FoodFact_Merge('01256','10008',0.504E0);
+CALL FoodFact_Merge('01256','10006',0.504E0);
 /
-CALL FoodFact_Merge('08001','10008',15.2796E0);
+CALL FoodFact_Merge('08001','10006',15.2796E0);
 /
-CALL FoodFact_Merge('08120','10008',37.44E0);
+CALL FoodFact_Merge('08120','10006',37.44E0);
 /
-CALL FoodFact_Merge('09003','10008',4.3358E0);
+CALL FoodFact_Merge('09003','10006',4.3358E0);
 /
-CALL FoodFact_Merge('09021','10008',5.1983999999999995E0);
+CALL FoodFact_Merge('09021','10006',5.1983999999999995E0);
 /
-CALL FoodFact_Merge('09040','10008',10.5248E0);
+CALL FoodFact_Merge('09040','10006',10.5248E0);
 /
-CALL FoodFact_Merge('09111','10008',1.745E0);
+CALL FoodFact_Merge('09111','10006',1.745E0);
 /
-CALL FoodFact_Merge('09132','10008',7.912000000000002E0);
+CALL FoodFact_Merge('09132','10006',7.912000000000002E0);
 /
-CALL FoodFact_Merge('09176','10008',6.8238E0);
+CALL FoodFact_Merge('09176','10006',6.8238E0);
 /
-CALL FoodFact_Merge('09181','10008',4.864199999999999E0);
+CALL FoodFact_Merge('09181','10006',4.864199999999999E0);
 /
-CALL FoodFact_Merge('09200','10008',3.927E0);
+CALL FoodFact_Merge('09200','10006',3.927E0);
 /
-CALL FoodFact_Merge('09206','10008',5.406000000000001E0);
+CALL FoodFact_Merge('09206','10006',5.406000000000001E0);
 /
-CALL FoodFact_Merge('09226','10008',5.107200000000001E0);
+CALL FoodFact_Merge('09226','10006',5.107200000000001E0);
 /
-CALL FoodFact_Merge('09236','10008',3.0551999999999997E0);
+CALL FoodFact_Merge('09236','10006',3.0551999999999997E0);
 /
-CALL FoodFact_Merge('09252','10008',4.609400000000001E0);
+CALL FoodFact_Merge('09252','10006',4.609400000000001E0);
 /
-CALL FoodFact_Merge('09266','10008',6.914799999999999E0);
+CALL FoodFact_Merge('09266','10006',6.914799999999999E0);
 /
-CALL FoodFact_Merge('09279','10008',3.9078E0);
+CALL FoodFact_Merge('09279','10006',3.9078E0);
 /
-CALL FoodFact_Merge('09287','10008',0.41790000000000005E0);
+CALL FoodFact_Merge('09287','10006',0.41790000000000005E0);
 /
-CALL FoodFact_Merge('09298','10008',48.3072E0);
+CALL FoodFact_Merge('09298','10006',48.3072E0);
 /
-CALL FoodFact_Merge('09438','10008',8.521500000000001E0);
+CALL FoodFact_Merge('09438','10006',8.521500000000001E0);
 /
-CALL FoodFact_Merge('11084','10008',3.4624E0);
+CALL FoodFact_Merge('11084','10006',3.4624E0);
 /
-CALL FoodFact_Merge('11124','10008',3.1866000000000003E0);
+CALL FoodFact_Merge('11124','10006',3.1866000000000003E0);
 /
-CALL FoodFact_Merge('11125','10008',2.1402000000000005E0);
+CALL FoodFact_Merge('11125','10006',2.1402000000000005E0);
 /
-CALL FoodFact_Merge('11168','10008',8.546800000000001E0);
+CALL FoodFact_Merge('11168','10006',8.546800000000001E0);
 /
-CALL FoodFact_Merge('11305','10008',4.8624E0);
+CALL FoodFact_Merge('11305','10006',4.8624E0);
 /
-CALL FoodFact_Merge('11357','10008',11.387999999999998E0);
+CALL FoodFact_Merge('11357','10006',11.387999999999998E0);
 /
-CALL FoodFact_Merge('11451','10008',0.9590000000000001E0);
+CALL FoodFact_Merge('11451','10006',0.9590000000000001E0);
 /
-CALL FoodFact_Merge('11508','10008',10.6201E0);
+CALL FoodFact_Merge('11508','10006',10.6201E0);
 /
-CALL FoodFact_Merge('11602','10008',8.7246E0);
+CALL FoodFact_Merge('11602','10006',8.7246E0);
 /
-CALL FoodFact_Merge('11655','10008',3.6463999999999994E0);
+CALL FoodFact_Merge('11655','10006',3.6463999999999994E0);
 /
-CALL FoodFact_Merge('11901','10008',8.7446E0);
+CALL FoodFact_Merge('11901','10006',8.7446E0);
 /
-CALL FoodFact_Merge('16033','10008',4.312E0);
+CALL FoodFact_Merge('16033','10006',4.312E0);
 /
-CALL FoodFact_Merge('16043','10008',7.749E0);
+CALL FoodFact_Merge('16043','10006',7.749E0);
 /
-CALL FoodFact_Merge('16070','10008',3.5466999999999995E0);
+CALL FoodFact_Merge('16070','10006',3.5466999999999995E0);
 /
-CALL FoodFact_Merge('16109','10008',0.3303999999999999E0);
+CALL FoodFact_Merge('16109','10006',0.3303999999999999E0);
 /
-CALL FoodFact_Merge('16137','10008',0.9672E0);
+CALL FoodFact_Merge('16137','10006',0.9672E0);
 /
-CALL FoodFact_Merge('16358','10008',6.452000000000001E0);
+CALL FoodFact_Merge('16358','10006',6.452000000000001E0);
 /
-CALL FoodFact_Merge('18041','10008',37.45E0);
+CALL FoodFact_Merge('18041','10006',37.45E0);
 /
-CALL FoodFact_Merge('18060','10008',24.65E0);
+CALL FoodFact_Merge('18060','10006',24.65E0);
 /
-CALL FoodFact_Merge('18967','10008',24.296999999999993E0);
+CALL FoodFact_Merge('18967','10006',24.296999999999993E0);
 /
-CALL FoodFact_Merge('19047','10008',63.90169999999999E0);
+CALL FoodFact_Merge('19047','10006',63.90169999999999E0);
 /
-CALL FoodFact_Merge('19296','10008',45.21E0);
+CALL FoodFact_Merge('19296','10006',45.21E0);
 /
-CALL FoodFact_Merge('19335','10008',67.9864E0);
+CALL FoodFact_Merge('19335','10006',67.9864E0);
 /
-CALL FoodFact_Merge('19806','10008',45.216E0);
+CALL FoodFact_Merge('19806','10006',45.216E0);
 /
-CALL FoodFact_Merge('19833','10008',47.123999999999995E0);
+CALL FoodFact_Merge('19833','10006',47.123999999999995E0);
 /
-CALL FoodFact_Merge('20006','10008',6.105E0);
+CALL FoodFact_Merge('20006','10006',6.105E0);
 /
-CALL FoodFact_Merge('20029','10008',14.183E0);
+CALL FoodFact_Merge('20029','10006',14.183E0);
 /
-CALL FoodFact_Merge('20030','10008',4.704E0);
+CALL FoodFact_Merge('20030','10006',4.704E0);
 /
-CALL FoodFact_Merge('20032','10008',15.8827E0);
+CALL FoodFact_Merge('20032','10006',15.8827E0);
 /
-CALL FoodFact_Merge('20037','10008',15.826799999999999E0);
+CALL FoodFact_Merge('20037','10006',15.826799999999999E0);
 /
-CALL FoodFact_Merge('20041','10008',14.328600000000002E0);
+CALL FoodFact_Merge('20041','10006',14.328600000000002E0);
 /
-CALL FoodFact_Merge('20045','10008',16.1066E0);
+CALL FoodFact_Merge('20045','10006',16.1066E0);
 /
-CALL FoodFact_Merge('20051','10008',18.1056E0);
+CALL FoodFact_Merge('20051','10006',18.1056E0);
 /
-CALL FoodFact_Merge('20055','10008',19.6882E0);
+CALL FoodFact_Merge('20055','10006',19.6882E0);
 /
-CALL FoodFact_Merge('20089','10008',11.1378E0);
+CALL FoodFact_Merge('20089','10006',11.1378E0);
 /
-CALL FoodFact_Merge('20121','10008',12.2052E0);
+CALL FoodFact_Merge('20121','10006',12.2052E0);
 /
-CALL FoodFact_Merge('20330','10008',4.704E0);
+CALL FoodFact_Merge('20330','10006',4.704E0);
 /
-CALL FoodFact_Merge('25024','10008',57.5522E0);
+CALL FoodFact_Merge('25024','10006',57.5522E0);
 /
-CALL FoodFact_Merge('31001','10008',1.2616E0);
+CALL FoodFact_Merge('31001','10006',1.2616E0);
 /
-CALL FoodFact_Merge('43364','10008',37.812599999999996E0);
+CALL FoodFact_Merge('43364','10006',37.812599999999996E0);
 /
-CALL FoodFact_Merge('43566','10008',42.651E0);
+CALL FoodFact_Merge('43566','10006',42.651E0);
 /
 
 
@@ -36360,16 +34829,13 @@ call FoodFact_Merge('123456790','203',80);
 --Complete Protein (g)
 call FoodFact_Merge('123456790','10001',80);
 /
---Lactose (g)
-call FoodFact_Merge('123456790','213',5);
-/
 --Fat (g)
 call FoodFact_Merge('123456790','204',6);
 /
 --Cholesterol (mg)
 call FoodFact_Merge('123456790','601',215);
 /
---Energy (kcal)
+--Energy, gross (kcal)
 call FoodFact_Merge('123456790','208',385);
 /
 --Saturated Fat (g)
@@ -36383,6 +34849,24 @@ call FoodFact_Merge('123456790','646',0.7);
 /
 --Water (g)
 call FoodFact_Merge('123456790','255',5);
+/
+--Energy, digestible (kcal)
+call FoodFact_Merge('123456790','10009',394);
+/
+--Energy, no protein (kcal)
+call FoodFact_Merge('123456790','10010',74);
+/
+--Energy, carbohydrate (kcal)
+call FoodFact_Merge('123456790','10011',20);
+/
+--Energy, protein (kcal)
+call FoodFact_Merge('123456790','10012',320);
+/
+--Energy, fat (kcal)
+call FoodFact_Merge('123456790','10013',54);
+/
+--Energy, alcohol (kcal)
+call FoodFact_Merge('123456790','10014',0);
 /
 
 --FOOD ITEM: Water
@@ -36405,51 +34889,6 @@ call FoodFact_Merge('123456753','10000',1);
 call FoodFact_Merge('123456753','255',1);
 /
 
---FOOD ITEM: Psyllium Husk Powder
---
---Insert food item
-call Food_Insert('123496753','Psyllium Husk Powder');
-/
---Put in in a food category
-call CategoryLink_Insert('123496753','6000');
-/
---Zero out food item food fact
-call FoodFact_ZeroOut_FoodId('123496753');
-/
---Update food item food fact with whatever available values there are
---
---Weight (g)
-call FoodFact_Merge('123496753','10000',9);
-/
---Energy (kcal)
-call FoodFact_Merge('123496753','208',4);
-/
---Sodium (mg)
-call FoodFact_Merge('123496753','307',10);
-/
---Carbohydrate, by difference (g)
-call FoodFact_Merge('123496753','205',8);
-/
---Fiber, total dietary (g)
-call FoodFact_Merge('123496753','291',7);
-/
---Digestible Carbohydrate (g)
-call FoodFact_Merge('123496753','10003',1);
-/
---Iron (mg)
-call FoodFact_Merge('123496753','303',1.5);
-/
---Potassium, K (mg)
-call FoodFact_Merge('123496753','306',87);
-/
---Fiber, Insoluble (g)
-call FoodFact_Merge('123496753','10006',0.7875);
-/
---Fiber, Soluble (g)
-call FoodFact_Merge('123496753','10007',6.2125);
-/
-
-
 --FOOD ITEM: Seeds, flaxseed (EFAs)
 --
 --Insert food item
@@ -36466,7 +34905,7 @@ call FoodFact_ZeroOut_FoodId('kVJIZFHV4H');
 --'10000','Weight (g)'
 call FoodFact_Merge('kVJIZFHV4H','10000',100);
 /
---'208','Energy (kcal)'
+--'208','Energy, gross (kcal)'
 call FoodFact_Merge('kVJIZFHV4H','208',534);
 /
 --'203','Protein (g)'
@@ -36474,9 +34913,6 @@ call FoodFact_Merge('kVJIZFHV4H','203',18.29);
 /
 --'10001','Complete Protein (g)'
 call FoodFact_Merge('kVJIZFHV4H','10001',0);
-/
---'10002','Incomplete Protein (g)'
-call FoodFact_Merge('kVJIZFHV4H','10002',18.29);
 /
 --'204','Total lipid (Fat) (g)'
 call FoodFact_Merge('kVJIZFHV4H','204',42.16);
@@ -36506,22 +34942,13 @@ call FoodFact_Merge('kVJIZFHV4H','621',0);
 call FoodFact_Merge('kVJIZFHV4H','629',0);
 /
 --'205','Carbohydrate, by difference (g)'
-call FoodFact_Merge('kVJIZFHV4H','291',28.88);
+call FoodFact_Merge('kVJIZFHV4H','205',28.88);
 /
 --'10003','Digestible Carbohydrate (g)'
 call FoodFact_Merge('kVJIZFHV4H','10003',1.58);
 /
 --'291','Fiber, total dietary (g)'
 call FoodFact_Merge('kVJIZFHV4H','291',27.3);
-/
---'210','Sucrose (g)'
-call FoodFact_Merge('kVJIZFHV4H','210',1.15);
-/
---'212','Fructose (g)'
-call FoodFact_Merge('kVJIZFHV4H','212',0);
-/
---'213','Lactose (g)'
-call FoodFact_Merge('kVJIZFHV4H','213',0);
 /
 --'320','Vitamin A, RAE (µg)'
 call FoodFact_Merge('kVJIZFHV4H','320',0);
@@ -36604,6 +35031,24 @@ call FoodFact_Merge('kVJIZFHV4H','255',6.96);
 --'10005','Cost (g)'
 call FoodFact_Merge('kVJIZFHV4H','10005',0);
 /
+--Energy, digestible (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10009',458.92);
+/
+--Energy, no protein (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10010',385.76);
+/
+--Energy, carbohydrate (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10011',6.32);
+/
+--Energy, protein (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10012',73.16);
+/
+--Energy, fat (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10013',379.44);
+/
+--Energy, alcohol (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10014',0);
+/
 
 --FOOD ITEM: Glucose
 --
@@ -36629,9 +35074,6 @@ call FoodFact_Merge('123456754','203',0);
 /
 --'10001','Complete Protein (g)'
 call FoodFact_Merge('123456754','10001',0);
-/
---'10002','Incomplete Protein (g)'
-call FoodFact_Merge('123456754','10002',0);
 /
 --'204','Total lipid (Fat) (g)'
 call FoodFact_Merge('123456754','204',0);
@@ -36668,15 +35110,6 @@ call FoodFact_Merge('123456754','10003',100);
 /
 --'291','Fiber, total dietary (g)'
 call FoodFact_Merge('123456754','291',0);
-/
---'210','Sucrose (g)'
-call FoodFact_Merge('123456754','210',0);
-/
---'212','Fructose (g)'
-call FoodFact_Merge('123456754','212',0);
-/
---'213','Lactose (g)'
-call FoodFact_Merge('123456754','213',0);
 /
 --'320','Vitamin A, RAE (µg)'
 call FoodFact_Merge('123456754','320',0);
@@ -36759,13 +35192,40 @@ call FoodFact_Merge('123456754','255',0);
 --'10005','Cost (g)'
 call FoodFact_Merge('123456754','10005',0);
 /
---'10006','Fiber, Insoluble (g)'
-call FoodFact_Merge('123456754','10006',0);
+--'10006','Glycemic Load'
+call FoodFact_Merge('123456754','10006',100);
 /
---'10007','Fiber, Soluble (g)'
-call FoodFact_Merge('123456754','10007',0);
+--Energy, digestible (kcal)
+call FoodFact_Merge('123456754','10009',400);
 /
---'10008','Glycemic Index'
-call FoodFact_Merge('123456754','10008',100);
+--Energy, no protein (kcal)
+call FoodFact_Merge('123456754','10010',400);
+/
+--Energy, carbohydrate (kcal)
+call FoodFact_Merge('123456754','10011',400);
+/
+--Energy, protein (kcal)
+call FoodFact_Merge('123456754','10012',0);
+/
+--Energy, fat (kcal)
+call FoodFact_Merge('123456754','10013',0);
+/
+--Energy, alcohol (kcal)
+call FoodFact_Merge('123456754','10014',0);
+/
+CALL CategoryLink_Insert('123456754','10000');
+/
+
+call FoodFact_DigestibleCarbohydrate ();
+/
+call FoodFact_EnergyFat();
+/
+call FoodFact_EnergyCarbohydrate();
+/
+call FoodFact_EnergyProtein();
+/
+call FoodFact_EnergyAlcohol();
+/
+call FoodFact_EnergyDigestible ();
 /
 

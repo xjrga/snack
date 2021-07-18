@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ComboBoxModelNutrients extends DefaultComboBoxModel {
+
     private final DbLink dbLink;
 
     public ComboBoxModelNutrients(DbLink dbLink) {
@@ -46,7 +47,7 @@ public class ComboBoxModelNutrients extends DefaultComboBoxModel {
                 HashMap row = (HashMap) it.next();
                 String nutrientid = (String) row.get("NUTRIENTID");
                 String name = (String) row.get("NAME");
-                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name,null);
+                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name, null);
                 this.addElement(nutrientDataObject);
             }
         } catch (SQLException e) {

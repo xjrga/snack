@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelWater extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -71,9 +73,10 @@ public class TableModelWater extends DefaultTableModel implements RoundUp {
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 String Name = (String) rowm.get("Name");
-                Double Water = (Double) rowm.get("Water");
-                Double Weight = (Double) rowm.get("Weight");
+                Double Water = (Double) rowm.get(Nutrient.WATER.getLabel());
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 row = new Vector();
+                //
                 row.add(Name);
                 row.add(Weight);
                 row.add(Water);

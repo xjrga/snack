@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class TreeModelFood extends DefaultTreeModel {
+
     private final DbLink dbLink;
     private DefaultMutableTreeNode node;
 

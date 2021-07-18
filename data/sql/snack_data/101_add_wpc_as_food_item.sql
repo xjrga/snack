@@ -38,16 +38,13 @@ call FoodFact_Merge('123456790','203',80);
 --Complete Protein (g)
 call FoodFact_Merge('123456790','10001',80);
 /
---Lactose (g)
-call FoodFact_Merge('123456790','213',5);
-/
 --Fat (g)
 call FoodFact_Merge('123456790','204',6);
 /
 --Cholesterol (mg)
 call FoodFact_Merge('123456790','601',215);
 /
---Energy (kcal)
+--Energy, gross (kcal)
 call FoodFact_Merge('123456790','208',385);
 /
 --Saturated Fat (g)
@@ -61,4 +58,22 @@ call FoodFact_Merge('123456790','646',0.7);
 /
 --Water (g)
 call FoodFact_Merge('123456790','255',5);
+/
+--Energy, digestible (kcal)
+call FoodFact_Merge('123456790','10009',394);
+/
+--Energy, no protein (kcal)
+call FoodFact_Merge('123456790','10010',74);
+/
+--Energy, carbohydrate (kcal)
+call FoodFact_Merge('123456790','10011',20);
+/
+--Energy, protein (kcal)
+call FoodFact_Merge('123456790','10012',320);
+/
+--Energy, fat (kcal)
+call FoodFact_Merge('123456790','10013',54);
+/
+--Energy, alcohol (kcal)
+call FoodFact_Merge('123456790','10014',0);
 /

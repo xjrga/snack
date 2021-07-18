@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelEnergy extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -41,12 +43,17 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Name"); //0
+        columns.add("Name");
         columns.add("Weight");
-        columns.add("Energy");
-        columns.add("Protein");
+        columns.add("\u26F9 Digestible");
+        columns.add("\u26F9 NoProtein");
+        columns.add("\u26F9 Fat");
+        columns.add("\u26F9 Carbohydrate");
+        columns.add("\u26F9 Protein");
+        columns.add("\u26F9 Alcohol");
         columns.add("Fat");
         columns.add("Carbohydrate");
+        columns.add("Protein");
         columns.add("Alcohol");
         this.setColumnIdentifiers(columns);
     }
@@ -74,20 +81,35 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
-                Double Weight = (Double) rowm.get("Weight");
-                Double Protein = (Double) rowm.get("Protein");
-                Double Fat = (Double) rowm.get("Fat");
-                Double DigestibleCarbohydrate = (Double) rowm.get("DigestibleCarbs");
-                Double Energy = (Double) rowm.get("Energy");
-                Double Alcohol = (Double) rowm.get("Alcohol");
+                String Name = (String) rowm.get("Name");
+                //Mass
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
+                //Energy
+                Double EnergyGross = (Double) rowm.get(Nutrient.ENERGYGROSS.getLabel());
+                Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());
+                Double EnergyNoProtein = (Double) rowm.get(Nutrient.ENERGYNOPROTEIN.getLabel());
+                Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
+                Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
+                Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
+                Double EnergyAlcohol = (Double) rowm.get(Nutrient.ENERGYALCOHOL.getLabel());
+                //Macronutrient
+                Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
+                Double DigestibleCarbohydrate = (Double) rowm.get(Nutrient.DIGESTIBLECARBOHYDRATE.getLabel());
+                Double Protein = (Double) rowm.get(Nutrient.PROTEIN.getLabel());
+                Double Alcohol = (Double) rowm.get(Nutrient.ALCOHOL.getLabel());
+                //
                 row = new Vector();
                 row.add(Name);
                 row.add(Weight);
-                row.add(Energy);
-                row.add(Protein);
+                row.add(EnergyDigestible);
+                row.add(EnergyNoProtein);
+                row.add(EnergyFat);
+                row.add(EnergyCarbohydrate);
+                row.add(EnergyProtein);
+                row.add(EnergyAlcohol);
                 row.add(Fat);
                 row.add(DigestibleCarbohydrate);
+                row.add(Protein);
                 row.add(Alcohol);
                 table.add(row);
             }

@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class NutrientDataObject {
+
     private String nutr_no;
     private String nutrdesc;
     private Double q;

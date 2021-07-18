@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelFat extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -43,6 +45,7 @@ public class TableModelFat extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name"); //0
         columns.add("Weight");
+        columns.add("\u26F9 Fat");
         columns.add("Fat");
         columns.add("Monounsaturated");
         columns.add("Polyunsaturated");
@@ -78,20 +81,23 @@ public class TableModelFat extends DefaultTableModel implements RoundUp {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
-                Double Weight = (Double) rowm.get("Weight");
-                Double Fat = (Double) rowm.get("Fat");
-                Double Cholesterol = (Double) rowm.get("Cholesterol");
-                Double Saturated = (Double) rowm.get("Saturated");
-                Double DHA = (Double) rowm.get("DHA");
-                Double EPA = (Double) rowm.get("EPA");
-                Double Monounsaturated = (Double) rowm.get("Monounsaturated");
-                Double Polyunsaturated = (Double) rowm.get("Polyunsaturated");
-                Double Linoleic = (Double) rowm.get("Linoleic");
-                Double AlphaLinolenic = (Double) rowm.get("AlphaLinolenic");
+                String Name = (String) rowm.get("Name");
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
+                Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
+                Double Cholesterol = (Double) rowm.get(Nutrient.CHOLESTEROL.getLabel());
+                Double Saturated = (Double) rowm.get(Nutrient.SATURATED.getLabel());
+                Double DHA = (Double) rowm.get(Nutrient.DHA.getLabel());
+                Double EPA = (Double) rowm.get(Nutrient.EPA.getLabel());
+                Double Monounsaturated = (Double) rowm.get(Nutrient.MONOUNSATURATED.getLabel());
+                Double Polyunsaturated = (Double) rowm.get(Nutrient.POLYUNSATURATED.getLabel());
+                Double Linoleic = (Double) rowm.get(Nutrient.LINOLEIC.getLabel());
+                Double AlphaLinolenic = (Double) rowm.get(Nutrient.ALPHALINOLENIC.getLabel());
+                Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
                 row = new Vector();
+                //
                 row.add(Name);
                 row.add(Weight);
+                row.add(EnergyFat);
                 row.add(Fat);
                 row.add(Monounsaturated);
                 row.add(Polyunsaturated);

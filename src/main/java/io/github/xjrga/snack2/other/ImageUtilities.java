@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageUtilities {
+
     static BufferedImage makeBufferedImage(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();

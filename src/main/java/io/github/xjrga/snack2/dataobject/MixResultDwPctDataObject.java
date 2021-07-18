@@ -1,6 +1,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class MixResultDwPctDataObject {
+
     private Integer MixId;
     private Double Protein;
     private Double Fat;

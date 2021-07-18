@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class Log {
+
     private static final Log INSTANCE = new Log();
     private BufferedWriter out;
     private LinkedList<String> messageList;

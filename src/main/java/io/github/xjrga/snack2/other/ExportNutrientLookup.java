@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ExportNutrientLookup {
+
     private final DbLink dbLink;
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -149,7 +150,7 @@ public class ExportNutrientLookup {
             e.printStackTrace();
         }
         JComponent[] inputs = new JComponent[]{
-                new JLabel("Spreadsheet is ready")
+            new JLabel("Spreadsheet is ready")
         };
         Message.showOptionDialog(inputs, "Export Nutrient Lookup");
     }

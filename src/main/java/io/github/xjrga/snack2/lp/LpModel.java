@@ -36,6 +36,7 @@ import java.util.ArrayList;
  * @author  Jorge R Garcia de Alba
  */
 public class LpModel {
+
     public static final int GEQ = 1;
     public static final int LEQ = 2;
     public static final int EQ = 3;
@@ -117,9 +118,9 @@ public class LpModel {
             Log.getLog().write();
             Log.getLog().close();
             JComponent[] inputs = new JComponent[]{
-                    component
+                component
             };
-            Message.showMessage(inputs,"No Feasible Solution");
+            Message.showMessage(inputs, "No Feasible Solution");
             //org.apache.commons.math3.optim.linear.NoFeasibleSolutionException: no feasible solution
         }
         return flag;

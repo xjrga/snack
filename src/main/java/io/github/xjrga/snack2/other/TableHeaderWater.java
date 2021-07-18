@@ -4,11 +4,12 @@ import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseEvent;
 
 public class TableHeaderWater extends MyTableHeader {
+
     public TableHeaderWater(TableColumnModel columnModel) {
         super(columnModel, new String[]{
-                "Food Name",
-                "Weight (g)",
-                "Water (g)"
+            "Food Name",
+            "Weight (g)",
+            "Water (g)"
         });
     }
 

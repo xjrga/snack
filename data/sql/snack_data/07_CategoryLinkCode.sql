@@ -536,6 +536,10 @@ call CategoryLink_Insert('15262','1500');
 /
 call CategoryLink_Insert('15270','1500');
 /
+call CategoryLink_Insert('16014','1600');
+/
+call CategoryLink_Insert('16015','1600');
+/
 call CategoryLink_Insert('16027','1600');
 /
 call CategoryLink_Insert('16028','1600');

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class GoldenRatio {
+
     private static final BigDecimal goldenRatio = new BigDecimal(1.61803398875);
     private final Boolean widthLarger = true;
 

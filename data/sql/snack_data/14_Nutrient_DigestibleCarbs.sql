@@ -530,6 +530,10 @@ CALL FoodFact_Merge('15261','10003',0.0E0);
 /
 CALL FoodFact_Merge('15262','10003',0.0E0);
 /
+CALL FoodFact_Merge('16014','10003',46.86E0);
+/
+CALL FoodFact_Merge('16015','10003',15.010000000000002E0);
+/
 CALL FoodFact_Merge('16027','10003',35.11E0);
 /
 CALL FoodFact_Merge('16028','10003',16.4E0);

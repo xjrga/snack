@@ -1,4 +1,5 @@
 package io.github.xjrga.snack2.data;
+
 /*
  * Copyright (C) 2018 Jorge R Garcia de Alba
  * License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
@@ -17,7 +18,6 @@ package io.github.xjrga.snack2.data;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 import io.github.xjrga.snack2.other.Log;
 
 import java.io.FileInputStream;
@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Connect {
+
     private static final Connect instance = new Connect();
     private static String JDBC_DRIVER = "";
     private static String DB_URL = "";

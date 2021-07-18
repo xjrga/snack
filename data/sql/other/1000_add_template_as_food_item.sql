@@ -23,9 +23,6 @@ call FoodFact_Merge('1234567890','203',0);
 --'10001','Complete Protein (g)'
 call FoodFact_Merge('1234567890','10001',0);
 /
---'10002','Incomplete Protein (g)'
-call FoodFact_Merge('1234567890','10002',0);
-/
 --'204','Total lipid (Fat) (g)'
 call FoodFact_Merge('1234567890','204',0);
 /
@@ -155,9 +152,21 @@ call FoodFact_Merge('1234567890','10005',0);
 --'10006','Glycemic Load'
 call FoodFact_Merge('1234567890','10006',0);
 /
---'10007','Fiber, Insoluble (g)'
-call FoodFact_Merge('1234567890','10007',0);
+--'10009','Energy, digestible (kcal)'
+call FoodFact_Merge('1234567890','10009',0);
 /
---'10008','Fiber, Soluble (g)'
-call FoodFact_Merge('1234567890','10008',0);
+--'10010','Energy, no protein (kcal)'
+call FoodFact_Merge('1234567890','10010',0);
+/
+--'10011','Energy, carbohydrate (kcal)'
+call FoodFact_Merge('1234567890','10011',0);
+/
+--'10012','Energy, protein (kcal)'
+call FoodFact_Merge('1234567890','10012',0);
+/
+--'10013','Energy, fat (kcal)'
+call FoodFact_Merge('1234567890','10013',0);
+/
+--'10014','Energy, alcohol (kcal)'
+call FoodFact_Merge('1234567890','10014',0);
 /

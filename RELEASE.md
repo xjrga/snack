@@ -137,3 +137,11 @@ RELEASE NOTES
       Fix src/main/java directory names
       Add new logo
       
+650
+
+      Add energy values tracking
+      Delete sugars tracking
+      Delete fiber type tracking
+      Delete incomplete protein tracking
+      Redesign journal
+      Add data input calculator assistants

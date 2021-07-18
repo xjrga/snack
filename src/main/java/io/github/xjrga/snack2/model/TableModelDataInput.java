@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelDataInput extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -48,6 +49,7 @@ public class TableModelDataInput extends DefaultTableModel implements RoundUp {
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i < 3) {
@@ -86,10 +88,10 @@ public class TableModelDataInput extends DefaultTableModel implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

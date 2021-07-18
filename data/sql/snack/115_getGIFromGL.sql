@@ -12,7 +12,7 @@ SELECT CASE WHEN b.q <= 0 OR b.q IS NULL THEN 0 ELSE (a.q*100) / b.q END INTO v_
 FROM (SELECT *
       FROM foodfact
       WHERE foodid = v_FoodId
-      AND   nutrientid = '10008') a,
+      AND   nutrientid = '10006') a,
      (SELECT *
       FROM foodfact
       WHERE foodid = v_FoodId

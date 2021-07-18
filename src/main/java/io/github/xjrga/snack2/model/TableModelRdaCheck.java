@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;

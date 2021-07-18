@@ -3,11 +3,8 @@ package io.github.xjrga.snack2.data;
 public enum Nutrient {
     PROTEIN("203", "Protein (g)", "Protein"),
     FAT("204", "Total lipid (Fat) (g)", "Fat"),
-    CARBSBYDIFF("205", "Carbohydrate, by difference (g)", "CarbsByDiff"),
-    ENERGY("208", "Energy (kcal)", "Energy"),
-    SUCROSE("210", "Sucrose (g)", "Sucrose"),
-    FRUCTOSE("212", "Fructose (g)", "Fructose"),
-    LACTOSE("213", "Lactose (g)", "Lactose"),
+    CARBOHYDRATEBYDIFFERENCE("205", "Carbohydrate, by difference (g)", "CarbsByDiff"),
+    ENERGYGROSS("208", "Energy, gross (Kcal)", "EnergyGross"),
     ALCOHOL("221", "Alcohol, ethyl (g)", "Alcohol"),
     WATER("255", "Water (g)", "Water"),
     FIBER("291", "Fiber, total dietary (g)", "Fiber"),
@@ -25,7 +22,6 @@ public enum Nutrient {
     VITAMINA("320", "Vitamin A, RAE (µg)", "VitaminA"),
     VITAMINE("323", "Vitamin E (Alpha-Tocopherol) (mg)", "VitaminE"),
     VITAMIND("328", "Vitamin D (D2 + D3) (µg)", "VitaminD"),
-    LUTEIN("338", "Lutein + zeaxanthin (µg)", "Lutein"),
     VITAMINC("401", "Vitamin C, total (Ascorbic Acid) (mg)", "VitaminC"),
     THIAMIN("404", "Thiamin (mg)", "Thiamin"),
     RIBOFLAVIN("405", "Riboflavin (mg)", "Riboflavin"),
@@ -46,13 +42,15 @@ public enum Nutrient {
     ALPHALINOLENIC("851", "18:3 n-3 c,c,c (Alpha-Linolenic) (g)", "AlphaLinolenic"),
     WEIGHT("10000", "Weight (g)", "Weight"),
     COMPLETEPROTEIN("10001", "Complete Protein  (g)", "CompleteProtein"),
-    INCOMPLETEPROTEIN("10002", "Incomplete Protein (g)", "IncompleteProtein"),
-    DIGESTIBLECARBS("10003", "Digestible Carbs (g)", "DigestibleCarbs"),
+    DIGESTIBLECARBOHYDRATE("10003", "Digestible Carbs (g)", "DigestibleCarbs"),
     COST("10005", "Cost  (g)", "Cost"),
-    FIBERINSOLUBLE("10006", "Fiber, Insoluble (g)", "FiberInsoluble"),
-    FIBERSOLUBLE("10007", "Fiber, Soluble (g)", "FiberSoluble"),
-    GLYCEMICLOAD("10008", "Glycemic Load", "GlycemicLoad"),
-    ;
+    GLYCEMICLOAD("10006", "Glycemic Load", "GlycemicLoad"),
+    ENERGYDIGESTIBLE("10009", "Energy, digestible (Kcal)", "EnergyDigestible"),
+    ENERGYNOPROTEIN("10010", "Energy, no protein (Kcal)", "EnergyNoProtein"),
+    ENERGYCARBOHYDRATE("10011", "Energy, carbohydrate (Kcal)", "EnergyCarbohydrate"),
+    ENERGYPROTEIN("10012", "Energy, protein (Kcal)", "EnergyProtein"),
+    ENERGYFAT("10013", "Energy, fat (Kcal)", "EnergyFat"),
+    ENERGYALCOHOL("10014", "Energy, alcohol (Kcal)", "EnergyAlcohol"),;
 
     private final String Number;
     private final String Name;

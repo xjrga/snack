@@ -1,6 +1,7 @@
 package io.github.xjrga.snack2.other;
 
 public class DigestibleCarbohydrate {
+
     private final Double totalCarbohydrate;
     private final Double totalFiber;
     private Double digestibleCarbs;

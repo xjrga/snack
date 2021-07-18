@@ -14,7 +14,7 @@ call FoodFact_ZeroOut_FoodId('kVJIZFHV4H');
 --'10000','Weight (g)'
 call FoodFact_Merge('kVJIZFHV4H','10000',100);
 /
---'208','Energy (kcal)'
+--'208','Energy, gross (kcal)'
 call FoodFact_Merge('kVJIZFHV4H','208',534);
 /
 --'203','Protein (g)'
@@ -22,9 +22,6 @@ call FoodFact_Merge('kVJIZFHV4H','203',18.29);
 /
 --'10001','Complete Protein (g)'
 call FoodFact_Merge('kVJIZFHV4H','10001',0);
-/
---'10002','Incomplete Protein (g)'
-call FoodFact_Merge('kVJIZFHV4H','10002',18.29);
 /
 --'204','Total lipid (Fat) (g)'
 call FoodFact_Merge('kVJIZFHV4H','204',42.16);
@@ -54,22 +51,13 @@ call FoodFact_Merge('kVJIZFHV4H','621',0);
 call FoodFact_Merge('kVJIZFHV4H','629',0);
 /
 --'205','Carbohydrate, by difference (g)'
-call FoodFact_Merge('kVJIZFHV4H','291',28.88);
+call FoodFact_Merge('kVJIZFHV4H','205',28.88);
 /
 --'10003','Digestible Carbohydrate (g)'
 call FoodFact_Merge('kVJIZFHV4H','10003',1.58);
 /
 --'291','Fiber, total dietary (g)'
 call FoodFact_Merge('kVJIZFHV4H','291',27.3);
-/
---'210','Sucrose (g)'
-call FoodFact_Merge('kVJIZFHV4H','210',1.15);
-/
---'212','Fructose (g)'
-call FoodFact_Merge('kVJIZFHV4H','212',0);
-/
---'213','Lactose (g)'
-call FoodFact_Merge('kVJIZFHV4H','213',0);
 /
 --'320','Vitamin A, RAE (µg)'
 call FoodFact_Merge('kVJIZFHV4H','320',0);
@@ -151,4 +139,22 @@ call FoodFact_Merge('kVJIZFHV4H','255',6.96);
 /
 --'10005','Cost (g)'
 call FoodFact_Merge('kVJIZFHV4H','10005',0);
+/
+--Energy, digestible (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10009',458.92);
+/
+--Energy, no protein (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10010',385.76);
+/
+--Energy, carbohydrate (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10011',6.32);
+/
+--Energy, protein (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10012',73.16);
+/
+--Energy, fat (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10013',379.44);
+/
+--Energy, alcohol (kcal)
+call FoodFact_Merge('kVJIZFHV4H','10014',0);
 /

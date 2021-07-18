@@ -536,6 +536,10 @@ call Food_Insert('15262','Fish, tilapia, cooked, dry heat');
 /
 call Food_Insert('15270','Crustaceans, shrimp, raw (not previously frozen)');
 /
+call Food_Insert('16014','Beans, black, mature seeds, raw');
+/
+call Food_Insert('16015','Beans, black, mature seeds, cooked, boiled, without salt');
+/
 call Food_Insert('16027','Beans, kidney, all types, mature seeds, raw');
 /
 call Food_Insert('16028','Beans, kidney, all types, mature seeds, cooked, boiled, without salt');

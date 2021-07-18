@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ExportMixComparison {
+
     private final DbLink dbLink;
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -120,7 +121,7 @@ public class ExportMixComparison {
             e.printStackTrace();
         }
         JComponent[] inputs = new JComponent[]{
-                new JLabel("Spreadsheet is ready")
+            new JLabel("Spreadsheet is ready")
         };
         Message.showOptionDialog(inputs, "Export Mix Comparison");
     }

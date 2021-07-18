@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ListModelMix extends DefaultListModel {
+
     private final DbLink dbLink;
 
     public ListModelMix(DbLink dbLink) {

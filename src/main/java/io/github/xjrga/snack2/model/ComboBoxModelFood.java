@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ComboBoxModelFood extends DefaultComboBoxModel {
+
     private final DbLink dbLink;
 
     public ComboBoxModelFood(DbLink dbLink) {

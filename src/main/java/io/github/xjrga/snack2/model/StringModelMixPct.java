@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class StringModelMixPct implements RoundUp {
+
     private final DbLink dbLink;
     private Integer precision = 0;
 

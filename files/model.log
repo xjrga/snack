@@ -1,0 +1,243 @@
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-48-13
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 2000.0;
+
+/*
+Results: 
+Total Calories are: 10,072
+x0 = 6447.5 g  = 227.4 oz
+x1 = 0 g  = 0 oz
+x2 = 0 g  = 0 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-48-23
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+
+/*
+Results: 
+Total Calories are: 504
+x0 = 322.4 g  = 11.4 oz
+x1 = 0 g  = 0 oz
+x2 = 0 g  = 0 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-48-35
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+0.0 x0 + 0.04 x1 + 0.004 x2 = 40.0;
+
+/*
+Results: 
+Total Calories are: 1,062
+x0 = 322.4 g  = 11.4 oz
+x1 = 1000 g  = 35.3 oz
+x2 = 0 g  = 0 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-48-45
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2 = 2000.0;
+0.0 x0 + 0.04 x1 + 0.004 x2 = 40.0;
+
+/*
+Results: 
+Total Calories are: 2,000
+x0 = 322.4 g  = 11.4 oz
+x1 = 921.1 g  = 32.5 oz
+x2 = 789.4 g  = 27.8 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-49-59
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2 = 2000.0;
+0.0 x0 + 0.04 x1 + 0.004 x2 = 40.0;
+
+/*
+Results: 
+Total Calories are: 2,000
+x0 = 322.4 g  = 11.4 oz
+x1 = 921.1 g  = 32.5 oz
+x2 = 789.4 g  = 27.8 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-49-59
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2 = 2000.0;
+0.0 x0 + 0.04 x1 + 0.004 x2 = 40.0;
+
+/*
+Results: 
+Total Calories are: 2,000
+x0 = 322.4 g  = 11.4 oz
+x1 = 921.1 g  = 32.5 oz
+x2 = 789.4 g  = 27.8 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-50-00
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2 = 2000.0;
+0.0 x0 + 0.04 x1 + 0.004 x2 = 40.0;
+
+/*
+Results: 
+Total Calories are: 2,000
+x0 = 322.4 g  = 11.4 oz
+x1 = 921.1 g  = 32.5 oz
+x2 = 789.4 g  = 27.8 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
+----->
+/*
+Title: Easy Mix
+Date: 2021-July-18_at_11-50-00
+
+Variables: 
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Vegetables, mixed, frozen, unprepared
+x2: Rice, white, long-grain, regular, enriched, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+1.5620999999999998 x0 + 0.5588000000000001 x1 + 1.2436 x2 = 2000.0;
+0.0 x0 + 0.04 x1 + 0.004 x2 = 40.0;
+
+/*
+Results: 
+Total Calories are: 2,000
+x0 = 322.4 g  = 11.4 oz
+x1 = 921.1 g  = 32.5 oz
+x2 = 789.4 g  = 27.8 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+

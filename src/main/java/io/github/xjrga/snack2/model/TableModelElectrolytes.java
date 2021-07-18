@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelElectrolytes extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -71,11 +73,12 @@ public class TableModelElectrolytes extends DefaultTableModel implements RoundUp
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
-                Double Potassium = (Double) rowm.get("Potassium");
-                Double Sodium = (Double) rowm.get("Sodium");
-                Double Weight = (Double) rowm.get("Weight");
+                String Name = (String) rowm.get("Name");
+                Double Potassium = (Double) rowm.get(Nutrient.POTASSIUM.getLabel());
+                Double Sodium = (Double) rowm.get(Nutrient.SODIUM.getLabel());
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 row = new Vector();
+                //
                 row.add(Name);
                 row.add(Weight);
                 row.add(Sodium);

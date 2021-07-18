@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelVitamins extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -83,21 +85,22 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 String Name = (String) rowm.get("Name"); //0
-                Double VitaminA = (Double) rowm.get("VitaminA");
-                Double VitaminE = (Double) rowm.get("VitaminE");
-                Double VitaminD = (Double) rowm.get("VitaminD");
-                Double VitaminC = (Double) rowm.get("VitaminC");
-                Double Thiamin = (Double) rowm.get("Thiamin");
-                Double Riboflavin = (Double) rowm.get("Riboflavin");
-                Double Niacin = (Double) rowm.get("Niacin");
-                Double Pantothenic = (Double) rowm.get("Pantothenic");
-                Double VitaminB6 = (Double) rowm.get("VitaminB6");
-                Double VitaminB12 = (Double) rowm.get("VitaminB12");
-                Double Choline = (Double) rowm.get("Choline");
-                Double VitaminK = (Double) rowm.get("VitaminK");
-                Double Folate = (Double) rowm.get("Folate");
-                Double Weight = (Double) rowm.get("Weight");
+                Double VitaminA = (Double) rowm.get(Nutrient.VITAMINA.getLabel());
+                Double VitaminE = (Double) rowm.get(Nutrient.VITAMINE.getLabel());
+                Double VitaminD = (Double) rowm.get(Nutrient.VITAMIND.getLabel());
+                Double VitaminC = (Double) rowm.get(Nutrient.VITAMINC.getLabel());
+                Double Thiamin = (Double) rowm.get(Nutrient.THIAMIN.getLabel());
+                Double Riboflavin = (Double) rowm.get(Nutrient.RIBOFLAVIN.getLabel());
+                Double Niacin = (Double) rowm.get(Nutrient.NIACIN.getLabel());
+                Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENIC.getLabel());
+                Double VitaminB6 = (Double) rowm.get(Nutrient.VITAMINB6.getLabel());
+                Double VitaminB12 = (Double) rowm.get(Nutrient.VITAMINB12.getLabel());
+                Double Choline = (Double) rowm.get(Nutrient.CHOLINE.getLabel());
+                Double VitaminK = (Double) rowm.get(Nutrient.VITAMINK.getLabel());
+                Double Folate = (Double) rowm.get(Nutrient.FOLATE.getLabel());
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 row = new Vector();
+                //
                 row.add(Name);
                 row.add(Weight);
                 row.add(VitaminA);

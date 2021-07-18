@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelProtein extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -41,11 +43,11 @@ public class TableModelProtein extends DefaultTableModel implements RoundUp {
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Name"); //0
+        columns.add("Name");
         columns.add("Weight");
+        columns.add("\u26F9 Protein");
         columns.add("Protein");
         columns.add("CompleteProtein");
-        columns.add("IncompleteProtein");
         this.setColumnIdentifiers(columns);
     }
 
@@ -72,17 +74,17 @@ public class TableModelProtein extends DefaultTableModel implements RoundUp {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
-                Double Weight = (Double) rowm.get("Weight");
-                Double Protein = (Double) rowm.get("Protein");
-                Double CompleteProtein = (Double) rowm.get("CompleteProtein");
-                Double IncompleteProtein = (Double) rowm.get("IncompleteProtein");
+                String Name = (String) rowm.get("Name");
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
+                Double Protein = (Double) rowm.get(Nutrient.PROTEIN.getLabel());
+                Double CompleteProtein = (Double) rowm.get(Nutrient.COMPLETEPROTEIN.getLabel());
+                Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
                 row = new Vector();
                 row.add(Name);
                 row.add(Weight);
+                row.add(EnergyProtein);
                 row.add(Protein);
                 row.add(CompleteProtein);
-                row.add(IncompleteProtein);
                 table.add(row);
             }
             this.setDataVector(table, columns);
@@ -91,10 +93,10 @@ public class TableModelProtein extends DefaultTableModel implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

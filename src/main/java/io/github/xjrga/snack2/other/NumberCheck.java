@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumberCheck {
+
     List<String> numbers = new LinkedList();
 
     public NumberCheck() {

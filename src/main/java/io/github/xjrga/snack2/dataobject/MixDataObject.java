@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class MixDataObject {
+
     private Integer MixId;
     private String Name;
 

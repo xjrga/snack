@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -42,9 +43,10 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add("Name");
-        columns.add("Weight (g)");
-        columns.add("Carbs (g)");
-        columns.add("Carbs (%)");
+        columns.add("Weight");
+        columns.add("\u26F9 Carbohydrate");
+        columns.add("Carbohydrate");
+        columns.add("%");
         columns.add("GI");
         columns.add("GL");
         columns.add("Meal GI");
@@ -81,9 +83,11 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
                 Double GlycemicIndex = (Double) rowm.get("gi");
                 Double GlycemicLoad = (Double) rowm.get("gl");
                 Double MealGI = (Double) rowm.get("mealgi");
+                Double EnergyCarbohydrate = DigestibleCarbohydrate * 4;
                 row = new Vector();
                 row.add(Name);
                 row.add(Weight);
+                row.add(EnergyCarbohydrate);
                 row.add(DigestibleCarbohydrate);
                 row.add(Pct);
                 row.add(GlycemicIndex);

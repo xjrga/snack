@@ -36,10 +36,10 @@
 
 Installing
 
-    1. Download Snack-640-app.zip from https://sourceforge.net/projects/snackmix
-    2. unzip Snack-640-app.zip
-    3. cd Snack-640
-    4. java -jar Snack-640.jar (if you are on windows double click on jar file) 
+    1. Download Snack-650-app.zip from https://sourceforge.net/projects/snackmix
+    2. unzip Snack-650-app.zip
+    3. cd Snack-650
+    4. java -jar Snack-650.jar (if you are on windows double click on jar file) 
     
 [Download](https://sourceforge.net/projects/snackmix "Snack: Learning Software for Nutrition")
 
@@ -47,7 +47,7 @@ Installing
 
 Build
 
-    635
+    650
 
 Authors
 
@@ -62,11 +62,10 @@ Acknowledgments
 Snack uses the following libraries:
 
     commons-math3-3.6.1.jar
-    hsqldb.jar (v2.5.1)
+    hsqldb-2.5.1.jar (v2.5.1)
     jgoodies-common-1.8.1.jar
     jgoodies-forms-1.9.0.jar
-    poi-4.0.1.jar
-    sqltool-2.5.1.jar
+    poi-4.0.1.jar    
    
 Snack uses a data subset from:
 

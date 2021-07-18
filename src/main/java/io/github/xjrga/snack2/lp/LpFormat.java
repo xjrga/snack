@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.lp;
 
 public class LpFormat {
+
     private final StringBuilder sb;
 
     public LpFormat() {

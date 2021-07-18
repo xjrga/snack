@@ -1,6 +1,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class FoodCategoryDataObject {
+
     private String FoodCategoryId;
     private String Name;
 

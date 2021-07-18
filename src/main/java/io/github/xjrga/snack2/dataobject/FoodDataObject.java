@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class FoodDataObject {
+
     private String foodid;
     private String foodname;
 

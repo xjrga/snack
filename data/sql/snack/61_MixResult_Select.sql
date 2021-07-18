@@ -9,17 +9,13 @@ select a.MixId,
        a.FoodId,
        b.Name,
        Round(a.Weight,v_Precision) as Weight,
-       Round(CompleteProtein,v_Precision) as CompleteProtein,
-       Round(IncompleteProtein,v_Precision) as IncompleteProtein,
+       Round(CompleteProtein,v_Precision) as CompleteProtein,       
        Round(DigestibleCarbohydrate,v_Precision) as DigestibleCarbohydrate,
        Round(Cost,v_Precision) as Cost,
        Round(Protein,v_Precision) as Protein,
        Round(Fat,v_Precision) as Fat,
        Round(CarbsByDiff,v_Precision) as CarbsByDiff,
-       Round(Energy,v_Precision) as Energy,
-       Round(Sucrose,v_Precision) as Sucrose,
-       Round(Fructose,v_Precision) as Fructose,
-       Round(Lactose,v_Precision) as Lactose,
+       Round(Energy,v_Precision) as EnergyGross,
        Round(Alcohol,v_Precision) as Alcohol,
        Round(Water,v_Precision) as Water,
        Round(Fiber,v_Precision) as Fiber,
@@ -55,26 +51,26 @@ select a.MixId,
        Round(Polyunsaturated,v_Precision) as Polyunsaturated,
        Round(Linoleic,v_Precision) as Linoleic,
        Round(AlphaLinolenic,v_Precision) as AlphaLinolenic,
-       Round(FiberInsoluble,v_Precision) as FiberInsoluble,
-       Round(FiberSoluble,v_Precision) as FiberSoluble,
-       Round(GlycemicLoad,v_Precision) as GlycemicLoad
+       Round(GlycemicLoad,v_Precision) as GlycemicLoad,
+       Round(EnergyDigestible,v_Precision) as EnergyDigestible,
+       Round(EnergyNoProtein,v_Precision) as EnergyNoProtein,
+       Round(EnergyCarbohydrate,v_Precision) as EnergyCarbohydrate,
+       Round(EnergyProtein,v_Precision) as EnergyProtein,
+       Round(EnergyFat,v_Precision) as EnergyFat,
+       Round(EnergyAlcohol,v_Precision) as EnergyAlcohol
 from
 (
 select
        x0.Mixid,
        x0.Foodid,
        x1.Weight,
-       x2.CompleteProtein,
-       x3.IncompleteProtein,
+       x2.CompleteProtein,       
        x4.DigestibleCarbohydrate,
        x5.Cost,
        x6.Protein,
        x7.Fat,
        x8.CarbsByDiff,
        x9.Energy,
-       x10.Sucrose,
-       x11.Fructose,
-       x12.Lactose,
        x13.Alcohol,
        x14.Water,
        x15.Fiber,
@@ -110,9 +106,13 @@ select
        x45.Polyunsaturated,
        x46.Linoleic,
        x47.AlphaLinolenic,
-       x48.FiberInsoluble,
-       x49.FiberSoluble,
-       x50.GlycemicLoad
+       x50.GlycemicLoad,
+       x51.EnergyDigestible,
+       x52.EnergyNoProtein,
+       x53.EnergyCarbohydrate,
+       x54.EnergyProtein,
+       x55.EnergyFat,
+       x56.EnergyAlcohol
 from
 --
 (
@@ -132,13 +132,6 @@ select mixid,foodid,q as CompleteProtein from mixresult
 where mixid = v_MixId
 and nutrientid = '10001'
 ) x2,
---
---10002	Incomplete Protein (g)
-(
-select mixid,foodid,q as IncompleteProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10002'
-) x3,
 --
 --10003	Digestible Carbohydrate (g)
 (
@@ -180,24 +173,6 @@ select mixid,foodid,q as Energy from mixresult
 where mixid = v_MixId
 and nutrientid = '208'
 ) x9,
---210	Sucrose (g)
-(
-select mixid,foodid,q as Sucrose from mixresult
-where mixid = v_MixId
-and nutrientid = '210'
-) x10,
---212	Fructose (g)
-(
-select mixid,foodid,q as Fructose from mixresult
-where mixid = v_MixId
-and nutrientid = '212'
-) x11,
---213	Lactose (g)
-(
-select mixid,foodid,q as Lactose from mixresult
-where mixid = v_MixId
-and nutrientid = '213'
-) x12,
 --221	Alcohol, ethyl (g)
 (
 select mixid,foodid,q as Alcohol from mixresult
@@ -408,31 +383,53 @@ select mixid,foodid,q as AlphaLinolenic from mixresult
 where mixid = v_MixId
 and nutrientid = '851'
 ) x47,
---10006	Fiber, Insoluble (g)
-(
-select mixid,foodid,q as FiberInsoluble from mixresult
-where mixid = v_MixId
-and nutrientid = '10006'
-) x48,
---10007	Fiber, Soluble (g)
-(
-select mixid,foodid,q as FiberSoluble from mixresult
-where mixid = v_MixId
-and nutrientid = '10007'
-) x49,
---10008	Glycemic Load
+--10006	Glycemic Load
 (
 select mixid,foodid,q as GlycemicLoad from mixresult
 where mixid = v_MixId
-and nutrientid = '10008'
-) x50
+and nutrientid = '10006'
+) x50,
+--10009	Energy, digestible (kcal)
+(
+select mixid,foodid,q as EnergyDigestible from mixresult
+where mixid = v_MixId
+and nutrientid = '10009'
+) x51,
+--10010	Energy, no protein (kcal)
+(
+select mixid,foodid,q as EnergyNoProtein from mixresult
+where mixid = v_MixId
+and nutrientid = '10010'
+) x52,
+--10011	Energy, carbohydrate (kcal)
+(
+select mixid,foodid,q as EnergyCarbohydrate from mixresult
+where mixid = v_MixId
+and nutrientid = '10011'
+) x53,
+--10012	Energy, protein (kcal)
+(
+select mixid,foodid,q as EnergyProtein from mixresult
+where mixid = v_MixId
+and nutrientid = '10012'
+) x54,
+--10013	Energy, fat (kcal)
+(
+select mixid,foodid,q as EnergyFat from mixresult
+where mixid = v_MixId
+and nutrientid = '10013'
+) x55,
+--10014	Energy, no alcohol (kcal)
+(
+select mixid,foodid,q as EnergyAlcohol from mixresult
+where mixid = v_MixId
+and nutrientid = '10014'
+) x56
 --
 where x0.mixid = x1.mixid
 and x0.foodid = x1.foodid
 and x0.mixid = x2.mixid
 and x0.foodid = x2.foodid
-and x0.mixid = x3.mixid
-and x0.foodid = x3.foodid
 and x0.mixid = x4.mixid
 and x0.foodid = x4.foodid
 and x0.mixid = x5.mixid
@@ -445,12 +442,6 @@ and x0.mixid = x8.mixid
 and x0.foodid = x8.foodid
 and x0.mixid = x9.mixid
 and x0.foodid = x9.foodid
-and x0.mixid = x10.mixid
-and x0.foodid = x10.foodid
-and x0.mixid = x11.mixid
-and x0.foodid = x11.foodid
-and x0.mixid = x12.mixid
-and x0.foodid = x12.foodid
 and x0.mixid = x13.mixid
 and x0.foodid = x13.foodid
 and x0.mixid = x14.mixid
@@ -521,12 +512,20 @@ and x0.mixid = x46.mixid
 and x0.foodid = x46.foodid
 and x0.mixid = x47.mixid
 and x0.foodid = x47.foodid
-and x0.mixid = x48.mixid
-and x0.foodid = x48.foodid
-and x0.mixid = x49.mixid
-and x0.foodid = x49.foodid
 and x0.mixid = x50.mixid
 and x0.foodid = x50.foodid
+and x0.mixid = x51.mixid
+and x0.foodid = x51.foodid
+and x0.mixid = x52.mixid
+and x0.foodid = x52.foodid
+and x0.mixid = x53.mixid
+and x0.foodid = x53.foodid
+and x0.mixid = x54.mixid
+and x0.foodid = x54.foodid
+and x0.mixid = x55.mixid
+and x0.foodid = x55.foodid
+and x0.mixid = x56.mixid
+and x0.foodid = x56.foodid
 ) a,
 (
 select foodid,name from food
@@ -539,17 +538,13 @@ select a.MixId,
        '',
        'Total',
        Round(sum(a.Weight),v_Precision),
-       Round(sum(CompleteProtein),v_Precision),
-       Round(sum(IncompleteProtein),v_Precision),
+       Round(sum(CompleteProtein),v_Precision),       
        Round(sum(DigestibleCarbohydrate),v_Precision),
        Round(sum(Cost),v_Precision),
        Round(sum(Protein),v_Precision),
        Round(sum(Fat),v_Precision),
        Round(sum(CarbsByDiff),v_Precision),
        Round(sum(Energy),v_Precision),
-       Round(sum(Sucrose),v_Precision),
-       Round(sum(Fructose),v_Precision),
-       Round(sum(Lactose),v_Precision),
        Round(sum(Alcohol),v_Precision),
        Round(sum(Water),v_Precision),
        Round(sum(Fiber),v_Precision),
@@ -585,26 +580,26 @@ select a.MixId,
        Round(sum(Polyunsaturated),v_Precision),
        Round(sum(Linoleic),v_Precision),
        Round(sum(AlphaLinolenic),v_Precision),
-       Round(sum(FiberInsoluble),v_Precision),
-       Round(sum(FiberSoluble),v_Precision),
-       Round(sum(GlycemicLoad),v_Precision)
+       Round(sum(GlycemicLoad),v_Precision),
+       Round(sum(EnergyDigestible),v_Precision),
+       Round(sum(EnergyNoProtein),v_Precision),
+       Round(sum(EnergyCarbohydrate),v_Precision),
+       Round(sum(EnergyProtein),v_Precision),
+       Round(sum(EnergyFat),v_Precision),
+       Round(sum(EnergyAlcohol),v_Precision)
 from
 (
 select
        x0.Mixid,
        x0.Foodid,
        x1.Weight,
-       x2.CompleteProtein,
-       x3.IncompleteProtein,
+       x2.CompleteProtein,       
        x4.DigestibleCarbohydrate,
        x5.Cost,
        x6.Protein,
        x7.Fat,
        x8.CarbsByDiff,
        x9.Energy,
-       x10.Sucrose,
-       x11.Fructose,
-       x12.Lactose,
        x13.Alcohol,
        x14.Water,
        x15.Fiber,
@@ -640,9 +635,13 @@ select
        x45.Polyunsaturated,
        x46.Linoleic,
        x47.AlphaLinolenic,
-       x48.FiberInsoluble,
-       x49.FiberSoluble,
-       x50.GlycemicLoad
+       x50.GlycemicLoad,
+       x51.EnergyDigestible,
+       x52.EnergyNoProtein,
+       x53.EnergyCarbohydrate,
+       x54.EnergyProtein,
+       x55.EnergyFat,
+       x56.EnergyAlcohol
 from
 --
 (
@@ -662,13 +661,6 @@ select mixid,foodid,q as CompleteProtein from mixresult
 where mixid = v_MixId
 and nutrientid = '10001'
 ) x2,
---
---10002	Incomplete Protein (g)
-(
-select mixid,foodid,q as IncompleteProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10002'
-) x3,
 --
 --10003	Digestible Carbohydrate (g)
 (
@@ -710,24 +702,6 @@ select mixid,foodid,q as Energy from mixresult
 where mixid = v_MixId
 and nutrientid = '208'
 ) x9,
---210	Sucrose (g)
-(
-select mixid,foodid,q as Sucrose from mixresult
-where mixid = v_MixId
-and nutrientid = '210'
-) x10,
---212	Fructose (g)
-(
-select mixid,foodid,q as Fructose from mixresult
-where mixid = v_MixId
-and nutrientid = '212'
-) x11,
---213	Lactose (g)
-(
-select mixid,foodid,q as Lactose from mixresult
-where mixid = v_MixId
-and nutrientid = '213'
-) x12,
 --221	Alcohol, ethyl (g)
 (
 select mixid,foodid,q as Alcohol from mixresult
@@ -938,31 +912,53 @@ select mixid,foodid,q as AlphaLinolenic from mixresult
 where mixid = v_MixId
 and nutrientid = '851'
 ) x47,
---10006	Fiber, Insoluble (g)
-(
-select mixid,foodid,q as FiberInsoluble from mixresult
-where mixid = v_MixId
-and nutrientid = '10006'
-) x48,
---10007	Fiber, Soluble (g)
-(
-select mixid,foodid,q as FiberSoluble from mixresult
-where mixid = v_MixId
-and nutrientid = '10007'
-) x49,
---10008	Glycemic Load
+--10006	Glycemic Load
 (
 select mixid,foodid,q as GlycemicLoad from mixresult
 where mixid = v_MixId
-and nutrientid = '10008'
-) x50
+and nutrientid = '10006'
+) x50,
+--10009	Energy, digestible (kcal)
+(
+select mixid,foodid,q as EnergyDigestible from mixresult
+where mixid = v_MixId
+and nutrientid = '10009'
+) x51,
+--10010	Energy, no protein (kcal)
+(
+select mixid,foodid,q as EnergyNoProtein from mixresult
+where mixid = v_MixId
+and nutrientid = '10010'
+) x52,
+--10011	Energy, carbohydrate (kcal)
+(
+select mixid,foodid,q as EnergyCarbohydrate from mixresult
+where mixid = v_MixId
+and nutrientid = '10011'
+) x53,
+--10012	Energy, protein (kcal)
+(
+select mixid,foodid,q as EnergyProtein from mixresult
+where mixid = v_MixId
+and nutrientid = '10012'
+) x54,
+--10013	Energy, fat (kcal)
+(
+select mixid,foodid,q as EnergyFat from mixresult
+where mixid = v_MixId
+and nutrientid = '10013'
+) x55,
+--10014	Energy, no alcohol (kcal)
+(
+select mixid,foodid,q as EnergyAlcohol from mixresult
+where mixid = v_MixId
+and nutrientid = '10014'
+) x56
 --
 where x0.mixid = x1.mixid
 and x0.foodid = x1.foodid
 and x0.mixid = x2.mixid
 and x0.foodid = x2.foodid
-and x0.mixid = x3.mixid
-and x0.foodid = x3.foodid
 and x0.mixid = x4.mixid
 and x0.foodid = x4.foodid
 and x0.mixid = x5.mixid
@@ -975,12 +971,6 @@ and x0.mixid = x8.mixid
 and x0.foodid = x8.foodid
 and x0.mixid = x9.mixid
 and x0.foodid = x9.foodid
-and x0.mixid = x10.mixid
-and x0.foodid = x10.foodid
-and x0.mixid = x11.mixid
-and x0.foodid = x11.foodid
-and x0.mixid = x12.mixid
-and x0.foodid = x12.foodid
 and x0.mixid = x13.mixid
 and x0.foodid = x13.foodid
 and x0.mixid = x14.mixid
@@ -1051,19 +1041,27 @@ and x0.mixid = x46.mixid
 and x0.foodid = x46.foodid
 and x0.mixid = x47.mixid
 and x0.foodid = x47.foodid
-and x0.mixid = x48.mixid
-and x0.foodid = x48.foodid
-and x0.mixid = x49.mixid
-and x0.foodid = x49.foodid
 and x0.mixid = x50.mixid
 and x0.foodid = x50.foodid
+and x0.mixid = x51.mixid
+and x0.foodid = x51.foodid
+and x0.mixid = x52.mixid
+and x0.foodid = x52.foodid
+and x0.mixid = x53.mixid
+and x0.foodid = x53.foodid
+and x0.mixid = x54.mixid
+and x0.foodid = x54.foodid
+and x0.mixid = x55.mixid
+and x0.foodid = x55.foodid
+and x0.mixid = x56.mixid
+and x0.foodid = x56.foodid
 ) a,
 (
 select foodid,name from food
 ) b
 where a.foodid = b.foodid
 group by a.MixId
-order by a.Energy,a.Weight,b.Name;
+order by a.EnergyDigestible,a.Weight,b.Name;
 --
 OPEN result;
 END;

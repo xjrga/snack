@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ListModelCategory extends DefaultListModel {
+
     private final DbLink dbLink;
 
     public ListModelCategory(DbLink dbLink) {

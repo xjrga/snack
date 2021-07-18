@@ -20,6 +20,7 @@
 package io.github.xjrga.snack2.model;
 
 import io.github.xjrga.snack2.data.DbLink;
+import io.github.xjrga.snack2.data.Nutrient;
 import io.github.xjrga.snack2.other.Log;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class TableModelCarbs extends DefaultTableModel implements RoundUp {
+
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
@@ -43,13 +45,10 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("Carbs");
+        columns.add("\u26F9 Carbohydrate");
+        columns.add("Gross");
         columns.add("Fiber");
-        columns.add("Insoluble");
-        columns.add("Soluble");
-        columns.add("Sucrose");
-        columns.add("Fructose");
-        columns.add("Lactose");
+        columns.add("Carbohydrate");
         this.setColumnIdentifiers(columns);
     }
 
@@ -76,25 +75,19 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name"); //0
-                Double Sucrose = (Double) rowm.get("Sucrose");
-                Double Fructose = (Double) rowm.get("Fructose");
-                Double Lactose = (Double) rowm.get("Lactose");
-                Double Fiber = (Double) rowm.get("Fiber");
-                Double Weight = (Double) rowm.get("Weight");
-                Double DigestibleCarbohydrate = (Double) rowm.get("DigestibleCarbs");
-                Double FiberInsoluble = (Double) rowm.get("FiberInsoluble");
-                Double FiberSoluble = (Double) rowm.get("FiberSoluble");
+                String Name = (String) rowm.get("Name");
+                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
+                Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
+                Double CarbsByDiff = (Double) rowm.get(Nutrient.CARBOHYDRATEBYDIFFERENCE.getLabel());
+                Double Fiber = (Double) rowm.get(Nutrient.FIBER.getLabel());
+                Double DigestibleCarbohydrate = (Double) rowm.get(Nutrient.DIGESTIBLECARBOHYDRATE.getLabel());
                 row = new Vector();
                 row.add(Name);
                 row.add(Weight);
-                row.add(DigestibleCarbohydrate);
+                row.add(EnergyCarbohydrate);
+                row.add(CarbsByDiff);
                 row.add(Fiber);
-                row.add(FiberInsoluble);
-                row.add(FiberSoluble);
-                row.add(Sucrose);
-                row.add(Fructose);
-                row.add(Lactose);
+                row.add(DigestibleCarbohydrate);
                 table.add(row);
             }
             this.setDataVector(table, columns);

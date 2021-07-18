@@ -1,6 +1,7 @@
 package io.github.xjrga.snack2.dataobject;
 
 public class FoodFactSelectForCheckCoefficientsDataObject {
+
     private String Category;
     private String Nutrient;
     private Double q;

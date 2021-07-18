@@ -9,6 +9,7 @@ import io.github.xjrga.snack2.gui.Message;
 
 import javax.swing.*;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ExportFoodMixes {
+
     private final DbLink dbLink;
     private Cell rowCell;
     private CellStyle cellStyleColumnName;
@@ -94,105 +96,11 @@ public class ExportFoodMixes {
                 createNewRow();
                 //Name
                 fillRowCellWithColumnName(0, "Name");
-                //Weight
-                fillRowCellWithColumnName(1, "Weight");
-                //Energy
-                fillRowCellWithColumnName(2, Nutrient.ENERGY.getName());
-                //Protein
-                fillRowCellWithColumnName(3, Nutrient.PROTEIN.getName());
-                //Complete
-                fillRowCellWithColumnName(4, Nutrient.COMPLETEPROTEIN.getName());
-                //Incomplete
-                fillRowCellWithColumnName(5, Nutrient.INCOMPLETEPROTEIN.getName());
-                //Fat
-                fillRowCellWithColumnName(6, Nutrient.FAT.getName());
-                //Monounsaturated
-                fillRowCellWithColumnName(7, Nutrient.MONOUNSATURATED.getName());
-                //Polyunsaturated
-                fillRowCellWithColumnName(8, Nutrient.POLYUNSATURATED.getName());
-                //Saturated
-                fillRowCellWithColumnName(9, Nutrient.SATURATED.getName());
-                //Cholesterol
-                fillRowCellWithColumnName(10, Nutrient.CHOLESTEROL.getName());
-                //Linoleic
-                fillRowCellWithColumnName(11, Nutrient.LINOLEIC.getName());
-                //Alpha-Linolenic
-                fillRowCellWithColumnName(12, Nutrient.ALPHALINOLENIC.getName());
-                //DHA
-                fillRowCellWithColumnName(13, Nutrient.DHA.getName());
-                //EPA
-                fillRowCellWithColumnName(14, Nutrient.EPA.getName());
-                //Carbohydrate
-                fillRowCellWithColumnName(15, Nutrient.DIGESTIBLECARBS.getName());
-                //Fiber
-                fillRowCellWithColumnName(16, Nutrient.FIBER.getName());
-                //Sucrose
-                fillRowCellWithColumnName(17, Nutrient.SUCROSE.getName());
-                //Fructose
-                fillRowCellWithColumnName(18, Nutrient.FRUCTOSE.getName());
-                //Lactose
-                fillRowCellWithColumnName(19, Nutrient.LACTOSE.getName());
-                //Vitamin A
-                fillRowCellWithColumnName(20, Nutrient.VITAMINA.getName());
-                //Vitamin E
-                fillRowCellWithColumnName(21, Nutrient.VITAMINE.getName());
-                //Vitamin D
-                fillRowCellWithColumnName(22, Nutrient.VITAMIND.getName());
-                //Vitamin C
-                fillRowCellWithColumnName(23, Nutrient.VITAMINC.getName());
-                //Thiamin
-                fillRowCellWithColumnName(24, Nutrient.THIAMIN.getName());
-                //Riboflavin
-                fillRowCellWithColumnName(25, Nutrient.RIBOFLAVIN.getName());
-                //Niacin
-                fillRowCellWithColumnName(26, Nutrient.NIACIN.getName());
-                //Pantothenic
-                fillRowCellWithColumnName(27, Nutrient.PANTOTHENIC.getName());
-                //Vitamin B6
-                fillRowCellWithColumnName(28, Nutrient.VITAMINB6.getName());
-                //Vitamin B12
-                fillRowCellWithColumnName(29, Nutrient.VITAMINB12.getName());
-                //Choline
-                fillRowCellWithColumnName(30, Nutrient.CHOLINE.getName());
-                //Vitamin K
-                fillRowCellWithColumnName(31, Nutrient.VITAMINK.getName());
-                //Folate
-                fillRowCellWithColumnName(32, Nutrient.FOLATE.getName());
-                //Calcium
-                fillRowCellWithColumnName(33, Nutrient.CALCIUM.getName());
-                //Iron
-                fillRowCellWithColumnName(34, Nutrient.IRON.getName());
-                //Magnesium
-                fillRowCellWithColumnName(35, Nutrient.MAGNESIUM.getName());
-                //Phosphorus
-                fillRowCellWithColumnName(36, Nutrient.PHOSPHORUS.getName());
-                //Potassium
-                fillRowCellWithColumnName(37, Nutrient.POTASSIUM.getName());
-                //Sodium
-                fillRowCellWithColumnName(38, Nutrient.SODIUM.getName());
-                //Zinc
-                fillRowCellWithColumnName(39, Nutrient.ZINC.getName());
-                //Copper
-                fillRowCellWithColumnName(40, Nutrient.COPPER.getName());
-                //Fluoride
-                fillRowCellWithColumnName(41, Nutrient.FLUORIDE.getName());
-                //Manganese
-                fillRowCellWithColumnName(42, Nutrient.MANGANESE.getName());
-                //Selenium
-                fillRowCellWithColumnName(43, Nutrient.SELENIUM.getName());
-                //Alcohol
-                fillRowCellWithColumnName(44, Nutrient.ALCOHOL.getName());
-                //Water
-                fillRowCellWithColumnName(45, Nutrient.WATER.getName());
-                //Cost
-                fillRowCellWithColumnName(46, "Cost ($)");
-                //Fiber, Insoluble
-                fillRowCellWithColumnName(47, Nutrient.FIBERINSOLUBLE.getName());
-                //Fiber, Soluble
-                fillRowCellWithColumnName(48, Nutrient.FIBERSOLUBLE.getName());
-                //Glycemic Load
-                fillRowCellWithColumnName(49, Nutrient.GLYCEMICLOAD.getName());
-
+                //Rest of values
+                for (Nutrient nutrient : Nutrient.values()) {
+                    int number = nutrient.ordinal() + 1;
+                    fillRowCellWithColumnName(number, nutrient.getName());
+                }
                 //Set nutrient values
                 try {
                     LinkedList list = (LinkedList) dbLink.MixResult_Select(mixDataObject.getMixId(), 5);
@@ -212,173 +120,29 @@ public class ExportFoodMixes {
                             cellStyleValue = cellStyleFoodItemValue;
                         }
                         fillRowCellWithItemName(0, Name);
-                        //Weight
-                        Double Weight = (Double) rowm.get("Weight");
-                        fillRowCellWithValue(Weight, 1);
-                        //Energy
-                        Double Energy = (Double) rowm.get("Energy");
-                        fillRowCellWithValue(Energy, 2);
-                        //Protein
-                        Double Protein = (Double) rowm.get("Protein");
-                        fillRowCellWithValue(Protein, 3);
-                        //Complete
-                        Double CompleteProtein = (Double) rowm.get("CompleteProtein");
-                        fillRowCellWithValue(CompleteProtein, 4);
-                        //Incomplete
-                        Double IncompleteProtein = (Double) rowm.get("IncompleteProtein");
-                        fillRowCellWithValue(IncompleteProtein, 5);
-                        //Fat
-                        Double Fat = (Double) rowm.get("Fat");
-                        fillRowCellWithValue(Fat, 6);
-                        //Monounsaturated
-                        Double Monounsaturated = (Double) rowm.get("Monounsaturated");
-                        fillRowCellWithValue(Monounsaturated, 7);
-                        //Polyunsaturated
-                        Double Polyunsaturated = (Double) rowm.get("Polyunsaturated");
-                        fillRowCellWithValue(Polyunsaturated, 8);
-                        //Saturated
-                        Double Saturated = (Double) rowm.get("Saturated");
-                        fillRowCellWithValue(Saturated, 9);
-                        //Cholesterol
-                        Double Cholesterol = (Double) rowm.get("Cholesterol");
-                        fillRowCellWithValue(Cholesterol, 10);
-                        //Linoleic
-                        Double Linoleic = (Double) rowm.get("Linoleic");
-                        fillRowCellWithValue(Linoleic, 11);
-                        //Alpha-Linolenic
-                        Double AlphaLinolenic = (Double) rowm.get("AlphaLinolenic");
-                        fillRowCellWithValue(AlphaLinolenic, 12);
-                        //DHA
-                        Double DHA = (Double) rowm.get("DHA");
-                        fillRowCellWithValue(DHA, 13);
-                        //EPA
-                        Double EPA = (Double) rowm.get("EPA");
-                        fillRowCellWithValue(EPA, 14);
-                        //Carbohydrate
-                        Double DigestibleCarbohydrate = (Double) rowm.get("DigestibleCarbs");
-                        fillRowCellWithValue(DigestibleCarbohydrate, 15);
-                        //Fiber
-                        Double Fiber = (Double) rowm.get("Fiber");
-                        fillRowCellWithValue(Fiber, 16);
-                        //Sucrose
-                        Double Sucrose = (Double) rowm.get("Sucrose");
-                        fillRowCellWithValue(Sucrose, 17);
-                        //Fructose
-                        Double Fructose = (Double) rowm.get("Fructose");
-                        fillRowCellWithValue(Fructose, 18);
-                        //Lactose
-                        Double Lactose = (Double) rowm.get("Lactose");
-                        fillRowCellWithValue(Lactose, 19);
-                        //Vitamin A
-                        Double VitaminA = (Double) rowm.get("VitaminA");
-                        fillRowCellWithValue(VitaminA, 20);
-                        //Vitamin E
-                        Double VitaminE = (Double) rowm.get("VitaminE");
-                        fillRowCellWithValue(VitaminE, 21);
-                        //Vitamin D
-                        Double VitaminD = (Double) rowm.get("VitaminD");
-                        fillRowCellWithValue(VitaminD, 22);
-                        //Vitamin C
-                        Double VitaminC = (Double) rowm.get("VitaminC");
-                        fillRowCellWithValue(VitaminC, 23);
-                        //Thiamin
-                        Double Thiamin = (Double) rowm.get("Thiamin");
-                        fillRowCellWithValue(Thiamin, 24);
-                        //Riboflavin
-                        Double Riboflavin = (Double) rowm.get("Riboflavin");
-                        fillRowCellWithValue(Riboflavin, 25);
-                        //Niacin
-                        Double Niacin = (Double) rowm.get("Niacin");
-                        fillRowCellWithValue(Niacin, 26);
-                        //Pantothenic
-                        Double Pantothenic = (Double) rowm.get("Pantothenic");
-                        fillRowCellWithValue(Pantothenic, 27);
-                        //Vitamin B6
-                        Double VitaminB6 = (Double) rowm.get("VitaminB6");
-                        fillRowCellWithValue(VitaminB6, 28);
-                        //Vitamin B12
-                        Double VitaminB12 = (Double) rowm.get("VitaminB12");
-                        fillRowCellWithValue(VitaminB12, 29);
-                        //Choline
-                        Double Choline = (Double) rowm.get("Choline");
-                        fillRowCellWithValue(Choline, 30);
-                        //Vitamin K
-                        Double VitaminK = (Double) rowm.get("VitaminK");
-                        fillRowCellWithValue(VitaminK, 31);
-                        //Folate
-                        Double Folate = (Double) rowm.get("Folate");
-                        fillRowCellWithValue(Folate, 32);
-                        //Calcium
-                        Double Calcium = (Double) rowm.get("Calcium");
-                        fillRowCellWithValue(Calcium, 33);
-                        //Iron
-                        Double Iron = (Double) rowm.get("Iron");
-                        fillRowCellWithValue(Iron, 34);
-                        //Magnesium
-                        Double Magnesium = (Double) rowm.get("Magnesium");
-                        fillRowCellWithValue(Magnesium, 35);
-                        //Phosphorus
-                        Double Phosphorus = (Double) rowm.get("Phosphorus");
-                        fillRowCellWithValue(Phosphorus, 36);
-                        //Potassium
-                        Double Potassium = (Double) rowm.get("Potassium");
-                        fillRowCellWithValue(Potassium, 37);
-                        //Sodium
-                        Double Sodium = (Double) rowm.get("Sodium");
-                        fillRowCellWithValue(Sodium, 38);
-                        //Zinc
-                        Double Zinc = (Double) rowm.get("Zinc");
-                        fillRowCellWithValue(Zinc, 39);
-                        //Copper
-                        Double Copper = (Double) rowm.get("Copper");
-                        fillRowCellWithValue(Copper, 40);
-                        //Fluoride
-                        Double Fluoride = (Double) rowm.get("Fluoride");
-                        fillRowCellWithValue(Fluoride, 41);
-                        //Manganese
-                        Double Manganese = (Double) rowm.get("Manganese");
-                        fillRowCellWithValue(Manganese, 42);
-                        //Selenium
-                        Double Selenium = (Double) rowm.get("Selenium");
-                        fillRowCellWithValue(Selenium, 43);
-                        //Alcohol
-                        Double Alcohol = (Double) rowm.get("Alcohol");
-                        fillRowCellWithValue(Alcohol, 44);
-                        //Water
-                        Double Water = (Double) rowm.get("Water");
-                        fillRowCellWithValue(Water, 45);
-                        //Cost
-                        Double Cost = (Double) rowm.get("Cost");
-                        fillRowCellWithValue(Cost, 46);
-                        //Fiber, Insoluble
-                        Double FiberInsoluble = (Double) rowm.get("FiberInsoluble");
-                        fillRowCellWithValue(FiberInsoluble, 47);
-                        //Fiber, Soluble
-                        Double FiberSoluble = (Double) rowm.get("FiberSoluble");
-                        fillRowCellWithValue(FiberSoluble, 48);
-                        //Glycemic Load
-                        Double GlycemicLoad = (Double) rowm.get("GlycemicLoad");
-                        fillRowCellWithValue(GlycemicLoad, 49);
-
+                        //Rest of values
+                        for (Nutrient nutrient : Nutrient.values()) {
+                            Double value = (Double) rowm.get(nutrient.getLabel());
+                            int number = nutrient.ordinal() + 1;
+                            fillRowCellWithValue(value, number);
+                        }
                     }
                 } catch (SQLException e) {
                     Log.getLog().start("files/exception.log");
                     Log.getLog().logMessage(e.toString());
                     Log.getLog().write();
                     Log.getLog().close();
-                    e.printStackTrace();
                 }
             }
             try {
                 out = new FileOutputStream(filepath.toString());
                 wb.write(out);
                 out.close();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 Log.getLog().start("files/exception.log");
                 Log.getLog().logMessage(e.toString());
                 Log.getLog().write();
                 Log.getLog().close();
-                e.printStackTrace();
             }
             showMessage();
         } catch (SQLException e) {
@@ -386,7 +150,6 @@ public class ExportFoodMixes {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
@@ -420,7 +183,7 @@ public class ExportFoodMixes {
 
     private void showMessage() {
         JComponent[] inputs = new JComponent[]{
-                new JLabel("Spreadsheet is ready")
+            new JLabel("Spreadsheet is ready")
         };
         Message.showOptionDialog(inputs, "Export Food Mixes");
     }
@@ -464,4 +227,18 @@ public class ExportFoodMixes {
         cellStyleTotal.setFont(fontBold);
         return cellStyleTotal;
     }
+
+    public void hello() {
+        for (Nutrient nutrient : Nutrient.values()) {
+            System.out.println(nutrient.getLabel());
+            System.out.println(nutrient.ordinal());
+        }
+    }
+
+    public static void main(String[] args) {
+        DbLink dbLink = new DbLink();
+        ExportFoodMixes a = new ExportFoodMixes(dbLink);
+        a.hello();
+    }
+
 }

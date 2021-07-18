@@ -5,6 +5,7 @@ import javax.swing.*;
 import io.github.xjrga.snack2.other.ImageUtilities;
 
 public class Message {
+
     private static final BufferedImage logo = ImageUtilities.readImage("resources/images/logo.png");
 
     public Message() {

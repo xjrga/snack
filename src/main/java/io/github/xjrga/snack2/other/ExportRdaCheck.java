@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ExportRdaCheck {
+
     private final DbLink dbLink;
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -171,10 +172,9 @@ public class ExportRdaCheck {
                 wb.write(out);
                 out.close();
             } catch (IOException e) {
-                e.printStackTrace();
             }
             JComponent[] inputs = new JComponent[]{
-                    new JLabel("Spreadsheet is ready")
+                new JLabel("Spreadsheet is ready")
             };
             Message.showOptionDialog(inputs, "Export RDA Check");
         } catch (SQLException e) {
@@ -183,7 +183,6 @@ public class ExportRdaCheck {
             Log.getLog().write();
             Log.getLog().close();
 //
-            e.printStackTrace();
         }
     }
 }
