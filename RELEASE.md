@@ -143,5 +143,10 @@ RELEASE NOTES
       Delete sugars tracking
       Delete fiber type tracking
       Delete incomplete protein tracking
+      Redesign food list
       Redesign journal
       Add data input calculator assistants
+
+660
+
+      Fix food list to show one food item

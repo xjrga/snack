@@ -8,8 +8,7 @@ DECLARE result CURSOR
 FOR
 --
 SELECT
-       --Name
-       b.name AS "Category",
+       --Name     
        a.name AS "Name",
        --Mass
        ROUND(x0.q,v_Precision) AS "Weight",
@@ -72,11 +71,8 @@ SELECT
        ROUND(x13.q,v_Precision) AS "Water",
        ROUND(x4.q,v_Precision) AS "Cost",
        --Ids
-       b.foodcategoryid AS "CategoryId",
        a.foodid AS "FoodId"
 FROM food a,
-     foodcategory b,
-     categorylink c,
      foodfact x0,
      foodfact x1,     
      foodfact x3,
@@ -129,8 +125,6 @@ FROM food a,
      foodfact x58
 WHERE
 (
-b.foodcategoryid =  c.foodcategoryid AND
-a.foodid = c.foodid AND
 a.foodid = x0.foodid AND
 a.foodid = x1.foodid AND
 a.foodid = x3.foodid AND
@@ -237,8 +231,7 @@ x58.nutrientid = '10014'
 )
 UNION
 SELECT
-       --Name
-       NULL,
+       --Name     
        a.name AS "Name",
        --Mass
        ROUND(x0.q,v_Precision) AS "Weight",
@@ -301,7 +294,6 @@ SELECT
        ROUND(x13.q,v_Precision) AS "Water",
        ROUND(x4.q,v_Precision) AS "Cost",
        --Ids
-       NULL,
        a.foodid AS "FoodId"
 FROM (SELECT foodid,
              name

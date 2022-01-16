@@ -54,6 +54,8 @@ CALL CategoryLink_Insert('11305','10000');
 /
 CALL CategoryLink_Insert('11357','10000');
 /
+CALL CategoryLink_Insert('11424','10000');
+/
 CALL CategoryLink_Insert('11451','10000');
 /
 CALL CategoryLink_Insert('11508','10000');

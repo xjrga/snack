@@ -368,6 +368,8 @@ call Food_Insert('11365','Potatoes, boiled, cooked in skin, flesh, without salt'
 /
 call Food_Insert('11369','Potatoes, microwaved, cooked in skin, skin, without salt');
 /
+call Food_Insert('11424','Pumpkin, canned, without salt');
+/
 call Food_Insert('11429','Radishes, raw');
 /
 call Food_Insert('11450','Soybeans, green, raw');

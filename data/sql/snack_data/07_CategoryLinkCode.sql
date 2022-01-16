@@ -368,6 +368,8 @@ call CategoryLink_Insert('11365','1100');
 /
 call CategoryLink_Insert('11369','1100');
 /
+call CategoryLink_Insert('11424','1100');
+/
 call CategoryLink_Insert('11429','1100');
 /
 call CategoryLink_Insert('11450','1100');

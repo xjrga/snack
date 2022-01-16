@@ -2763,7 +2763,7 @@ public class Main {
         sb.append("\n\n");
         sb.append("commons-math3-3.6.1.jar");
         sb.append("\n");
-        sb.append("hsqldb-2.5.1.jar");
+        sb.append("hsqldb-2.6.1.jar");
         sb.append("\n");
         sb.append("jgoodies-common-1.8.1.jar");
         sb.append("\n");
@@ -2823,7 +2823,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 650");
+        sb.append("This is build 660");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();

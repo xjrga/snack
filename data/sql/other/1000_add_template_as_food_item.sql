@@ -59,15 +59,6 @@ call FoodFact_Merge('1234567890','10003',0);
 --'291','Fiber, total dietary (g)'
 call FoodFact_Merge('1234567890','291',0);
 /
---'210','Sucrose (g)'
-call FoodFact_Merge('1234567890','210',0);
-/
---'212','Fructose (g)'
-call FoodFact_Merge('1234567890','212',0);
-/
---'213','Lactose (g)'
-call FoodFact_Merge('1234567890','213',0);
-/
 --'320','Vitamin A, RAE (µg)'
 call FoodFact_Merge('1234567890','320',0);
 /

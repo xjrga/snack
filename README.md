@@ -10,7 +10,7 @@
     rapidly learn. Its intended audience is anyone with interest in nutrition.
     
     Home page: https://xjrga.github.io/snack
-    Download: https://sourceforge.net/projects/snackmix
+    Download: https://xjrga.github.io/releases/
     
     Features:
         - quantify food intake
@@ -36,18 +36,18 @@
 
 Installing
 
-    1. Download Snack-650-app.zip from https://sourceforge.net/projects/snackmix
-    2. unzip Snack-650-app.zip
-    3. cd Snack-650
-    4. java -jar Snack-650.jar (if you are on windows double click on jar file) 
+    1. Download Snack-660-app.zip from https://xjrga.github.io/releases/
+    2. unzip Snack-660-app.zip
+    3. cd Snack-660
+    4. java -jar Snack-660.jar (if you are on windows double click on jar file) 
     
-[Download](https://sourceforge.net/projects/snackmix "Snack: Learning Software for Nutrition")
+[Download](https://xjrga.github.io/releases/ "Snack: Learning Software for Nutrition")
 
 [User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    650
+    660
 
 Authors
 
@@ -62,7 +62,7 @@ Acknowledgments
 Snack uses the following libraries:
 
     commons-math3-3.6.1.jar
-    hsqldb-2.5.1.jar (v2.5.1)
+    hsqldb-2.6.1.jar (v2.5.1)
     jgoodies-common-1.8.1.jar
     jgoodies-forms-1.9.0.jar
     poi-4.0.1.jar    

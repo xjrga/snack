@@ -44,7 +44,6 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add("FoodId");
-        //columns.add("Category");
         columns.add("Name");
         columns.add("Weight");
         columns.add("\u26F9 Gross");
@@ -96,7 +95,6 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         columns.add("GlycemicLoad");
         columns.add("Water");
         columns.add("Cost");
-        //columns.add("CategoryId");
         this.setColumnIdentifiers(columns);
     }
 
@@ -125,7 +123,6 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 //Name
-                String Category = (String) rowm.get("Category");
                 String Name = (String) rowm.get("Name");
                 //Mass
                 Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
@@ -189,12 +186,10 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double Water = (Double) rowm.get(Nutrient.WATER.getLabel());
                 Double Cost = (Double) rowm.get(Nutrient.COST.getLabel());
                 //Ids
-                String CategoryId = (String) rowm.get("CategoryId");
                 String FoodId = (String) rowm.get("FoodId");
 
                 row = new Vector();
                 row.add(FoodId);
-                //row.add(Category);
                 row.add(Name);
                 row.add(Weight);
                 row.add(EnergyGross);
