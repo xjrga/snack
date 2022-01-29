@@ -36,18 +36,16 @@
 
 Installing
 
-    1. Download Snack-660-app.zip from https://xjrga.github.io/releases/
-    2. unzip Snack-660-app.zip
-    3. cd Snack-660
-    4. java -jar Snack-660.jar (if you are on windows double click on jar file) 
+    1. Download Snack-670-app.zip from https://xjrga.github.io/releases/
+    2. unzip Snack-670-app.zip
+    3. cd Snack-670
+    4. java -jar Snack-670.jar (if you are on windows double click on jar file) 
     
-[Download](https://xjrga.github.io/releases/ "Snack: Learning Software for Nutrition")
-
 [User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    660
+    670
 
 Authors
 
@@ -74,4 +72,10 @@ Snack uses a data subset from:
     2) Dietary Reference Intakes Nutrient Recommendations Report from 
        Food and Nutrition Board of the Institute of Medicine, 
        National Academy of Sciences
+
+Comments
+
+    I added inequality options to food nutrient ratio and nutrient ratio 
+    constraints to make Snack less picky. The new fat percentages should
+    allow for better diet analysis.
               

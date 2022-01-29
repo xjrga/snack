@@ -150,3 +150,8 @@ RELEASE NOTES
 660
 
       Fix food list to show one food item
+
+670
+
+      Add fat percentages to information bar
+      Add inequality options to food nutrient ratio and nutrient ratio

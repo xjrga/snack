@@ -16,9 +16,10 @@ c.Name as NutrientA,
 d.Name as FoodB,
 e.Name as NutrientB,
 a.A,
-a.B
+a.B,
+f.Name as Relationship
 FROM
-FoodNutrientRatio a, Food b, Nutrient c, Food d, Nutrient e
+FoodNutrientRatio a, Food b, Nutrient c, Food d, Nutrient e, Relationship f
 WHERE
 a.MixId = v_MixId
 AND
@@ -28,7 +29,9 @@ a.Nutrient_Id_1 = c.NutrientId
 AND
 a.Food_Id_2 = d.FoodId
 AND
-a.Nutrient_Id_2 = e.NutrientId;
+a.Nutrient_Id_2 = e.NutrientId
+AND
+a.relationshipid = f.relationshipid;
 --
 OPEN result;
 --

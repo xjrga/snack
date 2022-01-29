@@ -12,15 +12,18 @@ a.RelationshipId,
 b.Name as NutrientA,
 c.Name as NutrientB,
 a.A,
-a.B
+a.B,
+d.Name as Relationship
 FROM
-NutrientRatio a, Nutrient b, Nutrient c
+NutrientRatio a, Nutrient b, Nutrient c, Relationship d
 WHERE
 a.MixId = v_MixId
 AND
 a.Nutrient_Id_1 = b.NutrientId
 AND
-a.Nutrient_Id_2 = c.NutrientId;
+a.Nutrient_Id_2 = c.NutrientId
+AND
+a.relationshipid = d.relationshipid;
 --
 OPEN result;
 --

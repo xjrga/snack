@@ -4,11 +4,11 @@
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.xjrga.snack2</groupId>
-    <artifactId>Snack</artifactId>
-    <version>660</version>
+    <groupId>io.github.xjrga</groupId>
+    <artifactId>snack</artifactId>
+    <version>670</version>
 
-    <name>Snack</name>
+    <name>snack</name>
     <url>https://xjrga.github.io/snack</url>
 
     <properties>
@@ -71,7 +71,7 @@
 	<dependency>
 	    <groupId>io.github.xjrga</groupId>
 	    <artifactId>looks</artifactId>
-	    <version>01</version>       
+	    <version>02</version>       
 	</dependency>
 	
     </dependencies>
@@ -111,7 +111,7 @@
 				<classpathLayoutType>simple</classpathLayoutType>
 				<classpathPrefix>lib/</classpathPrefix>
 				<addClasspath>true</addClasspath>
-				<mainClass>io.github.xjrga.snack2.gui.Main</mainClass>
+				<mainClass>io.github.xjrga.snack.gui.Main</mainClass>
 			    </manifest>
 			</archive>
 		    </configuration>                                                      
