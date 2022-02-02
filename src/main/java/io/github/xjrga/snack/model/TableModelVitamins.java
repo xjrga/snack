@@ -61,6 +61,7 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i == 0) {
@@ -124,7 +125,6 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 

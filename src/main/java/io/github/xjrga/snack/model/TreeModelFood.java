@@ -42,6 +42,7 @@ public class TreeModelFood extends DefaultTreeModel {
         this.setRoot(node);
     }
 
+    @Override
     public void reload() {
         HashMap hm = new HashMap();
         LinkedList list = null;
@@ -72,7 +73,6 @@ public class TreeModelFood extends DefaultTreeModel {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 }

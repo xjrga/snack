@@ -44,8 +44,8 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("\u26F9 Carbohydrate");
-        columns.add("Carbohydrate");
+        columns.add("eCarbs");
+        columns.add("Carbs");
         columns.add("%");
         columns.add("GI");
         columns.add("GL");
@@ -53,6 +53,7 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i == 0) {
@@ -101,10 +102,10 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

@@ -56,7 +56,6 @@ public class ListModelMix extends DefaultListModel {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 }

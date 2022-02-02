@@ -54,7 +54,6 @@ public class ComboBoxModelFood extends DefaultComboBoxModel {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 }

@@ -45,12 +45,13 @@ public class TableModelProtein extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("\u26F9 Protein");
+        columns.add("eProtein");
         columns.add("Protein");
-        columns.add("CompleteProtein");
+        columns.add("Complete");
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i == 0) {

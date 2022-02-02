@@ -52,6 +52,7 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i < 2) {
@@ -98,10 +99,10 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

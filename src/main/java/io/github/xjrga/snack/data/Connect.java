@@ -56,7 +56,6 @@ public class Connect {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
         try {
             prop.load(input);
@@ -69,7 +68,6 @@ public class Connect {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
         try {
             Class.forName(JDBC_DRIVER);
@@ -78,7 +76,6 @@ public class Connect {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
@@ -87,7 +84,7 @@ public class Connect {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
+            ;
         }
         return connection;
     }

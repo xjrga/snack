@@ -50,6 +50,7 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         switch (i) {
@@ -133,10 +134,10 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

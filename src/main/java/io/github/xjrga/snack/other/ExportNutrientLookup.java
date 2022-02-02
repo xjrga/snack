@@ -136,7 +136,6 @@ public class ExportNutrientLookup {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
         try {
             out = new FileOutputStream(filepath.toString());
@@ -147,7 +146,6 @@ public class ExportNutrientLookup {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
         JComponent[] inputs = new JComponent[]{
             new JLabel("Spreadsheet is ready")

@@ -23,8 +23,7 @@ public class Writer {
                 Log.getLog().start("files/exception.log");
                 Log.getLog().logMessage(e.toString());
                 Log.getLog().write();
-                Log.getLog().close();
-                e.printStackTrace();
+                Log.getLog().close();    
             }
         }).start();
     }

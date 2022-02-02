@@ -71,7 +71,6 @@ public class StringModelMixPct implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
         return s;
     }

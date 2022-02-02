@@ -17,11 +17,12 @@ public class TableHeaderFats extends MyTableHeader {
             "Cholesterol (mg)",
             "Linoleic Acid (g)",
             "Alpha-Linolenic Acid (g)",
-            "DHA (g)",
-            "EPA (g)"
+            "Docosahexaenoic Acid (g)",
+            "Eicosapentaenoic Acid (g)"
         });
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         return super.getToolTipText(e);
     }

@@ -9,8 +9,8 @@ public class TableHeaderEnergy extends MyTableHeader {
         super(columnModel, new String[]{
             "Food Name",
             "Weight (g)",
+            "Energy Gross (Kcal)",
             "Energy Digestible (Kcal)",
-            "Energy No Protein (Kcal)",
             "Energy Fat (Kcal)",
             "Energy Carbohydrate (Kcal)",
             "Energy Protein (Kcal)",
@@ -22,6 +22,7 @@ public class TableHeaderEnergy extends MyTableHeader {
         });
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         return super.getToolTipText(e);
     }

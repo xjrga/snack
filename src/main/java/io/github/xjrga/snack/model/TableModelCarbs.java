@@ -45,13 +45,14 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("\u26F9 Carbohydrate");
+        columns.add("eCarbs");
         columns.add("Gross");
         columns.add("Fiber");
-        columns.add("Carbohydrate");
+        columns.add("Carbs");
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i == 0) {
@@ -95,11 +96,11 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
             Log.getLog().start("files/exception.log");
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
-            Log.getLog().close();
-            e.printStackTrace();
+            Log.getLog().close();           
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

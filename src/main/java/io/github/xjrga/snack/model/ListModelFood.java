@@ -54,7 +54,6 @@ public class ListModelFood extends DefaultListModel {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
@@ -75,7 +74,6 @@ public class ListModelFood extends DefaultListModel {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 }

@@ -47,6 +47,7 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         switch (i) {
@@ -87,10 +88,10 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

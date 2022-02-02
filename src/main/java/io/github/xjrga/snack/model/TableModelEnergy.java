@@ -45,19 +45,20 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("\u26F9 Digestible");
-        columns.add("\u26F9 NoProtein");
-        columns.add("\u26F9 Fat");
-        columns.add("\u26F9 Carbohydrate");
-        columns.add("\u26F9 Protein");
-        columns.add("\u26F9 Alcohol");
+        columns.add("eGross");
+        columns.add("eDigest");
+        columns.add("eFat");
+        columns.add("eCarbs");
+        columns.add("eProtein");
+        columns.add("eAlcohol");
         columns.add("Fat");
-        columns.add("Carbohydrate");
+        columns.add("Carbs");
         columns.add("Protein");
         columns.add("Alcohol");
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i == 0) {
@@ -101,8 +102,8 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
                 row = new Vector();
                 row.add(Name);
                 row.add(Weight);
-                row.add(EnergyDigestible);
-                row.add(EnergyNoProtein);
+                row.add(EnergyGross);
+                row.add(EnergyDigestible);                
                 row.add(EnergyFat);
                 row.add(EnergyCarbohydrate);
                 row.add(EnergyProtein);
@@ -119,10 +120,10 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
+    @Override
     public void setPrecision(Integer precision) {
         this.precision = precision;
     }

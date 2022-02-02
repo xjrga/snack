@@ -155,3 +155,8 @@ RELEASE NOTES
 
       Add fat percentages to information bar
       Add inequality options to food nutrient ratio and nutrient ratio
+
+680
+
+      Rename result column names
+      Remove energy no protein from results tab      

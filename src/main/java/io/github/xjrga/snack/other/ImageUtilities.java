@@ -37,8 +37,7 @@ public class ImageUtilities {
             Log.getLog().start("files/exception.log");
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
-            Log.getLog().close();
-            e.printStackTrace();
+            Log.getLog().close();         
         }
     }
 
@@ -50,8 +49,7 @@ public class ImageUtilities {
             Log.getLog().start("files/exception.log");
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
-            Log.getLog().close();
-            e.printStackTrace();
+            Log.getLog().close();         
         }
         return img;
     }

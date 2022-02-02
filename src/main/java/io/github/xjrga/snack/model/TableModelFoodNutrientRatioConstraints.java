@@ -57,6 +57,7 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         switch (i) {
@@ -164,8 +165,7 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
             Log.getLog().start("files/exception.log");
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
-            Log.getLog().close();
-            e.printStackTrace();
+            Log.getLog().close();           
         }
     }
 }

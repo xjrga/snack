@@ -11,8 +11,7 @@ public class TableHeaderFoodList extends MyTableHeader {
             "Food Name",
             "Weight (g)",
             "Energy, gross (Kcal)",
-            "Energy, digestible (Kcal)",
-            "Energy, no protein (Kcal)",
+            "Energy, digestible (Kcal)",  
             "Energy, fat (Kcal)",
             "Energy, carboydrate (Kcal)",
             "Energy, protein (Kcal)",
@@ -50,8 +49,8 @@ public class TableHeaderFoodList extends MyTableHeader {
             "Folate, DFE (µg)",
             "Cholesterol (mg)",
             "Saturated Fat (g)",
-            "DHA (g)",
-            "EPA (g)",
+            "Docosahexaenoic Acid (g)",
+            "Eicosapentaenoic Acid (g)",
             "Monounsaturated Fat (g)",
             "Polyunsaturated Fat (g)",
             "Linoleic Acid (g)",
@@ -62,6 +61,7 @@ public class TableHeaderFoodList extends MyTableHeader {
         });
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         return super.getToolTipText(e);
     }

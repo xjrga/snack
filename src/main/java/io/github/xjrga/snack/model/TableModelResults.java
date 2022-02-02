@@ -44,12 +44,12 @@ public class TableModelResults extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("\u26F9 Digestible");
-        columns.add("\u26F9 NoProtein");
-        columns.add("\u26F9 Fat");
-        columns.add("\u26F9 Carbohydrate");
-        columns.add("\u26F9 Protein");
-        columns.add("\u26F9 Alcohol");
+        columns.add("*Digestible");
+        columns.add("*NoProtein");
+        columns.add("*Fat");
+        columns.add("*Carbohydrate");
+        columns.add("*Protein");
+        columns.add("*Alcohol");
         columns.add("Fat");
         columns.add("Carbohydrate");
         columns.add("Protein");
@@ -98,6 +98,7 @@ public class TableModelResults extends DefaultTableModel implements RoundUp {
         this.setColumnIdentifiers(columns);
     }
 
+    @Override
     public Class getColumnClass(int i) {
         Class returnValue = Object.class;
         if (i == 0) {

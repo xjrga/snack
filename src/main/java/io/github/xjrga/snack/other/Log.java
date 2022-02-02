@@ -47,7 +47,6 @@ public class Log {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 
@@ -58,8 +57,7 @@ public class Log {
             Log.getLog().start("files/exception.log");
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
-            Log.getLog().close();
-            e.printStackTrace();
+            Log.getLog().close();         
         }
     }
 
@@ -75,8 +73,7 @@ public class Log {
                     Log.getLog().start("files/exception.log");
                     Log.getLog().logMessage(e.toString());
                     Log.getLog().write();
-                    Log.getLog().close();
-                    e.printStackTrace();
+                    Log.getLog().close();        
                 }
             });
             out.write("<-----");
@@ -86,7 +83,6 @@ public class Log {
             Log.getLog().logMessage(e.toString());
             Log.getLog().write();
             Log.getLog().close();
-            e.printStackTrace();
         }
     }
 }

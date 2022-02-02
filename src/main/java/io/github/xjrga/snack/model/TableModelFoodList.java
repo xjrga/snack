@@ -46,20 +46,19 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         columns.add("FoodId");
         columns.add("Name");
         columns.add("Weight");
-        columns.add("\u26F9 Gross");
-        columns.add("\u26F9 Digestible");
-        columns.add("\u26F9 NoProtein");
-        columns.add("\u26F9 Fat");
-        columns.add("\u26F9 Carbohydrate");
-        columns.add("\u26F9 Protein");
-        columns.add("\u26F9 Alcohol");
+        columns.add("eGross");
+        columns.add("eDigest");      
+        columns.add("eFat");
+        columns.add("eCarbs");
+        columns.add("eProtein");
+        columns.add("eAlcohol");
         columns.add("Fat");
-        columns.add("Carbohydrate");
+        columns.add("Carbs");
         columns.add("Protein");
         columns.add("Alcohol");
         columns.add("Sodium");
         columns.add("Potassium");
-        columns.add("CompleteProtein");
+        columns.add("Complete");
         columns.add("Gross");
         columns.add("Fiber");
         columns.add("Calcium");
@@ -129,7 +128,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 //Energy
                 Double EnergyGross = (Double) rowm.get(Nutrient.ENERGYGROSS.getLabel());
                 Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());
-                Double EnergyNoProtein = (Double) rowm.get(Nutrient.ENERGYNOPROTEIN.getLabel());
+                //Double EnergyNoProtein = (Double) rowm.get(Nutrient.ENERGYNOPROTEIN.getLabel());
                 Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
                 Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
                 Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
@@ -194,7 +193,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 row.add(Weight);
                 row.add(EnergyGross);
                 row.add(EnergyDigestible);
-                row.add(EnergyNoProtein);
+                //row.add(EnergyNoProtein);
                 row.add(EnergyFat);
                 row.add(EnergyCarbohydrate);
                 row.add(EnergyProtein);
