@@ -163,4 +163,4 @@ RELEASE NOTES
 
 690
 
-      .
+      Rename table column names      
