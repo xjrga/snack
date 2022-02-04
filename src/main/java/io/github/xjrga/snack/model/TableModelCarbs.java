@@ -46,7 +46,7 @@ public class TableModelCarbs extends DefaultTableModel implements RoundUp {
         columns.add("Name");
         columns.add("Weight");
         columns.add("eCarbs");
-        columns.add("Gross");
+        columns.add("CarbsBD");
         columns.add("Fiber");
         columns.add("Carbs");
         this.setColumnIdentifiers(columns);

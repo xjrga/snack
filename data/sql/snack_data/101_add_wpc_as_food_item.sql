@@ -62,9 +62,6 @@ call FoodFact_Merge('123456790','255',5);
 --Energy, digestible (kcal)
 call FoodFact_Merge('123456790','10009',394);
 /
---Energy, no protein (kcal)
-call FoodFact_Merge('123456790','10010',74);
-/
 --Energy, carbohydrate (kcal)
 call FoodFact_Merge('123456790','10011',20);
 /

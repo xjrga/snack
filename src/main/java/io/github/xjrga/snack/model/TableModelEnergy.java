@@ -87,8 +87,7 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
                 Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 //Energy
                 Double EnergyGross = (Double) rowm.get(Nutrient.ENERGYGROSS.getLabel());
-                Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());
-                Double EnergyNoProtein = (Double) rowm.get(Nutrient.ENERGYNOPROTEIN.getLabel());
+                Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());                
                 Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
                 Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
                 Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());

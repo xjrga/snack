@@ -18,6 +18,7 @@ public class TableHeaderGlycemic extends MyTableHeader {
         });
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         return super.getToolTipText(e);
     }

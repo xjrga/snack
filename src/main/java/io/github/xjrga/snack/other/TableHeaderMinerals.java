@@ -16,11 +16,12 @@ public class TableHeaderMinerals extends MyTableHeader {
             "Zinc, Zn (mg)",
             "Copper, Cu (mg)",
             "Manganese, Mn (mg)",
-            "Fluoride, F (µg)",
-            "Selenium, Se (µg)"
+            "Fluoride, F (mcg)",
+            "Selenium, Se (mcg)"
         });
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         return super.getToolTipText(e);
     }

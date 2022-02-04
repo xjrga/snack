@@ -13,6 +13,7 @@ public class TableHeaderWater extends MyTableHeader {
         });
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         return super.getToolTipText(e);
     }

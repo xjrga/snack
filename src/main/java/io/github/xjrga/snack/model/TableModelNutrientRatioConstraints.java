@@ -47,9 +47,9 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
         columns.add("RelationshipId");
         columns.add("NutrientA");
         columns.add("NutrientB");
-        columns.add("A");
-        columns.add("B");
         columns.add("Eq");
+        columns.add("A");
+        columns.add("B");        
         this.setColumnIdentifiers(columns);
     }
 
@@ -82,16 +82,16 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
                 returnValue = String.class;
                 break;
             case 6:
-                //qA
-                returnValue = Double.class;
+                //Relationship
+                returnValue = String.class;                
                 break;
             case 7:
                 //qB
                 returnValue = Double.class;
                 break;
             case 8:
-                //Relationship
-                returnValue = String.class;
+                //qA
+                returnValue = Double.class;
                 break;
         }
         return returnValue;
@@ -126,9 +126,9 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
                 row.add(relationshipid);
                 row.add(nutrientA);
                 row.add(nutrientB);
-                row.add(qA);
-                row.add(qB);
                 row.add(relationship);
+                row.add(qA);
+                row.add(qB);                
                 table.add(row);
             }
             this.setDataVector(table, columns);

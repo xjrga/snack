@@ -52,8 +52,7 @@ select a.MixId,
        Round(Linoleic,v_Precision) as Linoleic,
        Round(AlphaLinolenic,v_Precision) as AlphaLinolenic,
        Round(GlycemicLoad,v_Precision) as GlycemicLoad,
-       Round(EnergyDigestible,v_Precision) as EnergyDigestible,
-       Round(EnergyNoProtein,v_Precision) as EnergyNoProtein,
+       Round(EnergyDigestible,v_Precision) as EnergyDigestible,       
        Round(EnergyCarbohydrate,v_Precision) as EnergyCarbohydrate,
        Round(EnergyProtein,v_Precision) as EnergyProtein,
        Round(EnergyFat,v_Precision) as EnergyFat,
@@ -107,8 +106,7 @@ select
        x46.Linoleic,
        x47.AlphaLinolenic,
        x50.GlycemicLoad,
-       x51.EnergyDigestible,
-       x52.EnergyNoProtein,
+       x51.EnergyDigestible,       
        x53.EnergyCarbohydrate,
        x54.EnergyProtein,
        x55.EnergyFat,
@@ -395,12 +393,6 @@ select mixid,foodid,q as EnergyDigestible from mixresult
 where mixid = v_MixId
 and nutrientid = '10009'
 ) x51,
---10010	Energy, no protein (kcal)
-(
-select mixid,foodid,q as EnergyNoProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10010'
-) x52,
 --10011	Energy, carbohydrate (kcal)
 (
 select mixid,foodid,q as EnergyCarbohydrate from mixresult
@@ -516,8 +508,6 @@ and x0.mixid = x50.mixid
 and x0.foodid = x50.foodid
 and x0.mixid = x51.mixid
 and x0.foodid = x51.foodid
-and x0.mixid = x52.mixid
-and x0.foodid = x52.foodid
 and x0.mixid = x53.mixid
 and x0.foodid = x53.foodid
 and x0.mixid = x54.mixid
@@ -581,8 +571,7 @@ select a.MixId,
        Round(sum(Linoleic),v_Precision),
        Round(sum(AlphaLinolenic),v_Precision),
        Round(sum(GlycemicLoad),v_Precision),
-       Round(sum(EnergyDigestible),v_Precision),
-       Round(sum(EnergyNoProtein),v_Precision),
+       Round(sum(EnergyDigestible),v_Precision),       
        Round(sum(EnergyCarbohydrate),v_Precision),
        Round(sum(EnergyProtein),v_Precision),
        Round(sum(EnergyFat),v_Precision),
@@ -636,8 +625,7 @@ select
        x46.Linoleic,
        x47.AlphaLinolenic,
        x50.GlycemicLoad,
-       x51.EnergyDigestible,
-       x52.EnergyNoProtein,
+       x51.EnergyDigestible,       
        x53.EnergyCarbohydrate,
        x54.EnergyProtein,
        x55.EnergyFat,
@@ -924,12 +912,6 @@ select mixid,foodid,q as EnergyDigestible from mixresult
 where mixid = v_MixId
 and nutrientid = '10009'
 ) x51,
---10010	Energy, no protein (kcal)
-(
-select mixid,foodid,q as EnergyNoProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10010'
-) x52,
 --10011	Energy, carbohydrate (kcal)
 (
 select mixid,foodid,q as EnergyCarbohydrate from mixresult
@@ -1045,8 +1027,6 @@ and x0.mixid = x50.mixid
 and x0.foodid = x50.foodid
 and x0.mixid = x51.mixid
 and x0.foodid = x51.foodid
-and x0.mixid = x52.mixid
-and x0.foodid = x52.foodid
 and x0.mixid = x53.mixid
 and x0.foodid = x53.foodid
 and x0.mixid = x54.mixid

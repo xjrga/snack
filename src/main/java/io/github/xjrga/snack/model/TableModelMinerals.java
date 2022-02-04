@@ -45,15 +45,15 @@ public class TableModelMinerals extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("Calcium");
-        columns.add("Phosphorus");
-        columns.add("Magnesium");
-        columns.add("Iron");
-        columns.add("Zinc");
-        columns.add("Copper");
-        columns.add("Manganese");
-        columns.add("Fluoride");
-        columns.add("Selenium");
+        columns.add("Ca");
+        columns.add("P");
+        columns.add("Mg");
+        columns.add("Fe");
+        columns.add("Zn");
+        columns.add("Cu");
+        columns.add("Mn");
+        columns.add("F");
+        columns.add("Se");
         this.setColumnIdentifiers(columns);
     }
 

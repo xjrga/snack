@@ -14,8 +14,7 @@ SELECT
        ROUND(x0.q,v_Precision) AS "Weight",
        --Energy
        ROUND(x8.q,v_Precision) AS "EnergyGross",
-       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
-       ROUND(x54.q,v_Precision) AS "EnergyNoProtein",
+       ROUND(x53.q,v_Precision) AS "EnergyDigestible",       
        ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
        ROUND(x56.q,v_Precision) AS "EnergyProtein",
        ROUND(x57.q,v_Precision) AS "EnergyFat",
@@ -117,8 +116,7 @@ FROM food a,
      foodfact x48,
      foodfact x49,
      foodfact x50,
-     foodfact x53,
-     foodfact x54,
+     foodfact x53,     
      foodfact x55,
      foodfact x56,
      foodfact x57,
@@ -170,7 +168,6 @@ a.foodid = x48.foodid AND
 a.foodid = x49.foodid AND
 a.foodid = x50.foodid AND
 a.foodid = x53.foodid AND
-a.foodid = x54.foodid AND
 a.foodid = x55.foodid AND
 a.foodid = x56.foodid AND
 a.foodid = x57.foodid AND
@@ -223,7 +220,6 @@ x48.nutrientid = '675' AND
 x49.nutrientid = '851' AND
 x50.nutrientid = '10006' AND
 x53.nutrientid = '10009' AND
-x54.nutrientid = '10010' AND
 x55.nutrientid = '10011' AND
 x56.nutrientid = '10012' AND
 x57.nutrientid = '10013' AND
@@ -237,8 +233,7 @@ SELECT
        ROUND(x0.q,v_Precision) AS "Weight",
        --Energy
        ROUND(x8.q,v_Precision) AS "EnergyGross",
-       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
-       ROUND(x54.q,v_Precision) AS "EnergyNoProtein",
+       ROUND(x53.q,v_Precision) AS "EnergyDigestible",       
        ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
        ROUND(x56.q,v_Precision) AS "EnergyProtein",
        ROUND(x57.q,v_Precision) AS "EnergyFat",
@@ -346,8 +341,7 @@ FROM (SELECT foodid,
      foodfact x48,
      foodfact x49,
      foodfact x50,
-     foodfact x53,
-     foodfact x54,
+     foodfact x53,     
      foodfact x55,
      foodfact x56,
      foodfact x57,
@@ -399,7 +393,6 @@ a.foodid = x48.foodid AND
 a.foodid = x49.foodid AND
 a.foodid = x50.foodid AND
 a.foodid = x53.foodid AND
-a.foodid = x54.foodid AND
 a.foodid = x55.foodid AND
 a.foodid = x56.foodid AND
 a.foodid = x57.foodid AND
@@ -452,7 +445,6 @@ x48.nutrientid = '675' AND
 x49.nutrientid = '851' AND
 x50.nutrientid = '10006' AND
 x53.nutrientid = '10009' AND
-x54.nutrientid = '10010' AND
 x55.nutrientid = '10011' AND
 x56.nutrientid = '10012' AND
 x57.nutrientid = '10013' AND

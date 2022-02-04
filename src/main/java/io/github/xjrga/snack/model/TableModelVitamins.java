@@ -45,19 +45,19 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("VitaminA");
-        columns.add("VitaminD");
-        columns.add("VitaminE");
-        columns.add("VitaminC");
-        columns.add("Thiamin");
-        columns.add("Riboflavin");
-        columns.add("Niacin");
-        columns.add("VitaminB6");
-        columns.add("Folate");
-        columns.add("VitaminB12");
-        columns.add("VitaminK");
-        columns.add("Pantothenic Acid");
-        columns.add("Choline");
+        columns.add("A");
+        columns.add("D");
+        columns.add("E");
+        columns.add("C");
+        columns.add("B1");
+        columns.add("B2");
+        columns.add("B3");
+        columns.add("B6");
+        columns.add("B9");
+        columns.add("B12");
+        columns.add("K");
+        columns.add("B5");
+        columns.add("B4");
         this.setColumnIdentifiers(columns);
     }
 

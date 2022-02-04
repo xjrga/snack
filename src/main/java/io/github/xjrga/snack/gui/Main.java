@@ -184,8 +184,7 @@ public class Main {
     private final JCheckBox checkBoxWeight = new JCheckBox();
     private final JCheckBox checkBoxZinc = new JCheckBox();
     private final JCheckBox checkBoxGlycemicLoad = new JCheckBox();
-    private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();
-    private final JCheckBox checkBoxEnergyNoProtein = new JCheckBox();
+    private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();    
     private final JCheckBox checkBoxEnergyCarbohydrate = new JCheckBox();
     private final JCheckBox checkBoxEnergyProtein = new JCheckBox();
     private final JCheckBox checkBoxEnergyFat = new JCheckBox();
@@ -248,8 +247,7 @@ public class Main {
     private final JTable tableCost = new JTable();
     private final JTable tableEnergy = new JTable();
     private final JTable tableFats = new JTable();
-    private final JTable tableFoodList01 = new JTable();
-    private final JTable tableFoodList02 = new JTable();
+    private final JTable tableFoodList01 = new JTable();    
     private final JTable tableFoodNutrientConstraint = new JTable();
     private final JTable tableFoodNutrientRatio = new JTable();
     private final JTable tableJournalEnergy = new JTable();
@@ -395,31 +393,31 @@ public class Main {
         reloadMixes();
         reloadTableModelConstraints(-1);
         resizeTables();
-        checkBoxCompleteProtein.setName("CompleteProtein");
+        checkBoxCompleteProtein.setName("Complete Protein");
         checkBoxProtein.setName("Protein");
         checkBoxFat.setName("Fat");
         checkBoxCholesterol.setName("Cholesterol");
-        checkBoxSaturated.setName("Saturated");
+        checkBoxSaturated.setName("SFA");
         checkBoxDHA.setName("DHA");
         checkBoxEPA.setName("EPA");
-        checkBoxMonounsaturated.setName("Monounsaturated");
-        checkBoxPolyunsaturated.setName("Polyunsaturated");
-        checkBoxLinoleic.setName("Linoleic");
-        checkBoxAlphaLinolenic.setName("AlphaLinolenic");
-        checkBoxDigestibleCarbs.setName("DigestibleCarbs");
+        checkBoxMonounsaturated.setName("MUFA");
+        checkBoxPolyunsaturated.setName("PUFA");
+        checkBoxLinoleic.setName("LA");
+        checkBoxAlphaLinolenic.setName("ALA");
+        checkBoxDigestibleCarbs.setName("Digestible Carbs");
         checkBoxFiber.setName("Fiber");
-        checkBoxVitaminA.setName("VitaminA");
-        checkBoxVitaminE.setName("VitaminE");
-        checkBoxVitaminD.setName("VitaminD");
-        checkBoxVitaminC.setName("VitaminC");
+        checkBoxVitaminA.setName("Vit A");
+        checkBoxVitaminE.setName("Vit E");
+        checkBoxVitaminD.setName("Vit D");
+        checkBoxVitaminC.setName("Vit C");
         checkBoxThiamin.setName("Thiamin");
         checkBoxRiboflavin.setName("Riboflavin");
         checkBoxNiacin.setName("Niacin");
         checkBoxPantothenic.setName("Pantothenic");
-        checkBoxVitaminB6.setName("VitaminB6");
-        checkBoxVitaminB12.setName("VitaminB12");
+        checkBoxVitaminB6.setName("Vit B6");
+        checkBoxVitaminB12.setName("Vit B12");
         checkBoxCholine.setName("Choline");
-        checkBoxVitaminK.setName("VitaminK");
+        checkBoxVitaminK.setName("Vit K");
         checkBoxFolate.setName("Folate");
         checkBoxCalcium.setName("Calcium");
         checkBoxIron.setName("Iron");
@@ -438,8 +436,7 @@ public class Main {
         checkBoxAlcohol.setName("Alcohol");
         checkBoxWater.setName("Water");
         checkBoxGlycemicLoad.setName("Glycemic Load");
-        checkBoxEnergyDigestible.setName("Energy, digestible");
-        checkBoxEnergyNoProtein.setName("Energy, no protein");
+        checkBoxEnergyDigestible.setName("Energy, digestible");        
         checkBoxEnergyCarbohydrate.setName("Energy, carbohydrate");
         checkBoxEnergyProtein.setName("Energy, protein");
         checkBoxEnergyFat.setName("Energy, fat");
@@ -488,8 +485,7 @@ public class Main {
         mapConstraintCheckboxes.put(Nutrient.ALCOHOL.getNumber(), checkBoxAlcohol);
         mapConstraintCheckboxes.put(Nutrient.WATER.getNumber(), checkBoxWater);
         mapConstraintCheckboxes.put(Nutrient.GLYCEMICLOAD.getNumber(), checkBoxGlycemicLoad);
-        mapConstraintCheckboxes.put(Nutrient.ENERGYDIGESTIBLE.getNumber(), checkBoxEnergyDigestible);
-        mapConstraintCheckboxes.put(Nutrient.ENERGYNOPROTEIN.getNumber(), checkBoxEnergyNoProtein);
+        mapConstraintCheckboxes.put(Nutrient.ENERGYDIGESTIBLE.getNumber(), checkBoxEnergyDigestible);        
         mapConstraintCheckboxes.put(Nutrient.ENERGYCARBOHYDRATE.getNumber(), checkBoxEnergyCarbohydrate);
         mapConstraintCheckboxes.put(Nutrient.ENERGYPROTEIN.getNumber(), checkBoxEnergyProtein);
         mapConstraintCheckboxes.put(Nutrient.ENERGYFAT.getNumber(), checkBoxEnergyFat);
@@ -1719,11 +1715,7 @@ public class Main {
                 "min" //rows
         );
         buttonPanel.setLayout(buttonPanelLayout);
-        JScrollPane scrollPaneTable01 = new JScrollPane(tableFoodList01);
-        JScrollPane scrollPaneTable02 = new JScrollPane(tableFoodList02);
-        BoundedRangeModel model = scrollPaneTable01.getVerticalScrollBar().getModel();
-        scrollPaneTable02.getVerticalScrollBar().setModel(model);
-        tableFoodList02.setSelectionModel(tableFoodList01.getSelectionModel());
+        JScrollPane scrollPaneTable01 = new JScrollPane(tableFoodList01);                               
         searchPanel.add(new JLabel("Search:"), cc.xy(1, 1));
         searchPanel.add(textFieldFoodListSearch, cc.xy(2, 1));
         buttonPanel.add(buttonFoodListAdd, cc.xy(2, 1));
@@ -1731,14 +1723,9 @@ public class Main {
         buttonPanel.add(buttonFoodListUpdate, cc.xy(4, 1));
         buttonPanel.add(buttonFoodListDuplicate, cc.xy(5, 1));
         panel.add(searchPanel, cc.xy(1, 1));
-        JSplitPane splitPane = new JSplitPane();
-        splitPane.setLeftComponent(scrollPaneTable01);
-        splitPane.setRightComponent(scrollPaneTable02);
-        splitPane.setDividerLocation(708);
-        panel.add(splitPane, cc.xy(1, 2));
+        panel.add(scrollPaneTable01, cc.xy(1, 2));
         panel.add(buttonPanel, cc.xy(1, 3));
-        scrollPaneTable01.setBorder(new TitledBorder("Food List"));
-        scrollPaneTable02.setBorder(new TitledBorder("Food List"));
+        scrollPaneTable01.setBorder(new TitledBorder("Food List"));        
         buttonFoodListAdd.setToolTipText("Add Food Item");
         buttonFoodListUpdate.setToolTipText("Update Food Item");
         buttonFoodListDelete.setToolTipText("Delete Food Item");
@@ -1778,14 +1765,6 @@ public class Main {
         tableFoodList01.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableFoodList01.setFillsViewportHeight(true);
         tableFoodList01.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-        tableFoodList02.setTableHeader(new TableHeaderFoodList(tableFoodList02.getColumnModel()));
-        tableFoodList02.setRowSorter(tableSorterFoodList);
-        tableFoodList02.setModel(modelTableFoodList);
-        tableFoodList02.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tableFoodList02.setFillsViewportHeight(true);
-        tableFoodList02.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
         reloadFoodItems();
         JPopupMenu popMenu = new JPopupMenu();
         JMenuItem item = new JMenuItem("Check Coefficients");
@@ -2178,12 +2157,11 @@ public class Main {
                     MacroNutrientEnergyValues energyValues = new MacroNutrientEnergyValues.Builder().protein(protein).fat(fat).digestibleCarbohydrate(digestibleCarbohydrate).alcohol(alcohol).build();
                     energyValues.getProteinEnergy();
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), 46, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), 48, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), 47, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 43, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getEnergyNoProtein(), 44, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), 45, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), 45, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), 47, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), 46, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 43, 3);                    
+                    modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), 44, 3);
                     Integer modelRowId = 43;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
@@ -2899,7 +2877,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 680");
+        sb.append("This is build 690");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -2953,7 +2931,7 @@ public class Main {
         panel.add(highScorePane, cc.xy(2, 1));
         highScorePane.setBorder(new TitledBorder("Calories"));
         highScorePane.setMinimumSize(new Dimension(0, 200));
-        highScorePane.setToolTipText("Total calories in mix");
+        highScorePane.setToolTipText("Press delete button to clear list");
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) listHighScore.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.RIGHT);
         listHighScore.setModel(modelListHighScore);
@@ -3330,10 +3308,10 @@ public class Main {
         textFieldNutrientRatioNutrientA.setMinimumSize(new Dimension(100, 25));
         textFieldNutrientRatioNutrientB.setMinimumSize(new Dimension(100, 25));
         panel.add(comboBoxNutrientRatioNutrientA, cc.xy(1, 1));
-        panel.add(textFieldNutrientRatioNutrientA, cc.xy(2, 1));
+        panel.add(comboBoxNutrientRatioRelationship, cc.xy(2, 1));
+        panel.add(textFieldNutrientRatioNutrientA, cc.xy(3, 1));
         panel.add(comboBoxNutrientRatioNutrientB, cc.xy(1, 2));
-        panel.add(textFieldNutrientRatioNutrientB, cc.xy(2, 2));
-        panel.add(comboBoxNutrientRatioRelationship, cc.xy(3, 2));
+        panel.add(textFieldNutrientRatioNutrientB, cc.xy(2, 2));        
         panel.add(spTable, cc.xyw(1, 3, 4));
         buttons.add(buttonNutrientRatioAdd);
         buttons.add(buttonNutrientRatioDelete);
@@ -3372,11 +3350,11 @@ public class Main {
         textFieldFoodNutrientRatioQuantityB.setMinimumSize(new Dimension(100, 25));
         panel.add(comboBoxFoodNutrientRatioFoodA, cc.xyw(1, 1, 4));
         panel.add(comboBoxFoodNutrientRatioNutrientA, cc.xy(1, 2));
-        panel.add(textFieldFoodNutrientRatioQuantityA, cc.xy(2, 2));
+        panel.add(comboBoxFoodNutrientRatioRelationship, cc.xy(2, 2));
+        panel.add(textFieldFoodNutrientRatioQuantityA, cc.xy(3, 2));        
         panel.add(comboBoxFoodNutrientRatioFoodB, cc.xyw(1, 3, 4));
         panel.add(comboBoxFoodNutrientRatioNutrientB, cc.xy(1, 4));
-        panel.add(textFieldFoodNutrientRatioQuantityB, cc.xy(2, 4));
-        panel.add(comboBoxFoodNutrientRatioRelationship, cc.xy(3, 4));
+        panel.add(textFieldFoodNutrientRatioQuantityB, cc.xy(2, 4));        
         panel.add(spTable, cc.xyw(1, 5, 4));
         buttons.add(buttonFoodNutrientRatioAdd);
         buttons.add(buttonFoodNutrientRatioDelete);
@@ -4389,10 +4367,7 @@ public class Main {
     private void resizeColumns_FoodListTable() {
         tableFoodList01.getColumnModel().getColumn(0).setMinWidth(0);
         tableFoodList01.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableFoodList01.getColumnModel().getColumn(1).setMinWidth(350);
-        tableFoodList02.getColumnModel().getColumn(0).setMinWidth(0);
-        tableFoodList02.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableFoodList02.getColumnModel().getColumn(1).setMinWidth(350);
+        tableFoodList01.getColumnModel().getColumn(1).setMinWidth(350);        
     }
 
     private void event_buttonNutrientRatioDelete() {
@@ -4718,16 +4693,18 @@ public class Main {
             for (int i = 0; i < tableNutrientRatio.getRowCount(); i++) {
                 String nutrientA = (String) tableNutrientRatio.getValueAt(i, 4);
                 String nutrientB = (String) tableNutrientRatio.getValueAt(i, 5);
-                Double a = (Double) tableNutrientRatio.getValueAt(i, 6);
-                Double b = (Double) tableNutrientRatio.getValueAt(i, 7);
-
+                String rel = (String) tableNutrientRatio.getValueAt(i, 6);
+                Double a = (Double) tableNutrientRatio.getValueAt(i, 7);
+                Double b = (Double) tableNutrientRatio.getValueAt(i, 8);
                 sb.append(nutrientA);
                 sb.append(" and ");
                 sb.append(nutrientB);
                 sb.append("\n");
-                sb.append("should be found in the mix in a ratio of ");
+                sb.append("should be found in the mix in a ratio of '");
+                sb.append(rel);
+                sb.append(" ");                
                 sb.append(a);
-                sb.append(":");
+                sb.append("':");
                 sb.append(b);
                 sb.append("\n");
                 sb.append("\n");
@@ -4746,12 +4723,12 @@ public class Main {
             sb.append("\n");
             for (int i = 0; i < tableFoodNutrientRatio.getRowCount(); i++) {
                 String foodA = (String) tableFoodNutrientRatio.getValueAt(i, 6);
-                String nutrientA = (String) tableFoodNutrientRatio.getValueAt(i, 7);
+                String nutrientA = (String) tableFoodNutrientRatio.getValueAt(i, 7);                
                 String foodB = (String) tableFoodNutrientRatio.getValueAt(i, 8);
                 String nutrientB = (String) tableFoodNutrientRatio.getValueAt(i, 9);
-                Double a = (Double) tableFoodNutrientRatio.getValueAt(i, 10);
-                Double b = (Double) tableFoodNutrientRatio.getValueAt(i, 11);
-
+                String rel = (String) tableFoodNutrientRatio.getValueAt(i, 10);
+                Double a = (Double) tableFoodNutrientRatio.getValueAt(i, 11);
+                Double b = (Double) tableFoodNutrientRatio.getValueAt(i, 12);
                 sb.append(nutrientA);
                 sb.append(" contributed by ");
                 sb.append(foodA);
@@ -4761,9 +4738,11 @@ public class Main {
                 sb.append(" contributed by ");
                 sb.append(foodB);
                 sb.append("\n");
-                sb.append("should be found in the mix in a ratio of ");
+                sb.append("should be found in the mix in a ratio of '");
+                sb.append(rel);
+                sb.append(" ");
                 sb.append(a);
-                sb.append(":");
+                sb.append("':");
                 sb.append(b);
                 sb.append("\n");
                 sb.append("\n");

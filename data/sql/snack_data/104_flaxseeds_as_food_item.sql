@@ -143,9 +143,6 @@ call FoodFact_Merge('kVJIZFHV4H','10005',0);
 --Energy, digestible (kcal)
 call FoodFact_Merge('kVJIZFHV4H','10009',458.92);
 /
---Energy, no protein (kcal)
-call FoodFact_Merge('kVJIZFHV4H','10010',385.76);
-/
 --Energy, carbohydrate (kcal)
 call FoodFact_Merge('kVJIZFHV4H','10011',6.32);
 /

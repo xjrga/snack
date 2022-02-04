@@ -90,8 +90,6 @@ call Nutrient_Insert('10006','Glycemic Load (g)','3','GlycemicLoad');
 /
 call Nutrient_Insert('10009','Energy, digestible (kcal)','7','EnergyDigestible');
 /
-call Nutrient_Insert('10010','Energy, no protein (kcal)','7','EnergyNoProtein');
-/
 call Nutrient_Insert('10011','Energy, carbohydrate (kcal)','7','EnergyCarbohydrate');
 /
 call Nutrient_Insert('10012','Energy, protein (kcal)','7','EnergyProtein');
@@ -34937,9 +34935,6 @@ call FoodFact_Merge('123456790','255',5);
 --Energy, digestible (kcal)
 call FoodFact_Merge('123456790','10009',394);
 /
---Energy, no protein (kcal)
-call FoodFact_Merge('123456790','10010',74);
-/
 --Energy, carbohydrate (kcal)
 call FoodFact_Merge('123456790','10011',20);
 /
@@ -35118,9 +35113,6 @@ call FoodFact_Merge('kVJIZFHV4H','10005',0);
 --Energy, digestible (kcal)
 call FoodFact_Merge('kVJIZFHV4H','10009',458.92);
 /
---Energy, no protein (kcal)
-call FoodFact_Merge('kVJIZFHV4H','10010',385.76);
-/
 --Energy, carbohydrate (kcal)
 call FoodFact_Merge('kVJIZFHV4H','10011',6.32);
 /
@@ -35281,9 +35273,6 @@ call FoodFact_Merge('123456754','10006',100);
 /
 --Energy, digestible (kcal)
 call FoodFact_Merge('123456754','10009',400);
-/
---Energy, no protein (kcal)
-call FoodFact_Merge('123456754','10010',400);
 /
 --Energy, carbohydrate (kcal)
 call FoodFact_Merge('123456754','10011',400);

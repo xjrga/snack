@@ -45,8 +45,8 @@ public class TableModelElectrolytes extends DefaultTableModel implements RoundUp
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
-        columns.add("Sodium");
-        columns.add("Potassium");
+        columns.add("Na");
+        columns.add("K");
         this.setColumnIdentifiers(columns);
     }
 
