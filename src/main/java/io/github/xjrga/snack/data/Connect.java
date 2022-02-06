@@ -18,8 +18,6 @@ package io.github.xjrga.snack.data;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-import io.github.xjrga.snack.other.Log;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,10 +50,7 @@ public class Connect {
         try {
             input = new FileInputStream("resources/connection.properties");
         } catch (FileNotFoundException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         try {
             prop.load(input);
@@ -64,26 +59,16 @@ public class Connect {
             DB_USER = prop.getProperty("jdbc.username");
             DB_PASS = prop.getProperty("jdbc.password");
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
             ;
         }
         return connection;

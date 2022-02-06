@@ -20,7 +20,6 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.other.Log;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
@@ -49,7 +48,7 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
         columns.add("NutrientB");
         columns.add("Eq");
         columns.add("A");
-        columns.add("B");        
+        columns.add("B");
         this.setColumnIdentifiers(columns);
     }
 
@@ -83,7 +82,7 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
                 break;
             case 6:
                 //Relationship
-                returnValue = String.class;                
+                returnValue = String.class;
                 break;
             case 7:
                 //qB
@@ -128,15 +127,12 @@ public class TableModelNutrientRatioConstraints extends DefaultTableModel {
                 row.add(nutrientB);
                 row.add(relationship);
                 row.add(qA);
-                row.add(qB);                
+                row.add(qB);
                 table.add(row);
             }
             this.setDataVector(table, columns);
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 }

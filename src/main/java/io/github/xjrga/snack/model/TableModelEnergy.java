@@ -21,7 +21,6 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
-import io.github.xjrga.snack.other.Log;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
@@ -87,7 +86,7 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
                 Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 //Energy
                 Double EnergyGross = (Double) rowm.get(Nutrient.ENERGYGROSS.getLabel());
-                Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());                
+                Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());
                 Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
                 Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
                 Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
@@ -102,7 +101,7 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
                 row.add(Name);
                 row.add(Weight);
                 row.add(EnergyGross);
-                row.add(EnergyDigestible);                
+                row.add(EnergyDigestible);
                 row.add(EnergyFat);
                 row.add(EnergyCarbohydrate);
                 row.add(EnergyProtein);
@@ -115,10 +114,7 @@ public class TableModelEnergy extends DefaultTableModel implements RoundUp {
             }
             this.setDataVector(table, columns);
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 

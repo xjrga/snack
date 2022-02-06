@@ -1,7 +1,6 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.other.Log;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -67,10 +66,7 @@ public class StringModelMixPct implements RoundUp {
                 s = sb.toString();
             }
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         return s;
     }

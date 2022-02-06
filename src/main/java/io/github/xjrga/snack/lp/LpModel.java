@@ -20,16 +20,13 @@
 package io.github.xjrga.snack.lp;
 
 import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import io.github.xjrga.snack.gui.Message;
-import io.github.xjrga.snack.other.GoldenRatio;
 import io.github.xjrga.snack.other.Log;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 /*
@@ -95,7 +92,7 @@ public class LpModel {
             if (!linearConstraintSet.getConstraints().isEmpty()) {
                 GoalType minimize = GoalType.MINIMIZE;
                 NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint(true);
-                Log.getLog().start("files/model.log");
+                Log.getLog().start("model/model.log");
                 Log.getLog().logMessage("/*");
                 Log.getLog().logMessage(getDescription());
                 Log.getLog().logMessage("*/");

@@ -38,7 +38,7 @@ public class MacroNutrientEnergyValues {
     public double getAlcoholEnergy() {
         return alcohol * 6.93;
     }
-    
+
     public double getEnergyDigestible() {
         return getProteinEnergy() + getFatEnergy() + getDigestibleCarbohydrateEnergy() + getAlcoholEnergy();
     }
@@ -99,4 +99,4 @@ public class MacroNutrientEnergyValues {
         }
     }
 
-} 
+}

@@ -1,6 +1,7 @@
 package io.github.xjrga.snack.other;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -12,6 +13,8 @@ public class Log {
     private LinkedList<String> messageList;
 
     private Log() {
+        File file = new File("model");
+        file.mkdirs();
     }
 
     public static Log getLog() {
@@ -43,10 +46,6 @@ public class Log {
         try {
             out = new BufferedWriter(new FileWriter(filePath, true));
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
         }
     }
 
@@ -54,10 +53,6 @@ public class Log {
         try {
             out.close();
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();         
         }
     }
 
@@ -70,19 +65,11 @@ public class Log {
                     out.write(m);
                     out.write("\n");
                 } catch (IOException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();        
                 }
             });
             out.write("<-----");
             out.write("\n\n");
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
         }
     }
 }

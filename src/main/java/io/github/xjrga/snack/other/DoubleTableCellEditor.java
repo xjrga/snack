@@ -28,7 +28,7 @@ public class DoubleTableCellEditor extends AbstractCellEditor implements TableCe
         //if editing
         textfield.selectAll();
         textfield.setText("");
-        if(table.isCellEditable(rowIndex, vColIndex)){
+        if (table.isCellEditable(rowIndex, vColIndex)) {
             //Message.showMessage("Cell is editable");
         }
         return component;

@@ -3,7 +3,6 @@ package io.github.xjrga.snack.data;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import io.github.xjrga.snack.dataobject.FoodFactSelectForCheckCoefficientsDataObject;
 import io.github.xjrga.snack.dataobject.FoodFactSelectForDataInputDataObject;
-import io.github.xjrga.snack.other.Log;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -696,7 +695,7 @@ public class DbLink {
             row.put(Nutrient.LINOLEIC.getLabel(), rs.getObject(45));
             row.put(Nutrient.ALPHALINOLENIC.getLabel(), rs.getObject(46));
             row.put(Nutrient.GLYCEMICLOAD.getLabel(), rs.getObject(47));
-            row.put(Nutrient.ENERGYDIGESTIBLE.getLabel(), rs.getObject(48));            
+            row.put(Nutrient.ENERGYDIGESTIBLE.getLabel(), rs.getObject(48));
             row.put(Nutrient.ENERGYCARBOHYDRATE.getLabel(), rs.getObject(49));
             row.put(Nutrient.ENERGYPROTEIN.getLabel(), rs.getObject(50));
             row.put(Nutrient.ENERGYFAT.getLabel(), rs.getObject(51));
@@ -719,7 +718,7 @@ public class DbLink {
             row.put("Name", rs.getObject(1));
             row.put(Nutrient.WEIGHT.getLabel(), rs.getObject(2));
             row.put(Nutrient.ENERGYGROSS.getLabel(), rs.getObject(3));
-            row.put(Nutrient.ENERGYDIGESTIBLE.getLabel(), rs.getObject(4));            
+            row.put(Nutrient.ENERGYDIGESTIBLE.getLabel(), rs.getObject(4));
             row.put(Nutrient.ENERGYCARBOHYDRATE.getLabel(), rs.getObject(5));
             row.put(Nutrient.ENERGYPROTEIN.getLabel(), rs.getObject(6));
             row.put(Nutrient.ENERGYFAT.getLabel(), rs.getObject(7));
@@ -1030,10 +1029,7 @@ public class DbLink {
             stmt.executeUpdate(sql);
             stmt.close();
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 

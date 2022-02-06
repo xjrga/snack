@@ -26,7 +26,6 @@ import io.github.xjrga.snack.other.TableHeaderMinerals;
 import io.github.xjrga.snack.other.ExportRdaCheck;
 import io.github.xjrga.snack.other.DoubleTableCellEditor;
 import io.github.xjrga.snack.other.ImageUtilities;
-import io.github.xjrga.snack.other.Log;
 import io.github.xjrga.snack.other.TableHeaderGlycemic;
 import io.github.xjrga.snack.other.MinimumNutrientRequirements;
 import io.github.xjrga.snack.other.TableHeaderNutrientLookup;
@@ -184,7 +183,7 @@ public class Main {
     private final JCheckBox checkBoxWeight = new JCheckBox();
     private final JCheckBox checkBoxZinc = new JCheckBox();
     private final JCheckBox checkBoxGlycemicLoad = new JCheckBox();
-    private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();    
+    private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();
     private final JCheckBox checkBoxEnergyCarbohydrate = new JCheckBox();
     private final JCheckBox checkBoxEnergyProtein = new JCheckBox();
     private final JCheckBox checkBoxEnergyFat = new JCheckBox();
@@ -247,7 +246,7 @@ public class Main {
     private final JTable tableCost = new JTable();
     private final JTable tableEnergy = new JTable();
     private final JTable tableFats = new JTable();
-    private final JTable tableFoodList01 = new JTable();    
+    private final JTable tableFoodList01 = new JTable();
     private final JTable tableFoodNutrientConstraint = new JTable();
     private final JTable tableFoodNutrientRatio = new JTable();
     private final JTable tableJournalEnergy = new JTable();
@@ -436,7 +435,7 @@ public class Main {
         checkBoxAlcohol.setName("Alcohol");
         checkBoxWater.setName("Water");
         checkBoxGlycemicLoad.setName("Glycemic Load");
-        checkBoxEnergyDigestible.setName("Energy, digestible");        
+        checkBoxEnergyDigestible.setName("Energy, digestible");
         checkBoxEnergyCarbohydrate.setName("Energy, carbohydrate");
         checkBoxEnergyProtein.setName("Energy, protein");
         checkBoxEnergyFat.setName("Energy, fat");
@@ -485,7 +484,7 @@ public class Main {
         mapConstraintCheckboxes.put(Nutrient.ALCOHOL.getNumber(), checkBoxAlcohol);
         mapConstraintCheckboxes.put(Nutrient.WATER.getNumber(), checkBoxWater);
         mapConstraintCheckboxes.put(Nutrient.GLYCEMICLOAD.getNumber(), checkBoxGlycemicLoad);
-        mapConstraintCheckboxes.put(Nutrient.ENERGYDIGESTIBLE.getNumber(), checkBoxEnergyDigestible);        
+        mapConstraintCheckboxes.put(Nutrient.ENERGYDIGESTIBLE.getNumber(), checkBoxEnergyDigestible);
         mapConstraintCheckboxes.put(Nutrient.ENERGYCARBOHYDRATE.getNumber(), checkBoxEnergyCarbohydrate);
         mapConstraintCheckboxes.put(Nutrient.ENERGYPROTEIN.getNumber(), checkBoxEnergyProtein);
         mapConstraintCheckboxes.put(Nutrient.ENERGYFAT.getNumber(), checkBoxEnergyFat);
@@ -503,10 +502,7 @@ public class Main {
                 }
             }
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         event_menuItemRoundUp();
     }
@@ -519,10 +515,7 @@ public class Main {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (ClassNotFoundException e) {
         } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         Main main = new Main();
     }
@@ -1000,10 +993,7 @@ public class Main {
                 reloadMixes();
                 clearAllModels();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -1037,10 +1027,7 @@ public class Main {
                 clearAllModels();
                 listMixes.setSelectedIndex(listMixes.getLastVisibleIndex());
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -1103,6 +1090,8 @@ public class Main {
         tableFats.getColumnModel().getColumn(0).setMaxWidth(400);
         tableCarbs.getColumnModel().getColumn(0).setMinWidth(400);
         tableCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
+        tableVitamins.getColumnModel().getColumn(0).setMinWidth(400);
+        tableVitamins.getColumnModel().getColumn(0).setMaxWidth(400);
         tableMinerals.getColumnModel().getColumn(0).setMinWidth(400);
         tableMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
         tableElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
@@ -1233,10 +1222,7 @@ public class Main {
                     clearAllModels();
                     reloadStatusBar(-1);
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             } else {
             }
@@ -1304,10 +1290,7 @@ public class Main {
                     reloadMixes();
                     listMixes.setSelectedIndex(selectedIndex);
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
         }
@@ -1321,10 +1304,7 @@ public class Main {
                 dbLink.Mix_Duplicate(mixId);
                 reloadMixes();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         } else {
             Message.showMessage("Select mix.");
@@ -1342,10 +1322,7 @@ public class Main {
                     dbLink.Food_Put(mixDataObject.getMixId());
                     reloadFoodItems();
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
         } else {
@@ -1671,10 +1648,7 @@ public class Main {
                 reloadMixes();
                 clearAllModels();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -1687,10 +1661,7 @@ public class Main {
             filters.add(RowFilter.regexFilter("(?i)" + textFieldFoodListSearch.getText(), 2));
             rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelFoodList, ? super Object>>) filters);
         } catch (java.util.regex.PatternSyntaxException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
             return;
         }
         tableSorterFoodList.setRowFilter(rf);
@@ -1715,7 +1686,7 @@ public class Main {
                 "min" //rows
         );
         buttonPanel.setLayout(buttonPanelLayout);
-        JScrollPane scrollPaneTable01 = new JScrollPane(tableFoodList01);                               
+        JScrollPane scrollPaneTable01 = new JScrollPane(tableFoodList01);
         searchPanel.add(new JLabel("Search:"), cc.xy(1, 1));
         searchPanel.add(textFieldFoodListSearch, cc.xy(2, 1));
         buttonPanel.add(buttonFoodListAdd, cc.xy(2, 1));
@@ -1725,7 +1696,7 @@ public class Main {
         panel.add(searchPanel, cc.xy(1, 1));
         panel.add(scrollPaneTable01, cc.xy(1, 2));
         panel.add(buttonPanel, cc.xy(1, 3));
-        scrollPaneTable01.setBorder(new TitledBorder("Food List"));        
+        scrollPaneTable01.setBorder(new TitledBorder("Food List"));
         buttonFoodListAdd.setToolTipText("Add Food Item");
         buttonFoodListUpdate.setToolTipText("Update Food Item");
         buttonFoodListDelete.setToolTipText("Delete Food Item");
@@ -1806,10 +1777,7 @@ public class Main {
             filters.add(RowFilter.regexFilter("(?i)" + textFieldNutrientSearchCheckCoefficients.getText(), 2));
             rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelCheckCoefficients, ? super Object>>) filters);
         } catch (java.util.regex.PatternSyntaxException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
             return;
         }
         tableSorterCheckCoefficients.setRowFilter(rf);
@@ -1899,10 +1867,7 @@ public class Main {
             filters.add(RowFilter.regexFilter("(?i)" + textFieldNutrientSearch.getText(), 2));
             rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelDataInput, ? super Object>>) filters);
         } catch (java.util.regex.PatternSyntaxException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
             return;
         }
         tableSorterNutrientInput.setRowFilter(rf);
@@ -2160,7 +2125,7 @@ public class Main {
                     modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), 45, 3);
                     modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), 47, 3);
                     modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), 46, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 43, 3);                    
+                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 43, 3);
                     modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), 44, 3);
                     Integer modelRowId = 43;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
@@ -2401,10 +2366,7 @@ public class Main {
                 foodDataObject = (FoodDataObject) it.next();
                 textFieldFoodName.setText(foodDataObject.getFoodName());
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
         buttonNext.addActionListener((ActionEvent e) -> {
@@ -2497,10 +2459,7 @@ public class Main {
                         }
                     }
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
                 dbLink.stopTransaction();
                 reloadFoodItems();
@@ -2530,10 +2489,7 @@ public class Main {
             String foodId = dbLink.Food_Insert_Temp("New Food Item Name");
             updateFoodItem(foodId, -1);
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 
@@ -2562,10 +2518,7 @@ public class Main {
                 modelListFoodInCategory.reload(foodCategoryDataObject.getFoodCategoryId());
             }
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 
@@ -2578,10 +2531,7 @@ public class Main {
                 modelListFoodInCategory.reload(foodCategoryDataObject.getFoodCategoryId());
             }
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 
@@ -2706,10 +2656,7 @@ public class Main {
                         dbLink.Nutrient_Update(k, 0);
                     }
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
             );
@@ -2877,7 +2824,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 690");
+        sb.append("This is build 700");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3311,7 +3258,7 @@ public class Main {
         panel.add(comboBoxNutrientRatioRelationship, cc.xy(2, 1));
         panel.add(textFieldNutrientRatioNutrientA, cc.xy(3, 1));
         panel.add(comboBoxNutrientRatioNutrientB, cc.xy(1, 2));
-        panel.add(textFieldNutrientRatioNutrientB, cc.xy(2, 2));        
+        panel.add(textFieldNutrientRatioNutrientB, cc.xy(2, 2));
         panel.add(spTable, cc.xyw(1, 3, 4));
         buttons.add(buttonNutrientRatioAdd);
         buttons.add(buttonNutrientRatioDelete);
@@ -3351,10 +3298,10 @@ public class Main {
         panel.add(comboBoxFoodNutrientRatioFoodA, cc.xyw(1, 1, 4));
         panel.add(comboBoxFoodNutrientRatioNutrientA, cc.xy(1, 2));
         panel.add(comboBoxFoodNutrientRatioRelationship, cc.xy(2, 2));
-        panel.add(textFieldFoodNutrientRatioQuantityA, cc.xy(3, 2));        
+        panel.add(textFieldFoodNutrientRatioQuantityA, cc.xy(3, 2));
         panel.add(comboBoxFoodNutrientRatioFoodB, cc.xyw(1, 3, 4));
         panel.add(comboBoxFoodNutrientRatioNutrientB, cc.xy(1, 4));
-        panel.add(textFieldFoodNutrientRatioQuantityB, cc.xy(2, 4));        
+        panel.add(textFieldFoodNutrientRatioQuantityB, cc.xy(2, 4));
         panel.add(spTable, cc.xyw(1, 5, 4));
         buttons.add(buttonFoodNutrientRatioAdd);
         buttons.add(buttonFoodNutrientRatioDelete);
@@ -3433,10 +3380,7 @@ public class Main {
                 tableModelPercentNutrientConstraints.reload(mixid);
                 resizeColumns_PercentNutrientConstraintTableColumns();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -3456,10 +3400,7 @@ public class Main {
                         tableModelPercentNutrientConstraints.reload(mix.getMixId());
                         resizeColumns_PercentNutrientConstraintTableColumns();
                     } catch (SQLException e) {
-                        Log.getLog().start("files/exception.log");
-                        Log.getLog().logMessage(e.toString());
-                        Log.getLog().write();
-                        Log.getLog().close();
+
                     }
                 } else {
                     Message.showMessage("Value must be a number greater than or equal to zero");
@@ -3601,10 +3542,7 @@ public class Main {
             HashMap row = (HashMap) it.next();
             model = (String) row.get("MODEL");
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         return model;
     }
@@ -3617,10 +3555,7 @@ public class Main {
             HashMap row = (HashMap) it.next();
             note = (String) row.get("NOTE");
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         return note;
     }
@@ -3775,10 +3710,7 @@ public class Main {
                 reloadFoodItems();
                 modelListFoodInCategory.reload(foodCategoryDataObject.getFoodCategoryId());
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -3799,10 +3731,7 @@ public class Main {
                         }
                     }
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
         }
@@ -3832,10 +3761,7 @@ public class Main {
                 resizeColumns_NutrientLookupTable();
             }
         } catch (NumberFormatException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
             Message.showMessage(e.toString());
         }
     }
@@ -3855,10 +3781,7 @@ public class Main {
                     modelListSelectedFood.reload(mixId);
                     reloadFoodComboBoxes(mixId);
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
         } else {
@@ -3868,21 +3791,20 @@ public class Main {
 
     private void event_buttonDeleteMixFood() {
         if (isMixSelected()) {
-            try {
-                MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
-                FoodDataObject foodDataObject = (FoodDataObject) listSelectedFood.getSelectedValue();
-                Integer mixId = mix.getMixId();
-                dbLink.MixFood_Delete(mixId, foodDataObject.getFoodId());
-                modelListSelectedFood.reload(mixId);
-                reloadFoodComboBoxes(mixId);
-                reloadTableModelConstraints(mixId);
-                reloadTableModels();
-                resizeTables();
-            } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+            if (isSelectedFood()) {
+                try {
+                    MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
+                    FoodDataObject foodDataObject = (FoodDataObject) listSelectedFood.getSelectedValue();
+                    Integer mixId = mix.getMixId();
+                    dbLink.MixFood_Delete(mixId, foodDataObject.getFoodId());
+                    modelListSelectedFood.reload(mixId);
+                    reloadFoodComboBoxes(mixId);
+                    reloadTableModelConstraints(mixId);
+                    reloadTableModels();
+                    resizeTables();
+                } catch (SQLException e) {
+
+                }
             }
         }
     }
@@ -4049,10 +3971,7 @@ public class Main {
                 }
                 textAreaModel.setText(sbAll.toString());
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -4090,10 +4009,7 @@ public class Main {
                         modelTableNutrientConstraints.reload(mix.getMixId());
                         resizeColumns_NutrientConstraintTableColumns();
                     } catch (SQLException e) {
-                        Log.getLog().start("files/exception.log");
-                        Log.getLog().logMessage(e.toString());
-                        Log.getLog().write();
-                        Log.getLog().close();
+
                     }
                 } else {
                     Message.showMessage("Value must be a number greater than or equal to zero");
@@ -4141,10 +4057,7 @@ public class Main {
                 modelTableNutrientConstraints.reload(mixid);
                 resizeColumns_NutrientConstraintTableColumns();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -4165,10 +4078,7 @@ public class Main {
                         modelTableFoodNutrientConstraints.reload(mix.getMixId());
                         resizeColumns_FoodNutrientConstraintTableColumns();
                     } catch (SQLException e) {
-                        Log.getLog().start("files/exception.log");
-                        Log.getLog().logMessage(e.toString());
-                        Log.getLog().write();
-                        Log.getLog().close();
+
                     }
                 } else {
                     Message.showMessage("Value must be a number greater than or equal to zero");
@@ -4236,10 +4146,7 @@ public class Main {
                 modelTableFoodNutrientConstraints.reload(mixid);
                 resizeColumns_FoodNutrientConstraintTableColumns();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -4262,10 +4169,7 @@ public class Main {
                         modelTableNutrientRatioConstraints.reload(mix.getMixId());
                         resizeColumns_NutrientRatioConstraintTableColumns();
                     } catch (SQLException e) {
-                        Log.getLog().start("files/exception.log");
-                        Log.getLog().logMessage(e.toString());
-                        Log.getLog().write();
-                        Log.getLog().close();
+
                     }
                 } else {
                     Message.showMessage("Value must be a number greater than zero");
@@ -4367,7 +4271,7 @@ public class Main {
     private void resizeColumns_FoodListTable() {
         tableFoodList01.getColumnModel().getColumn(0).setMinWidth(0);
         tableFoodList01.getColumnModel().getColumn(0).setMaxWidth(0);
-        tableFoodList01.getColumnModel().getColumn(1).setMinWidth(350);        
+        tableFoodList01.getColumnModel().getColumn(1).setMinWidth(350);
     }
 
     private void event_buttonNutrientRatioDelete() {
@@ -4382,10 +4286,7 @@ public class Main {
                 modelTableNutrientRatioConstraints.reload(mixid);
                 resizeColumns_NutrientRatioConstraintTableColumns();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -4410,10 +4311,7 @@ public class Main {
                         modelTableFoodNutrientRatioConstraints.reload(mix.getMixId());
                         resizeColumns_FoodNutrientRatioConstraintTableColumns();
                     } catch (SQLException e) {
-                        Log.getLog().start("files/exception.log");
-                        Log.getLog().logMessage(e.toString());
-                        Log.getLog().write();
-                        Log.getLog().close();
+
                     }
                 } else {
                     Message.showMessage("Value must be number greater than zero");
@@ -4494,12 +4392,13 @@ public class Main {
                 modelTableFoodNutrientRatioConstraints.reload(mixid);
                 resizeColumns_FoodNutrientRatioConstraintTableColumns();
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
+    }
+
+    private boolean isSelectedFood() {
+        return !listSelectedFood.isSelectionEmpty();
     }
 
     private boolean isMixSelected() {
@@ -4537,10 +4436,7 @@ public class Main {
                     modelListCategory.reload();
                     reloadFoodItems();
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
         }
@@ -4564,10 +4460,7 @@ public class Main {
                         modelListCategory.reload();
                         reloadFoodItems();
                     } catch (SQLException e) {
-                        Log.getLog().start("files/exception.log");
-                        Log.getLog().logMessage(e.toString());
-                        Log.getLog().write();
-                        Log.getLog().close();
+
                     }
                 }
             }
@@ -4584,10 +4477,7 @@ public class Main {
                 reloadFoodItems();
                 modelListFoodInCategory.reload("-1");
             } catch (SQLException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
         }
     }
@@ -4596,10 +4486,7 @@ public class Main {
         try {
             Desktop.getDesktop().browse(new URL(url).toURI());
         } catch (IOException | URISyntaxException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 
@@ -4702,7 +4589,7 @@ public class Main {
                 sb.append("\n");
                 sb.append("should be found in the mix in a ratio of '");
                 sb.append(rel);
-                sb.append(" ");                
+                sb.append(" ");
                 sb.append(a);
                 sb.append("':");
                 sb.append(b);
@@ -4723,7 +4610,7 @@ public class Main {
             sb.append("\n");
             for (int i = 0; i < tableFoodNutrientRatio.getRowCount(); i++) {
                 String foodA = (String) tableFoodNutrientRatio.getValueAt(i, 6);
-                String nutrientA = (String) tableFoodNutrientRatio.getValueAt(i, 7);                
+                String nutrientA = (String) tableFoodNutrientRatio.getValueAt(i, 7);
                 String foodB = (String) tableFoodNutrientRatio.getValueAt(i, 8);
                 String nutrientB = (String) tableFoodNutrientRatio.getValueAt(i, 9);
                 String rel = (String) tableFoodNutrientRatio.getValueAt(i, 10);

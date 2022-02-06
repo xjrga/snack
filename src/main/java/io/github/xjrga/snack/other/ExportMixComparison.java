@@ -114,10 +114,7 @@ public class ExportMixComparison {
             wb.write(out);
             out.close();
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         JComponent[] inputs = new JComponent[]{
             new JLabel("Spreadsheet is ready")

@@ -102,17 +102,11 @@ public class ExportFoodList {
                 wb.write(out);
                 out.close();
             } catch (IOException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
             showMessage();
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 

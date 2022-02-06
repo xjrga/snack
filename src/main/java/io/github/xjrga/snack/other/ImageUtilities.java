@@ -34,10 +34,7 @@ public class ImageUtilities {
         try {
             ImageIO.write(subimage, format, new File(pathname));
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();         
+
         }
     }
 
@@ -46,10 +43,7 @@ public class ImageUtilities {
         try {
             img = ImageIO.read(new File(pathname));
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();         
+
         }
         return img;
     }

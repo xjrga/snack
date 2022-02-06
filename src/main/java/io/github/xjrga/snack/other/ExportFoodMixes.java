@@ -128,10 +128,7 @@ public class ExportFoodMixes {
                         }
                     }
                 } catch (SQLException e) {
-                    Log.getLog().start("files/exception.log");
-                    Log.getLog().logMessage(e.toString());
-                    Log.getLog().write();
-                    Log.getLog().close();
+
                 }
             }
             try {
@@ -139,17 +136,11 @@ public class ExportFoodMixes {
                 wb.write(out);
                 out.close();
             } catch (IOException e) {
-                Log.getLog().start("files/exception.log");
-                Log.getLog().logMessage(e.toString());
-                Log.getLog().write();
-                Log.getLog().close();
+
             }
             showMessage();
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 

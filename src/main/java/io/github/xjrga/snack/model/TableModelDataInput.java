@@ -21,7 +21,6 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodFactSelectForDataInputDataObject;
-import io.github.xjrga.snack.other.Log;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
@@ -84,10 +83,7 @@ public class TableModelDataInput extends DefaultTableModel implements RoundUp {
             }
             this.setDataVector(table, columns);
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
     }
 

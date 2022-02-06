@@ -163,4 +163,9 @@ RELEASE NOTES
 
 690
 
-      Rename table column names      
+      Rename table column names
+
+700
+
+      Create new directory for model.log storage
+      Adjust vitamin results column size

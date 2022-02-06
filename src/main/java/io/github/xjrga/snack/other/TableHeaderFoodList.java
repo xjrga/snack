@@ -11,7 +11,7 @@ public class TableHeaderFoodList extends MyTableHeader {
             "Food Name",
             "Weight (g)",
             "Energy, gross (Kcal)",
-            "Energy, digestible (Kcal)",  
+            "Energy, digestible (Kcal)",
             "Energy, fat (Kcal)",
             "Energy, carboydrate (Kcal)",
             "Energy, protein (Kcal)",

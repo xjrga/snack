@@ -45,7 +45,7 @@ public enum Nutrient {
     DIGESTIBLECARBOHYDRATE("10003", "Digestible Carbs (g)", "DigestibleCarbs"),
     COST("10005", "Cost  (g)", "Cost"),
     GLYCEMICLOAD("10006", "Glycemic Load", "GlycemicLoad"),
-    ENERGYDIGESTIBLE("10009", "Energy, digestible (Kcal)", "EnergyDigestible"),    
+    ENERGYDIGESTIBLE("10009", "Energy, digestible (Kcal)", "EnergyDigestible"),
     ENERGYCARBOHYDRATE("10011", "Energy, carbohydrate (Kcal)", "EnergyCarbohydrate"),
     ENERGYPROTEIN("10012", "Energy, protein (Kcal)", "EnergyProtein"),
     ENERGYFAT("10013", "Energy, fat (Kcal)", "EnergyFat"),

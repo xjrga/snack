@@ -132,20 +132,14 @@ public class ExportNutrientLookup {
                 cell.setCellStyle(cellStyleValue);
             }
         } catch (SQLException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         try {
             out = new FileOutputStream(filepath.toString());
             wb.write(out);
             out.close();
         } catch (IOException e) {
-            Log.getLog().start("files/exception.log");
-            Log.getLog().logMessage(e.toString());
-            Log.getLog().write();
-            Log.getLog().close();
+
         }
         JComponent[] inputs = new JComponent[]{
             new JLabel("Spreadsheet is ready")
