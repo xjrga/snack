@@ -9,7 +9,8 @@ MODIFIES SQL DATA BEGIN ATOMIC
 DECLARE v_FoodId LONGVARCHAR;
 DECLARE v_FoodName LONGVARCHAR;
 --
-SET v_FoodId = generateId('f','');SELECT Name INTO v_FoodName
+SET v_FoodId = generateId('f','');
+SELECT Name INTO v_FoodName
 FROM Mix
 WHERE MixId = v_MixId;
 --

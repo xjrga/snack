@@ -169,3 +169,8 @@ RELEASE NOTES
 
       Create new directory for model.log storage
       Adjust vitamin results column size
+
+710
+
+      Add new food items
+      Updated data from SR27 from SR28

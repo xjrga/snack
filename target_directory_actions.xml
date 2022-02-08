@@ -18,14 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 
 
-<project default="">        
+<project name="snack" default="">
+    <property name="version" value="710"/>        
     <target name="1. unzip">
         <!-- unzip files -->
-        <unzip src="target/snack-700-app.zip" dest="target" overwrite="true"/>                                        
+        <unzip src="target/${ant.project.name}-${version}-app.zip" dest="target" overwrite="true"/>                                        
     </target>
     <target name="2. run">
         <!-- run application -->                
-        <java jar="target/snack-700/snack-700.jar" fork="true" failonerror="true" maxmemory="128m">
+        <java jar="target/${ant.project.name}-${version}/${ant.project.name}-${version}.jar" fork="true" failonerror="true" maxmemory="128m">
         </java>
     </target>    
 </project>

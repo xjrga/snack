@@ -73,7 +73,7 @@ public class ExportRdaCheck {
         sb.append("rda_check_");
         sb.append(format);
         sb.append(".xls");
-        filepath.append("files/");
+        filepath.append("model/");
         filepath.append(sb.toString());
         wb.setSheetName(0, sheetname);
     }

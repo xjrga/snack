@@ -66,11 +66,19 @@ call FoodFact_Merge('04042','10000',100);
 /
 call FoodFact_Merge('04044','10000',100);
 /
+call FoodFact_Merge('04047','10000',100);
+/
 call FoodFact_Merge('04053','10000',100);
+/
+call FoodFact_Merge('04055','10000',100);
 /
 call FoodFact_Merge('04058','10000',100);
 /
 call FoodFact_Merge('04502','10000',100);
+/
+call FoodFact_Merge('04506','10000',100);
+/
+call FoodFact_Merge('04510','10000',100);
 /
 call FoodFact_Merge('04517','10000',100);
 /
@@ -85,6 +93,10 @@ call FoodFact_Merge('04531','10000',100);
 call FoodFact_Merge('04581','10000',100);
 /
 call FoodFact_Merge('04582','10000',100);
+/
+call FoodFact_Merge('04584','10000',100);
+/
+call FoodFact_Merge('04588','10000',100);
 /
 call FoodFact_Merge('04589','10000',100);
 /
@@ -265,6 +277,10 @@ call FoodFact_Merge('11084','10000',100);
 call FoodFact_Merge('11090','10000',100);
 /
 call FoodFact_Merge('11091','10000',100);
+/
+call FoodFact_Merge('11098','10000',100);
+/
+call FoodFact_Merge('11100','10000',100);
 /
 call FoodFact_Merge('11109','10000',100);
 /
@@ -829,4 +845,6 @@ call FoodFact_Merge('43364','10000',100);
 call FoodFact_Merge('43566','10000',100);
 /
 call FoodFact_Merge('43589','10000',100);
+/
+call FoodFact_Merge('44005','10000',100);
 /

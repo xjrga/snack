@@ -66,11 +66,19 @@ call Food_Insert('04042','Oil, peanut, salad or cooking');
 /
 call Food_Insert('04044','Oil, soybean, salad or cooking');
 /
+call Food_Insert('04047','Oil, coconut');
+/
 call Food_Insert('04053','Oil, olive, salad or cooking');
+/
+call Food_Insert('04055','Oil, palm');
 /
 call Food_Insert('04058','Oil, sesame, salad or cooking');
 /
 call Food_Insert('04502','Oil, cottonseed, salad or cooking');
+/
+call Food_Insert('04506','Oil, sunflower, linoleic, (approx. 65%)');
+/
+call Food_Insert('04510','Oil, safflower, salad or cooking, linoleic, (over 70%)');
 /
 call Food_Insert('04517','Oil, grapeseed');
 /
@@ -85,6 +93,10 @@ call Food_Insert('04531','Oil, soybean lecithin');
 call Food_Insert('04581','Oil, avocado');
 /
 call Food_Insert('04582','Oil, canola');
+/
+call Food_Insert('04584','Oil, sunflower, high oleic (70% and over)');
+/
+call Food_Insert('04588','Oil, oat');
 /
 call Food_Insert('04589','Fish oil, cod liver');
 /
@@ -265,6 +277,10 @@ call Food_Insert('11084','Beets, canned, drained solids');
 call Food_Insert('11090','Broccoli, raw');
 /
 call Food_Insert('11091','Broccoli, cooked, boiled, drained, without salt');
+/
+call Food_Insert('11098','Brussels sprouts, raw');
+/
+call Food_Insert('11100','Brussels sprouts, frozen, unprepared');
 /
 call Food_Insert('11109','Cabbage, raw');
 /
@@ -829,4 +845,6 @@ call Food_Insert('43364','Snacks, tortilla chips, unsalted, white corn');
 call Food_Insert('43566','Snacks, tortilla chips, light (baked with less oil)');
 /
 call Food_Insert('43589','Cheese, swiss, low fat');
+/
+call Food_Insert('44005','Oil, corn, peanut, and olive');
 /

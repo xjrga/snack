@@ -66,11 +66,19 @@ call CategoryLink_Insert('04042','0400');
 /
 call CategoryLink_Insert('04044','0400');
 /
+call CategoryLink_Insert('04047','0400');
+/
 call CategoryLink_Insert('04053','0400');
+/
+call CategoryLink_Insert('04055','0400');
 /
 call CategoryLink_Insert('04058','0400');
 /
 call CategoryLink_Insert('04502','0400');
+/
+call CategoryLink_Insert('04506','0400');
+/
+call CategoryLink_Insert('04510','0400');
 /
 call CategoryLink_Insert('04517','0400');
 /
@@ -85,6 +93,10 @@ call CategoryLink_Insert('04531','0400');
 call CategoryLink_Insert('04581','0400');
 /
 call CategoryLink_Insert('04582','0400');
+/
+call CategoryLink_Insert('04584','0400');
+/
+call CategoryLink_Insert('04588','0400');
 /
 call CategoryLink_Insert('04589','0400');
 /
@@ -265,6 +277,10 @@ call CategoryLink_Insert('11084','1100');
 call CategoryLink_Insert('11090','1100');
 /
 call CategoryLink_Insert('11091','1100');
+/
+call CategoryLink_Insert('11098','1100');
+/
+call CategoryLink_Insert('11100','1100');
 /
 call CategoryLink_Insert('11109','1100');
 /
@@ -829,4 +845,6 @@ call CategoryLink_Insert('43364','2500');
 call CategoryLink_Insert('43566','2500');
 /
 call CategoryLink_Insert('43589','0100');
+/
+call CategoryLink_Insert('44005','0400');
 /
