@@ -30,8 +30,8 @@ a.NutrientId != '621' AND
 a.NutrientId != '629' AND
 a.NutrientId != '645' AND
 a.NutrientId != '646' AND
-a.NutrientId != '675' AND
-a.NutrientId != '851' AND
+a.NutrientId != '618' AND
+a.NutrientId != '619' AND
 a.NutrientId != '10001' AND
 a.NutrientId != '10003'
 ORDER BY Name;

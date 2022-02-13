@@ -14,7 +14,9 @@ FROM NutrientCategory a,
      FoodFact c
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
-AND c.FoodId = v_FoodId;
+AND c.FoodId = v_FoodId
+AND b.NutrientId != '675'
+AND b.NutrientId != '851';
 OPEN result;
 END;
 /

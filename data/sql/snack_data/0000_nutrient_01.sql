@@ -64,6 +64,10 @@ call Nutrient_Insert('601','Cholesterol (mg)','2','Cholesterol');
 /
 call Nutrient_Insert('606','Fatty acids, total saturated (g)','2','Saturated');
 /
+call Nutrient_Insert('618','18:2 undifferentiated (g) (Linoleic)','2','Linoleic');
+/
+call Nutrient_Insert('619','18:3 undifferentiated (g) (Alpha-Linolenic)','2','Linolenic');
+/
 call Nutrient_Insert('621','22:6 n-3 (DHA) (g)','2','DHA');
 /
 call Nutrient_Insert('629','20:5 n-3 (EPA) (g)','2','EPA');

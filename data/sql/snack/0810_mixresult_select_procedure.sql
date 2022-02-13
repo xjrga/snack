@@ -369,17 +369,17 @@ select mixid,foodid,q as Polyunsaturated from mixresult
 where mixid = v_MixId
 and nutrientid = '646'
 ) x45,
---675	18:2 n-6 c,c (Linoleic) (g)
+--618	18:2 undifferentiated (Linoleic) (g)
 (
 select mixid,foodid,q as Linoleic from mixresult
 where mixid = v_MixId
-and nutrientid = '675'
+and nutrientid = '618'
 ) x46,
---851	18:3 n-3 c,c,c (Alpha-Linolenic) (g)
+--619	18:3 undifferentiated (Linolenic) (g)
 (
 select mixid,foodid,q as AlphaLinolenic from mixresult
 where mixid = v_MixId
-and nutrientid = '851'
+and nutrientid = '619'
 ) x47,
 --10006	Glycemic Load
 (
@@ -888,17 +888,17 @@ select mixid,foodid,q as Polyunsaturated from mixresult
 where mixid = v_MixId
 and nutrientid = '646'
 ) x45,
---675	18:2 n-6 c,c (Linoleic) (g)
+--618	18:2 undifferentiated (Linoleic) (g)
 (
 select mixid,foodid,q as Linoleic from mixresult
 where mixid = v_MixId
-and nutrientid = '675'
+and nutrientid = '618'
 ) x46,
---851	18:3 n-3 c,c,c (Alpha-Linolenic) (g)
+--619	18:3 undifferentiated (Linolenic) (g)
 (
 select mixid,foodid,q as AlphaLinolenic from mixresult
 where mixid = v_MixId
-and nutrientid = '851'
+and nutrientid = '619'
 ) x47,
 --10006	Glycemic Load
 (

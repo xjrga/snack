@@ -38,6 +38,12 @@ call FoodFact_Merge('1234567890','606',0);
 --'601','Cholesterol (mg)'
 call FoodFact_Merge('1234567890','601',0);
 /
+--'618','18:2 undifferentiated (Linoleic) (g)'
+call FoodFact_Merge('1234567890','618',0);
+/
+--'619','18:3 undifferentiated (Linolenic) (g)'
+call FoodFact_Merge('1234567890','619',0);
+/
 --'675','18:2 n-6 c,c (Linoleic) (g)'
 call FoodFact_Merge('1234567890','675',0);
 /

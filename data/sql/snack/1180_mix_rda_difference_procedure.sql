@@ -86,10 +86,10 @@ SELECT a.nutrientid,
             nutrientid = '291' OR
             --Total lipid (Fat) (g)
             nutrientid = '204' OR
-            --18:2 n-6 c,c (Linoleic) (g)
-            nutrientid = '675' OR
-            --18:3 n-3 c,c,c (Alpha-Linolenic) (g)
-            nutrientid = '851' OR
+            --18:2 undifferentiated (Linoleic) (g)
+            nutrientid = '618' OR
+            --18:3 undifferentiated (Linolenic) (g)
+            nutrientid = '619' OR
             --Complete Protein (g)
             nutrientid = '10001'
             )

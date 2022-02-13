@@ -174,3 +174,9 @@ RELEASE NOTES
 
       Add new food items
       Updated data from SR27 from SR28
+
+720
+
+      Replaced nutrient 18:2 n-6 cc (LA) with 18:2 undifferentiated (LA)
+      Replaced nutrient 18:3 n-6 c,c,c (ALA) with 18:2 undifferentiated (ALA)
+      

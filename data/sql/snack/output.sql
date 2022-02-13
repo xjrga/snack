@@ -563,7 +563,9 @@ FROM NutrientCategory a,
      FoodFact c
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
-AND c.FoodId = v_FoodId;
+AND c.FoodId = v_FoodId
+AND b.NutrientId != '675'
+AND b.NutrientId != '851';
 OPEN result;
 END;
 /
@@ -1733,8 +1735,8 @@ x44.nutrientid = '621' AND
 x45.nutrientid = '629' AND
 x46.nutrientid = '645' AND
 x47.nutrientid = '646' AND
-x48.nutrientid = '675' AND
-x49.nutrientid = '851' AND
+x48.nutrientid = '618' AND
+x49.nutrientid = '619' AND
 x50.nutrientid = '10006' AND
 x53.nutrientid = '10009' AND
 x55.nutrientid = '10011' AND
@@ -1958,8 +1960,8 @@ x44.nutrientid = '621' AND
 x45.nutrientid = '629' AND
 x46.nutrientid = '645' AND
 x47.nutrientid = '646' AND
-x48.nutrientid = '675' AND
-x49.nutrientid = '851' AND
+x48.nutrientid = '618' AND
+x49.nutrientid = '619' AND
 x50.nutrientid = '10006' AND
 x53.nutrientid = '10009' AND
 x55.nutrientid = '10011' AND
@@ -3102,17 +3104,17 @@ select mixid,foodid,q as Polyunsaturated from mixresult
 where mixid = v_MixId
 and nutrientid = '646'
 ) x45,
---675	18:2 n-6 c,c (Linoleic) (g)
+--618	18:2 undifferentiated (Linoleic) (g)
 (
 select mixid,foodid,q as Linoleic from mixresult
 where mixid = v_MixId
-and nutrientid = '675'
+and nutrientid = '618'
 ) x46,
---851	18:3 n-3 c,c,c (Alpha-Linolenic) (g)
+--619	18:3 undifferentiated (Linolenic) (g)
 (
 select mixid,foodid,q as AlphaLinolenic from mixresult
 where mixid = v_MixId
-and nutrientid = '851'
+and nutrientid = '619'
 ) x47,
 --10006	Glycemic Load
 (
@@ -3621,17 +3623,17 @@ select mixid,foodid,q as Polyunsaturated from mixresult
 where mixid = v_MixId
 and nutrientid = '646'
 ) x45,
---675	18:2 n-6 c,c (Linoleic) (g)
+--618	18:2 undifferentiated (Linoleic) (g)
 (
 select mixid,foodid,q as Linoleic from mixresult
 where mixid = v_MixId
-and nutrientid = '675'
+and nutrientid = '618'
 ) x46,
---851	18:3 n-3 c,c,c (Alpha-Linolenic) (g)
+--619	18:3 undifferentiated (Linolenic) (g)
 (
 select mixid,foodid,q as AlphaLinolenic from mixresult
 where mixid = v_MixId
-and nutrientid = '851'
+and nutrientid = '619'
 ) x47,
 --10006	Glycemic Load
 (
@@ -3980,8 +3982,8 @@ a.NutrientId != '621' AND
 a.NutrientId != '629' AND
 a.NutrientId != '645' AND
 a.NutrientId != '646' AND
-a.NutrientId != '675' AND
-a.NutrientId != '851' AND
+a.NutrientId != '618' AND
+a.NutrientId != '619' AND
 a.NutrientId != '10001' AND
 a.NutrientId != '10003'
 ORDER BY Name;
@@ -4765,7 +4767,9 @@ FROM
 Nutrient
 WHERE
 Visible = 1 AND
-NutrientId != '205'
+NutrientId != '205' AND 
+NutrientId != '675' AND 
+NutrientId != '851'
 ORDER BY Name;
 --
 OPEN result;
@@ -4896,10 +4900,10 @@ SELECT a.nutrientid,
             nutrientid = '291' OR
             --Total lipid (Fat) (g)
             nutrientid = '204' OR
-            --18:2 n-6 c,c (Linoleic) (g)
-            nutrientid = '675' OR
-            --18:3 n-3 c,c,c (Alpha-Linolenic) (g)
-            nutrientid = '851' OR
+            --18:2 undifferentiated (Linoleic) (g)
+            nutrientid = '618' OR
+            --18:3 undifferentiated (Linolenic) (g)
+            nutrientid = '619' OR
             --Complete Protein (g)
             nutrientid = '10001'
             )
