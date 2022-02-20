@@ -94,7 +94,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import io.github.xjrga.snack.lp.LpModel;
+import io.github.xjrga.snack.other.Alpha_linolenic_acid_required;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import javax.swing.text.JTextComponent;
 
@@ -230,6 +233,7 @@ public class Main {
     private final JMenuItem menuItemGlycemicIndexRange = new JMenuItem();
     private final JMenuItem menuItemDigestibleCarbs = new JMenuItem();
     private final JMenuItem menuItemGlycemicLoad = new JMenuItem();
+    private final JMenuItem menu_item_alpha_linolenic_acid_required = new JMenuItem();
     private final JMenuItem menuItemConstraintsShownInList = new JMenuItem();
     private final JMenuItem menuItemCredits = new JMenuItem();
     private final JMenuItem menuItemExit = new JMenuItem();
@@ -555,6 +559,7 @@ public class Main {
         menuTools.add(menuItemDigestibleCarbs);
         menuTools.add(menuItemGlycemicLoad);
         menuTools.add(menuItemGlycemicIndexRange);
+        menuTools.add(menu_item_alpha_linolenic_acid_required);
         menuData.add(menuExport);
         menuExport.add(menuItemExportFoodList);
         menuExport.add(menuItemExportFoodMixes);
@@ -573,12 +578,13 @@ public class Main {
         menuSettings.setText("Settings");
         menuItemExit.setText("Exit");
         menuItemMicronutrientConversion.setText("Daily Value (%DV) to Grams");
-        menuItemBmr.setText("Basal Metabolic Rate");
-        menuItemNitrogenBalance.setText("Complete Protein Required (no fat, no carbs regimen)");
-        menuItemKetosis.setText("Carbohydrate Required (to inhibit ketosis)");
-        menuItemDigestibleCarbs.setText("Digestible Carbohydrate");
-        menuItemGlycemicLoad.setText("Glycemic Load");
-        menuItemGlycemicIndexRange.setText("Glycemic Index Range");
+        menuItemBmr.setText("Basal Metabolic Rate Of An Individual");
+        menuItemNitrogenBalance.setText("Complete Protein Required In A No Fat, No Carbs Regimen");
+        menuItemKetosis.setText("Carbohydrate Required To Inhibit Ketosis");
+        menuItemDigestibleCarbs.setText("Digestible Carbohydrate Of A Food Item");
+        menuItemGlycemicLoad.setText("Glycemic Load Of A Food Item");
+        menu_item_alpha_linolenic_acid_required.setText("Alpha-Linolenic Acid Required");
+        menuItemGlycemicIndexRange.setText("Glycemic Index Range Of A Food Item");
         menuExport.setText("Export");
         menuItemExportFoodList.setText("Food List");
         menuItemExportFoodMixes.setText("Food Mixes");
@@ -608,6 +614,9 @@ public class Main {
         });
         menuItemGlycemicLoad.addActionListener((ActionEvent e) -> {
             event_menuItemGlycemicLoad();
+        });
+        menu_item_alpha_linolenic_acid_required.addActionListener((ActionEvent e) -> {
+            event_menu_item_n3_fatty_acid_recommendations();
         });
         menuItemGlycemicIndexRange.addActionListener((ActionEvent e) -> {
             event_menuItemGlycemicIndexRange();
@@ -776,11 +785,11 @@ public class Main {
                 if (checkNumber.pass()) {
                     Double weightinlbs = Double.valueOf(s);
                     double protein = new MinimumNutrientRequirements(weightinlbs).getProtein();
-                    sb.append("Complete Protein Required (no carbs, no fats): ");
+                    sb.append("Complete protein required in a no fat, no carbs regimen is ");
                     sb.append(Math.round(protein));
-                    sb.append(" g");
+                    sb.append(" grams");
                     sb.append("\n");
-                    JTextArea textArea = new JTextArea(1, 20);
+                    JTextArea textArea = new JTextArea(1, 40);
                     textArea.setText(sb.toString());
                     textArea.setEditable(false);
                     inputs = new JComponent[]{
@@ -2824,7 +2833,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 720");
+        sb.append("This is build 730");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -4530,6 +4539,43 @@ public class Main {
             }
         }
     }
+    
+    private void event_menu_item_n3_fatty_acid_recommendations() {
+        JTextField energy = new JTextField();
+        JComponent[] inputs = new JComponent[]{
+            new JLabel("What is your optimal calorie intake?"),
+            energy
+        };
+        int optionValue = Message.showOptionDialog(inputs, "Alpha-Linolenic Acid (ALA)");
+        if (optionValue == 0) {
+            String s = energy.getText();
+            if (s != null && s.length() > 0) {
+                StringBuilder sb = new StringBuilder();
+                NumberCheck checkNumber = new NumberCheck();
+                checkNumber.addToUncheckedList(s);
+                if (checkNumber.pass()) {
+                    Double energy_in_kcal = Double.valueOf(s);
+                    final Alpha_linolenic_acid_required n3_fatty_acid_recommendation = new Alpha_linolenic_acid_required(energy_in_kcal);                    
+                    BigDecimal ala_low = n3_fatty_acid_recommendation.get_low_in_grams();
+                    BigDecimal ala_high = n3_fatty_acid_recommendation.get_high_in_grams();
+                    sb.append("Alpha-linolenic acid (ALA) required is between ");
+                    sb.append(ala_low.setScale(1, RoundingMode.HALF_UP));
+                    sb.append(" - ");
+                    sb.append(ala_high.setScale(1, RoundingMode.HALF_UP));
+                    sb.append(" grams");
+                    JTextArea textArea = new JTextArea(1, 40);
+                    textArea.setText(sb.toString());
+                    textArea.setEditable(false);
+                    inputs = new JComponent[]{
+                        textArea
+                    };
+                    Message.showOptionDialog(inputs, "Alpha-Linolenic Acid (ALA)");
+                } else {
+                    Message.showMessage("Numbers only");
+                }
+            }
+        }
+    }
 
     private JTabbedPane getNoFeasibleSolutionPanel() {
         FormLayout layout = new FormLayout(
@@ -4765,6 +4811,5 @@ public class Main {
         }
         sb.append("2. Add a food item");
         return sb.toString();
-    }
-
+    }   
 }

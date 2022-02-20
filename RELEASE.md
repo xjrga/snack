@@ -179,4 +179,8 @@ RELEASE NOTES
 
       Replaced nutrient 18:2 n-6 cc (LA) with 18:2 undifferentiated (LA)
       Replaced nutrient 18:3 n-6 c,c,c (ALA) with 18:2 undifferentiated (ALA)
+
+730
+
+      Add alpha-linolenic acid requirement calculator     
       
