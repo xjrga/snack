@@ -10,7 +10,7 @@ INSERT INTO FoodCategory (
 FoodCategoryId,
 Name
 ) VALUES (
-generateId('c',''),
+generateId(),
 v_Name
 );
 --

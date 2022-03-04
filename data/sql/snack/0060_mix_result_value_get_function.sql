@@ -1,6 +1,6 @@
 CREATE FUNCTION getMixResultValue (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_FoodId LONGVARCHAR,
 --

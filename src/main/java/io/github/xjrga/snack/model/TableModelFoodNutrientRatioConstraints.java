@@ -122,7 +122,7 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
         return false;
     }
 
-    public void reload(Integer mixid) {
+    public void reload(String mixid) {
         Vector row = null;
         Vector table = new Vector();
         try {
@@ -130,7 +130,7 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                Integer mixid2 = (Integer) rowm.get("MIXID");
+                String mixid2 = (String) rowm.get("MIXID");
                 String foodidA = (String) rowm.get("FOOD_ID_1");
                 String nutrientidA = (String) rowm.get("NUTRIENT_ID_1");
                 String foodidB = (String) rowm.get("FOOD_ID_2");

@@ -1,5 +1,5 @@
 CREATE PROCEDURE NutrientConstraint_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER,
 IN v_b DOUBLE

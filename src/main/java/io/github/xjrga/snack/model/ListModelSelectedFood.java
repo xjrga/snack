@@ -36,7 +36,7 @@ public class ListModelSelectedFood extends DefaultListModel {
         this.dbLink = dbLink;
     }
 
-    public void reload(Integer mixId) {
+    public void reload(String mixId) {
         this.clear();
         try {
             LinkedList all = (LinkedList) dbLink.MixFood_Select_All(mixId);

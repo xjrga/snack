@@ -182,5 +182,11 @@ RELEASE NOTES
 
 730
 
-      Add alpha-linolenic acid requirement calculator     
+      Add alpha-linolenic acid requirement calculator
+
+740
+
+      Add inequality option to nutrient percent constraint
+      Add data exchange functionality
+   
       

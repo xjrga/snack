@@ -6,7 +6,7 @@
 
     <groupId>io.github.xjrga</groupId>
     <artifactId>snack</artifactId>
-    <version>730</version>
+    <version>740</version>
 
     <name>snack</name>
     <url>https://xjrga.github.io/snack</url>
@@ -168,6 +168,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>

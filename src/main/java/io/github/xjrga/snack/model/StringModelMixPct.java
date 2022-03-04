@@ -16,7 +16,7 @@ public class StringModelMixPct implements RoundUp {
         this.dbLink = dbLink;
     }
 
-    public String reload(Integer MixId) {
+    public String reload(String MixId) {
         String s = "";
         try {
             LinkedList all = (LinkedList) dbLink.MixResult_Select_Pct(MixId, precision);

@@ -43,8 +43,10 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
         columns.add("MixId");
         columns.add("FoodId");
         columns.add("NutrientId");
+        columns.add("RelationshipId");
         columns.add("Food");
         columns.add("Nutrient");
+        columns.add("Eq");
         columns.add("%");
         this.setColumnIdentifiers(columns);
     }
@@ -66,14 +68,22 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
                 returnValue = String.class;
                 break;
             case 3:
+                //relationshipid
+                returnValue = Integer.class;
+                break;
+            case 4:
                 //Food Name
                 returnValue = String.class;
                 break;
-            case 4:
+            case 5:
                 //Nutrient Name
                 returnValue = String.class;
                 break;
-            case 5:
+            case 6:
+                //Relationship Name
+                returnValue = String.class;
+                break;
+            case 7:
                 //Value
                 returnValue = Double.class;
                 break;
@@ -86,7 +96,7 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
         return false;
     }
 
-    public void reload(Integer mixid) {
+    public void reload(String mixid) {
         Vector row = null;
         Vector table = new Vector();
         try {
@@ -94,18 +104,22 @@ public class TableModelPercentNutrientConstraints extends DefaultTableModel {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                Integer mixid2 = (Integer) rowm.get("MIXID");
+                String mixid2 = (String) rowm.get("MIXID");
                 String foodid = (String) rowm.get("FOODID");
                 String nutrientid = (String) rowm.get("NUTRIENTID");
+                Integer relationshipid = (Integer) rowm.get("RELATIONSHIPID");
                 String food = (String) rowm.get("FOOD");
                 String nutrient = (String) rowm.get("NUTRIENT");
                 Double value = (Double) rowm.get("B");
+                String relationship = (String) rowm.get("RELATIONSHIP");
                 row = new Vector();
                 row.add(mixid2);
                 row.add(foodid);
                 row.add(nutrientid);
+                row.add(relationshipid);
                 row.add(food);
                 row.add(nutrient);
+                row.add(relationship);
                 row.add(value);
                 table.add(row);
             }

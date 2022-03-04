@@ -11,7 +11,9 @@ Visible
 FROM
 Nutrient
 WHERE
-NutrientId != '205'
+NutrientId != '205' AND
+NutrientId != '675' AND
+NutrientId != '851'
 ORDER BY Name;
 --
 OPEN result;

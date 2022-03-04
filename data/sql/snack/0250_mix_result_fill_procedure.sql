@@ -1,6 +1,6 @@
 CREATE PROCEDURE FillMixResults(
 --
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --

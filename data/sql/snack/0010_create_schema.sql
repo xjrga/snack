@@ -42,7 +42,7 @@ CONSTRAINT Relationship_primaryKey PRIMARY KEY (RelationshipId)
 
 CREATE TABLE Mix
 (
-MixId IDENTITY,
+MixId LONGVARCHAR,
 Name LONGVARCHAR,
 ADate DATE,
 ATime TIME,
@@ -75,7 +75,7 @@ CONSTRAINT Nutrient_primaryKey PRIMARY KEY (NutrientId)
 
 CREATE TABLE MixFood
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 x DOUBLE,
 CONSTRAINT MixFood_primaryKey PRIMARY KEY (MixId, FoodId)
@@ -84,7 +84,7 @@ CONSTRAINT MixFood_primaryKey PRIMARY KEY (MixId, FoodId)
 
 CREATE TABLE FoodNutrientRatio
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 Food_Id_1 LONGVARCHAR,
 Nutrient_Id_1 LONGVARCHAR,
 Food_Id_2 LONGVARCHAR,
@@ -98,7 +98,7 @@ CONSTRAINT FoodNutrientRatio_primaryKey PRIMARY KEY (MixId, Food_Id_1, Nutrient_
 
 CREATE TABLE NutrientRatio
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 Nutrient_Id_1 LONGVARCHAR,
 Nutrient_Id_2 LONGVARCHAR,
 RelationshipId INTEGER,
@@ -110,7 +110,7 @@ CONSTRAINT NutrientRatio_primaryKey PRIMARY KEY (MixId, Nutrient_Id_1, Nutrient_
 
 CREATE TABLE NutrientConstraint
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 NutrientId LONGVARCHAR,
 RelationshipId INTEGER,
 b DOUBLE,
@@ -120,7 +120,7 @@ CONSTRAINT NutrientConstraint_primaryKey PRIMARY KEY (MixId, NutrientId, Relatio
 
 CREATE TABLE FoodNutrientConstraint
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 NutrientId LONGVARCHAR,
 RelationshipId INTEGER,
@@ -139,11 +139,12 @@ CONSTRAINT CategoryLink_primaryKey PRIMARY KEY (FoodCategoryId, FoodId)
 
 CREATE TABLE PercentConstraint
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 NutrientId LONGVARCHAR,
+RelationshipId INTEGER,
 b DOUBLE,
-CONSTRAINT PercentConstraint_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId)
+CONSTRAINT PercentConstraint_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId, RelationshipId)
 );
 /
 
@@ -155,6 +156,7 @@ q DOUBLE DEFAULT CAST(0 AS DOUBLE),
 UL DOUBLE DEFAULT CAST(0 AS DOUBLE),
 CONSTRAINT Rda_primaryKey PRIMARY KEY (NutrientId, LifeStageId)
 );
+/
 
 CREATE TABLE RdaLifeStage
 (
@@ -162,10 +164,11 @@ LifeStageId INTEGER,
 Label LONGVARCHAR,
 CONSTRAINT RdaLifeStage_primaryKey PRIMARY KEY (LifeStageId)
 );
+/
 
 CREATE TABLE MixResult
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 NutrientId LONGVARCHAR,
 q DOUBLE,

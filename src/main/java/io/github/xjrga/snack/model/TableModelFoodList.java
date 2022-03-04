@@ -162,7 +162,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double Thiamin = (Double) rowm.get(Nutrient.THIAMIN.getLabel());
                 Double Riboflavin = (Double) rowm.get(Nutrient.RIBOFLAVIN.getLabel());
                 Double Niacin = (Double) rowm.get(Nutrient.NIACIN.getLabel());
-                Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENIC.getLabel());
+                Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENICACID.getLabel());
                 Double VitaminB6 = (Double) rowm.get(Nutrient.VITAMINB6.getLabel());
                 Double VitaminB12 = (Double) rowm.get(Nutrient.VITAMINB12.getLabel());
                 Double Choline = (Double) rowm.get(Nutrient.CHOLINE.getLabel());
@@ -170,13 +170,13 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double Folate = (Double) rowm.get(Nutrient.FOLATE.getLabel());
                 //Fatty Acids
                 Double Cholesterol = (Double) rowm.get(Nutrient.CHOLESTEROL.getLabel());
-                Double Saturated = (Double) rowm.get(Nutrient.SATURATED.getLabel());
+                Double Saturated = (Double) rowm.get(Nutrient.SFA.getLabel());
                 Double DHA = (Double) rowm.get(Nutrient.DHA.getLabel());
                 Double EPA = (Double) rowm.get(Nutrient.EPA.getLabel());
-                Double Monounsaturated = (Double) rowm.get(Nutrient.MONOUNSATURATED.getLabel());
-                Double Polyunsaturated = (Double) rowm.get(Nutrient.POLYUNSATURATED.getLabel());
+                Double Monounsaturated = (Double) rowm.get(Nutrient.MUFA.getLabel());
+                Double Polyunsaturated = (Double) rowm.get(Nutrient.PUFA.getLabel());
                 Double Linoleic = (Double) rowm.get(Nutrient.LINOLEIC.getLabel());
-                Double AlphaLinolenic = (Double) rowm.get(Nutrient.ALPHALINOLENIC.getLabel());
+                Double Linolenic = (Double) rowm.get(Nutrient.LINOLENIC.getLabel());
                 //Glycemic
                 Double GlycemicLoad = (Double) rowm.get(Nutrient.GLYCEMICLOAD.getLabel());
                 //Other
@@ -233,7 +233,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 row.add(Monounsaturated);
                 row.add(Polyunsaturated);
                 row.add(Linoleic);
-                row.add(AlphaLinolenic);
+                row.add(Linolenic);
                 row.add(GlycemicLoad);
                 row.add(Water);
                 row.add(Cost);

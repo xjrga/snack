@@ -45,7 +45,7 @@ CONSTRAINT Relationship_primaryKey PRIMARY KEY (RelationshipId)
 
 CREATE TABLE Mix
 (
-MixId IDENTITY,
+MixId LONGVARCHAR,
 Name LONGVARCHAR,
 ADate DATE,
 ATime TIME,
@@ -78,7 +78,7 @@ CONSTRAINT Nutrient_primaryKey PRIMARY KEY (NutrientId)
 
 CREATE TABLE MixFood
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 x DOUBLE,
 CONSTRAINT MixFood_primaryKey PRIMARY KEY (MixId, FoodId)
@@ -87,7 +87,7 @@ CONSTRAINT MixFood_primaryKey PRIMARY KEY (MixId, FoodId)
 
 CREATE TABLE FoodNutrientRatio
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 Food_Id_1 LONGVARCHAR,
 Nutrient_Id_1 LONGVARCHAR,
 Food_Id_2 LONGVARCHAR,
@@ -101,7 +101,7 @@ CONSTRAINT FoodNutrientRatio_primaryKey PRIMARY KEY (MixId, Food_Id_1, Nutrient_
 
 CREATE TABLE NutrientRatio
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 Nutrient_Id_1 LONGVARCHAR,
 Nutrient_Id_2 LONGVARCHAR,
 RelationshipId INTEGER,
@@ -113,7 +113,7 @@ CONSTRAINT NutrientRatio_primaryKey PRIMARY KEY (MixId, Nutrient_Id_1, Nutrient_
 
 CREATE TABLE NutrientConstraint
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 NutrientId LONGVARCHAR,
 RelationshipId INTEGER,
 b DOUBLE,
@@ -123,7 +123,7 @@ CONSTRAINT NutrientConstraint_primaryKey PRIMARY KEY (MixId, NutrientId, Relatio
 
 CREATE TABLE FoodNutrientConstraint
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 NutrientId LONGVARCHAR,
 RelationshipId INTEGER,
@@ -142,11 +142,12 @@ CONSTRAINT CategoryLink_primaryKey PRIMARY KEY (FoodCategoryId, FoodId)
 
 CREATE TABLE PercentConstraint
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 NutrientId LONGVARCHAR,
+RelationshipId INTEGER,
 b DOUBLE,
-CONSTRAINT PercentConstraint_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId)
+CONSTRAINT PercentConstraint_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId, RelationshipId)
 );
 /
 
@@ -158,6 +159,7 @@ q DOUBLE DEFAULT CAST(0 AS DOUBLE),
 UL DOUBLE DEFAULT CAST(0 AS DOUBLE),
 CONSTRAINT Rda_primaryKey PRIMARY KEY (NutrientId, LifeStageId)
 );
+/
 
 CREATE TABLE RdaLifeStage
 (
@@ -165,10 +167,11 @@ LifeStageId INTEGER,
 Label LONGVARCHAR,
 CONSTRAINT RdaLifeStage_primaryKey PRIMARY KEY (LifeStageId)
 );
+/
 
 CREATE TABLE MixResult
 (
-MixId INTEGER,
+MixId LONGVARCHAR,
 FoodId LONGVARCHAR,
 NutrientId LONGVARCHAR,
 q DOUBLE,
@@ -233,7 +236,7 @@ ALTER TABLE MixResult ADD CONSTRAINT R26_FoodFactCoefficient_MixResult FOREIGN K
 
 
 CREATE FUNCTION getFoodQuotient(
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 ) RETURNS DOUBLE
 READS SQL DATA BEGIN ATOMIC
 DECLARE fq DOUBLE;
@@ -336,7 +339,7 @@ END;
 
 CREATE FUNCTION getMixResultValue (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_FoodId LONGVARCHAR,
 --
@@ -364,7 +367,7 @@ END;
 
 CREATE FUNCTION getMixResultSumValue (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_NutrientId LONGVARCHAR
 --
@@ -468,7 +471,7 @@ READS SQL DATA BEGIN ATOMIC
 --
 DECLARE v_count NUMERIC;
 --
-SET v_count = round(rand()*10000000000);
+SELECT substring(replace(replace('' + rand () + '' + rand () + '' + rand () + '' + rand () + '' + rand () + '' + rand () + '' + rand () + rand (),'.',''),'E',''),0,129) INTO v_count FROM (VALUES (0));
 --
 RETURN v_count;
 --
@@ -477,19 +480,32 @@ END;
 
 CREATE FUNCTION generateId(
 --
-IN v_txt_1 LONGVARCHAR,
---
-IN v_txt_2 LONGVARCHAR
---
 ) RETURNS LONGVARCHAR
 --
 READS SQL DATA BEGIN ATOMIC
 --
 DECLARE v_id LONGVARCHAR;
 --
-SELECT v_txt_1||v_txt_2||generateLargeRandomNumber() INTO v_id FROM (VALUES(0));
+SELECT generateLargeRandomNumber() INTO v_id FROM (VALUES(0));
 --
 RETURN v_id;
+--
+END;
+/
+
+CREATE PROCEDURE FoodFact_ZeroOut_FoodId (
+--
+IN v_FoodId LONGVARCHAR
+--
+)
+--
+modifies sql data BEGIN atomic
+--
+FOR SELECT nutrientid FROM nutrient DO
+--
+call FoodFact_Merge (v_FoodId,nutrientid,0);
+--
+END FOR;
 --
 END;
 /
@@ -500,18 +516,27 @@ modifies sql data BEGIN atomic
 --
 DECLARE v_FoodId LONGVARCHAR;
 --
-SET v_FoodId = generateId('f','');
+SET v_FoodId = generateId();
 SET v_OutFoodId = v_FoodId;
 --
 call Food_Insert(v_FoodId,v_FoodNom);
 call CategoryLink_Insert(v_FoodId,'5000');
---
-FOR SELECT nutrientid FROM nutrient DO
-call FoodFact_Merge (v_FoodId,nutrientid,0);
-END FOR;
+call FoodFact_ZeroOut_FoodId(v_FoodId);
 --
 END;
 /
+
+CREATE PROCEDURE snack_food_insertfood_and_categorizefood (IN v_foodid LONGVARCHAR,IN v_foodnom LONGVARCHAR)
+--
+modifies sql data BEGIN atomic
+--
+call food_insert(v_foodid,v_foodnom);
+call categorylink_insert(v_foodid,'5000');
+call FoodFact_ZeroOut_FoodId(v_foodid);
+--
+END;
+/
+
 
 CREATE PROCEDURE FoodFact_ZeroOut ()
 --
@@ -519,11 +544,7 @@ modifies sql data BEGIN atomic
 --
 FOR SELECT foodid FROM food DO
 --
-FOR SELECT nutrientid FROM nutrient DO
---
-call FoodFact_Merge (foodid,nutrientid,0);
---
-END FOR;
+call FoodFact_ZeroOut_FoodId(foodid);
 --
 END FOR;
 --
@@ -624,23 +645,6 @@ OPEN result;
 END;
 /
 
-CREATE PROCEDURE FoodFact_ZeroOut_FoodId (
---
-IN v_FoodId LONGVARCHAR
---
-)
---
-modifies sql data BEGIN atomic
---
-FOR SELECT nutrientid FROM nutrient DO
---
-call FoodFact_Merge (v_FoodId,nutrientid,0);
---
-END FOR;
---
-END;
-/
-
 CREATE PROCEDURE DuplicateFoodFact (IN v_FoodId LONGVARCHAR,IN v_FoodIdNew LONGVARCHAR)
 --
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -662,7 +666,7 @@ END;
 
 CREATE PROCEDURE foodnutrient_rhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -693,8 +697,8 @@ DECLARE v_FoodIdNew LONGVARCHAR;
 DECLARE v_FoodNom LONGVARCHAR;
 DECLARE v_CategoryId LONGVARCHAR;
 --
-SET v_FoodIdNew = generateId('f','');
 SET v_FoodNom = getFoodName(v_FoodId);
+SET v_FoodIdNew = generateId();
 -- Other category is 5000
 SET v_CategoryId = '5000';
 --
@@ -706,7 +710,7 @@ END;
 /
 
 CREATE PROCEDURE MixResult_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
 IN v_q DOUBLE
@@ -736,7 +740,7 @@ END;
 
 CREATE PROCEDURE FillMixResults(
 --
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -796,7 +800,7 @@ END;
 
 CREATE PROCEDURE Mix_getMealGi (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
 --
 )
@@ -913,7 +917,7 @@ END;
 /
 
 
-CREATE FUNCTION getMealGI (IN v_MixId INTEGER) RETURNS DOUBLE
+CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 --
 READS SQL DATA
 BEGIN ATOMIC
@@ -973,8 +977,8 @@ END;
 
 CREATE PROCEDURE Mix_getMealGIDiff (
 --
-IN v_MixId_1 INTEGER,
-IN v_MixId_2 INTEGER,
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
 IN v_Precision INTEGER
 --
 )
@@ -1039,11 +1043,11 @@ END;
 /
 
 
-CREATE PROCEDURE FoodNutrientConstraint (
+CREATE PROCEDURE FoodNutrientConstraint_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --
@@ -1240,7 +1244,7 @@ END;
 
 
 CREATE PROCEDURE FoodNutrientConstraint_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER
@@ -1261,7 +1265,7 @@ END;
 
 
 CREATE PROCEDURE FoodNutrientConstraint_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER,
@@ -1319,7 +1323,7 @@ END;
 
 
 CREATE PROCEDURE FoodNutrientConstraint_Select (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -1367,11 +1371,11 @@ OPEN result;
 END;
 /
 
-CREATE PROCEDURE FoodNutrientRatio (
+CREATE PROCEDURE FoodNutrientRatio_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --
@@ -1431,7 +1435,7 @@ END;
 /
 
 CREATE PROCEDURE FoodNutrientRatio_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Food_Id_1 LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
 IN v_Food_Id_2 LONGVARCHAR,
@@ -1459,7 +1463,7 @@ END;
 
 CREATE PROCEDURE foodnutrientratio_lhs (
 --
-IN v_mixid INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_foodid1 LONGVARCHAR,
 --
@@ -1991,7 +1995,7 @@ END;
 /
 
 CREATE PROCEDURE FoodNutrientRatio_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Food_Id_1 LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
 IN v_Food_Id_2 LONGVARCHAR,
@@ -2057,7 +2061,7 @@ END;
 
 CREATE PROCEDURE foodnutrientratio_rhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -2116,7 +2120,7 @@ INSERT INTO FoodCategory (
 FoodCategoryId,
 Name
 ) VALUES (
-generateId('c',''),
+generateId(),
 v_Name
 );
 --
@@ -2178,7 +2182,7 @@ END;
 
 CREATE PROCEDURE foodnutrient_lhs (
 --
-IN v_mixid INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_foodid LONGVARCHAR,
 --
@@ -2229,7 +2233,7 @@ END
 /
 
 CREATE PROCEDURE FoodNutrientRatio_Select (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -2271,9 +2275,9 @@ END;
 
 CREATE PROCEDURE Mix_Copy (
 --
-OUT newid INTEGER,
+OUT newid LONGVARCHAR,
 --
-IN v_MixId_Old INTEGER
+IN v_MixId_Old LONGVARCHAR
 --
 )
 --
@@ -2285,6 +2289,7 @@ DECLARE v_ATime TIME;
 DECLARE v_NutrientId LONGVARCHAR;
 DECLARE v_Model LONGVARCHAR;
 DECLARE v_Note LONGVARCHAR;
+DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        Nutrientid,
@@ -2302,6 +2307,8 @@ SELECT CURRENT_DATE INTO v_ADate FROM (VALUES(0));
 --
 SELECT LOCALTIME INTO v_ATime FROM (VALUES(0));
 --
+SELECT generateId() INTO newid2 FROM (VALUES(0));
+--
 INSERT INTO Mix (
 MixId,
 Name,
@@ -2312,7 +2319,7 @@ Nutrientid,
 Model,
 Note
 ) VALUES (
-DEFAULT,
+newid2,
 v_Name_Old||'_copy',
 v_ADate,
 v_ATime,
@@ -2322,13 +2329,13 @@ v_Model,
 v_Note
 );
 --
-SET newid = IDENTITY();
+SET newid = newid2;
 --
 END;
 /
 
 CREATE PROCEDURE Mix_Delete (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
@@ -2341,8 +2348,8 @@ END;
 
 CREATE PROCEDURE Mix_getDiff (
 --
-IN v_MixId_1 INTEGER,
-IN v_MixId_2 INTEGER,
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
 IN v_Precision INTEGER
 --
 )
@@ -2379,9 +2386,61 @@ OPEN result;
 END;
 /
 
+CREATE PROCEDURE snack_mix_insertmix (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_name LONGVARCHAR,
+--
+IN v_status INTEGER,
+--
+IN v_nutrientid LONGVARCHAR,
+--
+IN v_model LONGVARCHAR,
+--
+IN v_note LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_adate DATE;
+--
+DECLARE v_atime TIME;
+--
+SELECT CURRENT_DATE INTO v_adate FROM (VALUES(0));
+--
+SELECT LOCALTIME INTO v_atime FROM (VALUES(0));
+--
+INSERT INTO mix (
+mixid,
+name,
+adate,
+atime,
+status,
+nutrientid,
+model,
+note
+) VALUES (
+v_mixid,
+v_name,
+v_adate,
+v_atime,
+v_status,
+v_nutrientid,
+v_model,
+v_note
+);
+--
+END;
+/
+--call snack_mix_insertmix('delete','delete',1,'10009','model','note');
+--/
+
+
 CREATE PROCEDURE Mix_Insert (
 --
-OUT newid INTEGER,
+OUT newid LONGVARCHAR,
 --
 IN v_Name LONGVARCHAR
 --
@@ -2393,9 +2452,13 @@ DECLARE v_ADate DATE;
 --
 DECLARE v_ATime TIME;
 --
+DECLARE newid2 LONGVARCHAR;
+--
 SELECT CURRENT_DATE INTO v_ADate FROM (VALUES(0));
 --
 SELECT LOCALTIME INTO v_ATime FROM (VALUES(0));
+--
+SELECT generateId() INTO newid2 FROM (VALUES(0));
 --
 INSERT INTO Mix (
 MixId,
@@ -2403,13 +2466,13 @@ Name,
 ADate,
 ATime
 ) VALUES (
-DEFAULT,
+newid2,
 v_Name,
 v_ADate,
 v_ATime
 );
 --
-SET newid = IDENTITY();
+SET newid = newid2;
 --
 END;
 /
@@ -2467,7 +2530,7 @@ END;
 
 
 CREATE PROCEDURE Mix_Update_Name (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Name LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -2483,7 +2546,7 @@ END;
 
 CREATE PROCEDURE Mix_Update_Status (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_Status INTEGER
 --
@@ -2503,7 +2566,7 @@ END;
 
 
 CREATE PROCEDURE Mix_Update_NutrientId (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -2518,7 +2581,7 @@ END;
 
 
 CREATE PROCEDURE Mix_Update_Other (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Model LONGVARCHAR,
 IN v_Note LONGVARCHAR
 )
@@ -2536,7 +2599,7 @@ END;
 
 CREATE PROCEDURE Mix_Update_Time (
 --
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -2564,9 +2627,9 @@ END;
 
 CREATE PROCEDURE MixFood_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --
@@ -2590,7 +2653,7 @@ END;
 
 
 CREATE PROCEDURE MixFood_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -2605,7 +2668,7 @@ END;
 
 
 CREATE PROCEDURE MixFood_Insert (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -2621,7 +2684,7 @@ END;
 
 
 CREATE PROCEDURE MixFood_Select (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -2644,7 +2707,7 @@ END;
 /
 
 
-CREATE PROCEDURE MixFood_Select_All (IN v_mixid INTEGER)
+CREATE PROCEDURE MixFood_Select_All (IN v_MixId LONGVARCHAR)
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
@@ -2664,7 +2727,7 @@ END;
 
 
 CREATE PROCEDURE MixFood_Update (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_x DOUBLE
 )
@@ -2682,7 +2745,7 @@ END;
 
 
 CREATE PROCEDURE Mix_Select_Other (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
@@ -2707,9 +2770,9 @@ END;
 
 CREATE PROCEDURE MixResult_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --
@@ -2734,7 +2797,7 @@ END;
 /
 
 CREATE PROCEDURE MixResult_Select (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
@@ -3784,7 +3847,7 @@ END;
 
 CREATE PROCEDURE MixResult_Select_Pct (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
 --
 )
@@ -3886,7 +3949,7 @@ END;
 
 CREATE PROCEDURE nutrient_lhs (
 --
-IN v_mixid INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_nutrientid LONGVARCHAR,
 IN v_relationshipid INTEGER
 --
@@ -3928,7 +3991,7 @@ END;
 
 CREATE PROCEDURE nutrient_rhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -4007,7 +4070,9 @@ Visible
 FROM
 Nutrient
 WHERE
-NutrientId != '205'
+NutrientId != '205' AND
+NutrientId != '675' AND
+NutrientId != '851'
 ORDER BY Name;
 --
 OPEN result;
@@ -4018,9 +4083,9 @@ END;
 
 CREATE PROCEDURE NutrientConstraint_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --
@@ -4045,7 +4110,7 @@ END;
 /
 
 CREATE PROCEDURE NutrientConstraint_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER
 )
@@ -4063,7 +4128,7 @@ END;
 
 
 CREATE PROCEDURE NutrientConstraint_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
 IN v_RelationshipId INTEGER,
 IN v_b DOUBLE
@@ -4093,7 +4158,7 @@ END;
 
 
 CREATE PROCEDURE NutrientConstraint_Select (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -4122,9 +4187,9 @@ END;
 
 CREATE PROCEDURE NutrientRatio_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --
@@ -4152,15 +4217,46 @@ WHERE mixid = v_MixId_Old;
 END;
 /
 
+
+CREATE PROCEDURE NutrientPercent_Copy (
+--
+IN v_MixId_Old LONGVARCHAR,
+--
+IN v_MixId_New LONGVARCHAR
+--
+)
+--
+modifies sql data BEGIN atomic
+--
+INSERT INTO PercentConstraint
+(
+  mixid,
+  foodid,
+  nutrientid,  
+  relationshipid,  
+  b
+)
+SELECT v_MixId_New,
+       foodid,
+       nutrientid,
+       relationshipid,       
+       b
+FROM PercentConstraint
+WHERE mixid = v_MixId_Old;
+
+--
+END;
+/
+
 CREATE PROCEDURE Mix_Duplicate (
 --
-IN v_MixId_Old INTEGER
+IN v_MixId_Old LONGVARCHAR
 --
 )
 --
 MODIFIES SQL DATA BEGIN ATOMIC
 --
-DECLARE v_MixId_New INTEGER;
+DECLARE v_MixId_New LONGVARCHAR;
 --
 call mix_copy(v_MixId_New,v_MixId_Old);
 --
@@ -4172,15 +4268,17 @@ CALL NutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL NutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 --
-CALL FoodNutrientConstraint(v_MixId_Old,v_MixId_New);
+CALL FoodNutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
-CALL FoodNutrientRatio(v_MixId_Old,v_MixId_New);
+CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL NutrientPercent_Copy(v_MixId_Old,v_MixId_New);
 --
 END;
 /
 
 CREATE PROCEDURE NutrientRatio_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
 IN v_Nutrient_Id_2 LONGVARCHAR,
 IN v_RelationshipId INTEGER
@@ -4202,7 +4300,7 @@ END;
 
 CREATE PROCEDURE nutrientratio_lhs (
 --
-IN v_mixid INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_nutrientid1 LONGVARCHAR,
 --
@@ -4295,7 +4393,7 @@ END;
 
 
 CREATE PROCEDURE NutrientRatio_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
 IN v_Nutrient_Id_2 LONGVARCHAR,
 IN v_RelationshipId INTEGER,
@@ -4335,7 +4433,7 @@ END;
 
 CREATE PROCEDURE nutrientratio_rhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -4362,7 +4460,7 @@ END;
 
 
 CREATE PROCEDURE NutrientRatio_Select (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -4396,7 +4494,7 @@ END;
 
 CREATE PROCEDURE objective_lhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -4478,7 +4576,7 @@ END
 
 CREATE PROCEDURE Food_Put (
 --
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -4487,10 +4585,10 @@ MODIFIES SQL DATA BEGIN ATOMIC
 DECLARE v_FoodId LONGVARCHAR;
 DECLARE v_FoodName LONGVARCHAR;
 --
-SET v_FoodId = generateId('f','');
 SELECT Name INTO v_FoodName
 FROM Mix
 WHERE MixId = v_MixId;
+SET v_FoodId = generateId();
 --
 CALL Food_Insert (v_FoodId,v_FoodName);
 --
@@ -4564,9 +4662,10 @@ call relationship_insert(3,'=');
 
 
 CREATE PROCEDURE PercentNutrientConstraint_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
+IN v_RelationshipId INTEGER,
 IN v_b DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -4574,6 +4673,7 @@ MERGE INTO PercentConstraint USING ( VALUES (
 v_MixId,
 v_FoodId,
 v_NutrientId,
+v_RelationshipId,
 v_b
 ) ) ON (
 MixId = v_MixId
@@ -4581,6 +4681,8 @@ AND
 FoodId = v_FoodId
 AND
 NutrientId = v_NutrientId
+AND
+RelationshipId = v_RelationshipId
 )
 WHEN MATCHED THEN UPDATE SET
 b = v_b
@@ -4588,12 +4690,13 @@ WHEN NOT MATCHED THEN INSERT VALUES
 v_MixId,
 v_FoodId,
 v_NutrientId,
+v_RelationshipId,
 v_b;
 END;
 /
 
 CREATE PROCEDURE PercentNutrientConstraint_Select (
-IN v_MixId INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -4602,17 +4705,21 @@ SELECT
 a.MixId,
 a.FoodId,
 a.NutrientId,
+d.RelationshipId,
 b.Name as Food,
 c.Name as Nutrient,
-a.b
+a.b,
+d.Name as Relationship
 FROM
-PercentConstraint a, Food b, Nutrient c
+PercentConstraint a, Food b, Nutrient c, Relationship d
 WHERE
 a.MixId = v_MixId
 AND
 a.FoodId = b.FoodId
 AND
 a.NutrientId = c.NutrientId
+AND
+a.RelationshipId = d.relationshipid
 ORDER BY
 a.NutrientId,a.FoodId;
 --
@@ -4622,9 +4729,10 @@ END;
 /
 
 CREATE PROCEDURE PercentNutrientConstraint_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
-IN v_NutrientId LONGVARCHAR
+IN v_NutrientId LONGVARCHAR,
+IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
@@ -4634,14 +4742,16 @@ MixId = v_MixId
 AND
 FoodId = v_FoodId
 AND
-NutrientId = v_NutrientId;
+NutrientId = v_NutrientId
+AND
+RelationshipId = v_RelationshipId;
 END;
 /
 
 
 CREATE PROCEDURE percentnutrient_rhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -4652,6 +4762,7 @@ FOR
 SELECT mixid,
        foodid,
        nutrientid,
+       relationshipid,
        b
 FROM percentconstraint
 WHERE mixid = v_mixid
@@ -4664,7 +4775,7 @@ END;
 
 CREATE PROCEDURE percentnutrient_lhs (
 --
-IN v_mixid INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_foodid LONGVARCHAR,
 --
@@ -4700,9 +4811,9 @@ END
 
 CREATE PROCEDURE Mix_getFQDiff (
 --
-IN v_MixId_1 INTEGER,
+IN v_MixId_1 LONGVARCHAR,
 --
-IN v_MixId_2 INTEGER
+IN v_MixId_2 LONGVARCHAR
 --
 )
 --
@@ -4814,7 +4925,7 @@ END;
 
 CREATE PROCEDURE Mix_getRdaDiff (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
 IN v_Precision INTEGER
 --
@@ -4956,4 +5067,619 @@ RdaLifeStage;
 OPEN result;
 END;
 /
+
+CREATE PROCEDURE Select_mixfood_foodfacts (
+IN v_MixId LONGVARCHAR
+)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+DECLARE result CURSOR
+FOR
+SELECT A.mixid,A.x,b.*
+FROM
+(
+SELECT
+MixId,
+FoodId,
+x
+FROM
+MixFood
+WHERE
+MixId = 0
+) A,
+(
+SELECT
+       --Name     
+       a.name,
+       --Mass
+       x0.q AS "Weight",
+       --Energy
+       x8.q AS "EnergyGross",
+       x53.q AS "EnergyDigestible",       
+       x55.q AS "EnergyCarbohydrate",
+       x56.q AS "EnergyProtein",
+       x57.q AS "EnergyFat",
+       x58.q AS "EnergyAlcohol",
+       --Macronutrient
+       x6.q AS "Fat",
+       x3.q AS "DigestibleCarbs",
+       x5.q AS "Protein",
+       x12.q AS "Alcohol",
+       --Protein       
+       x1.q AS "CompleteProtein",       
+       --Fiber
+       x7.q AS "CarbsByDiff",
+       x16.q AS "Fiber",       
+       --Minerals
+       x17.q AS "Calcium",
+       x18.q AS "Iron",
+       x19.q AS "Magnesium",
+       x20.q AS "Phosphorus",
+       x21.q AS "Potassium",
+       x22.q AS "Sodium",
+       x23.q AS "Zinc",
+       x24.q AS "Copper",
+       x25.q AS "Fluoride",
+       x26.q AS "Manganese",
+       x27.q AS "Selenium",
+       --Vitamins
+       x28.q AS "VitaminA",
+       x29.q AS "VitaminE",
+       x30.q AS "VitaminD",
+       x33.q AS "VitaminC",
+       x34.q AS "Thiamin",
+       x35.q AS "Riboflavin",
+       x36.q AS "Niacin",
+       x37.q AS "Pantothenic",
+       x38.q AS "VitaminB6",
+       x39.q AS "VitaminB12",
+       x14.q AS "Choline",
+       x40.q AS "VitaminK",
+       x41.q AS "Folate",
+       --Fatty Acids
+       x42.q AS "Cholesterol",
+       x43.q AS "Saturated",
+       x44.q AS "DHA",
+       x45.q AS "EPA",
+       x46.q AS "Monounsaturated",
+       x47.q AS "Polyunsaturated",
+       x48.q AS "Linoleic",
+       x49.q AS "AlphaLinolenic",
+       --Glycemic
+       x50.q AS "GlycemicLoad",
+       --Other
+       x13.q AS "Water",
+       x4.q AS "Cost",
+       --Ids
+       a.foodid
+FROM food a,
+     foodfact x0,
+     foodfact x1,     
+     foodfact x3,
+     foodfact x4,
+     foodfact x5,
+     foodfact x6,
+     foodfact x7,
+     foodfact x8,
+     foodfact x12,
+     foodfact x13,
+     foodfact x16,
+     foodfact x17,
+     foodfact x18,
+     foodfact x19,
+     foodfact x20,
+     foodfact x21,
+     foodfact x22,
+     foodfact x23,
+     foodfact x24,
+     foodfact x25,
+     foodfact x26,
+     foodfact x27,
+     foodfact x28,
+     foodfact x29,
+     foodfact x30,
+     foodfact x33,
+     foodfact x34,
+     foodfact x35,
+     foodfact x36,
+     foodfact x37,
+     foodfact x38,
+     foodfact x39,
+     foodfact x14,
+     foodfact x40,
+     foodfact x41,
+     foodfact x42,
+     foodfact x43,
+     foodfact x44,
+     foodfact x45,
+     foodfact x46,
+     foodfact x47,
+     foodfact x48,
+     foodfact x49,
+     foodfact x50,
+     foodfact x53,     
+     foodfact x55,
+     foodfact x56,
+     foodfact x57,
+     foodfact x58
+WHERE
+(
+a.foodid = x0.foodid AND
+a.foodid = x1.foodid AND
+a.foodid = x3.foodid AND
+a.foodid = x4.foodid AND
+a.foodid = x5.foodid AND
+a.foodid = x6.foodid AND
+a.foodid = x7.foodid AND
+a.foodid = x8.foodid AND
+a.foodid = x12.foodid AND
+a.foodid = x13.foodid AND
+a.foodid = x16.foodid AND
+a.foodid = x17.foodid AND
+a.foodid = x18.foodid AND
+a.foodid = x19.foodid AND
+a.foodid = x20.foodid AND
+a.foodid = x21.foodid AND
+a.foodid = x22.foodid AND
+a.foodid = x23.foodid AND
+a.foodid = x24.foodid AND
+a.foodid = x25.foodid AND
+a.foodid = x26.foodid AND
+a.foodid = x27.foodid AND
+a.foodid = x28.foodid AND
+a.foodid = x29.foodid AND
+a.foodid = x30.foodid AND
+a.foodid = x33.foodid AND
+a.foodid = x34.foodid AND
+a.foodid = x35.foodid AND
+a.foodid = x36.foodid AND
+a.foodid = x37.foodid AND
+a.foodid = x38.foodid AND
+a.foodid = x39.foodid AND
+a.foodid = x14.foodid AND
+a.foodid = x40.foodid AND
+a.foodid = x41.foodid AND
+a.foodid = x42.foodid AND
+a.foodid = x43.foodid AND
+a.foodid = x44.foodid AND
+a.foodid = x45.foodid AND
+a.foodid = x46.foodid AND
+a.foodid = x47.foodid AND
+a.foodid = x48.foodid AND
+a.foodid = x49.foodid AND
+a.foodid = x50.foodid AND
+a.foodid = x53.foodid AND
+a.foodid = x55.foodid AND
+a.foodid = x56.foodid AND
+a.foodid = x57.foodid AND
+a.foodid = x58.foodid
+)
+AND
+(
+x0.nutrientid = '10000' AND
+x1.nutrientid = '10001' AND
+x3.nutrientid = '10003' AND
+x4.nutrientid = '10005' AND
+x5.nutrientid = '203' AND
+x6.nutrientid = '204' AND
+x7.nutrientid = '205' AND
+x8.nutrientid = '208' AND
+x12.nutrientid = '221' AND
+x13.nutrientid = '255' AND
+x16.nutrientid = '291' AND
+x17.nutrientid = '301' AND
+x18.nutrientid = '303' AND
+x19.nutrientid = '304' AND
+x20.nutrientid = '305' AND
+x21.nutrientid = '306' AND
+x22.nutrientid = '307' AND
+x23.nutrientid = '309' AND
+x24.nutrientid = '312' AND
+x25.nutrientid = '313' AND
+x26.nutrientid = '315' AND
+x27.nutrientid = '317' AND
+x28.nutrientid = '320' AND
+x29.nutrientid = '323' AND
+x30.nutrientid = '328' AND
+x33.nutrientid = '401' AND
+x34.nutrientid = '404' AND
+x35.nutrientid = '405' AND
+x36.nutrientid = '406' AND
+x37.nutrientid = '410' AND
+x38.nutrientid = '415' AND
+x39.nutrientid = '418' AND
+x14.nutrientid = '421' AND
+x40.nutrientid = '430' AND
+x41.nutrientid = '435' AND
+x42.nutrientid = '601' AND
+x43.nutrientid = '606' AND
+x44.nutrientid = '621' AND
+x45.nutrientid = '629' AND
+x46.nutrientid = '645' AND
+x47.nutrientid = '646' AND
+x48.nutrientid = '618' AND
+x49.nutrientid = '619' AND
+x50.nutrientid = '10006' AND
+x53.nutrientid = '10009' AND
+x55.nutrientid = '10011' AND
+x56.nutrientid = '10012' AND
+x57.nutrientid = '10013' AND
+x58.nutrientid = '10014'
+)
+) B
+WHERE A.foodid = B.foodid
+ORDER BY B.name;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE Select_mix_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+SET doc = '';
+--
+--SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' +CHAR(10) + '<nutrientid>' + Nutrientid + '</nutrientid>' +CHAR(10) + '<model>' + Model + '</model>' +CHAR(10) + '<note>' + Note + '</note>' +CHAR(10) + '</mix>' INTO doc FROM Mix WHERE mixid = v_MixId;
+SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '<nutrientid>' + Nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+--
+SET v_doc = doc + CHAR (10);
+--
+END
+/
+
+CREATE PROCEDURE Select_mixfood_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+DECLARE doc2 LONGVARCHAR;
+--
+SET doc = '';
+SET doc2 = '';
+--
+SELECT '<mix_food_list>' INTO doc FROM (VALUES (0));
+--
+SET doc2 = doc2 + doc + CHAR(10) ;
+--
+SET doc = '';
+------------------------------------------------------------
+FOR SELECT a.foodid as id ,name FROM mixfood a, food b WHERE a.foodid = b.foodid  AND a.mixid = v_MixId  DO 
+--
+SET doc = doc + '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+name +'</name>' +CHAR (10);
+--
+SET doc2 = doc2 + doc;
+--
+SET doc = '';
+--
+FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND   x.mixid = v_MixId AND x.foodid = id AND y.nutrientid != '675' AND  y.nutrientid != '851' ORDER BY foodid, label DO
+--
+SET doc = doc + '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' +CHAR (10);
+--
+END FOR;
+--
+SET doc2 = doc2 + doc;
+--
+SET doc = '</food>' + CHAR (10);
+--
+SET doc2 = doc2 + doc;
+--
+SET doc = '';
+--
+END FOR;
+--
+SET doc = '</mix_food_list>';
+--
+SET v_doc = doc2 + doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Select_nutrient_constraint_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+DECLARE counter INTEGER;
+--
+SET doc = '';
+--
+SET counter = 0;
+--
+SELECT count(nutrientid, relationshipid, b) INTO counter FROM nutrientconstraint WHERE mixid = v_mixid;
+--
+IF counter > 0 THEN
+--
+SET doc = doc + '<nutrient_constraint_list>' + CHAR (10);
+--
+FOR select nutrientid, relationshipid, b from nutrientconstraint  WHERE mixid = v_mixid DO
+--
+SET doc = doc + '<nutrient_constraint>' + CHAR (10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</nutrient_constraint>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</nutrient_constraint_list>';
+--
+END IF;
+--
+SET v_doc = doc;
+--
+END
+/
+
+CREATE PROCEDURE Select_foodnutrient_constraint_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+DECLARE counter INTEGER;
+--
+SET doc = '';
+--
+SET counter = 0;
+--
+SELECT count(foodid , nutrientid, relationshipid, b) INTO counter FROM foodnutrientconstraint a WHERE a.mixid = v_mixid;
+--
+IF counter > 0 THEN
+--
+SET doc = doc + '<food_nutrient_constraint_list>' + CHAR (10);
+--
+FOR select foodid , nutrientid, relationshipid, b from foodnutrientconstraint a WHERE a.mixid = v_mixid DO
+--
+SET doc = doc + '<food_nutrient_constraint>' + CHAR (10) + '<foodid>' + foodid + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</food_nutrient_constraint>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</food_nutrient_constraint_list>';
+--
+END IF;
+--
+SET v_doc = doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Select_foodnutrient_ratio_constraint_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+DECLARE counter INTEGER;
+--
+SET doc = '';
+--
+SET counter = 0;
+--
+SELECT count(food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b) INTO counter FROM foodnutrientratio WHERE mixid = v_mixid;
+--
+IF counter > 0 THEN
+--
+SET doc = doc + '<food_nutrient_ratio_constraint_list>' + CHAR (10);
+--
+FOR select food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b from foodnutrientratio WHERE mixid = v_mixid DO
+--
+SET doc = doc + '<food_nutrient_ratio_constraint>' + CHAR (10) + '<foodid>' + food_id_1 + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrient_id_1 + '</nutrientid>' + CHAR (10) + '<foodid>' + food_id_2 + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrient_id_2 + '</nutrientid>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</food_nutrient_ratio_constraint>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</food_nutrient_ratio_constraint_list>';
+--
+END IF;
+--
+SET v_doc = doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Select_nutrient_ratio_constraint_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+DECLARE counter INTEGER;
+--
+SET doc = '';
+--
+SET counter = 0;
+--
+SELECT count(nutrient_id_1, nutrient_id_2, relationshipid, a, b) INTO counter FROM nutrientratio WHERE mixid = v_mixid;
+--
+IF counter > 0 THEN
+--
+SET doc = doc + '<nutrient_ratio_constraint_list>' + CHAR (10);
+--
+FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from nutrientratio WHERE mixid = v_mixid DO
+--
+SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid>' + nutrient_id_1 + '</nutrientid>' + CHAR (10)  + '<nutrientid>' + nutrient_id_2 + '</nutrientid>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</nutrient_ratio_constraint>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</nutrient_ratio_constraint_list>';
+--
+END IF;
+--
+SET v_doc = doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Select_nutrient_percent_constraint_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+DECLARE counter INTEGER;
+--
+SET doc = '';
+--
+SET counter = 0;
+--
+SELECT count(foodid, nutrientid, relationshipid, b) INTO counter FROM percentconstraint WHERE mixid = v_mixid;
+--
+IF counter > 0 THEN
+--
+SET doc = doc + '<nutrient_percent_constraint_list>' + CHAR (10);
+--
+FOR select foodid, nutrientid, relationshipid, b from percentconstraint WHERE mixid = v_mixid DO
+--
+SET doc = doc + '<nutrient_percent_constraint>' + CHAR (10)  + '<foodid>' + foodid + '</foodid>' + CHAR (10)  + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</nutrient_percent_constraint>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</nutrient_percent_constraint_list>';
+--
+END IF;
+--
+SET v_doc = doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Export_xml (IN v_MixId LONGVARCHAR)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE TABLE testTable ( txt LONGVARCHAR);
+DECLARE doc LONGVARCHAR;
+DECLARE doc2 LONGVARCHAR;
+--
+SET doc = '';
+SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack.xsd''>' + CHAR (10);
+--
+call Select_mix_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + doc;
+--
+call Select_mixfood_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + doc;
+--
+call Select_nutrient_constraint_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + CHAR (10) + doc;
+--
+call Select_foodnutrient_constraint_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + CHAR (10)  + doc;
+--
+call Select_foodnutrient_ratio_constraint_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + CHAR (10) + doc;
+--
+call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + CHAR (10) + doc;
+--
+call Select_nutrient_percent_constraint_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + CHAR (10) + doc;
+--
+SET doc2 = doc2 + CHAR (10) + '</snack>';
+--
+INSERT INTO testTable (txt) VALUES (doc2);
+--
+BEGIN ATOMIC 
+--
+DECLARE result CURSOR
+FOR
+SELECT *
+FROM testTable;
+--
+OPEN result;
+--
+END;
+--
+END
+/
+
+
+CREATE PROCEDURE Insert_all_foods (
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+FOR SELECT foodid FROM food  DO
+--
+CALL MixFood_Insert(v_Mixid, foodid);
+--
+END FOR;
+--
+END
+/
+
+
 

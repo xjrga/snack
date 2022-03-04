@@ -6,8 +6,8 @@ DECLARE v_FoodIdNew LONGVARCHAR;
 DECLARE v_FoodNom LONGVARCHAR;
 DECLARE v_CategoryId LONGVARCHAR;
 --
-SET v_FoodIdNew = generateId('f','');
 SET v_FoodNom = getFoodName(v_FoodId);
+SET v_FoodIdNew = generateId();
 -- Other category is 5000
 SET v_CategoryId = '5000';
 --

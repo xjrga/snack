@@ -1,6 +1,6 @@
 CREATE PROCEDURE percentnutrient_rhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --
@@ -11,6 +11,7 @@ FOR
 SELECT mixid,
        foodid,
        nutrientid,
+       relationshipid,
        b
 FROM percentconstraint
 WHERE mixid = v_mixid

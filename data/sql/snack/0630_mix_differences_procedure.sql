@@ -1,7 +1,7 @@
 CREATE PROCEDURE Mix_getDiff (
 --
-IN v_MixId_1 INTEGER,
-IN v_MixId_2 INTEGER,
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
 IN v_Precision INTEGER
 --
 )

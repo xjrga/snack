@@ -67,7 +67,7 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
         return false;
     }
 
-    public void reload(Integer MixId, Integer LifeStageId) {
+    public void reload(String MixId, Integer LifeStageId) {
         Vector row = null;
         Vector table = new Vector();
         try {

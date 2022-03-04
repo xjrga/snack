@@ -86,7 +86,7 @@ public class TableModelNutrientConstraints extends DefaultTableModel {
         return false;
     }
 
-    public void reload(Integer mixid) {
+    public void reload(String mixid) {
         Vector row = null;
         Vector table = new Vector();
         try {
@@ -94,7 +94,7 @@ public class TableModelNutrientConstraints extends DefaultTableModel {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
-                Integer mixid2 = (Integer) rowm.get("MIXID");
+                String mixid2 = (String) rowm.get("MIXID");
                 String nutrientid = (String) rowm.get("NUTRIENTID");
                 Integer relationid = (Integer) rowm.get("RELATIONSHIPID");
                 String nutrient = (String) rowm.get("NUTRIENT");

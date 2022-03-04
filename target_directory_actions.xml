@@ -18,8 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 
 
-<project name="snack" default="">
-    <property name="version" value="730"/>        
+<project name="snack" default="unzip, run">
+    <property name="version" value="740"/>        
     <target name="1. unzip">
         <!-- unzip files -->
         <unzip src="target/${ant.project.name}-${version}-app.zip" dest="target" overwrite="true"/>                                        
@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <target name="2. run">
         <!-- run application -->                
         <java jar="target/${ant.project.name}-${version}/${ant.project.name}-${version}.jar" fork="true" failonerror="true" maxmemory="128m">
+            <classpath>
+                <pathelement location="target/${ant.project.name}-${version}/${ant.project.name}-${version}.jar"/>                
+            </classpath>
         </java>
     </target>    
 </project>

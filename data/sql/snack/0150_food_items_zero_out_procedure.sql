@@ -4,11 +4,7 @@ modifies sql data BEGIN atomic
 --
 FOR SELECT foodid FROM food DO
 --
-FOR SELECT nutrientid FROM nutrient DO
---
-call FoodFact_Merge (foodid,nutrientid,0);
---
-END FOR;
+call FoodFact_ZeroOut_FoodId(foodid);
 --
 END FOR;
 --

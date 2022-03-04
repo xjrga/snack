@@ -88,7 +88,7 @@ public class ExportFoodMixes {
             Iterator iteratorMix = all.iterator();
             while (iteratorMix.hasNext()) {
                 HashMap rowMap = (HashMap) iteratorMix.next();
-                MixDataObject mixDataObject = new MixDataObject((int) rowMap.get("MIXID"), (String) rowMap.get("NAME"));
+                MixDataObject mixDataObject = new MixDataObject((String) rowMap.get("MIXID"), (String) rowMap.get("NAME"));
                 //Set mix name
                 createNewRow();
                 fillRowCellWithMixName(mixDataObject.getName());
@@ -225,11 +225,4 @@ public class ExportFoodMixes {
             System.out.println(nutrient.ordinal());
         }
     }
-
-    public static void main(String[] args) {
-        DbLink dbLink = new DbLink();
-        ExportFoodMixes a = new ExportFoodMixes(dbLink);
-        a.hello();
-    }
-
 }

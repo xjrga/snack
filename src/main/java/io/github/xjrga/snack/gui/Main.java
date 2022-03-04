@@ -1,81 +1,92 @@
 package io.github.xjrga.snack.gui;
 
-import io.github.xjrga.snack.other.ExportNutrientLookup;
-import io.github.xjrga.snack.other.CunninghamFormula;
-import io.github.xjrga.snack.other.ExportFoodList;
-import io.github.xjrga.snack.other.TableHeaderProtein;
-import io.github.xjrga.snack.other.TableHeaderFoodList;
-import io.github.xjrga.snack.other.TableHeaderRdaDiff;
-import io.github.xjrga.snack.other.DigestibleCarbohydrate;
-import io.github.xjrga.snack.other.NumberCheck;
-import io.github.xjrga.snack.other.TableHeaderVitamins;
-import io.github.xjrga.snack.other.GoldenRatio;
-import io.github.xjrga.snack.other.TableHeaderWater;
-import io.github.xjrga.snack.other.TableHeaderFats;
-import io.github.xjrga.snack.other.TableHeaderElectrolytes;
-import io.github.xjrga.snack.other.GlycemicIndexRange;
-import io.github.xjrga.snack.other.TableHeaderCost;
-import io.github.xjrga.snack.other.ExportFoodMixes;
-import io.github.xjrga.snack.other.TableHeaderCarbs;
-import io.github.xjrga.snack.other.MacroNutrientEnergyValues;
-import io.github.xjrga.snack.other.ExportMixComparison;
-import io.github.xjrga.snack.other.GlycemicLoad;
-import io.github.xjrga.snack.other.KatchMcArdleFormula;
-import io.github.xjrga.snack.other.TableHeaderEnergy;
-import io.github.xjrga.snack.other.TableHeaderMinerals;
-import io.github.xjrga.snack.other.ExportRdaCheck;
-import io.github.xjrga.snack.other.DoubleTableCellEditor;
-import io.github.xjrga.snack.other.ImageUtilities;
-import io.github.xjrga.snack.other.TableHeaderGlycemic;
-import io.github.xjrga.snack.other.MinimumNutrientRequirements;
-import io.github.xjrga.snack.other.TableHeaderNutrientLookup;
-import io.github.xjrga.snack.model.ListModelCategory;
-import io.github.xjrga.snack.model.TreeModelFood;
-import io.github.xjrga.snack.model.TableModelWater;
-import io.github.xjrga.snack.model.ComboBoxModelFood;
-import io.github.xjrga.snack.model.TableModelVitamins;
-import io.github.xjrga.snack.model.TableModelProtein;
-import io.github.xjrga.snack.model.ListModelFood2;
-import io.github.xjrga.snack.model.TableModelNutrientRatioConstraints;
-import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
-import io.github.xjrga.snack.model.TableModelNutrientLookup;
-import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
-import io.github.xjrga.snack.model.TableModelMinerals;
-import io.github.xjrga.snack.model.TableModelCost;
-import io.github.xjrga.snack.model.TableModelElectrolytes;
-import io.github.xjrga.snack.model.TableModelPercentNutrientConstraints;
-import io.github.xjrga.snack.model.TableModelNutrientConstraints;
-import io.github.xjrga.snack.model.ListModelMix1;
-import io.github.xjrga.snack.model.TableModelCarbs;
-import io.github.xjrga.snack.model.TableModelEnergy;
-import io.github.xjrga.snack.model.TableModelGlycemic;
-import io.github.xjrga.snack.model.ComboBoxModelRelationships;
-import io.github.xjrga.snack.model.TableModelFoodList;
-import io.github.xjrga.snack.model.StringModelMixPct;
-import io.github.xjrga.snack.model.TableModelFoodNutrientConstraints;
-import io.github.xjrga.snack.model.TableModelMixComparison;
-import io.github.xjrga.snack.model.ComboBoxModelNutrients;
-import io.github.xjrga.snack.model.TableModelDataInput;
-import io.github.xjrga.snack.model.TableModelResults;
-import io.github.xjrga.snack.model.TableModelCheckCoefficients;
-import io.github.xjrga.snack.model.ComboBoxModelLifeStage;
-import io.github.xjrga.snack.model.TableModelRdaCheck;
-import io.github.xjrga.snack.model.TableModelFat;
-import io.github.xjrga.snack.model.ListModelSelectedFood;
-import io.github.xjrga.snack.model.TableModelFoodNutrientRatioConstraints;
-import io.github.xjrga.snack.model.ListModelMix;
-import io.github.xjrga.snack.model.ListModelFood;
-import io.github.xjrga.snack.dataobject.FoodCategoryDataObject;
-import io.github.xjrga.snack.dataobject.FoodDataObject;
-import io.github.xjrga.snack.dataobject.NutrientDataObject;
-import io.github.xjrga.snack.dataobject.RelationshipDataObject;
-import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
-import io.github.xjrga.snack.dataobject.MixDataObject;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.data.Nutrient;
+import io.github.xjrga.snack.dataobject.FoodCategoryDataObject;
+import io.github.xjrga.snack.dataobject.FoodDataObject;
+import io.github.xjrga.snack.dataobject.MixDataObject;
+import io.github.xjrga.snack.dataobject.NutrientDataObject;
+import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
+import io.github.xjrga.snack.dataobject.RelationshipDataObject;
+import io.github.xjrga.snack.lp.LpModel;
+import io.github.xjrga.snack.model.ComboBoxModelFood;
+import io.github.xjrga.snack.model.ComboBoxModelLifeStage;
+import io.github.xjrga.snack.model.ComboBoxModelNutrients;
+import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
+import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
+import io.github.xjrga.snack.model.ComboBoxModelRelationships;
+import io.github.xjrga.snack.model.ListModelCategory;
+import io.github.xjrga.snack.model.ListModelFood;
+import io.github.xjrga.snack.model.ListModelFood2;
+import io.github.xjrga.snack.model.ListModelMix;
+import io.github.xjrga.snack.model.ListModelMix1;
+import io.github.xjrga.snack.model.ListModelSelectedFood;
+import io.github.xjrga.snack.model.StringModelMixPct;
+import io.github.xjrga.snack.model.TableModelCarbs;
+import io.github.xjrga.snack.model.TableModelCheckCoefficients;
+import io.github.xjrga.snack.model.TableModelCost;
+import io.github.xjrga.snack.model.TableModelDataInput;
+import io.github.xjrga.snack.model.TableModelElectrolytes;
+import io.github.xjrga.snack.model.TableModelEnergy;
+import io.github.xjrga.snack.model.TableModelFat;
+import io.github.xjrga.snack.model.TableModelFoodList;
+import io.github.xjrga.snack.model.TableModelFoodNutrientConstraints;
+import io.github.xjrga.snack.model.TableModelFoodNutrientRatioConstraints;
+import io.github.xjrga.snack.model.TableModelGlycemic;
+import io.github.xjrga.snack.model.TableModelMinerals;
+import io.github.xjrga.snack.model.TableModelMixComparison;
+import io.github.xjrga.snack.model.TableModelNutrientConstraints;
+import io.github.xjrga.snack.model.TableModelNutrientLookup;
+import io.github.xjrga.snack.model.TableModelNutrientRatioConstraints;
+import io.github.xjrga.snack.model.TableModelPercentNutrientConstraints;
+import io.github.xjrga.snack.model.TableModelProtein;
+import io.github.xjrga.snack.model.TableModelRdaCheck;
+import io.github.xjrga.snack.model.TableModelResults;
+import io.github.xjrga.snack.model.TableModelVitamins;
+import io.github.xjrga.snack.model.TableModelWater;
+import io.github.xjrga.snack.model.TreeModelFood;
+import io.github.xjrga.snack.other.Alpha_linolenic_acid_required;
+import io.github.xjrga.snack.other.CunninghamFormula;
+import io.github.xjrga.snack.other.DigestibleCarbohydrate;
+import io.github.xjrga.snack.other.DoubleTableCellEditor;
+import io.github.xjrga.snack.other.ExportFoodList;
+import io.github.xjrga.snack.other.ExportFoodMixes;
+import io.github.xjrga.snack.other.ExportMixComparison;
+import io.github.xjrga.snack.other.ExportNutrientLookup;
+import io.github.xjrga.snack.other.ExportRdaCheck;
+import io.github.xjrga.snack.other.GlycemicIndexRange;
+import io.github.xjrga.snack.other.GlycemicLoad;
+import io.github.xjrga.snack.other.GoldenRatio;
+import io.github.xjrga.snack.other.ImageUtilities;
+import io.github.xjrga.snack.other.KatchMcArdleFormula;
+import io.github.xjrga.snack.other.MacroNutrientEnergyValues;
+import io.github.xjrga.snack.other.MinimumNutrientRequirements;
+import io.github.xjrga.snack.other.NumberCheck;
+import io.github.xjrga.snack.other.TableHeaderCarbs;
+import io.github.xjrga.snack.other.TableHeaderCost;
+import io.github.xjrga.snack.other.TableHeaderElectrolytes;
+import io.github.xjrga.snack.other.TableHeaderEnergy;
+import io.github.xjrga.snack.other.TableHeaderFats;
+import io.github.xjrga.snack.other.TableHeaderFoodList;
+import io.github.xjrga.snack.other.TableHeaderGlycemic;
+import io.github.xjrga.snack.other.TableHeaderMinerals;
+import io.github.xjrga.snack.other.TableHeaderNutrientLookup;
+import io.github.xjrga.snack.other.TableHeaderProtein;
+import io.github.xjrga.snack.other.TableHeaderRdaDiff;
+import io.github.xjrga.snack.other.TableHeaderVitamins;
+import io.github.xjrga.snack.other.TableHeaderWater;
+import io.github.xjrga.snack.other.Xml_receive;
+import io.github.xjrga.snack.other.Xml_send;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -87,19 +98,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-import javax.swing.tree.DefaultMutableTreeNode;
-import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.data.Nutrient;
-import io.github.xjrga.snack.lp.LpModel;
-import io.github.xjrga.snack.other.Alpha_linolenic_acid_required;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.net.URISyntaxException;
 import javax.swing.text.JTextComponent;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Main {
 
@@ -123,6 +127,7 @@ public class Main {
     private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrient = new ComboBoxModelRelationships(dbLink);
     private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrientRatio = new ComboBoxModelRelationships(dbLink);
     private final ComboBoxModelRelationships modelComboBox_RelationshipAtFoodNutrientRatio = new ComboBoxModelRelationships(dbLink);
+    private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrientPercent = new ComboBoxModelRelationships(dbLink);
     private final DefaultListModel modelListHighScore = new DefaultListModel();
     private final JButton buttonCategoriesAdd = new JButton("+");
     private final JButton buttonCategoriesDelete = new JButton("-");
@@ -208,6 +213,7 @@ public class Main {
     private final JComboBox comboBoxNutrientRatioRelationship = new JComboBox();
     private final JComboBox comboBoxPercentNutrientConstraintFood = new JComboBox();
     private final JComboBox comboBoxPercentNutrientConstraintNutrient = new JComboBox();
+    private final JComboBox comboBoxPercentNutrientRelationship = new JComboBox();
     private final JFrame frameSnack = new JFrame();
     private final JList listAllFoodItems = new JList();
     private final JList listCategories = new JList();
@@ -220,7 +226,8 @@ public class Main {
     private final JList listRdaCheck = new JList();
     private final JList listSelectedFood = new JList();
     private final JMenu menuData = new JMenu();
-    private final JMenu menuExport = new JMenu();
+    private final JMenu menu_spreadsheet = new JMenu();
+    private final JMenu menu_exchange = new JMenu();
     private final JMenu menuHelp = new JMenu();
     private final JMenu menuProgram = new JMenu();
     private final JMenu menuSettings = new JMenu();
@@ -242,6 +249,8 @@ public class Main {
     private final JMenuItem menuItemExportMixCompare = new JMenuItem();
     private final JMenuItem menuItemExportNutrientLookup = new JMenuItem();
     private final JMenuItem menuItemExportRdaCompare = new JMenuItem();
+    private final JMenuItem menui_import_message = new JMenuItem();
+    private final JMenuItem menui_export_message = new JMenuItem();
     private final JMenuItem menuItemGuide = new JMenuItem();
     private final JPanel panelStatusBar = new JPanel();
     private final JTable tableGlycemic = new JTable();
@@ -340,8 +349,10 @@ public class Main {
     private JTable tableRdaCheck;
     private String foodNameText;
     private JScrollPane tableNutrientInputScrollPane;
+    private final JFileChooser fileChooser;
 
     public Main() {
+        fileChooser = new JFileChooser();
         FormLayout layout = new FormLayout("min:grow", //columns
                 "fill:min:grow,1dlu,min" //rows
         );
@@ -394,7 +405,7 @@ public class Main {
         reloadNutrientComboBoxes();
         reloadRelationshipComboBoxes();
         reloadMixes();
-        reloadTableModelConstraints(-1);
+        reloadTableModelConstraints("");
         resizeTables();
         checkBoxCompleteProtein.setName("Complete Protein");
         checkBoxProtein.setName("Protein");
@@ -449,13 +460,13 @@ public class Main {
         mapConstraintCheckboxes.put(Nutrient.PROTEIN.getNumber(), checkBoxProtein);
         mapConstraintCheckboxes.put(Nutrient.FAT.getNumber(), checkBoxFat);
         mapConstraintCheckboxes.put(Nutrient.CHOLESTEROL.getNumber(), checkBoxCholesterol);
-        mapConstraintCheckboxes.put(Nutrient.SATURATED.getNumber(), checkBoxSaturated);
+        mapConstraintCheckboxes.put(Nutrient.SFA.getNumber(), checkBoxSaturated);
         mapConstraintCheckboxes.put(Nutrient.DHA.getNumber(), checkBoxDHA);
         mapConstraintCheckboxes.put(Nutrient.EPA.getNumber(), checkBoxEPA);
-        mapConstraintCheckboxes.put(Nutrient.MONOUNSATURATED.getNumber(), checkBoxMonounsaturated);
-        mapConstraintCheckboxes.put(Nutrient.POLYUNSATURATED.getNumber(), checkBoxPolyunsaturated);
+        mapConstraintCheckboxes.put(Nutrient.MUFA.getNumber(), checkBoxMonounsaturated);
+        mapConstraintCheckboxes.put(Nutrient.PUFA.getNumber(), checkBoxPolyunsaturated);
         mapConstraintCheckboxes.put(Nutrient.LINOLEIC.getNumber(), checkBoxLinoleic);
-        mapConstraintCheckboxes.put(Nutrient.ALPHALINOLENIC.getNumber(), checkBoxAlphaLinolenic);
+        mapConstraintCheckboxes.put(Nutrient.LINOLENIC.getNumber(), checkBoxAlphaLinolenic);
         mapConstraintCheckboxes.put(Nutrient.DIGESTIBLECARBOHYDRATE.getNumber(), checkBoxDigestibleCarbs);
         mapConstraintCheckboxes.put(Nutrient.FIBER.getNumber(), checkBoxFiber);
         mapConstraintCheckboxes.put(Nutrient.VITAMINA.getNumber(), checkBoxVitaminA);
@@ -465,7 +476,7 @@ public class Main {
         mapConstraintCheckboxes.put(Nutrient.THIAMIN.getNumber(), checkBoxThiamin);
         mapConstraintCheckboxes.put(Nutrient.RIBOFLAVIN.getNumber(), checkBoxRiboflavin);
         mapConstraintCheckboxes.put(Nutrient.NIACIN.getNumber(), checkBoxNiacin);
-        mapConstraintCheckboxes.put(Nutrient.PANTOTHENIC.getNumber(), checkBoxPantothenic);
+        mapConstraintCheckboxes.put(Nutrient.PANTOTHENICACID.getNumber(), checkBoxPantothenic);
         mapConstraintCheckboxes.put(Nutrient.VITAMINB6.getNumber(), checkBoxVitaminB6);
         mapConstraintCheckboxes.put(Nutrient.VITAMINB12.getNumber(), checkBoxVitaminB12);
         mapConstraintCheckboxes.put(Nutrient.CHOLINE.getNumber(), checkBoxCholine);
@@ -524,7 +535,7 @@ public class Main {
         Main main = new Main();
     }
 
-    private void reloadTableModelConstraints(int mixId) {
+    private void reloadTableModelConstraints(String mixId) {
         modelTableNutrientConstraints.reload(mixId);
         resizeColumns_NutrientConstraintTableColumns();
         modelTableFoodNutrientConstraints.reload(mixId);
@@ -542,6 +553,7 @@ public class Main {
         modelComboBox_RelationshipAtFoodNutrient.reload();
         modelComboBox_RelationshipAtNutrientRatio.reload();
         modelComboBox_RelationshipAtFoodNutrientRatio.reload();
+        modelComboBox_RelationshipAtNutrientPercent.reload();
     }
 
     private JMenuBar getMenuBar() {
@@ -560,12 +572,15 @@ public class Main {
         menuTools.add(menuItemGlycemicLoad);
         menuTools.add(menuItemGlycemicIndexRange);
         menuTools.add(menu_item_alpha_linolenic_acid_required);
-        menuData.add(menuExport);
-        menuExport.add(menuItemExportFoodList);
-        menuExport.add(menuItemExportFoodMixes);
-        menuExport.add(menuItemExportMixCompare);
-        menuExport.add(menuItemExportRdaCompare);
-        menuExport.add(menuItemExportNutrientLookup);
+        menuData.add(menu_spreadsheet);
+        menuData.add(menu_exchange);
+        menu_spreadsheet.add(menuItemExportFoodList);
+        menu_spreadsheet.add(menuItemExportFoodMixes);
+        menu_spreadsheet.add(menuItemExportMixCompare);
+        menu_spreadsheet.add(menuItemExportRdaCompare);
+        menu_spreadsheet.add(menuItemExportNutrientLookup);
+        menu_exchange.add(menui_import_message);
+        menu_exchange.add(menui_export_message);
         menuHelp.add(menuItemGuide);
         menuHelp.add(menuItemCredits);
         menuHelp.add(menuItemAbout);
@@ -585,12 +600,15 @@ public class Main {
         menuItemGlycemicLoad.setText("Glycemic Load Of A Food Item");
         menu_item_alpha_linolenic_acid_required.setText("Alpha-Linolenic Acid Required");
         menuItemGlycemicIndexRange.setText("Glycemic Index Range Of A Food Item");
-        menuExport.setText("Export");
+        menu_spreadsheet.setText("Spreadsheet");
+        menu_exchange.setText("Exchange");
         menuItemExportFoodList.setText("Food List");
         menuItemExportFoodMixes.setText("Food Mixes");
         menuItemExportMixCompare.setText("Mix Comparison");
         menuItemExportRdaCompare.setText("RDA Check");
         menuItemExportNutrientLookup.setText("Nutrient Lookup");
+        menui_import_message.setText("Import");
+        menui_export_message.setText("Export");
         checkBoxResultRoundUp.setText("Round Up");
         menuItemConstraintsShownInList.setText("Nutrients Shown As Constraints");
         menuItemGuide.setText("Guide");
@@ -635,6 +653,12 @@ public class Main {
         });
         menuItemExportNutrientLookup.addActionListener((ActionEvent e) -> {
             event_menuItemNutrientLookupExport();
+        });
+        menui_export_message.addActionListener((ActionEvent e) -> {
+            event_send_message();
+        });
+        menui_import_message.addActionListener((ActionEvent e) -> {
+            event_receive_message();
         });
         menuItemGuide.addActionListener((ActionEvent e) -> {
             event_menuItemGuide();
@@ -846,7 +870,7 @@ public class Main {
         JComponent[] inputs = new JComponent[]{
             panel
         };
-        int optionValue = Message.showOptionDialog(inputs, "Daily Value (%DV) to Grams");
+        int optionValue = Message.showOptionDialog(inputs, "Pct Daily Value to Grams");
         if (optionValue == 0) {
             String s = dailyValuePct.getText();
             if (s != null && s.length() > 0) {
@@ -860,13 +884,13 @@ public class Main {
                     sb.append(" ");
                     sb.append(nutrientDataObject.getNutrdesc());
                     sb.append("\n");
-                    JTextArea textArea = new JTextArea(1, 20);
+                    JTextArea textArea = new JTextArea(1, 30);
                     textArea.setText(sb.toString());
                     textArea.setEditable(false);
                     inputs = new JComponent[]{
                         textArea
                     };
-                    Message.showOptionDialog(inputs, "Daily Value (%DV) to Grams");
+                    Message.showOptionDialog(inputs, "Pct Daily Value to Grams");
                 } else {
                     Message.showMessage("Numbers only");
                 }
@@ -997,7 +1021,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
-                Integer mixId = mix.getMixId();
+                String mixId = mix.getMixId();
                 dbLink.Mix_Update_Status(mixId, 0);
                 reloadMixes();
                 clearAllModels();
@@ -1007,7 +1031,7 @@ public class Main {
         }
     }
 
-    private void reloadStatusBar(Integer mixId) {
+    private void reloadStatusBar(String mixId) {
         panelStatusBar.removeAll();
         panelStatusBar.add(new JLabel(stringModelMixPct.reload(mixId)));
         panelStatusBar.revalidate();
@@ -1028,7 +1052,7 @@ public class Main {
             //Model minimizes this value (objective)
             String nutrientid = "10009";
             try {
-                Integer mixid = dbLink.Mix_Insert(mixnom);
+                String mixid = dbLink.Mix_Insert(mixnom);
                 dbLink.Mix_Update_NutrientId(mixid, nutrientid);
                 dbLink.Mix_Update_Other(mixid, model, note);
                 dbLink.Mix_Update_Status(mixid, 1);
@@ -1065,7 +1089,7 @@ public class Main {
         modelComboBoxLifeStage.setSelectedItem(new RdaLifeStageDataObject(22, "Daily Value"));
     }
 
-    private void reloadFoodComboBoxes(Integer mixId) {
+    private void reloadFoodComboBoxes(String mixId) {
         modelComboBox_FoodAtNutrient.reload(mixId);
         modelComboBox_FoodAtNutrientPct.reload(mixId);
         modelComboBox_0_FoodAtFoodNutrientRatio.reload(mixId);
@@ -1075,7 +1099,7 @@ public class Main {
     private void reloadTableModels() {
         if (isMixSelected()) {
             MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
-            Integer mixId = mixDataObject.getMixId();
+            String mixId = mixDataObject.getMixId();
             modelTableEnergy.reload(mixId);
             modelTableProtein.reload(mixId);
             modelTableFats.reload(mixId);
@@ -1225,11 +1249,11 @@ public class Main {
             if (optionValue == 0) {
                 try {
                     MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
-                    Integer mixId = mix.getMixId();
+                    String mixId = mix.getMixId();
                     dbLink.Mix_Delete(mixId);
                     reloadMixes();
                     clearAllModels();
-                    reloadStatusBar(-1);
+                    reloadStatusBar("");
                 } catch (SQLException e) {
 
                 }
@@ -1273,10 +1297,10 @@ public class Main {
         modelTableResults.setRowCount(0);
         modelTableMixDiff.setRowCount(0);
         modelTableRda.setRowCount(0);
-        modelComboBox_FoodAtNutrient.reload(-1);
-        modelComboBox_FoodAtNutrientPct.reload(-1);
-        modelComboBox_0_FoodAtFoodNutrientRatio.reload(-1);
-        modelComboBox_1_FoodAtFoodNutrientRatio.reload(-1);
+        modelComboBox_FoodAtNutrient.reload("");
+        modelComboBox_FoodAtNutrientPct.reload("");
+        modelComboBox_0_FoodAtFoodNutrientRatio.reload("");
+        modelComboBox_1_FoodAtFoodNutrientRatio.reload("");
         textAreaModel.setText("");
     }
 
@@ -1294,7 +1318,7 @@ public class Main {
             if (optionValue == 0) {
                 try {
                     String mixnom = input.getText();
-                    Integer mixId = mix.getMixId();
+                    String mixId = mix.getMixId();
                     dbLink.Mix_Update_Name(mixId, mixnom);
                     reloadMixes();
                     listMixes.setSelectedIndex(selectedIndex);
@@ -1309,7 +1333,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
-                Integer mixId = mix.getMixId();
+                String mixId = mix.getMixId();
                 dbLink.Mix_Duplicate(mixId);
                 reloadMixes();
             } catch (SQLException e) {
@@ -1630,7 +1654,7 @@ public class Main {
     private void reloadTableModelsJournal() {
         if (isMixJournalSelected()) {
             MixDataObject mixDataObject = (MixDataObject) listMixesJournal.getSelectedValue();
-            Integer mixId = mixDataObject.getMixId();
+            String mixId = mixDataObject.getMixId();
             modelTableResults.reload(mixId);
             modelTableJournalEnergy.reload(mixId);
             modelTableJournalProtein.reload(mixId);
@@ -1652,7 +1676,7 @@ public class Main {
         if (!listMixesJournal.isSelectionEmpty()) {
             try {
                 MixDataObject mix = (MixDataObject) listMixesJournal.getSelectedValue();
-                Integer mixId = mix.getMixId();
+                String mixId = mix.getMixId();
                 dbLink.Mix_Update_Status(mixId, 1);
                 reloadMixes();
                 clearAllModels();
@@ -2640,7 +2664,7 @@ public class Main {
         }
         if (isMixSelected()) {
             MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
-            Integer mixId = mixDataObject.getMixId();
+            String mixId = mixDataObject.getMixId();
             reloadTableModels();
             resizeTables();
         }
@@ -2833,7 +2857,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 730");
+        sb.append("This is build 740");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3343,26 +3367,28 @@ public class Main {
     private JPanel getPercentOfNutrientConstraint() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
-                "min,min,min,550px", //columns
+                "min,min,min,min,550px", //columns
                 "min,min,fill:min:grow,min" //rows
         );
         panel.setLayout(panelLayout);
         JScrollPane spTable = new JScrollPane(tableNutrientPercentConstraint);
         JPanel buttons = new JPanel();
         textFieldPercentNutrientConstraintQuantity.setMinimumSize(new Dimension(100, 25));
-        panel.add(comboBoxPercentNutrientConstraintFood, cc.xyw(1, 1, 4));
+        panel.add(comboBoxPercentNutrientConstraintFood, cc.xyw(1, 1, 5));
         panel.add(comboBoxPercentNutrientConstraintNutrient, cc.xy(1, 2));
-        panel.add(textFieldPercentNutrientConstraintQuantity, cc.xy(2, 2));
+        panel.add(comboBoxPercentNutrientRelationship, cc.xy(2, 2));
+        panel.add(textFieldPercentNutrientConstraintQuantity, cc.xy(3, 2));
         panel.add(new JLabel("%"), cc.xy(3, 2));
-        panel.add(spTable, cc.xyw(1, 3, 4));
+        panel.add(spTable, cc.xyw(1, 3, 5));
         buttons.add(buttonPercentNutrientConstraintAdd);
         buttons.add(buttonPercentNutrientConstraintDelete);
-        panel.add(buttons, cc.xyw(1, 4, 4));
+        panel.add(buttons, cc.xyw(1, 4, 5));
         spTable.setBorder(new TitledBorder("Percent of Nutrient Constraints"));
         comboBoxPercentNutrientConstraintNutrient.setMaximumRowCount(10);
         comboBoxPercentNutrientConstraintNutrient.setModel(modelComboBox_NutrientAtNutrientPctContraint);
         comboBoxPercentNutrientConstraintFood.setMaximumRowCount(10);
         comboBoxPercentNutrientConstraintFood.setModel(modelComboBox_FoodAtNutrientPct);
+        comboBoxPercentNutrientRelationship.setModel(modelComboBox_RelationshipAtNutrientPercent);
         tableNutrientPercentConstraint.getTableHeader().setReorderingAllowed(false);
         tableNutrientPercentConstraint.setModel(tableModelPercentNutrientConstraints);
         tableNutrientPercentConstraint.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -3382,10 +3408,11 @@ public class Main {
         if (isMixSelected()) {
             try {
                 int selectedRow = tableNutrientPercentConstraint.getSelectedRow();
-                Integer mixid = (Integer) tableNutrientPercentConstraint.getValueAt(selectedRow, 0);
+                String mixid = (String) tableNutrientPercentConstraint.getValueAt(selectedRow, 0);
                 String foodid = (String) tableNutrientPercentConstraint.getValueAt(selectedRow, 1);
                 String nutrientid = (String) tableNutrientPercentConstraint.getValueAt(selectedRow, 2);
-                dbLink.PercentNutrientConstraint_Delete(mixid, foodid, nutrientid);
+                Integer relationshipid = (Integer) tableNutrientPercentConstraint.getValueAt(selectedRow, 3);
+                dbLink.PercentNutrientConstraint_Delete(mixid, foodid, nutrientid, relationshipid);
                 tableModelPercentNutrientConstraints.reload(mixid);
                 resizeColumns_PercentNutrientConstraintTableColumns();
             } catch (SQLException e) {
@@ -3404,8 +3431,9 @@ public class Main {
                         MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
                         FoodDataObject foodDataObject = (FoodDataObject) comboBoxPercentNutrientConstraintFood.getSelectedItem();
                         NutrientDataObject nutrientDataObject = (NutrientDataObject) comboBoxPercentNutrientConstraintNutrient.getSelectedItem();
+                        RelationshipDataObject relationshipDataObject = (RelationshipDataObject) comboBoxPercentNutrientRelationship.getSelectedItem();
                         Double b = Double.parseDouble(textFieldPercentNutrientConstraintQuantity.getText());
-                        dbLink.PercentNutrientConstraint_Merge(mix.getMixId(), foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), b);
+                        dbLink.NutrientPercentConstraint_Merge(mix.getMixId(), foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b);
                         tableModelPercentNutrientConstraints.reload(mix.getMixId());
                         resizeColumns_PercentNutrientConstraintTableColumns();
                     } catch (SQLException e) {
@@ -3425,12 +3453,16 @@ public class Main {
         tableNutrientPercentConstraint.getColumnModel().getColumn(1).setMaxWidth(0);
         tableNutrientPercentConstraint.getColumnModel().getColumn(2).setMinWidth(0);
         tableNutrientPercentConstraint.getColumnModel().getColumn(2).setMaxWidth(0);
-        tableNutrientPercentConstraint.getColumnModel().getColumn(3).setMinWidth(480);
-        tableNutrientPercentConstraint.getColumnModel().getColumn(3).setMaxWidth(480);
-        tableNutrientPercentConstraint.getColumnModel().getColumn(4).setMinWidth(250);
-        tableNutrientPercentConstraint.getColumnModel().getColumn(4).setMaxWidth(250);
-        tableNutrientPercentConstraint.getColumnModel().getColumn(5).setMinWidth(50);
-        tableNutrientPercentConstraint.getColumnModel().getColumn(5).setMaxWidth(50);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(3).setMinWidth(0);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(3).setMaxWidth(0);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(4).setMinWidth(480);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(4).setMaxWidth(480);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(5).setMinWidth(250);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(5).setMaxWidth(250);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(6).setMinWidth(21);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(6).setMaxWidth(21);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(7).setMinWidth(50);
+        tableNutrientPercentConstraint.getColumnModel().getColumn(7).setMaxWidth(50);
     }
 
     private boolean isItReadyToAddPercentNutrientConstraint() {
@@ -3531,7 +3563,7 @@ public class Main {
         if (!e.getValueIsAdjusting()) {
             if (isMixSelected()) {
                 MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
-                Integer mixId = mixDataObject.getMixId();
+                String mixId = mixDataObject.getMixId();
                 modelListSelectedFood.reload(mixId);
                 reloadFoodComboBoxes(mixId);
                 reloadTableModelConstraints(mixId);
@@ -3543,7 +3575,7 @@ public class Main {
         }
     }
 
-    private String getLinearProgrammingModel(Integer mixId) {
+    private String getLinearProgrammingModel(String mixId) {
         String model = "";
         try {
             LinkedList all = (LinkedList) dbLink.Mix_Select_Other(mixId);
@@ -3556,7 +3588,7 @@ public class Main {
         return model;
     }
 
-    private String getNote(Integer mixId) {
+    private String getNote(String mixId) {
         String note = "";
         try {
             LinkedList all = (LinkedList) dbLink.Mix_Select_Other(mixId);
@@ -3590,9 +3622,9 @@ public class Main {
     private void reloadMixComparison() {
         if (isListCompareASelected() && isListCompareBSelected()) {
             MixDataObject mix1 = (MixDataObject) listCompareA.getSelectedValue();
-            Integer mixId1 = mix1.getMixId();
+            String mixId1 = mix1.getMixId();
             MixDataObject mix2 = (MixDataObject) listCompareB.getSelectedValue();
-            Integer mixId2 = mix2.getMixId();
+            String mixId2 = mix2.getMixId();
             modelTableMixDiff.reload(mixId1, mixId2);
             resizeColumns_MixComparisonTable();
         }
@@ -3785,7 +3817,7 @@ public class Main {
             FoodDataObject food = (FoodDataObject) node.getUserObject();
             if (node.isLeaf()) {
                 try {
-                    Integer mixId = mix.getMixId();
+                    String mixId = mix.getMixId();
                     dbLink.MixFood_Insert(mixId, food.getFoodId());
                     modelListSelectedFood.reload(mixId);
                     reloadFoodComboBoxes(mixId);
@@ -3804,7 +3836,7 @@ public class Main {
                 try {
                     MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
                     FoodDataObject foodDataObject = (FoodDataObject) listSelectedFood.getSelectedValue();
-                    Integer mixId = mix.getMixId();
+                    String mixId = mix.getMixId();
                     dbLink.MixFood_Delete(mixId, foodDataObject.getFoodId());
                     modelListSelectedFood.reload(mixId);
                     reloadFoodComboBoxes(mixId);
@@ -3843,7 +3875,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
-                Integer mixId = mix.getMixId();
+                String mixId = mix.getMixId();
                 textAreaModel.setText("");
                 LpModel lpModel = new LpModel();
                 lpModel.setComponent(getNoFeasibleSolutionPanel());
@@ -3896,7 +3928,7 @@ public class Main {
                     HashMap row = (HashMap) percentnutrientRhsList.get(i);
                     String foodid = (String) row.get("FOODID");
                     String nutrientid = (String) row.get("NUTRIENTID");
-                    Integer relationshipid = 3;
+                    Integer relationshipid = (Integer) row.get("RELATIONSHIPID");;
                     Double b = (double) row.get("B");
                     lpModel.addConstraint(dbLink.percentnutrient_lhs(mixId, foodid, nutrientid, b), relationshipid, 0);
                 }
@@ -3985,7 +4017,7 @@ public class Main {
         }
     }
 
-    private String getFoodLegend(Integer mixId) throws SQLException {
+    private String getFoodLegend(String mixId) throws SQLException {
         StringBuilder sb = new StringBuilder();
         Object[] objects = modelListSelectedFood.toArray();
         int size = objects.length;
@@ -4059,7 +4091,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 int selectedRow = tableNutrientConstraint.getSelectedRow();
-                Integer mixid = (Integer) tableNutrientConstraint.getValueAt(selectedRow, 0);
+                String mixid = (String) tableNutrientConstraint.getValueAt(selectedRow, 0);
                 String nutrientid = (String) tableNutrientConstraint.getValueAt(selectedRow, 1);
                 Integer relationshipid = (Integer) tableNutrientConstraint.getValueAt(selectedRow, 2);
                 dbLink.NutrientConstraint_Delete(mixid, nutrientid, relationshipid);
@@ -4147,7 +4179,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 int selectedRow = tableFoodNutrientConstraint.getSelectedRow();
-                Integer mixid = (Integer) tableFoodNutrientConstraint.getValueAt(selectedRow, 0);
+                String mixid = (String) tableFoodNutrientConstraint.getValueAt(selectedRow, 0);
                 String foodid = (String) tableFoodNutrientConstraint.getValueAt(selectedRow, 1);
                 String nutrientid = (String) tableFoodNutrientConstraint.getValueAt(selectedRow, 2);
                 Integer relationshipid = (Integer) tableFoodNutrientConstraint.getValueAt(selectedRow, 3);
@@ -4287,7 +4319,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 int selectedRow = tableNutrientRatio.getSelectedRow();
-                Integer mixid = (Integer) tableNutrientRatio.getValueAt(selectedRow, 0);
+                String mixid = (String) tableNutrientRatio.getValueAt(selectedRow, 0);
                 String nutrientidA = (String) tableNutrientRatio.getValueAt(selectedRow, 1);
                 String nutrientidB = (String) tableNutrientRatio.getValueAt(selectedRow, 2);
                 Integer relationshipid = (Integer) tableNutrientRatio.getValueAt(selectedRow, 3);
@@ -4391,7 +4423,7 @@ public class Main {
         if (isMixSelected()) {
             try {
                 int selectedRow = tableFoodNutrientRatio.getSelectedRow();
-                Integer mixid = (Integer) tableFoodNutrientRatio.getValueAt(selectedRow, 0);
+                String mixid = (String) tableFoodNutrientRatio.getValueAt(selectedRow, 0);
                 String foodidA = (String) tableFoodNutrientRatio.getValueAt(selectedRow, 1);
                 String nutrientidA = (String) tableFoodNutrientRatio.getValueAt(selectedRow, 2);
                 String foodidB = (String) tableFoodNutrientRatio.getValueAt(selectedRow, 3);
@@ -4539,7 +4571,7 @@ public class Main {
             }
         }
     }
-    
+
     private void event_menu_item_n3_fatty_acid_recommendations() {
         JTextField energy = new JTextField();
         JComponent[] inputs = new JComponent[]{
@@ -4555,7 +4587,7 @@ public class Main {
                 checkNumber.addToUncheckedList(s);
                 if (checkNumber.pass()) {
                     Double energy_in_kcal = Double.valueOf(s);
-                    final Alpha_linolenic_acid_required n3_fatty_acid_recommendation = new Alpha_linolenic_acid_required(energy_in_kcal);                    
+                    final Alpha_linolenic_acid_required n3_fatty_acid_recommendation = new Alpha_linolenic_acid_required(energy_in_kcal);
                     BigDecimal ala_low = n3_fatty_acid_recommendation.get_low_in_grams();
                     BigDecimal ala_high = n3_fatty_acid_recommendation.get_high_in_grams();
                     sb.append("Alpha-linolenic acid (ALA) required is between ");
@@ -4693,14 +4725,17 @@ public class Main {
             sb.append("--------------------------");
             sb.append("\n");
             for (int i = 0; i < tableNutrientPercentConstraint.getRowCount(); i++) {
-                String food = (String) tableNutrientPercentConstraint.getValueAt(i, 3);
-                String nutrient = (String) tableNutrientPercentConstraint.getValueAt(i, 4);
-                Double constraint = (Double) tableNutrientPercentConstraint.getValueAt(i, 5);
+                String food = (String) tableNutrientPercentConstraint.getValueAt(i, 4);
+                String nutrient = (String) tableNutrientPercentConstraint.getValueAt(i, 5);
+                String relationship = (String) tableNutrientPercentConstraint.getValueAt(i, 6);
+                Double constraint = (Double) tableNutrientPercentConstraint.getValueAt(i, 7);
                 sb.append(nutrient);
                 sb.append(" contributed to the mix by ");
                 sb.append(food);
                 sb.append("\n");
                 sb.append("should be ");
+                sb.append(relationship);
+                sb.append(" ");
                 sb.append(constraint);
                 sb.append("% of all ");
                 sb.append(nutrient);
@@ -4811,5 +4846,59 @@ public class Main {
         }
         sb.append("2. Add a food item");
         return sb.toString();
-    }   
+    }
+
+    private void event_send_message() {
+        if (isMixSelected()) {
+            try {
+                MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        Xml_send send = new Xml_send(dbLink, mix.getMixId());
+                        show_message_sent();
+                    }
+                }.start();
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    private void show_message_sent() {
+        JComponent[] inputs = new JComponent[]{
+            new JLabel("Data exchange document was created.")
+        };
+        Message.showOptionDialog(inputs, "Data Exchange");
+    }
+
+    private void event_receive_message() {
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Xml Document", "xml"));
+        int returnVal = fileChooser.showOpenDialog(frameSnack);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            fileChooser.setCurrentDirectory(new File(path));
+            new Thread() {
+                @Override
+                public void run() {
+                    Xml_receive receive = new Xml_receive();
+                    receive.import_snack_data(path);
+                    reloadMixes();
+                    reloadFoodItems();
+                    listMixes.setSelectedIndex(listMixes.getLastVisibleIndex());
+                    event_buttonSolve();
+                    show_message_received();
+                }
+            }.start();
+        }
+    }
+
+    private void show_message_received() {
+        JComponent[] inputs = new JComponent[]{
+            new JLabel("Data exchange document was imported.")
+        };
+        Message.showOptionDialog(inputs, "Data Exchange");
+    }
 }

@@ -26,20 +26,20 @@ public enum Nutrient {
     THIAMIN("404", "Thiamin (mg)", "Thiamin"),
     RIBOFLAVIN("405", "Riboflavin (mg)", "Riboflavin"),
     NIACIN("406", "Niacin (mg)", "Niacin"),
-    PANTOTHENIC("410", "Pantothenic acid (mg)", "Pantothenic"),
+    PANTOTHENICACID("410", "Pantothenic acid (mg)", "Pantothenic"),
     VITAMINB6("415", "Vitamin B-6 (mg)", "VitaminB6"),
     VITAMINB12("418", "Vitamin B-12 (µg)", "VitaminB12"),
     CHOLINE("421", "Choline, total (mg)", "Choline"),
     VITAMINK("430", "Vitamin K (Phylloquinone) (µg)", "VitaminK"),
     FOLATE("435", "Folate, DFE (µg)", "Folate"),
     CHOLESTEROL("601", "Cholesterol (mg)", "Cholesterol"),
-    SATURATED("606", "Fatty acids, total saturated (g)", "Saturated"),
+    SFA("606", "Fatty acids, total saturated (g)", "Saturated"),
     DHA("621", "22:6 n-3 (DHA) (g)", "DHA"),
     EPA("629", "20:5 n-3 (EPA) (g)", "EPA"),
-    MONOUNSATURATED("645", "Fatty acids, total monounsaturated (g)", "Monounsaturated"),
-    POLYUNSATURATED("646", "Fatty acids, total polyunsaturated (g)", "Polyunsaturated"),
+    MUFA("645", "Fatty acids, total monounsaturated (g)", "Monounsaturated"),
+    PUFA("646", "Fatty acids, total polyunsaturated (g)", "Polyunsaturated"),
     LINOLEIC("618", "18:2 undifferentiated (Linoleic) (g)", "Linoleic"),
-    ALPHALINOLENIC("619", "18:3 undifferentiated (Linolenic) (g)", "Linolenic"),
+    LINOLENIC("619", "18:3 undifferentiated (Linolenic) (g)", "Linolenic"),
     WEIGHT("10000", "Weight (g)", "Weight"),
     COMPLETEPROTEIN("10001", "Complete Protein  (g)", "CompleteProtein"),
     DIGESTIBLECARBOHYDRATE("10003", "Digestible Carbs (g)", "DigestibleCarbs"),
@@ -49,7 +49,10 @@ public enum Nutrient {
     ENERGYCARBOHYDRATE("10011", "Energy, carbohydrate (Kcal)", "EnergyCarbohydrate"),
     ENERGYPROTEIN("10012", "Energy, protein (Kcal)", "EnergyProtein"),
     ENERGYFAT("10013", "Energy, fat (Kcal)", "EnergyFat"),
-    ENERGYALCOHOL("10014", "Energy, alcohol (Kcal)", "EnergyAlcohol"),;
+    ENERGYALCOHOL("10014", "Energy, alcohol (Kcal)", "EnergyAlcohol"), //
+    //LINOLEIC("675", "18:2 n-6 c,c (LA) (g)", "Linoleic"),
+    //ALPHALINOLENIC("851", "18:3 n-3 c,c,c (ALA) (g)", "AlphaLinolenic"),
+    ;
 
     private final String Number;
     private final String Name;

@@ -1,5 +1,5 @@
 CREATE PROCEDURE FoodNutrientRatio_Delete (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Food_Id_1 LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
 IN v_Food_Id_2 LONGVARCHAR,

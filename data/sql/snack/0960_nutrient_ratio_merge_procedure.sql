@@ -1,5 +1,5 @@
 CREATE PROCEDURE NutrientRatio_Merge (
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
 IN v_Nutrient_Id_2 LONGVARCHAR,
 IN v_RelationshipId INTEGER,

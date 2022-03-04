@@ -1,12 +1,12 @@
 CREATE PROCEDURE Mix_Duplicate (
 --
-IN v_MixId_Old INTEGER
+IN v_MixId_Old LONGVARCHAR
 --
 )
 --
 MODIFIES SQL DATA BEGIN ATOMIC
 --
-DECLARE v_MixId_New INTEGER;
+DECLARE v_MixId_New LONGVARCHAR;
 --
 call mix_copy(v_MixId_New,v_MixId_Old);
 --
@@ -18,9 +18,11 @@ CALL NutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL NutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 --
-CALL FoodNutrientConstraint(v_MixId_Old,v_MixId_New);
+CALL FoodNutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
-CALL FoodNutrientRatio(v_MixId_Old,v_MixId_New);
+CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL NutrientPercent_Copy(v_MixId_Old,v_MixId_New);
 --
 END;
 /

@@ -78,7 +78,7 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
         return false;
     }
 
-    public void reload(Integer MixId1, Integer MixId2) {
+    public void reload(String MixId1, String MixId2) {
         Vector row = null;
         Vector table = new Vector();
         try {

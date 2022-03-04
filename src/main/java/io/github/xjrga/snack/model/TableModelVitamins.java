@@ -76,7 +76,7 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
         return false;
     }
 
-    public void reload(Integer mixid) {
+    public void reload(String mixid) {
         Vector row = null;
         Vector table = new Vector();
         try {
@@ -92,7 +92,7 @@ public class TableModelVitamins extends DefaultTableModel implements RoundUp {
                 Double Thiamin = (Double) rowm.get(Nutrient.THIAMIN.getLabel());
                 Double Riboflavin = (Double) rowm.get(Nutrient.RIBOFLAVIN.getLabel());
                 Double Niacin = (Double) rowm.get(Nutrient.NIACIN.getLabel());
-                Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENIC.getLabel());
+                Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENICACID.getLabel());
                 Double VitaminB6 = (Double) rowm.get(Nutrient.VITAMINB6.getLabel());
                 Double VitaminB12 = (Double) rowm.get(Nutrient.VITAMINB12.getLabel());
                 Double Choline = (Double) rowm.get(Nutrient.CHOLINE.getLabel());

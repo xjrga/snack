@@ -1,6 +1,6 @@
 CREATE PROCEDURE foodnutrient_lhs (
 --
-IN v_mixid INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_foodid LONGVARCHAR,
 --

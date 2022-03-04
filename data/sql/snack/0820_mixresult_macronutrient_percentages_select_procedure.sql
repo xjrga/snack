@@ -1,6 +1,6 @@
 CREATE PROCEDURE MixResult_Select_Pct (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
 --
 )

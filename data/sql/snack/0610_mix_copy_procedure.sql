@@ -1,8 +1,8 @@
 CREATE PROCEDURE Mix_Copy (
 --
-OUT newid INTEGER,
+OUT newid LONGVARCHAR,
 --
-IN v_MixId_Old INTEGER
+IN v_MixId_Old LONGVARCHAR
 --
 )
 --
@@ -14,6 +14,7 @@ DECLARE v_ATime TIME;
 DECLARE v_NutrientId LONGVARCHAR;
 DECLARE v_Model LONGVARCHAR;
 DECLARE v_Note LONGVARCHAR;
+DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        Nutrientid,
@@ -31,6 +32,8 @@ SELECT CURRENT_DATE INTO v_ADate FROM (VALUES(0));
 --
 SELECT LOCALTIME INTO v_ATime FROM (VALUES(0));
 --
+SELECT generateId() INTO newid2 FROM (VALUES(0));
+--
 INSERT INTO Mix (
 MixId,
 Name,
@@ -41,7 +44,7 @@ Nutrientid,
 Model,
 Note
 ) VALUES (
-DEFAULT,
+newid2,
 v_Name_Old||'_copy',
 v_ADate,
 v_ATime,
@@ -51,7 +54,7 @@ v_Model,
 v_Note
 );
 --
-SET newid = IDENTITY();
+SET newid = newid2;
 --
 END;
 /

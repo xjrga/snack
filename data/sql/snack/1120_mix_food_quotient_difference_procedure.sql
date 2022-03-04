@@ -1,8 +1,8 @@
 CREATE PROCEDURE Mix_getFQDiff (
 --
-IN v_MixId_1 INTEGER,
+IN v_MixId_1 LONGVARCHAR,
 --
-IN v_MixId_2 INTEGER
+IN v_MixId_2 LONGVARCHAR
 --
 )
 --

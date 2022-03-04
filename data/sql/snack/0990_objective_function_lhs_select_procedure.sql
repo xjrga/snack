@@ -1,6 +1,6 @@
 CREATE PROCEDURE objective_lhs (
 --
-IN v_mixid INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 --

@@ -73,7 +73,7 @@ public class TableModelFat extends DefaultTableModel implements RoundUp {
         return false;
     }
 
-    public void reload(Integer mixid) {
+    public void reload(String mixid) {
         Vector row = null;
         Vector table = new Vector();
         try {
@@ -85,13 +85,13 @@ public class TableModelFat extends DefaultTableModel implements RoundUp {
                 Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
                 Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
                 Double Cholesterol = (Double) rowm.get(Nutrient.CHOLESTEROL.getLabel());
-                Double Saturated = (Double) rowm.get(Nutrient.SATURATED.getLabel());
+                Double Saturated = (Double) rowm.get(Nutrient.SFA.getLabel());
                 Double DHA = (Double) rowm.get(Nutrient.DHA.getLabel());
                 Double EPA = (Double) rowm.get(Nutrient.EPA.getLabel());
-                Double Monounsaturated = (Double) rowm.get(Nutrient.MONOUNSATURATED.getLabel());
-                Double Polyunsaturated = (Double) rowm.get(Nutrient.POLYUNSATURATED.getLabel());
+                Double Monounsaturated = (Double) rowm.get(Nutrient.MUFA.getLabel());
+                Double Polyunsaturated = (Double) rowm.get(Nutrient.PUFA.getLabel());
                 Double Linoleic = (Double) rowm.get(Nutrient.LINOLEIC.getLabel());
-                Double AlphaLinolenic = (Double) rowm.get(Nutrient.ALPHALINOLENIC.getLabel());
+                Double Linolenic = (Double) rowm.get(Nutrient.LINOLENIC.getLabel());
                 Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
                 row = new Vector();
                 //
@@ -104,7 +104,7 @@ public class TableModelFat extends DefaultTableModel implements RoundUp {
                 row.add(Saturated);
                 row.add(Cholesterol);
                 row.add(Linoleic);
-                row.add(AlphaLinolenic);
+                row.add(Linolenic);
                 row.add(DHA);
                 row.add(EPA);
                 table.add(row);

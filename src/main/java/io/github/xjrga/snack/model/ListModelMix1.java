@@ -43,7 +43,7 @@ public class ListModelMix1 extends DefaultListModel {
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
-                int mixid = (int) row.get("MIXID");
+                String mixid = (String) row.get("MIXID");
                 String name = (String) row.get("NAME");
                 MixDataObject mixDataObject = new MixDataObject();
                 mixDataObject.setMixId(mixid);

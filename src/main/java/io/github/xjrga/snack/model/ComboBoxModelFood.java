@@ -36,7 +36,7 @@ public class ComboBoxModelFood extends DefaultComboBoxModel {
         this.dbLink = dbLink;
     }
 
-    public void reload(Integer mixId) {
+    public void reload(String mixId) {
         this.removeAllElements();
         try {
             LinkedList all = (LinkedList) dbLink.MixFood_Select_All(mixId);

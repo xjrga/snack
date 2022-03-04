@@ -21,22 +21,22 @@ package io.github.xjrga.snack.dataobject;
 
 public class MixDataObject {
 
-    private Integer MixId;
+    private String MixId;
     private String Name;
 
     public MixDataObject() {
     }
 
-    public MixDataObject(Integer MixId, String Name) {
+    public MixDataObject(String MixId, String Name) {
         this.MixId = MixId;
         this.Name = Name;
     }
 
-    public Integer getMixId() {
+    public String getMixId() {
         return MixId;
     }
 
-    public void setMixId(Integer MixId) {
+    public void setMixId(String MixId) {
         this.MixId = MixId;
     }
 
@@ -48,6 +48,7 @@ public class MixDataObject {
         this.Name = Name;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         //sb.append(MixId);

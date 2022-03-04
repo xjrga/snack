@@ -1,6 +1,6 @@
 CREATE PROCEDURE Mix_Update_Status (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 --
 IN v_Status INTEGER
 --

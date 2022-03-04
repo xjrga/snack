@@ -1,8 +1,8 @@
 CREATE PROCEDURE NutrientConstraint_Copy (
 --
-IN v_MixId_Old INTEGER,
+IN v_MixId_Old LONGVARCHAR,
 --
-IN v_MixId_New INTEGER
+IN v_MixId_New LONGVARCHAR
 --
 )
 --

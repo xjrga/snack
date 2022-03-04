@@ -68,7 +68,7 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
         return false;
     }
 
-    public void reload(Integer mixid) {
+    public void reload(String mixid) {
         Vector row = null;
         Vector table = new Vector();
         try {

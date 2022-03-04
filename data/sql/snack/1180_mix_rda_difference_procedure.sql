@@ -1,6 +1,6 @@
 CREATE PROCEDURE Mix_getRdaDiff (
 --
-IN v_MixId INTEGER,
+IN v_MixId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
 IN v_Precision INTEGER
 --
