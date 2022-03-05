@@ -5,7 +5,6 @@
  */
 package io.github.xjrga.snack.other;
 
-import io.github.xjrga.snack.gui.Message;
 import java.awt.Component;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;

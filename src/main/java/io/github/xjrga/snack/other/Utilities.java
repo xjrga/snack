@@ -80,7 +80,7 @@ public class Utilities {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static boolean validate_xml_doc(String schema_path, String xmldoc_path) {
         boolean result = false;
         Source xmlDoc = new StreamSource(new File(xmldoc_path));
@@ -91,15 +91,15 @@ public class Utilities {
             try {
                 try {
                     validator.validate(xmlDoc);
-                } catch (IOException e) {                    
+                } catch (IOException e) {
                 }
                 result = true;
-            } catch (SAXException e) {                
+            } catch (SAXException e) {
                 System.out.println("Reason: " + e.getLocalizedMessage());
             }
-        } catch (SAXException e) {            
+        } catch (SAXException e) {
         }
         return result;
     }
-    
+
 }

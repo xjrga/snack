@@ -189,4 +189,8 @@ RELEASE NOTES
       Add inequality option to nutrient percent constraint
       Add data exchange functionality
    
+745
+
+      Fix automatic solve on data exchange document import
+      Fix snack.xsd schema
       

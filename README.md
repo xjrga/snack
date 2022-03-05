@@ -29,6 +29,7 @@
         - calculate food quotient (FQ)  
         - convert percent daily value (%DV) to grams
         - facilitate learning/teaching anyone with interest in nutrition
+        - exchange mix and food data easily
         - is free and open source
     
     Requirements:
@@ -36,16 +37,16 @@
 
 Installing
 
-    1. Download snack-740-app.zip from https://xjrga.github.io/releases/
-    2. unzip snack-740-app.zip
-    3. cd snack-740
-    4. java -jar snack-740.jar (if you are on windows double click on jar file) 
+    1. Download snack-745-app.zip from https://xjrga.github.io/releases/
+    2. unzip snack-745-app.zip
+    3. cd snack-745
+    4. java -jar snack-745.jar (if you are on windows double click on jar file) 
     
 [User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    740
+    745
 
 Authors
 

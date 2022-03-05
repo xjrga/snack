@@ -2851,13 +2851,14 @@ public class Main {
                 + "        - calculate food quotient (FQ)                \n"
                 + "        - convert percent daily value (%DV) to grams\n"
                 + "        - facilitate learning/teaching anyone with interest in nutrition\n"
+                + "        - exchange mix and food data easily\n"
                 + "        - is free and open source\n"
                 + "    \n"
                 + "    Requirements:\n"
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 740");
+        sb.append("This is build 745");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -4883,22 +4884,32 @@ public class Main {
             new Thread() {
                 @Override
                 public void run() {
+                    HashSet set01 = new HashSet();
+                    HashSet set02 = new HashSet();
+                    final int old_size = modelList_Solve.size();
+                    for (int i = 0; i < old_size; i++) {
+                        MixDataObject o = (MixDataObject) modelList_Solve.get(i);
+                        set01.add(o.getMixId());
+                    }
                     Xml_receive receive = new Xml_receive();
                     receive.import_snack_data(path);
                     reloadMixes();
                     reloadFoodItems();
-                    listMixes.setSelectedIndex(listMixes.getLastVisibleIndex());
+                    for (int i = 0; i < modelList_Solve.size(); i++) {
+                        MixDataObject o = (MixDataObject) modelList_Solve.get(i);
+                        set02.add(o.getMixId());
+                    }
+                    if (old_size > 0) {
+                        if (set02.removeAll(set01)) {
+                            int index = modelList_Solve.find_by_mixid((String) set02.toArray()[0]);
+                            listMixes.setSelectedIndex(index);
+                        }
+                    } else {
+                        listMixes.setSelectedIndex(0);
+                    }
                     event_buttonSolve();
-                    show_message_received();
                 }
             }.start();
         }
-    }
-
-    private void show_message_received() {
-        JComponent[] inputs = new JComponent[]{
-            new JLabel("Data exchange document was imported.")
-        };
-        Message.showOptionDialog(inputs, "Data Exchange");
     }
 }

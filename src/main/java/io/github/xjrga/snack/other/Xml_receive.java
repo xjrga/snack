@@ -26,11 +26,14 @@ import io.github.xjrga.snack.dataobject.Xml_mix;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_constraint;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_percent_constraint;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_ratio_constraint;
+import io.github.xjrga.snack.gui.Message;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -160,9 +163,6 @@ public class Xml_receive {
                                         break;
                                     case "nutrientid":
                                         switch (main_event) {
-                                            case "mix":
-                                                mix.set_nutrientid(data);
-                                                break;
                                             case "nutrient_constraint":
                                                 nutrient_constraint.setNutrientid(data);
                                                 break;
@@ -401,7 +401,7 @@ public class Xml_receive {
                                     //System.out.println("End mix");
                                     //System.out.println(mix.toString());
                                     try {
-                                    dbLink.snack_mix_insertmix(mix.get_mixid(), mix.get_name(), 1, mix.get_nutrientid(), "", "");
+                                    dbLink.snack_mix_insertmix(mix.get_mixid(), mix.get_name(), 1, "10009", "", "");
                                 } catch (SQLException ex) {
                                     System.out.println("-> " + ex.getMessage() + ": " + mix.toString());
                                 }
@@ -557,11 +557,26 @@ public class Xml_receive {
                     }
                 }
                 reader.close();
+                show_message_received();
             } else {
-
+                show_message_invalid();
             }
         } catch (IOException | NumberFormatException | XMLStreamException ex) {
 
         }
+    }
+
+    private void show_message_received() {
+        JComponent[] inputs = new JComponent[]{
+            new JLabel("Data exchange document was imported.")
+        };
+        Message.showOptionDialog(inputs, "Data Exchange");
+    }
+
+    private void show_message_invalid() {
+        JComponent[] inputs = new JComponent[]{
+            new JLabel("Data exchange document is not valid.")
+        };
+        Message.showOptionDialog(inputs, "Validation");
     }
 }
