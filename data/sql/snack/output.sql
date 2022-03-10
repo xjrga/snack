@@ -526,12 +526,11 @@ call FoodFact_ZeroOut_FoodId(v_FoodId);
 END;
 /
 
-CREATE PROCEDURE snack_food_insertfood_and_categorizefood (IN v_foodid LONGVARCHAR,IN v_foodnom LONGVARCHAR)
+CREATE PROCEDURE snack_food_insertfood (IN v_foodid LONGVARCHAR,IN v_foodnom LONGVARCHAR)
 --
 modifies sql data BEGIN atomic
 --
 call food_insert(v_foodid,v_foodnom);
-call categorylink_insert(v_foodid,'5000');
 call FoodFact_ZeroOut_FoodId(v_foodid);
 --
 END;
@@ -5358,7 +5357,7 @@ DECLARE doc2 LONGVARCHAR;
 SET doc = '';
 SET doc2 = '';
 --
-SELECT '<mix_food_list>' INTO doc FROM (VALUES (0));
+SELECT '<food_list>' INTO doc FROM (VALUES (0));
 --
 SET doc2 = doc2 + doc + CHAR(10) ;
 --
@@ -5388,13 +5387,92 @@ SET doc = '';
 --
 END FOR;
 --
-SET doc = '</mix_food_list>';
+SET doc = '</food_list>';
 --
 SET v_doc = doc2 + doc;
 --
 END
 /
 
+
+CREATE PROCEDURE Select_category_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+DECLARE doc2 LONGVARCHAR;
+--
+SET doc = '';
+SET doc2 = '';
+--
+SELECT '<category_list>' INTO doc FROM (VALUES (0));
+--
+SET doc2 = doc2 + doc + CHAR(10) ;
+--
+SET doc = '';
+--
+FOR SELECT DISTINCT c.foodcategoryid as id, c.name as name FROM mixfood a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND   b.foodcategoryid = c.foodcategoryid AND a.mixid = v_MixId  DO 
+--
+SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + name + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
+--
+SET doc2 = doc2 + doc;
+--
+END FOR;
+--
+SET doc = '</category_list>';
+--
+SET v_doc = doc2 + doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Select_category_link_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+DECLARE doc2 LONGVARCHAR;
+--
+SET doc = '';
+SET doc2 = '';
+--
+SELECT '<category_link_list>' INTO doc FROM (VALUES (0));
+--
+SET doc2 = doc2 + doc + CHAR(10) ;
+--
+SET doc = '';
+--
+FOR select a.foodid as foodid, a.foodcategoryid as categoryid from categorylink a, mixfood b where a.foodid = b.foodid and b.mixid = v_MixId  DO 
+--
+SET doc =  '<category_link>' + CHAR(10) + '<foodid>' + foodid + '</foodid>' + CHAR(10) + '<categoryid>' + categoryid + '</categoryid>'  + CHAR(10) + '</category_link>'  + CHAR(10) ;
+--
+SET doc2 = doc2 + doc;
+--
+END FOR;
+--
+SET doc = '</category_link_list>';
+--
+SET v_doc = doc2 + doc;
+--
+END
+/
 
 CREATE PROCEDURE Select_nutrient_constraint_list_as_xml (
 --
@@ -5505,7 +5583,7 @@ SET doc = doc + '<food_nutrient_ratio_constraint_list>' + CHAR (10);
 --
 FOR select food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b from foodnutrientratio WHERE mixid = v_mixid DO
 --
-SET doc = doc + '<food_nutrient_ratio_constraint>' + CHAR (10) + '<foodid>' + food_id_1 + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrient_id_1 + '</nutrientid>' + CHAR (10) + '<foodid>' + food_id_2 + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrient_id_2 + '</nutrientid>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</food_nutrient_ratio_constraint>' + CHAR (10);
+SET doc = doc + '<food_nutrient_ratio_constraint>' + CHAR (10) + '<foodid_01>' + food_id_1 + '</foodid_01>' + CHAR (10) + '<nutrientid_01>' + nutrient_id_1 + '</nutrientid_01>' + CHAR (10) + '<foodid_02>' + food_id_2 + '</foodid_02>' + CHAR (10) + '<nutrientid_02>' + nutrient_id_2 + '</nutrientid_02>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</food_nutrient_ratio_constraint>' + CHAR (10);
 --
 END FOR;
 --
@@ -5547,7 +5625,7 @@ SET doc = doc + '<nutrient_ratio_constraint_list>' + CHAR (10);
 --
 FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from nutrientratio WHERE mixid = v_mixid DO
 --
-SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid>' + nutrient_id_1 + '</nutrientid>' + CHAR (10)  + '<nutrientid>' + nutrient_id_2 + '</nutrientid>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</nutrient_ratio_constraint>' + CHAR (10);
+SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid_01>' + nutrient_id_1 + '</nutrientid_01>' + CHAR (10)  + '<nutrientid_02>' + nutrient_id_2 + '</nutrientid_02>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</nutrient_ratio_constraint>' + CHAR (10);
 --
 END FOR;
 --
@@ -5609,7 +5687,7 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
 BEGIN ATOMIC 
 --
-DECLARE TABLE testTable ( txt LONGVARCHAR);
+DECLARE TABLE temp ( txt LONGVARCHAR);
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
 --
@@ -5624,36 +5702,44 @@ call Select_mixfood_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
+call Select_category_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + doc;
+--
+call Select_category_link_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + doc;
+--
 call Select_nutrient_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2 + doc;
 --
 call Select_foodnutrient_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10)  + doc;
+SET doc2 = doc2  + doc;
 --
 call Select_foodnutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2 + doc;
 --
 call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2 + doc;
 --
 call Select_nutrient_percent_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2  + doc;
 --
-SET doc2 = doc2 + CHAR (10) + '</snack>';
+SET doc2 = doc2 + '</snack>';
 --
-INSERT INTO testTable (txt) VALUES (doc2);
+INSERT INTO temp (txt) VALUES (doc2);
 --
 BEGIN ATOMIC 
 --
 DECLARE result CURSOR
 FOR
 SELECT *
-FROM testTable;
+FROM temp;
 --
 OPEN result;
 --
@@ -5683,4 +5769,17 @@ END
 /
 
 
+
+CREATE PROCEDURE Delete_all_categories_and_foods_from_database (
+)
+--
+MODIFIES SQL DATA
+--
+BEGIN ATOMIC 
+--
+DELETE FROM foodcategory;
+DELETE FROM food;
+--
+END
+/
 

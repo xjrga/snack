@@ -26,7 +26,7 @@ SET doc = doc + '<nutrient_ratio_constraint_list>' + CHAR (10);
 --
 FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from nutrientratio WHERE mixid = v_mixid DO
 --
-SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid>' + nutrient_id_1 + '</nutrientid>' + CHAR (10)  + '<nutrientid>' + nutrient_id_2 + '</nutrientid>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</nutrient_ratio_constraint>' + CHAR (10);
+SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid_01>' + nutrient_id_1 + '</nutrientid_01>' + CHAR (10)  + '<nutrientid_02>' + nutrient_id_2 + '</nutrientid_02>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</nutrient_ratio_constraint>' + CHAR (10);
 --
 END FOR;
 --

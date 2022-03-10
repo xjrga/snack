@@ -406,7 +406,6 @@ public class Main {
         reloadRelationshipComboBoxes();
         reloadMixes();
         reloadTableModelConstraints("");
-        resizeTables();
         checkBoxCompleteProtein.setName("Complete Protein");
         checkBoxProtein.setName("Protein");
         checkBoxFat.setName("Fat");
@@ -1012,7 +1011,14 @@ public class Main {
             event_buttonAddMixToFoodList();
         });
         buttonSolve.addActionListener((ActionEvent e) -> {
-            event_buttonSolve();
+            new Thread() {
+                @Override
+                public void run() {
+                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    event_buttonSolve();
+                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            }.start();
         });
         return panel;
     }
@@ -1101,142 +1107,76 @@ public class Main {
             MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
             String mixId = mixDataObject.getMixId();
             modelTableEnergy.reload(mixId);
+            tableEnergy.getColumnModel().getColumn(0).setMinWidth(400);
+            tableEnergy.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 12; i++) {
+                tableEnergy.getColumnModel().getColumn(i).setMinWidth(70);
+                tableEnergy.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableProtein.reload(mixId);
+            tableProtein.getColumnModel().getColumn(0).setMinWidth(400);
+            tableProtein.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 5; i++) {
+                tableProtein.getColumnModel().getColumn(i).setMinWidth(70);
+                tableProtein.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableFats.reload(mixId);
+            tableFats.getColumnModel().getColumn(0).setMinWidth(400);
+            tableFats.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 12; i++) {
+                tableFats.getColumnModel().getColumn(i).setMinWidth(70);
+                tableFats.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableCarbs.reload(mixId);
+            tableCarbs.getColumnModel().getColumn(0).setMinWidth(400);
+            tableCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 6; i++) {
+                tableCarbs.getColumnModel().getColumn(i).setMinWidth(70);
+                tableCarbs.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableVitamins.reload(mixId);
+            tableVitamins.getColumnModel().getColumn(0).setMinWidth(400);
+            tableVitamins.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 15; i++) {
+                tableVitamins.getColumnModel().getColumn(i).setMinWidth(70);
+                tableVitamins.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableMinerals.reload(mixId);
+            tableMinerals.getColumnModel().getColumn(0).setMinWidth(400);
+            tableMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 11; i++) {
+                tableMinerals.getColumnModel().getColumn(i).setMinWidth(70);
+                tableMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableWater.reload(mixId);
+            tableWater.getColumnModel().getColumn(0).setMinWidth(400);
+            tableWater.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 3; i++) {
+                tableWater.getColumnModel().getColumn(i).setMinWidth(70);
+                tableWater.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableCost.reload(mixId);
+            tableCost.getColumnModel().getColumn(0).setMinWidth(400);
+            tableCost.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 3; i++) {
+                tableCost.getColumnModel().getColumn(i).setMinWidth(70);
+                tableCost.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableElectrolytes.reload(mixId);
+            tableElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
+            tableElectrolytes.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 4; i++) {
+                tableElectrolytes.getColumnModel().getColumn(i).setMinWidth(70);
+                tableElectrolytes.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableGlycemic.reload(mixId);
+            tableGlycemic.getColumnModel().getColumn(0).setMinWidth(400);
+            tableGlycemic.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 8; i++) {
+                tableGlycemic.getColumnModel().getColumn(i).setMinWidth(70);
+                tableGlycemic.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             reloadStatusBar(mixId);
-        }
-    }
-
-    private void resizeTables() {
-        tableEnergy.getColumnModel().getColumn(0).setMinWidth(400);
-        tableEnergy.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableProtein.getColumnModel().getColumn(0).setMinWidth(400);
-        tableProtein.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableFats.getColumnModel().getColumn(0).setMinWidth(400);
-        tableFats.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableCarbs.getColumnModel().getColumn(0).setMinWidth(400);
-        tableCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableVitamins.getColumnModel().getColumn(0).setMinWidth(400);
-        tableVitamins.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableMinerals.getColumnModel().getColumn(0).setMinWidth(400);
-        tableMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
-        tableElectrolytes.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableWater.getColumnModel().getColumn(0).setMinWidth(400);
-        tableWater.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableCost.getColumnModel().getColumn(0).setMinWidth(400);
-        tableCost.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableGlycemic.getColumnModel().getColumn(0).setMinWidth(400);
-        tableGlycemic.getColumnModel().getColumn(0).setMaxWidth(400);
-        //
-        for (int i = 1; i < 12; i++) {
-            tableEnergy.getColumnModel().getColumn(i).setMinWidth(70);
-            tableEnergy.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 5; i++) {
-            tableProtein.getColumnModel().getColumn(i).setMinWidth(70);
-            tableProtein.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 6; i++) {
-            tableCarbs.getColumnModel().getColumn(i).setMinWidth(70);
-            tableCarbs.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 12; i++) {
-            tableFats.getColumnModel().getColumn(i).setMinWidth(70);
-            tableFats.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 15; i++) {
-            tableVitamins.getColumnModel().getColumn(i).setMinWidth(70);
-            tableVitamins.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 11; i++) {
-            tableMinerals.getColumnModel().getColumn(i).setMinWidth(70);
-            tableMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 4; i++) {
-            tableElectrolytes.getColumnModel().getColumn(i).setMinWidth(70);
-            tableElectrolytes.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 3; i++) {
-            tableWater.getColumnModel().getColumn(i).setMinWidth(70);
-            tableWater.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 3; i++) {
-            tableJournalCost.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalCost.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 8; i++) {
-            tableGlycemic.getColumnModel().getColumn(i).setMinWidth(70);
-            tableGlycemic.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-    }
-
-    private void resizeTablesJournal() {
-        tableJournalEnergy.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalEnergy.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalProtein.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalProtein.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalCarbs.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalFats.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalFats.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalMinerals.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalElectrolytes.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalWater.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalWater.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalCost.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalCost.getColumnModel().getColumn(0).setMaxWidth(400);
-        tableJournalGlycemic.getColumnModel().getColumn(0).setMinWidth(400);
-        tableJournalGlycemic.getColumnModel().getColumn(0).setMaxWidth(400);
-        //
-        for (int i = 1; i < 12; i++) {
-            tableJournalEnergy.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalEnergy.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 5; i++) {
-            tableJournalProtein.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalProtein.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 6; i++) {
-            tableJournalCarbs.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalCarbs.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 12; i++) {
-            tableJournalFats.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalFats.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 15; i++) {
-            tableJournalVitamins.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalVitamins.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 11; i++) {
-            tableJournalMinerals.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 4; i++) {
-            tableJournalElectrolytes.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalElectrolytes.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 3; i++) {
-            tableJournalWater.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalWater.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 3; i++) {
-            tableJournalCost.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalCost.getColumnModel().getColumn(i).setMaxWidth(70);
-        }
-        for (int i = 1; i < 8; i++) {
-            tableJournalGlycemic.getColumnModel().getColumn(i).setMinWidth(70);
-            tableJournalGlycemic.getColumnModel().getColumn(i).setMaxWidth(70);
         }
     }
 
@@ -1647,7 +1587,6 @@ public class Main {
     private void event_listMixesJournal(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             reloadTableModelsJournal();
-            resizeTablesJournal();
         }
     }
 
@@ -1657,15 +1596,75 @@ public class Main {
             String mixId = mixDataObject.getMixId();
             modelTableResults.reload(mixId);
             modelTableJournalEnergy.reload(mixId);
+            tableJournalEnergy.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalEnergy.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 12; i++) {
+                tableJournalEnergy.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalEnergy.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalProtein.reload(mixId);
+            tableJournalProtein.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalProtein.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 5; i++) {
+                tableJournalProtein.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalProtein.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalFats.reload(mixId);
+            tableJournalFats.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalFats.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 12; i++) {
+                tableJournalFats.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalFats.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalCarbs.reload(mixId);
+            tableJournalCarbs.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 6; i++) {
+                tableJournalCarbs.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalCarbs.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalVitamins.reload(mixId);
+            tableJournalVitamins.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalVitamins.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 15; i++) {
+                tableJournalVitamins.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalVitamins.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalMinerals.reload(mixId);
+            tableJournalMinerals.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 11; i++) {
+                tableJournalMinerals.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalElectrolytes.reload(mixId);
+            tableJournalElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalElectrolytes.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 4; i++) {
+                tableJournalElectrolytes.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalElectrolytes.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalWater.reload(mixId);
+            tableJournalWater.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalWater.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 3; i++) {
+                tableJournalWater.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalWater.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalCost.reload(mixId);
+            tableJournalCost.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalCost.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 3; i++) {
+                tableJournalCost.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalCost.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             modelTableJournalGlycemic.reload(mixId);
+            tableJournalGlycemic.getColumnModel().getColumn(0).setMinWidth(400);
+            tableJournalGlycemic.getColumnModel().getColumn(0).setMaxWidth(400);
+            for (int i = 1; i < 8; i++) {
+                tableJournalGlycemic.getColumnModel().getColumn(i).setMinWidth(70);
+                tableJournalGlycemic.getColumnModel().getColumn(i).setMaxWidth(70);
+            }
             textAreaJournalModel.setText(getLinearProgrammingModel(mixId));
             textAreaJournalNote.setText(getNote(mixId));
             reloadStatusBar(mixId);
@@ -1924,7 +1923,7 @@ public class Main {
         proteinText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
         instructions.setEditable(false);
         sb.append("To calculate complete protein value\n\n");
-        sb.append("1. Please find 'Protein' value on nutrition facts label and enter that number\n\n");
+        sb.append("1. Please find 'Protein' value on nutrition facts label and enter that number here only if most of the food protein is from animal sources or soy\n\n");
         instructions.setText(sb.toString());
         inputsPanel.setPreferredSize(new Dimension(350, GoldenRatio.getShortSide(350)));
         inputsPanel.setLayout(layout);
@@ -2666,7 +2665,6 @@ public class Main {
             MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
             String mixId = mixDataObject.getMixId();
             reloadTableModels();
-            resizeTables();
         }
         reloadFoodItems();
         reloadTableModelsJournal();
@@ -2858,7 +2856,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 745");
+        sb.append("This is build 750");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3563,15 +3561,21 @@ public class Main {
     private void event_listMixes(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (isMixSelected()) {
-                MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
-                String mixId = mixDataObject.getMixId();
-                modelListSelectedFood.reload(mixId);
-                reloadFoodComboBoxes(mixId);
-                reloadTableModelConstraints(mixId);
-                reloadTableModels();
-                resizeTables();
-                textAreaModel.setText(getLinearProgrammingModel(mixId));
-                textAreaNote.setText(getNote(mixId));
+                new Thread() {
+                    @Override
+                    public void run() {
+                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
+                        String mixId = mixDataObject.getMixId();
+                        modelListSelectedFood.reload(mixId);
+                        reloadTableModels();
+                        reloadFoodComboBoxes(mixId);
+                        reloadTableModelConstraints(mixId);
+                        textAreaModel.setText(getLinearProgrammingModel(mixId));
+                        textAreaNote.setText(getNote(mixId));
+                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    }
+                }.start();
             }
         }
     }
@@ -3843,7 +3847,6 @@ public class Main {
                     reloadFoodComboBoxes(mixId);
                     reloadTableModelConstraints(mixId);
                     reloadTableModels();
-                    resizeTables();
                 } catch (SQLException e) {
 
                 }
@@ -3976,7 +3979,6 @@ public class Main {
                     reloadTableModelsJournal();
                     reloadMixComparison();
                     reloadRdaCheck();
-                    resizeTables();
                     lpModel.setResults(sbResults.toString());
                     lpModel.save();
                     sbAll.append("/*\n");
@@ -4884,6 +4886,7 @@ public class Main {
             new Thread() {
                 @Override
                 public void run() {
+                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                     HashSet set01 = new HashSet();
                     HashSet set02 = new HashSet();
                     final int old_size = modelList_Solve.size();
@@ -4895,6 +4898,7 @@ public class Main {
                     receive.import_snack_data(path);
                     reloadMixes();
                     reloadFoodItems();
+                    modelListCategory.reload();
                     for (int i = 0; i < modelList_Solve.size(); i++) {
                         MixDataObject o = (MixDataObject) modelList_Solve.get(i);
                         set02.add(o.getMixId());
@@ -4907,6 +4911,7 @@ public class Main {
                     } else {
                         listMixes.setSelectedIndex(0);
                     }
+                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     event_buttonSolve();
                 }
             }.start();

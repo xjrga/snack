@@ -813,6 +813,13 @@ public class DbLink {
         return list;
     }
 
+    public void FoodCategory_Insert(String categoryid, String categoryname) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.FoodCategory_Insert( ?, ? )}");
+        proc.setString(1, categoryid);
+        proc.setString(2, categoryname);
+        proc.execute();
+    }
+
     public void FoodCategory_Insert_2(String Name) throws SQLException {
         CallableStatement proc = connection.prepareCall("{CALL public.FoodCategory_Insert_2(  ? )}");
         proc.setString(1, Name);
@@ -1147,10 +1154,10 @@ public class DbLink {
         return out;
     }
 
-    public String snack_food_insertfood_and_categorizefood(String foodid, String foodName) throws SQLException {
+    public String snack_food_insertfood(String foodid, String foodName) throws SQLException {
         CallableStatement proc;
         String out = null;
-        proc = connection.prepareCall("{CALL public.snack_food_insertfood_and_categorizefood(?, ?)}");
+        proc = connection.prepareCall("{CALL public.snack_food_insertfood(?, ?)}");
         proc.setString(1, foodid);
         proc.setString(2, foodName);
         proc.execute();

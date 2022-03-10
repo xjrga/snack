@@ -37,16 +37,16 @@
 
 Installing
 
-    1. Download snack-745-app.zip from https://xjrga.github.io/releases/
-    2. unzip snack-745-app.zip
-    3. cd snack-745
-    4. java -jar snack-745.jar (if you are on windows double click on jar file) 
+    1. Download snack-750-app.zip from https://xjrga.github.io/releases/
+    2. unzip snack-750-app.zip
+    3. cd snack-750
+    4. java -jar snack-750.jar (if you are on windows double click on jar file) 
     
 [User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    745
+    750
 
 Authors
 
@@ -76,7 +76,5 @@ Snack uses a data subset from:
 
 Comments
 
-    I added inequality options to food nutrient ratio and nutrient ratio 
-    constraints to make Snack less picky. The new fat percentages should
-    allow for better diet analysis.
+    
               

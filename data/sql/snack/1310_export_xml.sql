@@ -4,7 +4,7 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
 BEGIN ATOMIC 
 --
-DECLARE TABLE testTable ( txt LONGVARCHAR);
+DECLARE TABLE temp ( txt LONGVARCHAR);
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
 --
@@ -19,36 +19,44 @@ call Select_mixfood_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
+call Select_category_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + doc;
+--
+call Select_category_link_list_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2 + doc;
+--
 call Select_nutrient_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2 + doc;
 --
 call Select_foodnutrient_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10)  + doc;
+SET doc2 = doc2  + doc;
 --
 call Select_foodnutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2 + doc;
 --
 call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2 + doc;
 --
 call Select_nutrient_percent_constraint_list_as_xml (doc,v_MixId);
 --
-SET doc2 = doc2 + CHAR (10) + doc;
+SET doc2 = doc2  + doc;
 --
-SET doc2 = doc2 + CHAR (10) + '</snack>';
+SET doc2 = doc2 + '</snack>';
 --
-INSERT INTO testTable (txt) VALUES (doc2);
+INSERT INTO temp (txt) VALUES (doc2);
 --
 BEGIN ATOMIC 
 --
 DECLARE result CURSOR
 FOR
 SELECT *
-FROM testTable;
+FROM temp;
 --
 OPEN result;
 --

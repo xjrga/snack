@@ -20,14 +20,13 @@
 package io.github.xjrga.snack.lp;
 
 import com.jgoodies.forms.layout.CellConstraints;
+import io.github.xjrga.snack.gui.Message;
+import io.github.xjrga.snack.other.Log;
+import java.util.ArrayList;
+import javax.swing.*;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import io.github.xjrga.snack.gui.Message;
-import io.github.xjrga.snack.other.Log;
-
-import javax.swing.*;
-import java.util.ArrayList;
 
 /*
  * @author  Jorge R Garcia de Alba
@@ -118,7 +117,6 @@ public class LpModel {
                 component
             };
             Message.showMessage(inputs, "No Feasible Solution");
-            //org.apache.commons.math3.optim.linear.NoFeasibleSolutionException: no feasible solution
         }
         return flag;
     }

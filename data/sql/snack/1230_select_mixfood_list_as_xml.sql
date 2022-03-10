@@ -16,7 +16,7 @@ DECLARE doc2 LONGVARCHAR;
 SET doc = '';
 SET doc2 = '';
 --
-SELECT '<mix_food_list>' INTO doc FROM (VALUES (0));
+SELECT '<food_list>' INTO doc FROM (VALUES (0));
 --
 SET doc2 = doc2 + doc + CHAR(10) ;
 --
@@ -46,7 +46,7 @@ SET doc = '';
 --
 END FOR;
 --
-SET doc = '</mix_food_list>';
+SET doc = '</food_list>';
 --
 SET v_doc = doc2 + doc;
 --
