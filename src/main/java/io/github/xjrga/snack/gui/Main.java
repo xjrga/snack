@@ -1011,14 +1011,9 @@ public class Main {
             event_buttonAddMixToFoodList();
         });
         buttonSolve.addActionListener((ActionEvent e) -> {
-            new Thread() {
-                @Override
-                public void run() {
-                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    event_buttonSolve();
-                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            }.start();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            event_buttonSolve();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
         return panel;
     }
@@ -2856,7 +2851,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 750");
+        sb.append("This is build 760");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3561,21 +3556,16 @@ public class Main {
     private void event_listMixes(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (isMixSelected()) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                        MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
-                        String mixId = mixDataObject.getMixId();
-                        modelListSelectedFood.reload(mixId);
-                        reloadTableModels();
-                        reloadFoodComboBoxes(mixId);
-                        reloadTableModelConstraints(mixId);
-                        textAreaModel.setText(getLinearProgrammingModel(mixId));
-                        textAreaNote.setText(getNote(mixId));
-                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    }
-                }.start();
+                MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
+                String mixId = mixDataObject.getMixId();
+                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                modelListSelectedFood.reload(mixId);
+                reloadTableModels();
+                reloadFoodComboBoxes(mixId);
+                reloadTableModelConstraints(mixId);
+                textAreaModel.setText(getLinearProgrammingModel(mixId));
+                textAreaNote.setText(getNote(mixId));
+                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         }
     }
@@ -4855,13 +4845,8 @@ public class Main {
         if (isMixSelected()) {
             try {
                 MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
-                new Thread() {
-                    @Override
-                    public void run() {
-                        Xml_send send = new Xml_send(dbLink, mix.getMixId());
-                        show_message_sent();
-                    }
-                }.start();
+                Xml_send send = new Xml_send(dbLink, mix.getMixId());
+                show_message_sent();
             } catch (Exception e) {
             }
         }
@@ -4883,38 +4868,33 @@ public class Main {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
             fileChooser.setCurrentDirectory(new File(path));
-            new Thread() {
-                @Override
-                public void run() {
-                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    HashSet set01 = new HashSet();
-                    HashSet set02 = new HashSet();
-                    final int old_size = modelList_Solve.size();
-                    for (int i = 0; i < old_size; i++) {
-                        MixDataObject o = (MixDataObject) modelList_Solve.get(i);
-                        set01.add(o.getMixId());
-                    }
-                    Xml_receive receive = new Xml_receive();
-                    receive.import_snack_data(path);
-                    reloadMixes();
-                    reloadFoodItems();
-                    modelListCategory.reload();
-                    for (int i = 0; i < modelList_Solve.size(); i++) {
-                        MixDataObject o = (MixDataObject) modelList_Solve.get(i);
-                        set02.add(o.getMixId());
-                    }
-                    if (old_size > 0) {
-                        if (set02.removeAll(set01)) {
-                            int index = modelList_Solve.find_by_mixid((String) set02.toArray()[0]);
-                            listMixes.setSelectedIndex(index);
-                        }
-                    } else {
-                        listMixes.setSelectedIndex(0);
-                    }
-                    frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    event_buttonSolve();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            HashSet set01 = new HashSet();
+            HashSet set02 = new HashSet();
+            final int old_size = modelList_Solve.size();
+            for (int i = 0; i < old_size; i++) {
+                MixDataObject o = (MixDataObject) modelList_Solve.get(i);
+                set01.add(o.getMixId());
+            }
+            Xml_receive receive = new Xml_receive();
+            receive.import_snack_data(path);
+            reloadMixes();
+            reloadFoodItems();
+            modelListCategory.reload();
+            for (int i = 0; i < modelList_Solve.size(); i++) {
+                MixDataObject o = (MixDataObject) modelList_Solve.get(i);
+                set02.add(o.getMixId());
+            }
+            if (old_size > 0) {
+                if (set02.removeAll(set01)) {
+                    int index = modelList_Solve.find_by_mixid((String) set02.toArray()[0]);
+                    listMixes.setSelectedIndex(index);
                 }
-            }.start();
+            } else {
+                listMixes.setSelectedIndex(0);
+            }
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            event_buttonSolve();
         }
     }
 }

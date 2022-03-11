@@ -69,7 +69,7 @@ RELEASE NOTES
 0.519
 
     Fix application resizing issue
-    
+
 0.520
 
     Fix font issue
@@ -81,28 +81,28 @@ RELEASE NOTES
 0.522
 
     Fix shutdown issue
-    
+
 0.523
 
     Todo
-   
+
 524
 
      Add settings panel
 
-600  
+600
 
       Add Dietary Reference Intake Comparison By Lifestage
       Add Upper Limit Intake Comparison By Lifestage
       Add Constraint Selection
       Add Round Up Feature
       Add Better Looking Reports
-      Add Result Tabs by Category (Energy, Protein, Fats, Carbohydrates, 
+      Add Result Tabs by Category (Energy, Protein, Fats, Carbohydrates,
       Vitamin, Mineral, Electrolytes, Water and Cost)
       Add New Data Input Form
-     
-605  
-        
+
+605
+
       Fix Round Up Feature
       Add Macronutrient RDA
       Add Extra Tools
@@ -115,7 +115,7 @@ RELEASE NOTES
 
       Add Soluble and Insoluble Fiber Tracking
       Add Glycemic Index Tracking
-      Add Glycemic Index Range Check     
+      Add Glycemic Index Range Check
       Add Mix Note
 
 625
@@ -130,13 +130,13 @@ RELEASE NOTES
 635
 
       Add looks-01 library
-      Add new logo      
+      Add new logo
 
 640
 
       Fix src/main/java directory names
       Add new logo
-      
+
 650
 
       Add energy values tracking
@@ -188,7 +188,7 @@ RELEASE NOTES
 
       Add inequality option to nutrient percent constraint
       Add data exchange functionality
-   
+
 745
 
       Fix automatic solve on data exchange document import
@@ -196,5 +196,9 @@ RELEASE NOTES
 
 750
 
-      .    
-      
+      Update snack.xsd schema
+      Update snack import functionality
+
+760
+
+      Improve gui behavior
