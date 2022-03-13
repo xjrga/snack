@@ -206,3 +206,6 @@ RELEASE NOTES
 770
       Improve performance
       Add macronutrient percentages function to Tools menu
+
+780
+      .      

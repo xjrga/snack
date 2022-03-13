@@ -868,92 +868,59 @@ SELECT CASE
        WHEN b.name IS NULL THEN 'Total'
        ELSE b.name
        END as name,
-       ROUND(a.weight,v_Precision) AS weight,
-       ROUND(a.carbs,v_Precision) AS carbs,
-       ROUND(a.pct*100,v_Precision) AS pct,
-       ROUND(a.gl,v_Precision) AS gl,
-       ROUND(a.gi,v_Precision) AS gi,
-       ROUND(a.mealgi,v_Precision) AS mealgi
+       ROUND(a.weight, v_Precision) AS weight,
+       ROUND(a.carbs, v_Precision) AS carbs,
+       ROUND(a.pct*100, v_Precision) AS pct,
+       ROUND(a.gl, v_Precision) AS gl,
+       ROUND(a.gi, v_Precision) AS gi,
+       ROUND(a.mealgi, v_Precision) AS mealgi
 FROM
 (
-SELECT a.mixid,
-       a.foodid,
-       a.weight,
-       b.carbs,
-       CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END AS Pct,
-       d.gl,
-       getGIFromGL(a.foodid) as gi,
-       CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END *getGIFromGL(a.foodid) AS MealGI
-FROM (SELECT mixid,
-             foodid,
-             q AS weight
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10000') a,
-     (SELECT mixid,
-             foodid,
-             q AS carbs
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10003') b,
-     (SELECT mixid,
-             SUM(q) AS tcarbs
-             FROM mixresult
-             WHERE mixid = v_MixId
-             AND   nutrientid = '10003'
-             GROUP BY mixid) c,
-     (SELECT mixid,
-             foodid,
-             q AS gl
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10006') d
-WHERE a.mixid = b.mixid
-AND a.mixid = c.mixid
-AND a.mixid = d.mixid
-AND   a.foodid = b.foodid
-AND a.foodid = d.foodid
+SELECT mixid,
+       foodid,
+       weight,
+       carbs,
+       CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END AS Pct,
+       gl,
+       getGIFromGL(foodid) as gi,
+       CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid) AS MealGI
+FROM (
+SELECT mixid,
+       foodid,
+       weight,
+       digestiblecarbohydrate AS carbs,
+       (SELECT SUM(digestiblecarbohydrate)
+        FROM mixresultdn
+        WHERE mixid = v_MixId) AS tcarbs,
+       glycemicload AS gl
+FROM mixresultdn
+WHERE mixid = v_MixId
+)
 --
 UNION
 --
-SELECT a.mixid,
+SELECT mixid,
        'Total',
-       sum(a.weight),
-       sum(b.carbs),
-       sum(CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END) AS Pct,
-       sum(d.gl),
-       sum(CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END *getGIFromGL(a.foodid)) AS MealGI,
-       sum(CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END *getGIFromGL(a.foodid)) AS MealGI
-FROM (SELECT mixid,
-             foodid,
-             q AS weight
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10000') a,
-     (SELECT mixid,
-             foodid,
-             q AS carbs
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10003') b,
-     (SELECT mixid,
-             SUM(q) AS tcarbs
-             FROM mixresult
-             WHERE mixid = v_MixId
-             AND   nutrientid = '10003'
-             GROUP BY mixid) c,
-     (SELECT mixid,
-             foodid,
-             q AS gl
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10006') d
-WHERE a.mixid = b.mixid
-AND a.mixid = c.mixid
-AND a.mixid = d.mixid
-AND   a.foodid = b.foodid
-AND a.foodid = d.foodid
-GROUP BY a.mixid
+       sum(weight),
+       sum(carbs),
+       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END) AS Pct,
+       sum(gl),
+       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid)) AS MealGI,
+       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid)) AS MealGI
+FROM
+(
+SELECT mixid,
+       foodid,
+       weight,
+       digestiblecarbohydrate AS carbs,
+       (SELECT SUM(digestiblecarbohydrate)
+        FROM mixresultdn
+        WHERE mixid = v_MixId) AS tcarbs,
+       glycemicload AS gl
+FROM mixresultdn
+WHERE mixid = v_MixId
+)
+GROUP BY mixid
 ) a
 --
 LEFT JOIN
@@ -981,48 +948,18 @@ DECLARE mealGI DOUBLE;
 --
 SET mealGI = 0;
 --
-SELECT MealGI INTO mealGI
-FROM
-(
-SELECT a.mixid,
-       'Total',
-       sum(a.weight),
-       sum(b.carbs),
-       sum(CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END) AS Pct,
-       sum(d.gl),
-       sum(CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END *getGIFromGL(a.foodid)),
-       sum(CASE WHEN c.tcarbs <= 0 OR c.tcarbs IS NULL THEN 0 ELSE b.carbs / c.tcarbs END *getGIFromGL(a.foodid)) AS MealGI
+SELECT SUM(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END * getGIFromGL (foodid)) INTO mealGI
 FROM (SELECT mixid,
              foodid,
-             q AS weight
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10000') a,
-     (SELECT mixid,
-             foodid,
-             q AS carbs
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10003') b,
-     (SELECT mixid,
-             SUM(q) AS tcarbs
-             FROM mixresult
-             WHERE mixid = v_MixId
-             AND   nutrientid = '10003'
-             GROUP BY mixid) c,
-     (SELECT mixid,
-             foodid,
-             q AS gl
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10006') d
-WHERE a.mixid = b.mixid
-AND a.mixid = c.mixid
-AND a.mixid = d.mixid
-AND   a.foodid = b.foodid
-AND a.foodid = d.foodid
-GROUP BY a.mixid
-);
+             weight,
+             digestiblecarbohydrate AS carbs,
+             (SELECT SUM(digestiblecarbohydrate)
+              FROM mixresultdn
+              WHERE mixid = v_MixId) AS tcarbs,
+             glycemicload AS gl
+      FROM mixresultdn
+      WHERE mixid = v_MixId)
+GROUP BY mixid;
 --
 RETURN mealGI;
 --
@@ -2996,64 +2933,12 @@ SELECT ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcoho
        ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(digestiblecarbohydrate*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS carbs,
        ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(protein*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS protein,
        ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(alcohol*6.93) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS alcohol,
-       ROUND(getFoodQuotient(v_MixId),2) AS fq,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(satfat*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS satfat,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(monoufat*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS monoufat,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(polyufat*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS polyufat
-FROM (SELECT mixid,
-             foodid,
-             q AS fat
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '204') a,
-     (SELECT mixid,
-             foodid,
-             q AS digestiblecarbohydrate
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10003') b,
-      (SELECT mixid,
-             foodid,
-             q AS protein
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '203') c,
-      (SELECT mixid,
-             foodid,
-             q AS alcohol
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '221') d,
-      (SELECT mixid,
-             foodid,
-             q AS satfat
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '606') e,
-     (SELECT mixid,
-             foodid,
-             q AS monoufat
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '645') f,
-     (SELECT mixid,
-             foodid,
-             q AS polyufat
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '646') g
-WHERE a.mixid = b.mixid
-AND a.mixid = c.mixid
-AND a.mixid = d.mixid
-AND a.mixid = e.mixid
-AND a.mixid = f.mixid
-AND a.mixid = g.mixid
-AND   a.foodid = b.foodid
-AND   a.foodid = c.foodid
-AND   a.foodid = d.foodid
-AND   a.foodid = e.foodid
-AND   a.foodid = f.foodid
-AND   a.foodid = g.foodid;
+       ROUND(getFoodQuotient(v_MixId),v_Precision) AS fq,
+       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(sfa*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS satfat,
+       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(mufa*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS monoufat,
+       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(pufa*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS polyufat
+FROM mixresultdn
+WHERE mixid = v_MixId;
 --
 OPEN result;
 --
