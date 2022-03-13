@@ -251,6 +251,7 @@ public class Main {
     private final JMenuItem menuItemExportRdaCompare = new JMenuItem();
     private final JMenuItem menui_import_message = new JMenuItem();
     private final JMenuItem menui_export_message = new JMenuItem();
+    private final JMenuItem menui_show_mix_stats = new JMenuItem();
     private final JMenuItem menuItemGuide = new JMenuItem();
     private final JPanel panelStatusBar = new JPanel();
     private final JTable tableGlycemic = new JTable();
@@ -571,6 +572,7 @@ public class Main {
         menuTools.add(menuItemGlycemicLoad);
         menuTools.add(menuItemGlycemicIndexRange);
         menuTools.add(menu_item_alpha_linolenic_acid_required);
+        menuTools.add(menui_show_mix_stats);
         menuData.add(menu_spreadsheet);
         menuData.add(menu_exchange);
         menu_spreadsheet.add(menuItemExportFoodList);
@@ -598,6 +600,7 @@ public class Main {
         menuItemDigestibleCarbs.setText("Digestible Carbohydrate Of A Food Item");
         menuItemGlycemicLoad.setText("Glycemic Load Of A Food Item");
         menu_item_alpha_linolenic_acid_required.setText("Alpha-Linolenic Acid Required");
+        menui_show_mix_stats.setText("Macronutrient Percentages");
         menuItemGlycemicIndexRange.setText("Glycemic Index Range Of A Food Item");
         menu_spreadsheet.setText("Spreadsheet");
         menu_exchange.setText("Exchange");
@@ -635,6 +638,11 @@ public class Main {
         menu_item_alpha_linolenic_acid_required.addActionListener((ActionEvent e) -> {
             event_menu_item_n3_fatty_acid_recommendations();
         });
+        menui_show_mix_stats.addActionListener((ActionEvent e) -> {
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            event_menui_show_mix_stats();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        });
         menuItemGlycemicIndexRange.addActionListener((ActionEvent e) -> {
             event_menuItemGlycemicIndexRange();
         });
@@ -657,7 +665,10 @@ public class Main {
             event_send_message();
         });
         menui_import_message.addActionListener((ActionEvent e) -> {
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             event_receive_message();
+            event_buttonSolve();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
         menuItemGuide.addActionListener((ActionEvent e) -> {
             event_menuItemGuide();
@@ -950,7 +961,11 @@ public class Main {
         bottomTabPane.setToolTipTextAt(7, "Use this to add notes");
         panel.add(splitPane, cc.xy(1, 1));
         listMixes.addListSelectionListener((ListSelectionEvent e) -> {
-            event_listMixes(e);
+            if (!e.getValueIsAdjusting()) {
+                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                event_listMixes(e);
+                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
         });
         listMixes.setModel(modelList_Solve);
         return panel;
@@ -1030,13 +1045,6 @@ public class Main {
 
             }
         }
-    }
-
-    private void reloadStatusBar(String mixId) {
-        panelStatusBar.removeAll();
-        panelStatusBar.add(new JLabel(stringModelMixPct.reload(mixId)));
-        panelStatusBar.revalidate();
-        panelStatusBar.repaint();
     }
 
     private void event_buttonAddMix() {
@@ -1171,7 +1179,6 @@ public class Main {
                 tableGlycemic.getColumnModel().getColumn(i).setMinWidth(70);
                 tableGlycemic.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            reloadStatusBar(mixId);
         }
     }
 
@@ -1188,7 +1195,6 @@ public class Main {
                     dbLink.Mix_Delete(mixId);
                     reloadMixes();
                     clearAllModels();
-                    reloadStatusBar("");
                 } catch (SQLException e) {
 
                 }
@@ -1581,7 +1587,9 @@ public class Main {
 
     private void event_listMixesJournal(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             reloadTableModelsJournal();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -1662,7 +1670,6 @@ public class Main {
             }
             textAreaJournalModel.setText(getLinearProgrammingModel(mixId));
             textAreaJournalNote.setText(getNote(mixId));
-            reloadStatusBar(mixId);
         }
     }
 
@@ -2851,7 +2858,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 760");
+        sb.append("This is build 770");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3558,14 +3565,12 @@ public class Main {
             if (isMixSelected()) {
                 MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
                 String mixId = mixDataObject.getMixId();
-                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 modelListSelectedFood.reload(mixId);
                 reloadTableModels();
                 reloadFoodComboBoxes(mixId);
                 reloadTableModelConstraints(mixId);
                 textAreaModel.setText(getLinearProgrammingModel(mixId));
                 textAreaNote.setText(getNote(mixId));
-                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         }
     }
@@ -3964,7 +3969,9 @@ public class Main {
                         double v = point[i];
                         dbLink.MixFood_Update(mixId, foodid, v);
                     }
-                    dbLink.FillMixResults(mixId);
+                    dbLink.fill_mixresult(mixId);
+                    dbLink.delete_mixresultdn(mixId);
+                    dbLink.fill_mixresultdn(mixId);
                     reloadTableModels();
                     reloadTableModelsJournal();
                     reloadMixComparison();
@@ -4850,7 +4857,6 @@ public class Main {
             } catch (Exception e) {
             }
         }
-
     }
 
     private void show_message_sent() {
@@ -4868,7 +4874,6 @@ public class Main {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
             fileChooser.setCurrentDirectory(new File(path));
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             HashSet set01 = new HashSet();
             HashSet set02 = new HashSet();
             final int old_size = modelList_Solve.size();
@@ -4893,8 +4898,23 @@ public class Main {
             } else {
                 listMixes.setSelectedIndex(0);
             }
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            event_buttonSolve();
         }
+    }
+
+    private void event_menui_show_mix_stats() {
+        if (isMixSelected()) {
+            try {
+                MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
+                JTextArea textArea = new JTextArea(1, 24);
+                textArea.setText(stringModelMixPct.reload(mix.getMixId()));
+                textArea.setEditable(false);
+                JComponent[] inputs = new JComponent[]{
+                    textArea
+                };
+                Message.showOptionDialog(inputs, "Macronutrient Percentages");
+            } catch (Exception e) {
+            }
+        }
+
     }
 }

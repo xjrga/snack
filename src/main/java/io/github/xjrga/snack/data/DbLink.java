@@ -1295,8 +1295,14 @@ public class DbLink {
         return list;
     }
 
-    public void FillMixResults(String mixId) throws SQLException {
-        CallableStatement proc = connection.prepareCall("{CALL public.FillMixResults( ? )}");
+    public void fill_mixresult(String mixId) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.fill_mixresult( ? )}");
+        proc.setString(1, mixId);
+        proc.execute();
+    }
+
+    public void fill_mixresultdn(String mixId) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.fill_mixresultdn( ? )}");
         proc.setString(1, mixId);
         proc.execute();
     }
@@ -1432,5 +1438,11 @@ public class DbLink {
         }
         proc.close();
         return doc;
+    }
+
+    public void delete_mixresultdn(String mixid) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.mixresultdn_delete( ? )}");
+        proc.setString(1, mixid);
+        proc.execute();
     }
 }

@@ -176,6 +176,64 @@ CONSTRAINT MixResult_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId)
 );
 /
 
+CREATE TABLE mixresultdn
+(
+mixid LONGVARCHAR,
+foodid LONGVARCHAR,
+name LONGVARCHAR,
+weight DOUBLE,
+completeprotein DOUBLE,
+digestiblecarbohydrate DOUBLE,
+cost DOUBLE,
+protein DOUBLE,
+fat DOUBLE,
+carbsbydiff DOUBLE,
+energygross DOUBLE,
+alcohol DOUBLE,
+water DOUBLE,
+fiber DOUBLE,
+calcium DOUBLE,
+iron DOUBLE,
+magnesium DOUBLE,
+phosphorus DOUBLE,
+potassium DOUBLE,
+sodium DOUBLE,
+zinc DOUBLE,
+copper DOUBLE,
+fluoride DOUBLE,
+manganese DOUBLE,
+selenium DOUBLE,
+vitamina DOUBLE,
+vitamine DOUBLE,
+vitamind DOUBLE,
+vitaminc DOUBLE,
+thiamin DOUBLE,
+riboflavin DOUBLE,
+niacin DOUBLE,
+pantothenicacid DOUBLE,
+vitaminb6 DOUBLE,
+vitaminb12 DOUBLE,
+choline DOUBLE,
+vitamink DOUBLE,
+folate DOUBLE,
+cholesterol DOUBLE,
+sfa DOUBLE,
+dha DOUBLE,
+epa DOUBLE,
+mufa DOUBLE,
+pufa DOUBLE,
+linoleicacid DOUBLE,
+alphalinolenicacid DOUBLE,
+glycemicload DOUBLE,
+energydigestible DOUBLE,
+energycarbohydrate DOUBLE,
+energyprotein DOUBLE,
+energyfat DOUBLE,
+energyalcohol DOUBLE,
+CONSTRAINT mixresultdn_primaryKey PRIMARY KEY (mixid, foodid)
+);
+/
+
 ALTER TABLE CategoryLink ADD CONSTRAINT R0_FoodCategory_CategoryLink FOREIGN KEY ( FoodCategoryId ) REFERENCES FoodCategory ( FoodCategoryId ) ON DELETE CASCADE;
 /
 ALTER TABLE FoodFact ADD CONSTRAINT R1_Food_FoodFact FOREIGN KEY ( FoodId ) REFERENCES Food ( FoodId ) ON DELETE CASCADE;
@@ -229,4 +287,6 @@ ALTER TABLE Rda ADD CONSTRAINT R24_RdaLifeStage_Rda FOREIGN KEY ( LifeStageId ) 
 ALTER TABLE MixResult ADD CONSTRAINT R25_MixFood_MixResult FOREIGN KEY ( MixId,FoodId ) REFERENCES MixFood ( MixId,FoodId ) ON DELETE CASCADE;
 /
 ALTER TABLE MixResult ADD CONSTRAINT R26_FoodFactCoefficient_MixResult FOREIGN KEY ( FoodId,NutrientId ) REFERENCES FoodFactCoefficient ( FoodId,NutrientId ) ON DELETE CASCADE;
+/
+ALTER TABLE mixresultdn ADD CONSTRAINT R27_MixFood_mixresultdn FOREIGN KEY ( mixid,foodid ) REFERENCES MixFood ( MixId,FoodId ) ON DELETE CASCADE;
 /

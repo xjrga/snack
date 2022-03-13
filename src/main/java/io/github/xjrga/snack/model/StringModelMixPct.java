@@ -1,7 +1,6 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,31 +37,33 @@ public class StringModelMixPct implements RoundUp {
                 //This calories result is slightly different that the one reported because it uses digestible carbohydrate in calculation.
                 //sb.append("Calories: ");
                 //sb.append(mixResultDwPctDataObject.getCalories());
-                sb.append("Per cent of total energy: ");
-                sb.append("   ");
+                sb.append("Values are percent of total energy");
+                sb.append("\n\n");
                 sb.append("Fat: ");
                 sb.append(fat);
-                sb.append("   ");
+                sb.append("\n");
                 sb.append("Carbohydrate: ");
                 sb.append(carbs);
-                sb.append("   ");
+                sb.append("\n");
                 sb.append("Protein: ");
                 sb.append(protein);
-                sb.append("   ");
+                sb.append("\n");
                 sb.append("Alcohol: ");
                 sb.append(alcohol);
-                sb.append("   ");
-                sb.append("Food Quotient: ");
-                sb.append(fq);
-                sb.append("   ");
-                sb.append("SFA: ");
+                sb.append("\n");
+                sb.append("Saturated Fatty Acids (SFA): ");
                 sb.append(satfat);
-                sb.append("   ");
-                sb.append("MUFA: ");
+                sb.append("\n");
+                sb.append("Monounsaturated Fatty Acids (MUFA): ");
                 sb.append(monoufat);
-                sb.append("   ");
-                sb.append("PUFA: ");
+                sb.append("\n");
+                sb.append("Polyunsaturated Fatty Acids (PUFA): ");
                 sb.append(polyufat);
+                sb.append("\n");
+                sb.append("");
+                sb.append("\n");
+                sb.append("Food Quotient (FQ): ");
+                sb.append(fq);
                 s = sb.toString();
             }
         } catch (SQLException e) {

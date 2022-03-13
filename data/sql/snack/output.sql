@@ -179,6 +179,64 @@ CONSTRAINT MixResult_primaryKey PRIMARY KEY (MixId, FoodId, NutrientId)
 );
 /
 
+CREATE TABLE mixresultdn
+(
+mixid LONGVARCHAR,
+foodid LONGVARCHAR,
+name LONGVARCHAR,
+weight DOUBLE,
+completeprotein DOUBLE,
+digestiblecarbohydrate DOUBLE,
+cost DOUBLE,
+protein DOUBLE,
+fat DOUBLE,
+carbsbydiff DOUBLE,
+energygross DOUBLE,
+alcohol DOUBLE,
+water DOUBLE,
+fiber DOUBLE,
+calcium DOUBLE,
+iron DOUBLE,
+magnesium DOUBLE,
+phosphorus DOUBLE,
+potassium DOUBLE,
+sodium DOUBLE,
+zinc DOUBLE,
+copper DOUBLE,
+fluoride DOUBLE,
+manganese DOUBLE,
+selenium DOUBLE,
+vitamina DOUBLE,
+vitamine DOUBLE,
+vitamind DOUBLE,
+vitaminc DOUBLE,
+thiamin DOUBLE,
+riboflavin DOUBLE,
+niacin DOUBLE,
+pantothenicacid DOUBLE,
+vitaminb6 DOUBLE,
+vitaminb12 DOUBLE,
+choline DOUBLE,
+vitamink DOUBLE,
+folate DOUBLE,
+cholesterol DOUBLE,
+sfa DOUBLE,
+dha DOUBLE,
+epa DOUBLE,
+mufa DOUBLE,
+pufa DOUBLE,
+linoleicacid DOUBLE,
+alphalinolenicacid DOUBLE,
+glycemicload DOUBLE,
+energydigestible DOUBLE,
+energycarbohydrate DOUBLE,
+energyprotein DOUBLE,
+energyfat DOUBLE,
+energyalcohol DOUBLE,
+CONSTRAINT mixresultdn_primaryKey PRIMARY KEY (mixid, foodid)
+);
+/
+
 ALTER TABLE CategoryLink ADD CONSTRAINT R0_FoodCategory_CategoryLink FOREIGN KEY ( FoodCategoryId ) REFERENCES FoodCategory ( FoodCategoryId ) ON DELETE CASCADE;
 /
 ALTER TABLE FoodFact ADD CONSTRAINT R1_Food_FoodFact FOREIGN KEY ( FoodId ) REFERENCES Food ( FoodId ) ON DELETE CASCADE;
@@ -233,6 +291,8 @@ ALTER TABLE MixResult ADD CONSTRAINT R25_MixFood_MixResult FOREIGN KEY ( MixId,F
 /
 ALTER TABLE MixResult ADD CONSTRAINT R26_FoodFactCoefficient_MixResult FOREIGN KEY ( FoodId,NutrientId ) REFERENCES FoodFactCoefficient ( FoodId,NutrientId ) ON DELETE CASCADE;
 /
+ALTER TABLE mixresultdn ADD CONSTRAINT R27_MixFood_mixresultdn FOREIGN KEY ( mixid,foodid ) REFERENCES MixFood ( MixId,FoodId ) ON DELETE CASCADE;
+/
 
 
 CREATE FUNCTION getFoodQuotient(
@@ -242,31 +302,27 @@ READS SQL DATA BEGIN ATOMIC
 DECLARE fq DOUBLE;
 SELECT --Food quotient (FQ) calculated using the equation of Black et al
        --FQ for alcohol is 0.667
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(digestiblecarbohydrate*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 1.00 + SUM(fat*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 0.71 + SUM(protein*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 0.81 + SUM(alcohol*6.93) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 0.667 END,5) INTO fq
+       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(digestiblecarbohydrate*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 1.00 + SUM(fat*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 0.71 + SUM(protein*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 0.81 + SUM(alcohol*6.93) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) * 0.667 END,5)  into fq
 FROM (SELECT mixid,
              foodid,
-             q AS fat
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '204') a,
+             fat
+      FROM mixresultdn
+      WHERE mixid = v_MixId) a,
      (SELECT mixid,
              foodid,
-             q AS digestiblecarbohydrate
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '10003') b,
+             digestiblecarbohydrate
+      FROM mixresultdn
+      WHERE mixid = v_MixId) b,
       (SELECT mixid,
              foodid,
-             q AS protein
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '203') c,
+             protein
+      FROM mixresultdn
+      WHERE mixid = v_MixId) c,
       (SELECT mixid,
              foodid,
-             q AS alcohol
-      FROM mixresult
-      WHERE mixid = v_MixId
-      AND   nutrientid = '221') d
+             alcohol
+      FROM mixresultdn
+      WHERE mixid = v_MixId) d
 WHERE a.mixid = b.mixid
 AND a.mixid = c.mixid
 AND a.mixid = d.mixid
@@ -737,7 +793,7 @@ v_q;
 END;
 /
 
-CREATE PROCEDURE FillMixResults(
+CREATE PROCEDURE fill_mixresult(
 --
 IN v_MixId LONGVARCHAR
 --
@@ -2802,522 +2858,62 @@ IN v_Precision INTEGER
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
-select a.MixId,
+SELECT a.MixId,
        a.FoodId,
        b.Name,
-       Round(a.Weight,v_Precision) as Weight,
-       Round(CompleteProtein,v_Precision) as CompleteProtein,       
-       Round(DigestibleCarbohydrate,v_Precision) as DigestibleCarbohydrate,
-       Round(Cost,v_Precision) as Cost,
-       Round(Protein,v_Precision) as Protein,
-       Round(Fat,v_Precision) as Fat,
-       Round(CarbsByDiff,v_Precision) as CarbsByDiff,
-       Round(Energy,v_Precision) as EnergyGross,
-       Round(Alcohol,v_Precision) as Alcohol,
-       Round(Water,v_Precision) as Water,
-       Round(Fiber,v_Precision) as Fiber,
-       Round(Calcium,v_Precision) as Calcium,
-       Round(Iron,v_Precision) as Iron,
-       Round(Magnesium,v_Precision) as Magnesium,
-       Round(Phosphorus,v_Precision) as Phosphorus,
-       Round(Potassium,v_Precision) as Potassium,
-       Round(Sodium,v_Precision) as Sodium,
-       Round(Zinc,v_Precision) as Zinc,
-       Round(Copper,v_Precision) as Copper,
-       Round(Fluoride,v_Precision) as Fluoride,
-       Round(Manganese,v_Precision) as Manganese,
-       Round(Selenium,v_Precision) as Selenium,
-       Round(VitaminA,v_Precision) as VitaminA,
-       Round(VitaminE,v_Precision) as VitaminE,
-       Round(VitaminD,v_Precision) as VitaminD,
-       Round(VitaminC,v_Precision) as VitaminC,
-       Round(Thiamin,v_Precision) as Thiamin,
-       Round(Riboflavin,v_Precision) as Riboflavin,
-       Round(Niacin,v_Precision) as Niacin,
-       Round(Pantothenic,v_Precision) as Pantothenic,
-       Round(VitaminB6,v_Precision) as VitaminB6,
-       Round(VitaminB12,v_Precision) as VitaminB12,
-       Round(Choline,v_Precision) as Choline,
-       Round(VitaminK,v_Precision) as VitaminK,
-       Round(Folate,v_Precision) as Folate,
-       Round(Cholesterol,v_Precision) as Cholesterol,
-       Round(Saturated,v_Precision) as Saturated,
-       Round(DHA,v_Precision) as DHA,
-       Round(EPA,v_Precision) as EPA,
-       Round(Monounsaturated,v_Precision) as Monounsaturated,
-       Round(Polyunsaturated,v_Precision) as Polyunsaturated,
-       Round(Linoleic,v_Precision) as Linoleic,
-       Round(AlphaLinolenic,v_Precision) as AlphaLinolenic,
-       Round(GlycemicLoad,v_Precision) as GlycemicLoad,
-       Round(EnergyDigestible,v_Precision) as EnergyDigestible,       
-       Round(EnergyCarbohydrate,v_Precision) as EnergyCarbohydrate,
-       Round(EnergyProtein,v_Precision) as EnergyProtein,
-       Round(EnergyFat,v_Precision) as EnergyFat,
-       Round(EnergyAlcohol,v_Precision) as EnergyAlcohol
-from
-(
-select
-       x0.Mixid,
-       x0.Foodid,
-       x1.Weight,
-       x2.CompleteProtein,       
-       x4.DigestibleCarbohydrate,
-       x5.Cost,
-       x6.Protein,
-       x7.Fat,
-       x8.CarbsByDiff,
-       x9.Energy,
-       x13.Alcohol,
-       x14.Water,
-       x15.Fiber,
-       x16.Calcium,
-       x17.Iron,
-       x18.Magnesium,
-       x19.Phosphorus,
-       x20.Potassium,
-       x21.Sodium,
-       x22.Zinc,
-       x23.Copper,
-       x24.Fluoride,
-       x25.Manganese,
-       x26.Selenium,
-       x27.VitaminA,
-       x28.VitaminE,
-       x29.VitaminD,
-       x30.VitaminC,
-       x31.Thiamin,
-       x32.Riboflavin,
-       x33.Niacin,
-       x34.Pantothenic,
-       x35.VitaminB6,
-       x36.VitaminB12,
-       x37.Choline,
-       x38.VitaminK,
-       x39.Folate,
-       x40.Cholesterol,
-       x41.Saturated,
-       x42.DHA,
-       x43.EPA,
-       x44.Monounsaturated,
-       x45.Polyunsaturated,
-       x46.Linoleic,
-       x47.AlphaLinolenic,
-       x50.GlycemicLoad,
-       x51.EnergyDigestible,       
-       x53.EnergyCarbohydrate,
-       x54.EnergyProtein,
-       x55.EnergyFat,
-       x56.EnergyAlcohol
-from
---
-(
-select mixid,foodid from mixfood where mixid = v_MixId
-) x0,
---
---10000	Weight (g)
-(
-select mixid,foodid,q as Weight from mixresult
-where mixid = v_MixId
-and nutrientid = '10000'
-) x1,
---
---10001	Complete Protein (g)
-(
-select mixid,foodid,q as CompleteProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10001'
-) x2,
---
---10003	Digestible Carbohydrate (g)
-(
-select mixid,foodid,q as DigestibleCarbohydrate from mixresult
-where mixid = v_MixId
-and nutrientid = '10003'
-) x4,
---
---10005	Cost (g)
-(
-select mixid,foodid,q as Cost from mixresult
-where mixid = v_MixId
-and nutrientid = '10005'
-) x5,
---
---203	Protein (g)
-(
-select mixid,foodid,q as Protein from mixresult
-where mixid = v_MixId
-and nutrientid = '203'
-) x6,
---
---204	Total lipid (Fat) (g)
-(
-select mixid,foodid,q as Fat from mixresult
-where mixid = v_MixId
-and nutrientid = '204'
-) x7,
---205	Carbohydrate, by difference (g)
-(
-select mixid,foodid,q as Carbsbydiff from mixresult
-where mixid = v_MixId
-and nutrientid = '205'
-) x8,
---
---208	Energy (kcal)
-(
-select mixid,foodid,q as Energy from mixresult
-where mixid = v_MixId
-and nutrientid = '208'
-) x9,
---221	Alcohol, ethyl (g)
-(
-select mixid,foodid,q as Alcohol from mixresult
-where mixid = v_MixId
-and nutrientid = '221'
-) x13,
---255	Water (g)
-(
-select mixid,foodid,q as Water from mixresult
-where mixid = v_MixId
-and nutrientid = '255'
-) x14,
---291	Fiber, total dietary (g)
-(
-select mixid,foodid,q as Fiber from mixresult
-where mixid = v_MixId
-and nutrientid = '291'
-) x15,
---301	Calcium, Ca (mg)
-(
-select mixid,foodid,q as Calcium from mixresult
-where mixid = v_MixId
-and nutrientid = '301'
-) x16,
---303	Iron, Fe (mg)
-(
-select mixid,foodid,q as Iron from mixresult
-where mixid = v_MixId
-and nutrientid = '303'
-) x17,
---304	Magnesium, Mg (mg)
-(
-select mixid,foodid,q as Magnesium from mixresult
-where mixid = v_MixId
-and nutrientid = '304'
-) x18,
---305	Phosphorus, P (mg)
-(
-select mixid,foodid,q as Phosphorus from mixresult
-where mixid = v_MixId
-and nutrientid = '305'
-) x19,
---306	Potassium, K (mg)
-(
-select mixid,foodid,q as Potassium from mixresult
-where mixid = v_MixId
-and nutrientid = '306'
-) x20,
---307	Sodium, Na (mg)
-(
-select mixid,foodid,q as Sodium from mixresult
-where mixid = v_MixId
-and nutrientid = '307'
-) x21,
---309	Zinc, Zn (mg)
-(
-select mixid,foodid,q as Zinc from mixresult
-where mixid = v_MixId
-and nutrientid = '309'
-) x22,
---312	Copper, Cu (mg)
-(
-select mixid,foodid,q as Copper from mixresult
-where mixid = v_MixId
-and nutrientid = '312'
-) x23,
---313	Fluoride, F (µg)
-(
-select mixid,foodid,q as Fluoride from mixresult
-where mixid = v_MixId
-and nutrientid = '313'
-) x24,
---315	Manganese, Mn (mg)
-(
-select mixid,foodid,q as Manganese from mixresult
-where mixid = v_MixId
-and nutrientid = '315'
-) x25,
---317	Selenium, Se (µg)
-(
-select mixid,foodid,q as Selenium from mixresult
-where mixid = v_MixId
-and nutrientid = '317'
-) x26,
---320	Vitamin A, RAE (µg)
-(
-select mixid,foodid,q as VitaminA from mixresult
-where mixid = v_MixId
-and nutrientid = '320'
-) x27,
---323	Vitamin E (Alpha-Tocopherol) (mg)
-(
-select mixid,foodid,q as VitaminE from mixresult
-where mixid = v_MixId
-and nutrientid = '323'
-) x28,
---328	Vitamin D (D2 + D3) (µg)
-(
-select mixid,foodid,q as VitaminD from mixresult
-where mixid = v_MixId
-and nutrientid = '328'
-) x29,
---401	Vitamin C, total (Ascorbic Acid) (mg)
-(
-select mixid,foodid,q as VitaminC from mixresult
-where mixid = v_MixId
-and nutrientid = '401'
-) x30,
---404	Thiamin (mg)
-(
-select mixid,foodid,q as Thiamin from mixresult
-where mixid = v_MixId
-and nutrientid = '404'
-) x31,
---405	Riboflavin (mg)
-(
-select mixid,foodid,q as Riboflavin from mixresult
-where mixid = v_MixId
-and nutrientid = '405'
-) x32,
---406	Niacin (mg)
-(
-select mixid,foodid,q as Niacin from mixresult
-where mixid = v_MixId
-and nutrientid = '406'
-) x33,
---410	Pantothenic acid (mg)
-(
-select mixid,foodid,q as Pantothenic from mixresult
-where mixid = v_MixId
-and nutrientid = '410'
-) x34,
---415	Vitamin B-6 (mg)
-(
-select mixid,foodid,q as VitaminB6 from mixresult
-where mixid = v_MixId
-and nutrientid = '415'
-) x35,
---418	Vitamin B-12 (µg)
-(
-select mixid,foodid,q as VitaminB12 from mixresult
-where mixid = v_MixId
-and nutrientid = '418'
-) x36,
---421	Choline, total (mg)
-(
-select mixid,foodid,q as Choline from mixresult
-where mixid = v_MixId
-and nutrientid = '421'
-) x37,
---430	Vitamin K (Phylloquinone) (µg)
-(
-select mixid,foodid,q as VitaminK from mixresult
-where mixid = v_MixId
-and nutrientid = '430'
-) x38,
---435	Folate, DFE (µg)
-(
-select mixid,foodid,q as Folate from mixresult
-where mixid = v_MixId
-and nutrientid = '435'
-) x39,
---601	Cholesterol (mg)
-(
-select mixid,foodid,q as Cholesterol from mixresult
-where mixid = v_MixId
-and nutrientid = '601'
-) x40,
---606	Fatty acids, total saturated (g)
-(
-select mixid,foodid,q as Saturated from mixresult
-where mixid = v_MixId
-and nutrientid = '606'
-) x41,
---621	22:6 n-3 (DHA) (g)
-(
-select mixid,foodid,q as DHA from mixresult
-where mixid = v_MixId
-and nutrientid = '621'
-) x42,
---629	20:5 n-3 (EPA) (g)
-(
-select mixid,foodid,q as EPA from mixresult
-where mixid = v_MixId
-and nutrientid = '629'
-) x43,
---645	Fatty acids, total monounsaturated (g)
-(
-select mixid,foodid,q as Monounsaturated from mixresult
-where mixid = v_MixId
-and nutrientid = '645'
-) x44,
---646	Fatty acids, total polyunsaturated (g)
-(
-select mixid,foodid,q as Polyunsaturated from mixresult
-where mixid = v_MixId
-and nutrientid = '646'
-) x45,
---618	18:2 undifferentiated (Linoleic) (g)
-(
-select mixid,foodid,q as Linoleic from mixresult
-where mixid = v_MixId
-and nutrientid = '618'
-) x46,
---619	18:3 undifferentiated (Linolenic) (g)
-(
-select mixid,foodid,q as AlphaLinolenic from mixresult
-where mixid = v_MixId
-and nutrientid = '619'
-) x47,
---10006	Glycemic Load
-(
-select mixid,foodid,q as GlycemicLoad from mixresult
-where mixid = v_MixId
-and nutrientid = '10006'
-) x50,
---10009	Energy, digestible (kcal)
-(
-select mixid,foodid,q as EnergyDigestible from mixresult
-where mixid = v_MixId
-and nutrientid = '10009'
-) x51,
---10011	Energy, carbohydrate (kcal)
-(
-select mixid,foodid,q as EnergyCarbohydrate from mixresult
-where mixid = v_MixId
-and nutrientid = '10011'
-) x53,
---10012	Energy, protein (kcal)
-(
-select mixid,foodid,q as EnergyProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10012'
-) x54,
---10013	Energy, fat (kcal)
-(
-select mixid,foodid,q as EnergyFat from mixresult
-where mixid = v_MixId
-and nutrientid = '10013'
-) x55,
---10014	Energy, no alcohol (kcal)
-(
-select mixid,foodid,q as EnergyAlcohol from mixresult
-where mixid = v_MixId
-and nutrientid = '10014'
-) x56
---
-where x0.mixid = x1.mixid
-and x0.foodid = x1.foodid
-and x0.mixid = x2.mixid
-and x0.foodid = x2.foodid
-and x0.mixid = x4.mixid
-and x0.foodid = x4.foodid
-and x0.mixid = x5.mixid
-and x0.foodid = x5.foodid
-and x0.mixid = x6.mixid
-and x0.foodid = x6.foodid
-and x0.mixid = x7.mixid
-and x0.foodid = x7.foodid
-and x0.mixid = x8.mixid
-and x0.foodid = x8.foodid
-and x0.mixid = x9.mixid
-and x0.foodid = x9.foodid
-and x0.mixid = x13.mixid
-and x0.foodid = x13.foodid
-and x0.mixid = x14.mixid
-and x0.foodid = x14.foodid
-and x0.mixid = x15.mixid
-and x0.foodid = x15.foodid
-and x0.mixid = x16.mixid
-and x0.foodid = x16.foodid
-and x0.mixid = x17.mixid
-and x0.foodid = x17.foodid
-and x0.mixid = x18.mixid
-and x0.foodid = x18.foodid
-and x0.mixid = x19.mixid
-and x0.foodid = x19.foodid
-and x0.mixid = x20.mixid
-and x0.foodid = x20.foodid
-and x0.mixid = x21.mixid
-and x0.foodid = x21.foodid
-and x0.mixid = x22.mixid
-and x0.foodid = x22.foodid
-and x0.mixid = x23.mixid
-and x0.foodid = x23.foodid
-and x0.mixid = x24.mixid
-and x0.foodid = x24.foodid
-and x0.mixid = x25.mixid
-and x0.foodid = x25.foodid
-and x0.mixid = x26.mixid
-and x0.foodid = x26.foodid
-and x0.mixid = x27.mixid
-and x0.foodid = x27.foodid
-and x0.mixid = x28.mixid
-and x0.foodid = x28.foodid
-and x0.mixid = x29.mixid
-and x0.foodid = x29.foodid
-and x0.mixid = x30.mixid
-and x0.foodid = x30.foodid
-and x0.mixid = x31.mixid
-and x0.foodid = x31.foodid
-and x0.mixid = x32.mixid
-and x0.foodid = x32.foodid
-and x0.mixid = x33.mixid
-and x0.foodid = x33.foodid
-and x0.mixid = x34.mixid
-and x0.foodid = x34.foodid
-and x0.mixid = x35.mixid
-and x0.foodid = x35.foodid
-and x0.mixid = x36.mixid
-and x0.foodid = x36.foodid
-and x0.mixid = x37.mixid
-and x0.foodid = x37.foodid
-and x0.mixid = x38.mixid
-and x0.foodid = x38.foodid
-and x0.mixid = x39.mixid
-and x0.foodid = x39.foodid
-and x0.mixid = x40.mixid
-and x0.foodid = x40.foodid
-and x0.mixid = x41.mixid
-and x0.foodid = x41.foodid
-and x0.mixid = x42.mixid
-and x0.foodid = x42.foodid
-and x0.mixid = x43.mixid
-and x0.foodid = x43.foodid
-and x0.mixid = x44.mixid
-and x0.foodid = x44.foodid
-and x0.mixid = x45.mixid
-and x0.foodid = x45.foodid
-and x0.mixid = x46.mixid
-and x0.foodid = x46.foodid
-and x0.mixid = x47.mixid
-and x0.foodid = x47.foodid
-and x0.mixid = x50.mixid
-and x0.foodid = x50.foodid
-and x0.mixid = x51.mixid
-and x0.foodid = x51.foodid
-and x0.mixid = x53.mixid
-and x0.foodid = x53.foodid
-and x0.mixid = x54.mixid
-and x0.foodid = x54.foodid
-and x0.mixid = x55.mixid
-and x0.foodid = x55.foodid
-and x0.mixid = x56.mixid
-and x0.foodid = x56.foodid
-) a,
-(
-select foodid,name from food
-) b
-where a.foodid = b.foodid
+       ROUND(a.Weight,v_Precision) AS Weight,
+       ROUND(CompleteProtein,v_Precision) AS CompleteProtein,
+       ROUND(DigestibleCarbohydrate,v_Precision) AS DigestibleCarbohydrate,
+       ROUND(Cost,v_Precision) AS Cost,
+       ROUND(Protein,v_Precision) AS Protein,
+       ROUND(Fat,v_Precision) AS Fat,
+       ROUND(CarbsByDiff,v_Precision) AS CarbsByDiff,
+       ROUND(energygross,v_Precision) AS EnergyGross,
+       ROUND(Alcohol,v_Precision) AS Alcohol,
+       ROUND(Water,v_Precision) AS Water,
+       ROUND(Fiber,v_Precision) AS Fiber,
+       ROUND(Calcium,v_Precision) AS Calcium,
+       ROUND(Iron,v_Precision) AS Iron,
+       ROUND(Magnesium,v_Precision) AS Magnesium,
+       ROUND(Phosphorus,v_Precision) AS Phosphorus,
+       ROUND(Potassium,v_Precision) AS Potassium,
+       ROUND(Sodium,v_Precision) AS Sodium,
+       ROUND(Zinc,v_Precision) AS Zinc,
+       ROUND(Copper,v_Precision) AS Copper,
+       ROUND(Fluoride,v_Precision) AS Fluoride,
+       ROUND(Manganese,v_Precision) AS Manganese,
+       ROUND(Selenium,v_Precision) AS Selenium,
+       ROUND(VitaminA,v_Precision) AS VitaminA,
+       ROUND(VitaminE,v_Precision) AS VitaminE,
+       ROUND(VitaminD,v_Precision) AS VitaminD,
+       ROUND(VitaminC,v_Precision) AS VitaminC,
+       ROUND(Thiamin,v_Precision) AS Thiamin,
+       ROUND(Riboflavin,v_Precision) AS Riboflavin,
+       ROUND(Niacin,v_Precision) AS Niacin,
+       ROUND(pantothenicacid,v_Precision) AS Pantothenic,
+       ROUND(VitaminB6,v_Precision) AS VitaminB6,
+       ROUND(VitaminB12,v_Precision) AS VitaminB12,
+       ROUND(Choline,v_Precision) AS Choline,
+       ROUND(VitaminK,v_Precision) AS VitaminK,
+       ROUND(Folate,v_Precision) AS Folate,
+       ROUND(Cholesterol,v_Precision) AS Cholesterol,
+       ROUND(sfa,v_Precision) AS Saturated,
+       ROUND(DHA,v_Precision) AS DHA,
+       ROUND(EPA,v_Precision) AS EPA,
+       ROUND(mufa,v_Precision) AS Monounsaturated,
+       ROUND(pufa,v_Precision) AS Polyunsaturated,
+       ROUND(linoleicacid,v_Precision) AS Linoleic,
+       ROUND(alphalinolenicacid,v_Precision) AS AlphaLinolenic,
+       ROUND(GlycemicLoad,v_Precision) AS GlycemicLoad,
+       ROUND(EnergyDigestible,v_Precision) AS EnergyDigestible,
+       ROUND(EnergyCarbohydrate,v_Precision) AS EnergyCarbohydrate,
+       ROUND(EnergyProtein,v_Precision) AS EnergyProtein,
+       ROUND(EnergyFat,v_Precision) AS EnergyFat,
+       ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol
+FROM mixresultdn a,
+     food b
+WHERE a.mixid = v_mixid
+AND   a.foodid = b.foodid
 --
 union
 --
@@ -3331,7 +2927,7 @@ select a.MixId,
        Round(sum(Protein),v_Precision),
        Round(sum(Fat),v_Precision),
        Round(sum(CarbsByDiff),v_Precision),
-       Round(sum(Energy),v_Precision),
+       Round(sum(energygross),v_Precision),
        Round(sum(Alcohol),v_Precision),
        Round(sum(Water),v_Precision),
        Round(sum(Fiber),v_Precision),
@@ -3353,490 +2949,30 @@ select a.MixId,
        Round(sum(Thiamin),v_Precision),
        Round(sum(Riboflavin),v_Precision),
        Round(sum(Niacin),v_Precision),
-       Round(sum(Pantothenic),v_Precision),
+       Round(sum(pantothenicacid),v_Precision),
        Round(sum(VitaminB6),v_Precision),
        Round(sum(VitaminB12),v_Precision),
        Round(sum(Choline),v_Precision),
        Round(sum(VitaminK),v_Precision),
        Round(sum(Folate),v_Precision),
        Round(sum(Cholesterol),v_Precision),
-       Round(sum(Saturated),v_Precision),
+       Round(sum(sfa),v_Precision),
        Round(sum(DHA),v_Precision),
        Round(sum(EPA),v_Precision),
-       Round(sum(Monounsaturated),v_Precision),
-       Round(sum(Polyunsaturated),v_Precision),
-       Round(sum(Linoleic),v_Precision),
-       Round(sum(AlphaLinolenic),v_Precision),
+       Round(sum(mufa),v_Precision),
+       Round(sum(pufa),v_Precision),
+       Round(sum(linoleicacid),v_Precision),
+       Round(sum(alphalinolenicacid),v_Precision),
        Round(sum(GlycemicLoad),v_Precision),
        Round(sum(EnergyDigestible),v_Precision),       
        Round(sum(EnergyCarbohydrate),v_Precision),
        Round(sum(EnergyProtein),v_Precision),
        Round(sum(EnergyFat),v_Precision),
        Round(sum(EnergyAlcohol),v_Precision)
-from
-(
-select
-       x0.Mixid,
-       x0.Foodid,
-       x1.Weight,
-       x2.CompleteProtein,       
-       x4.DigestibleCarbohydrate,
-       x5.Cost,
-       x6.Protein,
-       x7.Fat,
-       x8.CarbsByDiff,
-       x9.Energy,
-       x13.Alcohol,
-       x14.Water,
-       x15.Fiber,
-       x16.Calcium,
-       x17.Iron,
-       x18.Magnesium,
-       x19.Phosphorus,
-       x20.Potassium,
-       x21.Sodium,
-       x22.Zinc,
-       x23.Copper,
-       x24.Fluoride,
-       x25.Manganese,
-       x26.Selenium,
-       x27.VitaminA,
-       x28.VitaminE,
-       x29.VitaminD,
-       x30.VitaminC,
-       x31.Thiamin,
-       x32.Riboflavin,
-       x33.Niacin,
-       x34.Pantothenic,
-       x35.VitaminB6,
-       x36.VitaminB12,
-       x37.Choline,
-       x38.VitaminK,
-       x39.Folate,
-       x40.Cholesterol,
-       x41.Saturated,
-       x42.DHA,
-       x43.EPA,
-       x44.Monounsaturated,
-       x45.Polyunsaturated,
-       x46.Linoleic,
-       x47.AlphaLinolenic,
-       x50.GlycemicLoad,
-       x51.EnergyDigestible,       
-       x53.EnergyCarbohydrate,
-       x54.EnergyProtein,
-       x55.EnergyFat,
-       x56.EnergyAlcohol
-from
---
-(
-select mixid,foodid from mixfood where mixid = v_MixId
-) x0,
---
---10000	Weight (g)
-(
-select mixid,foodid,q as Weight from mixresult
-where mixid = v_MixId
-and nutrientid = '10000'
-) x1,
---
---10001	Complete Protein (g)
-(
-select mixid,foodid,q as CompleteProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10001'
-) x2,
---
---10003	Digestible Carbohydrate (g)
-(
-select mixid,foodid,q as DigestibleCarbohydrate from mixresult
-where mixid = v_MixId
-and nutrientid = '10003'
-) x4,
---
---10005	Cost (g)
-(
-select mixid,foodid,q as Cost from mixresult
-where mixid = v_MixId
-and nutrientid = '10005'
-) x5,
---
---203	Protein (g)
-(
-select mixid,foodid,q as Protein from mixresult
-where mixid = v_MixId
-and nutrientid = '203'
-) x6,
---
---204	Total lipid (Fat) (g)
-(
-select mixid,foodid,q as Fat from mixresult
-where mixid = v_MixId
-and nutrientid = '204'
-) x7,
---205	Carbohydrate, by difference (g)
-(
-select mixid,foodid,q as Carbsbydiff from mixresult
-where mixid = v_MixId
-and nutrientid = '205'
-) x8,
---
---208	Energy (kcal)
-(
-select mixid,foodid,q as Energy from mixresult
-where mixid = v_MixId
-and nutrientid = '208'
-) x9,
---221	Alcohol, ethyl (g)
-(
-select mixid,foodid,q as Alcohol from mixresult
-where mixid = v_MixId
-and nutrientid = '221'
-) x13,
---255	Water (g)
-(
-select mixid,foodid,q as Water from mixresult
-where mixid = v_MixId
-and nutrientid = '255'
-) x14,
---291	Fiber, total dietary (g)
-(
-select mixid,foodid,q as Fiber from mixresult
-where mixid = v_MixId
-and nutrientid = '291'
-) x15,
---301	Calcium, Ca (mg)
-(
-select mixid,foodid,q as Calcium from mixresult
-where mixid = v_MixId
-and nutrientid = '301'
-) x16,
---303	Iron, Fe (mg)
-(
-select mixid,foodid,q as Iron from mixresult
-where mixid = v_MixId
-and nutrientid = '303'
-) x17,
---304	Magnesium, Mg (mg)
-(
-select mixid,foodid,q as Magnesium from mixresult
-where mixid = v_MixId
-and nutrientid = '304'
-) x18,
---305	Phosphorus, P (mg)
-(
-select mixid,foodid,q as Phosphorus from mixresult
-where mixid = v_MixId
-and nutrientid = '305'
-) x19,
---306	Potassium, K (mg)
-(
-select mixid,foodid,q as Potassium from mixresult
-where mixid = v_MixId
-and nutrientid = '306'
-) x20,
---307	Sodium, Na (mg)
-(
-select mixid,foodid,q as Sodium from mixresult
-where mixid = v_MixId
-and nutrientid = '307'
-) x21,
---309	Zinc, Zn (mg)
-(
-select mixid,foodid,q as Zinc from mixresult
-where mixid = v_MixId
-and nutrientid = '309'
-) x22,
---312	Copper, Cu (mg)
-(
-select mixid,foodid,q as Copper from mixresult
-where mixid = v_MixId
-and nutrientid = '312'
-) x23,
---313	Fluoride, F (µg)
-(
-select mixid,foodid,q as Fluoride from mixresult
-where mixid = v_MixId
-and nutrientid = '313'
-) x24,
---315	Manganese, Mn (mg)
-(
-select mixid,foodid,q as Manganese from mixresult
-where mixid = v_MixId
-and nutrientid = '315'
-) x25,
---317	Selenium, Se (µg)
-(
-select mixid,foodid,q as Selenium from mixresult
-where mixid = v_MixId
-and nutrientid = '317'
-) x26,
---320	Vitamin A, RAE (µg)
-(
-select mixid,foodid,q as VitaminA from mixresult
-where mixid = v_MixId
-and nutrientid = '320'
-) x27,
---323	Vitamin E (Alpha-Tocopherol) (mg)
-(
-select mixid,foodid,q as VitaminE from mixresult
-where mixid = v_MixId
-and nutrientid = '323'
-) x28,
---328	Vitamin D (D2 + D3) (µg)
-(
-select mixid,foodid,q as VitaminD from mixresult
-where mixid = v_MixId
-and nutrientid = '328'
-) x29,
---401	Vitamin C, total (Ascorbic Acid) (mg)
-(
-select mixid,foodid,q as VitaminC from mixresult
-where mixid = v_MixId
-and nutrientid = '401'
-) x30,
---404	Thiamin (mg)
-(
-select mixid,foodid,q as Thiamin from mixresult
-where mixid = v_MixId
-and nutrientid = '404'
-) x31,
---405	Riboflavin (mg)
-(
-select mixid,foodid,q as Riboflavin from mixresult
-where mixid = v_MixId
-and nutrientid = '405'
-) x32,
---406	Niacin (mg)
-(
-select mixid,foodid,q as Niacin from mixresult
-where mixid = v_MixId
-and nutrientid = '406'
-) x33,
---410	Pantothenic acid (mg)
-(
-select mixid,foodid,q as Pantothenic from mixresult
-where mixid = v_MixId
-and nutrientid = '410'
-) x34,
---415	Vitamin B-6 (mg)
-(
-select mixid,foodid,q as VitaminB6 from mixresult
-where mixid = v_MixId
-and nutrientid = '415'
-) x35,
---418	Vitamin B-12 (µg)
-(
-select mixid,foodid,q as VitaminB12 from mixresult
-where mixid = v_MixId
-and nutrientid = '418'
-) x36,
---421	Choline, total (mg)
-(
-select mixid,foodid,q as Choline from mixresult
-where mixid = v_MixId
-and nutrientid = '421'
-) x37,
---430	Vitamin K (Phylloquinone) (µg)
-(
-select mixid,foodid,q as VitaminK from mixresult
-where mixid = v_MixId
-and nutrientid = '430'
-) x38,
---435	Folate, DFE (µg)
-(
-select mixid,foodid,q as Folate from mixresult
-where mixid = v_MixId
-and nutrientid = '435'
-) x39,
---601	Cholesterol (mg)
-(
-select mixid,foodid,q as Cholesterol from mixresult
-where mixid = v_MixId
-and nutrientid = '601'
-) x40,
---606	Fatty acids, total saturated (g)
-(
-select mixid,foodid,q as Saturated from mixresult
-where mixid = v_MixId
-and nutrientid = '606'
-) x41,
---621	22:6 n-3 (DHA) (g)
-(
-select mixid,foodid,q as DHA from mixresult
-where mixid = v_MixId
-and nutrientid = '621'
-) x42,
---629	20:5 n-3 (EPA) (g)
-(
-select mixid,foodid,q as EPA from mixresult
-where mixid = v_MixId
-and nutrientid = '629'
-) x43,
---645	Fatty acids, total monounsaturated (g)
-(
-select mixid,foodid,q as Monounsaturated from mixresult
-where mixid = v_MixId
-and nutrientid = '645'
-) x44,
---646	Fatty acids, total polyunsaturated (g)
-(
-select mixid,foodid,q as Polyunsaturated from mixresult
-where mixid = v_MixId
-and nutrientid = '646'
-) x45,
---618	18:2 undifferentiated (Linoleic) (g)
-(
-select mixid,foodid,q as Linoleic from mixresult
-where mixid = v_MixId
-and nutrientid = '618'
-) x46,
---619	18:3 undifferentiated (Linolenic) (g)
-(
-select mixid,foodid,q as AlphaLinolenic from mixresult
-where mixid = v_MixId
-and nutrientid = '619'
-) x47,
---10006	Glycemic Load
-(
-select mixid,foodid,q as GlycemicLoad from mixresult
-where mixid = v_MixId
-and nutrientid = '10006'
-) x50,
---10009	Energy, digestible (kcal)
-(
-select mixid,foodid,q as EnergyDigestible from mixresult
-where mixid = v_MixId
-and nutrientid = '10009'
-) x51,
---10011	Energy, carbohydrate (kcal)
-(
-select mixid,foodid,q as EnergyCarbohydrate from mixresult
-where mixid = v_MixId
-and nutrientid = '10011'
-) x53,
---10012	Energy, protein (kcal)
-(
-select mixid,foodid,q as EnergyProtein from mixresult
-where mixid = v_MixId
-and nutrientid = '10012'
-) x54,
---10013	Energy, fat (kcal)
-(
-select mixid,foodid,q as EnergyFat from mixresult
-where mixid = v_MixId
-and nutrientid = '10013'
-) x55,
---10014	Energy, no alcohol (kcal)
-(
-select mixid,foodid,q as EnergyAlcohol from mixresult
-where mixid = v_MixId
-and nutrientid = '10014'
-) x56
---
-where x0.mixid = x1.mixid
-and x0.foodid = x1.foodid
-and x0.mixid = x2.mixid
-and x0.foodid = x2.foodid
-and x0.mixid = x4.mixid
-and x0.foodid = x4.foodid
-and x0.mixid = x5.mixid
-and x0.foodid = x5.foodid
-and x0.mixid = x6.mixid
-and x0.foodid = x6.foodid
-and x0.mixid = x7.mixid
-and x0.foodid = x7.foodid
-and x0.mixid = x8.mixid
-and x0.foodid = x8.foodid
-and x0.mixid = x9.mixid
-and x0.foodid = x9.foodid
-and x0.mixid = x13.mixid
-and x0.foodid = x13.foodid
-and x0.mixid = x14.mixid
-and x0.foodid = x14.foodid
-and x0.mixid = x15.mixid
-and x0.foodid = x15.foodid
-and x0.mixid = x16.mixid
-and x0.foodid = x16.foodid
-and x0.mixid = x17.mixid
-and x0.foodid = x17.foodid
-and x0.mixid = x18.mixid
-and x0.foodid = x18.foodid
-and x0.mixid = x19.mixid
-and x0.foodid = x19.foodid
-and x0.mixid = x20.mixid
-and x0.foodid = x20.foodid
-and x0.mixid = x21.mixid
-and x0.foodid = x21.foodid
-and x0.mixid = x22.mixid
-and x0.foodid = x22.foodid
-and x0.mixid = x23.mixid
-and x0.foodid = x23.foodid
-and x0.mixid = x24.mixid
-and x0.foodid = x24.foodid
-and x0.mixid = x25.mixid
-and x0.foodid = x25.foodid
-and x0.mixid = x26.mixid
-and x0.foodid = x26.foodid
-and x0.mixid = x27.mixid
-and x0.foodid = x27.foodid
-and x0.mixid = x28.mixid
-and x0.foodid = x28.foodid
-and x0.mixid = x29.mixid
-and x0.foodid = x29.foodid
-and x0.mixid = x30.mixid
-and x0.foodid = x30.foodid
-and x0.mixid = x31.mixid
-and x0.foodid = x31.foodid
-and x0.mixid = x32.mixid
-and x0.foodid = x32.foodid
-and x0.mixid = x33.mixid
-and x0.foodid = x33.foodid
-and x0.mixid = x34.mixid
-and x0.foodid = x34.foodid
-and x0.mixid = x35.mixid
-and x0.foodid = x35.foodid
-and x0.mixid = x36.mixid
-and x0.foodid = x36.foodid
-and x0.mixid = x37.mixid
-and x0.foodid = x37.foodid
-and x0.mixid = x38.mixid
-and x0.foodid = x38.foodid
-and x0.mixid = x39.mixid
-and x0.foodid = x39.foodid
-and x0.mixid = x40.mixid
-and x0.foodid = x40.foodid
-and x0.mixid = x41.mixid
-and x0.foodid = x41.foodid
-and x0.mixid = x42.mixid
-and x0.foodid = x42.foodid
-and x0.mixid = x43.mixid
-and x0.foodid = x43.foodid
-and x0.mixid = x44.mixid
-and x0.foodid = x44.foodid
-and x0.mixid = x45.mixid
-and x0.foodid = x45.foodid
-and x0.mixid = x46.mixid
-and x0.foodid = x46.foodid
-and x0.mixid = x47.mixid
-and x0.foodid = x47.foodid
-and x0.mixid = x50.mixid
-and x0.foodid = x50.foodid
-and x0.mixid = x51.mixid
-and x0.foodid = x51.foodid
-and x0.mixid = x53.mixid
-and x0.foodid = x53.foodid
-and x0.mixid = x54.mixid
-and x0.foodid = x54.foodid
-and x0.mixid = x55.mixid
-and x0.foodid = x55.foodid
-and x0.mixid = x56.mixid
-and x0.foodid = x56.foodid
-) a,
-(
-select foodid,name from food
-) b
-where a.foodid = b.foodid
+FROM mixresultdn a,
+     food b
+WHERE a.mixid = v_mixid
+AND   a.foodid = b.foodid
 group by a.MixId
 order by a.EnergyDigestible,a.Weight,b.Name;
 --
@@ -5782,4 +4918,645 @@ DELETE FROM food;
 --
 END
 /
+
+CREATE PROCEDURE fill_mixresultdn (
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC
+--
+INSERT INTO mixresultdn
+(
+mixid,
+foodid,
+name,
+weight,
+completeprotein,
+digestiblecarbohydrate,
+cost,
+protein,
+fat,
+carbsbydiff,
+energygross,
+alcohol,
+water,
+fiber,
+calcium,
+iron,
+magnesium,
+phosphorus,
+potassium,
+sodium,
+zinc,
+copper,
+fluoride,
+manganese,
+selenium,
+vitamina,
+vitamine,
+vitamind,
+vitaminc,
+thiamin,
+riboflavin,
+niacin,
+pantothenicacid,
+vitaminb6,
+vitaminb12,
+choline,
+vitamink,
+folate,
+cholesterol,
+sfa,
+dha,
+epa,
+mufa,
+pufa,
+linoleicacid,
+alphalinolenicacid,
+glycemicload,
+energydigestible,
+energycarbohydrate,
+energyprotein,
+energyfat,
+energyalcohol
+)
+SELECT a.MixId,
+       a.FoodId,
+       b.Name,
+       a.Weight,
+       CompleteProtein,
+       DigestibleCarbohydrate,
+       Cost,
+       Protein,
+       Fat,
+       CarbsByDiff,
+       Energy,
+       Alcohol,
+       Water,
+       Fiber,
+       Calcium,
+       Iron,
+       Magnesium,
+       Phosphorus,
+       Potassium,
+       Sodium,
+       Zinc,
+       Copper,
+       Fluoride,
+       Manganese,
+       Selenium,
+       VitaminA,
+       VitaminE,
+       VitaminD,
+       VitaminC,
+       Thiamin,
+       Riboflavin,
+       Niacin,
+       Pantothenic,
+       VitaminB6,
+       VitaminB12,
+       Choline,
+       VitaminK,
+       Folate,
+       Cholesterol,
+       Saturated,
+       DHA,
+       EPA,
+       Monounsaturated,
+       Polyunsaturated,
+       Linoleic,
+       AlphaLinolenic,
+       GlycemicLoad,
+       EnergyDigestible,
+       EnergyCarbohydrate,
+       EnergyProtein,
+       EnergyFat,
+       EnergyAlcohol
+FROM (SELECT x0.Mixid,
+             x0.Foodid,
+             x1.Weight,
+             x2.CompleteProtein,
+             x4.DigestibleCarbohydrate,
+             x5.Cost,
+             x6.Protein,
+             x7.Fat,
+             x8.CarbsByDiff,
+             x9.Energy,
+             x13.Alcohol,
+             x14.Water,
+             x15.Fiber,
+             x16.Calcium,
+             x17.Iron,
+             x18.Magnesium,
+             x19.Phosphorus,
+             x20.Potassium,
+             x21.Sodium,
+             x22.Zinc,
+             x23.Copper,
+             x24.Fluoride,
+             x25.Manganese,
+             x26.Selenium,
+             x27.VitaminA,
+             x28.VitaminE,
+             x29.VitaminD,
+             x30.VitaminC,
+             x31.Thiamin,
+             x32.Riboflavin,
+             x33.Niacin,
+             x34.Pantothenic,
+             x35.VitaminB6,
+             x36.VitaminB12,
+             x37.Choline,
+             x38.VitaminK,
+             x39.Folate,
+             x40.Cholesterol,
+             x41.Saturated,
+             x42.DHA,
+             x43.EPA,
+             x44.Monounsaturated,
+             x45.Polyunsaturated,
+             x46.Linoleic,
+             x47.AlphaLinolenic,
+             x50.GlycemicLoad,
+             x51.EnergyDigestible,
+             x53.EnergyCarbohydrate,
+             x54.EnergyProtein,
+             x55.EnergyFat,
+             x56.EnergyAlcohol
+      FROM
+      --
+      (SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
+           --
+      --10000	Weight (g)
+      (SELECT mixid,
+              foodid,
+              q AS Weight
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10000') x1,
+           --
+      --10001	Complete Protein (g)
+      (SELECT mixid,
+              foodid,
+              q AS CompleteProtein
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10001') x2,
+           --
+      --10003	Digestible Carbohydrate (g)
+      (SELECT mixid,
+              foodid,
+              q AS DigestibleCarbohydrate
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10003') x4,
+           --
+      --10005	Cost (g)
+      (SELECT mixid,
+              foodid,
+              q AS Cost
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10005') x5,
+           --
+      --203	Protein (g)
+      (SELECT mixid,
+              foodid,
+              q AS Protein
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '203') x6,
+           --
+      --204	Total lipid (Fat) (g)
+      (SELECT mixid,
+              foodid,
+              q AS Fat
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '204') x7,
+           --205	Carbohydrate, by difference (g)
+      (SELECT mixid,
+              foodid,
+              q AS Carbsbydiff
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '205') x8,
+           --
+      --208	Energy (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS Energy
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '208') x9,
+           --221	Alcohol, ethyl (g)
+      (SELECT mixid,
+              foodid,
+              q AS Alcohol
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '221') x13,
+           --255	Water (g)
+      (SELECT mixid,
+              foodid,
+              q AS Water
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '255') x14,
+           --291	Fiber, total dietary (g)
+      (SELECT mixid,
+              foodid,
+              q AS Fiber
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '291') x15,
+           --301	Calcium, Ca (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Calcium
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '301') x16,
+           --303	Iron, Fe (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Iron
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '303') x17,
+           --304	Magnesium, Mg (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Magnesium
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '304') x18,
+           --305	Phosphorus, P (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Phosphorus
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '305') x19,
+           --306	Potassium, K (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Potassium
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '306') x20,
+           --307	Sodium, Na (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Sodium
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '307') x21,
+           --309	Zinc, Zn (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Zinc
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '309') x22,
+           --312	Copper, Cu (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Copper
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '312') x23,
+           --313	Fluoride, F (µg)
+      (SELECT mixid,
+              foodid,
+              q AS Fluoride
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '313') x24,
+           --315	Manganese, Mn (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Manganese
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '315') x25,
+           --317	Selenium, Se (µg)
+      (SELECT mixid,
+              foodid,
+              q AS Selenium
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '317') x26,
+           --320	Vitamin A, RAE (µg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminA
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '320') x27,
+           --323	Vitamin E (Alpha-Tocopherol) (mg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminE
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '323') x28,
+           --328	Vitamin D (D2 + D3) (µg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminD
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '328') x29,
+           --401	Vitamin C, total (Ascorbic Acid) (mg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminC
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '401') x30,
+           --404	Thiamin (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Thiamin
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '404') x31,
+           --405	Riboflavin (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Riboflavin
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '405') x32,
+           --406	Niacin (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Niacin
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '406') x33,
+           --410	Pantothenic acid (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Pantothenic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '410') x34,
+           --415	Vitamin B-6 (mg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminB6
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '415') x35,
+           --418	Vitamin B-12 (µg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminB12
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '418') x36,
+           --421	Choline, total (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Choline
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '421') x37,
+           --430	Vitamin K (Phylloquinone) (µg)
+      (SELECT mixid,
+              foodid,
+              q AS VitaminK
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '430') x38,
+           --435	Folate, DFE (µg)
+      (SELECT mixid,
+              foodid,
+              q AS Folate
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '435') x39,
+           --601	Cholesterol (mg)
+      (SELECT mixid,
+              foodid,
+              q AS Cholesterol
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '601') x40,
+           --606	Fatty acids, total saturated (g)
+      (SELECT mixid,
+              foodid,
+              q AS Saturated
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '606') x41,
+           --621	22:6 n-3 (DHA) (g)
+      (SELECT mixid,
+              foodid,
+              q AS DHA
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '621') x42,
+           --629	20:5 n-3 (EPA) (g)
+      (SELECT mixid,
+              foodid,
+              q AS EPA
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '629') x43,
+           --645	Fatty acids, total monounsaturated (g)
+      (SELECT mixid,
+              foodid,
+              q AS Monounsaturated
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '645') x44,
+           --646	Fatty acids, total polyunsaturated (g)
+      (SELECT mixid,
+              foodid,
+              q AS Polyunsaturated
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '646') x45,
+           --618	18:2 undifferentiated (Linoleic) (g)
+      (SELECT mixid,
+              foodid,
+              q AS Linoleic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '618') x46,
+           --619	18:3 undifferentiated (Linolenic) (g)
+      (SELECT mixid,
+              foodid,
+              q AS AlphaLinolenic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '619') x47,
+           --10006	Glycemic Load
+      (SELECT mixid,
+              foodid,
+              q AS GlycemicLoad
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10006') x50,
+           --10009	Energy, digestible (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS EnergyDigestible
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10009') x51,
+           --10011	Energy, carbohydrate (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS EnergyCarbohydrate
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10011') x53,
+           --10012	Energy, protein (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS EnergyProtein
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10012') x54,
+           --10013	Energy, fat (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS EnergyFat
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10013') x55,
+           --10014	Energy, no alcohol (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS EnergyAlcohol
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10014') x56
+      --
+      WHERE x0.mixid = x1.mixid
+      AND   x0.foodid = x1.foodid
+      AND   x0.mixid = x2.mixid
+      AND   x0.foodid = x2.foodid
+      AND   x0.mixid = x4.mixid
+      AND   x0.foodid = x4.foodid
+      AND   x0.mixid = x5.mixid
+      AND   x0.foodid = x5.foodid
+      AND   x0.mixid = x6.mixid
+      AND   x0.foodid = x6.foodid
+      AND   x0.mixid = x7.mixid
+      AND   x0.foodid = x7.foodid
+      AND   x0.mixid = x8.mixid
+      AND   x0.foodid = x8.foodid
+      AND   x0.mixid = x9.mixid
+      AND   x0.foodid = x9.foodid
+      AND   x0.mixid = x13.mixid
+      AND   x0.foodid = x13.foodid
+      AND   x0.mixid = x14.mixid
+      AND   x0.foodid = x14.foodid
+      AND   x0.mixid = x15.mixid
+      AND   x0.foodid = x15.foodid
+      AND   x0.mixid = x16.mixid
+      AND   x0.foodid = x16.foodid
+      AND   x0.mixid = x17.mixid
+      AND   x0.foodid = x17.foodid
+      AND   x0.mixid = x18.mixid
+      AND   x0.foodid = x18.foodid
+      AND   x0.mixid = x19.mixid
+      AND   x0.foodid = x19.foodid
+      AND   x0.mixid = x20.mixid
+      AND   x0.foodid = x20.foodid
+      AND   x0.mixid = x21.mixid
+      AND   x0.foodid = x21.foodid
+      AND   x0.mixid = x22.mixid
+      AND   x0.foodid = x22.foodid
+      AND   x0.mixid = x23.mixid
+      AND   x0.foodid = x23.foodid
+      AND   x0.mixid = x24.mixid
+      AND   x0.foodid = x24.foodid
+      AND   x0.mixid = x25.mixid
+      AND   x0.foodid = x25.foodid
+      AND   x0.mixid = x26.mixid
+      AND   x0.foodid = x26.foodid
+      AND   x0.mixid = x27.mixid
+      AND   x0.foodid = x27.foodid
+      AND   x0.mixid = x28.mixid
+      AND   x0.foodid = x28.foodid
+      AND   x0.mixid = x29.mixid
+      AND   x0.foodid = x29.foodid
+      AND   x0.mixid = x30.mixid
+      AND   x0.foodid = x30.foodid
+      AND   x0.mixid = x31.mixid
+      AND   x0.foodid = x31.foodid
+      AND   x0.mixid = x32.mixid
+      AND   x0.foodid = x32.foodid
+      AND   x0.mixid = x33.mixid
+      AND   x0.foodid = x33.foodid
+      AND   x0.mixid = x34.mixid
+      AND   x0.foodid = x34.foodid
+      AND   x0.mixid = x35.mixid
+      AND   x0.foodid = x35.foodid
+      AND   x0.mixid = x36.mixid
+      AND   x0.foodid = x36.foodid
+      AND   x0.mixid = x37.mixid
+      AND   x0.foodid = x37.foodid
+      AND   x0.mixid = x38.mixid
+      AND   x0.foodid = x38.foodid
+      AND   x0.mixid = x39.mixid
+      AND   x0.foodid = x39.foodid
+      AND   x0.mixid = x40.mixid
+      AND   x0.foodid = x40.foodid
+      AND   x0.mixid = x41.mixid
+      AND   x0.foodid = x41.foodid
+      AND   x0.mixid = x42.mixid
+      AND   x0.foodid = x42.foodid
+      AND   x0.mixid = x43.mixid
+      AND   x0.foodid = x43.foodid
+      AND   x0.mixid = x44.mixid
+      AND   x0.foodid = x44.foodid
+      AND   x0.mixid = x45.mixid
+      AND   x0.foodid = x45.foodid
+      AND   x0.mixid = x46.mixid
+      AND   x0.foodid = x46.foodid
+      AND   x0.mixid = x47.mixid
+      AND   x0.foodid = x47.foodid
+      AND   x0.mixid = x50.mixid
+      AND   x0.foodid = x50.foodid
+      AND   x0.mixid = x51.mixid
+      AND   x0.foodid = x51.foodid
+      AND   x0.mixid = x53.mixid
+      AND   x0.foodid = x53.foodid
+      AND   x0.mixid = x54.mixid
+      AND   x0.foodid = x54.foodid
+      AND   x0.mixid = x55.mixid
+      AND   x0.foodid = x55.foodid
+      AND   x0.mixid = x56.mixid
+      AND   x0.foodid = x56.foodid) a,
+     (SELECT foodid, name FROM food) b
+WHERE a.foodid = b.foodid;
+--
+END;
+/
+
+
+CREATE PROCEDURE mixresultdn_delete (
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+delete from mixresultdn where mixid = v_MixId;
+--
+END;
+/
+
 

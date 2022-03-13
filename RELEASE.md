@@ -202,3 +202,7 @@ RELEASE NOTES
 760
 
       Improve gui behavior
+
+770
+      Improve performance
+      Add macronutrient percentages function to Tools menu

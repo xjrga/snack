@@ -1,4 +1,4 @@
-CREATE PROCEDURE FillMixResults(
+CREATE PROCEDURE fill_mixresult(
 --
 IN v_MixId LONGVARCHAR
 --
