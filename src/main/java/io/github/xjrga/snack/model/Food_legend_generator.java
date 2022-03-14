@@ -22,33 +22,39 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import javax.swing.*;
 
-public class ComboBoxModelFood extends DefaultComboBoxModel {
+public class Food_legend_generator {
 
     private final DbLink dbLink;
+    private ArrayList list;
 
-    public ComboBoxModelFood(DbLink dbLink) {
+    public Food_legend_generator(DbLink dbLink) {
         this.dbLink = dbLink;
     }
 
     public void reload(String mixId) {
-        this.removeAllElements();
         try {
-            LinkedList all = (LinkedList) dbLink.MixFood_Select_All_By_Name(mixId);
+            list = new ArrayList();
+            LinkedList all = (LinkedList) dbLink.MixFood_Select_All_By_Foodid(mixId);
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
                 String foodid = (String) row.get("FOODID");
                 String name = (String) row.get("NAME");
                 FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-                this.addElement(foodDataObject);
+                list.add(foodDataObject);
             }
         } catch (SQLException e) {
 
         }
     }
+
+    public Object[] toArray() {
+        return list.toArray();
+    }
+
 }

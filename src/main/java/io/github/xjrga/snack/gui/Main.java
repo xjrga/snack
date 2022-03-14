@@ -17,6 +17,7 @@ import io.github.xjrga.snack.model.ComboBoxModelNutrients;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
 import io.github.xjrga.snack.model.ComboBoxModelRelationships;
+import io.github.xjrga.snack.model.Food_legend_generator;
 import io.github.xjrga.snack.model.ListModelCategory;
 import io.github.xjrga.snack.model.ListModelFood;
 import io.github.xjrga.snack.model.ListModelFood2;
@@ -309,6 +310,7 @@ public class Main {
     private final ListModelMix modelListRda = new ListModelMix(dbLink);
     private final ListModelMix1 modelList_Solve = new ListModelMix1(dbLink);
     private final ListModelSelectedFood modelListSelectedFood = new ListModelSelectedFood(dbLink);
+    private final Food_legend_generator legend_generator = new Food_legend_generator(dbLink);
     private final StringModelMixPct stringModelMixPct = new StringModelMixPct(dbLink);
     private final TableModelCarbs modelTableCarbs = new TableModelCarbs(dbLink);
     private final TableModelGlycemic modelTableGlycemic = new TableModelGlycemic(dbLink);
@@ -2858,7 +2860,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 780");
+        sb.append("This is build 790");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3566,6 +3568,7 @@ public class Main {
                 MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
                 String mixId = mixDataObject.getMixId();
                 modelListSelectedFood.reload(mixId);
+                legend_generator.reload(mixId);
                 reloadTableModels();
                 reloadFoodComboBoxes(mixId);
                 reloadTableModelConstraints(mixId);
@@ -3820,6 +3823,7 @@ public class Main {
                     String mixId = mix.getMixId();
                     dbLink.MixFood_Insert(mixId, food.getFoodId());
                     modelListSelectedFood.reload(mixId);
+                    legend_generator.reload(mixId);
                     reloadFoodComboBoxes(mixId);
                 } catch (SQLException e) {
 
@@ -3839,6 +3843,7 @@ public class Main {
                     String mixId = mix.getMixId();
                     dbLink.MixFood_Delete(mixId, foodDataObject.getFoodId());
                     modelListSelectedFood.reload(mixId);
+                    legend_generator.reload(mixId);
                     reloadFoodComboBoxes(mixId);
                     reloadTableModelConstraints(mixId);
                     reloadTableModels();
@@ -4019,7 +4024,7 @@ public class Main {
 
     private String getFoodLegend(String mixId) throws SQLException {
         StringBuilder sb = new StringBuilder();
-        Object[] objects = modelListSelectedFood.toArray();
+        Object[] objects = legend_generator.toArray();
         int size = objects.length;
         for (int i = 0; i < size; i++) {
             FoodDataObject food = (FoodDataObject) objects[i];

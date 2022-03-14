@@ -184,10 +184,26 @@ public class DbLink {
         proc.execute();
     }
 
-    public List<Map<String, Object>> MixFood_Select_All(String mixId) throws SQLException {
+    public List<Map<String, Object>> MixFood_Select_All_By_Foodid(String mixId) throws SQLException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
-        proc = connection.prepareCall("{CALL public.MixFood_Select_All(?)}");
+        proc = connection.prepareCall("{CALL public.MixFood_Select_All_By_FoodId(?)}");
+        proc.setString(1, mixId);
+        ResultSet rs = proc.executeQuery();
+        while (rs.next()) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("FOODID", rs.getObject(1));
+            row.put("NAME", rs.getObject(2));
+            list.add(row);
+        }
+        proc.close();
+        return list;
+    }
+
+    public List<Map<String, Object>> MixFood_Select_All_By_Name(String mixId) throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall("{CALL public.MixFood_Select_All_By_Name(?)}");
         proc.setString(1, mixId);
         ResultSet rs = proc.executeQuery();
         while (rs.next()) {

@@ -208,4 +208,8 @@ RELEASE NOTES
       Add macronutrient percentages function to Tools menu
 
 780
-      .      
+      Improve performance
+
+790
+      Fix food quotient precision
+      Fix food combobox ordering

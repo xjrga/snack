@@ -21,12 +21,11 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
-
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
 
 public class ListModelSelectedFood extends DefaultListModel {
 
@@ -39,7 +38,7 @@ public class ListModelSelectedFood extends DefaultListModel {
     public void reload(String mixId) {
         this.clear();
         try {
-            LinkedList all = (LinkedList) dbLink.MixFood_Select_All(mixId);
+            LinkedList all = (LinkedList) dbLink.MixFood_Select_All_By_Name(mixId);
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
