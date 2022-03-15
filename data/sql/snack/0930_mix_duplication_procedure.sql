@@ -24,5 +24,7 @@ CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL NutrientPercent_Copy(v_MixId_Old,v_MixId_New);
 --
+CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
+--
 END;
 /

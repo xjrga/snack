@@ -2807,6 +2807,130 @@ WHERE mixid = v_MixId_Old;
 END;
 /
 
+CREATE PROCEDURE mixresultdn_copy (
+--
+IN v_MixId_Old LONGVARCHAR,
+--
+IN v_MixId_New LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+INSERT INTO mixresultdn
+(
+    mixid,
+    foodid,
+    name,
+    weight,
+    completeprotein,
+    digestiblecarbohydrate,
+    cost,
+    protein,
+    fat,
+    carbsbydiff,
+    energygross,
+    alcohol,
+    water,
+    fiber,
+    calcium,
+    iron,
+    magnesium,
+    phosphorus,
+    potassium,
+    sodium,
+    zinc,
+    copper,
+    fluoride,
+    manganese,
+    selenium,
+    vitamina,
+    vitamine,
+    vitamind,
+    vitaminc,
+    thiamin,
+    riboflavin,
+    niacin,
+    pantothenicacid,
+    vitaminb6,
+    vitaminb12,
+    choline,
+    vitamink,
+    folate,
+    cholesterol,
+    sfa,
+    dha,
+    epa,
+    mufa,
+    pufa,
+    linoleicacid,
+    alphalinolenicacid,
+    glycemicload,
+    energydigestible,
+    energycarbohydrate,
+    energyprotein,
+    energyfat,
+    energyalcohol
+)
+SELECT  v_MixId_New,        
+        foodid,
+        name,
+        weight,
+        completeprotein,
+        digestiblecarbohydrate,
+        cost,
+        protein,
+        fat,
+        carbsbydiff,
+        energygross,
+        alcohol,
+        water,
+        fiber,
+        calcium,
+        iron,
+        magnesium,
+        phosphorus,
+        potassium,
+        sodium,
+        zinc,
+        copper,
+        fluoride,
+        manganese,
+        selenium,
+        vitamina,
+        vitamine,
+        vitamind,
+        vitaminc,
+        thiamin,
+        riboflavin,
+        niacin,
+        pantothenicacid,
+        vitaminb6,
+        vitaminb12,
+        choline,
+        vitamink,
+        folate,
+        cholesterol,
+        sfa,
+        dha,
+        epa,
+        mufa,
+        pufa,
+        linoleicacid,
+        alphalinolenicacid,
+        glycemicload,
+        energydigestible,
+        energycarbohydrate,
+        energyprotein,
+        energyfat,
+        energyalcohol
+FROM mixresultdn
+WHERE mixid = v_MixId_Old;
+--
+END;
+/
+
 CREATE PROCEDURE MixResult_Select (
 IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
@@ -3312,6 +3436,8 @@ CALL FoodNutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL NutrientPercent_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
 --
 END;
 /

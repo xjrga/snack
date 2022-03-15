@@ -94,7 +94,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -254,7 +253,6 @@ public class Main {
     private final JMenuItem menui_export_message = new JMenuItem();
     private final JMenuItem menui_show_mix_stats = new JMenuItem();
     private final JMenuItem menuItemGuide = new JMenuItem();
-    private final JPanel panelStatusBar = new JPanel();
     private final JTable tableGlycemic = new JTable();
     private final JTable tableCarbs = new JTable();
     private final JTable tableCheckCoefficients = new JTable();
@@ -387,9 +385,6 @@ public class Main {
         JPanel panelF = new JPanel();
         panelF.setLayout(layout);
         panelF.add(mainTabbedPane, cc.xy(1, 1));
-        panelStatusBar.setBorder(new LineBorder(Color.GRAY));
-        panelStatusBar.add(new Label(""));
-        panelF.add(panelStatusBar, cc.xy(1, 3));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(panelF);
         frameSnack.add(scrollPane);
@@ -2860,7 +2855,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 790");
+        sb.append("This is build 800");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -4866,7 +4861,7 @@ public class Main {
 
     private void show_message_sent() {
         JComponent[] inputs = new JComponent[]{
-            new JLabel("Data exchange document was created.")
+            new JLabel("Data exchange document was created and it is in model directory.")
         };
         Message.showOptionDialog(inputs, "Data Exchange");
     }

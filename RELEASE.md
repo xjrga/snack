@@ -213,3 +213,8 @@ RELEASE NOTES
 790
       Fix food quotient precision
       Fix food combobox ordering
+
+800
+      Fix mix duplication process
+      Removed status bar
+      
