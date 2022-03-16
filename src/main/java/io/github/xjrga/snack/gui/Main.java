@@ -664,6 +664,7 @@ public class Main {
         menui_import_message.addActionListener((ActionEvent e) -> {
             frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             event_receive_message();
+            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             event_buttonSolve();
             frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
@@ -2855,7 +2856,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 810");
+        sb.append("This is build 820");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -4852,7 +4853,9 @@ public class Main {
         if (isMixSelected()) {
             try {
                 MixDataObject mix = (MixDataObject) listMixes.getSelectedValue();
+                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 Xml_send send = new Xml_send(dbLink, mix.getMixId());
+                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 show_message_sent();
             } catch (Exception e) {
             }
@@ -4861,7 +4864,7 @@ public class Main {
 
     private void show_message_sent() {
         JComponent[] inputs = new JComponent[]{
-            new JLabel("Data exchange document was created and it is in model directory.")
+            new JLabel("Data exchange document is in model directory.")
         };
         Message.showOptionDialog(inputs, "Data Exchange");
     }

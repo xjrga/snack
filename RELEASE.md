@@ -220,3 +220,6 @@ RELEASE NOTES
 
 810
       Improve performance
+
+820
+      Fix minor bug

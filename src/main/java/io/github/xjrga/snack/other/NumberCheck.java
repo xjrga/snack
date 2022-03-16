@@ -42,7 +42,7 @@ public class NumberCheck {
 
     private boolean checkStringIsNumber(String s) {
         boolean pass = false;
-        String patternStr = "^[-+]?\\d+(\\.\\d+)?$";
+        String patternStr = "^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$";
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches()) {
