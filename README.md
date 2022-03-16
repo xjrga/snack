@@ -37,16 +37,16 @@
 
 Installing
 
-    1. Download snack-800-app.zip from https://xjrga.github.io/releases/
-    2. unzip snack-800-app.zip
-    3. cd snack-800
-    4. java -jar snack-800.jar (if you are on windows double click on jar file)
+    1. Download snack-810-app.zip from https://xjrga.github.io/releases/
+    2. unzip snack-810-app.zip
+    3. cd snack-810
+    4. java -jar snack-810.jar (if you are on windows double click on jar file)
 
 [User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    800
+    810
 
 Authors
 

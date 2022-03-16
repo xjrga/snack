@@ -217,4 +217,6 @@ RELEASE NOTES
 800
       Fix mix duplication process
       Removed status bar
-      
+
+810
+      Improve performance
