@@ -31,7 +31,7 @@ FROM (SELECT a.nutrientid,
       WHERE a.nutrientid = b.nutrientid) a,
      (SELECT nutrientid, name, nutrientcategoryid FROM nutrient) b
 WHERE a.nutrientid = b.nutrientid
-ORDER BY b.nutrientcategoryid desc,b.nutrientid;
+ORDER BY b.name;
 --
 OPEN result;
 --

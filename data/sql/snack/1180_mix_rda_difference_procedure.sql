@@ -12,24 +12,20 @@ DECLARE result CURSOR
 FOR
 SELECT a.nutrientid,
        b.name,
-       ROUND(a.mix,v_Precision) as Mix,
-       ROUND(a.rda,v_Precision) as Rda,
-       ROUND(CASE WHEN a.rda <= 0 THEN 0 ELSE (a.mix/a.rda)*100 END,v_Precision)as PctRda,
-       ROUND(a.ul,v_Precision) as UL,
-       ROUND(CASE WHEN a.ul <= 0 THEN 0 ELSE (a.mix/a.ul)*100 END,v_Precision) as PctUL
-FROM (
-SELECT a.nutrientid,
-       a.mix,
-       b.rda,
-       b.ul
-      FROM (
-            SELECT nutrientid,
-            SUM(a.x*b.c) AS mix
-            FROM mixfood a,
-                 foodfactcoefficient b
-            WHERE a.foodid = b.foodid
-            AND   a.mixid = v_MixId
-            AND (
+       ROUND(a.mix,v_Precision) AS Mix,
+       ROUND(a.rda,v_Precision) AS Rda,
+       ROUND(CASE WHEN a.rda <= 0 THEN 0 ELSE (a.mix / a.rda)*100 END,v_Precision) AS PctRda,
+       ROUND(a.ul,v_Precision) AS UL,
+       ROUND(CASE WHEN a.ul <= 0 THEN 0 ELSE (a.mix / a.ul)*100 END,v_Precision) AS PctUL
+FROM (SELECT a.nutrientid,
+             a.mix,
+             b.rda,
+             b.ul
+      FROM (SELECT nutrientid,
+                   SUM(a.q) AS mix
+            FROM mixresult a
+            WHERE a.mixid = v_MixId
+            AND   (
             --vitamin A
             nutrientid = '320' OR
             --Vitamin D
@@ -91,19 +87,13 @@ SELECT a.nutrientid,
             --18:3 undifferentiated (Linolenic) (g)
             nutrientid = '619' OR
             --Complete Protein (g)
-            nutrientid = '10001'
-            )
+            nutrientid = '10001')
             GROUP BY nutrientid) a,
            (SELECT nutrientid, q AS rda, ul FROM rda WHERE lifestageid = v_LifeStageId) b
       WHERE a.nutrientid = b.nutrientid) a,
-     (
-SELECT nutrientid, 
-       name, 
-       nutrientcategoryid 
-       FROM nutrient) b
+     (SELECT nutrientid, name, nutrientcategoryid FROM nutrient) b
 WHERE a.nutrientid = b.nutrientid
-ORDER BY b.nutrientcategoryid DESC,
-         b.nutrientid;
+ORDER BY b.name;
 --
 OPEN result;
 --

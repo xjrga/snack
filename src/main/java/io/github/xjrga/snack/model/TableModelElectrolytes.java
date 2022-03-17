@@ -19,34 +19,20 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.data.Nutrient;
-
-import javax.swing.table.DefaultTableModel;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
-public class TableModelElectrolytes extends DefaultTableModel implements RoundUp {
+public class TableModelElectrolytes extends DefaultTableModel {
 
-    private final DbLink dbLink;
     private Vector columns;
-    private Integer precision = 0;
 
-    public TableModelElectrolytes(DbLink dbLink) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
-    }
-
-    private void setColumnIdentifiers() {
+    public TableModelElectrolytes(Result_loader loader) {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
         columns.add("Na");
         columns.add("K");
-        this.setColumnIdentifiers(columns);
+        this.setDataVector(loader.get_electrolytes_table(), columns);
     }
 
     @Override
@@ -65,34 +51,7 @@ public class TableModelElectrolytes extends DefaultTableModel implements RoundUp
         return false;
     }
 
-    public void reload(String mixid) {
-        Vector row = null;
-        Vector table = new Vector();
-        try {
-            LinkedList list = (LinkedList) dbLink.MixResult_Select(mixid, precision);
-            Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name");
-                Double Potassium = (Double) rowm.get(Nutrient.POTASSIUM.getLabel());
-                Double Sodium = (Double) rowm.get(Nutrient.SODIUM.getLabel());
-                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
-                row = new Vector();
-                //
-                row.add(Name);
-                row.add(Weight);
-                row.add(Sodium);
-                row.add(Potassium);
-                table.add(row);
-            }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
-
-        }
-    }
-
-    @Override
-    public void setPrecision(Integer precision) {
-        this.precision = precision;
+    public void set_table(Vector table) {
+        this.setDataVector(table, columns);
     }
 }

@@ -20,37 +20,41 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.dataobject.NutrientDataObject;
-
-import javax.swing.*;
+import io.github.xjrga.snack.dataobject.RelationshipDataObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class ComboBoxModelNutrients extends DefaultComboBoxModel {
+public class Relationship_loader {
 
     private final DbLink dbLink;
+    private Integer precision = 0;
+    private ArrayList<RelationshipDataObject> relationship_list;
 
-    public ComboBoxModelNutrients(DbLink dbLink) {
+    public Relationship_loader(DbLink dbLink) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
-        this.removeAllElements();
-        LinkedList all = null;
+        relationship_list = new ArrayList();
         try {
-            all = (LinkedList) dbLink.Nutrient_Select_All_Visible();
+            LinkedList all = (LinkedList) dbLink.Relationship_Select_All();
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
-                String nutrientid = (String) row.get("NUTRIENTID");
+                int relationshipid = (int) row.get("RELATIONSHIPID");
                 String name = (String) row.get("NAME");
-                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name, null);
-                this.addElement(nutrientDataObject);
+                RelationshipDataObject relationshipDataObject = new RelationshipDataObject(relationshipid, name);
+                relationship_list.add(relationshipDataObject);
             }
         } catch (SQLException e) {
 
         }
+    }
+
+    public ArrayList<RelationshipDataObject> get_relationship_list() {
+        return relationship_list;
     }
 }

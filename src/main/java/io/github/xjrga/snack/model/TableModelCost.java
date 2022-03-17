@@ -19,33 +19,19 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.data.Nutrient;
-
-import javax.swing.table.DefaultTableModel;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
-public class TableModelCost extends DefaultTableModel implements RoundUp {
+public class TableModelCost extends DefaultTableModel {
 
-    private final DbLink dbLink;
     private Vector columns;
-    private Integer precision = 0;
 
-    public TableModelCost(DbLink dbLink) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
-    }
-
-    private void setColumnIdentifiers() {
+    public TableModelCost(Result_loader loader) {
         columns = new Vector();
         columns.add("Name");
         columns.add("Weight");
         columns.add("Cost");
-        this.setColumnIdentifiers(columns);
+        this.setDataVector(loader.get_cost_table(), columns);
     }
 
     @Override
@@ -64,31 +50,7 @@ public class TableModelCost extends DefaultTableModel implements RoundUp {
         return false;
     }
 
-    public void reload(String mixid) {
-        Vector row = null;
-        Vector table = new Vector();
-        try {
-            LinkedList list = (LinkedList) dbLink.MixResult_Select(mixid, precision);
-            Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("Name");
-                Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
-                Double Cost = (Double) rowm.get(Nutrient.COST.getLabel());
-                row = new Vector();
-                //
-                row.add(Name);
-                row.add(Weight);
-                row.add(Cost);
-                table.add(row);
-            }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
-
-        }
-    }
-
-    public void setPrecision(Integer precision) {
-        this.precision = precision;
+    public void set_table(Vector table) {
+        this.setDataVector(table, columns);
     }
 }

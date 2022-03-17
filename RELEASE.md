@@ -223,3 +223,9 @@ RELEASE NOTES
 
 820
       Fix minor bug
+
+830
+      Add search field to mix comparison tab
+      Add search field to nutrient lookup tab
+      Sort rda check results alphabetically
+      Improve perfomance

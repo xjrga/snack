@@ -20,49 +20,41 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.dataobject.RelationshipDataObject;
-
-import javax.swing.*;
+import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class ComboBoxModelRelationships extends DefaultComboBoxModel {
+public class Nutrient_loader {
 
     private final DbLink dbLink;
+    private Integer precision = 0;
+    private ArrayList<NutrientDataObject> nutrient_list;
 
-    public ComboBoxModelRelationships(DbLink dbLink) {
+    public Nutrient_loader(DbLink dbLink) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
-        this.removeAllElements();
+        nutrient_list = new ArrayList();
         try {
-            LinkedList all = (LinkedList) dbLink.Relationship_Select_All();
+            LinkedList all = (LinkedList) dbLink.Nutrient_Select_All_Visible();
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
-                int relationshipid = (int) row.get("RELATIONSHIPID");
+                String nutrientid = (String) row.get("NUTRIENTID");
                 String name = (String) row.get("NAME");
-                RelationshipDataObject relationshipDataObject = new RelationshipDataObject(relationshipid, name);
-                this.addElement(relationshipDataObject);
+                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name, null);
+                nutrient_list.add(nutrientDataObject);
             }
         } catch (SQLException e) {
 
         }
     }
 
-    public int find(String name) {
-        int index = 0;
-        int size = this.getSize();
-        for (int i = 0; i < size; i++) {
-            String foodcategory_nom = (String) this.getElementAt(i);
-            if (name.equals(foodcategory_nom)) {
-                index = i;
-                break;
-            }
-        }
-        return index;
+    public ArrayList<NutrientDataObject> get_nutrient_list() {
+        return nutrient_list;
     }
 }

@@ -1,12 +1,8 @@
 package io.github.xjrga.snack.other;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.MixDataObject;
 import io.github.xjrga.snack.gui.Message;
-
-import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 
 public class ExportRdaCheck {
 
@@ -114,9 +113,11 @@ public class ExportRdaCheck {
         row = s.createRow(rownum++);
         cell = row.createCell(0);
         StringBuilder sb1 = new StringBuilder();
-        sb1.append("RDA Check (");
+        sb1.append("RDA Check, ");
+        sb1.append("Lifestage ");
+        sb1.append(lifeStageId);
+        sb1.append(", ");
         sb1.append(mixDataObject.getName());
-        sb1.append(" )");
         cell.setCellValue(sb1.toString());
         cell.setCellStyle(cellStyleMixName);
         row = s.createRow(rownum++);

@@ -11,19 +11,20 @@ import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
 import io.github.xjrga.snack.dataobject.RelationshipDataObject;
 import io.github.xjrga.snack.lp.LpModel;
-import io.github.xjrga.snack.model.ComboBoxModelFood;
 import io.github.xjrga.snack.model.ComboBoxModelLifeStage;
-import io.github.xjrga.snack.model.ComboBoxModelNutrients;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
-import io.github.xjrga.snack.model.ComboBoxModelRelationships;
 import io.github.xjrga.snack.model.Food_legend_generator;
+import io.github.xjrga.snack.model.Food_loader;
 import io.github.xjrga.snack.model.ListModelCategory;
 import io.github.xjrga.snack.model.ListModelFood;
 import io.github.xjrga.snack.model.ListModelFood2;
 import io.github.xjrga.snack.model.ListModelMix;
 import io.github.xjrga.snack.model.ListModelMix1;
 import io.github.xjrga.snack.model.ListModelSelectedFood;
+import io.github.xjrga.snack.model.Nutrient_loader;
+import io.github.xjrga.snack.model.Relationship_loader;
+import io.github.xjrga.snack.model.Result_loader;
 import io.github.xjrga.snack.model.StringModelMixPct;
 import io.github.xjrga.snack.model.TableModelCarbs;
 import io.github.xjrga.snack.model.TableModelCheckCoefficients;
@@ -44,7 +45,6 @@ import io.github.xjrga.snack.model.TableModelNutrientRatioConstraints;
 import io.github.xjrga.snack.model.TableModelPercentNutrientConstraints;
 import io.github.xjrga.snack.model.TableModelProtein;
 import io.github.xjrga.snack.model.TableModelRdaCheck;
-import io.github.xjrga.snack.model.TableModelResults;
 import io.github.xjrga.snack.model.TableModelVitamins;
 import io.github.xjrga.snack.model.TableModelWater;
 import io.github.xjrga.snack.model.TreeModelFood;
@@ -108,34 +108,36 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class Main {
 
     private final BufferedImage logo = ImageUtilities.readImage("resources/images/logo.png");
-    private final CellConstraints cc = new CellConstraints();
     private final DbLink dbLink = new DbLink();
-    private final ComboBoxModelFood modelComboBox_1_FoodAtFoodNutrientRatio = new ComboBoxModelFood(dbLink);
-    private final ComboBoxModelFood modelComboBox_0_FoodAtFoodNutrientRatio = new ComboBoxModelFood(dbLink);
-    private final ComboBoxModelFood modelComboBox_FoodAtNutrient = new ComboBoxModelFood(dbLink);
-    private final ComboBoxModelFood modelComboBox_FoodAtNutrientPct = new ComboBoxModelFood(dbLink);
+    private final CellConstraints cc = new CellConstraints();
     private final ComboBoxModelLifeStage modelComboBoxLifeStage = new ComboBoxModelLifeStage(dbLink);
-    private final ComboBoxModelNutrients modelComboBox_1_NutrientAtFoodNutrientRatio = new ComboBoxModelNutrients(dbLink);
-    private final ComboBoxModelNutrients modelComboBox_1_NutrientAtNutrientRatio = new ComboBoxModelNutrients(dbLink);
-    private final ComboBoxModelNutrients modelComboBox_0_NutrientAtFoodNutrientRatio = new ComboBoxModelNutrients(dbLink);
-    private final ComboBoxModelNutrients modelComboBox_0_NutrientAtNutrientRatio = new ComboBoxModelNutrients(dbLink);
-    private final ComboBoxModelNutrients modelComboBox_NutrientAtNutrientConstraint = new ComboBoxModelNutrients(dbLink);
-    private final ComboBoxModelNutrients modelComboBox_NutrientAtNutrientPctContraint = new ComboBoxModelNutrients(dbLink);
     private final ComboBoxModelNutrientsAll modelComboBox_NutrientLookupListNutrient = new ComboBoxModelNutrientsAll(dbLink);
     private final ComboBoxModelNutrientsConvert modelComboBox_NutrientLookupListConvert = new ComboBoxModelNutrientsConvert(dbLink);
-    private final ComboBoxModelRelationships modelComboBox_RelationshipAtFoodNutrient = new ComboBoxModelRelationships(dbLink);
-    private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrient = new ComboBoxModelRelationships(dbLink);
-    private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrientRatio = new ComboBoxModelRelationships(dbLink);
-    private final ComboBoxModelRelationships modelComboBox_RelationshipAtFoodNutrientRatio = new ComboBoxModelRelationships(dbLink);
-    private final ComboBoxModelRelationships modelComboBox_RelationshipAtNutrientPercent = new ComboBoxModelRelationships(dbLink);
+    private final DefaultComboBoxModel modelComboBox_0_FoodAtFoodNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_0_NutrientAtFoodNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_0_NutrientAtNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_1_FoodAtFoodNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_1_NutrientAtFoodNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_1_NutrientAtNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_FoodAtNutrient = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_FoodAtNutrientPct = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_NutrientAtNutrientConstraint = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_NutrientAtNutrientPctContraint = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_RelationshipAtFoodNutrient = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_RelationshipAtFoodNutrientRatio = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_RelationshipAtNutrient = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_RelationshipAtNutrientPercent = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel modelComboBox_RelationshipAtNutrientRatio = new DefaultComboBoxModel();
     private final DefaultListModel modelListHighScore = new DefaultListModel();
+    private final Food_legend_generator legend_generator = new Food_legend_generator(dbLink);
+    private final Food_loader food_loader = new Food_loader(dbLink);
     private final JButton buttonCategoriesAdd = new JButton("+");
     private final JButton buttonCategoriesDelete = new JButton("-");
     private final JButton buttonCategoriesRename = new JButton("u");
     private final JButton buttonFoodListAdd = new JButton("+");
     private final JButton buttonFoodListDelete = new JButton("-");
-    private final JButton buttonFoodListUpdate = new JButton("u");
     private final JButton buttonFoodListDuplicate = new JButton("d");
+    private final JButton buttonFoodListUpdate = new JButton("u");
     private final JButton buttonFoodNutrientConstraintAdd = new JButton("+");
     private final JButton buttonFoodNutrientConstraintDelete = new JButton("-");
     private final JButton buttonFoodNutrientRatioAdd = new JButton("+");
@@ -157,12 +159,18 @@ public class Main {
     private final JCheckBox checkBoxCost = new JCheckBox();
     private final JCheckBox checkBoxDHA = new JCheckBox();
     private final JCheckBox checkBoxDigestibleCarbs = new JCheckBox();
-    private final JCheckBox checkBoxEnergy = new JCheckBox();
     private final JCheckBox checkBoxEPA = new JCheckBox();
+    private final JCheckBox checkBoxEnergy = new JCheckBox();
+    private final JCheckBox checkBoxEnergyAlcohol = new JCheckBox();
+    private final JCheckBox checkBoxEnergyCarbohydrate = new JCheckBox();
+    private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();
+    private final JCheckBox checkBoxEnergyFat = new JCheckBox();
+    private final JCheckBox checkBoxEnergyProtein = new JCheckBox();
     private final JCheckBox checkBoxFat = new JCheckBox();
     private final JCheckBox checkBoxFiber = new JCheckBox();
     private final JCheckBox checkBoxFluoride = new JCheckBox();
     private final JCheckBox checkBoxFolate = new JCheckBox();
+    private final JCheckBox checkBoxGlycemicLoad = new JCheckBox();
     private final JCheckBox checkBoxIron = new JCheckBox();
     private final JCheckBox checkBoxLinoleic = new JCheckBox();
     private final JCheckBox checkBoxMagnesium = new JCheckBox();
@@ -190,12 +198,6 @@ public class Main {
     private final JCheckBox checkBoxWater = new JCheckBox();
     private final JCheckBox checkBoxWeight = new JCheckBox();
     private final JCheckBox checkBoxZinc = new JCheckBox();
-    private final JCheckBox checkBoxGlycemicLoad = new JCheckBox();
-    private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();
-    private final JCheckBox checkBoxEnergyCarbohydrate = new JCheckBox();
-    private final JCheckBox checkBoxEnergyProtein = new JCheckBox();
-    private final JCheckBox checkBoxEnergyFat = new JCheckBox();
-    private final JCheckBox checkBoxEnergyAlcohol = new JCheckBox();
     private final JComboBox comboBoxFoodNutrientConstraintFood = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintNutrient = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintRelationship = new JComboBox();
@@ -214,6 +216,7 @@ public class Main {
     private final JComboBox comboBoxPercentNutrientConstraintFood = new JComboBox();
     private final JComboBox comboBoxPercentNutrientConstraintNutrient = new JComboBox();
     private final JComboBox comboBoxPercentNutrientRelationship = new JComboBox();
+    private final JFileChooser fileChooser;
     private final JFrame frameSnack = new JFrame();
     private final JList listAllFoodItems = new JList();
     private final JList listCategories = new JList();
@@ -226,66 +229,69 @@ public class Main {
     private final JList listRdaCheck = new JList();
     private final JList listSelectedFood = new JList();
     private final JMenu menuData = new JMenu();
-    private final JMenu menu_spreadsheet = new JMenu();
-    private final JMenu menu_exchange = new JMenu();
     private final JMenu menuHelp = new JMenu();
     private final JMenu menuProgram = new JMenu();
     private final JMenu menuSettings = new JMenu();
     private final JMenu menuTools = new JMenu();
+    private final JMenu menu_exchange = new JMenu();
+    private final JMenu menu_spreadsheet = new JMenu();
     private final JMenuItem menuItemAbout = new JMenuItem();
-    private final JMenuItem menuItemMicronutrientConversion = new JMenuItem();
     private final JMenuItem menuItemBmr = new JMenuItem();
-    private final JMenuItem menuItemNitrogenBalance = new JMenuItem();
-    private final JMenuItem menuItemKetosis = new JMenuItem();
-    private final JMenuItem menuItemGlycemicIndexRange = new JMenuItem();
-    private final JMenuItem menuItemDigestibleCarbs = new JMenuItem();
-    private final JMenuItem menuItemGlycemicLoad = new JMenuItem();
-    private final JMenuItem menu_item_alpha_linolenic_acid_required = new JMenuItem();
     private final JMenuItem menuItemConstraintsShownInList = new JMenuItem();
     private final JMenuItem menuItemCredits = new JMenuItem();
+    private final JMenuItem menuItemDigestibleCarbs = new JMenuItem();
     private final JMenuItem menuItemExit = new JMenuItem();
     private final JMenuItem menuItemExportFoodList = new JMenuItem();
     private final JMenuItem menuItemExportFoodMixes = new JMenuItem();
     private final JMenuItem menuItemExportMixCompare = new JMenuItem();
     private final JMenuItem menuItemExportNutrientLookup = new JMenuItem();
     private final JMenuItem menuItemExportRdaCompare = new JMenuItem();
-    private final JMenuItem menui_import_message = new JMenuItem();
-    private final JMenuItem menui_export_message = new JMenuItem();
-    private final JMenuItem menui_show_mix_stats = new JMenuItem();
+    private final JMenuItem menuItemGlycemicIndexRange = new JMenuItem();
+    private final JMenuItem menuItemGlycemicLoad = new JMenuItem();
     private final JMenuItem menuItemGuide = new JMenuItem();
-    private final JTable tableGlycemic = new JTable();
+    private final JMenuItem menuItemKetosis = new JMenuItem();
+    private final JMenuItem menuItemMicronutrientConversion = new JMenuItem();
+    private final JMenuItem menuItemNitrogenBalance = new JMenuItem();
+    private final JMenuItem menu_item_alpha_linolenic_acid_required = new JMenuItem();
+    private final JMenuItem menui_export_message = new JMenuItem();
+    private final JMenuItem menui_import_message = new JMenuItem();
+    private final JMenuItem menui_show_mix_stats = new JMenuItem();
+    private JScrollPane tableNutrientInputScrollPane;
     private final JTable tableCarbs = new JTable();
     private final JTable tableCheckCoefficients = new JTable();
     private final JTable tableCost = new JTable();
+    private final JTable tableElectrolytes = new JTable();
     private final JTable tableEnergy = new JTable();
     private final JTable tableFats = new JTable();
     private final JTable tableFoodList01 = new JTable();
     private final JTable tableFoodNutrientConstraint = new JTable();
     private final JTable tableFoodNutrientRatio = new JTable();
-    private final JTable tableJournalEnergy = new JTable();
-    private final JTable tableJournalProtein = new JTable();
-    private final JTable tableJournalFats = new JTable();
+    private final JTable tableGlycemic = new JTable();
     private final JTable tableJournalCarbs = new JTable();
-    private final JTable tableJournalVitamins = new JTable();
-    private final JTable tableJournalMinerals = new JTable();
-    private final JTable tableJournalElectrolytes = new JTable();
-    private final JTable tableJournalWater = new JTable();
     private final JTable tableJournalCost = new JTable();
+    private final JTable tableJournalElectrolytes = new JTable();
+    private final JTable tableJournalEnergy = new JTable();
+    private final JTable tableJournalFats = new JTable();
     private final JTable tableJournalGlycemic = new JTable();
+    private final JTable tableJournalMinerals = new JTable();
+    private final JTable tableJournalProtein = new JTable();
+    private final JTable tableJournalVitamins = new JTable();
+    private final JTable tableJournalWater = new JTable();
     private final JTable tableMinerals = new JTable();
-    private final JTable tableElectrolytes = new JTable();
+    private JTable tableMixComparison;
     private final JTable tableNutrientConstraint = new JTable();
     private final JTable tableNutrientInput = new JTable();
     private final JTable tableNutrientLookup = new JTable();
-    private final JTable tableNutrientRatio = new JTable();
     private final JTable tableNutrientPercentConstraint = new JTable();
+    private final JTable tableNutrientRatio = new JTable();
     private final JTable tableProtein = new JTable();
+    private JTable tableRdaCheck;
     private final JTable tableVitamins = new JTable();
     private final JTable tableWater = new JTable();
-    private final JTextArea textAreaModel = new JTextArea();
-    private final JTextArea textAreaNote = new JTextArea();
     private final JTextArea textAreaJournalModel = new JTextArea();
     private final JTextArea textAreaJournalNote = new JTextArea();
+    private final JTextArea textAreaModel = new JTextArea();
+    private final JTextArea textAreaNote = new JTextArea();
     private final JTextField textFieldFoodListSearch = new JTextField();
     private final JTextField textFieldFoodNutrientConstraintQuantity = new JTextField();
     private final JTextField textFieldFoodNutrientRatioQuantityA = new JTextField();
@@ -302,55 +308,55 @@ public class Main {
     private final ListModelCategory modelListCategory = new ListModelCategory(dbLink);
     private final ListModelFood modelListFood = new ListModelFood(dbLink);
     private final ListModelFood2 modelListFoodInCategory = new ListModelFood2(dbLink);
-    private final ListModelMix modelList_A_MixDiff = new ListModelMix(dbLink);
-    private final ListModelMix modelList_B_MixDiff = new ListModelMix(dbLink);
     private final ListModelMix modelListFoodJournal = new ListModelMix(dbLink);
     private final ListModelMix modelListRda = new ListModelMix(dbLink);
+    private final ListModelMix modelList_A_MixDiff = new ListModelMix(dbLink);
+    private final ListModelMix modelList_B_MixDiff = new ListModelMix(dbLink);
     private final ListModelMix1 modelList_Solve = new ListModelMix1(dbLink);
     private final ListModelSelectedFood modelListSelectedFood = new ListModelSelectedFood(dbLink);
-    private final Food_legend_generator legend_generator = new Food_legend_generator(dbLink);
+    private final Nutrient_loader nutrient_loader = new Nutrient_loader(dbLink);
+    private final Relationship_loader relationship_loader = new Relationship_loader(dbLink);
+    private final Result_loader result_loader = new Result_loader(dbLink);
+    private final Result_loader result_loader_journal = new Result_loader(dbLink);
+    private String foodNameText;
     private final StringModelMixPct stringModelMixPct = new StringModelMixPct(dbLink);
-    private final TableModelCarbs modelTableCarbs = new TableModelCarbs(dbLink);
-    private final TableModelGlycemic modelTableGlycemic = new TableModelGlycemic(dbLink);
+    private final TableModelCarbs modelTableCarbs = new TableModelCarbs(result_loader);
+    private final TableModelCarbs modelTableJournalCarbs = new TableModelCarbs(result_loader_journal);
     private final TableModelCheckCoefficients modelTableCheckCoefficients = new TableModelCheckCoefficients(dbLink);
-    private final TableModelCost modelTableCost = new TableModelCost(dbLink);
+    private final TableModelCost modelTableCost = new TableModelCost(result_loader);
+    private final TableModelCost modelTableJournalCost = new TableModelCost(result_loader_journal);
     private final TableModelDataInput modelTableNutrientInput = new TableModelDataInput(dbLink);
-    private final TableModelEnergy modelTableEnergy = new TableModelEnergy(dbLink);
-    private final TableModelFat modelTableFats = new TableModelFat(dbLink);
+    private final TableModelElectrolytes modelTableElectrolytes = new TableModelElectrolytes(result_loader);
+    private final TableModelElectrolytes modelTableJournalElectrolytes = new TableModelElectrolytes(result_loader_journal);
+    private final TableModelEnergy modelTableEnergy = new TableModelEnergy(result_loader);
+    private final TableModelEnergy modelTableJournalEnergy = new TableModelEnergy(result_loader_journal);
+    private final TableModelFat modelTableFats = new TableModelFat(result_loader);
+    private final TableModelFat modelTableJournalFats = new TableModelFat(result_loader_journal);
     private final TableModelFoodList modelTableFoodList = new TableModelFoodList(dbLink);
     private final TableModelFoodNutrientConstraints modelTableFoodNutrientConstraints = new TableModelFoodNutrientConstraints(dbLink);
     private final TableModelFoodNutrientRatioConstraints modelTableFoodNutrientRatioConstraints = new TableModelFoodNutrientRatioConstraints(dbLink);
-    private final TableModelEnergy modelTableJournalEnergy = new TableModelEnergy(dbLink);
-    private final TableModelProtein modelTableJournalProtein = new TableModelProtein(dbLink);
-    private final TableModelFat modelTableJournalFats = new TableModelFat(dbLink);
-    private final TableModelCarbs modelTableJournalCarbs = new TableModelCarbs(dbLink);
-    private final TableModelVitamins modelTableJournalVitamins = new TableModelVitamins(dbLink);
-    private final TableModelMinerals modelTableJournalMinerals = new TableModelMinerals(dbLink);
-    private final TableModelElectrolytes modelTableJournalElectrolytes = new TableModelElectrolytes(dbLink);
-    private final TableModelWater modelTableJournalWater = new TableModelWater(dbLink);
-    private final TableModelCost modelTableJournalCost = new TableModelCost(dbLink);
+    private final TableModelGlycemic modelTableGlycemic = new TableModelGlycemic(dbLink);
     private final TableModelGlycemic modelTableJournalGlycemic = new TableModelGlycemic(dbLink);
-    private final TableModelMinerals modelTableMinerals = new TableModelMinerals(dbLink);
-    private final TableModelElectrolytes modelTableElectrolytes = new TableModelElectrolytes(dbLink);
+    private final TableModelMinerals modelTableJournalMinerals = new TableModelMinerals(result_loader_journal);
+    private final TableModelMinerals modelTableMinerals = new TableModelMinerals(result_loader);
     private final TableModelMixComparison modelTableMixDiff = new TableModelMixComparison(dbLink);
     private final TableModelNutrientConstraints modelTableNutrientConstraints = new TableModelNutrientConstraints(dbLink);
     private final TableModelNutrientLookup modelTableNutrientLookup = new TableModelNutrientLookup(dbLink);
     private final TableModelNutrientRatioConstraints modelTableNutrientRatioConstraints = new TableModelNutrientRatioConstraints(dbLink);
     private final TableModelPercentNutrientConstraints tableModelPercentNutrientConstraints = new TableModelPercentNutrientConstraints(dbLink);
-    private final TableModelProtein modelTableProtein = new TableModelProtein(dbLink);
+    private final TableModelProtein modelTableJournalProtein = new TableModelProtein(result_loader_journal);
+    private final TableModelProtein modelTableProtein = new TableModelProtein(result_loader);
     private final TableModelRdaCheck modelTableRda = new TableModelRdaCheck(dbLink);
-    private final TableModelResults modelTableResults = new TableModelResults(dbLink);
-    private final TableModelVitamins modelTableVitamins = new TableModelVitamins(dbLink);
-    private final TableModelWater modelTableWater = new TableModelWater(dbLink);
+    private final TableModelVitamins modelTableJournalVitamins = new TableModelVitamins(result_loader_journal);
+    private final TableModelVitamins modelTableVitamins = new TableModelVitamins(result_loader);
+    private final TableModelWater modelTableJournalWater = new TableModelWater(result_loader_journal);
+    private final TableModelWater modelTableWater = new TableModelWater(result_loader);
+    private final TableRowSorter foodlist_tablesorter = new TableRowSorter<>(modelTableFoodList);
+    private final TableRowSorter mixcomparison_tablesorter = new TableRowSorter<>(modelTableMixDiff);
+    private final TableRowSorter nutrientinput_tablesorter = new TableRowSorter<>(modelTableNutrientInput);
+    private final TableRowSorter nutrientlookup_tablesorter = new TableRowSorter<>(modelTableNutrientLookup);
     private final TableRowSorter tableSorterCheckCoefficients = new TableRowSorter<>(modelTableCheckCoefficients);
-    private final TableRowSorter tableSorterFoodList = new TableRowSorter<>(modelTableFoodList);
-    private final TableRowSorter tableSorterNutrientInput = new TableRowSorter<>(modelTableNutrientInput);
     private final TreeModelFood modelTreeFoodList = new TreeModelFood(dbLink);
-    private JTable tableMixComparison;
-    private JTable tableRdaCheck;
-    private String foodNameText;
-    private JScrollPane tableNutrientInputScrollPane;
-    private final JFileChooser fileChooser;
 
     public Main() {
         fileChooser = new JFileChooser();
@@ -522,8 +528,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Font font = new Font(Font.DIALOG, Font.PLAIN, 12);
-            //MetalLookAndFeel.setCurrentTheme(new io.github.xjrga.looks.roughdraft.Theme(font));
-            MetalLookAndFeel.setCurrentTheme(new io.github.xjrga.looks.themes.Dawn_135(font));
+            MetalLookAndFeel.setCurrentTheme(new io.github.xjrga.looks.themes.Dawn_150(font));
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (ClassNotFoundException e) {
         } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
@@ -546,11 +551,22 @@ public class Main {
     }
 
     private void reloadRelationshipComboBoxes() {
-        modelComboBox_RelationshipAtNutrient.reload();
-        modelComboBox_RelationshipAtFoodNutrient.reload();
-        modelComboBox_RelationshipAtNutrientRatio.reload();
-        modelComboBox_RelationshipAtFoodNutrientRatio.reload();
-        modelComboBox_RelationshipAtNutrientPercent.reload();
+        relationship_loader.reload();
+        modelComboBox_RelationshipAtNutrient.removeAllElements();
+        modelComboBox_RelationshipAtFoodNutrient.removeAllElements();
+        modelComboBox_RelationshipAtNutrientRatio.removeAllElements();
+        modelComboBox_RelationshipAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_RelationshipAtNutrientPercent.removeAllElements();
+        modelComboBox_RelationshipAtNutrient.addAll(relationship_loader.get_relationship_list());
+        modelComboBox_RelationshipAtFoodNutrient.addAll(relationship_loader.get_relationship_list());
+        modelComboBox_RelationshipAtNutrientRatio.addAll(relationship_loader.get_relationship_list());
+        modelComboBox_RelationshipAtFoodNutrientRatio.addAll(relationship_loader.get_relationship_list());
+        modelComboBox_RelationshipAtNutrientPercent.addAll(relationship_loader.get_relationship_list());
+        comboBoxNutrientConstraintRelationship.setSelectedIndex(0);
+        comboBoxFoodNutrientConstraintRelationship.setSelectedIndex(0);
+        comboBoxNutrientRatioRelationship.setSelectedIndex(0);
+        comboBoxFoodNutrientRatioRelationship.setSelectedIndex(0);
+        comboBoxPercentNutrientRelationship.setSelectedIndex(0);
     }
 
     private JMenuBar getMenuBar() {
@@ -1081,12 +1097,25 @@ public class Main {
     }
 
     private void reloadNutrientComboBoxes() {
-        modelComboBox_NutrientAtNutrientConstraint.reload();
-        modelComboBox_NutrientAtNutrientPctContraint.reload();
-        modelComboBox_0_NutrientAtFoodNutrientRatio.reload();
-        modelComboBox_1_NutrientAtFoodNutrientRatio.reload();
-        modelComboBox_0_NutrientAtNutrientRatio.reload();
-        modelComboBox_1_NutrientAtNutrientRatio.reload();
+        nutrient_loader.reload();
+        modelComboBox_NutrientAtNutrientConstraint.removeAllElements();
+        modelComboBox_NutrientAtNutrientPctContraint.removeAllElements();
+        modelComboBox_0_NutrientAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_1_NutrientAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_0_NutrientAtNutrientRatio.removeAllElements();
+        modelComboBox_1_NutrientAtNutrientRatio.removeAllElements();
+        modelComboBox_NutrientAtNutrientConstraint.addAll(nutrient_loader.get_nutrient_list());
+        modelComboBox_NutrientAtNutrientPctContraint.addAll(nutrient_loader.get_nutrient_list());
+        modelComboBox_0_NutrientAtFoodNutrientRatio.addAll(nutrient_loader.get_nutrient_list());
+        modelComboBox_1_NutrientAtFoodNutrientRatio.addAll(nutrient_loader.get_nutrient_list());
+        modelComboBox_0_NutrientAtNutrientRatio.addAll(nutrient_loader.get_nutrient_list());
+        modelComboBox_1_NutrientAtNutrientRatio.addAll(nutrient_loader.get_nutrient_list());
+        comboBoxNutrientConstraintNutrient.setSelectedIndex(0);
+        comboBoxPercentNutrientConstraintNutrient.setSelectedIndex(0);
+        comboBoxFoodNutrientRatioNutrientA.setSelectedIndex(0);
+        comboBoxFoodNutrientRatioNutrientB.setSelectedIndex(0);
+        comboBoxNutrientRatioNutrientA.setSelectedIndex(0);
+        comboBoxNutrientRatioNutrientB.setSelectedIndex(0);
         //Do not include modelComboBox_NutrientLookupListNutrient, all nutrients must be on list
         //modelComboBox_NutrientLookupListNutrient.reload();
     }
@@ -1097,73 +1126,85 @@ public class Main {
     }
 
     private void reloadFoodComboBoxes(String mixId) {
-        modelComboBox_FoodAtNutrient.reload(mixId);
-        modelComboBox_FoodAtNutrientPct.reload(mixId);
-        modelComboBox_0_FoodAtFoodNutrientRatio.reload(mixId);
-        modelComboBox_1_FoodAtFoodNutrientRatio.reload(mixId);
+        food_loader.reload(mixId);
+        modelComboBox_0_FoodAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_1_FoodAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_FoodAtNutrient.removeAllElements();
+        modelComboBox_FoodAtNutrientPct.removeAllElements();
+        modelComboBox_0_FoodAtFoodNutrientRatio.addAll(food_loader.get_food_list());
+        modelComboBox_1_FoodAtFoodNutrientRatio.addAll(food_loader.get_food_list());
+        modelComboBox_FoodAtNutrient.addAll(food_loader.get_food_list());
+        modelComboBox_FoodAtNutrientPct.addAll(food_loader.get_food_list());
+        if (!food_loader.get_food_list().isEmpty()) {
+            comboBoxFoodNutrientRatioFoodA.setSelectedIndex(0);
+            comboBoxFoodNutrientRatioFoodB.setSelectedIndex(0);
+            comboBoxFoodNutrientConstraintFood.setSelectedIndex(0);
+            comboBoxPercentNutrientConstraintFood.setSelectedIndex(0);
+        }
     }
 
     private void reloadTableModels() {
         if (isMixSelected()) {
             MixDataObject mixDataObject = (MixDataObject) listMixes.getSelectedValue();
             String mixId = mixDataObject.getMixId();
-            modelTableEnergy.reload(mixId);
+            result_loader.reload(mixId);
+            modelTableEnergy.set_table(result_loader.get_energy_table());
             tableEnergy.getColumnModel().getColumn(0).setMinWidth(400);
             tableEnergy.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 12; i++) {
                 tableEnergy.getColumnModel().getColumn(i).setMinWidth(70);
                 tableEnergy.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableProtein.reload(mixId);
+            modelTableProtein.set_table(result_loader.get_protein_table());
             tableProtein.getColumnModel().getColumn(0).setMinWidth(400);
             tableProtein.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 5; i++) {
                 tableProtein.getColumnModel().getColumn(i).setMinWidth(70);
                 tableProtein.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableFats.reload(mixId);
+            modelTableFats.set_table(result_loader.get_fats_table());
             tableFats.getColumnModel().getColumn(0).setMinWidth(400);
             tableFats.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 12; i++) {
                 tableFats.getColumnModel().getColumn(i).setMinWidth(70);
                 tableFats.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableCarbs.reload(mixId);
+            modelTableCarbs.set_table(result_loader.get_carbs_table());
             tableCarbs.getColumnModel().getColumn(0).setMinWidth(400);
             tableCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 6; i++) {
                 tableCarbs.getColumnModel().getColumn(i).setMinWidth(70);
                 tableCarbs.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableVitamins.reload(mixId);
+            modelTableVitamins.set_table(result_loader.get_vitamins_table());
             tableVitamins.getColumnModel().getColumn(0).setMinWidth(400);
             tableVitamins.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 15; i++) {
                 tableVitamins.getColumnModel().getColumn(i).setMinWidth(70);
                 tableVitamins.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableMinerals.reload(mixId);
+            modelTableMinerals.set_table(result_loader.get_minerals_table());
             tableMinerals.getColumnModel().getColumn(0).setMinWidth(400);
             tableMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 11; i++) {
                 tableMinerals.getColumnModel().getColumn(i).setMinWidth(70);
                 tableMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableWater.reload(mixId);
+            modelTableWater.set_table(result_loader.get_water_table());
             tableWater.getColumnModel().getColumn(0).setMinWidth(400);
             tableWater.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 3; i++) {
                 tableWater.getColumnModel().getColumn(i).setMinWidth(70);
                 tableWater.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableCost.reload(mixId);
+            modelTableCost.set_table(result_loader.get_cost_table());
             tableCost.getColumnModel().getColumn(0).setMinWidth(400);
             tableCost.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 3; i++) {
                 tableCost.getColumnModel().getColumn(i).setMinWidth(70);
                 tableCost.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableElectrolytes.reload(mixId);
+            modelTableElectrolytes.set_table(result_loader.get_electrolytes_table());
             tableElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
             tableElectrolytes.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 4; i++) {
@@ -1233,13 +1274,13 @@ public class Main {
         modelTableJournalCost.setRowCount(0);
         modelTableJournalGlycemic.setRowCount(0);
         //
-        modelTableResults.setRowCount(0);
         modelTableMixDiff.setRowCount(0);
         modelTableRda.setRowCount(0);
-        modelComboBox_FoodAtNutrient.reload("");
-        modelComboBox_FoodAtNutrientPct.reload("");
-        modelComboBox_0_FoodAtFoodNutrientRatio.reload("");
-        modelComboBox_1_FoodAtFoodNutrientRatio.reload("");
+        food_loader.reload("");
+        //modelComboBox_1_FoodAtFoodNutrientRatio.set_collection(food_loader.get_food_list());
+        //modelComboBox_0_FoodAtFoodNutrientRatio.set_collection(food_loader.get_food_list());
+        //modelComboBox_FoodAtNutrient.set_collection(food_loader.get_food_list());
+        //modelComboBox_FoodAtNutrientPct.set_collection(food_loader.get_food_list());
         textAreaModel.setText("");
     }
 
@@ -1350,16 +1391,28 @@ public class Main {
         JScrollPane scrollPaneA = new JScrollPane(listCompareA);
         JScrollPane scrollPaneB = new JScrollPane(listCompareB);
         JScrollPane scrollPaneC = new JScrollPane(tableMixComparison);
-        CellConstraints cellc = new CellConstraints();
+        CellConstraints cc = new CellConstraints();
+        JPanel search_panel = new JPanel();
+        JLabel search_label = new JLabel("Search: ");
+        JTextField search_field = new JTextField();
         //create layouts
         FormLayout layout = new FormLayout(
                 "min:grow(.25),min:grow(.25),min:grow", //columns
-                "fill:min:grow" //rows
+                "min,fill:min:grow" //rows
+        );
+        FormLayout layout02 = new FormLayout(
+                "min:grow(.5),min:grow(.5)", //columns
+                "7px,min" //rows
         );
         panel.setLayout(layout);
-        panel.add(scrollPaneA, cellc.xy(1, 1));
-        panel.add(scrollPaneB, cellc.xy(2, 1));
-        panel.add(scrollPaneC, cellc.xy(3, 1));
+        panel.add(scrollPaneA, cc.xywh(1, 1, 1, 2));
+        panel.add(scrollPaneB, cc.xywh(2, 1, 1, 2));
+        search_panel.setLayout(layout02);
+        search_label.setHorizontalAlignment(JLabel.RIGHT);
+        search_panel.add(search_label, cc.xy(1, 2));
+        search_panel.add(search_field, cc.xy(2, 2));
+        panel.add(search_panel, cc.xy(3, 1));
+        panel.add(scrollPaneC, cc.xy(3, 2));
         layout.setColumnGroup(1, 2);
         scrollPaneA.setBorder(new TitledBorder("Mix 1"));
         scrollPaneB.setBorder(new TitledBorder("Mix 2"));
@@ -1370,12 +1423,41 @@ public class Main {
         listCompareB.addListSelectionListener((ListSelectionEvent e) -> {
             event_listCompareB(e);
         });
+        search_field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                mix_comparison_search_filter();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                mix_comparison_search_filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                mix_comparison_search_filter();
+            }
+
+            private void mix_comparison_search_filter() {
+                RowFilter<TableModelMixComparison, Object> rf = null;
+                try {
+                    ArrayList filters = new ArrayList();
+                    filters.add(RowFilter.regexFilter("(?i)" + search_field.getText(), 0));
+                    rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelMixComparison, ? super Object>>) filters);
+                } catch (java.util.regex.PatternSyntaxException e) {
+                    return;
+                }
+                mixcomparison_tablesorter.setRowFilter(rf);
+            }
+
+        });
         listCompareA.setModel(modelList_A_MixDiff);
         listCompareB.setModel(modelList_B_MixDiff);
         tableMixComparison.setModel(modelTableMixDiff);
         tableMixComparison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableMixComparison.setFillsViewportHeight(true);
-        tableMixComparison.setAutoCreateRowSorter(true);
+        tableMixComparison.setRowSorter(mixcomparison_tablesorter);
         modelList_A_MixDiff.reload();
         modelList_B_MixDiff.reload();
         resizeColumns_MixComparisonTable();
@@ -1595,64 +1677,64 @@ public class Main {
         if (isMixJournalSelected()) {
             MixDataObject mixDataObject = (MixDataObject) listMixesJournal.getSelectedValue();
             String mixId = mixDataObject.getMixId();
-            modelTableResults.reload(mixId);
-            modelTableJournalEnergy.reload(mixId);
+            result_loader_journal.reload(mixId);
+            modelTableJournalEnergy.set_table(result_loader_journal.get_energy_table());
             tableJournalEnergy.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalEnergy.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 12; i++) {
                 tableJournalEnergy.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalEnergy.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalProtein.reload(mixId);
+            modelTableJournalProtein.set_table(result_loader_journal.get_protein_table());
             tableJournalProtein.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalProtein.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 5; i++) {
                 tableJournalProtein.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalProtein.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalFats.reload(mixId);
+            modelTableJournalFats.set_table(result_loader_journal.get_fats_table());
             tableJournalFats.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalFats.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 12; i++) {
                 tableJournalFats.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalFats.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalCarbs.reload(mixId);
+            modelTableJournalCarbs.set_table(result_loader_journal.get_carbs_table());
             tableJournalCarbs.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalCarbs.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 6; i++) {
                 tableJournalCarbs.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalCarbs.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalVitamins.reload(mixId);
+            modelTableJournalVitamins.set_table(result_loader_journal.get_vitamins_table());
             tableJournalVitamins.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalVitamins.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 15; i++) {
                 tableJournalVitamins.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalVitamins.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalMinerals.reload(mixId);
+            modelTableJournalMinerals.set_table(result_loader_journal.get_minerals_table());
             tableJournalMinerals.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 11; i++) {
                 tableJournalMinerals.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalElectrolytes.reload(mixId);
+            modelTableJournalElectrolytes.set_table(result_loader_journal.get_electrolytes_table());
             tableJournalElectrolytes.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalElectrolytes.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 4; i++) {
                 tableJournalElectrolytes.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalElectrolytes.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalWater.reload(mixId);
+            modelTableJournalWater.set_table(result_loader_journal.get_water_table());
             tableJournalWater.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalWater.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 3; i++) {
                 tableJournalWater.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalWater.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            modelTableJournalCost.reload(mixId);
+            modelTableJournalCost.set_table(result_loader_journal.get_cost_table());
             tableJournalCost.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalCost.getColumnModel().getColumn(0).setMaxWidth(400);
             for (int i = 1; i < 3; i++) {
@@ -1696,7 +1778,7 @@ public class Main {
 
             return;
         }
-        tableSorterFoodList.setRowFilter(rf);
+        foodlist_tablesorter.setRowFilter(rf);
     }
 
     private JPanel getFoodList() {
@@ -1709,7 +1791,7 @@ public class Main {
         JPanel searchPanel = new JPanel();
         FormLayout searchPanelLayout = new FormLayout(
                 "min,min:grow", //columns
-                "min" //rows
+                "5dlu,min,3dlu" //rows
         );
         searchPanel.setLayout(searchPanelLayout);
         JPanel buttonPanel = new JPanel();
@@ -1719,8 +1801,8 @@ public class Main {
         );
         buttonPanel.setLayout(buttonPanelLayout);
         JScrollPane scrollPaneTable01 = new JScrollPane(tableFoodList01);
-        searchPanel.add(new JLabel("Search:"), cc.xy(1, 1));
-        searchPanel.add(textFieldFoodListSearch, cc.xy(2, 1));
+        searchPanel.add(new JLabel("Search:"), cc.xy(1, 2));
+        searchPanel.add(textFieldFoodListSearch, cc.xy(2, 2));
         buttonPanel.add(buttonFoodListAdd, cc.xy(2, 1));
         buttonPanel.add(buttonFoodListDelete, cc.xy(3, 1));
         buttonPanel.add(buttonFoodListUpdate, cc.xy(4, 1));
@@ -1763,7 +1845,7 @@ public class Main {
             }
         });
         tableFoodList01.setTableHeader(new TableHeaderFoodList(tableFoodList01.getColumnModel()));
-        tableFoodList01.setRowSorter(tableSorterFoodList);
+        tableFoodList01.setRowSorter(foodlist_tablesorter);
         tableFoodList01.setModel(modelTableFoodList);
         tableFoodList01.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableFoodList01.setFillsViewportHeight(true);
@@ -1902,7 +1984,7 @@ public class Main {
 
             return;
         }
-        tableSorterNutrientInput.setRowFilter(rf);
+        nutrientinput_tablesorter.setRowFilter(rf);
     }
 
     private void event_fillCompleteProteinDataButton() {
@@ -2339,7 +2421,7 @@ public class Main {
     }
 
     private void updateFoodItem(String foodId, Integer optionValue) {
-        tableNutrientInput.setRowSorter(tableSorterNutrientInput);
+        tableNutrientInput.setRowSorter(nutrientinput_tablesorter);
         tableNutrientInput.setModel(modelTableNutrientInput);
         tableNutrientInput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableNutrientInput.setFillsViewportHeight(true);
@@ -2569,30 +2651,69 @@ public class Main {
 
     private JPanel getNutrientLookupList() {
         JPanel panel = new JPanel();
+        JLabel search_label = new JLabel("Search: ");
+        JLabel nutrient_label = new JLabel("Nutrient: ");
+        JLabel value_label = new JLabel("Value: ");
+        JTextField search_field = new JTextField();
         FormLayout panelLayout = new FormLayout(
                 "min,min:grow,2dlu,min,min:grow,min", //columns
-                "1dlu,min,1dlu,fill:min:grow" //rows
+                "3dlu,min,3dlu,min,1dlu,fill:min:grow" //rows
         );
+        search_label.setHorizontalAlignment(JLabel.RIGHT);
+        nutrient_label.setHorizontalAlignment(JLabel.RIGHT);
+        value_label.setHorizontalAlignment(JLabel.RIGHT);
         panel.setLayout(panelLayout);
         JScrollPane scrollPaneNutrientLookup = new JScrollPane(tableNutrientLookup);
-        panel.add(new JLabel("Nutrient: "), cc.xy(1, 2));
-        panel.add(comboBoxNutrientLookupListNutrient, cc.xy(2, 2));
-        panel.add(new JLabel("Value: "), cc.xy(4, 2));
-        panel.add(textFieldNutrientLookup, cc.xy(5, 2));
-        panel.add(buttonNutrientLookupListRun, cc.xy(6, 2));
-        panel.add(scrollPaneNutrientLookup, cc.xyw(1, 4, 6));
+        panel.add(search_label, cc.xy(4, 2));
+        panel.add(search_field, cc.xyw(5, 2, 2));
+        panel.add(nutrient_label, cc.xy(1, 4));
+        panel.add(comboBoxNutrientLookupListNutrient, cc.xy(2, 4));
+        panel.add(value_label, cc.xy(4, 4));
+        panel.add(textFieldNutrientLookup, cc.xy(5, 4));
+        panel.add(buttonNutrientLookupListRun, cc.xy(6, 4));
+        panel.add(scrollPaneNutrientLookup, cc.xyw(1, 6, 6));
         scrollPaneNutrientLookup.setBorder(new TitledBorder("Nutrient Lookup"));
-        tableNutrientLookup.setToolTipText("This is where you find food items that provide a specific nutrient");
+        tableNutrientLookup.setToolTipText("These food items contain the specific nutrient");
         tableNutrientLookup.setTableHeader(new TableHeaderNutrientLookup(tableNutrientLookup.getColumnModel()));
         tableNutrientLookup.setAutoCreateRowSorter(true);
         buttonNutrientLookupListRun.addActionListener((ActionEvent e) -> {
             event_buttonNutrientLookupListRun();
+        });
+        search_field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                nutrientlookup_search_filter();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                nutrientlookup_search_filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                nutrientlookup_search_filter();
+            }
+
+            private void nutrientlookup_search_filter() {
+                RowFilter<TableModelNutrientLookup, Object> rf = null;
+                try {
+                    ArrayList filters = new ArrayList();
+                    filters.add(RowFilter.regexFilter("(?i)" + search_field.getText(), 0));
+                    rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelNutrientLookup, ? super Object>>) filters);
+                } catch (java.util.regex.PatternSyntaxException e) {
+                    return;
+                }
+                nutrientlookup_tablesorter.setRowFilter(rf);
+            }
+
         });
         comboBoxNutrientLookupListNutrient.setModel(modelComboBox_NutrientLookupListNutrient);
         modelComboBox_NutrientLookupListNutrient.reload();
         tableNutrientLookup.setModel(modelTableNutrientLookup);
         tableNutrientLookup.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableNutrientLookup.setFillsViewportHeight(true);
+        tableNutrientLookup.setRowSorter(nutrientlookup_tablesorter);
         resizeColumns_NutrientLookupTable();
         return panel;
     }
@@ -2601,30 +2722,9 @@ public class Main {
         boolean selected = checkBoxResultRoundUp.isSelected();
         if (selected) {
             modelTableFoodList.setPrecision(0);
-            //
-            modelTableEnergy.setPrecision(0);
-            modelTableProtein.setPrecision(0);
-            modelTableFats.setPrecision(0);
-            modelTableCarbs.setPrecision(0);
-            modelTableVitamins.setPrecision(0);
-            modelTableMinerals.setPrecision(0);
-            modelTableElectrolytes.setPrecision(0);
-            modelTableWater.setPrecision(0);
-            modelTableCost.setPrecision(0);
+            result_loader.setPrecision(0);
+            result_loader_journal.setPrecision(0);
             modelTableGlycemic.setPrecision(0);
-            //
-            modelTableJournalEnergy.setPrecision(0);
-            modelTableJournalProtein.setPrecision(0);
-            modelTableJournalFats.setPrecision(0);
-            modelTableJournalCarbs.setPrecision(0);
-            modelTableJournalVitamins.setPrecision(0);
-            modelTableJournalMinerals.setPrecision(0);
-            modelTableJournalElectrolytes.setPrecision(0);
-            modelTableJournalWater.setPrecision(0);
-            modelTableJournalCost.setPrecision(0);
-            modelTableJournalGlycemic.setPrecision(0);
-            //
-            modelTableResults.setPrecision(0);
             modelTableMixDiff.setPrecision(0);
             modelTableRda.setPrecision(0);
             stringModelMixPct.setPrecision(0);
@@ -2632,29 +2732,10 @@ public class Main {
             modelTableNutrientInput.setPrecision(5);
         } else {
             modelTableFoodList.setPrecision(5);
-            //
-            modelTableEnergy.setPrecision(5);
-            modelTableProtein.setPrecision(5);
-            modelTableFats.setPrecision(5);
-            modelTableCarbs.setPrecision(5);
-            modelTableVitamins.setPrecision(5);
-            modelTableMinerals.setPrecision(5);
-            modelTableElectrolytes.setPrecision(5);
-            modelTableWater.setPrecision(5);
-            modelTableCost.setPrecision(5);
+            result_loader.setPrecision(5);
+            result_loader_journal.setPrecision(5);
             modelTableGlycemic.setPrecision(5);
-            //
-            modelTableJournalEnergy.setPrecision(5);
-            modelTableJournalFats.setPrecision(5);
-            modelTableJournalCarbs.setPrecision(5);
-            modelTableJournalVitamins.setPrecision(5);
-            modelTableJournalMinerals.setPrecision(5);
-            modelTableJournalElectrolytes.setPrecision(5);
-            modelTableJournalWater.setPrecision(5);
-            modelTableJournalCost.setPrecision(5);
             modelTableJournalGlycemic.setPrecision(5);
-            //
-            modelTableResults.setPrecision(5);
             modelTableMixDiff.setPrecision(5);
             modelTableRda.setPrecision(5);
             stringModelMixPct.setPrecision(5);
@@ -2856,7 +2937,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 820");
+        sb.append("This is build 830");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
