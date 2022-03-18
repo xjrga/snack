@@ -20,13 +20,12 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelNutrientLookup extends DefaultTableModel implements RoundUp {
 
@@ -43,6 +42,7 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
         columns = new Vector();
         columns.add("Food");
         columns.add("Weight");
+        columns.add("Calories");
         this.setColumnIdentifiers(columns);
     }
 
@@ -54,6 +54,7 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
                 returnValue = String.class;
                 break;
             case 1:
+            case 2:
                 //Value
                 returnValue = Double.class;
                 break;
@@ -75,10 +76,12 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 String foodname = (String) rowm.get("NAME");
-                Double value = (Double) rowm.get("WEIGHT");
+                Double calories = (Double) rowm.get("CALORIES");
+                Double weight = (Double) rowm.get("WEIGHT");
                 row = new Vector();
                 row.add(foodname);
-                row.add(value);
+                row.add(weight);
+                row.add(calories);
                 table.add(row);
             }
             this.setDataVector(table, columns);

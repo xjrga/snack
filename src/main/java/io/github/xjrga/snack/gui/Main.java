@@ -2937,7 +2937,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 830");
+        sb.append("This is build 840");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -4372,6 +4372,8 @@ public class Main {
         tableNutrientLookup.getColumnModel().getColumn(0).setMaxWidth(550);
         tableNutrientLookup.getColumnModel().getColumn(1).setMinWidth(75);
         tableNutrientLookup.getColumnModel().getColumn(1).setMaxWidth(75);
+        tableNutrientLookup.getColumnModel().getColumn(2).setMinWidth(75);
+        tableNutrientLookup.getColumnModel().getColumn(2).setMaxWidth(75);
     }
 
     private void resizeColumns_NutrientInputTable() {

@@ -229,3 +229,6 @@ RELEASE NOTES
       Add search field to nutrient lookup tab
       Sort rda check results alphabetically
       Improve perfomance
+
+840
+      Add calories field to nutrient lookup tab

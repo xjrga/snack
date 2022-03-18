@@ -1001,18 +1001,19 @@ public class DbLink {
         return list;
     }
 
-    public List<Map<String, Object>> Nutrient_Lookup_List(String NutrientId, Double Weight, Integer Precision) throws SQLException {
+    public List<Map<String, Object>> Nutrient_Lookup_List(String NutrientId, Double value, Integer Precision) throws SQLException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
         proc = connection.prepareCall("{CALL public.Nutrient_Lookup_List(?,?,?)}");
         proc.setString(1, NutrientId);
-        proc.setDouble(2, Weight);
+        proc.setDouble(2, value);
         proc.setInt(3, Precision);
         ResultSet rs = proc.executeQuery();
         while (rs.next()) {
             Map<String, Object> row = new HashMap<>();
             row.put("NAME", rs.getObject(1));
-            row.put("WEIGHT", rs.getObject(2));
+            row.put("CALORIES", rs.getObject(2));
+            row.put("WEIGHT", rs.getObject(3));
             list.add(row);
         }
         proc.close();

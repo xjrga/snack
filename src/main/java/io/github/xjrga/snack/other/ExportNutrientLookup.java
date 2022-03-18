@@ -1,12 +1,8 @@
 package io.github.xjrga.snack.other;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import io.github.xjrga.snack.gui.Message;
-
-import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 
 public class ExportNutrientLookup {
 
@@ -116,20 +115,28 @@ public class ExportNutrientLookup {
         cell = row.createCell(1);
         cell.setCellValue("Weight (g)");
         cell.setCellStyle(cellStyleColumnName);
+        cell = row.createCell(2);
+        cell.setCellValue("Calories (kcal)");
+        cell.setCellStyle(cellStyleColumnName);
         try {
             LinkedList list = (LinkedList) dbLink.Nutrient_Lookup_List(nutrientDataObject.getNutr_no(), Double.valueOf(textFieldNutrientLookup.getText()), 5);
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 String foodname = (String) rowm.get("NAME");
-                Double value = (Double) rowm.get("WEIGHT");
+                Double calories = (Double) rowm.get("CALORIES");
+                Double weight = (Double) rowm.get("WEIGHT");
                 row = s.createRow(rownum++);
                 cell = row.createCell(0);
                 cell.setCellStyle(cellStyleValue);
                 cell.setCellValue(foodname);
                 cell = row.createCell(1);
-                cell.setCellValue(value);
+                cell.setCellValue(calories);
                 cell.setCellStyle(cellStyleValue);
+                cell = row.createCell(2);
+                cell.setCellValue(weight);
+                cell.setCellStyle(cellStyleValue);
+
             }
         } catch (SQLException e) {
 
