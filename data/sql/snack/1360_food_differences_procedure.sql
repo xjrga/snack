@@ -1,8 +1,8 @@
-CREATE PROCEDURE Mix_getDiff (
+CREATE PROCEDURE food_differences_procedure (
 --
-IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
+IN v_food_a LONGVARCHAR,
+IN v_food_b LONGVARCHAR,
+IN v_precision INTEGER
 --
 )
 --
@@ -10,7 +10,7 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
-SELECT a.name,b.name,b.mixa,b.mixb,b.diff
+SELECT a.name,b.name,b.food_a,b.food_b,b.diff
 FROM
 (
 SELECT nutrientcategoryid, name
@@ -20,23 +20,23 @@ SELECT
        b.nutrientcategoryid,
        b.nutrientid,
        b.name,
-       round(a.mix1,v_Precision) as mixa,
-       round(a.mix2,v_Precision) as mixb,
-       round(a.diff,v_Precision) as diff
+       round(a.food_a,5) as food_a,
+       round(a.food_b,5) as food_b,
+       round(a.diff,5) as diff
 FROM (SELECT a.nutrientid,
-             a.value AS mix1,
-             b.value AS mix2,
+             a.value AS food_a,
+             b.value AS food_b,
              a.value - b.value AS diff
       FROM (SELECT nutrientid,
-                   SUM(q) AS value
-            FROM mixresult
-            WHERE mixid = v_MixId_1
-            GROUP BY nutrientid) a,
+                   c * 100 AS value
+            FROM foodfactcoefficient
+            WHERE foodid = v_food_a
+            ) a,
            (SELECT nutrientid,
-                   SUM(q) AS value
-            FROM mixresult
-            WHERE mixid = v_MixId_2
-            GROUP BY nutrientid) b
+                   c * 100 AS value
+            FROM foodfactcoefficient
+            WHERE foodid = v_food_b
+            ) b
       WHERE a.nutrientid = b.nutrientid) a,
      (SELECT nutrientid, name, nutrientcategoryid FROM nutrient) b
 WHERE a.nutrientid = b.nutrientid) B

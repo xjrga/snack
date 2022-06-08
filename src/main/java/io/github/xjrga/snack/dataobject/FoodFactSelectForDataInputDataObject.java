@@ -41,4 +41,9 @@ public class FoodFactSelectForDataInputDataObject {
     public void setNutrientId(String nutrientId) {
         NutrientId = nutrientId;
     }
+
+    @Override
+    public String toString() {
+        return "FoodFactSelectForDataInputDataObject{" + "Category=" + Category + ", Nutrient=" + Nutrient + ", q=" + q + ", NutrientId=" + NutrientId + '}';
+    }
 }

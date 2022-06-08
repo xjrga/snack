@@ -38,12 +38,6 @@ call FoodFact_Merge('123456754','606',0);
 --'601','Cholesterol (mg)'
 call FoodFact_Merge('123456754','601',0);
 /
---'675','18:2 n-6 c,c (Linoleic) (g)'
-call FoodFact_Merge('123456754','675',0);
-/
---'851','18:3 n-3 c,c,c (Alpha-Linolenic) (g)'
-call FoodFact_Merge('123456754','851',0);
-/
 --'621','22:6 n-3 (DHA) (g)'
 call FoodFact_Merge('123456754','621',0);
 /

@@ -6,6 +6,8 @@ call CategoryLink_Insert('01256','10000');
 /
 call CategoryLink_Insert('08001','10000');
 /
+call CategoryLink_Insert('08005','10000');
+/
 call CategoryLink_Insert('08120','10000');
 /
 call CategoryLink_Insert('09003','10000');

@@ -44,12 +44,6 @@ call FoodFact_Merge('1234567890','618',0);
 --'619','18:3 undifferentiated (Linolenic) (g)'
 call FoodFact_Merge('1234567890','619',0);
 /
---'675','18:2 n-6 c,c (Linoleic) (g)'
-call FoodFact_Merge('1234567890','675',0);
-/
---'851','18:3 n-3 c,c,c (Alpha-Linolenic) (g)'
-call FoodFact_Merge('1234567890','851',0);
-/
 --'621','22:6 n-3 (DHA) (g)'
 call FoodFact_Merge('1234567890','621',0);
 /

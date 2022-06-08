@@ -12,9 +12,7 @@ FROM
 Nutrient
 WHERE
 Visible = 1 AND
-NutrientId != '205' AND 
-NutrientId != '675' AND 
-NutrientId != '851'
+NutrientId != '205'
 ORDER BY Name;
 --
 OPEN result;

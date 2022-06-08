@@ -919,6 +919,27 @@ public class DbLink {
         proc.execute();
     }
 
+    public List<Map<String, Object>> get_food_differences(String food_id_a, String food_id_b, Integer precision) throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall("{CALL public.food_differences_procedure( ?,?,?)}");
+        proc.setString(1, food_id_a);
+        proc.setString(2, food_id_b);
+        proc.setInt(3, precision);
+        ResultSet rs = proc.executeQuery();
+        while (rs.next()) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("CATEGORY", rs.getObject(1));
+            row.put("NUTRIENT", rs.getObject(2));
+            row.put("FOODA", rs.getObject(3));
+            row.put("FOODB", rs.getObject(4));
+            row.put("DIFF", rs.getObject(5));
+            list.add(row);
+        }
+        proc.close();
+        return list;
+    }
+
     public List<Map<String, Object>> Mix_GetDiff(String MixId1, String MixId2, Integer Precision) throws SQLException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
@@ -929,10 +950,11 @@ public class DbLink {
         ResultSet rs = proc.executeQuery();
         while (rs.next()) {
             Map<String, Object> row = new HashMap<>();
-            row.put("NUTRIENT", rs.getObject(1));
-            row.put("MIX1", rs.getObject(2));
-            row.put("MIX2", rs.getObject(3));
-            row.put("DIFF", rs.getObject(4));
+            row.put("CATEGORY", rs.getObject(1));
+            row.put("NUTRIENT", rs.getObject(2));
+            row.put("MIXA", rs.getObject(3));
+            row.put("MIXB", rs.getObject(4));
+            row.put("DIFF", rs.getObject(5));
             list.add(row);
         }
         proc.close();

@@ -1,3 +1,5 @@
+call Food_Insert('01001','Butter, salted');
+/
 call Food_Insert('01014','Cheese, cottage, nonfat, uncreamed, dry, large or small curd');
 /
 call Food_Insert('01015','Cheese, cottage, lowfat, 2% milkfat');
@@ -108,6 +110,8 @@ call Food_Insert('04593','Fish oil, salmon');
 /
 call Food_Insert('04594','Fish oil, sardine');
 /
+call Food_Insert('04601','Butter, light, stick, with salt');
+/
 call Food_Insert('04679','Oil, PAM cooking spray, original');
 /
 call Food_Insert('04708','Mayonnaise, reduced fat, with olive oil');
@@ -139,6 +143,8 @@ call Food_Insert('07943','Turkey, breast, smoked, lemon pepper flavor, 97% fat-f
 call Food_Insert('07961','Chicken breast, deli, rotisserie seasoned, sliced, prepackaged');
 /
 call Food_Insert('08001','Cereals ready-to-eat, KELLOGG, KELLOGG''S ALL-BRAN Original');
+/
+call Food_Insert('08005','Cereals ready-to-eat, KELLOGG, KELLOGG''S ALL-BRAN BRAN BUDS');
 /
 call Food_Insert('08120','Cereals, oats, regular and quick, not fortified, dry');
 /
@@ -497,6 +503,10 @@ call Food_Insert('12157','Nuts, walnuts, dry roasted, with salt added');
 call Food_Insert('12206','Nuts, almonds, honey roasted, unblanched');
 /
 call Food_Insert('12220','Seeds, flaxseed');
+/
+call Food_Insert('13325','Beef, variety meats and by-products, liver, raw');
+/
+call Food_Insert('13326','Beef, variety meats and by-products, liver, cooked, braised');
 /
 call Food_Insert('14003','Alcoholic beverage, beer, regular, all');
 /

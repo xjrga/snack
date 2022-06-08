@@ -33,6 +33,7 @@ import io.github.xjrga.snack.model.TableModelDataInput;
 import io.github.xjrga.snack.model.TableModelElectrolytes;
 import io.github.xjrga.snack.model.TableModelEnergy;
 import io.github.xjrga.snack.model.TableModelFat;
+import io.github.xjrga.snack.model.TableModelFoodComparison;
 import io.github.xjrga.snack.model.TableModelFoodList;
 import io.github.xjrga.snack.model.TableModelFoodNutrientConstraints;
 import io.github.xjrga.snack.model.TableModelFoodNutrientRatioConstraints;
@@ -52,6 +53,7 @@ import io.github.xjrga.snack.other.Alpha_linolenic_acid_required;
 import io.github.xjrga.snack.other.CunninghamFormula;
 import io.github.xjrga.snack.other.DigestibleCarbohydrate;
 import io.github.xjrga.snack.other.DoubleTableCellEditor;
+import io.github.xjrga.snack.other.ExportFoodComparison;
 import io.github.xjrga.snack.other.ExportFoodList;
 import io.github.xjrga.snack.other.ExportFoodMixes;
 import io.github.xjrga.snack.other.ExportMixComparison;
@@ -144,7 +146,6 @@ public class Main {
     private final JButton buttonFoodNutrientRatioDelete = new JButton("-");
     private final JButton buttonNutrientConstraintAdd = new JButton("+");
     private final JButton buttonNutrientConstraintDelete = new JButton("-");
-    private final JButton buttonNutrientLookupListRun = new JButton("Run");
     private final JButton buttonNutrientRatioAdd = new JButton("+");
     private final JButton buttonNutrientRatioDelete = new JButton("-");
     private final JButton buttonPercentNutrientConstraintAdd = new JButton("+");
@@ -159,13 +160,13 @@ public class Main {
     private final JCheckBox checkBoxCost = new JCheckBox();
     private final JCheckBox checkBoxDHA = new JCheckBox();
     private final JCheckBox checkBoxDigestibleCarbs = new JCheckBox();
-    private final JCheckBox checkBoxEPA = new JCheckBox();
-    private final JCheckBox checkBoxEnergy = new JCheckBox();
     private final JCheckBox checkBoxEnergyAlcohol = new JCheckBox();
     private final JCheckBox checkBoxEnergyCarbohydrate = new JCheckBox();
     private final JCheckBox checkBoxEnergyDigestible = new JCheckBox();
     private final JCheckBox checkBoxEnergyFat = new JCheckBox();
+    private final JCheckBox checkBoxEnergy = new JCheckBox();
     private final JCheckBox checkBoxEnergyProtein = new JCheckBox();
+    private final JCheckBox checkBoxEPA = new JCheckBox();
     private final JCheckBox checkBoxFat = new JCheckBox();
     private final JCheckBox checkBoxFiber = new JCheckBox();
     private final JCheckBox checkBoxFluoride = new JCheckBox();
@@ -189,8 +190,8 @@ public class Main {
     private final JCheckBox checkBoxSodium = new JCheckBox();
     private final JCheckBox checkBoxThiamin = new JCheckBox();
     private final JCheckBox checkBoxVitaminA = new JCheckBox();
-    private final JCheckBox checkBoxVitaminB6 = new JCheckBox();
     private final JCheckBox checkBoxVitaminB12 = new JCheckBox();
+    private final JCheckBox checkBoxVitaminB6 = new JCheckBox();
     private final JCheckBox checkBoxVitaminC = new JCheckBox();
     private final JCheckBox checkBoxVitaminD = new JCheckBox();
     private final JCheckBox checkBoxVitaminE = new JCheckBox();
@@ -220,42 +221,45 @@ public class Main {
     private final JFrame frameSnack = new JFrame();
     private final JList listAllFoodItems = new JList();
     private final JList listCategories = new JList();
-    private final JList listCompareA = new JList();
-    private final JList listCompareB = new JList();
+    private final JList list_food_compare_a = new JList();
+    private final JList list_food_compare_b = new JList();
     private final JList listFoodInCategory = new JList();
     private final JList listHighScore = new JList();
-    private final JList listMixes = new JList();
+    private final JList list_mix_compare_a = new JList();
+    private final JList list_mix_compare_b = new JList();
     private final JList listMixesJournal = new JList();
+    private final JList listMixes = new JList();
     private final JList listRdaCheck = new JList();
     private final JList listSelectedFood = new JList();
-    private final JMenu menuData = new JMenu();
-    private final JMenu menuHelp = new JMenu();
-    private final JMenu menuProgram = new JMenu();
-    private final JMenu menuSettings = new JMenu();
-    private final JMenu menuTools = new JMenu();
-    private final JMenu menu_exchange = new JMenu();
-    private final JMenu menu_spreadsheet = new JMenu();
+    private final JMenuItem menui_export_message = new JMenuItem();
+    private final JMenuItem menui_import_message = new JMenuItem();
+    private final JMenuItem menui_show_mix_stats = new JMenuItem();
     private final JMenuItem menuItemAbout = new JMenuItem();
+    private final JMenuItem menu_item_alpha_linolenic_acid_required = new JMenuItem();
     private final JMenuItem menuItemBmr = new JMenuItem();
     private final JMenuItem menuItemConstraintsShownInList = new JMenuItem();
     private final JMenuItem menuItemCredits = new JMenuItem();
     private final JMenuItem menuItemDigestibleCarbs = new JMenuItem();
     private final JMenuItem menuItemExit = new JMenuItem();
+    private final JMenuItem menuItemExportFoodComparison = new JMenuItem();
     private final JMenuItem menuItemExportFoodList = new JMenuItem();
-    private final JMenuItem menuItemExportFoodMixes = new JMenuItem();
-    private final JMenuItem menuItemExportMixCompare = new JMenuItem();
+    private final JMenuItem menuItemExportMixComparison = new JMenuItem();
+    private final JMenuItem menuItemExportMixList = new JMenuItem();
+    private final JMenuItem menuItemExportMixRda = new JMenuItem();
     private final JMenuItem menuItemExportNutrientLookup = new JMenuItem();
-    private final JMenuItem menuItemExportRdaCompare = new JMenuItem();
     private final JMenuItem menuItemGlycemicIndexRange = new JMenuItem();
     private final JMenuItem menuItemGlycemicLoad = new JMenuItem();
     private final JMenuItem menuItemGuide = new JMenuItem();
     private final JMenuItem menuItemKetosis = new JMenuItem();
     private final JMenuItem menuItemMicronutrientConversion = new JMenuItem();
     private final JMenuItem menuItemNitrogenBalance = new JMenuItem();
-    private final JMenuItem menu_item_alpha_linolenic_acid_required = new JMenuItem();
-    private final JMenuItem menui_export_message = new JMenuItem();
-    private final JMenuItem menui_import_message = new JMenuItem();
-    private final JMenuItem menui_show_mix_stats = new JMenuItem();
+    private final JMenu menuData = new JMenu();
+    private final JMenu menu_exchange = new JMenu();
+    private final JMenu menuHelp = new JMenu();
+    private final JMenu menuProgram = new JMenu();
+    private final JMenu menuSettings = new JMenu();
+    private final JMenu menu_spreadsheet = new JMenu();
+    private final JMenu menuTools = new JMenu();
     private JScrollPane tableNutrientInputScrollPane;
     private final JTable tableCarbs = new JTable();
     private final JTable tableCheckCoefficients = new JTable();
@@ -263,6 +267,7 @@ public class Main {
     private final JTable tableElectrolytes = new JTable();
     private final JTable tableEnergy = new JTable();
     private final JTable tableFats = new JTable();
+    private JTable table_food_comparison;
     private final JTable tableFoodList01 = new JTable();
     private final JTable tableFoodNutrientConstraint = new JTable();
     private final JTable tableFoodNutrientRatio = new JTable();
@@ -278,7 +283,7 @@ public class Main {
     private final JTable tableJournalVitamins = new JTable();
     private final JTable tableJournalWater = new JTable();
     private final JTable tableMinerals = new JTable();
-    private JTable tableMixComparison;
+    private JTable table_mix_comparison;
     private final JTable tableNutrientConstraint = new JTable();
     private final JTable tableNutrientInput = new JTable();
     private final JTable tableNutrientLookup = new JTable();
@@ -300,24 +305,26 @@ public class Main {
     private final JTextField textFieldNutrientLookup = new JTextField();
     private final JTextField textFieldNutrientRatioNutrientA = new JTextField();
     private final JTextField textFieldNutrientRatioNutrientB = new JTextField();
-    private final JTextField textFieldNutrientSearch = new JTextField();
     private final JTextField textFieldNutrientSearchCheckCoefficients = new JTextField();
+    private final JTextField textFieldNutrientSearch = new JTextField();
     private final JTextField textFieldPercentNutrientConstraintQuantity = new JTextField();
     private final JTree treeFoodList = new JTree();
     private final LinkedHashMap<String, JCheckBox> mapConstraintCheckboxes;
     private final ListModelCategory modelListCategory = new ListModelCategory(dbLink);
-    private final ListModelFood modelListFood = new ListModelFood(dbLink);
     private final ListModelFood2 modelListFoodInCategory = new ListModelFood2(dbLink);
-    private final ListModelMix modelListFoodJournal = new ListModelMix(dbLink);
-    private final ListModelMix modelListRda = new ListModelMix(dbLink);
+    private final ListModelFood modelList_A_FoodDiff = new ListModelFood(dbLink);
+    private final ListModelFood modelList_B_FoodDiff = new ListModelFood(dbLink);
+    private final ListModelFood modelListFood = new ListModelFood(dbLink);
+    private final ListModelMix1 modelList_Solve = new ListModelMix1(dbLink);
     private final ListModelMix modelList_A_MixDiff = new ListModelMix(dbLink);
     private final ListModelMix modelList_B_MixDiff = new ListModelMix(dbLink);
-    private final ListModelMix1 modelList_Solve = new ListModelMix1(dbLink);
+    private final ListModelMix modelListFoodJournal = new ListModelMix(dbLink);
+    private final ListModelMix modelListRda = new ListModelMix(dbLink);
     private final ListModelSelectedFood modelListSelectedFood = new ListModelSelectedFood(dbLink);
     private final Nutrient_loader nutrient_loader = new Nutrient_loader(dbLink);
     private final Relationship_loader relationship_loader = new Relationship_loader(dbLink);
-    private final Result_loader result_loader = new Result_loader(dbLink);
     private final Result_loader result_loader_journal = new Result_loader(dbLink);
+    private final Result_loader result_loader = new Result_loader(dbLink);
     private String foodNameText;
     private final StringModelMixPct stringModelMixPct = new StringModelMixPct(dbLink);
     private final TableModelCarbs modelTableCarbs = new TableModelCarbs(result_loader);
@@ -332,6 +339,7 @@ public class Main {
     private final TableModelEnergy modelTableJournalEnergy = new TableModelEnergy(result_loader_journal);
     private final TableModelFat modelTableFats = new TableModelFat(result_loader);
     private final TableModelFat modelTableJournalFats = new TableModelFat(result_loader_journal);
+    private final TableModelFoodComparison model_for_food_difference_table = new TableModelFoodComparison(dbLink);
     private final TableModelFoodList modelTableFoodList = new TableModelFoodList(dbLink);
     private final TableModelFoodNutrientConstraints modelTableFoodNutrientConstraints = new TableModelFoodNutrientConstraints(dbLink);
     private final TableModelFoodNutrientRatioConstraints modelTableFoodNutrientRatioConstraints = new TableModelFoodNutrientRatioConstraints(dbLink);
@@ -339,7 +347,7 @@ public class Main {
     private final TableModelGlycemic modelTableJournalGlycemic = new TableModelGlycemic(dbLink);
     private final TableModelMinerals modelTableJournalMinerals = new TableModelMinerals(result_loader_journal);
     private final TableModelMinerals modelTableMinerals = new TableModelMinerals(result_loader);
-    private final TableModelMixComparison modelTableMixDiff = new TableModelMixComparison(dbLink);
+    private final TableModelMixComparison model_for_mix_difference_table = new TableModelMixComparison(dbLink);
     private final TableModelNutrientConstraints modelTableNutrientConstraints = new TableModelNutrientConstraints(dbLink);
     private final TableModelNutrientLookup modelTableNutrientLookup = new TableModelNutrientLookup(dbLink);
     private final TableModelNutrientRatioConstraints modelTableNutrientRatioConstraints = new TableModelNutrientRatioConstraints(dbLink);
@@ -351,8 +359,9 @@ public class Main {
     private final TableModelVitamins modelTableVitamins = new TableModelVitamins(result_loader);
     private final TableModelWater modelTableJournalWater = new TableModelWater(result_loader_journal);
     private final TableModelWater modelTableWater = new TableModelWater(result_loader);
+    private final TableRowSorter food_comparison_tablesorter = new TableRowSorter<>(model_for_food_difference_table);
     private final TableRowSorter foodlist_tablesorter = new TableRowSorter<>(modelTableFoodList);
-    private final TableRowSorter mixcomparison_tablesorter = new TableRowSorter<>(modelTableMixDiff);
+    private final TableRowSorter mix_comparison_tablesorter = new TableRowSorter<>(model_for_mix_difference_table);
     private final TableRowSorter nutrientinput_tablesorter = new TableRowSorter<>(modelTableNutrientInput);
     private final TableRowSorter nutrientlookup_tablesorter = new TableRowSorter<>(modelTableNutrientLookup);
     private final TableRowSorter tableSorterCheckCoefficients = new TableRowSorter<>(modelTableCheckCoefficients);
@@ -367,27 +376,30 @@ public class Main {
         frameSnack.setJMenuBar(getMenuBar());
         JTabbedPane mainTabbedPane = new JTabbedPane();
         mainTabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
-        mainTabbedPane.add(getSolve());
-        mainTabbedPane.add(getFoodList());
-        mainTabbedPane.add(getCategories());
-        mainTabbedPane.add(getJournal());
-        mainTabbedPane.add(getMixComparison());
-        mainTabbedPane.add(getRdaCheck());
-        mainTabbedPane.add(getNutrientLookupList());
+        mainTabbedPane.add(get_solve());
+        mainTabbedPane.add(get_food_list());
+        mainTabbedPane.add(get_food_comparison());
+        mainTabbedPane.add(get_mix_list());
+        mainTabbedPane.add(get_mix_comparison());
+        mainTabbedPane.add(get_mix_rda());
+        mainTabbedPane.add(get_nutrient_lookup_list());
+        mainTabbedPane.add(get_categories());
         mainTabbedPane.setTitleAt(0, "Solve");
         mainTabbedPane.setToolTipTextAt(0, "Specify your mix problem here");
         mainTabbedPane.setTitleAt(1, "Food List");
         mainTabbedPane.setToolTipTextAt(1, "This is your list of favorite food items");
-        mainTabbedPane.setTitleAt(2, "Food Category");
-        mainTabbedPane.setToolTipTextAt(2, "This is your list of food categories");
-        mainTabbedPane.setTitleAt(3, "Food Journal");
+        mainTabbedPane.setTitleAt(2, "Food Comparison");
+        mainTabbedPane.setToolTipTextAt(2, "This is where you compare two food items (100g)");
+        mainTabbedPane.setTitleAt(3, "Mix List");
         mainTabbedPane.setToolTipTextAt(3, "This is your list of mixes");
         mainTabbedPane.setTitleAt(4, "Mix Comparison");
-        mainTabbedPane.setToolTipTextAt(4, "This is where you compare mixes");
-        mainTabbedPane.setTitleAt(5, "RDA Check");
+        mainTabbedPane.setToolTipTextAt(4, "This is where you compare two mixes");
+        mainTabbedPane.setTitleAt(5, "Mix Rda");
         mainTabbedPane.setToolTipTextAt(5, "This is where you compare mix against the Dietary Reference Intake");
         mainTabbedPane.setTitleAt(6, "Nutrient Lookup");
         mainTabbedPane.setToolTipTextAt(6, "This is where you find food items that provide a specific nutrient");
+        mainTabbedPane.setTitleAt(7, "Food Category");
+        mainTabbedPane.setToolTipTextAt(7, "This is where you categorize food items");
         JPanel panelF = new JPanel();
         panelF.setLayout(layout);
         panelF.add(mainTabbedPane, cc.xy(1, 1));
@@ -412,29 +424,29 @@ public class Main {
         reloadTableModelConstraints("");
         checkBoxCompleteProtein.setName("Complete Protein");
         checkBoxProtein.setName("Protein");
-        checkBoxFat.setName("Fat");
-        checkBoxCholesterol.setName("Cholesterol");
-        checkBoxSaturated.setName("SFA");
-        checkBoxDHA.setName("DHA");
-        checkBoxEPA.setName("EPA");
-        checkBoxMonounsaturated.setName("MUFA");
-        checkBoxPolyunsaturated.setName("PUFA");
-        checkBoxLinoleic.setName("LA");
-        checkBoxAlphaLinolenic.setName("ALA");
+        checkBoxFat.setName("Total Fat");
+        checkBoxCholesterol.setName("Cholesterol (CHOL)");
+        checkBoxSaturated.setName("Saturated (SFA)");
+        checkBoxDHA.setName("Docosahexaenoic (DHA)");
+        checkBoxEPA.setName("Eicosapentaenoic (EPA)");
+        checkBoxMonounsaturated.setName("Monounsaturated (MUFA)");
+        checkBoxPolyunsaturated.setName("Polyunsaturated (PUFA)");
+        checkBoxLinoleic.setName("Linoleic (LA)");
+        checkBoxAlphaLinolenic.setName("Linolenic (ALA)");
         checkBoxDigestibleCarbs.setName("Digestible Carbs");
         checkBoxFiber.setName("Fiber");
-        checkBoxVitaminA.setName("Vit A");
-        checkBoxVitaminE.setName("Vit E");
-        checkBoxVitaminD.setName("Vit D");
-        checkBoxVitaminC.setName("Vit C");
+        checkBoxVitaminA.setName("Vitamin A");
+        checkBoxVitaminE.setName("Vitamin E");
+        checkBoxVitaminD.setName("Vitamin D");
+        checkBoxVitaminC.setName("Vitamin C");
         checkBoxThiamin.setName("Thiamin");
         checkBoxRiboflavin.setName("Riboflavin");
         checkBoxNiacin.setName("Niacin");
         checkBoxPantothenic.setName("Pantothenic");
-        checkBoxVitaminB6.setName("Vit B6");
-        checkBoxVitaminB12.setName("Vit B12");
+        checkBoxVitaminB6.setName("Vitamin B6");
+        checkBoxVitaminB12.setName("Vitamin B12");
         checkBoxCholine.setName("Choline");
-        checkBoxVitaminK.setName("Vit K");
+        checkBoxVitaminK.setName("Vitamin K");
         checkBoxFolate.setName("Folate");
         checkBoxCalcium.setName("Calcium");
         checkBoxIron.setName("Iron");
@@ -589,9 +601,10 @@ public class Main {
         menuData.add(menu_spreadsheet);
         menuData.add(menu_exchange);
         menu_spreadsheet.add(menuItemExportFoodList);
-        menu_spreadsheet.add(menuItemExportFoodMixes);
-        menu_spreadsheet.add(menuItemExportMixCompare);
-        menu_spreadsheet.add(menuItemExportRdaCompare);
+        menu_spreadsheet.add(menuItemExportFoodComparison);
+        menu_spreadsheet.add(menuItemExportMixList);
+        menu_spreadsheet.add(menuItemExportMixComparison);
+        menu_spreadsheet.add(menuItemExportMixRda);
         menu_spreadsheet.add(menuItemExportNutrientLookup);
         menu_exchange.add(menui_import_message);
         menu_exchange.add(menui_export_message);
@@ -618,9 +631,10 @@ public class Main {
         menu_spreadsheet.setText("Spreadsheet");
         menu_exchange.setText("Exchange");
         menuItemExportFoodList.setText("Food List");
-        menuItemExportFoodMixes.setText("Food Mixes");
-        menuItemExportMixCompare.setText("Mix Comparison");
-        menuItemExportRdaCompare.setText("RDA Check");
+        menuItemExportFoodComparison.setText("Food Comparison");
+        menuItemExportMixList.setText("Mix List");
+        menuItemExportMixComparison.setText("Mix Comparison");
+        menuItemExportMixRda.setText("Mix Rda");
         menuItemExportNutrientLookup.setText("Nutrient Lookup");
         menui_import_message.setText("Import");
         menui_export_message.setText("Export");
@@ -662,13 +676,16 @@ public class Main {
         menuItemExportFoodList.addActionListener((ActionEvent e) -> {
             event_menuItemFoodListExport();
         });
-        menuItemExportFoodMixes.addActionListener((ActionEvent e) -> {
+        menuItemExportFoodComparison.addActionListener((ActionEvent e) -> {
+            event_menuItemFoodComparisonExport();
+        });
+        menuItemExportMixList.addActionListener((ActionEvent e) -> {
             event_menuItemFoodMixesExport();
         });
-        menuItemExportMixCompare.addActionListener((ActionEvent e) -> {
+        menuItemExportMixComparison.addActionListener((ActionEvent e) -> {
             event_menuItemMixComparisonExport();
         });
-        menuItemExportRdaCompare.addActionListener((ActionEvent e) -> {
+        menuItemExportMixRda.addActionListener((ActionEvent e) -> {
             event_menuItemRdaCheckExport();
         });
         menuItemExportNutrientLookup.addActionListener((ActionEvent e) -> {
@@ -922,7 +939,7 @@ public class Main {
         }
     }
 
-    private JPanel getSolve() {
+    private JPanel get_solve() {
         FormLayout panelLayout = new FormLayout("min:grow", //columns
                 "fill:min:grow" //rows
         );
@@ -1274,13 +1291,9 @@ public class Main {
         modelTableJournalCost.setRowCount(0);
         modelTableJournalGlycemic.setRowCount(0);
         //
-        modelTableMixDiff.setRowCount(0);
+        model_for_mix_difference_table.setRowCount(0);
         modelTableRda.setRowCount(0);
         food_loader.reload("");
-        //modelComboBox_1_FoodAtFoodNutrientRatio.set_collection(food_loader.get_food_list());
-        //modelComboBox_0_FoodAtFoodNutrientRatio.set_collection(food_loader.get_food_list());
-        //modelComboBox_FoodAtNutrient.set_collection(food_loader.get_food_list());
-        //modelComboBox_FoodAtNutrientPct.set_collection(food_loader.get_food_list());
         textAreaModel.setText("");
     }
 
@@ -1355,12 +1368,7 @@ public class Main {
                         component.setForeground(tableEnergy.getForeground());
                         break;
                     case 1:
-                        valueAt = (Double) getValueAt(rowIndex, columnIndex);
-                        if (valueAt <= 0) {
-                            component.setForeground(Color.red);
-                        } else {
-                            component.setForeground(tableEnergy.getForeground());
-                        }
+                        component.setForeground(tableEnergy.getForeground());
                         break;
                     case 2:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
@@ -1371,6 +1379,14 @@ public class Main {
                         }
                         break;
                     case 3:
+                        valueAt = (Double) getValueAt(rowIndex, columnIndex);
+                        if (valueAt <= 0) {
+                            component.setForeground(Color.red);
+                        } else {
+                            component.setForeground(tableEnergy.getForeground());
+                        }
+                        break;
+                    case 4:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
                         if (valueAt < 0) {
                             component.setForeground(Color.red);
@@ -1385,19 +1401,19 @@ public class Main {
         return table;
     }
 
-    private JPanel getMixComparison() {
+    private JPanel get_mix_comparison() {
         JPanel panel = new JPanel();
-        tableMixComparison = getTableMixComparison();
-        JScrollPane scrollPaneA = new JScrollPane(listCompareA);
-        JScrollPane scrollPaneB = new JScrollPane(listCompareB);
-        JScrollPane scrollPaneC = new JScrollPane(tableMixComparison);
+        table_mix_comparison = getTableMixComparison();
+        JScrollPane scrollPaneA = new JScrollPane(list_mix_compare_a);
+        JScrollPane scrollPaneB = new JScrollPane(list_mix_compare_b);
+        JScrollPane scrollPaneC = new JScrollPane(table_mix_comparison);
         CellConstraints cc = new CellConstraints();
         JPanel search_panel = new JPanel();
         JLabel search_label = new JLabel("Search: ");
         JTextField search_field = new JTextField();
         //create layouts
         FormLayout layout = new FormLayout(
-                "min:grow(.25),min:grow(.25),min:grow", //columns
+                "min:grow(.75),min:grow(.75),min:grow", //columns
                 "min,fill:min:grow" //rows
         );
         FormLayout layout02 = new FormLayout(
@@ -1414,14 +1430,14 @@ public class Main {
         panel.add(search_panel, cc.xy(3, 1));
         panel.add(scrollPaneC, cc.xy(3, 2));
         layout.setColumnGroup(1, 2);
-        scrollPaneA.setBorder(new TitledBorder("Mix 1"));
-        scrollPaneB.setBorder(new TitledBorder("Mix 2"));
+        scrollPaneA.setBorder(new TitledBorder("Mix A"));
+        scrollPaneB.setBorder(new TitledBorder("Mix B"));
         scrollPaneC.setBorder(new TitledBorder("Mix Difference"));
-        listCompareA.addListSelectionListener((ListSelectionEvent e) -> {
-            event_listCompareA(e);
+        list_mix_compare_a.addListSelectionListener((ListSelectionEvent e) -> {
+            event_listMixCompareA(e);
         });
-        listCompareB.addListSelectionListener((ListSelectionEvent e) -> {
-            event_listCompareB(e);
+        list_mix_compare_b.addListSelectionListener((ListSelectionEvent e) -> {
+            event_listMixCompareB(e);
         });
         search_field.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -1444,24 +1460,181 @@ public class Main {
                 try {
                     ArrayList filters = new ArrayList();
                     filters.add(RowFilter.regexFilter("(?i)" + search_field.getText(), 0));
+                    filters.add(RowFilter.regexFilter("(?i)" + search_field.getText(), 1));
                     rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelMixComparison, ? super Object>>) filters);
                 } catch (java.util.regex.PatternSyntaxException e) {
                     return;
                 }
-                mixcomparison_tablesorter.setRowFilter(rf);
+                mix_comparison_tablesorter.setRowFilter(rf);
             }
 
         });
-        listCompareA.setModel(modelList_A_MixDiff);
-        listCompareB.setModel(modelList_B_MixDiff);
-        tableMixComparison.setModel(modelTableMixDiff);
-        tableMixComparison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tableMixComparison.setFillsViewportHeight(true);
-        tableMixComparison.setRowSorter(mixcomparison_tablesorter);
+        list_mix_compare_a.setModel(modelList_A_MixDiff);
+        list_mix_compare_b.setModel(modelList_B_MixDiff);
+        table_mix_comparison.setModel(model_for_mix_difference_table);
+        table_mix_comparison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table_mix_comparison.setFillsViewportHeight(true);
+        table_mix_comparison.setRowSorter(mix_comparison_tablesorter);
         modelList_A_MixDiff.reload();
         modelList_B_MixDiff.reload();
-        resizeColumns_MixComparisonTable();
+        resize_columns_on_mix_comparison_table();
         return panel;
+    }
+
+    private JTable getTableFoodComparison() {
+        JTable table;
+        table = new JTable() {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int rowIndex, int columnIndex) {
+                JComponent component = (JComponent) super.prepareRenderer(renderer, rowIndex, columnIndex);
+                Double valueAt;
+                switch (columnIndex) {
+                    case 0:
+                        component.setForeground(tableEnergy.getForeground());
+                        break;
+                    case 1:
+                        component.setForeground(tableEnergy.getForeground());
+                        break;
+                    case 2:
+                        valueAt = (Double) getValueAt(rowIndex, columnIndex);
+                        if (valueAt <= 0) {
+                            component.setForeground(Color.red);
+                        } else {
+                            component.setForeground(tableEnergy.getForeground());
+                        }
+                        break;
+                    case 3:
+                        valueAt = (Double) getValueAt(rowIndex, columnIndex);
+                        if (valueAt <= 0) {
+                            component.setForeground(Color.red);
+                        } else {
+                            component.setForeground(tableEnergy.getForeground());
+                        }
+                        break;
+                    case 4:
+                        valueAt = (Double) getValueAt(rowIndex, columnIndex);
+                        if (valueAt < 0) {
+                            component.setForeground(Color.red);
+                        } else {
+                            component.setForeground(tableEnergy.getForeground());
+                        }
+                        break;
+                }
+                return component;
+            }
+        };
+        return table;
+    }
+
+    private JPanel get_food_comparison() {
+        JPanel panel = new JPanel();
+        table_food_comparison = getTableFoodComparison();
+        JScrollPane scrollPaneC = new JScrollPane(table_food_comparison);
+        CellConstraints cc = new CellConstraints();
+        JPanel search_panel = new JPanel();
+        JLabel search_label = new JLabel("Search: ");
+        JTextField search_field = new JTextField();
+        //create layouts
+        FormLayout layout = new FormLayout(
+                "min:grow(.70),min:grow(.70),min:grow", //columns
+                "min,fill:min:grow" //rows
+        );
+        FormLayout layout02 = new FormLayout(
+                "min:grow(.5),min:grow(.5)", //columns
+                "7px,min" //rows
+        );
+        JPanel food_list_a_panel = new JPanel();
+        JPanel food_list_b_panel = new JPanel();
+        FormLayout layout03 = new FormLayout(
+                "min,min:grow", //columns
+                "min,fill:min:grow" //rows
+        );
+        food_list_a_panel.setLayout(layout03);
+        JScrollPane scrollPaneA = new JScrollPane(list_food_compare_a);
+        JLabel label_a = new JLabel("Search: ");
+        food_list_a_panel.add(label_a, cc.xy(1, 1));
+        JTextField search_field_a = new JTextField();
+        food_list_a_panel.add(search_field_a, cc.xy(2, 1));
+        food_list_a_panel.add(scrollPaneA, cc.xyw(1, 2, 2));
+        food_list_a_panel.setBorder(new TitledBorder("Food A"));
+        food_list_b_panel.setLayout(layout03);
+        JScrollPane scrollPaneB = new JScrollPane(list_food_compare_b);
+        JLabel label_b = new JLabel("Search: ");
+        food_list_b_panel.add(label_b, cc.xy(1, 1));
+        JTextField search_field_b = new JTextField();
+        food_list_b_panel.add(search_field_b, cc.xy(2, 1));
+        food_list_b_panel.add(scrollPaneB, cc.xyw(1, 2, 2));
+        food_list_b_panel.setBorder(new TitledBorder("Food B"));
+        panel.setLayout(layout);
+        panel.add(food_list_a_panel, cc.xywh(1, 1, 1, 2));
+        panel.add(food_list_b_panel, cc.xywh(2, 1, 1, 2));
+        search_panel.setLayout(layout02);
+        search_label.setHorizontalAlignment(JLabel.RIGHT);
+        search_panel.add(search_label, cc.xy(1, 2));
+        search_panel.add(search_field, cc.xy(2, 2));
+        panel.add(search_panel, cc.xy(3, 1));
+        panel.add(scrollPaneC, cc.xy(3, 2));
+        scrollPaneC.setBorder(new TitledBorder("Food Difference"));
+        list_food_compare_a.addListSelectionListener((ListSelectionEvent e) -> {
+            event_listFoodCompareA(e);
+        });
+        list_food_compare_b.addListSelectionListener((ListSelectionEvent e) -> {
+            event_listFoodCompareB(e);
+        });
+        search_field_a.addActionListener((ActionEvent e) -> {
+            event_search_field_a(e);
+        });
+        search_field_b.addActionListener((ActionEvent e) -> {
+            event_search_field_b(e);
+        });
+        search_field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                food_comparison_search_filter();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                food_comparison_search_filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                food_comparison_search_filter();
+            }
+
+            private void food_comparison_search_filter() {
+                RowFilter<TableModelMixComparison, Object> rf = null;
+                try {
+                    ArrayList filters = new ArrayList();
+                    filters.add(RowFilter.regexFilter("(?i)" + search_field.getText(), 0));
+                    filters.add(RowFilter.regexFilter("(?i)" + search_field.getText(), 1));
+                    rf = RowFilter.orFilter((Iterable<? extends RowFilter<? super TableModelMixComparison, ? super Object>>) filters);
+                } catch (java.util.regex.PatternSyntaxException e) {
+                    return;
+                }
+                food_comparison_tablesorter.setRowFilter(rf);
+            }
+
+        });
+        list_food_compare_a.setModel(modelList_A_FoodDiff);
+        list_food_compare_b.setModel(modelList_B_FoodDiff);
+        table_food_comparison.setModel(model_for_food_difference_table);
+        table_food_comparison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table_food_comparison.setFillsViewportHeight(true);
+        table_food_comparison.setRowSorter(food_comparison_tablesorter);
+        modelList_A_FoodDiff.reload();
+        modelList_B_FoodDiff.reload();
+        resize_columns_on_food_comparison_table();
+        return panel;
+    }
+
+    private void event_search_field_a(ActionEvent e) {
+        modelList_A_FoodDiff.reload(((JTextComponent) e.getSource()).getText());
+    }
+
+    private void event_search_field_b(ActionEvent e) {
+        modelList_B_FoodDiff.reload(((JTextComponent) e.getSource()).getText());
     }
 
     private JTable getTableRdaCheck() {
@@ -1513,7 +1686,7 @@ public class Main {
         return table;
     }
 
-    private JPanel getRdaCheck() {
+    private JPanel get_mix_rda() {
         JPanel panel = new JPanel();
         JScrollPane scrollPaneMix = new JScrollPane(listRdaCheck);
         tableRdaCheck = getTableRdaCheck();
@@ -1603,7 +1776,7 @@ public class Main {
         }
     }
 
-    private JPanel getJournal() {
+    private JPanel get_mix_list() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout(
                 "200px,min:grow", //columns
@@ -1781,7 +1954,7 @@ public class Main {
         foodlist_tablesorter.setRowFilter(rf);
     }
 
-    private JPanel getFoodList() {
+    private JPanel get_food_list() {
         JPanel panel = new JPanel();
         FormLayout paneLayout = new FormLayout(
                 "min:grow", //columns
@@ -1989,7 +2162,12 @@ public class Main {
 
     private void event_fillCompleteProteinDataButton() {
         JTextPane instructions = new JTextPane();
-        JTextField proteinText = new JTextField();
+        JTextField fld_protein = new JTextField();
+        JTextField fld_complete_protein = new JTextField();
+        JLabel lbl_protein = new JLabel("Protein (g): ");
+        JLabel lbl_complete_protein = new JLabel("Complete Protein (g): ");
+        lbl_protein.setHorizontalAlignment(JLabel.RIGHT);
+        lbl_complete_protein.setHorizontalAlignment(JLabel.RIGHT);
         StringBuilder sb = new StringBuilder();
         JPanel inputsPanel = new JPanel();
         JComponent[] inputs = new JComponent[]{
@@ -1997,33 +2175,35 @@ public class Main {
         };
         FormLayout layout = new FormLayout(
                 "min:grow,min:grow", //columns
-                "fill:min:grow,min" //rows
+                "fill:min:grow,min,min" //rows
         );
-        JLabel proteinLabel = new JLabel("Protein (g): ");
         NumberCheck checkNumber = new NumberCheck();
         //
-        proteinText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
+        fld_protein.setText(String.valueOf(modelTableNutrientInput.getValueAt(35, 3)));
+        fld_complete_protein.setText(String.valueOf(modelTableNutrientInput.getValueAt(34, 3)));
         instructions.setEditable(false);
-        sb.append("To calculate complete protein value\n\n");
-        sb.append("1. Please find 'Protein' value on nutrition facts label and enter that number here only if most of the food protein is from animal sources or soy\n\n");
+        sb.append("* PROTEIN *\n\n");
+        sb.append("Please enter protein quantity in grams.");
         instructions.setText(sb.toString());
         inputsPanel.setPreferredSize(new Dimension(350, GoldenRatio.getShortSide(350)));
         inputsPanel.setLayout(layout);
         inputsPanel.add(new JScrollPane(instructions), cc.xyw(1, 1, 2));
-        proteinLabel.setHorizontalAlignment(JLabel.RIGHT);
-        inputsPanel.add(proteinLabel, cc.xy(1, 2));
-        inputsPanel.add(proteinText, cc.xy(2, 2));
-        int optionValue = Message.showOptionDialog(inputs, "Complete Protein");
+        inputsPanel.add(lbl_protein, cc.xy(1, 2));
+        inputsPanel.add(fld_protein, cc.xy(2, 2));
+        inputsPanel.add(lbl_complete_protein, cc.xy(1, 3));
+        inputsPanel.add(fld_complete_protein, cc.xy(2, 3));
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Protein");
         if (optionValue == 0) {
-            String s0 = proteinText.getText();
+            String s0 = fld_protein.getText();
             if ((s0 != null && s0.length() > 0)) {
                 checkNumber.addToUncheckedList(s0);
                 if (checkNumber.pass()) {
-                    Double protein = Double.valueOf(proteinText.getText());
+                    Double val_protein = Double.valueOf(fld_protein.getText());
+                    Double val_complete_protein = Double.valueOf(fld_complete_protein.getText());
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(protein, 0, 3);
-                    modelTableNutrientInput.setValueAt(protein, 1, 3);
-                    Integer modelRowId = 0;
+                    modelTableNutrientInput.setValueAt(val_protein, 35, 3);
+                    modelTableNutrientInput.setValueAt(val_complete_protein, 34, 3);
+                    Integer modelRowId = 34;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
                 } else {
@@ -2053,13 +2233,14 @@ public class Main {
         JLabel monounsaturatedFatLabel = new JLabel("Monounsaturated Fat (g): ");
         JLabel polyunsaturatedFatLabel = new JLabel("Polyunsaturated Fat (g): ");
         NumberCheck checkNumber = new NumberCheck();
-        //
-        totalFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(2, 3)));
-        saturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(4, 3)));
-        monounsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(7, 3)));
-        polyunsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(8, 3)));
+        //Row value is determined by sql query.
+        monounsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(15, 3)));
+        polyunsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(16, 3)));
+        saturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(17, 3)));
+        totalFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(18, 3)));
         instructions.setEditable(false);
-        sb.append("Please enter fat quantities\n\n");
+        sb.append("* FAT *\n\n");
+        sb.append("Please enter fat quantities in grams");
         instructions.setText(sb.toString());
         inputsPanel.setPreferredSize(new Dimension(350, GoldenRatio.getShortSide(350)));
         inputsPanel.setLayout(layout);
@@ -2080,7 +2261,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             scrollPane.getViewport().setViewPosition(new Point(0, 0));
         });
-        int optionValue = Message.showOptionDialog(inputs, "Fat");
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Fat");
         if (optionValue == 0) {
             String s0 = totalFatText.getText();
             String s1 = saturatedFatText.getText();
@@ -2094,11 +2275,11 @@ public class Main {
                     Double monounsaturatedFat = Double.valueOf(monounsaturatedFatText.getText());
                     Double polyunsaturatedFat = Double.valueOf(polyunsaturatedFatText.getText());
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(totalFat, 2, 3);
-                    modelTableNutrientInput.setValueAt(saturatedFat, 4, 3);
-                    modelTableNutrientInput.setValueAt(monounsaturatedFat, 7, 3);
-                    modelTableNutrientInput.setValueAt(polyunsaturatedFat, 8, 3);
-                    Integer modelRowId = 2;
+                    modelTableNutrientInput.setValueAt(monounsaturatedFat, 15, 3);
+                    modelTableNutrientInput.setValueAt(polyunsaturatedFat, 16, 3);
+                    modelTableNutrientInput.setValueAt(saturatedFat, 17, 3);
+                    modelTableNutrientInput.setValueAt(totalFat, 18, 3);
+                    Integer modelRowId = 15;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
                 } else {
@@ -2124,14 +2305,16 @@ public class Main {
         JLabel carbsByDiffLabel = new JLabel("Total Carbohydrate (g): ");
         JLabel fiberLabel = new JLabel("Dietary Fiber (g): ");
         NumberCheck checkNumber = new NumberCheck();
-        //
-        carbsByDiffText.setText(String.valueOf(modelTableNutrientInput.getValueAt(13, 3)));
-        fiberText.setText(String.valueOf(modelTableNutrientInput.getValueAt(14, 3)));
+        //Row value is determined by sql query.
+        carbsByDiffText.setText(String.valueOf(modelTableNutrientInput.getValueAt(0, 3)));
+        fiberText.setText(String.valueOf(modelTableNutrientInput.getValueAt(2, 3)));
         instructions.setEditable(false);
-        sb.append("To calculate digestible carbohydrate value\n\n");
-        sb.append("1. Please find 'Total Carbohydrate' value on nutrition facts label and enter that number\n\n");
-        sb.append("2. Please find 'Dietary Fiber' value on nutrition facts label and enter that number\n\n");
-        sb.append("Total Carbohydrate is 'carbohydrate by difference'");
+        sb.append("* CARBOHYDRATE *\n\n");
+        sb.append("To calculate digestible carbohydrate quantity\n\n");
+        sb.append("1. Please find 'Total Carbohydrate' quantity on nutrition facts label and enter that number\n\n");
+        sb.append("2. Please find 'Dietary Fiber' quantity on nutrition facts label and enter that number\n\n");
+        sb.append("3. Verify 'Digestible Carbs (g)' field has been filled\n\n");
+        sb.append("[ Total Carbohydrate also appears as 'Carbohydrate, by difference (g)' or 'CarbsBD' ]");
         instructions.setText(sb.toString());
         inputsPanel.setPreferredSize(new Dimension(350, GoldenRatio.getShortSide(350)));
         inputsPanel.setLayout(layout);
@@ -2142,7 +2325,7 @@ public class Main {
         inputsPanel.add(carbsByDiffText, cc.xy(2, 2));
         inputsPanel.add(fiberLabel, cc.xy(1, 3));
         inputsPanel.add(fiberText, cc.xy(2, 3));
-        int optionValue = Message.showOptionDialog(inputs, "Digestible Carbohydrate");
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Digestible Carbohydrate");
         if (optionValue == 0) {
             String s0 = carbsByDiffText.getText();
             String s1 = fiberText.getText();
@@ -2153,10 +2336,10 @@ public class Main {
                     Double fiber = Double.valueOf(fiberText.getText());
                     Double digestibleCarbohydrate = carbsByDiff - fiber;
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, 11, 3);
-                    modelTableNutrientInput.setValueAt(carbsByDiff, 13, 3);
-                    modelTableNutrientInput.setValueAt(fiber, 14, 3);
-                    Integer modelRowId = 11;
+                    modelTableNutrientInput.setValueAt(carbsByDiff, 0, 3);
+                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, 1, 3);
+                    modelTableNutrientInput.setValueAt(fiber, 2, 3);
+                    Integer modelRowId = 0;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
                 } else {
@@ -2191,15 +2374,17 @@ public class Main {
         fatText.setEditable(false);
         digestibleCarbohydrateText.setEditable(false);
         alcoholText.setEditable(false);
-        proteinText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
-        fatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(2, 3)));
-        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(11, 3)));
-        alcoholText.setText(String.valueOf(modelTableNutrientInput.getValueAt(41, 3)));
+        //Row value is determined by sql query.
+        proteinText.setText(String.valueOf(modelTableNutrientInput.getValueAt(35, 3)));
+        fatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(18, 3)));
+        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
+        alcoholText.setText(String.valueOf(modelTableNutrientInput.getValueAt(30, 3)));
         instructions.setEditable(false);
-        sb.append("To calculate energy values\n\n");
-        sb.append("1. Verify displayed values are correct\n\n");
+        sb.append("* ENERGY *\n\n");
+        sb.append("To calculate energy (kcal) values\n\n");
+        sb.append("1. Verify displayed quantities are correct\n\n");
         sb.append("2. Click ok\n\n");
-        sb.append("If displayed values are not correct, close this popup window and go back and set them.\n");
+        sb.append("3. Verify energy fields have been filled");
         instructions.setText(sb.toString());
         inputsPanel.setPreferredSize(new Dimension(350, GoldenRatio.getShortSide(350)));
         inputsPanel.setLayout(layout);
@@ -2220,7 +2405,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             scrollPane.getViewport().setViewPosition(new Point(0, 0));
         });
-        int optionValue = Message.showOptionDialog(inputs, "Energy");
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Energy");
         if (optionValue == 0) {
             String s0 = proteinText.getText();
             String s1 = fatText.getText();
@@ -2236,12 +2421,12 @@ public class Main {
                     MacroNutrientEnergyValues energyValues = new MacroNutrientEnergyValues.Builder().protein(protein).fat(fat).digestibleCarbohydrate(digestibleCarbohydrate).alcohol(alcohol).build();
                     energyValues.getProteinEnergy();
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), 45, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), 47, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), 46, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 43, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), 44, 3);
-                    Integer modelRowId = 43;
+                    modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), 4, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), 5, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 6, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), 7, 3);
+                    modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), 9, 3);
+                    Integer modelRowId = 4;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
                 } else {
@@ -2274,7 +2459,7 @@ public class Main {
         panel.add(cboxNutrients, cc.xy(1, 1));
         panel.add(dailyValuePct, cc.xy(2, 1));
         panel.add(new JLabel(" %DV"), cc.xy(3, 1));
-        int optionValue = Message.showOptionDialog(inputs, "Vitamins And Minerals");
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Vitamins And Minerals");
         if (optionValue == 0) {
             s0 = dailyValuePct.getText();
             if (s0 != null && s0.length() > 0) {
@@ -2313,11 +2498,14 @@ public class Main {
         NumberCheck checkNumber = new NumberCheck();
         //
         digestibleCarbohydrateText.setEditable(false);
-        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(11, 3)));
+        //Row value is determined by sql query.
+        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
         instructions.setEditable(false);
+        sb.append("* GLYCEMIC LOAD *\n\n");
         sb.append("To calculate glycemic load value\n\n");
-        sb.append("1. Verify 'Digestible Carbohydrate' value is correct\n\n");
-        sb.append("2. Please find 'Glycemic Index' value and enter that number\n\n");
+        sb.append("1. Verify 'Digestible Carbs (g)' value is correct\n\n");
+        sb.append("2. Please find 'Glycemic Index' of the food and enter that number\n\n");
+        sb.append("3. Verify 'Glycemic Load' field has been filled");
         instructions.setText(sb.toString());
         inputsPanel.setPreferredSize(new Dimension(350, GoldenRatio.getShortSide(350)));
         inputsPanel.setLayout(layout);
@@ -2328,7 +2516,7 @@ public class Main {
         inputsPanel.add(digestibleCarbohydrateText, cc.xy(2, 2));
         inputsPanel.add(glycemicIndexLabel, cc.xy(1, 3));
         inputsPanel.add(glycemicIndexText, cc.xy(2, 3));
-        int optionValue = Message.showOptionDialog(inputs, "Glycemic Load");
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Glycemic Load");
         if (optionValue == 0) {
             String s0 = digestibleCarbohydrateText.getText();
             String s1 = glycemicIndexText.getText();
@@ -2339,9 +2527,9 @@ public class Main {
                     Double glycemicIndex = Double.valueOf(glycemicIndexText.getText());
                     GlycemicLoad glycemicLoad = new GlycemicLoad(glycemicIndex, digestibleCarbohydrate);
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(glycemicLoad.getGlycemicLoad(), 12, 3);
-                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, 11, 3);
-                    Integer modelRowId = 12;
+                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, 1, 3);
+                    modelTableNutrientInput.setValueAt(glycemicLoad.getGlycemicLoad(), 3, 3);
+                    Integer modelRowId = 1;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
                 } else {
@@ -2384,7 +2572,6 @@ public class Main {
         JButton fillEnergyDataButton = new JButton("Energy");
         JButton fillVitaminsButton = new JButton("Vitamins");
         JButton fillGlycemicLoadButton = new JButton("Glycemic");
-        //Protein, Fat, Carbs, Energy, Vitamins, Glycemic
         wizardPanel.add(fillCompleteProteinButton, cc.xy(2, 1));
         wizardPanel.add(fillFatButton, cc.xy(3, 1));
         wizardPanel.add(fillDigestibleCarbsButton, cc.xy(4, 1));
@@ -2522,7 +2709,7 @@ public class Main {
                 tableNutrientInput.getDefaultEditor(Double.class).cancelCellEditing();
                 return;
             } else {
-                //if not adjusting then it throws exception
+
             }
             int selectedRowNo = tableNutrientInput.getSelectedRow();
             if (selectedRowNo != -1) {
@@ -2649,7 +2836,7 @@ public class Main {
         }
     }
 
-    private JPanel getNutrientLookupList() {
+    private JPanel get_nutrient_lookup_list() {
         JPanel panel = new JPanel();
         JLabel search_label = new JLabel("Search: ");
         JLabel nutrient_label = new JLabel("Nutrient: ");
@@ -2670,13 +2857,12 @@ public class Main {
         panel.add(comboBoxNutrientLookupListNutrient, cc.xy(2, 4));
         panel.add(value_label, cc.xy(4, 4));
         panel.add(textFieldNutrientLookup, cc.xy(5, 4));
-        panel.add(buttonNutrientLookupListRun, cc.xy(6, 4));
         panel.add(scrollPaneNutrientLookup, cc.xyw(1, 6, 6));
         scrollPaneNutrientLookup.setBorder(new TitledBorder("Nutrient Lookup"));
         tableNutrientLookup.setToolTipText("These food items contain the specific nutrient");
         tableNutrientLookup.setTableHeader(new TableHeaderNutrientLookup(tableNutrientLookup.getColumnModel()));
         tableNutrientLookup.setAutoCreateRowSorter(true);
-        buttonNutrientLookupListRun.addActionListener((ActionEvent e) -> {
+        textFieldNutrientLookup.addActionListener((ActionEvent e) -> {
             event_buttonNutrientLookupListRun();
         });
         search_field.getDocument().addDocumentListener(new DocumentListener() {
@@ -2725,7 +2911,8 @@ public class Main {
             result_loader.setPrecision(0);
             result_loader_journal.setPrecision(0);
             modelTableGlycemic.setPrecision(0);
-            modelTableMixDiff.setPrecision(0);
+            model_for_food_difference_table.setPrecision(0);
+            model_for_mix_difference_table.setPrecision(0);
             modelTableRda.setPrecision(0);
             stringModelMixPct.setPrecision(0);
             modelTableNutrientLookup.setPrecision(0);
@@ -2736,7 +2923,8 @@ public class Main {
             result_loader_journal.setPrecision(5);
             modelTableGlycemic.setPrecision(5);
             modelTableJournalGlycemic.setPrecision(5);
-            modelTableMixDiff.setPrecision(5);
+            model_for_food_difference_table.setPrecision(5);
+            model_for_mix_difference_table.setPrecision(5);
             modelTableRda.setPrecision(5);
             stringModelMixPct.setPrecision(5);
             modelTableNutrientLookup.setPrecision(5);
@@ -2749,6 +2937,7 @@ public class Main {
         }
         reloadFoodItems();
         reloadTableModelsJournal();
+        reloadFoodComparison();
         reloadMixComparison();
         reloadRdaCheck();
         reloadNutrientLookup();
@@ -2758,7 +2947,7 @@ public class Main {
         JComponent[] inputs = new JComponent[]{
             getConstraintsPanel()
         };
-        int optionValue = Message.showOptionDialog(inputs, "Nutrients Shown As Constraints");
+        int optionValue = Message.showOptionDialogYesNo(inputs, "Nutrients Shown As Constraints");
         if (optionValue == 0) {
             mapConstraintCheckboxes.forEach((k, v) -> {
                 try {
@@ -2789,7 +2978,7 @@ public class Main {
         );
         //
         panel00.setLayout(panel00Layout);
-        panel00.setPreferredSize(new Dimension(620, 220));
+        panel00.setPreferredSize(new Dimension(680, 220));
         panel00.add(panel01, cc.xy(2, 2));
         panel01.setLayout(panel01Layout);
         Object[] it = mapConstraintCheckboxes.entrySet().toArray();
@@ -2838,11 +3027,20 @@ public class Main {
     }
 
     private void event_menuItemMixComparisonExport() {
-        if (isListCompareASelected() && isListCompareBSelected()) {
-            ExportMixComparison exportMixComparison = new ExportMixComparison(dbLink);
-            exportMixComparison.print(modelTableMixDiff, listCompareA, listCompareB);
+        if (isListMixCompareASelected() && isListMixCompareBSelected()) {
+            ExportMixComparison exportMixComparison = new ExportMixComparison();
+            exportMixComparison.print(model_for_mix_difference_table, list_mix_compare_a, list_mix_compare_b);
         } else {
             Message.showMessage("Please select mix at Mix Comparison Panel\nand try again");
+        }
+    }
+
+    private void event_menuItemFoodComparisonExport() {
+        if (isListFoodCompareASelected() && isListFoodCompareBSelected()) {
+            ExportFoodComparison exportFoodComparison = new ExportFoodComparison();
+            exportFoodComparison.print(model_for_food_difference_table, list_food_compare_a, list_food_compare_b);
+        } else {
+            Message.showMessage("Please select food item at Food Comparison Panel\nand try again");
         }
     }
 
@@ -2918,7 +3116,7 @@ public class Main {
                 + "        - track any nutrient or compound that has an impact on health\n"
                 + "        - find food items that provide a specific nutrient\n"
                 + "        - keep a food journal and track progress\n"
-                + "        - compare two meals to see difference in nutritional value\n"
+                + "        - compare two foods or meals to see difference in nutritional value\n"
                 + "        - compare meals against Required Daily Allowance (RDA) values\n"
                 + "        - compare meals against Upper Limit (UL) values       \n"
                 + "        - export data and create reports in spreadsheet      \n"
@@ -2937,7 +3135,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 840");
+        sb.append("This is build 850");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -2957,7 +3155,6 @@ public class Main {
 
     private JPanel getResults() {
         JPanel panel = new JPanel();
-        //create layouts
         FormLayout layout = new FormLayout(
                 "min:grow,40dlu", //columns
                 "fill:min:grow" //rows
@@ -3253,7 +3450,6 @@ public class Main {
         scrSelectedFood.setBorder(new TitledBorder("Food"));
         JScrollPane s_store = new JScrollPane(treeFoodList);
         s_store.setBorder(new TitledBorder("Store"));
-        //database
         modelTreeFoodList.reload();
         treeFoodList.setModel(modelTreeFoodList);
         JButton buttonAddMixFood = new JButton("+");
@@ -3590,14 +3786,11 @@ public class Main {
 
     private JPanel getModel() {
         JPanel panel = new JPanel();
-        //create layouts
         FormLayout layout = new FormLayout(
                 "min:grow", //columns
                 "fill:pref:grow" //rows
         );
-        //specify layouts
         panel.setLayout(layout);
-        //place components
         textAreaModel.setLineWrap(false);
         JScrollPane scrollPane = new JScrollPane(textAreaModel);
         scrollPane.setPreferredSize(new Dimension(0, 0));
@@ -3607,14 +3800,11 @@ public class Main {
 
     private JPanel getNote() {
         JPanel panel = new JPanel();
-        //create layouts
         FormLayout layout = new FormLayout(
                 "min:grow", //columns
                 "fill:pref:grow" //rows
         );
-        //specify layouts
         panel.setLayout(layout);
-        //place components
         textAreaNote.setLineWrap(false);
         JScrollPane scrollPane = new JScrollPane(textAreaNote);
         scrollPane.setPreferredSize(new Dimension(0, 0));
@@ -3624,14 +3814,11 @@ public class Main {
 
     private JPanel getJournalNote() {
         JPanel panel = new JPanel();
-        //create layouts
         FormLayout layout = new FormLayout(
                 "min:grow", //columns
                 "fill:pref:grow" //rows
         );
-        //specify layouts
         panel.setLayout(layout);
-        //place components
         textAreaJournalNote.setLineWrap(false);
         JScrollPane scrollPane = new JScrollPane(textAreaJournalNote);
         scrollPane.setPreferredSize(new Dimension(0, 0));
@@ -3693,30 +3880,57 @@ public class Main {
         tableNutrientConstraint.getColumnModel().getColumn(5).setMaxWidth(60);
     }
 
-    private void event_listCompareA(ListSelectionEvent e) {
+    private void event_listMixCompareA(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            reloadMixComparison();
+        }
+    }
+
+    private void event_listMixCompareB(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             reloadMixComparison();
         }
     }
 
     private void reloadMixComparison() {
-        if (isListCompareASelected() && isListCompareBSelected()) {
-            MixDataObject mix1 = (MixDataObject) listCompareA.getSelectedValue();
+        if (isListMixCompareASelected() && isListMixCompareBSelected()) {
+            MixDataObject mix1 = (MixDataObject) list_mix_compare_a.getSelectedValue();
             String mixId1 = mix1.getMixId();
-            MixDataObject mix2 = (MixDataObject) listCompareB.getSelectedValue();
+            MixDataObject mix2 = (MixDataObject) list_mix_compare_b.getSelectedValue();
             String mixId2 = mix2.getMixId();
-            modelTableMixDiff.reload(mixId1, mixId2);
-            resizeColumns_MixComparisonTable();
+            model_for_mix_difference_table.reload(mixId1, mixId2);
+            mix_comparison_tablesorter.toggleSortOrder(1);
+            mix_comparison_tablesorter.sort();
+            mix_comparison_tablesorter.toggleSortOrder(0);
+            mix_comparison_tablesorter.sort();
+            resize_columns_on_mix_comparison_table();
         }
     }
 
-    private void event_listCompareB(ListSelectionEvent e) {
+    private void event_listFoodCompareA(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            reloadMixComparison();
+            reloadFoodComparison();
         }
     }
 
-    private JPanel getCategories() {
+    private void event_listFoodCompareB(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            reloadFoodComparison();
+        }
+    }
+
+    private void reloadFoodComparison() {
+        if (isListFoodCompareASelected() && isListFoodCompareBSelected()) {
+            FoodDataObject food_a = (FoodDataObject) list_food_compare_a.getSelectedValue();
+            String food_id_a = food_a.getFoodId();
+            FoodDataObject food_b = (FoodDataObject) list_food_compare_b.getSelectedValue();
+            String food_id_b = food_b.getFoodId();
+            model_for_food_difference_table.reload(food_id_a, food_id_b);
+            resize_columns_on_food_comparison_table();
+        }
+    }
+
+    private JPanel get_categories() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout(
                 "min:grow,min:grow,min:grow", //columns
@@ -3882,7 +4096,6 @@ public class Main {
                 resizeColumns_NutrientLookupTable();
             }
         } catch (NumberFormatException e) {
-
             Message.showMessage(e.toString());
         }
     }
@@ -4056,6 +4269,7 @@ public class Main {
                     dbLink.fill_mixresultdn(mixId);
                     reloadTableModels();
                     reloadTableModelsJournal();
+                    reloadFoodComparison();
                     reloadMixComparison();
                     reloadRdaCheck();
                     lpModel.setResults(sbResults.toString());
@@ -4347,12 +4561,25 @@ public class Main {
         tableNutrientRatio.getColumnModel().getColumn(8).setMaxWidth(21);
     }
 
-    private void resizeColumns_MixComparisonTable() {
-        tableMixComparison.getColumnModel().getColumn(0).setMinWidth(310);
-        tableMixComparison.getColumnModel().getColumn(0).setMaxWidth(310);
-        for (int i = 1; i < 4; i++) {
-            tableMixComparison.getColumnModel().getColumn(i).setMinWidth(75);
-            tableMixComparison.getColumnModel().getColumn(i).setMaxWidth(75);
+    private void resize_columns_on_food_comparison_table() {
+        table_food_comparison.getColumnModel().getColumn(0).setMinWidth(120);
+        table_food_comparison.getColumnModel().getColumn(0).setMaxWidth(120);
+        table_food_comparison.getColumnModel().getColumn(1).setMinWidth(250);
+        table_food_comparison.getColumnModel().getColumn(1).setMaxWidth(250);
+        for (int i = 2; i < 5; i++) {
+            table_food_comparison.getColumnModel().getColumn(i).setMinWidth(75);
+            table_food_comparison.getColumnModel().getColumn(i).setMaxWidth(75);
+        }
+    }
+
+    private void resize_columns_on_mix_comparison_table() {
+        table_mix_comparison.getColumnModel().getColumn(0).setMinWidth(120);
+        table_mix_comparison.getColumnModel().getColumn(0).setMaxWidth(120);
+        table_mix_comparison.getColumnModel().getColumn(1).setMinWidth(250);
+        table_mix_comparison.getColumnModel().getColumn(1).setMaxWidth(250);
+        for (int i = 2; i < 5; i++) {
+            table_mix_comparison.getColumnModel().getColumn(i).setMinWidth(75);
+            table_mix_comparison.getColumnModel().getColumn(i).setMaxWidth(75);
         }
     }
 
@@ -4534,12 +4761,20 @@ public class Main {
         return !listMixesJournal.isSelectionEmpty();
     }
 
-    private boolean isListCompareASelected() {
-        return !listCompareA.isSelectionEmpty();
+    private boolean isListFoodCompareASelected() {
+        return !list_food_compare_a.isSelectionEmpty();
     }
 
-    private boolean isListCompareBSelected() {
-        return !listCompareB.isSelectionEmpty();
+    private boolean isListFoodCompareBSelected() {
+        return !list_food_compare_b.isSelectionEmpty();
+    }
+
+    private boolean isListMixCompareASelected() {
+        return !list_mix_compare_a.isSelectionEmpty();
+    }
+
+    private boolean isListMixCompareBSelected() {
+        return !list_mix_compare_b.isSelectionEmpty();
     }
 
     private boolean isRdaMixSelected() {

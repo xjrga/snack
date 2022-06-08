@@ -76,7 +76,4 @@ call Nutrient_Insert('645','Fatty acids, total monounsaturated (g)','2','mufa');
 /
 call Nutrient_Insert('646','Fatty acids, total polyunsaturated (g)','2','pufa');
 /
-call Nutrient_Insert('675','18:2 n-6 c,c (Linoleic) (g)','2','linoleic');
-/
-call Nutrient_Insert('851','18:3 n-3 c,c,c (Alpha-Linolenic) (g)','2','alpha-linolenic');
-/
+

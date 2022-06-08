@@ -26,7 +26,7 @@ FROM (SELECT a.name,
       WHERE nutrientid = '10009'
       AND   c > 0) b
 WHERE a.foodid = b.foodid
-ORDER BY calories;
+ORDER BY calories,weight;
 --
 OPEN result;
 --

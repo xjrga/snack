@@ -21,12 +21,11 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodFactSelectForDataInputDataObject;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelDataInput extends DefaultTableModel implements RoundUp {
 

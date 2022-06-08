@@ -30,7 +30,7 @@ SET doc2 = doc2 + doc;
 --
 SET doc = '';
 --
-FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND   x.mixid = v_MixId AND x.foodid = id AND y.nutrientid != '675' AND  y.nutrientid != '851' ORDER BY foodid, label DO
+FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND   x.mixid = v_MixId AND x.foodid = id ORDER BY foodid, label DO
 --
 SET doc = doc + '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' +CHAR (10);
 --

@@ -1,8 +1,8 @@
 package io.github.xjrga.snack.other;
 
-import io.github.xjrga.snack.dataobject.MixDataObject;
+import io.github.xjrga.snack.dataobject.FoodDataObject;
 import io.github.xjrga.snack.gui.Message;
-import io.github.xjrga.snack.model.TableModelMixComparison;
+import io.github.xjrga.snack.model.TableModelFoodComparison;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,7 @@ import javax.swing.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
-public class ExportMixComparison {
+public class ExportFoodComparison {
 
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -32,7 +32,7 @@ public class ExportMixComparison {
     private StringBuilder sb;
     private Workbook wb;
 
-    public ExportMixComparison() {
+    public ExportFoodComparison() {
         initializeVariables();
         initializeMethods();
     }
@@ -52,14 +52,14 @@ public class ExportMixComparison {
         format = dateFormat.format(date);
         row = null;
         cell = null;
-        sheetname = "Mix Comparison";
+        sheetname = "Food Comparison";
         s = wb.createSheet();
         rownum = 0;
     }
 
     private void initializeMethods() {
         fontBold.setBold(true);
-        sb.append("mix_comparison_");
+        sb.append("food_comparison_");
         sb.append(format);
         sb.append(".xls");
         filepath.append("model/");
@@ -67,16 +67,16 @@ public class ExportMixComparison {
         wb.setSheetName(0, sheetname);
     }
 
-    public void print(TableModelMixComparison modelTableMixDiff, JList listCompareA, JList listCompareB) {
+    public void print(TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB) {
         if (!listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty()) {
-            MixDataObject mix1 = (MixDataObject) listCompareA.getSelectedValue();
-            MixDataObject mix2 = (MixDataObject) listCompareB.getSelectedValue();
+            FoodDataObject food_a = (FoodDataObject) listCompareA.getSelectedValue();
+            FoodDataObject food_b = (FoodDataObject) listCompareB.getSelectedValue();
             row = s.createRow(rownum++);
             cell = row.createCell(0);
             StringBuilder sb1 = new StringBuilder();
-            sb1.append(mix1.getName());
+            sb1.append(food_a.getFoodName());
             sb1.append(" minus ");
-            sb1.append(mix2.getName());
+            sb1.append(food_b.getFoodName());
             cell.setCellValue(sb1.toString());
             cell.setCellStyle(cellStyleMixName);
             row = s.createRow(rownum++);
@@ -87,27 +87,27 @@ public class ExportMixComparison {
             cell.setCellValue("Nutrient");
             cell.setCellStyle(cellStyleColumnName);
             cell = row.createCell(2);
-            cell.setCellValue(mix1.getName());
+            cell.setCellValue(food_a.getFoodName());
             cell.setCellStyle(cellStyleColumnName);
             cell = row.createCell(3);
-            cell.setCellValue(mix2.getName());
+            cell.setCellValue(food_b.getFoodName());
             cell.setCellStyle(cellStyleColumnName);
             cell = row.createCell(4);
             cell.setCellValue("Difference");
             cell.setCellStyle(cellStyleColumnName);
         }
-        for (int j = 0; j < modelTableMixDiff.getRowCount(); j++) {
+        for (int j = 0; j < modelTableFoodDiff.getRowCount(); j++) {
             row = s.createRow(rownum++);
             cell = row.createCell(0);
-            cell.setCellValue((String) modelTableMixDiff.getValueAt(j, 0));
+            cell.setCellValue((String) modelTableFoodDiff.getValueAt(j, 0));
             cell = row.createCell(1);
-            cell.setCellValue((String) modelTableMixDiff.getValueAt(j, 1));
+            cell.setCellValue((String) modelTableFoodDiff.getValueAt(j, 1));
             cell = row.createCell(2);
-            cell.setCellValue((Double) modelTableMixDiff.getValueAt(j, 2));
+            cell.setCellValue((Double) modelTableFoodDiff.getValueAt(j, 2));
             cell = row.createCell(3);
-            cell.setCellValue((Double) modelTableMixDiff.getValueAt(j, 3));
+            cell.setCellValue((Double) modelTableFoodDiff.getValueAt(j, 3));
             cell = row.createCell(4);
-            cell.setCellValue((Double) modelTableMixDiff.getValueAt(j, 4));
+            cell.setCellValue((Double) modelTableFoodDiff.getValueAt(j, 4));
             cell.setCellStyle(cellStyleValue);
             System.out.println(rownum);
         }
@@ -121,7 +121,7 @@ public class ExportMixComparison {
         JComponent[] inputs = new JComponent[]{
             new JLabel("Spreadsheet is ready")
         };
-        Message.showOptionDialog(inputs, "Export Mix Comparison");
+        Message.showOptionDialog(inputs, "Export Food Comparison");
     }
 
     private CellStyle getCellStyleValue() {

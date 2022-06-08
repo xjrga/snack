@@ -27,14 +27,14 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelMixComparison extends DefaultTableModel implements RoundUp {
+public class TableModelFoodComparison extends DefaultTableModel implements RoundUp {
 
     public static int c = 0;
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelMixComparison(DbLink dbLink) {
+    public TableModelFoodComparison(DbLink dbLink) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
@@ -43,8 +43,8 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
         columns = new Vector();
         columns.add("Category");
         columns.add("Nutrient");
-        columns.add("Mix A");
-        columns.add("Mix B");
+        columns.add("Food A");
+        columns.add("Food B");
         columns.add("Diff");
         this.setColumnIdentifiers(columns);
     }
@@ -62,11 +62,11 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
                 returnValue = String.class;
                 break;
             case 2:
-                //Mix 1 Value
+                //Food A Value
                 returnValue = Double.class;
                 break;
             case 3:
-                //Mix 2 Value
+                //Food B Value
                 returnValue = Double.class;
                 break;
             case 4:
@@ -82,59 +82,59 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
         return false;
     }
 
-    public void reload(String MixId1, String MixId2) {
+    public void reload(String food_id_a, String food_id_b) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.Mix_GetDiff(MixId1, MixId2, precision);
+            LinkedList list = (LinkedList) dbLink.get_food_differences(food_id_a, food_id_b, precision);
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 HashMap rowm = (HashMap) it.next();
                 String category = (String) rowm.get("CATEGORY");
                 String nutrient = (String) rowm.get("NUTRIENT");
-                double mix1 = (double) rowm.get("MIXA");
-                double mix2 = (double) rowm.get("MIXB");
+                double food_a = (double) rowm.get("FOODA");
+                double food_b = (double) rowm.get("FOODB");
                 double diff = (double) rowm.get("DIFF");
                 row = new Vector();
                 row.add(category);
                 row.add(nutrient);
-                row.add(mix1);
-                row.add(mix2);
+                row.add(food_a);
+                row.add(food_b);
                 row.add(diff);
                 table.add(row);
             }
-            list = (LinkedList) dbLink.Mix_GetFQDiff(MixId1, MixId2);
-            it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String nutrient = (String) rowm.get("NUTRIENT");
-                double mix1 = (double) rowm.get("MIX1");
-                double mix2 = (double) rowm.get("MIX2");
-                double diff = (double) rowm.get("DIFF");
-                row = new Vector();
-                row.add("Other");
-                row.add(nutrient);
-                row.add(mix1);
-                row.add(mix2);
-                row.add(diff);
-                table.add(row);
-            }
-            list = (LinkedList) dbLink.Mix_GetMealGIDiff(MixId1, MixId2, precision);
-            it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String nutrient = (String) rowm.get("NUTRIENT");
-                double mix1 = (double) rowm.get("MIX1");
-                double mix2 = (double) rowm.get("MIX2");
-                double diff = (double) rowm.get("DIFF");
-                row = new Vector();
-                row.add("Other");
-                row.add(nutrient);
-                row.add(mix1);
-                row.add(mix2);
-                row.add(diff);
-                table.add(row);
-            }
+//            list = (LinkedList) dbLink.Mix_GetFQDiff(MixId1, MixId2);
+//            it = list.iterator();
+//            while (it.hasNext()) {
+//                HashMap rowm = (HashMap) it.next();
+//                String nutrient = (String) rowm.get("NUTRIENT");
+//                double mix1 = (double) rowm.get("FOODA");
+//                double mix2 = (double) rowm.get("FOODB");
+//                double diff = (double) rowm.get("DIFF");
+//                row = new Vector();
+//                row.add("Other");
+//                row.add(nutrient);
+//                row.add(mix1);
+//                row.add(mix2);
+//                row.add(diff);
+//                table.add(row);
+//            }
+//            list = (LinkedList) dbLink.Mix_GetMealGIDiff(MixId1, MixId2, precision);
+//            it = list.iterator();
+//            while (it.hasNext()) {
+//                HashMap rowm = (HashMap) it.next();
+//                String nutrient = (String) rowm.get("NUTRIENT");
+//                double mix1 = (double) rowm.get("FOODA");
+//                double mix2 = (double) rowm.get("FOODB");
+//                double diff = (double) rowm.get("DIFF");
+//                row = new Vector();
+//                row.add("Other");
+//                row.add(nutrient);
+//                row.add(mix1);
+//                row.add(mix2);
+//                row.add(diff);
+//                table.add(row);
+//            }
             this.setDataVector(table, columns);
         } catch (SQLException e) {
 

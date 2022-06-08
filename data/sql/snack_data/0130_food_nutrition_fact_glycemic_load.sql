@@ -4,7 +4,9 @@ CALL FoodFact_Merge('01095','10006',33.18400);
 /
 CALL FoodFact_Merge('01256','10006',0.50400);
 /
-CALL FoodFact_Merge('08001','10006',15.27960);
+CALL FoodFact_Merge('08001','10006',17.07720);
+/
+CALL FoodFact_Merge('08005','10006',22.33000);
 /
 CALL FoodFact_Merge('08120','10006',37.44000);
 /

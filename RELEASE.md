@@ -178,7 +178,7 @@ RELEASE NOTES
 720
 
       Replaced nutrient 18:2 n-6 cc (LA) with 18:2 undifferentiated (LA)
-      Replaced nutrient 18:3 n-6 c,c,c (ALA) with 18:2 undifferentiated (ALA)
+      Replaced nutrient 18:3 n-6 c,c,c (ALA) with 18:3 undifferentiated (ALA)
 
 730
 
@@ -232,3 +232,8 @@ RELEASE NOTES
 
 840
       Add calories field to nutrient lookup tab
+
+850
+      Add nutrient category field to mix comparison feature
+      Add food comparison feature
+      Fix new food input wizard

@@ -1,3 +1,5 @@
+call FoodFact_Merge('01001','10001',0.85000);
+/
 call FoodFact_Merge('01014','10001',10.34000);
 /
 call FoodFact_Merge('01015','10001',10.45000);
@@ -52,6 +54,8 @@ call FoodFact_Merge('01292','10001',3.39000);
 /
 call FoodFact_Merge('01295','10001',2.94000);
 /
+call FoodFact_Merge('04601','10001',3.30000);
+/
 call FoodFact_Merge('05062','10001',22.50000);
 /
 call FoodFact_Merge('05064','10001',31.02000);
@@ -85,6 +89,10 @@ call FoodFact_Merge('10061','10001',26.17000);
 call FoodFact_Merge('10973','10001',21.10000);
 /
 call FoodFact_Merge('10979','10001',31.69000);
+/
+call FoodFact_Merge('13325','10001',20.36000);
+/
+call FoodFact_Merge('13326','10001',29.08000);
 /
 call FoodFact_Merge('15023','10001',18.50000);
 /

@@ -21,13 +21,12 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelFoodList extends DefaultTableModel implements RoundUp {
 
@@ -82,7 +81,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         columns.add("B4");
         columns.add("K");
         columns.add("B9");
-        columns.add("Cholesterol");
+        columns.add("CHOL");
         columns.add("SFA");
         columns.add("DHA");
         columns.add("EPA");

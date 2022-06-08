@@ -15,8 +15,7 @@ FROM NutrientCategory a,
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
 AND c.FoodId = v_FoodId
-AND b.NutrientId != '675'
-AND b.NutrientId != '851';
+ORDER BY a.Name,b.Name;
 OPEN result;
 END;
 /

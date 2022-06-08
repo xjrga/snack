@@ -37,8 +37,7 @@ public class StringModelMixPct implements RoundUp {
                 //This calories result is slightly different that the one reported because it uses digestible carbohydrate in calculation.
                 //sb.append("Calories: ");
                 //sb.append(mixResultDwPctDataObject.getCalories());
-                sb.append("Values are percent of total energy");
-                sb.append("\n\n");
+                sb.append("* MACRONUTRIENT PERCENTAGES *\n\n");
                 sb.append("Fat: ");
                 sb.append(fat);
                 sb.append("\n");
@@ -60,10 +59,10 @@ public class StringModelMixPct implements RoundUp {
                 sb.append("Polyunsaturated Fatty Acids (PUFA): ");
                 sb.append(polyufat);
                 sb.append("\n");
-                sb.append("");
-                sb.append("\n");
                 sb.append("Food Quotient (FQ): ");
                 sb.append(fq);
+                sb.append("\n\n");
+                sb.append("[ Values are percent of total energy except FQ ]");
                 s = sb.toString();
             }
         } catch (SQLException e) {

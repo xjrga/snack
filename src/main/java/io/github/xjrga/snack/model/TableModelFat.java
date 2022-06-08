@@ -35,7 +35,7 @@ public class TableModelFat extends DefaultTableModel {
         columns.add("MUFA");
         columns.add("PUFA");
         columns.add("SFA");
-        columns.add("Chol");
+        columns.add("CHOL");
         columns.add("LA");
         columns.add("ALA");
         columns.add("DHA");

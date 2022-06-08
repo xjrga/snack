@@ -17,7 +17,7 @@
         - track any nutrient or compound that has an impact on health
         - find food items that provide a specific nutrient
         - keep a food journal and track progress
-        - compare two meals to see difference in nutritional value
+        - compare two foods or meals to see difference in nutritional value
         - compare meals against Required Daily Allowance (RDA) values
         - compare meals against Upper Limit (UL) values
         - Export data and create reports in spreadsheet
@@ -37,16 +37,16 @@
 
 Installing
 
-    1. Download snack-840-app.zip from https://xjrga.github.io/releases/
-    2. unzip snack-840-app.zip
-    3. cd snack-840
-    4. java -jar snack-840.jar (if you are on windows double click on jar file)
+    1. Download snack-850-app.zip from https://xjrga.github.io/releases/
+    2. unzip snack-850-app.zip
+    3. cd snack-850
+    4. java -jar snack-850.jar (if you are on windows double click on jar file)
 
 [User Guide](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
 
 Build
 
-    840
+    850
 
 Authors
 

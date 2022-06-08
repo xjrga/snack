@@ -616,8 +616,7 @@ FROM NutrientCategory a,
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
 AND c.FoodId = v_FoodId
-AND b.NutrientId != '675'
-AND b.NutrientId != '851';
+ORDER BY a.Name,b.Name;
 OPEN result;
 END;
 /
@@ -2326,10 +2325,19 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
-SELECT b.name,
-       round(a.mix1,v_Precision),
-       round(a.mix2,v_Precision),
-       round(a.diff,v_Precision)
+SELECT a.name,b.name,b.mixa,b.mixb,b.diff
+FROM
+(
+SELECT nutrientcategoryid, name
+FROM nutrientcategory) A,
+(
+SELECT 
+       b.nutrientcategoryid,
+       b.nutrientid,
+       b.name,
+       round(a.mix1,v_Precision) as mixa,
+       round(a.mix2,v_Precision) as mixb,
+       round(a.diff,v_Precision) as diff
 FROM (SELECT a.nutrientid,
              a.value AS mix1,
              b.value AS mix2,
@@ -2346,8 +2354,9 @@ FROM (SELECT a.nutrientid,
             GROUP BY nutrientid) b
       WHERE a.nutrientid = b.nutrientid) a,
      (SELECT nutrientid, name, nutrientcategoryid FROM nutrient) b
-WHERE a.nutrientid = b.nutrientid
-ORDER BY b.name;
+WHERE a.nutrientid = b.nutrientid) B
+WHERE a.nutrientcategoryid = b.nutrientcategoryid
+ORDER BY a.name, b.name;
 --
 OPEN result;
 --
@@ -3209,9 +3218,7 @@ Visible
 FROM
 Nutrient
 WHERE
-NutrientId != '205' AND
-NutrientId != '675' AND
-NutrientId != '851'
+NutrientId != '205'
 ORDER BY Name;
 --
 OPEN result;
@@ -3717,7 +3724,7 @@ FROM (SELECT a.name,
       WHERE nutrientid = '10009'
       AND   c > 0) b
 WHERE a.foodid = b.foodid
-ORDER BY calories;
+ORDER BY calories,weight;
 --
 OPEN result;
 --
@@ -4028,9 +4035,7 @@ FROM
 Nutrient
 WHERE
 Visible = 1 AND
-NutrientId != '205' AND 
-NutrientId != '675' AND 
-NutrientId != '851'
+NutrientId != '205'
 ORDER BY Name;
 --
 OPEN result;
@@ -4512,7 +4517,7 @@ SET doc2 = doc2 + doc;
 --
 SET doc = '';
 --
-FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND   x.mixid = v_MixId AND x.foodid = id AND y.nutrientid != '675' AND  y.nutrientid != '851' ORDER BY foodid, label DO
+FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND   x.mixid = v_MixId AND x.foodid = id ORDER BY foodid, label DO
 --
 SET doc = doc + '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' +CHAR (10);
 --
@@ -5560,6 +5565,57 @@ IN v_MixId LONGVARCHAR
 MODIFIES SQL DATA BEGIN ATOMIC
 --
 delete from mixresultdn where mixid = v_MixId;
+--
+END;
+/
+
+
+CREATE PROCEDURE food_differences_procedure (
+--
+IN v_food_a LONGVARCHAR,
+IN v_food_b LONGVARCHAR,
+IN v_precision INTEGER
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT a.name,b.name,b.food_a,b.food_b,b.diff
+FROM
+(
+SELECT nutrientcategoryid, name
+FROM nutrientcategory) A,
+(
+SELECT 
+       b.nutrientcategoryid,
+       b.nutrientid,
+       b.name,
+       round(a.food_a,5) as food_a,
+       round(a.food_b,5) as food_b,
+       round(a.diff,5) as diff
+FROM (SELECT a.nutrientid,
+             a.value AS food_a,
+             b.value AS food_b,
+             a.value - b.value AS diff
+      FROM (SELECT nutrientid,
+                   c * 100 AS value
+            FROM foodfactcoefficient
+            WHERE foodid = v_food_a
+            ) a,
+           (SELECT nutrientid,
+                   c * 100 AS value
+            FROM foodfactcoefficient
+            WHERE foodid = v_food_b
+            ) b
+      WHERE a.nutrientid = b.nutrientid) a,
+     (SELECT nutrientid, name, nutrientcategoryid FROM nutrient) b
+WHERE a.nutrientid = b.nutrientid) B
+WHERE a.nutrientcategoryid = b.nutrientcategoryid
+ORDER BY a.name, b.name;
+--
+OPEN result;
 --
 END;
 /
