@@ -42,7 +42,9 @@ public class StringCheck {
 
     private boolean checkStringIsValid(String s) {
         boolean pass = false;
-        String patternStr = "[A-Za-z0-9 .,'%()/&_-]+";
+        //String patternStr = "[A-Za-z0-9 .,'%()/&_-]+";
+        //xml invalid characters <&>'"
+        String patternStr = "[^<&>'\"]+";
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(s);
         if (matcher.matches()) {

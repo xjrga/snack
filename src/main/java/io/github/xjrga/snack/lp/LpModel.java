@@ -153,7 +153,7 @@ public class LpModel {
 
     public String getVariables() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Variables: ");
+        sb.append("Variables");
         sb.append("\n");
         sb.append(variables);
         return sb.toString();
@@ -179,7 +179,7 @@ public class LpModel {
 
     public String getResults() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Results: ");
+        sb.append("Results");
         sb.append("\n");
         sb.append(results);
         return sb.toString();

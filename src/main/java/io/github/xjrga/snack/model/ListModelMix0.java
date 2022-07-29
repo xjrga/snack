@@ -21,25 +21,24 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.MixDataObject;
-
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
 
-public class ListModelMix extends DefaultListModel {
+public class ListModelMix0 extends DefaultListModel {
 
     private final DbLink dbLink;
 
-    public ListModelMix(DbLink dbLink) {
+    public ListModelMix0(DbLink dbLink) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
         this.clear();
         try {
-            LinkedList all = (LinkedList) dbLink.Mix_Select_All();
+            LinkedList all = (LinkedList) dbLink.Mix_Select_All_0();
             Iterator it = all.iterator();
             while (it.hasNext()) {
                 HashMap row = (HashMap) it.next();
@@ -61,5 +60,18 @@ public class ListModelMix extends DefaultListModel {
         } catch (SQLException e) {
 
         }
+    }
+
+    public int find_by_mixid(String mixid) {
+        int index = 0;
+        int size = this.getSize();
+        for (int i = 0; i < size; i++) {
+            MixDataObject elementAt = (MixDataObject) this.getElementAt(i);
+            if (elementAt.getMixId().equals(mixid)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

@@ -2460,7 +2460,11 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 SELECT MixId,
-       Name
+       Name,
+       Status,
+       NutrientId,
+       Model,
+       Note
 FROM Mix
 ORDER BY Name;
 --
@@ -2477,7 +2481,11 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 SELECT MixId,
-       Name
+       Name,
+       Status,
+       NutrientId,
+       Model,
+       Note
 FROM Mix
 WHERE Status = 0
 ORDER BY Name;
@@ -2495,7 +2503,11 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 SELECT MixId,
-       Name
+       Name,
+       Status,
+       NutrientId,
+       Model,
+       Note
 FROM Mix
 WHERE Status = 1
 ORDER BY Name;
@@ -3176,23 +3188,10 @@ Nutrient a, Rda b
 WHERE
 a.NutrientId = b.NutrientId AND
 b.LifeStageId = 22 AND
-a.NutrientId != '203' AND
 a.NutrientId != '204' AND
-a.NutrientId != '205' AND
-a.NutrientId != '208' AND
-a.NutrientId != '210' AND
-a.NutrientId != '212' AND
-a.NutrientId != '213' AND
-a.NutrientId != '221' AND
 a.NutrientId != '255' AND
 a.NutrientId != '291' AND
-a.NutrientId != '421' AND
-a.NutrientId != '601' AND
-a.NutrientId != '606' AND
-a.NutrientId != '621' AND
-a.NutrientId != '629' AND
-a.NutrientId != '645' AND
-a.NutrientId != '646' AND
+a.NutrientId != '313' AND
 a.NutrientId != '618' AND
 a.NutrientId != '619' AND
 a.NutrientId != '10001' AND
@@ -4477,8 +4476,8 @@ DECLARE doc LONGVARCHAR;
 SET doc = '';
 --
 --SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' +CHAR(10) + '<nutrientid>' + Nutrientid + '</nutrientid>' +CHAR(10) + '<model>' + Model + '</model>' +CHAR(10) + '<note>' + Note + '</note>' +CHAR(10) + '</mix>' INTO doc FROM Mix WHERE mixid = v_MixId;
---SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '<nutrientid>' + Nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
-SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+--SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
 --
 SET v_doc = doc + CHAR (10);
 --
@@ -5616,6 +5615,29 @@ WHERE a.nutrientcategoryid = b.nutrientcategoryid
 ORDER BY a.name, b.name;
 --
 OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE pin_mix (
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA  BEGIN ATOMIC
+--
+DELETE FROM NUTRIENTCONSTRAINT WHERE MixId = v_mixid;
+DELETE FROM FOODNUTRIENTCONSTRAINT WHERE MixId = v_mixid;
+DELETE FROM PERCENTCONSTRAINT WHERE MixId = v_mixid;
+DELETE FROM FOODNUTRIENTRATIO WHERE MixId = v_mixid;
+DELETE FROM NUTRIENTRATIO WHERE MixId = v_mixid;
+INSERT INTO FOODNUTRIENTCONSTRAINT 
+SELECT mixid,foodid,'10000' as nutrientid,3 as relationshipid,x as b
+FROM mixfood
+WHERE mixid = v_mixid;
+
 --
 END;
 /

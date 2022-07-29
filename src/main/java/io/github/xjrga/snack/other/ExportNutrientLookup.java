@@ -131,10 +131,10 @@ public class ExportNutrientLookup {
                 cell.setCellStyle(cellStyleValue);
                 cell.setCellValue(foodname);
                 cell = row.createCell(1);
-                cell.setCellValue(calories);
+                cell.setCellValue(weight);
                 cell.setCellStyle(cellStyleValue);
                 cell = row.createCell(2);
-                cell.setCellValue(weight);
+                cell.setCellValue(calories);
                 cell.setCellStyle(cellStyleValue);
 
             }

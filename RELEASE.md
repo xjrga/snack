@@ -234,6 +234,28 @@ RELEASE NOTES
       Add calories field to nutrient lookup tab
 
 850
-      Add nutrient category field to mix comparison feature
+      Add category field to mix comparison results
       Add food comparison feature
-      Fix new food input wizard
+      Fix food input wizard
+
+860                  
+      Add minimize cost option
+      Update snack.xsd schema
+      Add cost calculator assistant in "Add New Food Item" wizard
+      Add "Pin" popup option to mix list
+      Add "Find nutrient containing foods" popup option to results rda area
+      Add "Go to vitamins" popup option to results rda area
+      Add "Go to minerals" popup option to results rda area
+      Add "Go to electrolytes" popup option to results rda area
+      Fix "Check coefficients" popup option on food list area
+      Redesign graphical user interface (gui)
+      Add keybindings to 'Solve' area
+       - control T - maximize top splitpane component
+       - control M - equal sizes splitpane components
+       - control B - maximize bottom splitpane component
+      Fix "Add New Food Item" default selection
+      Fix vitamin calculator assistant in "Add New Food Item" wizard to include choline
+      Add 'Duplicate mix and edit in 'Solve' area' button to journal area
+      Improve 'Tools' options for better user interaction
+      
+      

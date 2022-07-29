@@ -23,6 +23,10 @@ public class MixDataObject {
 
     private String MixId;
     private String Name;
+    private Integer status;
+    private String nutrientid;
+    private String model;
+    private String note;
 
     public MixDataObject() {
     }
@@ -48,13 +52,42 @@ public class MixDataObject {
         this.Name = Name;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getNutrientid() {
+        return nutrientid;
+    }
+
+    public void setNutrientid(String nutrientid) {
+        this.nutrientid = nutrientid;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        //sb.append(MixId);
-        //sb.append(":");
         sb.append(Name);
-        //sb.append(":");
         return sb.toString();
     }
 }

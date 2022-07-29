@@ -186,6 +186,9 @@ public class Xml_receive {
                                         break;
                                     case "nutrientid":
                                         switch (main_event) {
+                                            case "mix":
+                                                mix.set_nutrientid(data);
+                                                break;
                                             case "nutrient_constraint":
                                                 nutrient_constraint.setNutrientid(data);
                                                 break;
@@ -426,7 +429,7 @@ public class Xml_receive {
                                             mix.get_mixid(),
                                             mix.get_name(),
                                             1,
-                                            "10009",
+                                            mix.get_nutrientid(),
                                             "",
                                             ""
                                     );
@@ -434,6 +437,7 @@ public class Xml_receive {
                                     System.out.println("-> " + ex.getMessage()
                                             + " " + mix.get_mixid()
                                             + " " + mix.get_name()
+                                            + " " + mix.get_nutrientid()
                                     );
                                 }
                                 break;

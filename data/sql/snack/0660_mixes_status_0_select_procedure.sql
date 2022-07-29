@@ -5,7 +5,11 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 SELECT MixId,
-       Name
+       Name,
+       Status,
+       NutrientId,
+       Model,
+       Note
 FROM Mix
 WHERE Status = 0
 ORDER BY Name;

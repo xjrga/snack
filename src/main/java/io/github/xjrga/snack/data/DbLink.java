@@ -135,6 +135,29 @@ public class DbLink {
             Map<String, Object> row = new HashMap<>();
             row.put("MIXID", rs.getObject(1));
             row.put("NAME", rs.getObject(2));
+            row.put("STATUS", rs.getObject(3));
+            row.put("NUTRIENTID", rs.getObject(4));
+            row.put("MODEL", rs.getObject(5));
+            row.put("NOTE", rs.getObject(6));
+            list.add(row);
+        }
+        proc.close();
+        return list;
+    }
+
+    public List<Map<String, Object>> Mix_Select_All_0() throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall("{CALL public.Mix_Select_All_0()}");
+        ResultSet rs = proc.executeQuery();
+        while (rs.next()) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("MIXID", rs.getObject(1));
+            row.put("NAME", rs.getObject(2));
+            row.put("STATUS", rs.getObject(3));
+            row.put("NUTRIENTID", rs.getObject(4));
+            row.put("MODEL", rs.getObject(5));
+            row.put("NOTE", rs.getObject(6));
             list.add(row);
         }
         proc.close();
@@ -150,6 +173,10 @@ public class DbLink {
             Map<String, Object> row = new HashMap<>();
             row.put("MIXID", rs.getObject(1));
             row.put("NAME", rs.getObject(2));
+            row.put("STATUS", rs.getObject(3));
+            row.put("NUTRIENTID", rs.getObject(4));
+            row.put("MODEL", rs.getObject(5));
+            row.put("NOTE", rs.getObject(6));
             list.add(row);
         }
         proc.close();
@@ -1482,6 +1509,12 @@ public class DbLink {
     public void delete_mixresultdn(String mixid) throws SQLException {
         CallableStatement proc = connection.prepareCall("{CALL public.mixresultdn_delete( ? )}");
         proc.setString(1, mixid);
+        proc.execute();
+    }
+
+    public void pin_mix(String MixId) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.pin_mix( ? )}");
+        proc.setString(1, MixId);
         proc.execute();
     }
 }
