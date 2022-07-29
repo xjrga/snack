@@ -4,91 +4,91 @@ RELEASE NOTES
 
 0.503
 
-    Fix result data order
+      Fix result data order
 
 0.504
 
-    Remove popup "empty" message at food label data input
+      Remove popup "empty" message at food label data input
 
 0.505
 
-    Add "Percent of Total Nutrient" constraint functionality
+      Add "Percent of Total Nutrient" constraint functionality
 
 0.506
 
-    Migrate to openjdk-11-jdk
+      Migrate to openjdk-11-jdk
 
 0.507
 
-    Refactor food_select details procedure
+      Refactor food_select details procedure
 
 0.508
 
-    Add new look and feel
+      Add new look and feel
 
 0.510
 
-    Remove annoying text popups<br>
-    Add temporary logo icon
+      Remove annoying text popups<br>
+      Add temporary logo icon
 
 0.511
 
-    Fix input verification
+      Fix input verification
 
 0.512
 
-    Add tool tips
+      Add tool tips
 
 0.513
 
-    Fix button select color
+      Fix button select color
 
 0.514
 
-    Fix input verification
+      Fix input verification
 
 0.515
 
-    Fix input verification
+      Fix input verification
 
 0.516
 
-    Fix save model to text file
-    Fix file output location
-    Add high score
-    Fix status bar
+      Fix save model to text file
+      Fix file output location
+      Add high score
+      Fix status bar
 
 0.517
 
-    Add food quotient
+      Add food quotient
 
 0.518
 
-    Fix table column reordering
+      Fix table column reordering
 
 0.519
 
-    Fix application resizing issue
+      Fix application resizing issue
 
 0.520
 
-    Fix font issue
+      Fix font issue
 
 0.521
 
-    Fix scrollbar issue
+      Fix scrollbar issue
 
 0.522
 
-    Fix shutdown issue
+      Fix shutdown issue
 
 0.523
 
-    Todo
+      Todo
 
 524
 
-     Add settings panel
+      Add settings panel
 
 600
 
@@ -204,41 +204,51 @@ RELEASE NOTES
       Improve gui behavior
 
 770
+        
       Improve performance
       Add macronutrient percentages function to Tools menu
 
 780
+
       Improve performance
 
 790
+
       Fix food quotient precision
       Fix food combobox ordering
 
 800
+
       Fix mix duplication process
       Removed status bar
 
 810
+
       Improve performance
 
 820
+
       Fix minor bug
 
 830
+
       Add search field to mix comparison tab
       Add search field to nutrient lookup tab
       Sort rda check results alphabetically
       Improve perfomance
 
 840
+
       Add calories field to nutrient lookup tab
 
 850
+
       Add category field to mix comparison results
       Add food comparison feature
       Fix food input wizard
 
-860                  
+860
+                  
       Add minimize cost option
       Update snack.xsd schema
       Add cost calculator assistant in "Add New Food Item" wizard
@@ -258,4 +268,6 @@ RELEASE NOTES
       Add 'Duplicate mix and edit in 'Solve' area' button to journal area
       Improve 'Tools' options for better user interaction
       
-      
+861
+
+     Update poi-4.0.1.jar to poi-4.1.1.jar

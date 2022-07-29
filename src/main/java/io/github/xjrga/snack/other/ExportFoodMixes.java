@@ -218,11 +218,4 @@ public class ExportFoodMixes {
         cellStyleTotal.setFont(fontBold);
         return cellStyleTotal;
     }
-
-    public void hello() {
-        for (Nutrient nutrient : Nutrient.values()) {
-            System.out.println(nutrient.getLabel());
-            System.out.println(nutrient.ordinal());
-        }
-    }
 }

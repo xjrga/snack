@@ -375,6 +375,7 @@ public class Main {
     private JLabel lbl_Min = new JLabel();
     private JTabbedPane main_tabbed_pane = new JTabbedPane();
     private JTabbedPane results_tabbed_pane = new JTabbedPane();
+    private JTabbedPane journal_results_tabbed_pane = new JTabbedPane();
 
     public Main() {
         fileChooser = new JFileChooser();
@@ -1875,10 +1876,25 @@ public class Main {
             event_cb_journal_lifestage();
         });
         JPopupMenu popMenu = new JPopupMenu();
-        JMenuItem item = new JMenuItem("Find nutrient containing foods");
-        popMenu.add(item);
-        item.addActionListener((ActionEvent e) -> {
+        JMenuItem item_01 = new JMenuItem("Find nutrient containing foods");
+        JMenuItem item_02 = new JMenuItem("Go to vitamins");
+        JMenuItem item_03 = new JMenuItem("Go to minerals");
+        JMenuItem item_04 = new JMenuItem("Go to electrolytes");
+        popMenu.add(item_01);
+        popMenu.add(item_02);
+        popMenu.add(item_03);
+        popMenu.add(item_04);
+        item_01.addActionListener((ActionEvent e) -> {
             event_menui_journal_nutrient_lookup();
+        });
+        item_02.addActionListener((ActionEvent e) -> {
+            journal_results_tabbed_pane.setSelectedIndex(4);
+        });
+        item_03.addActionListener((ActionEvent e) -> {
+            journal_results_tabbed_pane.setSelectedIndex(5);
+        });
+        item_04.addActionListener((ActionEvent e) -> {
+            journal_results_tabbed_pane.setSelectedIndex(6);
         });
         tbl_journal_rda.addMouseListener(new MouseAdapter() {
             @Override
@@ -1918,6 +1934,7 @@ public class Main {
             modelComboBox_NutrientLookupListNutrient.setSelectedItem(nutrientDataObject);
             modelTableNutrientLookup.reload(nutrientid, rda);
             resizeColumns_NutrientLookupTable();
+            main_tabbed_pane.setSelectedIndex(6);
         } else {
             Message.showMessage("Please select nutrient");
         }
@@ -1978,37 +1995,36 @@ public class Main {
         mixesJournalSp.setBorder(new TitledBorder("Mix"));
         leftComponent.add(mixesJournalSp, cc.xy(1, 1));
         leftComponent.add(buttons, cc.xy(1, 2));
-        JTabbedPane rightComponent = new JTabbedPane();
-        rightComponent.setBorder(new TitledBorder("Mix Results"));
-        rightComponent.setTabPlacement(JTabbedPane.BOTTOM);
-        rightComponent.add(getEnergyJournal());
-        rightComponent.add(getProteinJournal());
-        rightComponent.add(getFatsJournal());
-        rightComponent.add(getCarbsJournal());
-        rightComponent.add(getVitaminsJournal());
-        rightComponent.add(getMineralsJournal());
-        rightComponent.add(getElectrolytesJournal());
-        rightComponent.add(getWaterJournal());
-        rightComponent.add(getCostJournal());
-        rightComponent.add(getGlycemicJournal());
-        rightComponent.add(getJournalModel());
-        rightComponent.add(getJournalNote());
-        rightComponent.add(get_mix_journal_rda());
-        rightComponent.setTitleAt(0, "Energy");
-        rightComponent.setTitleAt(1, "Protein");
-        rightComponent.setTitleAt(2, "Fats");
-        rightComponent.setTitleAt(3, "Carbohydrates");
-        rightComponent.setTitleAt(4, "Vitamins");
-        rightComponent.setTitleAt(5, "Minerals");
-        rightComponent.setTitleAt(6, "Electrolytes");
-        rightComponent.setTitleAt(7, "Water");
-        rightComponent.setTitleAt(8, "Cost");
-        rightComponent.setTitleAt(9, "Glycemic");
-        rightComponent.setTitleAt(10, "Model");
-        rightComponent.setTitleAt(11, "Note");
-        rightComponent.setTitleAt(12, "Rda");
+        journal_results_tabbed_pane.setBorder(new TitledBorder("Mix Results"));
+        journal_results_tabbed_pane.setTabPlacement(JTabbedPane.BOTTOM);
+        journal_results_tabbed_pane.add(getEnergyJournal());
+        journal_results_tabbed_pane.add(getProteinJournal());
+        journal_results_tabbed_pane.add(getFatsJournal());
+        journal_results_tabbed_pane.add(getCarbsJournal());
+        journal_results_tabbed_pane.add(getVitaminsJournal());
+        journal_results_tabbed_pane.add(getMineralsJournal());
+        journal_results_tabbed_pane.add(getElectrolytesJournal());
+        journal_results_tabbed_pane.add(getWaterJournal());
+        journal_results_tabbed_pane.add(getCostJournal());
+        journal_results_tabbed_pane.add(getGlycemicJournal());
+        journal_results_tabbed_pane.add(getJournalModel());
+        journal_results_tabbed_pane.add(getJournalNote());
+        journal_results_tabbed_pane.add(get_mix_journal_rda());
+        journal_results_tabbed_pane.setTitleAt(0, "Energy");
+        journal_results_tabbed_pane.setTitleAt(1, "Protein");
+        journal_results_tabbed_pane.setTitleAt(2, "Fats");
+        journal_results_tabbed_pane.setTitleAt(3, "Carbohydrates");
+        journal_results_tabbed_pane.setTitleAt(4, "Vitamins");
+        journal_results_tabbed_pane.setTitleAt(5, "Minerals");
+        journal_results_tabbed_pane.setTitleAt(6, "Electrolytes");
+        journal_results_tabbed_pane.setTitleAt(7, "Water");
+        journal_results_tabbed_pane.setTitleAt(8, "Cost");
+        journal_results_tabbed_pane.setTitleAt(9, "Glycemic");
+        journal_results_tabbed_pane.setTitleAt(10, "Model");
+        journal_results_tabbed_pane.setTitleAt(11, "Note");
+        journal_results_tabbed_pane.setTitleAt(12, "Rda");
         panel.add(leftComponent, cc.xy(1, 1));
-        panel.add(rightComponent, cc.xy(2, 1));
+        panel.add(journal_results_tabbed_pane, cc.xy(2, 1));
         list_journal_mix.addListSelectionListener(e -> event_listMixesJournal(e));
         list_journal_mix.setModel(modelListFoodJournal);
         modelListFoodJournal.reload();
@@ -3341,7 +3357,7 @@ public class Main {
         sb.append("\n");
         sb.append("jgoodies-forms-1.9.0.jar");
         sb.append("\n");
-        sb.append("poi-4.0.1.jar");
+        sb.append("poi-4.1.1.jar");
         sb.append("\n");
         sb.append("looks-01.jar");
         sb.append("\n\n\n");
@@ -3370,9 +3386,10 @@ public class Main {
         sb.append("\n\n");
         sb.append("Snack is learning software for nutrition, a meal design tool and calculator that could facilitate achieving your health goals and objectives by first helping you understand your food intake and second by allowing you to create new food combinations that meet specific requirements.");
         sb.append("\n\n");
-        sb.append("Snack is a training program designed to find lowest calorie food combination. It minimizes digestible energy. It lets you experiment and get faster, better, less expensive results so you can rapidly learn. Its intended audience is anyone with interest in nutrition.");
+        sb.append("Snack is a training program designed to find lowest calorie or cost food combination. It minimizes digestible energy. It lets you experiment and get faster, better, less expensive results so you can rapidly learn. Its intended audience is anyone with interest in nutrition.");
         sb.append("\n\n");
         String txt = "Features:\n"
+                + "        - minimize calories or cost\n"
                 + "        - quantify food intake\n"
                 + "        - track any nutrient or compound that has an impact on health\n"
                 + "        - find food items that provide a specific nutrient\n"
@@ -3396,7 +3413,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 860");
+        sb.append("This is build 861");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
