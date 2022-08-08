@@ -1,13 +1,9 @@
 package io.github.xjrga.snack.other;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import io.github.xjrga.snack.dataobject.MixDataObject;
 import io.github.xjrga.snack.gui.Message;
-
-import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 
 public class ExportFoodMixes {
 
@@ -183,11 +182,13 @@ public class ExportFoodMixes {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFillPattern(FillPatternType.SPARSE_DOTS);
         cellStyleMixName.setFont(fontBold);
+        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleMixName;
     }
 
     private CellStyle getCellStyleFoodItemName() {
         CellStyle cellStyleItemName = wb.createCellStyle();
+        cellStyleItemName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleItemName;
     }
 
@@ -195,6 +196,7 @@ public class ExportFoodMixes {
         CellStyle cellStyleTotalName = wb.createCellStyle();
         cellStyleTotalName.setBorderTop(BorderStyle.THIN);
         cellStyleTotalName.setFont(fontBold);
+        cellStyleTotalName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleTotalName;
     }
 
@@ -202,12 +204,14 @@ public class ExportFoodMixes {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
         cellStyleColumnName.setFont(fontBold);
+        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleColumnName;
     }
 
     private CellStyle getCellStyleFoodItemValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 
@@ -216,6 +220,7 @@ public class ExportFoodMixes {
         cellStyleTotal.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
         cellStyleTotal.setBorderTop(BorderStyle.THIN);
         cellStyleTotal.setFont(fontBold);
+        cellStyleTotal.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleTotal;
     }
 }

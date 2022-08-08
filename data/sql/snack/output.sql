@@ -233,6 +233,7 @@ energycarbohydrate DOUBLE,
 energyprotein DOUBLE,
 energyfat DOUBLE,
 energyalcohol DOUBLE,
+energyfatcarbohydrate DOUBLE,
 CONSTRAINT mixresultdn_primaryKey PRIMARY KEY (mixid, foodid)
 );
 /
@@ -1104,6 +1105,32 @@ END;
 /
 
 
+CREATE PROCEDURE FoodFact_EnergyNoProtein ()
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_NutrientIdB LONGVARCHAR;
+--Energy, fat and carbohydrate (kcal)
+SET v_NutrientIdB = '10010';
+--
+FOR SELECT a.foodid,
+       energyfat + energycarbs AS energy
+FROM (SELECT FOODID,Q AS ENERGYFAT
+      FROM FOODFACT
+      WHERE NUTRIENTID = '10013') a,
+     (SELECT FOODID, Q AS ENERGYCARBS
+      FROM FOODFACT
+      WHERE NUTRIENTID = '10011') b
+WHERE a.foodid = b.foodid DO
+--
+CALL FoodFact_Merge (FOODID,v_NutrientIdB,ENERGY);
+--
+END FOR;
+--
+END;
+/
+
+
 CREATE PROCEDURE FoodFact_DigestibleCarbohydrate ()
 --
 MODIFIES SQL DATA BEGIN ATOMIC
@@ -1509,6 +1536,7 @@ SELECT
        ROUND(x56.q,v_Precision) AS "EnergyProtein",
        ROUND(x57.q,v_Precision) AS "EnergyFat",
        ROUND(x58.q,v_Precision) AS "EnergyAlcohol",
+       ROUND(x59.q,v_Precision) AS "EnergyFatCarbohydrate",
        --Macronutrient
        ROUND(x6.q,v_Precision) AS "Fat",
        ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
@@ -1527,8 +1555,7 @@ SELECT
        ROUND(x21.q,v_Precision) AS "Potassium",
        ROUND(x22.q,v_Precision) AS "Sodium",
        ROUND(x23.q,v_Precision) AS "Zinc",
-       ROUND(x24.q,v_Precision) AS "Copper",
-       ROUND(x25.q,v_Precision) AS "Fluoride",
+       ROUND(x24.q,v_Precision) AS "Copper",      
        ROUND(x26.q,v_Precision) AS "Manganese",
        ROUND(x27.q,v_Precision) AS "Selenium",
        --Vitamins
@@ -1580,8 +1607,7 @@ FROM food a,
      foodfact x21,
      foodfact x22,
      foodfact x23,
-     foodfact x24,
-     foodfact x25,
+     foodfact x24,     
      foodfact x26,
      foodfact x27,
      foodfact x28,
@@ -1610,7 +1636,8 @@ FROM food a,
      foodfact x55,
      foodfact x56,
      foodfact x57,
-     foodfact x58
+     foodfact x58,
+     foodfact x59
 WHERE
 (
 a.foodid = x0.foodid AND
@@ -1632,7 +1659,6 @@ a.foodid = x21.foodid AND
 a.foodid = x22.foodid AND
 a.foodid = x23.foodid AND
 a.foodid = x24.foodid AND
-a.foodid = x25.foodid AND
 a.foodid = x26.foodid AND
 a.foodid = x27.foodid AND
 a.foodid = x28.foodid AND
@@ -1661,7 +1687,8 @@ a.foodid = x53.foodid AND
 a.foodid = x55.foodid AND
 a.foodid = x56.foodid AND
 a.foodid = x57.foodid AND
-a.foodid = x58.foodid
+a.foodid = x58.foodid AND
+a.foodid = x59.foodid
 )
 AND
 (
@@ -1684,7 +1711,6 @@ x21.nutrientid = '306' AND
 x22.nutrientid = '307' AND
 x23.nutrientid = '309' AND
 x24.nutrientid = '312' AND
-x25.nutrientid = '313' AND
 x26.nutrientid = '315' AND
 x27.nutrientid = '317' AND
 x28.nutrientid = '320' AND
@@ -1713,7 +1739,8 @@ x53.nutrientid = '10009' AND
 x55.nutrientid = '10011' AND
 x56.nutrientid = '10012' AND
 x57.nutrientid = '10013' AND
-x58.nutrientid = '10014'
+x58.nutrientid = '10014' AND
+x59.nutrientid = '10010'
 )
 UNION
 SELECT
@@ -1728,6 +1755,7 @@ SELECT
        ROUND(x56.q,v_Precision) AS "EnergyProtein",
        ROUND(x57.q,v_Precision) AS "EnergyFat",
        ROUND(x58.q,v_Precision) AS "EnergyAlcohol",
+       ROUND(x59.q,v_Precision) AS "EnergyFatCarbohydrate",
        --Macronutrient
        ROUND(x6.q,v_Precision) AS "Fat",
        ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
@@ -1746,8 +1774,7 @@ SELECT
        ROUND(x21.q,v_Precision) AS "Potassium",
        ROUND(x22.q,v_Precision) AS "Sodium",
        ROUND(x23.q,v_Precision) AS "Zinc",
-       ROUND(x24.q,v_Precision) AS "Copper",
-       ROUND(x25.q,v_Precision) AS "Fluoride",
+       ROUND(x24.q,v_Precision) AS "Copper",       
        ROUND(x26.q,v_Precision) AS "Manganese",
        ROUND(x27.q,v_Precision) AS "Selenium",
        --Vitamins
@@ -1805,8 +1832,7 @@ FROM (SELECT foodid,
      foodfact x21,
      foodfact x22,
      foodfact x23,
-     foodfact x24,
-     foodfact x25,
+     foodfact x24,     
      foodfact x26,
      foodfact x27,
      foodfact x28,
@@ -1835,7 +1861,8 @@ FROM (SELECT foodid,
      foodfact x55,
      foodfact x56,
      foodfact x57,
-     foodfact x58
+     foodfact x58,
+     foodfact x59
 WHERE
 (
 a.foodid = x0.foodid AND
@@ -1857,7 +1884,6 @@ a.foodid = x21.foodid AND
 a.foodid = x22.foodid AND
 a.foodid = x23.foodid AND
 a.foodid = x24.foodid AND
-a.foodid = x25.foodid AND
 a.foodid = x26.foodid AND
 a.foodid = x27.foodid AND
 a.foodid = x28.foodid AND
@@ -1886,7 +1912,8 @@ a.foodid = x53.foodid AND
 a.foodid = x55.foodid AND
 a.foodid = x56.foodid AND
 a.foodid = x57.foodid AND
-a.foodid = x58.foodid
+a.foodid = x58.foodid AND
+a.foodid = x59.foodid
 )
 AND
 (
@@ -1909,7 +1936,6 @@ x21.nutrientid = '306' AND
 x22.nutrientid = '307' AND
 x23.nutrientid = '309' AND
 x24.nutrientid = '312' AND
-x25.nutrientid = '313' AND
 x26.nutrientid = '315' AND
 x27.nutrientid = '317' AND
 x28.nutrientid = '320' AND
@@ -1938,7 +1964,8 @@ x53.nutrientid = '10009' AND
 x55.nutrientid = '10011' AND
 x56.nutrientid = '10012' AND
 x57.nutrientid = '10013' AND
-x58.nutrientid = '10014'
+x58.nutrientid = '10014' AND
+x59.nutrientid = '10010'
 );
 --
 OPEN result;
@@ -2838,8 +2865,7 @@ INSERT INTO mixresultdn
     potassium,
     sodium,
     zinc,
-    copper,
-    fluoride,
+    copper,    
     manganese,
     selenium,
     vitamina,
@@ -2868,7 +2894,8 @@ INSERT INTO mixresultdn
     energycarbohydrate,
     energyprotein,
     energyfat,
-    energyalcohol
+    energyalcohol,
+    energyfatcarbohydrate
 )
 SELECT  v_MixId_New,        
         foodid,
@@ -2891,8 +2918,7 @@ SELECT  v_MixId_New,
         potassium,
         sodium,
         zinc,
-        copper,
-        fluoride,
+        copper,       
         manganese,
         selenium,
         vitamina,
@@ -2921,7 +2947,8 @@ SELECT  v_MixId_New,
         energycarbohydrate,
         energyprotein,
         energyfat,
-        energyalcohol
+        energyalcohol,
+        energyfatcarbohydrate
 FROM mixresultdn
 WHERE mixid = v_MixId_Old;
 --
@@ -2956,8 +2983,7 @@ SELECT a.MixId,
        ROUND(Potassium,v_Precision) AS Potassium,
        ROUND(Sodium,v_Precision) AS Sodium,
        ROUND(Zinc,v_Precision) AS Zinc,
-       ROUND(Copper,v_Precision) AS Copper,
-       ROUND(Fluoride,v_Precision) AS Fluoride,
+       ROUND(Copper,v_Precision) AS Copper,       
        ROUND(Manganese,v_Precision) AS Manganese,
        ROUND(Selenium,v_Precision) AS Selenium,
        ROUND(VitaminA,v_Precision) AS VitaminA,
@@ -2986,7 +3012,8 @@ SELECT a.MixId,
        ROUND(EnergyCarbohydrate,v_Precision) AS EnergyCarbohydrate,
        ROUND(EnergyProtein,v_Precision) AS EnergyProtein,
        ROUND(EnergyFat,v_Precision) AS EnergyFat,
-       ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol
+       ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol,
+       ROUND(EnergyFatCarbohydrate,v_Precision) AS EnergyFatCarbohydrate
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -3015,8 +3042,7 @@ select a.MixId,
        Round(sum(Potassium),v_Precision),
        Round(sum(Sodium),v_Precision),
        Round(sum(Zinc),v_Precision),
-       Round(sum(Copper),v_Precision),
-       Round(sum(Fluoride),v_Precision),
+       Round(sum(Copper),v_Precision),      
        Round(sum(Manganese),v_Precision),
        Round(sum(Selenium),v_Precision),
        Round(sum(VitaminA),v_Precision),
@@ -3045,7 +3071,8 @@ select a.MixId,
        Round(sum(EnergyCarbohydrate),v_Precision),
        Round(sum(EnergyProtein),v_Precision),
        Round(sum(EnergyFat),v_Precision),
-       Round(sum(EnergyAlcohol),v_Precision)
+       Round(sum(EnergyAlcohol),v_Precision),
+       ROUND(sum(EnergyFatCarbohydrate),v_Precision) AS EnergyFatCarbohydrate
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -4147,8 +4174,6 @@ FROM (SELECT a.nutrientid,
             nutrientid = '317' OR
             --Copper
             nutrientid = '312' OR
-            --Flouride
-            nutrientid = '313' OR
             --Manganese
             nutrientid = '315' OR
             --Panthotenic Acid
@@ -4962,7 +4987,6 @@ potassium,
 sodium,
 zinc,
 copper,
-fluoride,
 manganese,
 selenium,
 vitamina,
@@ -4991,7 +5015,8 @@ energydigestible,
 energycarbohydrate,
 energyprotein,
 energyfat,
-energyalcohol
+energyalcohol,
+energyfatcarbohydrate
 )
 SELECT a.MixId,
        a.FoodId,
@@ -5014,8 +5039,7 @@ SELECT a.MixId,
        Potassium,
        Sodium,
        Zinc,
-       Copper,
-       Fluoride,
+       Copper,       
        Manganese,
        Selenium,
        VitaminA,
@@ -5044,7 +5068,8 @@ SELECT a.MixId,
        EnergyCarbohydrate,
        EnergyProtein,
        EnergyFat,
-       EnergyAlcohol
+       EnergyAlcohol,
+       EnergyFatCarbohydrate
 FROM (SELECT x0.Mixid,
              x0.Foodid,
              x1.Weight,
@@ -5065,8 +5090,7 @@ FROM (SELECT x0.Mixid,
              x20.Potassium,
              x21.Sodium,
              x22.Zinc,
-             x23.Copper,
-             x24.Fluoride,
+             x23.Copper,             
              x25.Manganese,
              x26.Selenium,
              x27.VitaminA,
@@ -5095,7 +5119,8 @@ FROM (SELECT x0.Mixid,
              x53.EnergyCarbohydrate,
              x54.EnergyProtein,
              x55.EnergyFat,
-             x56.EnergyAlcohol
+             x56.EnergyAlcohol,
+             x57.EnergyFatCarbohydrate
       FROM
       --
       (SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
@@ -5239,13 +5264,6 @@ FROM (SELECT x0.Mixid,
        FROM mixresult
        WHERE mixid = v_MixId
        AND   nutrientid = '312') x23,
-           --313	Fluoride, F (µg)
-      (SELECT mixid,
-              foodid,
-              q AS Fluoride
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '313') x24,
            --315	Manganese, Mn (mg)
       (SELECT mixid,
               foodid,
@@ -5448,7 +5466,14 @@ FROM (SELECT x0.Mixid,
               q AS EnergyAlcohol
        FROM mixresult
        WHERE mixid = v_MixId
-       AND   nutrientid = '10014') x56
+       AND   nutrientid = '10014') x56,
+            --10010	Energy, fat and carbohydrate (kcal)
+      (SELECT mixid,
+              foodid,
+              q AS EnergyFatCarbohydrate
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10010') x57
       --
       WHERE x0.mixid = x1.mixid
       AND   x0.foodid = x1.foodid
@@ -5488,8 +5513,6 @@ FROM (SELECT x0.Mixid,
       AND   x0.foodid = x22.foodid
       AND   x0.mixid = x23.mixid
       AND   x0.foodid = x23.foodid
-      AND   x0.mixid = x24.mixid
-      AND   x0.foodid = x24.foodid
       AND   x0.mixid = x25.mixid
       AND   x0.foodid = x25.foodid
       AND   x0.mixid = x26.mixid
@@ -5547,7 +5570,8 @@ FROM (SELECT x0.Mixid,
       AND   x0.mixid = x55.mixid
       AND   x0.foodid = x55.foodid
       AND   x0.mixid = x56.mixid
-      AND   x0.foodid = x56.foodid) a,
+      AND   x0.foodid = x56.foodid
+      AND   x0.foodid = x57.foodid) a,
      (SELECT foodid, name FROM food) b
 WHERE a.foodid = b.foodid;
 --

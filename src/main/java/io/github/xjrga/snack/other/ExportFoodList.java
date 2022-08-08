@@ -1,12 +1,8 @@
 package io.github.xjrga.snack.other;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import io.github.xjrga.snack.gui.Message;
-
-import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 
 public class ExportFoodList {
 
@@ -125,6 +124,7 @@ public class ExportFoodList {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
         cellStyleColumnName.setFont(fontBold);
+        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleColumnName;
     }
 
@@ -137,6 +137,7 @@ public class ExportFoodList {
     private CellStyle getCellStyleFoodItem() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 

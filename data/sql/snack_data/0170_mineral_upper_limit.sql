@@ -3,8 +3,6 @@ call Rda_Update_UL('301',0,1000);
 /
 call Rda_Update_UL('312',0,0);
 /
-call Rda_Update_UL('313',0,700);
-/
 call Rda_Update_UL('303',0,40);
 /
 call Rda_Update_UL('304',0,0);
@@ -21,8 +19,6 @@ call Rda_Update_UL('309',0,4);
 call Rda_Update_UL('301',1,1500);
 /
 call Rda_Update_UL('312',1,0);
-/
-call Rda_Update_UL('313',1,900);
 /
 call Rda_Update_UL('303',1,40);
 /
@@ -41,8 +37,6 @@ call Rda_Update_UL('301',2,2500);
 /
 call Rda_Update_UL('312',2,1);
 /
-call Rda_Update_UL('313',2,1300);
-/
 call Rda_Update_UL('303',2,40);
 /
 call Rda_Update_UL('304',2,65);
@@ -59,8 +53,6 @@ call Rda_Update_UL('309',2,7);
 call Rda_Update_UL('301',3,2500);
 /
 call Rda_Update_UL('312',3,3);
-/
-call Rda_Update_UL('313',3,2200);
 /
 call Rda_Update_UL('303',3,40);
 /
@@ -79,8 +71,6 @@ call Rda_Update_UL('301',4,3000);
 /
 call Rda_Update_UL('312',4,5);
 /
-call Rda_Update_UL('313',4,10000);
-/
 call Rda_Update_UL('303',4,40);
 /
 call Rda_Update_UL('304',4,350);
@@ -97,8 +87,6 @@ call Rda_Update_UL('309',4,23);
 call Rda_Update_UL('301',5,3000);
 /
 call Rda_Update_UL('312',5,8);
-/
-call Rda_Update_UL('313',5,10000);
 /
 call Rda_Update_UL('303',5,45);
 /
@@ -117,8 +105,6 @@ call Rda_Update_UL('301',6,2500);
 /
 call Rda_Update_UL('312',6,10);
 /
-call Rda_Update_UL('313',6,10000);
-/
 call Rda_Update_UL('303',6,45);
 /
 call Rda_Update_UL('304',6,350);
@@ -135,8 +121,6 @@ call Rda_Update_UL('309',6,40);
 call Rda_Update_UL('301',7,2500);
 /
 call Rda_Update_UL('312',7,10);
-/
-call Rda_Update_UL('313',7,10000);
 /
 call Rda_Update_UL('303',7,45);
 /
@@ -155,8 +139,6 @@ call Rda_Update_UL('301',8,2000);
 /
 call Rda_Update_UL('312',8,10);
 /
-call Rda_Update_UL('313',8,10000);
-/
 call Rda_Update_UL('303',8,45);
 /
 call Rda_Update_UL('304',8,350);
@@ -173,8 +155,6 @@ call Rda_Update_UL('309',8,40);
 call Rda_Update_UL('301',9,2000);
 /
 call Rda_Update_UL('312',9,10);
-/
-call Rda_Update_UL('313',9,10000);
 /
 call Rda_Update_UL('303',9,45);
 /
@@ -193,8 +173,6 @@ call Rda_Update_UL('301',10,3000);
 /
 call Rda_Update_UL('312',10,5);
 /
-call Rda_Update_UL('313',10,10000);
-/
 call Rda_Update_UL('303',10,40);
 /
 call Rda_Update_UL('304',10,350);
@@ -211,8 +189,6 @@ call Rda_Update_UL('309',10,23);
 call Rda_Update_UL('301',11,3000);
 /
 call Rda_Update_UL('312',11,8);
-/
-call Rda_Update_UL('313',11,10000);
 /
 call Rda_Update_UL('303',11,45);
 /
@@ -231,8 +207,6 @@ call Rda_Update_UL('301',12,2500);
 /
 call Rda_Update_UL('312',12,10);
 /
-call Rda_Update_UL('313',12,10000);
-/
 call Rda_Update_UL('303',12,45);
 /
 call Rda_Update_UL('304',12,350);
@@ -249,8 +223,6 @@ call Rda_Update_UL('309',12,40);
 call Rda_Update_UL('301',13,2500);
 /
 call Rda_Update_UL('312',13,10);
-/
-call Rda_Update_UL('313',13,10000);
 /
 call Rda_Update_UL('303',13,45);
 /
@@ -269,8 +241,6 @@ call Rda_Update_UL('301',14,2000);
 /
 call Rda_Update_UL('312',14,10);
 /
-call Rda_Update_UL('313',14,10000);
-/
 call Rda_Update_UL('303',14,45);
 /
 call Rda_Update_UL('304',14,350);
@@ -287,8 +257,6 @@ call Rda_Update_UL('309',14,40);
 call Rda_Update_UL('301',15,2000);
 /
 call Rda_Update_UL('312',15,10);
-/
-call Rda_Update_UL('313',15,10000);
 /
 call Rda_Update_UL('303',15,45);
 /
@@ -307,8 +275,6 @@ call Rda_Update_UL('301',16,3000);
 /
 call Rda_Update_UL('312',16,8);
 /
-call Rda_Update_UL('313',16,10000);
-/
 call Rda_Update_UL('303',16,45);
 /
 call Rda_Update_UL('304',16,350);
@@ -325,8 +291,6 @@ call Rda_Update_UL('309',16,34);
 call Rda_Update_UL('301',17,2500);
 /
 call Rda_Update_UL('312',17,10);
-/
-call Rda_Update_UL('313',17,10000);
 /
 call Rda_Update_UL('303',17,45);
 /
@@ -345,8 +309,6 @@ call Rda_Update_UL('301',18,2500);
 /
 call Rda_Update_UL('312',18,10);
 /
-call Rda_Update_UL('313',18,10000);
-/
 call Rda_Update_UL('303',18,45);
 /
 call Rda_Update_UL('304',18,350);
@@ -363,8 +325,6 @@ call Rda_Update_UL('309',18,40);
 call Rda_Update_UL('301',19,3000);
 /
 call Rda_Update_UL('312',19,8);
-/
-call Rda_Update_UL('313',19,10000);
 /
 call Rda_Update_UL('303',19,45);
 /
@@ -383,8 +343,6 @@ call Rda_Update_UL('301',20,2500);
 /
 call Rda_Update_UL('312',20,10);
 /
-call Rda_Update_UL('313',20,10000);
-/
 call Rda_Update_UL('303',20,45);
 /
 call Rda_Update_UL('304',20,350);
@@ -401,8 +359,6 @@ call Rda_Update_UL('309',20,40);
 call Rda_Update_UL('301',21,2500);
 /
 call Rda_Update_UL('312',21,10);
-/
-call Rda_Update_UL('313',21,10000);
 /
 call Rda_Update_UL('303',21,45);
 /

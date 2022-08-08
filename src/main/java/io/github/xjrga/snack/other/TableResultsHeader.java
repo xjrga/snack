@@ -1,7 +1,7 @@
 package io.github.xjrga.snack.other;
 
-import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseEvent;
+import javax.swing.table.TableColumnModel;
 
 public class TableResultsHeader extends MyTableHeader {
 
@@ -28,7 +28,6 @@ public class TableResultsHeader extends MyTableHeader {
             "Sodium",
             "Zinc",
             "Copper",
-            "Fluoride",
             "Manganese",
             "Selenium",
             "Vitamin A",

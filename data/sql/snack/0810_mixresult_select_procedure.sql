@@ -26,8 +26,7 @@ SELECT a.MixId,
        ROUND(Potassium,v_Precision) AS Potassium,
        ROUND(Sodium,v_Precision) AS Sodium,
        ROUND(Zinc,v_Precision) AS Zinc,
-       ROUND(Copper,v_Precision) AS Copper,
-       ROUND(Fluoride,v_Precision) AS Fluoride,
+       ROUND(Copper,v_Precision) AS Copper,       
        ROUND(Manganese,v_Precision) AS Manganese,
        ROUND(Selenium,v_Precision) AS Selenium,
        ROUND(VitaminA,v_Precision) AS VitaminA,
@@ -56,7 +55,8 @@ SELECT a.MixId,
        ROUND(EnergyCarbohydrate,v_Precision) AS EnergyCarbohydrate,
        ROUND(EnergyProtein,v_Precision) AS EnergyProtein,
        ROUND(EnergyFat,v_Precision) AS EnergyFat,
-       ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol
+       ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol,
+       ROUND(EnergyFatCarbohydrate,v_Precision) AS EnergyFatCarbohydrate
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -85,8 +85,7 @@ select a.MixId,
        Round(sum(Potassium),v_Precision),
        Round(sum(Sodium),v_Precision),
        Round(sum(Zinc),v_Precision),
-       Round(sum(Copper),v_Precision),
-       Round(sum(Fluoride),v_Precision),
+       Round(sum(Copper),v_Precision),      
        Round(sum(Manganese),v_Precision),
        Round(sum(Selenium),v_Precision),
        Round(sum(VitaminA),v_Precision),
@@ -115,7 +114,8 @@ select a.MixId,
        Round(sum(EnergyCarbohydrate),v_Precision),
        Round(sum(EnergyProtein),v_Precision),
        Round(sum(EnergyFat),v_Precision),
-       Round(sum(EnergyAlcohol),v_Precision)
+       Round(sum(EnergyAlcohol),v_Precision),
+       ROUND(sum(EnergyFatCarbohydrate),v_Precision) AS EnergyFatCarbohydrate
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid

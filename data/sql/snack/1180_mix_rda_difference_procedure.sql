@@ -68,8 +68,6 @@ FROM (SELECT a.nutrientid,
             nutrientid = '317' OR
             --Copper
             nutrientid = '312' OR
-            --Flouride
-            nutrientid = '313' OR
             --Manganese
             nutrientid = '315' OR
             --Panthotenic Acid

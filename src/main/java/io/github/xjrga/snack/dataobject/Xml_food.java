@@ -28,7 +28,6 @@ public class Xml_food {
     private double epa = 0.0;
     private double fat = 0.0;
     private double fiber = 0.0;
-    private double fluoride = 0.0;
     private double folate = 0.0;
     private double glycemic_load = 0.0;
     private double iron = 0.0;
@@ -229,14 +228,6 @@ public class Xml_food {
 
     public void setFiber(double fiber) {
         this.fiber = fiber;
-    }
-
-    public double getFluoride() {
-        return fluoride;
-    }
-
-    public void setFluoride(double fluoride) {
-        this.fluoride = fluoride;
     }
 
     public double getFolate() {
@@ -515,8 +506,6 @@ public class Xml_food {
         sb.append(fat);
         sb.append(",");
         sb.append(fiber);
-        sb.append(",");
-        sb.append(fluoride);
         sb.append(",");
         sb.append(folate);
         sb.append(",");

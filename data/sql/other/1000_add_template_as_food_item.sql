@@ -122,9 +122,6 @@ call FoodFact_Merge('1234567890','309',0);
 --'312','Copper, Cu (mg)'
 call FoodFact_Merge('1234567890','312',0);
 /
---'313','Fluoride, F (µg)'
-call FoodFact_Merge('1234567890','313',0);
-/
 --'315','Manganese, Mn (mg)'
 call FoodFact_Merge('1234567890','315',0);
 /
@@ -145,6 +142,9 @@ call FoodFact_Merge('1234567890','10006',0);
 /
 --'10009','Energy, digestible (kcal)'
 call FoodFact_Merge('1234567890','10009',0);
+/
+--'10010','Energy, fat and carbohydrate (kcal)'
+call FoodFact_Merge('1234567890','10010',0);
 /
 --'10011','Energy, carbohydrate (kcal)'
 call FoodFact_Merge('1234567890','10011',0);

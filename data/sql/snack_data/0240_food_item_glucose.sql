@@ -116,9 +116,6 @@ call FoodFact_Merge('123456754','309',0);
 --'312','Copper, Cu (mg)'
 call FoodFact_Merge('123456754','312',0);
 /
---'313','Fluoride, F (µg)'
-call FoodFact_Merge('123456754','313',0);
-/
 --'315','Manganese, Mn (mg)'
 call FoodFact_Merge('123456754','315',0);
 /

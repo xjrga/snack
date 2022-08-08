@@ -230,6 +230,7 @@ energycarbohydrate DOUBLE,
 energyprotein DOUBLE,
 energyfat DOUBLE,
 energyalcohol DOUBLE,
+energyfatcarbohydrate DOUBLE,
 CONSTRAINT mixresultdn_primaryKey PRIMARY KEY (mixid, foodid)
 );
 /

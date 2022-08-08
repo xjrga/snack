@@ -271,3 +271,8 @@ RELEASE NOTES
 861
 
      Update poi-4.0.1.jar to poi-4.1.1.jar
+
+870
+
+      Add "Energy, fat and carbohydrate" metric
+      Delete fluoride nutrient tracking

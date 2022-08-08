@@ -325,9 +325,6 @@ public class Xml_receive {
                                     case "fiber":
                                         food.setFiber(Double.valueOf(data));
                                         break;
-                                    case "fluoride":
-                                        food.setFluoride(Double.valueOf(data));
-                                        break;
                                     case "folate":
                                         food.setFolate(Double.valueOf(data));
                                         break;
@@ -434,11 +431,11 @@ public class Xml_receive {
                                             ""
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + mix.get_name()
-                                            + " " + mix.get_nutrientid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + mix.get_name()
+//                                            + " " + mix.get_nutrientid()
+//                                    );
                                 }
                                 break;
 
@@ -469,7 +466,6 @@ public class Xml_receive {
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.EPA.getNumber(), food.getEpa());
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FAT.getNumber(), food.getFat());
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FIBER.getNumber(), food.getFiber());
-                                    dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FLUORIDE.getNumber(), food.getFluoride());
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FOLATE.getNumber(), food.getFolate());
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.GLYCEMICLOAD.getNumber(), food.getGlycemic_load());
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.IRON.getNumber(), food.getIron());
@@ -500,10 +496,10 @@ public class Xml_receive {
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.WEIGHT.getNumber(), food.getWeight());
                                     dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ZINC.getNumber(), food.getZinc());
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + food.getFoodid()
-                                            + " " + food.getName()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + food.getFoodid()
+//                                            + " " + food.getName()
+//                                    );
                                 }
                                 try {
                                     dbLink.MixFood_Insert(
@@ -511,10 +507,10 @@ public class Xml_receive {
                                             food.getFoodid()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + food.getFoodid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + food.getFoodid()
+//                                    );
                                 }
                                 break;
                                 case "category":
@@ -526,10 +522,10 @@ public class Xml_receive {
                                             category.get_categoryname()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + category.get_categoryid()
-                                            + " " + category.get_categoryname()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + category.get_categoryid()
+//                                            + " " + category.get_categoryname()
+//                                    );
                                 }
                                 break;
                                 case "category_link":
@@ -541,10 +537,10 @@ public class Xml_receive {
                                             category_link.get_foodid()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + category_link.get_categoryid()
-                                            + " " + category_link.get_foodid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + category_link.get_categoryid()
+//                                            + " " + category_link.get_foodid()
+//                                    );
                                 }
                                 break;
                                 case "nutrient_constraint":
@@ -558,11 +554,11 @@ public class Xml_receive {
                                             nutrient_constraint.getB()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + nutrient_constraint.getNutrientid()
-                                            + " " + nutrient_constraint.getRelationshipid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + nutrient_constraint.getNutrientid()
+//                                            + " " + nutrient_constraint.getRelationshipid()
+//                                    );
                                 }
                                 break;
                                 case "food_nutrient_constraint":
@@ -577,11 +573,11 @@ public class Xml_receive {
                                             food_nutrient_constraint.getB()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + food_nutrient_constraint.getFoodid()
-                                            + " " + food_nutrient_constraint.getNutrientid()
-                                            + " " + food_nutrient_constraint.getRelationshipid());
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + food_nutrient_constraint.getFoodid()
+//                                            + " " + food_nutrient_constraint.getNutrientid()
+//                                            + " " + food_nutrient_constraint.getRelationshipid());
                                 }
                                 break;
                                 case "food_nutrient_ratio_constraint":
@@ -599,14 +595,14 @@ public class Xml_receive {
                                             food_nutrient_ratio_constraint.getB()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + food_nutrient_ratio_constraint.getFoodid_a()
-                                            + " " + food_nutrient_ratio_constraint.getNutrientid_a()
-                                            + " " + food_nutrient_ratio_constraint.getFoodid_b()
-                                            + " " + food_nutrient_ratio_constraint.getNutrientid_b()
-                                            + " " + food_nutrient_ratio_constraint.getRelationshipid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + food_nutrient_ratio_constraint.getFoodid_a()
+//                                            + " " + food_nutrient_ratio_constraint.getNutrientid_a()
+//                                            + " " + food_nutrient_ratio_constraint.getFoodid_b()
+//                                            + " " + food_nutrient_ratio_constraint.getNutrientid_b()
+//                                            + " " + food_nutrient_ratio_constraint.getRelationshipid()
+//                                    );
                                 }
                                 break;
                                 case "nutrient_ratio_constraint":
@@ -622,12 +618,12 @@ public class Xml_receive {
                                             nutrient_ratio_constraint.getB()
                                     );
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + nutrient_ratio_constraint.getNutrientid_a()
-                                            + " " + nutrient_ratio_constraint.getNutrientid_b()
-                                            + " " + nutrient_ratio_constraint.getRelationshipid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + nutrient_ratio_constraint.getNutrientid_a()
+//                                            + " " + nutrient_ratio_constraint.getNutrientid_b()
+//                                            + " " + nutrient_ratio_constraint.getRelationshipid()
+//                                    );
                                 }
                                 break;
                                 case "nutrient_percent_constraint":
@@ -641,12 +637,12 @@ public class Xml_receive {
                                             nutrient_percent_constraint.getRelationshipid(),
                                             nutrient_percent_constraint.getB());
                                 } catch (SQLException ex) {
-                                    System.out.println("-> " + ex.getMessage()
-                                            + " " + mix.get_mixid()
-                                            + " " + nutrient_percent_constraint.getFoodid()
-                                            + " " + nutrient_percent_constraint.getNutrientid()
-                                            + " " + nutrient_percent_constraint.getRelationshipid()
-                                    );
+//                                    System.out.println("-> " + ex.getMessage()
+//                                            + " " + mix.get_mixid()
+//                                            + " " + nutrient_percent_constraint.getFoodid()
+//                                            + " " + nutrient_percent_constraint.getNutrientid()
+//                                            + " " + nutrient_percent_constraint.getRelationshipid()
+//                                    );
                                 }
                                 break;
                             }

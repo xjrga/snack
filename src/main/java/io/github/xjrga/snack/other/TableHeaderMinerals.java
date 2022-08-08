@@ -1,7 +1,7 @@
 package io.github.xjrga.snack.other;
 
-import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseEvent;
+import javax.swing.table.TableColumnModel;
 
 public class TableHeaderMinerals extends MyTableHeader {
 
@@ -16,7 +16,6 @@ public class TableHeaderMinerals extends MyTableHeader {
             "Zinc, Zn (mg)",
             "Copper, Cu (mg)",
             "Manganese, Mn (mg)",
-            "Fluoride, F (mcg)",
             "Selenium, Se (mcg)"
         });
     }

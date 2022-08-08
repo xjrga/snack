@@ -126,6 +126,7 @@ public class ExportFoodComparison {
     private CellStyle getCellStyleValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 
@@ -133,6 +134,7 @@ public class ExportFoodComparison {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
         cellStyleColumnName.setFont(fontBold);
+        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleColumnName;
     }
 
@@ -140,6 +142,7 @@ public class ExportFoodComparison {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFillPattern(FillPatternType.SPARSE_DOTS);
         cellStyleMixName.setFont(fontBold);
+        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleMixName;
     }
 }

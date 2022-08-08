@@ -1,7 +1,7 @@
 package io.github.xjrga.snack.other;
 
-import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseEvent;
+import javax.swing.table.TableColumnModel;
 
 public class TableHeaderFoodList extends MyTableHeader {
 
@@ -32,7 +32,6 @@ public class TableHeaderFoodList extends MyTableHeader {
             "Zinc, Zn (mg)",
             "Copper, Cu (mg)",
             "Manganese, Mn (mg)",
-            "Fluoride, F (mcg)",
             "Selenium, Se (mcg)",
             "Vitamin A (mcg)",
             "Vitamin D (mcg)",

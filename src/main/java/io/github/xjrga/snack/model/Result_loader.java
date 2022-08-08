@@ -78,6 +78,7 @@ public class Result_loader implements RoundUp {
                 Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
                 Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
                 Double EnergyAlcohol = (Double) rowm.get(Nutrient.ENERGYALCOHOL.getLabel());
+                Double EnergyFatCarbohydrate = (Double) rowm.get(Nutrient.ENERGYFATCARBOHYDRATE.getLabel());
                 Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
                 Double DigestibleCarbohydrate = (Double) rowm.get(Nutrient.DIGESTIBLECARBOHYDRATE.getLabel());
                 Double Protein = (Double) rowm.get(Nutrient.PROTEIN.getLabel());
@@ -177,7 +178,6 @@ public class Result_loader implements RoundUp {
                 Double Phosphorus = (Double) rowm.get(Nutrient.PHOSPHORUS.getLabel());
                 Double Zinc = (Double) rowm.get(Nutrient.ZINC.getLabel());
                 Double Copper = (Double) rowm.get(Nutrient.COPPER.getLabel());
-                Double Fluoride = (Double) rowm.get(Nutrient.FLUORIDE.getLabel());
                 Double Manganese = (Double) rowm.get(Nutrient.MANGANESE.getLabel());
                 Double Selenium = (Double) rowm.get(Nutrient.SELENIUM.getLabel());
                 minerals_row = new Vector();
@@ -190,7 +190,6 @@ public class Result_loader implements RoundUp {
                 minerals_row.add(Zinc);
                 minerals_row.add(Copper);
                 minerals_row.add(Manganese);
-                minerals_row.add(Fluoride);
                 minerals_row.add(Selenium);
                 minerals_table.add(minerals_row);
                 //ELECTROLYTES TABLE

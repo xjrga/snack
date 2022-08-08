@@ -20,7 +20,6 @@ import io.github.xjrga.snack.model.ListModelCategory;
 import io.github.xjrga.snack.model.ListModelFood;
 import io.github.xjrga.snack.model.ListModelFood2;
 import io.github.xjrga.snack.model.ListModelMix;
-import io.github.xjrga.snack.model.ListModelMix0;
 import io.github.xjrga.snack.model.ListModelMix1;
 import io.github.xjrga.snack.model.ListModelSelectedFood;
 import io.github.xjrga.snack.model.Nutrient_loader;
@@ -172,7 +171,6 @@ public class Main {
     private final JCheckBox checkBoxEPA = new JCheckBox();
     private final JCheckBox checkBoxFat = new JCheckBox();
     private final JCheckBox checkBoxFiber = new JCheckBox();
-    private final JCheckBox checkBoxFluoride = new JCheckBox();
     private final JCheckBox checkBoxFolate = new JCheckBox();
     private final JCheckBox checkBoxGlycemicLoad = new JCheckBox();
     private final JCheckBox checkBoxIron = new JCheckBox();
@@ -202,6 +200,7 @@ public class Main {
     private final JCheckBox checkBoxWater = new JCheckBox();
     private final JCheckBox checkBoxWeight = new JCheckBox();
     private final JCheckBox checkBoxZinc = new JCheckBox();
+    private final JCheckBox checkBoxEnergyFatCarbohydrate = new JCheckBox();
     private final JComboBox comboBoxFoodNutrientConstraintFood = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintNutrient = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintRelationship = new JComboBox();
@@ -463,7 +462,6 @@ public class Main {
         checkBoxSodium.setName("Sodium");
         checkBoxZinc.setName("Zinc");
         checkBoxCopper.setName("Copper");
-        checkBoxFluoride.setName("Fluoride");
         checkBoxManganese.setName("Manganese");
         checkBoxSelenium.setName("Selenium");
         checkBoxWeight.setName("Weight");
@@ -477,6 +475,7 @@ public class Main {
         checkBoxEnergyProtein.setName("Energy, protein");
         checkBoxEnergyFat.setName("Energy, fat");
         checkBoxEnergyAlcohol.setName("Energy, alcohol");
+        checkBoxEnergyFatCarbohydrate.setName("Energy, fat and carbohydrate");
         mapConstraintCheckboxes = new LinkedHashMap<>();
         mapConstraintCheckboxes.put(Nutrient.COMPLETEPROTEIN.getNumber(), checkBoxCompleteProtein);
         mapConstraintCheckboxes.put(Nutrient.PROTEIN.getNumber(), checkBoxProtein);
@@ -512,7 +511,6 @@ public class Main {
         mapConstraintCheckboxes.put(Nutrient.SODIUM.getNumber(), checkBoxSodium);
         mapConstraintCheckboxes.put(Nutrient.ZINC.getNumber(), checkBoxZinc);
         mapConstraintCheckboxes.put(Nutrient.COPPER.getNumber(), checkBoxCopper);
-        mapConstraintCheckboxes.put(Nutrient.FLUORIDE.getNumber(), checkBoxFluoride);
         mapConstraintCheckboxes.put(Nutrient.MANGANESE.getNumber(), checkBoxManganese);
         mapConstraintCheckboxes.put(Nutrient.SELENIUM.getNumber(), checkBoxSelenium);
         mapConstraintCheckboxes.put(Nutrient.WEIGHT.getNumber(), checkBoxWeight);
@@ -526,6 +524,7 @@ public class Main {
         mapConstraintCheckboxes.put(Nutrient.ENERGYPROTEIN.getNumber(), checkBoxEnergyProtein);
         mapConstraintCheckboxes.put(Nutrient.ENERGYFAT.getNumber(), checkBoxEnergyFat);
         mapConstraintCheckboxes.put(Nutrient.ENERGYALCOHOL.getNumber(), checkBoxEnergyAlcohol);
+        mapConstraintCheckboxes.put(Nutrient.ENERGYFATCARBOHYDRATE.getNumber(), checkBoxEnergyFatCarbohydrate);
         try {
             LinkedList all = (LinkedList) dbLink.Nutrient_Select_All();
             Iterator it = all.iterator();
@@ -646,7 +645,7 @@ public class Main {
         menui_import_message.setText("Import");
         menui_export_message.setText("Export");
         checkBoxResultRoundUp.setText("Round Up");
-        menuItemConstraintsShownInList.setText("Nutrients Available As Constraints");
+        menuItemConstraintsShownInList.setText("Nutrients, Energies and Cost Shown As Constraints");
         menuItemGuide.setText("Guide");
         menuItemCredits.setText("Credits");
         menuItemAbout.setText("About");
@@ -971,27 +970,27 @@ public class Main {
         );
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(splitPanelReplacementLayout);
-        bottomPanel.add(getMixList(), cc.xy(1, 1));
+        bottomPanel.add(get_mix_list(), cc.xy(1, 1));
         bottomPanel.add(bottomTabPane, cc.xy(2, 1));
         bottom.add(bottomPanel, cc.xy(1, 1));
-        bottomTabPane.add(getMixFood());
-        bottomTabPane.add(getAmountOfNutrientConstraint());
-        bottomTabPane.add(getPercentOfNutrientConstraint());
-        bottomTabPane.add(getAmountOfFoodNutrientConstraint());
-        bottomTabPane.add(getFoodNutrientRatioConstraint());
-        bottomTabPane.add(getNutrientRatioConstraint());
+        bottomTabPane.add(get_mix_food());
+        bottomTabPane.add(get_nutrient_constraint());
+        bottomTabPane.add(get_food_nutrient_constraint());
+        bottomTabPane.add(get_nutrient_ratio_constraint());
+        bottomTabPane.add(get_food_nutrient_ratio_constraint());
+        bottomTabPane.add(get_percent_of_food_nutrient_constraint());
         bottomTabPane.setTitleAt(0, "Food");
         bottomTabPane.setToolTipTextAt(0, "Pick your food here");
         bottomTabPane.setTitleAt(1, "Nutrient");
-        bottomTabPane.setToolTipTextAt(1, "Use this to specify the amount of nutrient or calories in your mix");
-        bottomTabPane.setTitleAt(2, "Food(%)");
-        bottomTabPane.setToolTipTextAt(2, "Use this to specify the percentage of a nutrient or calories a food will contribute to your mix");
-        bottomTabPane.setTitleAt(3, "Food");
-        bottomTabPane.setToolTipTextAt(3, "Use this to specify the amount of nutrient or calories a food will contribute to your mix");
+        bottomTabPane.setToolTipTextAt(1, "Use this to specify amount of nutrient or calories in your mix");
+        bottomTabPane.setTitleAt(2, "Food");
+        bottomTabPane.setToolTipTextAt(2, "Use this to specify amount of food nutrient or food calories in your mix");
+        bottomTabPane.setTitleAt(3, "Nutrient Ratio");
+        bottomTabPane.setToolTipTextAt(3, "Use this to specify proportion nutrients should be in");
         bottomTabPane.setTitleAt(4, "Food Ratio");
-        bottomTabPane.setToolTipTextAt(4, "Use this to specify what proportion food should be in");
-        bottomTabPane.setTitleAt(5, "Nutrient Ratio");
-        bottomTabPane.setToolTipTextAt(5, "Use this to specify what proportion nutrients should be in");
+        bottomTabPane.setToolTipTextAt(4, "Use this to specify proportion food nutrients should be in");
+        bottomTabPane.setTitleAt(5, "Food(%)");
+        bottomTabPane.setToolTipTextAt(5, "Use this to specify percentage of food nutrient or food calories in your mix");
         panel.add(splitPane, cc.xy(1, 1));
         list_mix.addListSelectionListener((ListSelectionEvent e) -> {
             if (!e.getValueIsAdjusting()) {
@@ -1030,7 +1029,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel getMixList() {
+    private JPanel get_mix_list() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout("min:grow", //columns
                 "fill:min:grow,min" //rows
@@ -1284,7 +1283,7 @@ public class Main {
             modelTableMinerals.set_table(result_loader.get_minerals_table());
             tableMinerals.getColumnModel().getColumn(0).setMinWidth(400);
             tableMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
-            for (int i = 1; i < 11; i++) {
+            for (int i = 1; i < 10; i++) {
                 tableMinerals.getColumnModel().getColumn(i).setMinWidth(70);
                 tableMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
             }
@@ -1760,7 +1759,7 @@ public class Main {
                         break;
                     case 4:
                         valueAt = (Double) getValueAt(rowIndex, columnIndex);
-                        if (valueAt < 100) {
+                        if (valueAt < 100 && (Double) getValueAt(rowIndex, columnIndex - 1) > 0) {
                             component.setForeground(Color.red);
                         }
                         break;
@@ -2084,7 +2083,7 @@ public class Main {
             modelTableJournalMinerals.set_table(result_loader_journal.get_minerals_table());
             tableJournalMinerals.getColumnModel().getColumn(0).setMinWidth(400);
             tableJournalMinerals.getColumnModel().getColumn(0).setMaxWidth(400);
-            for (int i = 1; i < 11; i++) {
+            for (int i = 1; i < 10; i++) {
                 tableJournalMinerals.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalMinerals.getColumnModel().getColumn(i).setMaxWidth(70);
             }
@@ -2390,9 +2389,12 @@ public class Main {
                 "fill:min:grow,min,min" //rows
         );
         NumberCheck checkNumber = new NumberCheck();
-        //
-        fld_protein.setText(String.valueOf(modelTableNutrientInput.getValueAt(35, 3)));
-        fld_complete_protein.setText(String.valueOf(modelTableNutrientInput.getValueAt(34, 3)));
+        //model row index is specified by sql query.
+        int model_column_index = 3;
+        int model_row_index_protein = modelTableNutrientInput.find("203");
+        int model_row_index_complete_protein = modelTableNutrientInput.find("10001");
+        fld_protein.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_protein, model_column_index)));
+        fld_complete_protein.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_complete_protein, model_column_index)));
         instructions.setEditable(false);
         sb.append("* PROTEIN *\n\n");
         sb.append("Please enter protein quantity in grams.");
@@ -2412,12 +2414,11 @@ public class Main {
                 if (checkNumber.pass()) {
                     Double val_protein = Double.valueOf(fld_protein.getText());
                     Double val_complete_protein = Double.valueOf(fld_complete_protein.getText());
-                    //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(val_protein, 35, 3);
-                    modelTableNutrientInput.setValueAt(val_complete_protein, 34, 3);
-                    Integer modelRowId = 34;
-                    selectTableRowUsingModel(tableNutrientInput, modelRowId);
-                    scrollToRowUsingModel(tableNutrientInput, modelRowId);
+                    //model row index is specified by sql query.
+                    modelTableNutrientInput.setValueAt(val_protein, model_row_index_protein, model_column_index);
+                    modelTableNutrientInput.setValueAt(val_complete_protein, model_row_index_complete_protein, model_column_index);
+                    selectTableRowUsingModel(tableNutrientInput, model_row_index_protein);
+                    scrollToRowUsingModel(tableNutrientInput, model_row_index_protein);
                 } else {
                     Message.showMessage("Numbers only");
                 }
@@ -2445,11 +2446,16 @@ public class Main {
         JLabel monounsaturatedFatLabel = new JLabel("Monounsaturated Fat (g): ");
         JLabel polyunsaturatedFatLabel = new JLabel("Polyunsaturated Fat (g): ");
         NumberCheck checkNumber = new NumberCheck();
-        //Row value is determined by sql query.
-        monounsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(15, 3)));
-        polyunsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(16, 3)));
-        saturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(17, 3)));
-        totalFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(18, 3)));
+        //model row index is specified by sql query.
+        int model_column_index = 3;
+        int model_row_index_mufa = modelTableNutrientInput.find("645");
+        int model_row_index_pufa = modelTableNutrientInput.find("646");
+        int model_row_index_sfa = modelTableNutrientInput.find("606");
+        int model_row_index_fat = modelTableNutrientInput.find("204");
+        monounsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_mufa, model_column_index)));
+        polyunsaturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_pufa, model_column_index)));
+        saturatedFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_sfa, model_column_index)));
+        totalFatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_fat, model_column_index)));
         instructions.setEditable(false);
         sb.append("* FAT *\n\n");
         sb.append("Please enter fat quantities in grams");
@@ -2486,14 +2492,13 @@ public class Main {
                     Double saturatedFat = Double.valueOf(saturatedFatText.getText());
                     Double monounsaturatedFat = Double.valueOf(monounsaturatedFatText.getText());
                     Double polyunsaturatedFat = Double.valueOf(polyunsaturatedFatText.getText());
-                    //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(monounsaturatedFat, 15, 3);
-                    modelTableNutrientInput.setValueAt(polyunsaturatedFat, 16, 3);
-                    modelTableNutrientInput.setValueAt(saturatedFat, 17, 3);
-                    modelTableNutrientInput.setValueAt(totalFat, 18, 3);
-                    Integer modelRowId = 15;
-                    selectTableRowUsingModel(tableNutrientInput, modelRowId);
-                    scrollToRowUsingModel(tableNutrientInput, modelRowId);
+                    //model row index is specified by sql query.
+                    modelTableNutrientInput.setValueAt(monounsaturatedFat, model_row_index_mufa, model_column_index);
+                    modelTableNutrientInput.setValueAt(polyunsaturatedFat, model_row_index_pufa, model_column_index);
+                    modelTableNutrientInput.setValueAt(saturatedFat, model_row_index_sfa, model_column_index);
+                    modelTableNutrientInput.setValueAt(totalFat, model_row_index_fat, model_column_index);
+                    selectTableRowUsingModel(tableNutrientInput, model_row_index_fat);
+                    scrollToRowUsingModel(tableNutrientInput, model_row_index_fat);
                 } else {
                     Message.showMessage("Numbers only");
                 }
@@ -2517,9 +2522,13 @@ public class Main {
         JLabel carbsByDiffLabel = new JLabel("Total Carbohydrate (g): ");
         JLabel fiberLabel = new JLabel("Dietary Fiber (g): ");
         NumberCheck checkNumber = new NumberCheck();
-        //Row value is determined by sql query.
-        carbsByDiffText.setText(String.valueOf(modelTableNutrientInput.getValueAt(0, 3)));
-        fiberText.setText(String.valueOf(modelTableNutrientInput.getValueAt(2, 3)));
+        //model row index is specified by sql query.
+        int model_column_index = 3;
+        int model_row_index_carbsbydiff = modelTableNutrientInput.find("205");
+        int model_row_index_fiber = modelTableNutrientInput.find("291");
+        int model_row_index_digestible_carbohydrate = modelTableNutrientInput.find("10003");
+        carbsByDiffText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_carbsbydiff, model_column_index)));
+        fiberText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_fiber, model_column_index)));
         instructions.setEditable(false);
         sb.append("* CARBOHYDRATE *\n\n");
         sb.append("To calculate digestible carbohydrate quantity\n\n");
@@ -2547,13 +2556,12 @@ public class Main {
                     Double carbsByDiff = Double.valueOf(carbsByDiffText.getText());
                     Double fiber = Double.valueOf(fiberText.getText());
                     Double digestibleCarbohydrate = carbsByDiff - fiber;
-                    //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(carbsByDiff, 0, 3);
-                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, 1, 3);
-                    modelTableNutrientInput.setValueAt(fiber, 2, 3);
-                    Integer modelRowId = 0;
-                    selectTableRowUsingModel(tableNutrientInput, modelRowId);
-                    scrollToRowUsingModel(tableNutrientInput, modelRowId);
+                    //model row index is specified by sql query.
+                    modelTableNutrientInput.setValueAt(carbsByDiff, model_row_index_carbsbydiff, model_column_index);
+                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, model_row_index_digestible_carbohydrate, model_column_index);
+                    modelTableNutrientInput.setValueAt(fiber, model_row_index_fiber, model_column_index);
+                    selectTableRowUsingModel(tableNutrientInput, model_row_index_carbsbydiff);
+                    scrollToRowUsingModel(tableNutrientInput, model_row_index_carbsbydiff);
                 } else {
                     Message.showMessage("Numbers only");
                 }
@@ -2586,11 +2594,16 @@ public class Main {
         fatText.setEditable(false);
         digestibleCarbohydrateText.setEditable(false);
         alcoholText.setEditable(false);
-        //Row value is determined by sql query.
-        proteinText.setText(String.valueOf(modelTableNutrientInput.getValueAt(35, 3)));
-        fatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(18, 3)));
-        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
-        alcoholText.setText(String.valueOf(modelTableNutrientInput.getValueAt(30, 3)));
+        //model row index is specified by sql query.
+        int model_column_index = 3;
+        int model_row_index_protein = modelTableNutrientInput.find("203");
+        int model_row_index_fat = modelTableNutrientInput.find("204");
+        int model_row_index_digestible_carbohydrate = modelTableNutrientInput.find("10003");
+        int model_row_index_alcohol = modelTableNutrientInput.find("221");
+        proteinText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_protein, model_column_index)));
+        fatText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_fat, model_column_index)));
+        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_digestible_carbohydrate, model_column_index)));
+        alcoholText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_alcohol, model_column_index)));
         instructions.setEditable(false);
         sb.append("* ENERGY *\n\n");
         sb.append("To calculate energy (kcal) values\n\n");
@@ -2632,12 +2645,19 @@ public class Main {
                     Double alcohol = Double.valueOf(alcoholText.getText());
                     MacroNutrientEnergyValues energyValues = new MacroNutrientEnergyValues.Builder().protein(protein).fat(fat).digestibleCarbohydrate(digestibleCarbohydrate).alcohol(alcohol).build();
                     energyValues.getProteinEnergy();
-                    //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), 4, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), 5, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), 6, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), 7, 3);
-                    modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), 9, 3);
+                    //model row index is specified by sql query.
+                    int model_row_index_energy_alcohol = modelTableNutrientInput.find("10014");
+                    int model_row_index_energy_digestible_carbohydrate = modelTableNutrientInput.find("10011");
+                    int model_row_index_energy_digestible = modelTableNutrientInput.find("10009");
+                    int model_row_index_energy_fat = modelTableNutrientInput.find("10013");
+                    int model_row_index_energy_fat_carbohydrate = modelTableNutrientInput.find("10010");
+                    int model_row_index_energy_protein = modelTableNutrientInput.find("10012");
+                    modelTableNutrientInput.setValueAt(energyValues.getAlcoholEnergy(), model_row_index_energy_alcohol, model_column_index);
+                    modelTableNutrientInput.setValueAt(energyValues.getDigestibleCarbohydrateEnergy(), model_row_index_energy_digestible_carbohydrate, model_column_index);
+                    modelTableNutrientInput.setValueAt(energyValues.getEnergyDigestible(), model_row_index_energy_digestible, model_column_index);
+                    modelTableNutrientInput.setValueAt(energyValues.getFatEnergy(), model_row_index_energy_fat, model_column_index);
+                    modelTableNutrientInput.setValueAt(energyValues.get_energy_fat_and_carbohydrate(), model_row_index_energy_fat_carbohydrate, model_column_index);
+                    modelTableNutrientInput.setValueAt(energyValues.getProteinEnergy(), model_row_index_energy_protein, model_column_index);
                     Integer modelRowId = 4;
                     selectTableRowUsingModel(tableNutrientInput, modelRowId);
                     scrollToRowUsingModel(tableNutrientInput, modelRowId);
@@ -2680,11 +2700,12 @@ public class Main {
                     nutrientDataObject = (NutrientDataObject) cboxNutrients.getSelectedItem();
                     dvpct = Double.valueOf(s0);
                     xgrams = dvpct * (nutrientDataObject.getQ() / 100);
-                    Integer modelColumnId = 3;
-                    Integer modelRowId = modelTableNutrientInput.find(nutrientDataObject.getNutr_no());
-                    modelTableNutrientInput.setValueAt(xgrams, modelRowId, modelColumnId);
-                    selectTableRowUsingModel(tableNutrientInput, modelRowId);
-                    scrollToRowUsingModel(tableNutrientInput, modelRowId);
+                    //model row index is specified by sql query.
+                    int model_column_index = 3;
+                    Integer model_row_index_vitamin = modelTableNutrientInput.find(nutrientDataObject.getNutr_no());
+                    modelTableNutrientInput.setValueAt(xgrams, model_row_index_vitamin, model_column_index);
+                    selectTableRowUsingModel(tableNutrientInput, model_row_index_vitamin);
+                    scrollToRowUsingModel(tableNutrientInput, model_row_index_vitamin);
                 } else {
                     Message.showMessage("Numbers only");
                 }
@@ -2710,8 +2731,11 @@ public class Main {
         NumberCheck checkNumber = new NumberCheck();
         //
         digestibleCarbohydrateText.setEditable(false);
-        //Row value is determined by sql query.
-        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(1, 3)));
+        //model row index is specified by sql query.
+        int model_column_index = 3;
+        int model_row_index_digestible_carbohydrate = modelTableNutrientInput.find("10003");
+        int model_row_index_glycemic_load = modelTableNutrientInput.find("10006");
+        digestibleCarbohydrateText.setText(String.valueOf(modelTableNutrientInput.getValueAt(model_row_index_digestible_carbohydrate, model_column_index)));
         instructions.setEditable(false);
         sb.append("* GLYCEMIC LOAD *\n\n");
         sb.append("To calculate glycemic load value\n\n");
@@ -2739,11 +2763,10 @@ public class Main {
                     Double glycemicIndex = Double.valueOf(glycemicIndexText.getText());
                     GlycemicLoad glycemicLoad = new GlycemicLoad(glycemicIndex, digestibleCarbohydrate);
                     //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, 1, 3);
-                    modelTableNutrientInput.setValueAt(glycemicLoad.getGlycemicLoad(), 3, 3);
-                    Integer modelRowId = 1;
-                    selectTableRowUsingModel(tableNutrientInput, modelRowId);
-                    scrollToRowUsingModel(tableNutrientInput, modelRowId);
+                    modelTableNutrientInput.setValueAt(digestibleCarbohydrate, model_row_index_digestible_carbohydrate, model_column_index);
+                    modelTableNutrientInput.setValueAt(glycemicLoad.getGlycemicLoad(), model_row_index_glycemic_load, model_column_index);
+                    selectTableRowUsingModel(tableNutrientInput, model_row_index_glycemic_load);
+                    scrollToRowUsingModel(tableNutrientInput, model_row_index_glycemic_load);
                 } else {
                     Message.showMessage("Numbers only");
                 }
@@ -2953,6 +2976,7 @@ public class Main {
                 nutrientSearchFilter();
             }
         });
+        //scroll to weight field
         scrollToRowUsingTable(tableNutrientInput, 33);
         optionValue = Message.showOptionDialogOkCancel(inputs, "Add New Food Item - Would you like to save specified values?");
         if (optionValue == 0) {
@@ -3168,7 +3192,7 @@ public class Main {
         JComponent[] inputs = new JComponent[]{
             getConstraintsPanel()
         };
-        int optionValue = Message.showOptionDialogOkCancel(inputs, "Nutrients Shown As Constraints");
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Nutrients, Energies and Cost Shown As Constraints");
         if (optionValue == 0) {
             mapConstraintCheckboxes.forEach((k, v) -> {
                 try {
@@ -3229,7 +3253,7 @@ public class Main {
         );
         //
         panel00.setLayout(panel00Layout);
-        panel00.setPreferredSize(new Dimension(680, 220));
+        panel00.setPreferredSize(new Dimension(720, 220));
         panel00.add(panel01, cc.xy(2, 2));
         panel01.setLayout(panel01Layout);
         Object[] it = mapConstraintCheckboxes.entrySet().toArray();
@@ -3413,7 +3437,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 861");
+        sb.append("This is build 870");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3722,7 +3746,7 @@ public class Main {
         modelListHighScore.clear();
     }
 
-    private JPanel getMixFood() {
+    private JPanel get_mix_food() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout("min:grow,min,min:grow", //columns
                 "fill:min:grow" //rows
@@ -3762,7 +3786,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel getAmountOfNutrientConstraint() {
+    private JPanel get_nutrient_constraint() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min", //columns
@@ -3799,7 +3823,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel getAmountOfFoodNutrientConstraint() {
+    private JPanel get_food_nutrient_constraint() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min,550px", //columns
@@ -3839,7 +3863,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel getNutrientRatioConstraint() {
+    private JPanel get_nutrient_ratio_constraint() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "660px,min,min,min:grow", //columns
@@ -3880,7 +3904,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel getFoodNutrientRatioConstraint() {
+    private JPanel get_food_nutrient_ratio_constraint() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min,min:grow", //columns
@@ -3927,7 +3951,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel getPercentOfNutrientConstraint() {
+    private JPanel get_percent_of_food_nutrient_constraint() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min,min,550px", //columns
@@ -5552,13 +5576,15 @@ public class Main {
                 if (checkNumber.pass()) {
                     Double price = Double.valueOf(fld_price.getText());
                     Double total_weight = Double.valueOf(fld_total_weight.getText());
-                    int rowIndex = modelTableNutrientInput.find("10000");
-                    Double weight = (Double) modelTableNutrientInput.getValueAt(rowIndex, 3);
-                    Double cost = price / total_weight * weight;
-                    rowIndex = modelTableNutrientInput.find("10005");
-                    modelTableNutrientInput.setValueAt(cost, rowIndex, 3);
-                    selectTableRowUsingModel(tableNutrientInput, rowIndex);
-                    scrollToRowUsingModel(tableNutrientInput, rowIndex);
+                    //model row index is specified by sql query.
+                    int model_column_index = 3;
+                    int model_row_index_weight = modelTableNutrientInput.find("10000");
+                    int model_row_index_cost = modelTableNutrientInput.find("10005");
+                    Double weight = (Double) modelTableNutrientInput.getValueAt(model_row_index_weight, model_column_index);
+                    Double cost = (price / total_weight) * weight;
+                    modelTableNutrientInput.setValueAt(cost, model_row_index_cost, model_column_index);
+                    selectTableRowUsingModel(tableNutrientInput, model_row_index_cost);
+                    scrollToRowUsingModel(tableNutrientInput, model_row_index_cost);
                 } else {
                     Message.showMessage("Numbers only");
                 }

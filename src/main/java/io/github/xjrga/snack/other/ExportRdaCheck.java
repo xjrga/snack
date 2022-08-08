@@ -80,18 +80,21 @@ public class ExportRdaCheck {
     private CellStyle getCellStyleMixValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("[RED][<=0]0;0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStylePctRdaValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("[RED][<100]0;0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStylePctULValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("[RED][>100]0;0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 
@@ -99,6 +102,7 @@ public class ExportRdaCheck {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
         cellStyleColumnName.setFont(fontBold);
+        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleColumnName;
     }
 
@@ -106,6 +110,7 @@ public class ExportRdaCheck {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFillPattern(FillPatternType.SPARSE_DOTS);
         cellStyleMixName.setFont(fontBold);
+        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleMixName;
     }
 

@@ -6,7 +6,7 @@
                 Data Exchange Document Schema For Snack Software
                 Snack: Learning Software For Nutrition
                 Author: Jorge Rolando Garcia de Alba
-                Version: 03
+                Version: 04
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
@@ -187,12 +187,12 @@
             <xsd:element name="energy_carbohydrate" type="xsd:decimal" />
             <xsd:element name="energy_digestible" type="xsd:decimal" />
             <xsd:element name="energy_fat" type="xsd:decimal" />
-            <xsd:element name="energy_gross" type="xsd:decimal" />
+            <xsd:element name="energy_fat_and_carbohydrate" type="xsd:decimal" />
+            <xsd:element name="energy_gross" type="xsd:decimal" />            
             <xsd:element name="energy_protein" type="xsd:decimal" />
             <xsd:element name="epa" type="xsd:decimal" />
             <xsd:element name="fat" type="xsd:decimal" />
-            <xsd:element name="fiber" type="xsd:decimal" />
-            <xsd:element name="fluoride" type="xsd:decimal" />
+            <xsd:element name="fiber" type="xsd:decimal" />            
             <xsd:element name="folate" type="xsd:decimal" />
             <xsd:element name="glycemic_load" type="xsd:decimal" />
             <xsd:element name="iron" type="xsd:decimal" />
@@ -248,6 +248,8 @@
             <xsd:enumeration value = "10006"/>
             <!-- Energy, digestible (kcal) -->
             <xsd:enumeration value = "10009"/>
+            <!-- Energy, fat and carbohydrate (kcal) -->
+            <xsd:enumeration value = "10010"/>
             <!-- Energy, carbohydrate (kcal) -->
             <xsd:enumeration value = "10011"/>
             <!-- Energy, protein (kcal) -->
@@ -286,9 +288,7 @@
             <xsd:enumeration value = "309"/>
             <!-- Copper, Cu (mg) -->
             <xsd:enumeration value = "312"/>
-            <!-- Fluoride, F (µg) -->
-            <xsd:enumeration value = "313"/>
-            <!-- Manganese, Mn (mg) -->
+           <!-- Manganese, Mn (mg) -->
             <xsd:enumeration value = "315"/>
             <!-- Selenium, Se (µg) -->
             <xsd:enumeration value = "317"/>

@@ -28,8 +28,6 @@ call Nutrient_Insert('309','Zinc, Zn (mg)','5','zinc');
 /
 call Nutrient_Insert('312','Copper, Cu (mg)','5','copper');
 /
-call Nutrient_Insert('313','Fluoride, F (µg)','5','fluoride');
-/
 call Nutrient_Insert('315','Manganese, Mn (mg)','5','manganese');
 /
 call Nutrient_Insert('317','Selenium, Se (µg)','5','selenium');

@@ -32,8 +32,7 @@ INSERT INTO mixresultdn
     potassium,
     sodium,
     zinc,
-    copper,
-    fluoride,
+    copper,    
     manganese,
     selenium,
     vitamina,
@@ -62,7 +61,8 @@ INSERT INTO mixresultdn
     energycarbohydrate,
     energyprotein,
     energyfat,
-    energyalcohol
+    energyalcohol,
+    energyfatcarbohydrate
 )
 SELECT  v_MixId_New,        
         foodid,
@@ -85,8 +85,7 @@ SELECT  v_MixId_New,
         potassium,
         sodium,
         zinc,
-        copper,
-        fluoride,
+        copper,       
         manganese,
         selenium,
         vitamina,
@@ -115,7 +114,8 @@ SELECT  v_MixId_New,
         energycarbohydrate,
         energyprotein,
         energyfat,
-        energyalcohol
+        energyalcohol,
+        energyfatcarbohydrate
 FROM mixresultdn
 WHERE mixid = v_MixId_Old;
 --

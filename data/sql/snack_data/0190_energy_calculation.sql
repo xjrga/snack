@@ -10,3 +10,5 @@ call FoodFact_EnergyAlcohol();
 /
 call FoodFact_EnergyDigestible ();
 /
+call FoodFact_EnergyNoProtein ();
+/

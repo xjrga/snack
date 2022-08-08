@@ -51,6 +51,10 @@ public class MacroNutrientEnergyValues {
         return fq;
     }
 
+    public double get_energy_fat_and_carbohydrate() {
+        return getFatEnergy() + getDigestibleCarbohydrateEnergy();
+    }
+
     public static class Builder {
 
         private double protein = -1;

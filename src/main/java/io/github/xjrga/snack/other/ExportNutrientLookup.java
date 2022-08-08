@@ -79,6 +79,7 @@ public class ExportNutrientLookup {
     private CellStyle getCellStyleValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
+        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleFoodItemValue;
     }
 
@@ -86,12 +87,14 @@ public class ExportNutrientLookup {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
         cellStyleColumnName.setFont(fontBold);
+        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleColumnName;
     }
 
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFont(fontItalic);
+        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
         return cellStyleMixName;
     }
 

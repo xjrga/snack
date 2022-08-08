@@ -66,7 +66,6 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         columns.add("Zn");
         columns.add("Cu");
         columns.add("Mn");
-        columns.add("F");
         columns.add("Se");
         columns.add("A");
         columns.add("D");
@@ -130,6 +129,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
                 Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
                 Double EnergyAlcohol = (Double) rowm.get(Nutrient.ENERGYALCOHOL.getLabel());
+                Double EnergyFatCarbohydrate = (Double) rowm.get(Nutrient.ENERGYFATCARBOHYDRATE.getLabel());
                 //Macronutrient
                 Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
                 Double DigestibleCarbohydrate = (Double) rowm.get(Nutrient.DIGESTIBLECARBOHYDRATE.getLabel());
@@ -150,7 +150,6 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double Phosphorus = (Double) rowm.get(Nutrient.PHOSPHORUS.getLabel());
                 Double Zinc = (Double) rowm.get(Nutrient.ZINC.getLabel());
                 Double Copper = (Double) rowm.get(Nutrient.COPPER.getLabel());
-                Double Fluoride = (Double) rowm.get(Nutrient.FLUORIDE.getLabel());
                 Double Manganese = (Double) rowm.get(Nutrient.MANGANESE.getLabel());
                 Double Selenium = (Double) rowm.get(Nutrient.SELENIUM.getLabel());
                 //Vitamins
@@ -210,7 +209,6 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 row.add(Zinc);
                 row.add(Copper);
                 row.add(Manganese);
-                row.add(Fluoride);
                 row.add(Selenium);
                 row.add(VitaminA);
                 row.add(VitaminD);

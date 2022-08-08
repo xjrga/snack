@@ -37,7 +37,6 @@ public class TableModelMinerals extends DefaultTableModel {
         columns.add("Zn");
         columns.add("Cu");
         columns.add("Mn");
-        columns.add("F");
         columns.add("Se");
         this.setDataVector(loader.get_minerals_table(), columns);
 

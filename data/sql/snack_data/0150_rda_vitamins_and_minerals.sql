@@ -33,8 +33,6 @@ call Rda_Insert_q('307',0,110);
 /
 call Rda_Insert_q('312',0,0.2);
 /
-call Rda_Insert_q('313',0,10);
-/
 call Rda_Insert_q('303',0,0.27);
 /
 call Rda_Insert_q('304',0,30);
@@ -81,8 +79,6 @@ call Rda_Insert_q('306',1,860);
 call Rda_Insert_q('307',1,370);
 /
 call Rda_Insert_q('312',1,0.22);
-/
-call Rda_Insert_q('313',1,500);
 /
 call Rda_Insert_q('303',1,11);
 /
@@ -131,8 +127,6 @@ call Rda_Insert_q('307',2,800);
 /
 call Rda_Insert_q('312',2,0.34);
 /
-call Rda_Insert_q('313',2,700);
-/
 call Rda_Insert_q('303',2,7);
 /
 call Rda_Insert_q('304',2,80);
@@ -179,8 +173,6 @@ call Rda_Insert_q('306',3,2300);
 call Rda_Insert_q('307',3,1000);
 /
 call Rda_Insert_q('312',3,0.44);
-/
-call Rda_Insert_q('313',3,1000);
 /
 call Rda_Insert_q('303',3,10);
 /
@@ -229,8 +221,6 @@ call Rda_Insert_q('307',4,1200);
 /
 call Rda_Insert_q('312',4,0.7);
 /
-call Rda_Insert_q('313',4,2000);
-/
 call Rda_Insert_q('303',4,8);
 /
 call Rda_Insert_q('304',4,240);
@@ -277,8 +267,6 @@ call Rda_Insert_q('306',5,3000);
 call Rda_Insert_q('307',5,1500);
 /
 call Rda_Insert_q('312',5,0.89);
-/
-call Rda_Insert_q('313',5,3000);
 /
 call Rda_Insert_q('303',5,11);
 /
@@ -327,8 +315,6 @@ call Rda_Insert_q('307',6,1500);
 /
 call Rda_Insert_q('312',6,0.9);
 /
-call Rda_Insert_q('313',6,4000);
-/
 call Rda_Insert_q('303',6,8);
 /
 call Rda_Insert_q('304',6,400);
@@ -375,8 +361,6 @@ call Rda_Insert_q('306',7,3400);
 call Rda_Insert_q('307',7,1500);
 /
 call Rda_Insert_q('312',7,0.9);
-/
-call Rda_Insert_q('313',7,4000);
 /
 call Rda_Insert_q('303',7,8);
 /
@@ -425,8 +409,6 @@ call Rda_Insert_q('307',8,1500);
 /
 call Rda_Insert_q('312',8,0.9);
 /
-call Rda_Insert_q('313',8,4000);
-/
 call Rda_Insert_q('303',8,8);
 /
 call Rda_Insert_q('304',8,420);
@@ -473,8 +455,6 @@ call Rda_Insert_q('306',9,3400);
 call Rda_Insert_q('307',9,1500);
 /
 call Rda_Insert_q('312',9,0.9);
-/
-call Rda_Insert_q('313',9,4000);
 /
 call Rda_Insert_q('303',9,8);
 /
@@ -523,8 +503,6 @@ call Rda_Insert_q('307',10,1200);
 /
 call Rda_Insert_q('312',10,0.7);
 /
-call Rda_Insert_q('313',10,2000);
-/
 call Rda_Insert_q('303',10,8);
 /
 call Rda_Insert_q('304',10,240);
@@ -571,8 +549,6 @@ call Rda_Insert_q('306',11,2300);
 call Rda_Insert_q('307',11,1500);
 /
 call Rda_Insert_q('312',11,0.89);
-/
-call Rda_Insert_q('313',11,3000);
 /
 call Rda_Insert_q('303',11,15);
 /
@@ -621,8 +597,6 @@ call Rda_Insert_q('307',12,1500);
 /
 call Rda_Insert_q('312',12,0.9);
 /
-call Rda_Insert_q('313',12,3000);
-/
 call Rda_Insert_q('303',12,18);
 /
 call Rda_Insert_q('304',12,310);
@@ -669,8 +643,6 @@ call Rda_Insert_q('306',13,2600);
 call Rda_Insert_q('307',13,1500);
 /
 call Rda_Insert_q('312',13,0.9);
-/
-call Rda_Insert_q('313',13,3000);
 /
 call Rda_Insert_q('303',13,18);
 /
@@ -719,8 +691,6 @@ call Rda_Insert_q('307',14,1500);
 /
 call Rda_Insert_q('312',14,0.9);
 /
-call Rda_Insert_q('313',14,3000);
-/
 call Rda_Insert_q('303',14,8);
 /
 call Rda_Insert_q('304',14,320);
@@ -767,8 +737,6 @@ call Rda_Insert_q('306',15,2600);
 call Rda_Insert_q('307',15,1500);
 /
 call Rda_Insert_q('312',15,0.9);
-/
-call Rda_Insert_q('313',15,3000);
 /
 call Rda_Insert_q('303',15,8);
 /
@@ -817,8 +785,6 @@ call Rda_Insert_q('307',16,1500);
 /
 call Rda_Insert_q('312',16,1);
 /
-call Rda_Insert_q('313',16,3000);
-/
 call Rda_Insert_q('303',16,27);
 /
 call Rda_Insert_q('304',16,400);
@@ -865,8 +831,6 @@ call Rda_Insert_q('306',17,2900);
 call Rda_Insert_q('307',17,1500);
 /
 call Rda_Insert_q('312',17,1);
-/
-call Rda_Insert_q('313',17,3000);
 /
 call Rda_Insert_q('303',17,27);
 /
@@ -915,8 +879,6 @@ call Rda_Insert_q('307',18,1500);
 /
 call Rda_Insert_q('312',18,1);
 /
-call Rda_Insert_q('313',18,3000);
-/
 call Rda_Insert_q('303',18,27);
 /
 call Rda_Insert_q('304',18,360);
@@ -963,8 +925,6 @@ call Rda_Insert_q('306',19,2500);
 call Rda_Insert_q('307',19,1500);
 /
 call Rda_Insert_q('312',19,1.3);
-/
-call Rda_Insert_q('313',19,3000);
 /
 call Rda_Insert_q('303',19,10);
 /
@@ -1013,8 +973,6 @@ call Rda_Insert_q('307',20,1500);
 /
 call Rda_Insert_q('312',20,1.3);
 /
-call Rda_Insert_q('313',20,3000);
-/
 call Rda_Insert_q('303',20,9);
 /
 call Rda_Insert_q('304',20,310);
@@ -1061,8 +1019,6 @@ call Rda_Insert_q('306',21,2800);
 call Rda_Insert_q('307',21,1500);
 /
 call Rda_Insert_q('312',21,1.3);
-/
-call Rda_Insert_q('313',21,3000);
 /
 call Rda_Insert_q('303',21,9);
 /

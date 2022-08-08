@@ -10,6 +10,8 @@ call Nutrient_Insert('10006','Glycemic Load (g)','3','glycemic_load');
 /
 call Nutrient_Insert('10009','Energy, digestible (kcal)','7','energy_digestible');
 /
+call Nutrient_Insert('10010','Energy, fat and carbohydrate (kcal)','7','energy_fat_and_carbohydrate');
+/
 call Nutrient_Insert('10011','Energy, carbohydrate (kcal)','7','energy_carbohydrate');
 /
 call Nutrient_Insert('10012','Energy, protein (kcal)','7','energy_protein');
