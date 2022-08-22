@@ -20,6 +20,7 @@ import io.github.xjrga.snack.model.ListModelCategory;
 import io.github.xjrga.snack.model.ListModelFood;
 import io.github.xjrga.snack.model.ListModelFood2;
 import io.github.xjrga.snack.model.ListModelMix;
+import io.github.xjrga.snack.model.ListModelMix0;
 import io.github.xjrga.snack.model.ListModelMix1;
 import io.github.xjrga.snack.model.ListModelSelectedFood;
 import io.github.xjrga.snack.model.Nutrient_loader;
@@ -221,7 +222,7 @@ public class Main {
     private final JComboBox comboBoxPercentNutrientConstraintNutrient = new JComboBox();
     private final JComboBox comboBoxPercentNutrientRelationship = new JComboBox();
     private final JFileChooser fileChooser;
-    private final JFrame frameSnack = new JFrame();
+    private final JFrame frm_snack = new JFrame();
     private final JList listAllFoodItems = new JList();
     private final JList listCategories = new JList();
     private final JList list_food_compare_a = new JList();
@@ -231,7 +232,7 @@ public class Main {
     private final JList list_mix_compare_a = new JList();
     private final JList list_mix_compare_b = new JList();
     private final JList list_journal_mix = new JList();
-    private final JList list_mix = new JList();
+    private final JList lst_mix = new JList();
     private final JList listSelectedFood = new JList();
     private final JMenuItem menui_export_message = new JMenuItem();
     private final JMenuItem menui_import_message = new JMenuItem();
@@ -297,9 +298,7 @@ public class Main {
     private final JTable tableVitamins = new JTable();
     private final JTable tableWater = new JTable();
     private final JTextArea textAreaJournalModel = new JTextArea();
-    private final JTextArea textAreaJournalNote = new JTextArea();
     private final JTextArea textAreaModel = new JTextArea();
-    private final JTextArea textAreaNote = new JTextArea();
     private final JTextField textFieldFoodListSearch = new JTextField();
     private final JTextField textFieldFoodNutrientConstraintQuantity = new JTextField();
     private final JTextField textFieldFoodNutrientRatioQuantityA = new JTextField();
@@ -319,9 +318,9 @@ public class Main {
     private final ListModelFood modelList_B_FoodDiff = new ListModelFood(dbLink);
     private final ListModelFood modelListFood = new ListModelFood(dbLink);
     private final ListModelMix1 modelList_Solve = new ListModelMix1(dbLink);
+    private final ListModelMix0 modelListFoodJournal = new ListModelMix0(dbLink);
     private final ListModelMix modelList_A_MixDiff = new ListModelMix(dbLink);
     private final ListModelMix modelList_B_MixDiff = new ListModelMix(dbLink);
-    private final ListModelMix modelListFoodJournal = new ListModelMix(dbLink);
     private final ListModelSelectedFood modelListSelectedFood = new ListModelSelectedFood(dbLink);
     private final Nutrient_loader nutrient_loader = new Nutrient_loader(dbLink);
     private final Relationship_loader relationship_loader = new Relationship_loader(dbLink);
@@ -381,8 +380,8 @@ public class Main {
         FormLayout layout = new FormLayout("min:grow", //columns
                 "fill:min:grow,1dlu,min" //rows
         );
-        frameSnack.setIconImage(logo);
-        frameSnack.setJMenuBar(getMenuBar());
+        frm_snack.setIconImage(logo);
+        frm_snack.setJMenuBar(getMenuBar());
         main_tabbed_pane.setTabPlacement(JTabbedPane.BOTTOM);
         main_tabbed_pane.add(get_solve());
         main_tabbed_pane.add(get_food_list());
@@ -410,13 +409,13 @@ public class Main {
         panelF.add(main_tabbed_pane, cc.xy(1, 1));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(panelF);
-        frameSnack.add(scrollPane);
-        frameSnack.setDefaultCloseOperation(3);
+        frm_snack.add(scrollPane);
+        frm_snack.setDefaultCloseOperation(3);
         Dimension size = new Dimension(1435, 897);
-        frameSnack.setSize(size);
-        frameSnack.setVisible(true);
-        frameSnack.setTitle("Snack");
-        frameSnack.addWindowListener(new WindowAdapter() {
+        frm_snack.setSize(size);
+        frm_snack.setVisible(true);
+        frm_snack.setTitle("Snack");
+        frm_snack.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 event_menuItemExit();
@@ -672,9 +671,9 @@ public class Main {
             event_menu_item_n3_fatty_acid_recommendations();
         });
         menui_show_mix_stats.addActionListener((ActionEvent e) -> {
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             event_menui_show_mix_stats();
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
         menuItemGlycemicIndexRange.addActionListener((ActionEvent e) -> {
             event_menuItemGlycemicIndexRange();
@@ -701,11 +700,11 @@ public class Main {
             event_send_message();
         });
         menui_import_message.addActionListener((ActionEvent e) -> {
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             event_receive_message();
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            event_buttonSolve();
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            btn_solve_evt_actn();
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
         menuItemGuide.addActionListener((ActionEvent e) -> {
             event_menuItemGuide();
@@ -992,14 +991,14 @@ public class Main {
         bottomTabPane.setTitleAt(5, "Food(%)");
         bottomTabPane.setToolTipTextAt(5, "Use this to specify percentage of food nutrient or food calories in your mix");
         panel.add(splitPane, cc.xy(1, 1));
-        list_mix.addListSelectionListener((ListSelectionEvent e) -> {
+        lst_mix.addListSelectionListener((ListSelectionEvent e) -> {
             if (!e.getValueIsAdjusting()) {
-                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 event_listMixes(e);
-                frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
-        list_mix.setModel(modelList_Solve);
+        lst_mix.setModel(modelList_Solve);
         Action high = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1030,103 +1029,103 @@ public class Main {
     }
 
     private JPanel get_mix_list() {
-        JPanel panel = new JPanel();
-        FormLayout layout = new FormLayout("min:grow", //columns
+        JPanel pnl_mix_list = new JPanel();
+        FormLayout pnl_mix_list_lyo = new FormLayout("min:grow", //columns
                 "fill:min:grow,min" //rows
         );
-        panel.setLayout(layout);
-        panel.setBorder(new TitledBorder("Mixes"));
-        JPanel panelButtons = new JPanel();
-        FormLayout layout00 = new FormLayout("min:grow,min,min,min,min,10dlu,min,min,min,10dlu,min,min:grow", //columns
+        pnl_mix_list.setLayout(pnl_mix_list_lyo);
+        pnl_mix_list.setBorder(new TitledBorder("Mixes"));
+        JPanel pnl_buttons = new JPanel();
+        FormLayout pnl_buttons_lyo = new FormLayout("min:grow,min,min,min,min,10dlu,min,min,min,10dlu,min,min:grow", //columns
                 "min" //rows
         );
-        panelButtons.setLayout(layout00);
-        JButton buttonCreateMix = new JButton("+");
-        JButton buttonDeleteMix = new JButton("-");
-        JButton buttonRenameMix = new JButton("r");
-        JButton buttonDuplicateMix = new JButton("d");
-        JButton buttonArchiveMix = new JButton("a");
-        JButton buttonAddMixToFoodList = new JButton("f");
-        JButton buttonMinimizeOption = new JButton("m");
-        JButton buttonSolve = new JButton("Solve");
-        buttonCreateMix.setToolTipText("Create mix");
-        buttonDeleteMix.setToolTipText("Delete mix");
-        buttonRenameMix.setToolTipText("Rename mix");
-        buttonMinimizeOption.setToolTipText("Choose minimization option");
-        buttonDuplicateMix.setToolTipText("Duplicate mix");
-        buttonArchiveMix.setToolTipText("Archive mix");
-        buttonAddMixToFoodList.setToolTipText("Add to food list");
-        buttonSolve.setToolTipText("Find food combination");
-        panelButtons.add(buttonCreateMix, cc.xy(2, 1));
-        panelButtons.add(buttonDeleteMix, cc.xy(3, 1));
-        panelButtons.add(buttonRenameMix, cc.xy(4, 1));
-        panelButtons.add(buttonDuplicateMix, cc.xy(5, 1));
-        panelButtons.add(buttonAddMixToFoodList, cc.xy(7, 1));
-        panelButtons.add(buttonMinimizeOption, cc.xy(8, 1));
-        panelButtons.add(buttonArchiveMix, cc.xy(9, 1));
-        panelButtons.add(buttonSolve, cc.xy(11, 1));
-        JScrollPane s_mixes = new JScrollPane(list_mix);
-        panel.add(s_mixes, cc.xy(1, 1));
-        panel.add(panelButtons, cc.xy(1, 2));
-        buttonCreateMix.addActionListener((ActionEvent e) -> {
-            event_buttonAddMix();
+        pnl_buttons.setLayout(pnl_buttons_lyo);
+        JButton btn_create_mix = new JButton("+");
+        JButton btn_delete_mix = new JButton("-");
+        JButton btn_rename_mix = new JButton("r");
+        JButton btn_duplicate_mix = new JButton("d");
+        JButton btn_archive_mix = new JButton("a");
+        JButton btn_add_mix_to_foodlist = new JButton("f");
+        JButton btn_minimize_option = new JButton("m");
+        JButton btn_solve = new JButton("Solve");
+        btn_create_mix.setToolTipText("Create mix");
+        btn_delete_mix.setToolTipText("Delete mix");
+        btn_rename_mix.setToolTipText("Rename mix");
+        btn_minimize_option.setToolTipText("Choose minimization option");
+        btn_duplicate_mix.setToolTipText("Duplicate mix");
+        btn_archive_mix.setToolTipText("Archive mix");
+        btn_add_mix_to_foodlist.setToolTipText("Add to food list");
+        btn_solve.setToolTipText("Find food combination");
+        pnl_buttons.add(btn_create_mix, cc.xy(2, 1));
+        pnl_buttons.add(btn_delete_mix, cc.xy(3, 1));
+        pnl_buttons.add(btn_rename_mix, cc.xy(4, 1));
+        pnl_buttons.add(btn_duplicate_mix, cc.xy(5, 1));
+        pnl_buttons.add(btn_add_mix_to_foodlist, cc.xy(7, 1));
+        pnl_buttons.add(btn_minimize_option, cc.xy(8, 1));
+        pnl_buttons.add(btn_archive_mix, cc.xy(9, 1));
+        pnl_buttons.add(btn_solve, cc.xy(11, 1));
+        JScrollPane scr_mixes = new JScrollPane(lst_mix);
+        pnl_mix_list.add(scr_mixes, cc.xy(1, 1));
+        pnl_mix_list.add(pnl_buttons, cc.xy(1, 2));
+        btn_create_mix.addActionListener((ActionEvent e) -> {
+            btn_create_mix_evt_actn();
         });
-        buttonDeleteMix.addActionListener((ActionEvent e) -> {
-            event_buttonDeleteMix();
+        btn_delete_mix.addActionListener((ActionEvent e) -> {
+            btn_delete_mix_evt_actn();
         });
-        buttonRenameMix.addActionListener((ActionEvent e) -> {
-            event_buttonRenameMix();
+        btn_rename_mix.addActionListener((ActionEvent e) -> {
+            btn_rename_mix_evt_actn();
         });
-        buttonDuplicateMix.addActionListener((ActionEvent e) -> {
-            event_buttonDuplicateMix();
+        btn_duplicate_mix.addActionListener((ActionEvent e) -> {
+            btn_duplicate_mix_evt_actn();
         });
-        buttonArchiveMix.addActionListener((ActionEvent e) -> {
-            event_buttonArchiveMix();
+        btn_archive_mix.addActionListener((ActionEvent e) -> {
+            btn_archive_mix_evt_actn();
         });
-        buttonMinimizeOption.addActionListener((ActionEvent e) -> {
-            event_buttonMinimizationOptions();
+        btn_minimize_option.addActionListener((ActionEvent e) -> {
+            btn_minimize_option_evt_actn();
         });
-        buttonAddMixToFoodList.addActionListener((ActionEvent e) -> {
-            event_buttonAddMixToFoodList();
+        btn_add_mix_to_foodlist.addActionListener((ActionEvent e) -> {
+            btn_add_mix_to_foodlist_evt_actn();
         });
-        buttonSolve.addActionListener((ActionEvent e) -> {
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            event_buttonSolve();
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        btn_solve.addActionListener((ActionEvent e) -> {
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            btn_solve_evt_actn();
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
-        JPopupMenu popMenu = new JPopupMenu();
-        JMenuItem item = new JMenuItem("Pin");
-        popMenu.add(item);
-        item.addActionListener((ActionEvent e) -> {
-            event_menui_pin_mix();
+        JPopupMenu pnl_mix_list_pmn = new JPopupMenu();
+        JMenuItem pnl_mix_list_mni_00 = new JMenuItem("Pin");
+        pnl_mix_list_pmn.add(pnl_mix_list_mni_00);
+        pnl_mix_list_mni_00.addActionListener((ActionEvent e) -> {
+            pnl_mix_list_mni_00_evt_actn();
         });
-        list_mix.addMouseListener(new MouseAdapter() {
+        lst_mix.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                show_popup(e, popMenu);
+                lst_mix_evt_mouse_clicked(e, pnl_mix_list_pmn);
             }
         });
-        return panel;
+        return pnl_mix_list;
 
     }
 
-    private void show_popup(MouseEvent e, JPopupMenu popMenu) {
+    private void lst_mix_evt_mouse_clicked(MouseEvent e, JPopupMenu pmn) {
         if ((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {
             Component component = e.getComponent();
-            popMenu.show(component, e.getX(), e.getY());
+            pmn.show(component, e.getX(), e.getY());
         }
     }
 
-    private void event_menui_pin_mix() {
+    private void pnl_mix_list_mni_00_evt_actn() {
         if (isMixSelected()) {
-            MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
             String mixId = mix.getMixId();
             try {
                 dbLink.pin_mix(mixId);
                 reloadMixes();
                 int index = modelList_Solve.find_by_mixid(mix.getMixId());
-                list_mix.setSelectedIndex(index);
+                lst_mix.setSelectedIndex(index);
             } catch (SQLException ex) {
             }
         } else {
@@ -1134,13 +1133,14 @@ public class Main {
         }
     }
 
-    private void event_buttonArchiveMix() {
+    private void btn_archive_mix_evt_actn() {
         if (isMixSelected()) {
             try {
-                MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 dbLink.Mix_Update_Status(mixId, 0);
                 modelList_Solve.reload();
+                modelListFoodJournal.reload();
                 clear_solve_tab_models();
             } catch (SQLException e) {
 
@@ -1148,7 +1148,7 @@ public class Main {
         }
     }
 
-    private void event_buttonAddMix() {
+    private void btn_create_mix_evt_actn() {
         JTextField input = new JTextField();
         JComponent[] inputs = new JComponent[]{
             new JLabel("What would you like to call it?"),
@@ -1158,7 +1158,6 @@ public class Main {
         if (optionValue == 0) {
             String mixnom = input.getText();
             String model = "";
-            String note = "";
             //Set default objective function value to minimize
             String nutrientid = "10009";
             try {
@@ -1167,11 +1166,11 @@ public class Main {
                 if (sc.pass()) {
                     String mixid = dbLink.Mix_Insert(mixnom);
                     dbLink.Mix_Update_NutrientId(mixid, nutrientid);
-                    dbLink.Mix_Update_Other(mixid, model, note);
+                    dbLink.Mix_Update_Other(mixid, model);
                     dbLink.Mix_Update_Status(mixid, 1);
                     reloadMixes();
                     clearAllModels();
-                    list_mix.setSelectedIndex(list_mix.getLastVisibleIndex());
+                    lst_mix.setSelectedIndex(lst_mix.getLastVisibleIndex());
                 } else {
                     Message.showMessage("These characters are not allowed: < & > ' \"");
                 }
@@ -1242,7 +1241,7 @@ public class Main {
 
     private void reload_results_table_models() {
         if (isMixSelected()) {
-            MixDataObject mixDataObject = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject mixDataObject = (MixDataObject) lst_mix.getSelectedValue();
             String mixId = mixDataObject.getMixId();
             result_loader.reload(mixId);
             modelTableEnergy.set_table(result_loader.get_energy_table());
@@ -1318,7 +1317,7 @@ public class Main {
         }
     }
 
-    private void event_buttonDeleteMix() {
+    private void btn_delete_mix_evt_actn() {
         if (isMixSelected()) {
             JComponent[] inputs = new JComponent[]{
                 new JLabel("Would you like to delete mix?")
@@ -1326,7 +1325,7 @@ public class Main {
             int optionValue = Message.showOptionDialogOkCancel(inputs, "Delete Mix");
             if (optionValue == 0) {
                 try {
-                    MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                    MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                     String mixId = mix.getMixId();
                     dbLink.Mix_Delete(mixId);
                     reloadMixes();
@@ -1381,14 +1380,14 @@ public class Main {
         modelTableGlycemic.setRowCount(0);
     }
 
-    private void event_buttonRenameMix() {
+    private void btn_rename_mix_evt_actn() {
         if (isMixSelected()) {
             JTextField input = new JTextField();
             JComponent[] inputs = new JComponent[]{
                 new JLabel("What is your new mix name?"),
                 input
             };
-            MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
             input.setText(mix.getName());
             int optionValue = Message.showOptionDialog(inputs, "Update Mix");
             if (optionValue == 0) {
@@ -1401,7 +1400,7 @@ public class Main {
                         dbLink.Mix_Update_Name(mixId, mixnom);
                         reloadMixes();
                         int index = modelList_Solve.find_by_mixid(mix.getMixId());
-                        list_mix.setSelectedIndex(index);
+                        lst_mix.setSelectedIndex(index);
                     } else {
                         Message.showMessage("These characters are not allowed: < & > ' \"");
                     }
@@ -1412,15 +1411,15 @@ public class Main {
         }
     }
 
-    private void event_buttonDuplicateMix() {
+    private void btn_duplicate_mix_evt_actn() {
         if (isMixSelected()) {
             try {
-                MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 dbLink.Mix_Duplicate(mixId);
                 reloadMixes();
                 int index = modelList_Solve.find_by_mixid(mix.getMixId());
-                list_mix.setSelectedIndex(index);
+                lst_mix.setSelectedIndex(index);
             } catch (SQLException e) {
 
             }
@@ -1429,14 +1428,14 @@ public class Main {
         }
     }
 
-    private void event_buttonAddMixToFoodList() {
+    private void btn_add_mix_to_foodlist_evt_actn() {
         if (isMixSelected()) {
             JComponent[] inputs = new JComponent[]{
                 new JLabel("Would you like to add mix to food list?"),};
             int optionValue = Message.showOptionDialogOkCancel(inputs, "Add to Food List");
             if (optionValue == 0) {
                 try {
-                    MixDataObject mixDataObject = (MixDataObject) list_mix.getSelectedValue();
+                    MixDataObject mixDataObject = (MixDataObject) lst_mix.getSelectedValue();
                     dbLink.Food_Put(mixDataObject.getMixId());
                     reloadFoodItems();
                 } catch (SQLException e) {
@@ -1837,7 +1836,7 @@ public class Main {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                show_popup(e, popMenu);
+                lst_mix_evt_mouse_clicked(e, popMenu);
             }
         });
         return panel;
@@ -1899,7 +1898,7 @@ public class Main {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                show_popup(e, popMenu);
+                lst_mix_evt_mouse_clicked(e, popMenu);
             }
         });
         return panel;
@@ -1945,7 +1944,7 @@ public class Main {
 
     private void reload_results_rda_check() {
         if (isMixSelected()) {
-            MixDataObject mixDataObject = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject mixDataObject = (MixDataObject) lst_mix.getSelectedValue();
             RdaLifeStageDataObject rdaLifeStageDataObject = (RdaLifeStageDataObject) cb_results_lifestage.getSelectedItem();
             tblmdl_results_rda.reload(mixDataObject.getMixId(), rdaLifeStageDataObject.getLifeStageId());
             resize_columns_tbl_results_rda();
@@ -2007,7 +2006,6 @@ public class Main {
         journal_results_tabbed_pane.add(getCostJournal());
         journal_results_tabbed_pane.add(getGlycemicJournal());
         journal_results_tabbed_pane.add(getJournalModel());
-        journal_results_tabbed_pane.add(getJournalNote());
         journal_results_tabbed_pane.add(get_mix_journal_rda());
         journal_results_tabbed_pane.setTitleAt(0, "Energy");
         journal_results_tabbed_pane.setTitleAt(1, "Protein");
@@ -2020,8 +2018,7 @@ public class Main {
         journal_results_tabbed_pane.setTitleAt(8, "Cost");
         journal_results_tabbed_pane.setTitleAt(9, "Glycemic");
         journal_results_tabbed_pane.setTitleAt(10, "Model");
-        journal_results_tabbed_pane.setTitleAt(11, "Note");
-        journal_results_tabbed_pane.setTitleAt(12, "Rda");
+        journal_results_tabbed_pane.setTitleAt(11, "Rda");
         panel.add(leftComponent, cc.xy(1, 1));
         panel.add(journal_results_tabbed_pane, cc.xy(2, 1));
         list_journal_mix.addListSelectionListener(e -> event_listMixesJournal(e));
@@ -2034,9 +2031,9 @@ public class Main {
 
     private void event_listMixesJournal(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             reload_journal_table_models();
-            frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -2044,6 +2041,7 @@ public class Main {
         if (isMixJournalSelected()) {
             MixDataObject mixDataObject = (MixDataObject) list_journal_mix.getSelectedValue();
             String mixId = mixDataObject.getMixId();
+            String model = mixDataObject.getModel();
             result_loader_journal.reload(mixId);
             modelTableJournalEnergy.set_table(result_loader_journal.get_energy_table());
             tableJournalEnergy.getColumnModel().getColumn(0).setMinWidth(400);
@@ -2115,8 +2113,7 @@ public class Main {
                 tableJournalGlycemic.getColumnModel().getColumn(i).setMinWidth(70);
                 tableJournalGlycemic.getColumnModel().getColumn(i).setMaxWidth(70);
             }
-            textAreaJournalModel.setText(getLinearProgrammingModel(mixId));
-            textAreaJournalNote.setText(getNote(mixId));
+            textAreaJournalModel.setText(model);
             reload_journal_rda_check();
         }
     }
@@ -2128,8 +2125,9 @@ public class Main {
                 String mixId = mix.getMixId();
                 dbLink.Mix_Update_Status(mixId, 1);
                 modelList_Solve.reload();
+                modelListFoodJournal.reload();
                 int index = modelList_Solve.find_by_mixid(mixId);
-                list_mix.setSelectedIndex(index);
+                lst_mix.setSelectedIndex(index);
             } catch (SQLException e) {
 
             }
@@ -2144,7 +2142,7 @@ public class Main {
                 dbLink.Mix_Duplicate(mixId);
                 reloadMixes();
                 int index = modelList_Solve.find_by_mixid(mix.getMixId());
-                list_mix.setSelectedIndex(index);
+                lst_mix.setSelectedIndex(index);
             } catch (SQLException e) {
 
             }
@@ -3175,7 +3173,7 @@ public class Main {
             modelTableNutrientInput.setPrecision(5);
         }
         if (isMixSelected()) {
-            MixDataObject mixDataObject = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject mixDataObject = (MixDataObject) lst_mix.getSelectedValue();
             String mixId = mixDataObject.getMixId();
             reload_results_table_models();
         }
@@ -3210,12 +3208,12 @@ public class Main {
         }
     }
 
-    private void event_buttonMinimizationOptions() {
+    private void btn_minimize_option_evt_actn() {
         JComponent[] inputs = new JComponent[]{
             get_minimization_options_panel()
         };
         if (isMixSelected()) {
-            MixDataObject o = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject o = (MixDataObject) lst_mix.getSelectedValue();
             String nutrientid = o.getNutrientid();
             if (nutrientid.equals("10009")) {
                 rbtn_calories.setSelected(true);
@@ -3233,7 +3231,7 @@ public class Main {
                     reloadMixes();
                     clearAllModels();
                     int index = modelList_Solve.find_by_mixid(o.getMixId());
-                    list_mix.setSelectedIndex(index);
+                    lst_mix.setSelectedIndex(index);
                 } catch (SQLException ex) {
                 }
             }
@@ -3437,7 +3435,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 870");
+        sb.append("This is build 880");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -3475,7 +3473,6 @@ public class Main {
         results_tabbed_pane.add(getCost());
         results_tabbed_pane.add(getGlycemic());
         results_tabbed_pane.add(getModel());
-        results_tabbed_pane.add(getNote());
         results_tabbed_pane.add(get_mix_results_rda());
         results_tabbed_pane.setTitleAt(0, "Energy");
         results_tabbed_pane.setTitleAt(1, "Protein");
@@ -3488,8 +3485,7 @@ public class Main {
         results_tabbed_pane.setTitleAt(8, "Cost");
         results_tabbed_pane.setTitleAt(9, "Glycemic");
         results_tabbed_pane.setTitleAt(10, "Model");
-        results_tabbed_pane.setTitleAt(11, "Note");
-        results_tabbed_pane.setTitleAt(12, "Rda");
+        results_tabbed_pane.setTitleAt(11, "Rda");
         JScrollPane highScorePane = new JScrollPane(listHighScore);
         panel.add(results_tabbed_pane, cc.xywh(1, 1, 1, 2));
         panel.add(highScorePane, cc.xy(2, 2));
@@ -4015,7 +4011,7 @@ public class Main {
                 numberCheck.addToUncheckedList(textFieldPercentNutrientConstraintQuantity.getText());
                 if (numberCheck.pass()) {
                     try {
-                        MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                        MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                         FoodDataObject foodDataObject = (FoodDataObject) comboBoxPercentNutrientConstraintFood.getSelectedItem();
                         NutrientDataObject nutrientDataObject = (NutrientDataObject) comboBoxPercentNutrientConstraintNutrient.getSelectedItem();
                         RelationshipDataObject relationshipDataObject = (RelationshipDataObject) comboBoxPercentNutrientRelationship.getSelectedItem();
@@ -4107,38 +4103,10 @@ public class Main {
         return panel;
     }
 
-    private JPanel getNote() {
-        JPanel panel = new JPanel();
-        FormLayout layout = new FormLayout(
-                "min:grow", //columns
-                "fill:pref:grow" //rows
-        );
-        panel.setLayout(layout);
-        textAreaNote.setLineWrap(false);
-        JScrollPane scrollPane = new JScrollPane(textAreaNote);
-        scrollPane.setPreferredSize(new Dimension(0, 0));
-        panel.add(scrollPane, cc.xy(1, 1));
-        return panel;
-    }
-
-    private JPanel getJournalNote() {
-        JPanel panel = new JPanel();
-        FormLayout layout = new FormLayout(
-                "min:grow", //columns
-                "fill:pref:grow" //rows
-        );
-        panel.setLayout(layout);
-        textAreaJournalNote.setLineWrap(false);
-        JScrollPane scrollPane = new JScrollPane(textAreaJournalNote);
-        scrollPane.setPreferredSize(new Dimension(0, 0));
-        panel.add(scrollPane, cc.xy(1, 1));
-        return panel;
-    }
-
     private void event_listMixes(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (isMixSelected()) {
-                MixDataObject mixDataObject = (MixDataObject) list_mix.getSelectedValue();
+                MixDataObject mixDataObject = (MixDataObject) lst_mix.getSelectedValue();
                 String mixId = mixDataObject.getMixId();
                 modelListSelectedFood.reload(mixId);
                 legend_generator.reload(mixId);
@@ -4146,7 +4114,6 @@ public class Main {
                 reloadFoodComboBoxes(mixId);
                 reloadTableModelConstraints(mixId);
                 textAreaModel.setText(mixDataObject.getModel());
-                textAreaNote.setText(mixDataObject.getNote());
                 if (mixDataObject.getNutrientid().equals("10009")) {
                     lbl_Min.setText("Calories");
                 } else {
@@ -4155,32 +4122,6 @@ public class Main {
                 reload_results_rda_check();
             }
         }
-    }
-
-    private String getLinearProgrammingModel(String mixId) {
-        String model = "";
-        try {
-            LinkedList all = (LinkedList) dbLink.Mix_Select_Other(mixId);
-            Iterator it = all.iterator();
-            HashMap row = (HashMap) it.next();
-            model = (String) row.get("MODEL");
-        } catch (SQLException e) {
-
-        }
-        return model;
-    }
-
-    private String getNote(String mixId) {
-        String note = "";
-        try {
-            LinkedList all = (LinkedList) dbLink.Mix_Select_Other(mixId);
-            Iterator it = all.iterator();
-            HashMap row = (HashMap) it.next();
-            note = (String) row.get("NOTE");
-        } catch (SQLException e) {
-
-        }
-        return note;
     }
 
     private void resizeColumns_NutrientConstraintTableColumns() {
@@ -4415,7 +4356,7 @@ public class Main {
 
     private void event_buttonAddMixFood() {
         if (isMixSelected()) {
-            MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+            MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeFoodList.getLastSelectedPathComponent();
             if (node == null) {
                 return;
@@ -4441,7 +4382,7 @@ public class Main {
         if (isMixSelected()) {
             if (isSelectedFood()) {
                 try {
-                    MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                    MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                     FoodDataObject foodDataObject = (FoodDataObject) listSelectedFood.getSelectedValue();
                     String mixId = mix.getMixId();
                     dbLink.MixFood_Delete(mixId, foodDataObject.getFoodId());
@@ -4478,10 +4419,10 @@ public class Main {
         }
     }
 
-    private void event_buttonSolve() {
+    private void btn_solve_evt_actn() {
         if (isMixSelected()) {
             try {
-                MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 textAreaModel.setText("");
                 LpModel lpModel = new LpModel();
@@ -4551,7 +4492,7 @@ public class Main {
                 if (lpModel.solve()) {
                     double objective_function_value = lpModel.getCost();
                     double[] point = lpModel.getPoint();
-                    DecimalFormat formatter = new DecimalFormat("#,###.###");
+                    DecimalFormat formatter = new DecimalFormat("####.###");
                     modelListHighScore.addElement(formatter.format(objective_function_value));
                     listHighScore.ensureIndexIsVisible(modelListHighScore.getSize() - 1);
                     listHighScore.setSelectedIndex(listHighScore.getLastVisibleIndex());
@@ -4580,12 +4521,6 @@ public class Main {
                     dbLink.fill_mixresult(mixId);
                     dbLink.delete_mixresultdn(mixId);
                     dbLink.fill_mixresultdn(mixId);
-                    reload_results_table_models();
-                    reload_journal_table_models();
-                    reload_food_comparison();
-                    reload_mix_comparison();
-                    reload_results_rda_check();
-                    reload_journal_rda_check();
                     lpModel.setResults(sbResults.toString());
                     lpModel.save();
                     sbAll.append("/*\n");
@@ -4602,8 +4537,16 @@ public class Main {
                     sbAll.append(lpModel.getFeasibleMessage());
                     sbAll.append("\n*/");
                     dbLink.Mix_Update_Time(mixId);
-                    dbLink.Mix_Update_Other(mixId, sbAll.toString(), textAreaNote.getText());
-
+                    dbLink.Mix_Update_Other(mixId, sbAll.toString());
+                    reload_results_table_models();
+                    reload_food_comparison();
+                    reload_mix_comparison();
+                    reload_results_rda_check();
+                    int journal_mix_index = list_journal_mix.getSelectedIndex();
+                    reloadMixes();
+                    list_journal_mix.setSelectedIndex(journal_mix_index);
+                    int mix_index = modelList_Solve.find_by_mixid(mix.getMixId());
+                    lst_mix.setSelectedIndex(mix_index);
                 } else {
                     sbAll.append("/*\n");
                     sbAll.append(lpModel.getDescription());
@@ -4619,7 +4562,7 @@ public class Main {
                     sbAll.append(lpModel.getInfeasibleMessage());
                     sbAll.append("\n*/");
                     dbLink.Mix_Update_Time(mixId);
-                    dbLink.Mix_Update_Other(mixId, sbAll.toString(), textAreaNote.getText());
+                    dbLink.Mix_Update_Other(mixId, sbAll.toString());
                 }
                 textAreaModel.setText(sbAll.toString());
             } catch (SQLException e) {
@@ -4653,7 +4596,7 @@ public class Main {
                 numberCheck.addToUncheckedList(textFieldNutrientConstraintQuantity.getText());
                 if (numberCheck.pass()) {
                     try {
-                        MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                        MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                         NutrientDataObject nutrientDataObject = (NutrientDataObject) comboBoxNutrientConstraintNutrient.getSelectedItem();
                         RelationshipDataObject relationshipDataObject = (RelationshipDataObject) comboBoxNutrientConstraintRelationship.getSelectedItem();
                         double b = Double.parseDouble(textFieldNutrientConstraintQuantity.getText());
@@ -4721,7 +4664,7 @@ public class Main {
                 numberCheck.addToUncheckedList(textFieldFoodNutrientConstraintQuantity.getText());
                 if (numberCheck.pass()) {
                     try {
-                        MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                        MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                         FoodDataObject foodDataObject = (FoodDataObject) comboBoxFoodNutrientConstraintFood.getSelectedItem();
                         NutrientDataObject nutrientDataObject = (NutrientDataObject) comboBoxFoodNutrientConstraintNutrient.getSelectedItem();
                         RelationshipDataObject relationshipDataObject = (RelationshipDataObject) comboBoxFoodNutrientConstraintRelationship.getSelectedItem();
@@ -4809,7 +4752,7 @@ public class Main {
                 numberCheck.addToUncheckedList(textFieldNutrientRatioNutrientB.getText());
                 if (numberCheck.pass()) {
                     try {
-                        MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                        MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                         NutrientDataObject nutrientDataObjectA = (NutrientDataObject) comboBoxNutrientRatioNutrientA.getSelectedItem();
                         NutrientDataObject nutrientDataObjectB = (NutrientDataObject) comboBoxNutrientRatioNutrientB.getSelectedItem();
                         RelationshipDataObject relationshipDataObject = (RelationshipDataObject) comboBoxNutrientRatioRelationship.getSelectedItem();
@@ -4971,7 +4914,7 @@ public class Main {
                 numberCheck.addToUncheckedList(textFieldFoodNutrientRatioQuantityB.getText());
                 if (numberCheck.pass()) {
                     try {
-                        MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                        MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                         FoodDataObject foodDataObjectA = (FoodDataObject) comboBoxFoodNutrientRatioFoodA.getSelectedItem();
                         NutrientDataObject nutrientDataObjectA = (NutrientDataObject) comboBoxFoodNutrientRatioNutrientA.getSelectedItem();
                         FoodDataObject foodDataObjectB = (FoodDataObject) comboBoxFoodNutrientRatioFoodB.getSelectedItem();
@@ -5070,7 +5013,7 @@ public class Main {
     }
 
     private boolean isMixSelected() {
-        return !list_mix.isSelectionEmpty();
+        return !lst_mix.isSelectionEmpty();
     }
 
     private boolean isMixJournalSelected() {
@@ -5453,10 +5396,10 @@ public class Main {
             case 0:
                 if (isMixSelected()) {
                     try {
-                        MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
-                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
+                        frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         Xml_send send = new Xml_send(dbLink, mix.getMixId());
-                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         show_message_sent();
                     } catch (Exception e) {
                     }
@@ -5466,9 +5409,9 @@ public class Main {
                 if (isMixJournalSelected()) {
                     try {
                         MixDataObject mix = (MixDataObject) list_journal_mix.getSelectedValue();
-                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         Xml_send send = new Xml_send(dbLink, mix.getMixId());
-                        frameSnack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         show_message_sent();
                     } catch (Exception e) {
                     }
@@ -5487,7 +5430,7 @@ public class Main {
     private void event_receive_message() {
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Xml Document", "xml"));
-        int returnVal = fileChooser.showOpenDialog(frameSnack);
+        int returnVal = fileChooser.showOpenDialog(frm_snack);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
@@ -5511,10 +5454,10 @@ public class Main {
             if (old_size > 0) {
                 if (set02.removeAll(set01)) {
                     int index = modelList_Solve.find_by_mixid((String) set02.toArray()[0]);
-                    list_mix.setSelectedIndex(index);
+                    lst_mix.setSelectedIndex(index);
                 }
             } else {
-                list_mix.setSelectedIndex(0);
+                lst_mix.setSelectedIndex(0);
             }
         }
     }
@@ -5522,7 +5465,7 @@ public class Main {
     private void event_menui_show_mix_stats() {
         if (isMixSelected()) {
             try {
-                MixDataObject mix = (MixDataObject) list_mix.getSelectedValue();
+                MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                 JTextArea textArea = new JTextArea(1, 24);
                 textArea.setText(stringModelMixPct.reload(mix.getMixId()));
                 textArea.setEditable(false);

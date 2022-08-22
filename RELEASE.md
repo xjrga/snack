@@ -276,3 +276,8 @@ RELEASE NOTES
 
       Add "Energy, fat and carbohydrate" metric
       Delete fluoride nutrient tracking
+
+880
+
+      Removed notes
+      

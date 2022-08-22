@@ -26,7 +26,6 @@ public class MixDataObject {
     private Integer status;
     private String nutrientid;
     private String model;
-    private String note;
 
     public MixDataObject() {
     }
@@ -74,14 +73,6 @@ public class MixDataObject {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     @Override

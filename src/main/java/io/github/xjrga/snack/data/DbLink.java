@@ -138,7 +138,6 @@ public class DbLink {
             row.put("STATUS", rs.getObject(3));
             row.put("NUTRIENTID", rs.getObject(4));
             row.put("MODEL", rs.getObject(5));
-            row.put("NOTE", rs.getObject(6));
             list.add(row);
         }
         proc.close();
@@ -157,7 +156,6 @@ public class DbLink {
             row.put("STATUS", rs.getObject(3));
             row.put("NUTRIENTID", rs.getObject(4));
             row.put("MODEL", rs.getObject(5));
-            row.put("NOTE", rs.getObject(6));
             list.add(row);
         }
         proc.close();
@@ -176,7 +174,6 @@ public class DbLink {
             row.put("STATUS", rs.getObject(3));
             row.put("NUTRIENTID", rs.getObject(4));
             row.put("MODEL", rs.getObject(5));
-            row.put("NOTE", rs.getObject(6));
             list.add(row);
         }
         proc.close();
@@ -193,14 +190,13 @@ public class DbLink {
         return ident;
     }
 
-    public void snack_mix_insertmix(String mixid, String name, Integer status, String nutrientid, String model, String note) throws SQLException {
-        CallableStatement proc = connection.prepareCall("{CALL public.snack_mix_insertmix( ?, ?, ?, ?, ?, ?)}");
+    public void snack_mix_insertmix(String mixid, String name, Integer status, String nutrientid, String model) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.snack_mix_insertmix( ?, ?, ?, ?, ?)}");
         proc.setString(1, mixid);
         proc.setString(2, name);
         proc.setInt(3, status);
         proc.setString(4, nutrientid);
         proc.setString(5, model);
-        proc.setString(6, note);
         proc.execute();
     }
 
@@ -665,30 +661,11 @@ public class DbLink {
         proc.execute();
     }
 
-    public void Mix_Update_Other(String MixId, String Model, String Note) throws SQLException {
-        CallableStatement proc = connection.prepareCall("{CALL public.Mix_Update_Other( ?, ?, ?)}");
+    public void Mix_Update_Other(String MixId, String Model) throws SQLException {
+        CallableStatement proc = connection.prepareCall("{CALL public.Mix_Update_Other( ?, ?)}");
         proc.setString(1, MixId);
         proc.setString(2, Model);
-        proc.setString(3, Note);
         proc.execute();
-    }
-
-    public List<Map<String, Object>> Mix_Select_Other(String MixId) throws SQLException {
-        LinkedList<Map<String, Object>> list = new LinkedList<>();
-        CallableStatement proc;
-        proc = connection.prepareCall("{CALL public.Mix_Select_Other( ? )}");
-        proc.setString(1, MixId);
-        ResultSet rs = proc.executeQuery();
-        while (rs.next()) {
-            Map<String, Object> row = new HashMap<>();
-            row.put("MIXID", rs.getObject(1));
-            row.put("NUTRIENTID", rs.getObject(2));
-            row.put("MODEL", rs.getObject(3));
-            row.put("NOTE", rs.getObject(4));
-            list.add(row);
-        }
-        proc.close();
-        return list;
     }
 
     public List<Map<String, Object>> MixResult_Select(String MixId, Integer Precision) throws SQLException {

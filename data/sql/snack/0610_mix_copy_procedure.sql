@@ -13,18 +13,15 @@ DECLARE v_ADate DATE;
 DECLARE v_ATime TIME;
 DECLARE v_NutrientId LONGVARCHAR;
 DECLARE v_Model LONGVARCHAR;
-DECLARE v_Note LONGVARCHAR;
 DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        Nutrientid,
-       Model,
-       Note
+       Model       
        INTO
        v_Name_Old,
        v_NutrientId,
-       v_Model,
-       v_Note
+       v_Model       
        FROM Mix
        WHERE MixId = v_MixId_Old;
 --
@@ -41,8 +38,7 @@ ADate,
 ATime,
 Status,
 Nutrientid,
-Model,
-Note
+Model
 ) VALUES (
 newid2,
 v_Name_Old||'_copy',
@@ -50,8 +46,7 @@ v_ADate,
 v_ATime,
 1,
 v_NutrientId,
-v_Model,
-v_Note
+v_Model
 );
 --
 SET newid = newid2;

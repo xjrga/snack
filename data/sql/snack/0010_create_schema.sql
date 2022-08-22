@@ -49,7 +49,6 @@ ATime TIME,
 Status INTEGER,
 NutrientId LONGVARCHAR,
 Model LONGVARCHAR,
-Note LONGVARCHAR,
 CONSTRAINT Mix_primaryKey PRIMARY KEY (MixId)
 );
 /

@@ -47,14 +47,12 @@ public class ListModelMix0 extends DefaultListModel {
                 Integer status = (Integer) row.get("STATUS");
                 String nutrientid = (String) row.get("NUTRIENTID");
                 String model = (String) row.get("MODEL");
-                String note = (String) row.get("NOTE");
                 MixDataObject mixDataObject = new MixDataObject();
                 mixDataObject.setMixId(mixid);
                 mixDataObject.setName(name);
                 mixDataObject.setStatus(status);
                 mixDataObject.setNutrientid(nutrientid);
                 mixDataObject.setModel(model);
-                mixDataObject.setNote(note);
                 this.addElement(mixDataObject);
             }
         } catch (SQLException e) {

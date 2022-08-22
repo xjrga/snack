@@ -8,9 +8,7 @@ IN v_status INTEGER,
 --
 IN v_nutrientid LONGVARCHAR,
 --
-IN v_model LONGVARCHAR,
---
-IN v_note LONGVARCHAR
+IN v_model LONGVARCHAR
 --
 )
 --
@@ -31,8 +29,7 @@ adate,
 atime,
 status,
 nutrientid,
-model,
-note
+model
 ) VALUES (
 v_mixid,
 v_name,
@@ -40,11 +37,10 @@ v_adate,
 v_atime,
 v_status,
 v_nutrientid,
-v_model,
-v_note
+v_model
 );
 --
 END;
 /
---call snack_mix_insertmix('delete','delete',1,'10009','model','note');
+--call snack_mix_insertmix('delete','delete',1,'10009','model');
 --/

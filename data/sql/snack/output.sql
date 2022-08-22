@@ -52,7 +52,6 @@ ATime TIME,
 Status INTEGER,
 NutrientId LONGVARCHAR,
 Model LONGVARCHAR,
-Note LONGVARCHAR,
 CONSTRAINT Mix_primaryKey PRIMARY KEY (MixId)
 );
 /
@@ -2282,18 +2281,15 @@ DECLARE v_ADate DATE;
 DECLARE v_ATime TIME;
 DECLARE v_NutrientId LONGVARCHAR;
 DECLARE v_Model LONGVARCHAR;
-DECLARE v_Note LONGVARCHAR;
 DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        Nutrientid,
-       Model,
-       Note
+       Model       
        INTO
        v_Name_Old,
        v_NutrientId,
-       v_Model,
-       v_Note
+       v_Model       
        FROM Mix
        WHERE MixId = v_MixId_Old;
 --
@@ -2310,8 +2306,7 @@ ADate,
 ATime,
 Status,
 Nutrientid,
-Model,
-Note
+Model
 ) VALUES (
 newid2,
 v_Name_Old||'_copy',
@@ -2319,8 +2314,7 @@ v_ADate,
 v_ATime,
 1,
 v_NutrientId,
-v_Model,
-v_Note
+v_Model
 );
 --
 SET newid = newid2;
@@ -2400,9 +2394,7 @@ IN v_status INTEGER,
 --
 IN v_nutrientid LONGVARCHAR,
 --
-IN v_model LONGVARCHAR,
---
-IN v_note LONGVARCHAR
+IN v_model LONGVARCHAR
 --
 )
 --
@@ -2423,8 +2415,7 @@ adate,
 atime,
 status,
 nutrientid,
-model,
-note
+model
 ) VALUES (
 v_mixid,
 v_name,
@@ -2432,13 +2423,12 @@ v_adate,
 v_atime,
 v_status,
 v_nutrientid,
-v_model,
-v_note
+v_model
 );
 --
 END;
 /
---call snack_mix_insertmix('delete','delete',1,'10009','model','note');
+--call snack_mix_insertmix('delete','delete',1,'10009','model');
 --/
 
 
@@ -2490,8 +2480,7 @@ SELECT MixId,
        Name,
        Status,
        NutrientId,
-       Model,
-       Note
+       Model
 FROM Mix
 ORDER BY Name;
 --
@@ -2511,8 +2500,7 @@ SELECT MixId,
        Name,
        Status,
        NutrientId,
-       Model,
-       Note
+       Model
 FROM Mix
 WHERE Status = 0
 ORDER BY Name;
@@ -2533,8 +2521,7 @@ SELECT MixId,
        Name,
        Status,
        NutrientId,
-       Model,
-       Note
+       Model
 FROM Mix
 WHERE Status = 1
 ORDER BY Name;
@@ -2598,15 +2585,13 @@ END;
 
 CREATE PROCEDURE Mix_Update_Other (
 IN v_MixId LONGVARCHAR,
-IN v_Model LONGVARCHAR,
-IN v_Note LONGVARCHAR
+IN v_Model LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 UPDATE
 Mix
 SET
-Model = v_Model,
-Note = v_Note
+Model = v_Model
 WHERE
 MixId = v_MixId;
 END;
@@ -2775,30 +2760,6 @@ WHERE
 MixId = v_MixId
 AND
 FoodId = v_FoodId;
-END;
-/
-
-
-CREATE PROCEDURE Mix_Select_Other (
-IN v_MixId LONGVARCHAR
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT
-MixId,
-NutrientId,
-Model,
-Note
-FROM
-Mix
-WHERE
-MixId = v_MixId;
---
-OPEN result;
---
 END;
 /
 
@@ -4500,9 +4461,7 @@ DECLARE doc LONGVARCHAR;
 --
 SET doc = '';
 --
---SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' +CHAR(10) + '<nutrientid>' + Nutrientid + '</nutrientid>' +CHAR(10) + '<model>' + Model + '</model>' +CHAR(10) + '<note>' + Note + '</note>' +CHAR(10) + '</mix>' INTO doc FROM Mix WHERE mixid = v_MixId;
 SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
---SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + Name + '</name>' + CHAR(10) + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
 --
 SET v_doc = doc + CHAR (10);
 --

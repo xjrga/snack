@@ -7,8 +7,7 @@ SELECT MixId,
        Name,
        Status,
        NutrientId,
-       Model,
-       Note
+       Model
 FROM Mix
 ORDER BY Name;
 --
