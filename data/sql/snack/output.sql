@@ -1329,7 +1329,7 @@ a.RelationshipId,
 b.Name as Food,
 c.Name as Nutrient,
 d.Name as Relationship,
-a.b
+CASE WHEN a.b IS NULL THEN 0 ELSE a.b END
 FROM
 FoodNutrientConstraint a, Food b, Nutrient c, Relationship d
 WHERE

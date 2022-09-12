@@ -22,6 +22,7 @@ public class Xml_food {
     private double energy_alcohol = 0.0;
     private double energy_carbohydrate = 0.0;
     private double energy_digestible = 0.0;
+    private double energy_fat_and_carbohydrate = 0.0;
     private double energy_fat = 0.0;
     private double energy_gross = 0.0;
     private double energy_protein = 0.0;
@@ -180,6 +181,14 @@ public class Xml_food {
 
     public void setEnergy_digestible(double energy_digestible) {
         this.energy_digestible = energy_digestible;
+    }
+
+    public double getEnergy_fat_and_carbohydrate() {
+        return energy_fat_and_carbohydrate;
+    }
+
+    public void setEnergy_fat_and_carbohydrate(double energy_fat_and_carbohydrate) {
+        this.energy_fat_and_carbohydrate = energy_fat_and_carbohydrate;
     }
 
     public double getEnergy_fat() {

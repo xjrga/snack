@@ -278,6 +278,12 @@ RELEASE NOTES
       Delete fluoride nutrient tracking
 
 880
-
+        
       Removed notes
+      Fixed archive function behavior
+
+890
+
+      Fix food "Energy, fat and carbohydrate" import value bug
+      Fix "Pin" option bug
       

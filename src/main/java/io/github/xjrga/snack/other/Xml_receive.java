@@ -307,6 +307,9 @@ public class Xml_receive {
                                     case "energy_digestible":
                                         food.setEnergy_digestible(Double.valueOf(data));
                                         break;
+                                    case "energy_fat_and_carbohydrate":
+                                        food.setEnergy_fat_and_carbohydrate(Double.valueOf(data));
+                                        break;
                                     case "energy_fat":
                                         food.setEnergy_fat(Double.valueOf(data));
                                         break;
@@ -459,6 +462,7 @@ public class Xml_receive {
                                         dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYALCOHOL.getNumber(), food.getEnergy_alcohol());
                                         dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYCARBOHYDRATE.getNumber(), food.getEnergy_carbohydrate());
                                         dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYDIGESTIBLE.getNumber(), food.getEnergy_digestible());
+                                        dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYFATCARBOHYDRATE.getNumber(), food.getEnergy_fat_and_carbohydrate());
                                         dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYFAT.getNumber(), food.getEnergy_fat());
                                         dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYGROSS.getNumber(), food.getEnergy_gross());
                                         dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYPROTEIN.getNumber(), food.getEnergy_protein());
