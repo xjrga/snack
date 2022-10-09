@@ -17,6 +17,28 @@ public class DbLink {
         connection = Connect.getInstance().getConnection();
     }
 
+    public void startTransaction() {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+        }
+    }
+
+    public void stopTransaction() {
+        try {
+            connection.commit();
+            //connection.setAutoCommit(true);
+        } catch (SQLException throwables) {
+        }
+    }
+
+    public void revertTransaction() {
+        try {
+            connection.rollback();
+        } catch (SQLException throwables) {
+        }
+    }
+
     public List<Map<String, Object>> Food_Select_All() throws SQLException {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
@@ -1206,31 +1228,6 @@ public class DbLink {
         proc.execute();
         proc.close();
         return out;
-    }
-
-    public void startTransaction() {
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void stopTransaction() {
-        try {
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void revertTransaction() {
-        try {
-            connection.rollback();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     public void Food_Update(FoodDataObject foodDataObject) throws SQLException {

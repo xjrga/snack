@@ -69,7 +69,6 @@ public class Connect {
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         } catch (SQLException e) {
-            ;
         }
         return connection;
     }

@@ -286,4 +286,8 @@ RELEASE NOTES
 
       Fix food "Energy, fat and carbohydrate" import value bug
       Fix "Pin" option bug
+
+900
+
+      Add "Undo model definition changes" functionality     
       

@@ -540,6 +540,7 @@ public class Main {
 
         }
         event_mnui_roundup();
+        dbLink.startTransaction();
     }
 
     public static void main(String[] args) {
@@ -964,7 +965,7 @@ public class Main {
         JTabbedPane bottomTabPane = new JTabbedPane();
         bottomTabPane.setBorder(new TitledBorder("Model Definition"));
         bottomTabPane.setTabPlacement(JTabbedPane.BOTTOM);
-        FormLayout splitPanelReplacementLayout = new FormLayout("410px,min:grow", //columns
+        FormLayout splitPanelReplacementLayout = new FormLayout("460px,min:grow", //columns
                 "fill:min:grow" //rows
         );
         JPanel bottomPanel = new JPanel();
@@ -1036,7 +1037,7 @@ public class Main {
         pnl_mix_list.setLayout(pnl_mix_list_lyo);
         pnl_mix_list.setBorder(new TitledBorder("Mixes"));
         JPanel pnl_buttons = new JPanel();
-        FormLayout pnl_buttons_lyo = new FormLayout("min:grow,min,min,min,min,10dlu,min,min,min,10dlu,min,min:grow", //columns
+        FormLayout pnl_buttons_lyo = new FormLayout("min:grow,min,min,min,min,5dlu,min,min,min,5dlu,min,min,min:grow", //columns
                 "min" //rows
         );
         pnl_buttons.setLayout(pnl_buttons_lyo);
@@ -1048,6 +1049,7 @@ public class Main {
         JButton btn_add_mix_to_foodlist = new JButton("f");
         JButton btn_minimize_option = new JButton("m");
         JButton btn_solve = new JButton("Solve");
+        JButton btn_undo = new JButton("Undo");
         btn_create_mix.setToolTipText("Create mix");
         btn_delete_mix.setToolTipText("Delete mix");
         btn_rename_mix.setToolTipText("Rename mix");
@@ -1056,6 +1058,7 @@ public class Main {
         btn_archive_mix.setToolTipText("Archive mix");
         btn_add_mix_to_foodlist.setToolTipText("Add to food list");
         btn_solve.setToolTipText("Find food combination");
+        btn_undo.setToolTipText("Undo model definition changes");
         pnl_buttons.add(btn_create_mix, cc.xy(2, 1));
         pnl_buttons.add(btn_delete_mix, cc.xy(3, 1));
         pnl_buttons.add(btn_rename_mix, cc.xy(4, 1));
@@ -1064,6 +1067,7 @@ public class Main {
         pnl_buttons.add(btn_minimize_option, cc.xy(8, 1));
         pnl_buttons.add(btn_archive_mix, cc.xy(9, 1));
         pnl_buttons.add(btn_solve, cc.xy(11, 1));
+        pnl_buttons.add(btn_undo, cc.xy(12, 1));
         JScrollPane scr_mixes = new JScrollPane(lst_mix);
         pnl_mix_list.add(scr_mixes, cc.xy(1, 1));
         pnl_mix_list.add(pnl_buttons, cc.xy(1, 2));
@@ -1092,6 +1096,9 @@ public class Main {
             frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             btn_solve_evt_actn();
             frm_snack.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        });
+        btn_undo.addActionListener((ActionEvent e) -> {
+            btn_undo_evt_actn();
         });
         JPopupMenu pnl_mix_list_pmn = new JPopupMenu();
         JMenuItem pnl_mix_list_mni_00 = new JMenuItem("Pin");
@@ -1139,6 +1146,7 @@ public class Main {
                 MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 dbLink.Mix_Update_Status(mixId, 0);
+                dbLink.stopTransaction();
                 modelList_Solve.reload();
                 modelListFoodJournal.reload();
                 clear_solve_tab_models();
@@ -1168,6 +1176,7 @@ public class Main {
                     dbLink.Mix_Update_NutrientId(mixid, nutrientid);
                     dbLink.Mix_Update_Other(mixid, model);
                     dbLink.Mix_Update_Status(mixid, 1);
+                    dbLink.stopTransaction();
                     reloadMixes();
                     clearAllModels();
                     lst_mix.setSelectedIndex(lst_mix.getLastVisibleIndex());
@@ -1328,6 +1337,7 @@ public class Main {
                     MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                     String mixId = mix.getMixId();
                     dbLink.Mix_Delete(mixId);
+                    dbLink.stopTransaction();
                     reloadMixes();
                     clearAllModels();
                 } catch (SQLException e) {
@@ -1398,6 +1408,7 @@ public class Main {
                     if (sc.pass()) {
                         String mixId = mix.getMixId();
                         dbLink.Mix_Update_Name(mixId, mixnom);
+                        dbLink.stopTransaction();
                         reloadMixes();
                         int index = modelList_Solve.find_by_mixid(mix.getMixId());
                         lst_mix.setSelectedIndex(index);
@@ -1417,6 +1428,7 @@ public class Main {
                 MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 dbLink.Mix_Duplicate(mixId);
+                dbLink.stopTransaction();
                 reloadMixes();
                 int index = modelList_Solve.find_by_mixid(mix.getMixId());
                 lst_mix.setSelectedIndex(index);
@@ -1437,6 +1449,7 @@ public class Main {
                 try {
                     MixDataObject mixDataObject = (MixDataObject) lst_mix.getSelectedValue();
                     dbLink.Food_Put(mixDataObject.getMixId());
+                    dbLink.stopTransaction();
                     reloadFoodItems();
                 } catch (SQLException e) {
 
@@ -2124,6 +2137,7 @@ public class Main {
                 MixDataObject mix = (MixDataObject) list_journal_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 dbLink.Mix_Update_Status(mixId, 1);
+                dbLink.stopTransaction();
                 modelList_Solve.reload();
                 modelListFoodJournal.reload();
                 int index = modelList_Solve.find_by_mixid(mixId);
@@ -2140,6 +2154,7 @@ public class Main {
                 MixDataObject mix = (MixDataObject) list_journal_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 dbLink.Mix_Duplicate(mixId);
+                dbLink.stopTransaction();
                 reloadMixes();
                 int index = modelList_Solve.find_by_mixid(mix.getMixId());
                 lst_mix.setSelectedIndex(index);
@@ -3026,7 +3041,6 @@ public class Main {
 
     private void event_buttonFoodListAdd() {
         try {
-            dbLink.startTransaction();
             String foodId = dbLink.Food_Insert_Temp("New Food Item Name");
             updateFoodItem(foodId, -1);
         } catch (SQLException e) {
@@ -3053,6 +3067,7 @@ public class Main {
     private void deleteFoodItem(String foodId) {
         try {
             dbLink.Food_Delete(foodId);
+            dbLink.stopTransaction();
             reloadFoodItems();
             if (!listCategories.isSelectionEmpty()) {
                 FoodCategoryDataObject foodCategoryDataObject = (FoodCategoryDataObject) listCategories.getSelectedValue();
@@ -3066,6 +3081,7 @@ public class Main {
     private void duplicateFoodItem(String foodId) {
         try {
             dbLink.DuplicateFoodItem(foodId);
+            dbLink.stopTransaction();
             reloadFoodItems();
             if (!listCategories.isSelectionEmpty()) {
                 FoodCategoryDataObject foodCategoryDataObject = (FoodCategoryDataObject) listCategories.getSelectedValue();
@@ -3199,6 +3215,7 @@ public class Main {
                     } else {
                         dbLink.Nutrient_Update(k, 0);
                     }
+                    dbLink.stopTransaction();
                 } catch (SQLException e) {
 
                 }
@@ -3228,6 +3245,7 @@ public class Main {
                     } else {
                         dbLink.Mix_Update_NutrientId(o.getMixId(), "10005");
                     }
+                    dbLink.stopTransaction();
                     reloadMixes();
                     clearAllModels();
                     int index = modelList_Solve.find_by_mixid(o.getMixId());
@@ -3435,7 +3453,7 @@ public class Main {
                 + "       - Java 11";
         sb.append(txt);
         sb.append("\n\n");
-        sb.append("This is build 890");
+        sb.append("This is build 900");
         sb.append("\n\n");
         sb.append("Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com");
         JTextArea textArea = new JTextArea();
@@ -4295,6 +4313,7 @@ public class Main {
                 for (int i = 0; i < selectedRows.length; i++) {
                     FoodDataObject foodDataObject = (FoodDataObject) modelListFoodInCategory.get(selectedRows[i]);
                     dbLink.CategoryLink_Delete(foodCategoryDataObject.getFoodCategoryId(), foodDataObject.getFoodId());
+                    dbLink.stopTransaction();
                 }
                 reloadFoodItems();
                 modelListFoodInCategory.reload(foodCategoryDataObject.getFoodCategoryId());
@@ -4315,6 +4334,7 @@ public class Main {
                         Integer count = dbLink.CategoryLink_Count(foodCategoryDataObject.getFoodCategoryId(), foodDataObject.getFoodId());
                         if (count == 0) {
                             dbLink.CategoryLink_Insert(foodCategoryDataObject.getFoodCategoryId(), foodDataObject.getFoodId());
+                            dbLink.stopTransaction();
                             reloadFoodItems();
                             modelListFoodInCategory.reload(foodCategoryDataObject.getFoodCategoryId());
                         }
@@ -4417,6 +4437,19 @@ public class Main {
         for (int i = 1; i < rowCount; i++) {
             treeFoodList.collapseRow(i);
         }
+    }
+
+    private void btn_undo_evt_actn() {
+        if (isMixSelected()) {
+            MixDataObject mix = (MixDataObject) lst_mix.getSelectedValue();
+            dbLink.revertTransaction();
+            reloadMixes();
+            int index = modelList_Solve.find_by_mixid(mix.getMixId());
+            lst_mix.setSelectedIndex(index);
+        } else {
+            Message.showMessage("Select mix.");
+        }
+
     }
 
     private void btn_solve_evt_actn() {
@@ -4547,6 +4580,7 @@ public class Main {
                     list_journal_mix.setSelectedIndex(journal_mix_index);
                     int mix_index = modelList_Solve.find_by_mixid(mix.getMixId());
                     lst_mix.setSelectedIndex(mix_index);
+                    dbLink.stopTransaction();
                 } else {
                     sbAll.append("/*\n");
                     sbAll.append(lpModel.getDescription());
@@ -5048,6 +5082,7 @@ public class Main {
             if (category_name != null && category_name.length() > 0) {
                 try {
                     dbLink.FoodCategory_Insert_2(category_name);
+                    dbLink.stopTransaction();
                     modelListCategory.reload();
                     reloadFoodItems();
                 } catch (SQLException e) {
@@ -5072,6 +5107,7 @@ public class Main {
                         FoodCategoryDataObject foodCategoryDataObject = (FoodCategoryDataObject) listCategories.getSelectedValue();
                         String foodCategoryId = foodCategoryDataObject.getFoodCategoryId();
                         dbLink.FoodCategory_Update(foodCategoryId, category_name);
+                        dbLink.stopTransaction();
                         modelListCategory.reload();
                         reloadFoodItems();
                     } catch (SQLException e) {
@@ -5088,6 +5124,7 @@ public class Main {
                 FoodCategoryDataObject foodCategoryDataObject = (FoodCategoryDataObject) listCategories.getSelectedValue();
                 String foodCategoryId = foodCategoryDataObject.getFoodCategoryId();
                 dbLink.FoodCategory_Delete(foodCategoryId);
+                dbLink.stopTransaction();
                 modelListCategory.reload();
                 reloadFoodItems();
                 modelListFoodInCategory.reload("-1");
@@ -5442,7 +5479,7 @@ public class Main {
                 MixDataObject o = (MixDataObject) modelList_Solve.get(i);
                 set01.add(o.getMixId());
             }
-            Xml_receive receive = new Xml_receive();
+            Xml_receive receive = new Xml_receive(dbLink);
             receive.import_snack_data(path);
             reloadMixes();
             reloadFoodItems();

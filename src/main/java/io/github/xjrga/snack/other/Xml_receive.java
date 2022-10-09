@@ -58,9 +58,9 @@ public class Xml_receive {
     /**
      * Constructs DataTransfer class
      */
-    public Xml_receive() {
+    public Xml_receive(DbLink dbLink) {
         inputFactory = XMLInputFactory.newInstance();
-        dbLink = new DbLink();
+        this.dbLink = dbLink;
     }
 
     public void import_snack_data(String path) {
@@ -653,6 +653,7 @@ public class Xml_receive {
                     }
                 }
                 reader.close();
+                dbLink.stopTransaction();
             } else {
                 show_message_invalid();
             }
