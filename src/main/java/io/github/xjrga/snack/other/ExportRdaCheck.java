@@ -39,7 +39,7 @@ public class ExportRdaCheck {
     private StringBuilder sb;
     private Workbook wb;
 
-    public ExportRdaCheck(DbLink dbLink) {
+    public ExportRdaCheck( DbLink dbLink ) {
         this.dbLink = dbLink;
         initializeVariables();
         initializeMethods();
@@ -57,9 +57,9 @@ public class ExportRdaCheck {
         cellStylePctULValue = getCellStylePctULValue();
         date = new Date();
         pattern = "yyyy-MMMMM-dd'_at_'HH-mm-ss";
-        dateFormat = new SimpleDateFormat(pattern);
+        dateFormat = new SimpleDateFormat( pattern );
         filepath = new StringBuilder();
-        format = dateFormat.format(date);
+        format = dateFormat.format( date );
         row = null;
         rownum = 0;
         s = wb.createSheet();
@@ -68,122 +68,122 @@ public class ExportRdaCheck {
     }
 
     private void initializeMethods() {
-        fontBold.setBold(true);
-        sb.append("rda_check_");
-        sb.append(format);
-        sb.append(".xls");
-        filepath.append("model/");
-        filepath.append(sb.toString());
-        wb.setSheetName(0, sheetname);
+        fontBold.setBold( true );
+        sb.append( "rda_check_" );
+        sb.append( format );
+        sb.append( ".xls" );
+        filepath.append( "model/" );
+        filepath.append( sb.toString() );
+        wb.setSheetName( 0, sheetname );
     }
 
     private CellStyle getCellStyleMixValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
-        cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("[RED][<=0]0;0"));
-        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][<=0]0;0" ) );
+        cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStylePctRdaValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
-        cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("[RED][<100]0;0"));
-        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][<100]0;0" ) );
+        cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStylePctULValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
-        cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("[RED][>100]0;0"));
-        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][>100]0;0" ) );
+        cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
-        cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
-        cellStyleColumnName.setFont(fontBold);
-        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
+        cellStyleColumnName.setFont( fontBold );
+        cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
 
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
-        cellStyleMixName.setFillPattern(FillPatternType.SPARSE_DOTS);
-        cellStyleMixName.setFont(fontBold);
-        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleMixName.setFillPattern( FillPatternType.SPARSE_DOTS );
+        cellStyleMixName.setFont( fontBold );
+        cellStyleMixName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleMixName;
     }
 
-    public void print(MixDataObject mixDataObject, Integer lifeStageId) {
-        row = s.createRow(rownum++);
-        cell = row.createCell(0);
+    public void print( MixDataObject mixDataObject, Integer lifeStageId ) {
+        row = s.createRow( rownum++ );
+        cell = row.createCell( 0 );
         StringBuilder sb1 = new StringBuilder();
-        sb1.append("RDA Check, ");
-        sb1.append("Lifestage ");
-        sb1.append(lifeStageId);
-        sb1.append(", ");
-        sb1.append(mixDataObject.getName());
-        cell.setCellValue(sb1.toString());
-        cell.setCellStyle(cellStyleMixName);
-        row = s.createRow(rownum++);
-        cell = row.createCell(0);
-        cell.setCellValue("Nutrient");
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(1);
-        cell.setCellValue(mixDataObject.getName());
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(2);
-        cell.setCellValue("RDA");
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(3);
-        cell.setCellValue("% RDA");
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(4);
-        cell.setCellValue("UL");
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(5);
-        cell.setCellValue("% UL");
-        cell.setCellStyle(cellStyleColumnName);
+        sb1.append( "RDA Check, " );
+        sb1.append( "Lifestage " );
+        sb1.append( lifeStageId );
+        sb1.append( ", " );
+        sb1.append( mixDataObject.getName() );
+        cell.setCellValue( sb1.toString() );
+        cell.setCellStyle( cellStyleMixName );
+        row = s.createRow( rownum++ );
+        cell = row.createCell( 0 );
+        cell.setCellValue( "Nutrient" );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 1 );
+        cell.setCellValue( mixDataObject.getName() );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 2 );
+        cell.setCellValue( "RDA" );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 3 );
+        cell.setCellValue( "% RDA" );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 4 );
+        cell.setCellValue( "UL" );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 5 );
+        cell.setCellValue( "% UL" );
+        cell.setCellStyle( cellStyleColumnName );
         try {
-            LinkedList list = (LinkedList) dbLink.Mix_GetRdaDiff(mixDataObject.getMixId(), lifeStageId, 2);
+            LinkedList list = ( LinkedList ) dbLink.Mix_GetRdaDiff( mixDataObject.getMixId(), lifeStageId, 2 );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String nutrient = (String) rowm.get("NAME");
-                Double mix = (Double) rowm.get("MIX");
-                Double rda = (Double) rowm.get("RDA");
-                Double pctrda = (Double) rowm.get("PCTRDA");
-                Double ul = (Double) rowm.get("UL");
-                Double pctul = (Double) rowm.get("PCTUL");
-                row = s.createRow(rownum++);
-                cell = row.createCell(0);
-                cell.setCellValue(nutrient);
-                cell = row.createCell(1);
-                cell.setCellValue(mix);
-                cell.setCellStyle(cellStyleMixValue);
-                cell = row.createCell(2);
-                cell.setCellValue(rda);
-                cell.setCellStyle(cellStyleMixValue);
-                cell = row.createCell(3);
-                cell.setCellValue(pctrda);
-                cell.setCellStyle(cellStylePctRdaValue);
-                cell = row.createCell(4);
-                cell.setCellValue(ul);
-                cell = row.createCell(5);
-                cell.setCellValue(pctul);
-                cell.setCellStyle(cellStylePctULValue);
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String nutrient = ( String ) rowm.get( "NAME" );
+                Double mix = ( Double ) rowm.get( "MIX" );
+                Double rda = ( Double ) rowm.get( "RDA" );
+                Double pctrda = ( Double ) rowm.get( "PCTRDA" );
+                Double ul = ( Double ) rowm.get( "UL" );
+                Double pctul = ( Double ) rowm.get( "PCTUL" );
+                row = s.createRow( rownum++ );
+                cell = row.createCell( 0 );
+                cell.setCellValue( nutrient );
+                cell = row.createCell( 1 );
+                cell.setCellValue( mix );
+                cell.setCellStyle( cellStyleMixValue );
+                cell = row.createCell( 2 );
+                cell.setCellValue( rda );
+                cell.setCellStyle( cellStyleMixValue );
+                cell = row.createCell( 3 );
+                cell.setCellValue( pctrda );
+                cell.setCellStyle( cellStylePctRdaValue );
+                cell = row.createCell( 4 );
+                cell.setCellValue( ul );
+                cell = row.createCell( 5 );
+                cell.setCellValue( pctul );
+                cell.setCellStyle( cellStylePctULValue );
             }
             try {
-                out = new FileOutputStream(filepath.toString());
-                wb.write(out);
+                out = new FileOutputStream( filepath.toString() );
+                wb.write( out );
                 out.close();
-            } catch (IOException e) {
+            } catch( IOException e ) {
             }
-            JComponent[] inputs = new JComponent[]{
-                new JLabel("Spreadsheet is ready")
+            JComponent[] inputs = new JComponent[] {
+                new JLabel( "Spreadsheet is ready" )
             };
-            Message.showOptionDialog(inputs, "Export RDA Check");
-        } catch (SQLException e) {
+            Message.showOptionDialog( inputs, "Export RDA Check" );
+        } catch( SQLException e ) {
 
 //
         }

@@ -12,13 +12,13 @@ public class StringCheck {
     public StringCheck() {
     }
 
-    public void addUncheckedList(String s) {
-        names.add(s);
+    public void addUncheckedList( String s ) {
+        names.add( s );
     }
 
     public boolean pass() {
         boolean pass = false;
-        if (checkNames()) {
+        if( checkNames() ) {
             pass = true;
         }
         return pass;
@@ -26,12 +26,13 @@ public class StringCheck {
 
     private boolean checkNames() {
         boolean pass = true;
-        for (String s : names) {
-            if (s.isEmpty()) {
+        for( String s : names ) {
+            if( s.isEmpty() ) {
                 pass = false;
                 break;
-            } else {
-                if (!checkStringIsValid(s)) {
+            }
+            else {
+                if( !checkStringIsValid( s ) ) {
                     pass = false;
                     break;
                 }
@@ -40,14 +41,14 @@ public class StringCheck {
         return pass;
     }
 
-    private boolean checkStringIsValid(String s) {
+    private boolean checkStringIsValid( String s ) {
         boolean pass = false;
         //String patternStr = "[A-Za-z0-9 .,'%()/&_-]+";
         //xml invalid characters <&>'"
         String patternStr = "[^<&>'\"]+";
-        Pattern pattern = Pattern.compile(patternStr);
-        Matcher matcher = pattern.matcher(s);
-        if (matcher.matches()) {
+        Pattern pattern = Pattern.compile( patternStr );
+        Matcher matcher = pattern.matcher( s );
+        if( matcher.matches() ) {
             pass = true;
         }
         return pass;

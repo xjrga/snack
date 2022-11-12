@@ -21,18 +21,17 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
-
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
 
 public class ComboBoxModelNutrientsAll extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
-    public ComboBoxModelNutrientsAll(DbLink dbLink) {
+    public ComboBoxModelNutrientsAll( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
@@ -40,16 +39,16 @@ public class ComboBoxModelNutrientsAll extends DefaultComboBoxModel {
         this.removeAllElements();
         LinkedList all = null;
         try {
-            all = (LinkedList) dbLink.Nutrient_Select_All();
+            all = ( LinkedList ) dbLink.Nutrient_Select_All();
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String nutrientid = (String) row.get("NUTRIENTID");
-                String name = (String) row.get("NAME");
-                NutrientDataObject nutrientDataObject = new NutrientDataObject(nutrientid, name, null);
-                this.addElement(nutrientDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String nutrientid = ( String ) row.get( "NUTRIENTID" );
+                String name = ( String ) row.get( "NAME" );
+                NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, name, null );
+                this.addElement( nutrientDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

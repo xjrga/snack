@@ -26,35 +26,36 @@ public class TableModelCarbs extends DefaultTableModel {
 
     private Vector columns;
 
-    public TableModelCarbs(Result_loader loader) {
+    public TableModelCarbs( Result_loader loader ) {
         columns = new Vector();
-        columns.add("Name");
-        columns.add("Weight");
-        columns.add("eCarbs");
-        columns.add("CarbsBD");
-        columns.add("Fiber");
-        columns.add("Carbs");
-        this.setDataVector(loader.get_carbs_table(), columns);
+        columns.add( "Name" );
+        columns.add( "Weight" );
+        columns.add( "eCarbs" );
+        columns.add( "CarbsBD" );
+        columns.add( "Fiber" );
+        columns.add( "Carbs" );
+        this.setDataVector( loader.get_carbs_table(), columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i == 0) {
+        if( i == 0 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void set_table(Vector table) {
-        this.setDataVector(table, columns);
+    public void set_table( Vector table ) {
+        this.setDataVector( table, columns );
     }
 
 }

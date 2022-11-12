@@ -20,13 +20,12 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
 
@@ -34,75 +33,76 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelGlycemic(DbLink dbLink) {
+    public TableModelGlycemic( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Name");
-        columns.add("Weight");
-        columns.add("eCarbs");
-        columns.add("Carbs");
-        columns.add("%");
-        columns.add("GI");
-        columns.add("GL");
-        columns.add("Meal GI");
-        this.setColumnIdentifiers(columns);
+        columns.add( "Name" );
+        columns.add( "Weight" );
+        columns.add( "eCarbs" );
+        columns.add( "Carbs" );
+        columns.add( "%" );
+        columns.add( "GI" );
+        columns.add( "GL" );
+        columns.add( "Meal GI" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i == 0) {
+        if( i == 0 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void reload(String mixid) {
+    public void reload( String mixid ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.Mix_GetMealGi(mixid, precision);
+            LinkedList list = ( LinkedList ) dbLink.Mix_GetMealGi( mixid, precision );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String Name = (String) rowm.get("name");
-                Double Weight = (Double) rowm.get("weight");
-                Double DigestibleCarbohydrate = (Double) rowm.get("carbs");
-                Double Pct = (Double) rowm.get("pct");
-                Double GlycemicIndex = (Double) rowm.get("gi");
-                Double GlycemicLoad = (Double) rowm.get("gl");
-                Double MealGI = (Double) rowm.get("mealgi");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String Name = ( String ) rowm.get( "name" );
+                Double Weight = ( Double ) rowm.get( "weight" );
+                Double DigestibleCarbohydrate = ( Double ) rowm.get( "carbs" );
+                Double Pct = ( Double ) rowm.get( "pct" );
+                Double GlycemicIndex = ( Double ) rowm.get( "gi" );
+                Double GlycemicLoad = ( Double ) rowm.get( "gl" );
+                Double MealGI = ( Double ) rowm.get( "mealgi" );
                 Double EnergyCarbohydrate = DigestibleCarbohydrate * 4;
                 row = new Vector();
-                row.add(Name);
-                row.add(Weight);
-                row.add(EnergyCarbohydrate);
-                row.add(DigestibleCarbohydrate);
-                row.add(Pct);
-                row.add(GlycemicIndex);
-                row.add(GlycemicLoad);
-                row.add(MealGI);
-                table.add(row);
+                row.add( Name );
+                row.add( Weight );
+                row.add( EnergyCarbohydrate );
+                row.add( DigestibleCarbohydrate );
+                row.add( Pct );
+                row.add( GlycemicIndex );
+                row.add( GlycemicLoad );
+                row.add( MealGI );
+                table.add( row );
             }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }
 
     @Override
-    public void setPrecision(Integer precision) {
+    public void setPrecision( Integer precision ) {
         this.precision = precision;
     }
 }

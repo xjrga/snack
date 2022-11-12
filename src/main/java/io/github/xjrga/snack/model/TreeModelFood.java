@@ -21,24 +21,23 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class TreeModelFood extends DefaultTreeModel {
 
     private final DbLink dbLink;
     private DefaultMutableTreeNode node;
 
-    public TreeModelFood(DbLink dblink) {
-        super(null);
+    public TreeModelFood( DbLink dblink ) {
+        super( null );
         this.dbLink = dblink;
-        node = new DefaultMutableTreeNode("Food");
-        this.setRoot(node);
+        node = new DefaultMutableTreeNode( "Food" );
+        this.setRoot( node );
     }
 
     @Override
@@ -46,28 +45,29 @@ public class TreeModelFood extends DefaultTreeModel {
         HashMap hm = new HashMap();
         LinkedList list = null;
         try {
-            list = (LinkedList) dbLink.Food_Select_All();
+            list = ( LinkedList ) dbLink.Food_Select_All();
             Iterator it = list.iterator();
-            node = new DefaultMutableTreeNode("Food");
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String categoryName = (String) row.get("CATEGORY");
-                String foodid = (String) row.get("FOODID");
-                String foodName = (String) row.get("FOOD");
-                DefaultMutableTreeNode category = new DefaultMutableTreeNode(categoryName);
-                FoodDataObject foodobject = new FoodDataObject(foodid, foodName);
-                DefaultMutableTreeNode food = new DefaultMutableTreeNode(foodobject);
-                if (hm.containsKey(categoryName)) {
-                    category = (DefaultMutableTreeNode) hm.get(categoryName);
-                    category.add(food);
-                } else {
-                    hm.put(categoryName, category);
-                    node.add(category);
-                    category.add(food);
+            node = new DefaultMutableTreeNode( "Food" );
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String categoryName = ( String ) row.get( "CATEGORY" );
+                String foodid = ( String ) row.get( "FOODID" );
+                String foodName = ( String ) row.get( "FOOD" );
+                DefaultMutableTreeNode category = new DefaultMutableTreeNode( categoryName );
+                FoodDataObject foodobject = new FoodDataObject( foodid, foodName );
+                DefaultMutableTreeNode food = new DefaultMutableTreeNode( foodobject );
+                if( hm.containsKey( categoryName ) ) {
+                    category = ( DefaultMutableTreeNode ) hm.get( categoryName );
+                    category.add( food );
+                }
+                else {
+                    hm.put( categoryName, category );
+                    node.add( category );
+                    category.add( food );
                 }
             }
-            this.setRoot(node);
-        } catch (SQLException e) {
+            this.setRoot( node );
+        } catch( SQLException e ) {
 
         }
     }

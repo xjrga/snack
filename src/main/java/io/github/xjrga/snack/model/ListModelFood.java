@@ -21,51 +21,50 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
-
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
 
 public class ListModelFood extends DefaultListModel {
 
     private final DbLink dbLink;
 
-    public ListModelFood(DbLink dbLink) {
+    public ListModelFood( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
         this.clear();
         try {
-            LinkedList all = (LinkedList) dbLink.Food_Select_All_2();
+            LinkedList all = ( LinkedList ) dbLink.Food_Select_All_2();
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String foodid = (String) row.get("FOODID");
-                String name = (String) row.get("NAME");
-                FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-                this.addElement(foodDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String foodid = ( String ) row.get( "FOODID" );
+                String name = ( String ) row.get( "NAME" );
+                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
+                this.addElement( foodDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }
 
-    public void reload(String txt) {
+    public void reload( String txt ) {
         this.clear();
         try {
-            LinkedList all = (LinkedList) dbLink.Food_Select_All_Like(txt);
+            LinkedList all = ( LinkedList ) dbLink.Food_Select_All_Like( txt );
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String foodid = (String) row.get("FOODID");
-                String name = (String) row.get("NAME");
-                FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-                this.addElement(foodDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String foodid = ( String ) row.get( "FOODID" );
+                String name = ( String ) row.get( "NAME" );
+                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
+                this.addElement( foodDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

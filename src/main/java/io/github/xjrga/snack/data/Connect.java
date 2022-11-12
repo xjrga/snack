@@ -48,27 +48,27 @@ public class Connect {
     public Connection getConnection() {
         prop = new Properties();
         try {
-            input = new FileInputStream("resources/connection.properties");
-        } catch (FileNotFoundException e) {
+            input = new FileInputStream( "resources/connection.properties" );
+        } catch( FileNotFoundException e ) {
 
         }
         try {
-            prop.load(input);
-            JDBC_DRIVER = prop.getProperty("jdbc.driver");
-            DB_URL = prop.getProperty("jdbc.url");
-            DB_USER = prop.getProperty("jdbc.username");
-            DB_PASS = prop.getProperty("jdbc.password");
-        } catch (IOException e) {
+            prop.load( input );
+            JDBC_DRIVER = prop.getProperty( "jdbc.driver" );
+            DB_URL = prop.getProperty( "jdbc.url" );
+            DB_USER = prop.getProperty( "jdbc.username" );
+            DB_PASS = prop.getProperty( "jdbc.password" );
+        } catch( IOException e ) {
 
         }
         try {
-            Class.forName(JDBC_DRIVER);
-        } catch (ClassNotFoundException e) {
+            Class.forName( JDBC_DRIVER );
+        } catch( ClassNotFoundException e ) {
 
         }
         try {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        } catch (SQLException e) {
+            connection = DriverManager.getConnection( DB_URL, DB_USER, DB_PASS );
+        } catch( SQLException e ) {
         }
         return connection;
     }

@@ -19,15 +19,15 @@ import javax.swing.table.TableCellEditor;
 public class DoubleTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 
     JComponent component = new JTextField();
-    JTextField textfield = (JTextField) component;
+    JTextField textfield = ( JTextField ) component;
 
     @Override
-    public Component getTableCellEditorComponent(JTable table, Object value,
-            boolean isSelected, int rowIndex, int vColIndex) {
+    public Component getTableCellEditorComponent( JTable table, Object value,
+                                                  boolean isSelected, int rowIndex, int vColIndex ) {
         //if editing
         textfield.selectAll();
-        textfield.setText("");
-        if (table.isCellEditable(rowIndex, vColIndex)) {
+        textfield.setText( "" );
+        if( table.isCellEditable( rowIndex, vColIndex ) ) {
             //Message.showMessage("Cell is editable");
         }
         return component;
@@ -37,10 +37,11 @@ public class DoubleTableCellEditor extends AbstractCellEditor implements TableCe
     public Object getCellEditorValue() {
         NumberCheck checkNumber = new NumberCheck();
         Double n = 0.0;
-        checkNumber.addToUncheckedList(textfield.getText());
-        if (checkNumber.pass()) {
-            n = Double.valueOf(textfield.getText());
-        } else {
+        checkNumber.addToUncheckedList( textfield.getText() );
+        if( checkNumber.pass() ) {
+            n = Double.valueOf( textfield.getText() );
+        }
+        else {
             //System.out.println(rowIndex+","+vColIndex+","+editingRow);
             //first click stops editor, second click enters new cell
             //java.lang.IndexOutOfBoundsException: Invalid index when click on next cell

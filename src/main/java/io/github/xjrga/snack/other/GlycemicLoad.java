@@ -5,7 +5,7 @@ public class GlycemicLoad {
     private final Double glycemicIndex;
     private final Double digestibleCarbs;
 
-    public GlycemicLoad(Double glycemicIndex, Double digestibleCarbs) {
+    public GlycemicLoad( Double glycemicIndex, Double digestibleCarbs ) {
         this.glycemicIndex = glycemicIndex;
         this.digestibleCarbs = digestibleCarbs;
     }

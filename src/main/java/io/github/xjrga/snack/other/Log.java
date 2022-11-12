@@ -13,7 +13,7 @@ public class Log {
     private LinkedList<String> messageList;
 
     private Log() {
-        File file = new File("model");
+        File file = new File( "model" );
         file.mkdirs();
     }
 
@@ -21,16 +21,16 @@ public class Log {
         return INSTANCE;
     }
 
-    public void logMessage(String message) {
-        messageList.add(message);
+    public void logMessage( String message ) {
+        messageList.add( message );
     }
 
     public void removeLast() {
         messageList.removeLast();
     }
 
-    public void remove(int index) {
-        messageList.remove(index);
+    public void remove( int index ) {
+        messageList.remove( index );
     }
 
     public void removeFirst() {
@@ -41,35 +41,36 @@ public class Log {
         messageList.clear();
     }
 
-    public void start(String filePath) {
+    public void start( String filePath ) {
         messageList = new LinkedList<>();
         try {
-            out = new BufferedWriter(new FileWriter(filePath, true));
-        } catch (IOException e) {
+            out = new BufferedWriter( new FileWriter( filePath, true ) );
+        } catch( IOException e ) {
         }
     }
 
     public void close() {
         try {
             out.close();
-        } catch (IOException e) {
+        } catch( IOException e ) {
         }
     }
 
     public void write() {
         try {
-            out.write("----->");
-            out.write("\n");
-            messageList.forEach(m -> {
+            out.write( "----->" );
+            out.write( "\n" );
+            messageList.forEach( m
+                    -> {
                 try {
-                    out.write(m);
-                    out.write("\n");
-                } catch (IOException e) {
+                    out.write( m );
+                    out.write( "\n" );
+                } catch( IOException e ) {
                 }
-            });
-            out.write("<-----");
-            out.write("\n\n");
-        } catch (IOException e) {
+            } );
+            out.write( "<-----" );
+            out.write( "\n\n" );
+        } catch( IOException e ) {
         }
     }
 }

@@ -32,23 +32,23 @@ public class Food_legend_generator {
     private final DbLink dbLink;
     private ArrayList list;
 
-    public Food_legend_generator(DbLink dbLink) {
+    public Food_legend_generator( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
-    public void reload(String mixId) {
+    public void reload( String mixId ) {
         try {
             list = new ArrayList();
-            LinkedList all = (LinkedList) dbLink.MixFood_Select_All_By_Foodid(mixId);
+            LinkedList all = ( LinkedList ) dbLink.MixFood_Select_All_By_Foodid( mixId );
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String foodid = (String) row.get("FOODID");
-                String name = (String) row.get("NAME");
-                FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-                list.add(foodDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String foodid = ( String ) row.get( "FOODID" );
+                String name = ( String ) row.get( "NAME" );
+                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
+                list.add( foodDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

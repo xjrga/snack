@@ -33,23 +33,23 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelNutrientLookup(DbLink dbLink) {
+    public TableModelNutrientLookup( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Food");
-        columns.add("Weight");
-        columns.add("Calories");
-        this.setColumnIdentifiers(columns);
+        columns.add( "Food" );
+        columns.add( "Weight" );
+        columns.add( "Calories" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch (i) {
+        switch( i ) {
             case 0:
                 returnValue = String.class;
                 break;
@@ -63,35 +63,35 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void reload(String NutrientId, Double Weight) {
+    public void reload( String NutrientId, Double Weight ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.Nutrient_Lookup_List(NutrientId, Weight, precision);
+            LinkedList list = ( LinkedList ) dbLink.Nutrient_Lookup_List( NutrientId, Weight, precision );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String foodname = (String) rowm.get("NAME");
-                Double calories = (Double) rowm.get("CALORIES");
-                Double weight = (Double) rowm.get("WEIGHT");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String foodname = ( String ) rowm.get( "NAME" );
+                Double calories = ( Double ) rowm.get( "CALORIES" );
+                Double weight = ( Double ) rowm.get( "WEIGHT" );
                 row = new Vector();
-                row.add(foodname);
-                row.add(weight);
-                row.add(calories);
-                table.add(row);
+                row.add( foodname );
+                row.add( weight );
+                row.add( calories );
+                table.add( row );
             }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }
 
     @Override
-    public void setPrecision(Integer precision) {
+    public void setPrecision( Integer precision ) {
         this.precision = precision;
     }
 }

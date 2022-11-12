@@ -34,25 +34,25 @@ public class TableModelFoodComparison extends DefaultTableModel implements Round
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelFoodComparison(DbLink dbLink) {
+    public TableModelFoodComparison( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Category");
-        columns.add("Nutrient");
-        columns.add("Food A");
-        columns.add("Food B");
-        columns.add("Diff");
-        this.setColumnIdentifiers(columns);
+        columns.add( "Category" );
+        columns.add( "Nutrient" );
+        columns.add( "Food A" );
+        columns.add( "Food B" );
+        columns.add( "Diff" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch (i) {
+        switch( i ) {
             case 0:
                 //Category
                 returnValue = String.class;
@@ -78,30 +78,30 @@ public class TableModelFoodComparison extends DefaultTableModel implements Round
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void reload(String food_id_a, String food_id_b) {
+    public void reload( String food_id_a, String food_id_b ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.get_food_differences(food_id_a, food_id_b, precision);
+            LinkedList list = ( LinkedList ) dbLink.get_food_differences( food_id_a, food_id_b, precision );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String category = (String) rowm.get("CATEGORY");
-                String nutrient = (String) rowm.get("NUTRIENT");
-                double food_a = (double) rowm.get("FOODA");
-                double food_b = (double) rowm.get("FOODB");
-                double diff = (double) rowm.get("DIFF");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String category = ( String ) rowm.get( "CATEGORY" );
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double food_a = ( double ) rowm.get( "FOODA" );
+                double food_b = ( double ) rowm.get( "FOODB" );
+                double diff = ( double ) rowm.get( "DIFF" );
                 row = new Vector();
-                row.add(category);
-                row.add(nutrient);
-                row.add(food_a);
-                row.add(food_b);
-                row.add(diff);
-                table.add(row);
+                row.add( category );
+                row.add( nutrient );
+                row.add( food_a );
+                row.add( food_b );
+                row.add( diff );
+                table.add( row );
             }
 //            list = (LinkedList) dbLink.Mix_GetFQDiff(MixId1, MixId2);
 //            it = list.iterator();
@@ -135,14 +135,14 @@ public class TableModelFoodComparison extends DefaultTableModel implements Round
 //                row.add(diff);
 //                table.add(row);
 //            }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }
 
     @Override
-    public void setPrecision(Integer precision) {
+    public void setPrecision( Integer precision ) {
         this.precision = precision;
     }
 }

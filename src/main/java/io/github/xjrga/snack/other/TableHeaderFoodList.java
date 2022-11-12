@@ -5,8 +5,8 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderFoodList extends MyTableHeader {
 
-    public TableHeaderFoodList(TableColumnModel columnModel) {
-        super(columnModel, new String[]{
+    public TableHeaderFoodList( TableColumnModel columnModel ) {
+        super( columnModel, new String[] {
             "FoodId",
             "Food Name",
             "Weight (g)",
@@ -57,11 +57,11 @@ public class TableHeaderFoodList extends MyTableHeader {
             "Glycemic Load",
             "Water (g)",
             "Cost ($)"
-        });
+        } );
     }
 
     @Override
-    public String getToolTipText(MouseEvent e) {
-        return super.getToolTipText(e);
+    public String getToolTipText( MouseEvent e ) {
+        return super.getToolTipText( e );
     }
 }

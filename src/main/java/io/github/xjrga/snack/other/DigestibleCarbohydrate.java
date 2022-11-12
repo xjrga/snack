@@ -6,7 +6,7 @@ public class DigestibleCarbohydrate {
     private final Double totalFiber;
     private Double digestibleCarbs;
 
-    public DigestibleCarbohydrate(Double totalCarbohydrate, Double totalFiber) {
+    public DigestibleCarbohydrate( Double totalCarbohydrate, Double totalFiber ) {
         this.totalCarbohydrate = totalCarbohydrate;
         this.totalFiber = totalFiber;
     }

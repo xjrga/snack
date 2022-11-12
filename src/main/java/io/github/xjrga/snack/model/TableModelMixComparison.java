@@ -34,25 +34,25 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelMixComparison(DbLink dbLink) {
+    public TableModelMixComparison( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("Category");
-        columns.add("Nutrient");
-        columns.add("Mix A");
-        columns.add("Mix B");
-        columns.add("Diff");
-        this.setColumnIdentifiers(columns);
+        columns.add( "Category" );
+        columns.add( "Nutrient" );
+        columns.add( "Mix A" );
+        columns.add( "Mix B" );
+        columns.add( "Diff" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch (i) {
+        switch( i ) {
             case 0:
                 //Category
                 returnValue = String.class;
@@ -78,71 +78,71 @@ public class TableModelMixComparison extends DefaultTableModel implements RoundU
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void reload(String MixId1, String MixId2) {
+    public void reload( String MixId1, String MixId2 ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.Mix_GetDiff(MixId1, MixId2, precision);
+            LinkedList list = ( LinkedList ) dbLink.Mix_GetDiff( MixId1, MixId2, precision );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String category = (String) rowm.get("CATEGORY");
-                String nutrient = (String) rowm.get("NUTRIENT");
-                double mix1 = (double) rowm.get("MIXA");
-                double mix2 = (double) rowm.get("MIXB");
-                double diff = (double) rowm.get("DIFF");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String category = ( String ) rowm.get( "CATEGORY" );
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIXA" );
+                double mix2 = ( double ) rowm.get( "MIXB" );
+                double diff = ( double ) rowm.get( "DIFF" );
                 row = new Vector();
-                row.add(category);
-                row.add(nutrient);
-                row.add(mix1);
-                row.add(mix2);
-                row.add(diff);
-                table.add(row);
+                row.add( category );
+                row.add( nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
             }
-            list = (LinkedList) dbLink.Mix_GetFQDiff(MixId1, MixId2);
+            list = ( LinkedList ) dbLink.Mix_GetFQDiff( MixId1, MixId2 );
             it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String nutrient = (String) rowm.get("NUTRIENT");
-                double mix1 = (double) rowm.get("MIX1");
-                double mix2 = (double) rowm.get("MIX2");
-                double diff = (double) rowm.get("DIFF");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
                 row = new Vector();
-                row.add("Other");
-                row.add(nutrient);
-                row.add(mix1);
-                row.add(mix2);
-                row.add(diff);
-                table.add(row);
+                row.add( "Other" );
+                row.add( nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
             }
-            list = (LinkedList) dbLink.Mix_GetMealGIDiff(MixId1, MixId2, precision);
+            list = ( LinkedList ) dbLink.Mix_GetMealGIDiff( MixId1, MixId2, precision );
             it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String nutrient = (String) rowm.get("NUTRIENT");
-                double mix1 = (double) rowm.get("MIX1");
-                double mix2 = (double) rowm.get("MIX2");
-                double diff = (double) rowm.get("DIFF");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
                 row = new Vector();
-                row.add("Other");
-                row.add(nutrient);
-                row.add(mix1);
-                row.add(mix2);
-                row.add(diff);
-                table.add(row);
+                row.add( "Other" );
+                row.add( nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
             }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }
 
     @Override
-    public void setPrecision(Integer precision) {
+    public void setPrecision( Integer precision ) {
         this.precision = precision;
     }
 }

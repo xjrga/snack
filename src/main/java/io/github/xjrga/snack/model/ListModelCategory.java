@@ -21,36 +21,35 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodCategoryDataObject;
-
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
 
 public class ListModelCategory extends DefaultListModel {
 
     private final DbLink dbLink;
 
-    public ListModelCategory(DbLink dbLink) {
+    public ListModelCategory( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
         this.clear();
         try {
-            LinkedList all = (LinkedList) dbLink.FoodCategory_Select_All();
+            LinkedList all = ( LinkedList ) dbLink.FoodCategory_Select_All();
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String foodcategoryid = (String) row.get("FOODCATEGORYID");
-                String name = (String) row.get("NAME");
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String foodcategoryid = ( String ) row.get( "FOODCATEGORYID" );
+                String name = ( String ) row.get( "NAME" );
                 FoodCategoryDataObject foodCategoryDataObject = new FoodCategoryDataObject();
-                foodCategoryDataObject.setFoodCategoryId(foodcategoryid);
-                foodCategoryDataObject.setName(name);
-                this.addElement(foodCategoryDataObject);
+                foodCategoryDataObject.setFoodCategoryId( foodcategoryid );
+                foodCategoryDataObject.setName( name );
+                this.addElement( foodCategoryDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

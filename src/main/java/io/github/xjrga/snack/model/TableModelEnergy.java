@@ -26,41 +26,42 @@ public class TableModelEnergy extends DefaultTableModel {
 
     private Vector columns;
 
-    public TableModelEnergy(Result_loader loader) {
+    public TableModelEnergy( Result_loader loader ) {
         columns = new Vector();
-        columns.add("Name");
-        columns.add("Weight");
-        columns.add("eGross");
-        columns.add("eDigest");
-        columns.add("eFat");
-        columns.add("eCarbs");
-        columns.add("eProtein");
-        columns.add("eAlcohol");
-        columns.add("Fat");
-        columns.add("Carbs");
-        columns.add("Protein");
-        columns.add("Alcohol");
-        this.setDataVector(loader.get_energy_table(), columns);
+        columns.add( "Name" );
+        columns.add( "Weight" );
+        columns.add( "eGross" );
+        columns.add( "eDigest" );
+        columns.add( "eFat" );
+        columns.add( "eCarbs" );
+        columns.add( "eProtein" );
+        columns.add( "eAlcohol" );
+        columns.add( "Fat" );
+        columns.add( "Carbs" );
+        columns.add( "Protein" );
+        columns.add( "Alcohol" );
+        this.setDataVector( loader.get_energy_table(), columns );
 
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i == 0) {
+        if( i == 0 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void set_table(Vector table) {
-        this.setDataVector(table, columns);
+    public void set_table( Vector table ) {
+        this.setDataVector( table, columns );
     }
 }

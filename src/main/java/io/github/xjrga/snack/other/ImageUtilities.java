@@ -1,25 +1,25 @@
 package io.github.xjrga.snack.other;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class ImageUtilities {
 
-    static BufferedImage makeBufferedImage(BufferedImage image) {
+    static BufferedImage makeBufferedImage( BufferedImage image ) {
         int w = image.getWidth();
         int h = image.getHeight();
-        BufferedImage subimage = image.getSubimage(0, 0, w, h);
+        BufferedImage subimage = image.getSubimage( 0, 0, w, h );
         Graphics2D g2 = subimage.createGraphics();
-        Rectangle2D tr = new Rectangle2D.Double(0, 0, w, h);
-        TexturePaint tp = new TexturePaint(subimage, tr);
-        g2.setStroke(new BasicStroke(5));
-        g2.setPaint(Color.BLACK);
+        Rectangle2D tr = new Rectangle2D.Double( 0, 0, w, h );
+        TexturePaint tp = new TexturePaint( subimage, tr );
+        g2.setStroke( new BasicStroke( 5 ) );
+        g2.setPaint( Color.BLACK );
         //   g.fill(tr);
-        g2.draw(tr);
+        g2.draw( tr );
         //String format = "PNG";
         //String pathname = "resources/myeditedimage.png";
         //writeBufferedImage(subimage,format,pathname);
@@ -27,45 +27,45 @@ public class ImageUtilities {
         return subimage;
     }
 
-    static void writeBufferedImage(BufferedImage subimage, String format, String pathname) {
+    static void writeBufferedImage( BufferedImage subimage, String format, String pathname ) {
         /*String format = "PNG";
         String pathname = "resources/myeditedimage.png";
         writeBufferedImage(subimage,format,pathname);*/
         try {
-            ImageIO.write(subimage, format, new File(pathname));
-        } catch (IOException e) {
+            ImageIO.write( subimage, format, new File( pathname ) );
+        } catch( IOException e ) {
 
         }
     }
 
-    public static BufferedImage readImage(String pathname) {
+    public static BufferedImage readImage( String pathname ) {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(pathname));
-        } catch (IOException e) {
+            img = ImageIO.read( new File( pathname ) );
+        } catch( IOException e ) {
 
         }
         return img;
     }
 
-    static TexturePaint makeTexturePaint(BufferedImage image, Color color) {
+    static TexturePaint makeTexturePaint( BufferedImage image, Color color ) {
         int w = image.getWidth();
         int h = image.getHeight();
-        BufferedImage subimage = image.getSubimage(0, 0, w, h);
+        BufferedImage subimage = image.getSubimage( 0, 0, w, h );
         Graphics2D g2 = subimage.createGraphics();
-        Rectangle2D tr = new Rectangle2D.Double(0, 0, w, h);
-        TexturePaint tp = new TexturePaint(subimage, tr);
-        g2.setStroke(new BasicStroke(5));
-        g2.setPaint(color);
-        g2.draw(tr);
+        Rectangle2D tr = new Rectangle2D.Double( 0, 0, w, h );
+        TexturePaint tp = new TexturePaint( subimage, tr );
+        g2.setStroke( new BasicStroke( 5 ) );
+        g2.setPaint( color );
+        g2.draw( tr );
         g2.dispose();
         return tp;
     }
 
-    static BufferedImage copyImage(BufferedImage source) {
-        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+    static BufferedImage copyImage( BufferedImage source ) {
+        BufferedImage b = new BufferedImage( source.getWidth(), source.getHeight(), source.getType() );
         Graphics g = b.getGraphics();
-        g.drawImage(source, 0, 0, null);
+        g.drawImage( source, 0, 0, null );
         g.dispose();
         return b;
     }

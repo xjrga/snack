@@ -31,23 +31,23 @@ public class ListModelSelectedFood extends DefaultListModel {
 
     private final DbLink dbLink;
 
-    public ListModelSelectedFood(DbLink dbLink) {
+    public ListModelSelectedFood( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
-    public void reload(String mixId) {
+    public void reload( String mixId ) {
         this.clear();
         try {
-            LinkedList all = (LinkedList) dbLink.MixFood_Select_All_By_Name(mixId);
+            LinkedList all = ( LinkedList ) dbLink.MixFood_Select_All_By_Name( mixId );
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                String foodid = (String) row.get("FOODID");
-                String name = (String) row.get("NAME");
-                FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
-                this.addElement(foodDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                String foodid = ( String ) row.get( "FOODID" );
+                String name = ( String ) row.get( "NAME" );
+                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
+                this.addElement( foodDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

@@ -15,15 +15,15 @@ public class Xml_mix {
         sb = new StringBuilder();
     }
 
-    public void set_mixid(String mixid) {
+    public void set_mixid( String mixid ) {
         this.mixid = mixid;
     }
 
-    public void set_name(String name) {
+    public void set_name( String name ) {
         this.name = name;
     }
 
-    public void set_nutrientid(String nutrientid) {
+    public void set_nutrientid( String nutrientid ) {
         this.nutrientid = nutrientid;
     }
 
@@ -41,13 +41,13 @@ public class Xml_mix {
 
     @Override
     public String toString() {
-        sb.append("[");
-        sb.append(mixid);
-        sb.append(",");
-        sb.append(name);
-        sb.append(",");
-        sb.append(nutrientid);
-        sb.append("]");
+        sb.append( "[" );
+        sb.append( mixid );
+        sb.append( "," );
+        sb.append( name );
+        sb.append( "," );
+        sb.append( nutrientid );
+        sb.append( "]" );
         return sb.toString();
     }
 

@@ -27,50 +27,50 @@ public class LpFormat {
         sb = new StringBuilder();
     }
 
-    public void objectiveToLp(double[] coefficients) {
-        sb.append("/* Minimize */");
-        sb.append("\n");
-        sb.append("min: ");
-        for (int i = 0; i < coefficients.length; i++) {
-            double c = coefficients[i];
-            sb.append(c);
-            sb.append(" ");
-            sb.append("x");
-            sb.append(i);
-            sb.append(" + ");
+    public void objectiveToLp( double[] coefficients ) {
+        sb.append( "/* Minimize */" );
+        sb.append( "\n" );
+        sb.append( "min: " );
+        for( int i = 0; i < coefficients.length; i++ ) {
+            double c = coefficients[ i ];
+            sb.append( c );
+            sb.append( " " );
+            sb.append( "x" );
+            sb.append( i );
+            sb.append( " + " );
         }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.deleteCharAt(sb.length() - 1);
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append(";");
-        sb.append("\n");
-        sb.append("/* Subject To */");
-        sb.append("\n");
+        sb.deleteCharAt( sb.length() - 1 );
+        sb.deleteCharAt( sb.length() - 1 );
+        sb.deleteCharAt( sb.length() - 1 );
+        sb.append( ";" );
+        sb.append( "\n" );
+        sb.append( "/* Subject To */" );
+        sb.append( "\n" );
     }
 
-    public void constraintToLp(double[] coefficients, int rel, double value) {
+    public void constraintToLp( double[] coefficients, int rel, double value ) {
         String relationship = "";
-        relationship = getRelationship(rel);
-        for (int i = 0; i < coefficients.length; i++) {
-            double c = coefficients[i];
-            sb.append(c);
-            sb.append(" ");
-            sb.append("x");
-            sb.append(i);
-            sb.append(" + ");
+        relationship = getRelationship( rel );
+        for( int i = 0; i < coefficients.length; i++ ) {
+            double c = coefficients[ i ];
+            sb.append( c );
+            sb.append( " " );
+            sb.append( "x" );
+            sb.append( i );
+            sb.append( " + " );
         }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append(relationship);
-        sb.append(" ");
-        sb.append(value);
-        sb.append(";");
-        sb.append("\n");
+        sb.deleteCharAt( sb.length() - 1 );
+        sb.deleteCharAt( sb.length() - 1 );
+        sb.append( relationship );
+        sb.append( " " );
+        sb.append( value );
+        sb.append( ";" );
+        sb.append( "\n" );
     }
 
-    private String getRelationship(int rel) {
+    private String getRelationship( int rel ) {
         String relationship = "";
-        switch (rel) {
+        switch( rel ) {
             case 1:
                 relationship = ">=";
                 break;

@@ -30,7 +30,7 @@ public class MixDataObject {
     public MixDataObject() {
     }
 
-    public MixDataObject(String MixId, String Name) {
+    public MixDataObject( String MixId, String Name ) {
         this.MixId = MixId;
         this.Name = Name;
     }
@@ -39,7 +39,7 @@ public class MixDataObject {
         return MixId;
     }
 
-    public void setMixId(String MixId) {
+    public void setMixId( String MixId ) {
         this.MixId = MixId;
     }
 
@@ -47,7 +47,7 @@ public class MixDataObject {
         return Name;
     }
 
-    public void setName(String Name) {
+    public void setName( String Name ) {
         this.Name = Name;
     }
 
@@ -55,7 +55,7 @@ public class MixDataObject {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus( Integer status ) {
         this.status = status;
     }
 
@@ -63,7 +63,7 @@ public class MixDataObject {
         return nutrientid;
     }
 
-    public void setNutrientid(String nutrientid) {
+    public void setNutrientid( String nutrientid ) {
         this.nutrientid = nutrientid;
     }
 
@@ -71,14 +71,14 @@ public class MixDataObject {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel( String model ) {
         this.model = model;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Name);
+        sb.append( Name );
         return sb.toString();
     }
 }

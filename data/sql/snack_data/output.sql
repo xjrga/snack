@@ -1,3 +1,19 @@
+call NutrientCategory_Insert('1','Protein');
+/
+call NutrientCategory_Insert('2','Fats');
+/
+call NutrientCategory_Insert('3','Carbohydrates');
+/
+call NutrientCategory_Insert('4','Vitamins');
+/
+call NutrientCategory_Insert('5','Minerals');
+/
+call NutrientCategory_Insert('6','Other');
+/
+call NutrientCategory_Insert('7','Energy');
+/
+
+
 call Nutrient_Insert('203','Protein (g)','1','protein');
 /
 call Nutrient_Insert('204','Total lipid (Fat) (g)','2','fat');
@@ -98,22 +114,6 @@ call Nutrient_Insert('10012','Energy, protein (kcal)','7','energy_protein');
 call Nutrient_Insert('10013','Energy, fat (kcal)','7','energy_fat');
 /
 call Nutrient_Insert('10014','Energy, alcohol (kcal)','7','energy_alcohol');
-/
-
-
-call NutrientCategory_Insert('1','Protein');
-/
-call NutrientCategory_Insert('2','Fats');
-/
-call NutrientCategory_Insert('3','Carbohydrates');
-/
-call NutrientCategory_Insert('4','Vitamins');
-/
-call NutrientCategory_Insert('5','Minerals');
-/
-call NutrientCategory_Insert('6','Other');
-/
-call NutrientCategory_Insert('7','Energy');
 /
 
 

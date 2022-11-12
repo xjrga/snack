@@ -20,39 +20,38 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelNutrientConstraints extends DefaultTableModel {
 
     private final DbLink dbLink;
     private Vector columns;
 
-    public TableModelNutrientConstraints(DbLink dbLink) {
+    public TableModelNutrientConstraints( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("MixId");
-        columns.add("NutrientId");
-        columns.add("RelationshipId");
-        columns.add("Nutrient");
-        columns.add("Eq");
-        columns.add("Q");
-        this.setColumnIdentifiers(columns);
+        columns.add( "MixId" );
+        columns.add( "NutrientId" );
+        columns.add( "RelationshipId" );
+        columns.add( "Nutrient" );
+        columns.add( "Eq" );
+        columns.add( "Q" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch (i) {
+        switch( i ) {
             case 0:
                 //mixid
                 returnValue = Integer.class;
@@ -82,35 +81,35 @@ public class TableModelNutrientConstraints extends DefaultTableModel {
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void reload(String mixid) {
+    public void reload( String mixid ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.NutrientConstraint_Select(mixid);
+            LinkedList list = ( LinkedList ) dbLink.NutrientConstraint_Select( mixid );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String mixid2 = (String) rowm.get("MIXID");
-                String nutrientid = (String) rowm.get("NUTRIENTID");
-                Integer relationid = (Integer) rowm.get("RELATIONSHIPID");
-                String nutrient = (String) rowm.get("NUTRIENT");
-                String relationship = (String) rowm.get("RELATIONSHIP");
-                double value = (double) rowm.get("B");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String mixid2 = ( String ) rowm.get( "MIXID" );
+                String nutrientid = ( String ) rowm.get( "NUTRIENTID" );
+                Integer relationid = ( Integer ) rowm.get( "RELATIONSHIPID" );
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                String relationship = ( String ) rowm.get( "RELATIONSHIP" );
+                double value = ( double ) rowm.get( "B" );
                 row = new Vector();
-                row.add(mixid2);
-                row.add(nutrientid);
-                row.add(relationid);
-                row.add(nutrient);
-                row.add(relationship);
-                row.add(value);
-                table.add(row);
+                row.add( mixid2 );
+                row.add( nutrientid );
+                row.add( relationid );
+                row.add( nutrient );
+                row.add( relationship );
+                row.add( value );
+                table.add( row );
             }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }

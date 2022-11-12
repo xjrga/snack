@@ -4,13 +4,13 @@ public class MinimumNutrientRequirements {
 
     private final Double weightinlbs;
 
-    public MinimumNutrientRequirements(Double weightinlbs) {
+    public MinimumNutrientRequirements( Double weightinlbs ) {
         this.weightinlbs = weightinlbs;
     }
 
     public double getProtein() {
         /*Complete Protein Required For Nitrogen Balance Under A No Carbohydrate Regimen*/
-        return 1.3D * (double) weightinlbs.intValue() / 2.20462262185D;
+        return 1.3D * ( double ) weightinlbs.intValue() / 2.20462262185D;
     }
 
     public double getCarbohydrateLow() {

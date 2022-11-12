@@ -6,18 +6,18 @@ public class Alpha_linolenic_acid_required {
 
     private final BigDecimal energy;
 
-    public Alpha_linolenic_acid_required(Double energy) {
-        BigDecimal q = new BigDecimal(energy);
+    public Alpha_linolenic_acid_required( Double energy ) {
+        BigDecimal q = new BigDecimal( energy );
         //.setScale(scale, RoundingMode.HALF_UP)
         this.energy = q;
     }
 
     public BigDecimal get_low_in_grams() {
-        return energy.multiply(new BigDecimal(.006 / 9.0));
+        return energy.multiply( new BigDecimal( .006 / 9.0 ) );
     }
 
     public BigDecimal get_high_in_grams() {
-        return energy.multiply(new BigDecimal(.012 / 9.0));
+        return energy.multiply( new BigDecimal( .012 / 9.0 ) );
     }
 }
 

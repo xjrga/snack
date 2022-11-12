@@ -25,17 +25,17 @@ public class NutrientDataObject {
     private String nutrdesc;
     private Double q;
 
-    public NutrientDataObject(String nutrientid, String nutrdesc, Double q) {
-        this.setNutr_no(nutrientid);
-        this.setNutrdesc(nutrdesc);
-        this.setQ(q);
+    public NutrientDataObject( String nutrientid, String nutrdesc, Double q ) {
+        this.setNutr_no( nutrientid );
+        this.setNutrdesc( nutrdesc );
+        this.setQ( q );
     }
 
     public String getNutr_no() {
         return nutr_no;
     }
 
-    public void setNutr_no(String nutr_no) {
+    public void setNutr_no( String nutr_no ) {
         this.nutr_no = nutr_no;
     }
 
@@ -43,7 +43,7 @@ public class NutrientDataObject {
         return nutrdesc;
     }
 
-    public void setNutrdesc(String nutrdesc) {
+    public void setNutrdesc( String nutrdesc ) {
         this.nutrdesc = nutrdesc;
     }
 
@@ -51,7 +51,7 @@ public class NutrientDataObject {
         return q;
     }
 
-    public void setQ(Double q) {
+    public void setQ( Double q ) {
         this.q = q;
     }
 

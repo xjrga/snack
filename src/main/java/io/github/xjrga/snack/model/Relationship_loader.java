@@ -33,23 +33,23 @@ public class Relationship_loader {
     private Integer precision = 0;
     private ArrayList<RelationshipDataObject> relationship_list;
 
-    public Relationship_loader(DbLink dbLink) {
+    public Relationship_loader( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
     public void reload() {
         relationship_list = new ArrayList();
         try {
-            LinkedList all = (LinkedList) dbLink.Relationship_Select_All();
+            LinkedList all = ( LinkedList ) dbLink.Relationship_Select_All();
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                int relationshipid = (int) row.get("RELATIONSHIPID");
-                String name = (String) row.get("NAME");
-                RelationshipDataObject relationshipDataObject = new RelationshipDataObject(relationshipid, name);
-                relationship_list.add(relationshipDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
+                String name = ( String ) row.get( "NAME" );
+                RelationshipDataObject relationshipDataObject = new RelationshipDataObject( relationshipid, name );
+                relationship_list.add( relationshipDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

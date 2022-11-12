@@ -21,18 +21,17 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
-
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.*;
 
 public class ComboBoxModelLifeStage extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
-    public ComboBoxModelLifeStage(DbLink dbLink) {
+    public ComboBoxModelLifeStage( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
@@ -40,16 +39,16 @@ public class ComboBoxModelLifeStage extends DefaultComboBoxModel {
         this.removeAllElements();
         LinkedList all = null;
         try {
-            all = (LinkedList) dbLink.RdaLifeStage_Select_All();
+            all = ( LinkedList ) dbLink.RdaLifeStage_Select_All();
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                Integer lifestageid = (Integer) row.get("LIFESTAGEID");
-                String label = (String) row.get("LABEL");
-                RdaLifeStageDataObject rdaLifeStageDataObject = new RdaLifeStageDataObject(lifestageid, label);
-                this.addElement(rdaLifeStageDataObject);
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                Integer lifestageid = ( Integer ) row.get( "LIFESTAGEID" );
+                String label = ( String ) row.get( "LABEL" );
+                RdaLifeStageDataObject rdaLifeStageDataObject = new RdaLifeStageDataObject( lifestageid, label );
+                this.addElement( rdaLifeStageDataObject );
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
     }

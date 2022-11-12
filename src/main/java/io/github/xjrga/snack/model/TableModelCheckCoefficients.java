@@ -21,12 +21,11 @@ package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodFactSelectForCheckCoefficientsDataObject;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelCheckCoefficients extends DefaultTableModel implements RoundUp {
 
@@ -34,73 +33,74 @@ public class TableModelCheckCoefficients extends DefaultTableModel implements Ro
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelCheckCoefficients(DbLink dbLink) {
+    public TableModelCheckCoefficients( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("NutrientId");
-        columns.add("Category");
-        columns.add("Nutrient");
-        columns.add("Weight");
-        columns.add("Coefficient");
-        this.setColumnIdentifiers(columns);
+        columns.add( "NutrientId" );
+        columns.add( "Category" );
+        columns.add( "Nutrient" );
+        columns.add( "Weight" );
+        columns.add( "Coefficient" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i < 3) {
+        if( i < 3 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int j) {
+    public boolean isCellEditable( int i, int j ) {
         Boolean returnValue = false;
         returnValue = j >= 3;
         return returnValue;
     }
 
-    public void reload(String FoodId) {
+    public void reload( String FoodId ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList<FoodFactSelectForCheckCoefficientsDataObject> list = (LinkedList<FoodFactSelectForCheckCoefficientsDataObject>) dbLink.FoodFact_Select_ForCheckCoefficients(FoodId, precision);
+            LinkedList<FoodFactSelectForCheckCoefficientsDataObject> list = ( LinkedList<FoodFactSelectForCheckCoefficientsDataObject> ) dbLink.FoodFact_Select_ForCheckCoefficients( FoodId, precision );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                FoodFactSelectForCheckCoefficientsDataObject foodFactSelectForCheckCoefficientsDataObject = (FoodFactSelectForCheckCoefficientsDataObject) it.next();
+            while( it.hasNext() ) {
+                FoodFactSelectForCheckCoefficientsDataObject foodFactSelectForCheckCoefficientsDataObject = ( FoodFactSelectForCheckCoefficientsDataObject ) it.next();
                 row = new Vector();
-                row.add(foodFactSelectForCheckCoefficientsDataObject.getNutrientId());
-                row.add(foodFactSelectForCheckCoefficientsDataObject.getCategory());
-                row.add(foodFactSelectForCheckCoefficientsDataObject.getNutrient());
-                row.add(foodFactSelectForCheckCoefficientsDataObject.getQ());
-                row.add(foodFactSelectForCheckCoefficientsDataObject.getC());
-                table.add(row);
+                row.add( foodFactSelectForCheckCoefficientsDataObject.getNutrientId() );
+                row.add( foodFactSelectForCheckCoefficientsDataObject.getCategory() );
+                row.add( foodFactSelectForCheckCoefficientsDataObject.getNutrient() );
+                row.add( foodFactSelectForCheckCoefficientsDataObject.getQ() );
+                row.add( foodFactSelectForCheckCoefficientsDataObject.getC() );
+                table.add( row );
             }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }
 
     @Override
-    public void setPrecision(Integer precision) {
+    public void setPrecision( Integer precision ) {
         this.precision = precision;
     }
 
-    public Integer find(String NutrientId) {
+    public Integer find( String NutrientId ) {
         int index = 0;
         int rowNo = this.getRowCount();
         int colNo = this.getColumnCount();
-        for (int j = 0; j < rowNo; j++) {
-            for (int i = 0; i < colNo; i++) {
-                if (NutrientId.equals(this.getValueAt(j, 0))) {
+        for( int j = 0; j < rowNo; j++ ) {
+            for( int i = 0; i < colNo; i++ ) {
+                if( NutrientId.equals( this.getValueAt( j, 0 ) ) ) {
                     index = j;
                 }
             }

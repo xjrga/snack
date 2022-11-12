@@ -12,7 +12,7 @@ public class FoodCategoryDataObject {
         return FoodCategoryId;
     }
 
-    public void setFoodCategoryId(String FoodCategoryId) {
+    public void setFoodCategoryId( String FoodCategoryId ) {
         this.FoodCategoryId = FoodCategoryId;
     }
 
@@ -20,13 +20,13 @@ public class FoodCategoryDataObject {
         return Name;
     }
 
-    public void setName(String Name) {
+    public void setName( String Name ) {
         this.Name = Name;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Name);
+        sb.append( Name );
         return sb.toString();
     }
 }

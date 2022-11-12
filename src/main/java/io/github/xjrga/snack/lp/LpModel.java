@@ -53,16 +53,16 @@ public class LpModel {
         lp = new LpFormat();
     }
 
-    public void addObjective(double[] coefficients) {
+    public void addObjective( double[] coefficients ) {
         byte constantTerm = 0;
         //Objective function
-        linearObjectiveFunction = new LinearObjectiveFunction(coefficients, constantTerm);
-        lp.objectiveToLp(coefficients);
+        linearObjectiveFunction = new LinearObjectiveFunction( coefficients, constantTerm );
+        lp.objectiveToLp( coefficients );
     }
 
-    public void addConstraint(double[] coefficients, int rel, double amount) {
+    public void addConstraint( double[] coefficients, int rel, double amount ) {
         Relationship relationship = null;
-        switch (rel) {
+        switch( rel ) {
             case LpModel.GEQ:
                 relationship = Relationship.GEQ;
                 break;
@@ -77,46 +77,46 @@ public class LpModel {
                 break;
         }
         //Linear Constraint
-        LinearConstraint c = new LinearConstraint(coefficients, relationship, amount);
-        constraints.add(c);
-        lp.constraintToLp(coefficients, rel, amount);
+        LinearConstraint c = new LinearConstraint( coefficients, relationship, amount );
+        constraints.add( c );
+        lp.constraintToLp( coefficients, rel, amount );
     }
 
     public boolean solve() {
         boolean flag = false;
         try {
             //Constraint Set
-            LinearConstraintSet linearConstraintSet = new LinearConstraintSet(constraints);
+            LinearConstraintSet linearConstraintSet = new LinearConstraintSet( constraints );
             //Solution
-            if (!linearConstraintSet.getConstraints().isEmpty()) {
+            if( !linearConstraintSet.getConstraints().isEmpty() ) {
                 GoalType minimize = GoalType.MINIMIZE;
-                NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint(true);
-                Log.getLog().start("model/model.log");
-                Log.getLog().logMessage("/*");
-                Log.getLog().logMessage(getDescription());
-                Log.getLog().logMessage("*/");
-                Log.getLog().logMessage("");
-                Log.getLog().logMessage(getModel());
-                PointValuePair solution = (new SimplexSolver()).optimize(linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint);
+                NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint( true );
+                Log.getLog().start( "model/model.log" );
+                Log.getLog().logMessage( "/*" );
+                Log.getLog().logMessage( getDescription() );
+                Log.getLog().logMessage( "*/" );
+                Log.getLog().logMessage( "" );
+                Log.getLog().logMessage( getModel() );
+                PointValuePair solution = (new SimplexSolver()).optimize( linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint );
                 point = solution.getPoint();
                 cost = solution.getSecond();
                 flag = true;
             }
-        } catch (Exception e) {
-            Log.getLog().logMessage("");
-            Log.getLog().logMessage("/*");
-            Log.getLog().logMessage(getResults());
-            Log.getLog().logMessage("*/");
-            Log.getLog().logMessage("");
-            Log.getLog().logMessage("/*");
-            Log.getLog().logMessage(getInfeasibleMessage());
-            Log.getLog().logMessage("*/");
+        } catch( Exception e ) {
+            Log.getLog().logMessage( "" );
+            Log.getLog().logMessage( "/*" );
+            Log.getLog().logMessage( getResults() );
+            Log.getLog().logMessage( "*/" );
+            Log.getLog().logMessage( "" );
+            Log.getLog().logMessage( "/*" );
+            Log.getLog().logMessage( getInfeasibleMessage() );
+            Log.getLog().logMessage( "*/" );
             Log.getLog().write();
             Log.getLog().close();
-            JComponent[] inputs = new JComponent[]{
+            JComponent[] inputs = new JComponent[] {
                 component
             };
-            Message.showMessage(inputs, "No Feasible Solution");
+            Message.showMessage( inputs, "No Feasible Solution" );
         }
         return flag;
     }
@@ -131,45 +131,45 @@ public class LpModel {
 
     public String getTitle() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Title: ");
-        sb.append(title);
+        sb.append( "Title: " );
+        sb.append( title );
         return sb.toString();
     }
 
-    public void setTitle(String title) {
+    public void setTitle( String title ) {
         this.title = title;
     }
 
     public String getDate() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Date: ");
-        sb.append(date);
+        sb.append( "Date: " );
+        sb.append( date );
         return sb.toString();
     }
 
-    public void setDate(String date) {
+    public void setDate( String date ) {
         this.date = date;
     }
 
     public String getVariables() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Variables");
-        sb.append("\n");
-        sb.append(variables);
+        sb.append( "Variables" );
+        sb.append( "\n" );
+        sb.append( variables );
         return sb.toString();
     }
 
-    public void setVariables(String legend) {
+    public void setVariables( String legend ) {
         this.variables = legend;
     }
 
     public String getDescription() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getTitle());
-        sb.append("\n");
-        sb.append(getDate());
-        sb.append("\n\n");
-        sb.append(getVariables());
+        sb.append( getTitle() );
+        sb.append( "\n" );
+        sb.append( getDate() );
+        sb.append( "\n\n" );
+        sb.append( getVariables() );
         return sb.toString();
     }
 
@@ -179,25 +179,25 @@ public class LpModel {
 
     public String getResults() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Results");
-        sb.append("\n");
-        sb.append(results);
+        sb.append( "Results" );
+        sb.append( "\n" );
+        sb.append( results );
         return sb.toString();
     }
 
-    public void setResults(String results) {
+    public void setResults( String results ) {
         this.results = results;
     }
 
     public void save() {
-        Log.getLog().logMessage("");
-        Log.getLog().logMessage("/*");
-        Log.getLog().logMessage(getResults());
-        Log.getLog().logMessage("*/");
-        Log.getLog().logMessage("");
-        Log.getLog().logMessage("/*");
-        Log.getLog().logMessage(getFeasibleMessage());
-        Log.getLog().logMessage("*/");
+        Log.getLog().logMessage( "" );
+        Log.getLog().logMessage( "/*" );
+        Log.getLog().logMessage( getResults() );
+        Log.getLog().logMessage( "*/" );
+        Log.getLog().logMessage( "" );
+        Log.getLog().logMessage( "/*" );
+        Log.getLog().logMessage( getFeasibleMessage() );
+        Log.getLog().logMessage( "*/" );
         Log.getLog().write();
         Log.getLog().close();
     }
@@ -210,7 +210,7 @@ public class LpModel {
         return "Model is feasible. A solution exists which satisfies all the constraints.";
     }
 
-    public void setComponent(JTabbedPane component) {
+    public void setComponent( JTabbedPane component ) {
         this.component = component;
     }
 }

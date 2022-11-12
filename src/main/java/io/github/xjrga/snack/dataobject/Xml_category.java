@@ -14,11 +14,11 @@ public class Xml_category {
         sb = new StringBuilder();
     }
 
-    public void set_categoryid(String mixid) {
+    public void set_categoryid( String mixid ) {
         this.categoryid = mixid;
     }
 
-    public void set_categoryname(String name) {
+    public void set_categoryname( String name ) {
         this.categoryname = name;
     }
 
@@ -32,11 +32,11 @@ public class Xml_category {
 
     @Override
     public String toString() {
-        sb.append("[");
-        sb.append(categoryid);
-        sb.append(",");
-        sb.append(categoryname);
-        sb.append("]");
+        sb.append( "[" );
+        sb.append( categoryid );
+        sb.append( "," );
+        sb.append( categoryname );
+        sb.append( "]" );
         return sb.toString();
     }
 

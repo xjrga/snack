@@ -20,46 +20,45 @@
 package io.github.xjrga.snack.model;
 
 import io.github.xjrga.snack.data.DbLink;
-
-import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
 
     private final DbLink dbLink;
     private Vector columns;
 
-    public TableModelFoodNutrientRatioConstraints(DbLink dbLink) {
+    public TableModelFoodNutrientRatioConstraints( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
 
     private void setColumnIdentifiers() {
         columns = new Vector();
-        columns.add("MixId");
-        columns.add("FoodIdA");
-        columns.add("NutrientIdA");
-        columns.add("FoodIdB");
-        columns.add("NutrientIdB");
-        columns.add("RelationshipId");
-        columns.add("FoodA");
-        columns.add("NutrientA");
-        columns.add("FoodB");
-        columns.add("NutrientB");
-        columns.add("A");
-        columns.add("Eq");
-        columns.add("B");
-        this.setColumnIdentifiers(columns);
+        columns.add( "MixId" );
+        columns.add( "FoodIdA" );
+        columns.add( "NutrientIdA" );
+        columns.add( "FoodIdB" );
+        columns.add( "NutrientIdB" );
+        columns.add( "RelationshipId" );
+        columns.add( "FoodA" );
+        columns.add( "NutrientA" );
+        columns.add( "FoodB" );
+        columns.add( "NutrientB" );
+        columns.add( "A" );
+        columns.add( "Eq" );
+        columns.add( "B" );
+        this.setColumnIdentifiers( columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch (i) {
+        switch( i ) {
             case 0:
                 //mixid
                 returnValue = Integer.class;
@@ -117,49 +116,49 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void reload(String mixid) {
+    public void reload( String mixid ) {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = (LinkedList) dbLink.FoodNutrientRatio_Select(mixid);
+            LinkedList list = ( LinkedList ) dbLink.FoodNutrientRatio_Select( mixid );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String mixid2 = (String) rowm.get("MIXID");
-                String foodidA = (String) rowm.get("FOOD_ID_1");
-                String nutrientidA = (String) rowm.get("NUTRIENT_ID_1");
-                String foodidB = (String) rowm.get("FOOD_ID_2");
-                String nutrientidB = (String) rowm.get("NUTRIENT_ID_2");
-                Integer relationshipid = (Integer) rowm.get("RELATIONSHIPID");
-                String foodA = (String) rowm.get("FOODA");
-                String nutrientA = (String) rowm.get("NUTRIENTA");
-                String foodB = (String) rowm.get("FOODB");
-                String nutrientB = (String) rowm.get("NUTRIENTB");
-                Double a = (Double) rowm.get("A");
-                Double b = (Double) rowm.get("B");
-                String relationship = (String) rowm.get("RELATIONSHIP");
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String mixid2 = ( String ) rowm.get( "MIXID" );
+                String foodidA = ( String ) rowm.get( "FOOD_ID_1" );
+                String nutrientidA = ( String ) rowm.get( "NUTRIENT_ID_1" );
+                String foodidB = ( String ) rowm.get( "FOOD_ID_2" );
+                String nutrientidB = ( String ) rowm.get( "NUTRIENT_ID_2" );
+                Integer relationshipid = ( Integer ) rowm.get( "RELATIONSHIPID" );
+                String foodA = ( String ) rowm.get( "FOODA" );
+                String nutrientA = ( String ) rowm.get( "NUTRIENTA" );
+                String foodB = ( String ) rowm.get( "FOODB" );
+                String nutrientB = ( String ) rowm.get( "NUTRIENTB" );
+                Double a = ( Double ) rowm.get( "A" );
+                Double b = ( Double ) rowm.get( "B" );
+                String relationship = ( String ) rowm.get( "RELATIONSHIP" );
                 row = new Vector();
-                row.add(mixid2);
-                row.add(foodidA);
-                row.add(nutrientidA);
-                row.add(foodidB);
-                row.add(nutrientidB);
-                row.add(relationshipid);
-                row.add(foodA);
-                row.add(nutrientA);
-                row.add(foodB);
-                row.add(nutrientB);
-                row.add(a);
-                row.add(relationship);
-                row.add(b);
-                table.add(row);
+                row.add( mixid2 );
+                row.add( foodidA );
+                row.add( nutrientidA );
+                row.add( foodidB );
+                row.add( nutrientidB );
+                row.add( relationshipid );
+                row.add( foodA );
+                row.add( nutrientA );
+                row.add( foodB );
+                row.add( nutrientB );
+                row.add( a );
+                row.add( relationship );
+                row.add( b );
+                table.add( row );
             }
-            this.setDataVector(table, columns);
-        } catch (SQLException e) {
+            this.setDataVector( table, columns );
+        } catch( SQLException e ) {
 
         }
     }

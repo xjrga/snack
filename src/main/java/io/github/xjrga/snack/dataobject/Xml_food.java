@@ -67,7 +67,7 @@ public class Xml_food {
         return foodid;
     }
 
-    public void setFoodid(String foodid) {
+    public void setFoodid( String foodid ) {
         this.foodid = foodid;
     }
 
@@ -75,7 +75,7 @@ public class Xml_food {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 
@@ -83,7 +83,7 @@ public class Xml_food {
         return alcohol;
     }
 
-    public void setAlcohol(double alcohol) {
+    public void setAlcohol( double alcohol ) {
         this.alcohol = alcohol;
     }
 
@@ -91,7 +91,7 @@ public class Xml_food {
         return calcium;
     }
 
-    public void setCalcium(double calcium) {
+    public void setCalcium( double calcium ) {
         this.calcium = calcium;
     }
 
@@ -99,7 +99,7 @@ public class Xml_food {
         return carbohydrate_by_difference;
     }
 
-    public void setCarbohydrate_by_difference(double carbohydrate_by_difference) {
+    public void setCarbohydrate_by_difference( double carbohydrate_by_difference ) {
         this.carbohydrate_by_difference = carbohydrate_by_difference;
     }
 
@@ -107,7 +107,7 @@ public class Xml_food {
         return cholesterol;
     }
 
-    public void setCholesterol(double cholesterol) {
+    public void setCholesterol( double cholesterol ) {
         this.cholesterol = cholesterol;
     }
 
@@ -115,7 +115,7 @@ public class Xml_food {
         return choline;
     }
 
-    public void setCholine(double choline) {
+    public void setCholine( double choline ) {
         this.choline = choline;
     }
 
@@ -123,7 +123,7 @@ public class Xml_food {
         return complete_protein;
     }
 
-    public void setComplete_protein(double complete_protein) {
+    public void setComplete_protein( double complete_protein ) {
         this.complete_protein = complete_protein;
     }
 
@@ -131,7 +131,7 @@ public class Xml_food {
         return copper;
     }
 
-    public void setCopper(double copper) {
+    public void setCopper( double copper ) {
         this.copper = copper;
     }
 
@@ -139,7 +139,7 @@ public class Xml_food {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost( double cost ) {
         this.cost = cost;
     }
 
@@ -147,7 +147,7 @@ public class Xml_food {
         return dha;
     }
 
-    public void setDha(double dha) {
+    public void setDha( double dha ) {
         this.dha = dha;
     }
 
@@ -155,7 +155,7 @@ public class Xml_food {
         return digestible_carbohydrate;
     }
 
-    public void setDigestible_carbohydrate(double digestible_carbohydrate) {
+    public void setDigestible_carbohydrate( double digestible_carbohydrate ) {
         this.digestible_carbohydrate = digestible_carbohydrate;
     }
 
@@ -163,7 +163,7 @@ public class Xml_food {
         return energy_alcohol;
     }
 
-    public void setEnergy_alcohol(double energy_alcohol) {
+    public void setEnergy_alcohol( double energy_alcohol ) {
         this.energy_alcohol = energy_alcohol;
     }
 
@@ -171,7 +171,7 @@ public class Xml_food {
         return energy_carbohydrate;
     }
 
-    public void setEnergy_carbohydrate(double energy_carbohydrate) {
+    public void setEnergy_carbohydrate( double energy_carbohydrate ) {
         this.energy_carbohydrate = energy_carbohydrate;
     }
 
@@ -179,7 +179,7 @@ public class Xml_food {
         return energy_digestible;
     }
 
-    public void setEnergy_digestible(double energy_digestible) {
+    public void setEnergy_digestible( double energy_digestible ) {
         this.energy_digestible = energy_digestible;
     }
 
@@ -187,7 +187,7 @@ public class Xml_food {
         return energy_fat_and_carbohydrate;
     }
 
-    public void setEnergy_fat_and_carbohydrate(double energy_fat_and_carbohydrate) {
+    public void setEnergy_fat_and_carbohydrate( double energy_fat_and_carbohydrate ) {
         this.energy_fat_and_carbohydrate = energy_fat_and_carbohydrate;
     }
 
@@ -195,7 +195,7 @@ public class Xml_food {
         return energy_fat;
     }
 
-    public void setEnergy_fat(double energy_fat) {
+    public void setEnergy_fat( double energy_fat ) {
         this.energy_fat = energy_fat;
     }
 
@@ -203,7 +203,7 @@ public class Xml_food {
         return energy_gross;
     }
 
-    public void setEnergy_gross(double energy_gross) {
+    public void setEnergy_gross( double energy_gross ) {
         this.energy_gross = energy_gross;
     }
 
@@ -211,7 +211,7 @@ public class Xml_food {
         return energy_protein;
     }
 
-    public void setEnergy_protein(double energy_protein) {
+    public void setEnergy_protein( double energy_protein ) {
         this.energy_protein = energy_protein;
     }
 
@@ -219,7 +219,7 @@ public class Xml_food {
         return epa;
     }
 
-    public void setEpa(double epa) {
+    public void setEpa( double epa ) {
         this.epa = epa;
     }
 
@@ -227,7 +227,7 @@ public class Xml_food {
         return fat;
     }
 
-    public void setFat(double fat) {
+    public void setFat( double fat ) {
         this.fat = fat;
     }
 
@@ -235,7 +235,7 @@ public class Xml_food {
         return fiber;
     }
 
-    public void setFiber(double fiber) {
+    public void setFiber( double fiber ) {
         this.fiber = fiber;
     }
 
@@ -243,7 +243,7 @@ public class Xml_food {
         return folate;
     }
 
-    public void setFolate(double folate) {
+    public void setFolate( double folate ) {
         this.folate = folate;
     }
 
@@ -251,7 +251,7 @@ public class Xml_food {
         return glycemic_load;
     }
 
-    public void setGlycemic_load(double glycemic_load) {
+    public void setGlycemic_load( double glycemic_load ) {
         this.glycemic_load = glycemic_load;
     }
 
@@ -259,7 +259,7 @@ public class Xml_food {
         return iron;
     }
 
-    public void setIron(double iron) {
+    public void setIron( double iron ) {
         this.iron = iron;
     }
 
@@ -267,7 +267,7 @@ public class Xml_food {
         return linoleic;
     }
 
-    public void setLinoleic(double linoleic) {
+    public void setLinoleic( double linoleic ) {
         this.linoleic = linoleic;
     }
 
@@ -275,7 +275,7 @@ public class Xml_food {
         return linolenic;
     }
 
-    public void setLinolenic(double linolenic) {
+    public void setLinolenic( double linolenic ) {
         this.linolenic = linolenic;
     }
 
@@ -283,7 +283,7 @@ public class Xml_food {
         return magnesium;
     }
 
-    public void setMagnesium(double magnesium) {
+    public void setMagnesium( double magnesium ) {
         this.magnesium = magnesium;
     }
 
@@ -291,7 +291,7 @@ public class Xml_food {
         return manganese;
     }
 
-    public void setManganese(double manganese) {
+    public void setManganese( double manganese ) {
         this.manganese = manganese;
     }
 
@@ -299,7 +299,7 @@ public class Xml_food {
         return mufa;
     }
 
-    public void setMufa(double mufa) {
+    public void setMufa( double mufa ) {
         this.mufa = mufa;
     }
 
@@ -307,7 +307,7 @@ public class Xml_food {
         return niacin;
     }
 
-    public void setNiacin(double niacin) {
+    public void setNiacin( double niacin ) {
         this.niacin = niacin;
     }
 
@@ -315,7 +315,7 @@ public class Xml_food {
         return pantothenic_acid;
     }
 
-    public void setPantothenic_acid(double pantothenic_acid) {
+    public void setPantothenic_acid( double pantothenic_acid ) {
         this.pantothenic_acid = pantothenic_acid;
     }
 
@@ -323,7 +323,7 @@ public class Xml_food {
         return phosphorus;
     }
 
-    public void setPhosphorus(double phosphorus) {
+    public void setPhosphorus( double phosphorus ) {
         this.phosphorus = phosphorus;
     }
 
@@ -331,7 +331,7 @@ public class Xml_food {
         return potassium;
     }
 
-    public void setPotassium(double potassium) {
+    public void setPotassium( double potassium ) {
         this.potassium = potassium;
     }
 
@@ -339,7 +339,7 @@ public class Xml_food {
         return protein;
     }
 
-    public void setProtein(double protein) {
+    public void setProtein( double protein ) {
         this.protein = protein;
     }
 
@@ -347,7 +347,7 @@ public class Xml_food {
         return pufa;
     }
 
-    public void setPufa(double pufa) {
+    public void setPufa( double pufa ) {
         this.pufa = pufa;
     }
 
@@ -355,7 +355,7 @@ public class Xml_food {
         return riboflavin;
     }
 
-    public void setRiboflavin(double riboflavin) {
+    public void setRiboflavin( double riboflavin ) {
         this.riboflavin = riboflavin;
     }
 
@@ -363,7 +363,7 @@ public class Xml_food {
         return selenium;
     }
 
-    public void setSelenium(double selenium) {
+    public void setSelenium( double selenium ) {
         this.selenium = selenium;
     }
 
@@ -371,7 +371,7 @@ public class Xml_food {
         return sfa;
     }
 
-    public void setSfa(double sfa) {
+    public void setSfa( double sfa ) {
         this.sfa = sfa;
     }
 
@@ -379,7 +379,7 @@ public class Xml_food {
         return sodium;
     }
 
-    public void setSodium(double sodium) {
+    public void setSodium( double sodium ) {
         this.sodium = sodium;
     }
 
@@ -387,7 +387,7 @@ public class Xml_food {
         return thiamin;
     }
 
-    public void setThiamin(double thiamin) {
+    public void setThiamin( double thiamin ) {
         this.thiamin = thiamin;
     }
 
@@ -395,7 +395,7 @@ public class Xml_food {
         return vitamin_a;
     }
 
-    public void setVitamin_a(double vitamin_a) {
+    public void setVitamin_a( double vitamin_a ) {
         this.vitamin_a = vitamin_a;
     }
 
@@ -403,7 +403,7 @@ public class Xml_food {
         return vitamin_b12;
     }
 
-    public void setVitamin_b12(double vitamin_b12) {
+    public void setVitamin_b12( double vitamin_b12 ) {
         this.vitamin_b12 = vitamin_b12;
     }
 
@@ -411,7 +411,7 @@ public class Xml_food {
         return vitamin_b6;
     }
 
-    public void setVitamin_b6(double vitamin_b6) {
+    public void setVitamin_b6( double vitamin_b6 ) {
         this.vitamin_b6 = vitamin_b6;
     }
 
@@ -419,7 +419,7 @@ public class Xml_food {
         return vitamin_c;
     }
 
-    public void setVitamin_c(double vitamin_c) {
+    public void setVitamin_c( double vitamin_c ) {
         this.vitamin_c = vitamin_c;
     }
 
@@ -427,7 +427,7 @@ public class Xml_food {
         return vitamin_d;
     }
 
-    public void setVitamin_d(double vitamin_d) {
+    public void setVitamin_d( double vitamin_d ) {
         this.vitamin_d = vitamin_d;
     }
 
@@ -435,7 +435,7 @@ public class Xml_food {
         return vitamin_e;
     }
 
-    public void setVitamin_e(double vitamin_e) {
+    public void setVitamin_e( double vitamin_e ) {
         this.vitamin_e = vitamin_e;
     }
 
@@ -443,7 +443,7 @@ public class Xml_food {
         return vitamin_k;
     }
 
-    public void setVitamin_k(double vitamin_k) {
+    public void setVitamin_k( double vitamin_k ) {
         this.vitamin_k = vitamin_k;
     }
 
@@ -451,7 +451,7 @@ public class Xml_food {
         return water;
     }
 
-    public void setWater(double water) {
+    public void setWater( double water ) {
         this.water = water;
     }
 
@@ -459,7 +459,7 @@ public class Xml_food {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight( double weight ) {
         this.weight = weight;
     }
 
@@ -467,113 +467,113 @@ public class Xml_food {
         return zinc;
     }
 
-    public void setZinc(double zinc) {
+    public void setZinc( double zinc ) {
         this.zinc = zinc;
     }
 
     @Override
     public String toString() {
-        sb.append("[");
-        sb.append(foodid);
-        sb.append(",");
-        sb.append(name);
-        sb.append(",");
-        sb.append(alcohol);
-        sb.append(",");
-        sb.append(calcium);
-        sb.append(",");
-        sb.append(carbohydrate_by_difference);
-        sb.append(",");
-        sb.append(cholesterol);
-        sb.append(",");
-        sb.append(choline);
-        sb.append(",");
-        sb.append(complete_protein);
-        sb.append(",");
-        sb.append(copper);
-        sb.append(",");
-        sb.append(cost);
-        sb.append(",");
-        sb.append(dha);
-        sb.append(",");
-        sb.append(digestible_carbohydrate);
-        sb.append(",");
-        sb.append(energy_alcohol);
-        sb.append(",");
-        sb.append(energy_carbohydrate);
-        sb.append(",");
-        sb.append(energy_digestible);
-        sb.append(",");
-        sb.append(energy_fat);
-        sb.append(",");
-        sb.append(energy_gross);
-        sb.append(",");
-        sb.append(energy_protein);
-        sb.append(",");
-        sb.append(epa);
-        sb.append(",");
-        sb.append(fat);
-        sb.append(",");
-        sb.append(fiber);
-        sb.append(",");
-        sb.append(folate);
-        sb.append(",");
-        sb.append(glycemic_load);
-        sb.append(",");
-        sb.append(iron);
-        sb.append(",");
-        sb.append(linoleic);
-        sb.append(",");
-        sb.append(linolenic);
-        sb.append(",");
-        sb.append(magnesium);
-        sb.append(",");
-        sb.append(manganese);
-        sb.append(",");
-        sb.append(mufa);
-        sb.append(",");
-        sb.append(niacin);
-        sb.append(",");
-        sb.append(pantothenic_acid);
-        sb.append(",");
-        sb.append(phosphorus);
-        sb.append(",");
-        sb.append(potassium);
-        sb.append(",");
-        sb.append(protein);
-        sb.append(",");
-        sb.append(pufa);
-        sb.append(",");
-        sb.append(riboflavin);
-        sb.append(",");
-        sb.append(selenium);
-        sb.append(",");
-        sb.append(sfa);
-        sb.append(",");
-        sb.append(sodium);
-        sb.append(",");
-        sb.append(thiamin);
-        sb.append(",");
-        sb.append(vitamin_a);
-        sb.append(",");
-        sb.append(vitamin_b12);
-        sb.append(",");
-        sb.append(vitamin_b6);
-        sb.append(",");
-        sb.append(vitamin_c);
-        sb.append(",");
-        sb.append(vitamin_d);
-        sb.append(",");
-        sb.append(vitamin_e);
-        sb.append(",");
-        sb.append(vitamin_k);
-        sb.append(",");
-        sb.append(water);
-        sb.append(",");
-        sb.append(weight);
-        sb.append(",");
-        sb.append(zinc);
-        sb.append("]");
+        sb.append( "[" );
+        sb.append( foodid );
+        sb.append( "," );
+        sb.append( name );
+        sb.append( "," );
+        sb.append( alcohol );
+        sb.append( "," );
+        sb.append( calcium );
+        sb.append( "," );
+        sb.append( carbohydrate_by_difference );
+        sb.append( "," );
+        sb.append( cholesterol );
+        sb.append( "," );
+        sb.append( choline );
+        sb.append( "," );
+        sb.append( complete_protein );
+        sb.append( "," );
+        sb.append( copper );
+        sb.append( "," );
+        sb.append( cost );
+        sb.append( "," );
+        sb.append( dha );
+        sb.append( "," );
+        sb.append( digestible_carbohydrate );
+        sb.append( "," );
+        sb.append( energy_alcohol );
+        sb.append( "," );
+        sb.append( energy_carbohydrate );
+        sb.append( "," );
+        sb.append( energy_digestible );
+        sb.append( "," );
+        sb.append( energy_fat );
+        sb.append( "," );
+        sb.append( energy_gross );
+        sb.append( "," );
+        sb.append( energy_protein );
+        sb.append( "," );
+        sb.append( epa );
+        sb.append( "," );
+        sb.append( fat );
+        sb.append( "," );
+        sb.append( fiber );
+        sb.append( "," );
+        sb.append( folate );
+        sb.append( "," );
+        sb.append( glycemic_load );
+        sb.append( "," );
+        sb.append( iron );
+        sb.append( "," );
+        sb.append( linoleic );
+        sb.append( "," );
+        sb.append( linolenic );
+        sb.append( "," );
+        sb.append( magnesium );
+        sb.append( "," );
+        sb.append( manganese );
+        sb.append( "," );
+        sb.append( mufa );
+        sb.append( "," );
+        sb.append( niacin );
+        sb.append( "," );
+        sb.append( pantothenic_acid );
+        sb.append( "," );
+        sb.append( phosphorus );
+        sb.append( "," );
+        sb.append( potassium );
+        sb.append( "," );
+        sb.append( protein );
+        sb.append( "," );
+        sb.append( pufa );
+        sb.append( "," );
+        sb.append( riboflavin );
+        sb.append( "," );
+        sb.append( selenium );
+        sb.append( "," );
+        sb.append( sfa );
+        sb.append( "," );
+        sb.append( sodium );
+        sb.append( "," );
+        sb.append( thiamin );
+        sb.append( "," );
+        sb.append( vitamin_a );
+        sb.append( "," );
+        sb.append( vitamin_b12 );
+        sb.append( "," );
+        sb.append( vitamin_b6 );
+        sb.append( "," );
+        sb.append( vitamin_c );
+        sb.append( "," );
+        sb.append( vitamin_d );
+        sb.append( "," );
+        sb.append( vitamin_e );
+        sb.append( "," );
+        sb.append( vitamin_k );
+        sb.append( "," );
+        sb.append( water );
+        sb.append( "," );
+        sb.append( weight );
+        sb.append( "," );
+        sb.append( zinc );
+        sb.append( "]" );
         return sb.toString();
     }
 

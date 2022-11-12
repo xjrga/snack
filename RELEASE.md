@@ -290,4 +290,9 @@ RELEASE NOTES
 900
 
       Add "Undo model definition changes" functionality     
+
+1000
+
+      Add "create meal plan" feature
+      Add "export meal plan" feature
       

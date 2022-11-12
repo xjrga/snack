@@ -5,8 +5,8 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderFoodJournal extends MyTableHeader {
 
-    public TableHeaderFoodJournal(TableColumnModel columnModel) {
-        super(columnModel, new String[]{
+    public TableHeaderFoodJournal( TableColumnModel columnModel ) {
+        super( columnModel, new String[] {
             "Food Name",
             "Weight (g)",
             "Energy Digestible (Kcal)",
@@ -57,11 +57,11 @@ public class TableHeaderFoodJournal extends MyTableHeader {
             "Glycemic Index",
             "Glycemic Load",
             "Contribution to Glycemic Index of Meal"
-        });
+        } );
     }
 
     @Override
-    public String getToolTipText(MouseEvent e) {
-        return super.getToolTipText(e);
+    public String getToolTipText( MouseEvent e ) {
+        return super.getToolTipText( e );
     }
 }

@@ -38,7 +38,7 @@ public class ExportNutrientLookup {
     private StringBuilder sb;
     private Workbook wb;
 
-    public ExportNutrientLookup(DbLink dbLink) {
+    public ExportNutrientLookup( DbLink dbLink ) {
         this.dbLink = dbLink;
         initializeVariables();
         initializeMethods();
@@ -55,9 +55,9 @@ public class ExportNutrientLookup {
         filepath = new StringBuilder();
         sb = new StringBuilder();
         pattern = "yyyy-MMMMM-dd'_at_'HH-mm-ss";
-        dateFormat = new SimpleDateFormat(pattern);
+        dateFormat = new SimpleDateFormat( pattern );
         date = new Date();
-        format = dateFormat.format(date);
+        format = dateFormat.format( date );
         row = null;
         cell = null;
         sheetname = "Nutrient Lookup";
@@ -66,94 +66,94 @@ public class ExportNutrientLookup {
     }
 
     private void initializeMethods() {
-        fontBold.setBold(true);
-        fontItalic.setItalic(true);
-        sb.append("nutrient_lookup_");
-        sb.append(format);
-        sb.append(".xls");
-        filepath.append("model/");
-        filepath.append(sb.toString());
-        wb.setSheetName(0, sheetname);
+        fontBold.setBold( true );
+        fontItalic.setItalic( true );
+        sb.append( "nutrient_lookup_" );
+        sb.append( format );
+        sb.append( ".xls" );
+        filepath.append( "model/" );
+        filepath.append( sb.toString() );
+        wb.setSheetName( 0, sheetname );
     }
 
     private CellStyle getCellStyleValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
-        cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
-        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "0;[RED]-0" ) );
+        cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
-        cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
-        cellStyleColumnName.setFont(fontBold);
-        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
+        cellStyleColumnName.setFont( fontBold );
+        cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
 
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
-        cellStyleMixName.setFont(fontItalic);
-        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleMixName.setFont( fontItalic );
+        cellStyleMixName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleMixName;
     }
 
-    public void print(JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient) {
-        NutrientDataObject nutrientDataObject = (NutrientDataObject) comboBoxNutrientLookupListNutrient.getSelectedItem();
-        row = s.createRow(rownum++);
-        cell = row.createCell(0);
+    public void print( JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient ) {
+        NutrientDataObject nutrientDataObject = ( NutrientDataObject ) comboBoxNutrientLookupListNutrient.getSelectedItem();
+        row = s.createRow( rownum++ );
+        cell = row.createCell( 0 );
         StringBuilder sb1 = new StringBuilder();
-        sb1.append("*You get");
-        sb1.append(" ");
-        sb1.append(textFieldNutrientLookup.getText());
-        sb1.append(" ");
-        sb1.append(nutrientDataObject.getNutrdesc());
-        sb1.append(" in this amount (g) of food");
-        cell.setCellValue(sb1.toString());
-        cell.setCellStyle(cellStyleMixName);
-        row = s.createRow(rownum++);
-        cell = row.createCell(0);
-        cell.setCellValue("Food");
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(1);
-        cell.setCellValue("Weight (g)");
-        cell.setCellStyle(cellStyleColumnName);
-        cell = row.createCell(2);
-        cell.setCellValue("Calories (kcal)");
-        cell.setCellStyle(cellStyleColumnName);
+        sb1.append( "*You get" );
+        sb1.append( " " );
+        sb1.append( textFieldNutrientLookup.getText() );
+        sb1.append( " " );
+        sb1.append( nutrientDataObject.getNutrdesc() );
+        sb1.append( " in this amount (g) of food" );
+        cell.setCellValue( sb1.toString() );
+        cell.setCellStyle( cellStyleMixName );
+        row = s.createRow( rownum++ );
+        cell = row.createCell( 0 );
+        cell.setCellValue( "Food" );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 1 );
+        cell.setCellValue( "Weight (g)" );
+        cell.setCellStyle( cellStyleColumnName );
+        cell = row.createCell( 2 );
+        cell.setCellValue( "Calories (kcal)" );
+        cell.setCellStyle( cellStyleColumnName );
         try {
-            LinkedList list = (LinkedList) dbLink.Nutrient_Lookup_List(nutrientDataObject.getNutr_no(), Double.valueOf(textFieldNutrientLookup.getText()), 5);
+            LinkedList list = ( LinkedList ) dbLink.Nutrient_Lookup_List( nutrientDataObject.getNutr_no(), Double.valueOf( textFieldNutrientLookup.getText() ), 5 );
             Iterator it = list.iterator();
-            while (it.hasNext()) {
-                HashMap rowm = (HashMap) it.next();
-                String foodname = (String) rowm.get("NAME");
-                Double calories = (Double) rowm.get("CALORIES");
-                Double weight = (Double) rowm.get("WEIGHT");
-                row = s.createRow(rownum++);
-                cell = row.createCell(0);
-                cell.setCellStyle(cellStyleValue);
-                cell.setCellValue(foodname);
-                cell = row.createCell(1);
-                cell.setCellValue(weight);
-                cell.setCellStyle(cellStyleValue);
-                cell = row.createCell(2);
-                cell.setCellValue(calories);
-                cell.setCellStyle(cellStyleValue);
+            while( it.hasNext() ) {
+                HashMap rowm = ( HashMap ) it.next();
+                String foodname = ( String ) rowm.get( "NAME" );
+                Double calories = ( Double ) rowm.get( "CALORIES" );
+                Double weight = ( Double ) rowm.get( "WEIGHT" );
+                row = s.createRow( rownum++ );
+                cell = row.createCell( 0 );
+                cell.setCellStyle( cellStyleValue );
+                cell.setCellValue( foodname );
+                cell = row.createCell( 1 );
+                cell.setCellValue( weight );
+                cell.setCellStyle( cellStyleValue );
+                cell = row.createCell( 2 );
+                cell.setCellValue( calories );
+                cell.setCellStyle( cellStyleValue );
 
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
         try {
-            out = new FileOutputStream(filepath.toString());
-            wb.write(out);
+            out = new FileOutputStream( filepath.toString() );
+            wb.write( out );
             out.close();
-        } catch (IOException e) {
+        } catch( IOException e ) {
 
         }
-        JComponent[] inputs = new JComponent[]{
-            new JLabel("Spreadsheet is ready")
+        JComponent[] inputs = new JComponent[] {
+            new JLabel( "Spreadsheet is ready" )
         };
-        Message.showOptionDialog(inputs, "Export Nutrient Lookup");
+        Message.showOptionDialog( inputs, "Export Nutrient Lookup" );
     }
 }

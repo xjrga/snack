@@ -1,0 +1,273 @@
+/* courtesy Jorge Garcia de Alba */
+
+digraph example_1 {
+    labelloc = "t";
+    label = "Snack Entity-Relationship Diagram";
+    fontsize = 20;
+    fontname = "Liberation Mono"
+    size = "100,100";
+    nodesep = 0.25;
+    ranksep = 1.5;
+    /*layout=neato*/
+    node [color = lightgray, style = filled,fontname = "Liberation Mono"];
+    /*Tables*/
+    FoodFactCoefficient [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">FoodFoodFactCoefficient</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">c: DOUBLE</td></tr>
+        </table>
+    >]
+    FoodCategory [shape=record, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">FoodCategory</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodCategoryId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+        </table>
+    >]
+    Food [shape=record, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">Food</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+        </table>
+    >]
+    FoodFact [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">FoodFact</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">q: DOUBLE</td></tr>
+        </table>
+    >]
+    Relationship [shape=record, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">Relationship</td></tr>
+            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+        </table>
+    >]
+    Mix [shape=record, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">Mix</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+            <tr><td align="left">ADate: DATE</td></tr>
+            <tr><td align="left">ATime: TIME</td></tr>
+            <tr><td align="left">Status: INTEGER</td></tr>
+            <tr><td align="left">NutrientId: LONGVARCHAR</td></tr>
+            <tr><td align="left">Model: LONGVARCHAR</td></tr>
+        </table>
+    >]
+    NutrientCategory [shape=record, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">NutrientCategory</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientCategoryId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+        </table>
+    >]
+    Nutrient [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">Nutrient</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+            <tr><td align="left">Visible: INTEGER</td></tr>
+            <tr><td align="left">NutrientCategoryId: LONGVARCHAR</td></tr>
+            <tr><td align="left">Label: LONGVARCHAR</td></tr>           
+        </table>
+    >]
+    MixFood [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">MixFood</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">x: DOUBLE</td></tr>
+        </table>
+    >]
+    FoodNutrientRatio [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">FoodNutrientRatio</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">Food_Id_1: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_1: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">Food_Id_2: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_2: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
+            <tr><td align="left">A: DOUBLE</td></tr>
+            <tr><td align="left">B: DOUBLE</td></tr>
+        </table>
+    >]
+    NutrientRatio [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">NutrientRatio</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_1: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_2: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
+            <tr><td align="left">A: DOUBLE</td></tr>
+            <tr><td align="left">B: DOUBLE</td></tr>
+        </table>
+    >]
+    NutrientConstraint [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">NutrientConstraint</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">RelationshipId: INTEGER (PK)</td></tr>
+            <tr><td align="left">b: DOUBLE</td></tr>
+        </table>
+    >]
+    FoodNutrientConstraint [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">FoodNutrientConstraint</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
+            <tr><td align="left">b: DOUBLE</td></tr>
+        </table>
+    >]
+    CategoryLink [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">CategoryLink</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodCategoryId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+        </table>
+    >]
+    PercentConstraint [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">PercentConstraint</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
+            <tr><td align="left">b: DOUBLE</td></tr>
+        </table>
+    >]
+    Rda [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">Rda</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">LifeStageId: INTEGER (PK)</td></tr>
+            <tr><td align="left">q: DOUBLE</td></tr>
+            <tr><td align="left">UL: DOUBLE</td></tr>
+        </table>
+    >]
+    RdaLifeStage [shape=record, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">RdaLifeStage</td></tr>
+            <tr><td bgcolor="lightblue" align="left">LifeStageId: INTEGER (PK)</td></tr>
+            <tr><td align="left">Label: LONGVARCHAR</td></tr>
+        </table>
+    >]
+    MixResult [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">MixResult</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">q: DOUBLE</td></tr>
+        </table>
+    >]
+    MixResultDn [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">MixResultDn</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">....</td></tr>
+        </table>
+    >]
+    Meal [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">Meal</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: INTEGER (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MealId: INTEGER (PK)</td></tr>
+            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+            <tr><td align="left">Note: LONGVARCHAR</td></tr>
+            <tr><td align="left">Order: INTEGER</td></tr>
+        </table>
+    >]
+    MealFoodAllocation [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">MealFoodAllocation</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MealId: INTEGER (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">Pct: DOUBLE</td></tr>    
+            <tr><td align="left">ExpectedWt: DOUBLE</td></tr>
+            <tr><td align="left">ActualWt: DOUBLE</td></tr>
+        </table>
+    >]
+
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "FoodCategory" -> "CategoryLink" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Food" -> "FoodFact" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Food" -> "MixFood" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Food" -> "CategoryLink" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "FoodFact" -> "FoodFactCoefficient" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Relationship" -> "FoodNutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Relationship" -> "NutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Relationship" -> "NutrientConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Relationship" -> "FoodNutrientConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Relationship" -> "PercentConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Mix" -> "MixFood" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Mix" -> "NutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Mix" -> "NutrientConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "FoodFact" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "FoodNutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "FoodNutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
+    "Nutrient" -> "Mix" [dir=forward,weight=1];        
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "NutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "NutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "NutrientConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "FoodNutrientConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "PercentConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Nutrient" -> "Rda" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
+    "NutrientCategory" -> "Nutrient" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "FoodNutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "FoodNutrientRatio" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "FoodNutrientConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "PercentConstraint" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "RdaLifeStage" -> "Rda" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "MixResult" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "FoodFactCoefficient" -> "MixResult" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "MixResultDn" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Mix" -> "Meal" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Meal" -> "MealFoodAllocation" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "MixFood" -> "MealFoodAllocation" [dir=forward,weight=1];
+}

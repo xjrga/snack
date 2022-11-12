@@ -26,32 +26,33 @@ public class TableModelElectrolytes extends DefaultTableModel {
 
     private Vector columns;
 
-    public TableModelElectrolytes(Result_loader loader) {
+    public TableModelElectrolytes( Result_loader loader ) {
         columns = new Vector();
-        columns.add("Name");
-        columns.add("Weight");
-        columns.add("Na");
-        columns.add("K");
-        this.setDataVector(loader.get_electrolytes_table(), columns);
+        columns.add( "Name" );
+        columns.add( "Weight" );
+        columns.add( "Na" );
+        columns.add( "K" );
+        this.setDataVector( loader.get_electrolytes_table(), columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i == 0) {
+        if( i == 0 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void set_table(Vector table) {
-        this.setDataVector(table, columns);
+    public void set_table( Vector table ) {
+        this.setDataVector( table, columns );
     }
 }

@@ -5,8 +5,8 @@ import javax.swing.table.TableColumnModel;
 
 public class TableResultsHeader extends MyTableHeader {
 
-    public TableResultsHeader(TableColumnModel columnModel) {
-        super(columnModel, new String[]{
+    public TableResultsHeader( TableColumnModel columnModel ) {
+        super( columnModel, new String[] {
             "Name",
             "Protein",
             "Fat",
@@ -75,11 +75,11 @@ public class TableResultsHeader extends MyTableHeader {
             "Incomplete Protein",
             "Digestible Carbohydrate",
             "Cost"
-        });
+        } );
     }
 
     @Override
-    public String getToolTipText(MouseEvent e) {
-        return super.getToolTipText(e);
+    public String getToolTipText( MouseEvent e ) {
+        return super.getToolTipText( e );
     }
 }

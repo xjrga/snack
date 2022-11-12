@@ -47,9 +47,9 @@ public class ExportFoodComparison {
         filepath = new StringBuilder();
         sb = new StringBuilder();
         pattern = "yyyy-MMMMM-dd'_at_'HH-mm-ss";
-        dateFormat = new SimpleDateFormat(pattern);
+        dateFormat = new SimpleDateFormat( pattern );
         date = new Date();
-        format = dateFormat.format(date);
+        format = dateFormat.format( date );
         row = null;
         cell = null;
         sheetname = "Food Comparison";
@@ -58,91 +58,91 @@ public class ExportFoodComparison {
     }
 
     private void initializeMethods() {
-        fontBold.setBold(true);
-        sb.append("food_comparison_");
-        sb.append(format);
-        sb.append(".xls");
-        filepath.append("model/");
-        filepath.append(sb.toString());
-        wb.setSheetName(0, sheetname);
+        fontBold.setBold( true );
+        sb.append( "food_comparison_" );
+        sb.append( format );
+        sb.append( ".xls" );
+        filepath.append( "model/" );
+        filepath.append( sb.toString() );
+        wb.setSheetName( 0, sheetname );
     }
 
-    public void print(TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB) {
-        if (!listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty()) {
-            FoodDataObject food_a = (FoodDataObject) listCompareA.getSelectedValue();
-            FoodDataObject food_b = (FoodDataObject) listCompareB.getSelectedValue();
-            row = s.createRow(rownum++);
-            cell = row.createCell(0);
+    public void print( TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB ) {
+        if( !listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty() ) {
+            FoodDataObject food_a = ( FoodDataObject ) listCompareA.getSelectedValue();
+            FoodDataObject food_b = ( FoodDataObject ) listCompareB.getSelectedValue();
+            row = s.createRow( rownum++ );
+            cell = row.createCell( 0 );
             StringBuilder sb1 = new StringBuilder();
-            sb1.append(food_a.getFoodName());
-            sb1.append(" minus ");
-            sb1.append(food_b.getFoodName());
-            cell.setCellValue(sb1.toString());
-            cell.setCellStyle(cellStyleMixName);
-            row = s.createRow(rownum++);
-            cell = row.createCell(0);
-            cell.setCellValue("Category");
-            cell.setCellStyle(cellStyleColumnName);
-            cell = row.createCell(1);
-            cell.setCellValue("Nutrient");
-            cell.setCellStyle(cellStyleColumnName);
-            cell = row.createCell(2);
-            cell.setCellValue(food_a.getFoodName());
-            cell.setCellStyle(cellStyleColumnName);
-            cell = row.createCell(3);
-            cell.setCellValue(food_b.getFoodName());
-            cell.setCellStyle(cellStyleColumnName);
-            cell = row.createCell(4);
-            cell.setCellValue("Difference");
-            cell.setCellStyle(cellStyleColumnName);
+            sb1.append( food_a.getFoodName() );
+            sb1.append( " minus " );
+            sb1.append( food_b.getFoodName() );
+            cell.setCellValue( sb1.toString() );
+            cell.setCellStyle( cellStyleMixName );
+            row = s.createRow( rownum++ );
+            cell = row.createCell( 0 );
+            cell.setCellValue( "Category" );
+            cell.setCellStyle( cellStyleColumnName );
+            cell = row.createCell( 1 );
+            cell.setCellValue( "Nutrient" );
+            cell.setCellStyle( cellStyleColumnName );
+            cell = row.createCell( 2 );
+            cell.setCellValue( food_a.getFoodName() );
+            cell.setCellStyle( cellStyleColumnName );
+            cell = row.createCell( 3 );
+            cell.setCellValue( food_b.getFoodName() );
+            cell.setCellStyle( cellStyleColumnName );
+            cell = row.createCell( 4 );
+            cell.setCellValue( "Difference" );
+            cell.setCellStyle( cellStyleColumnName );
         }
-        for (int j = 0; j < modelTableFoodDiff.getRowCount(); j++) {
-            row = s.createRow(rownum++);
-            cell = row.createCell(0);
-            cell.setCellValue((String) modelTableFoodDiff.getValueAt(j, 0));
-            cell = row.createCell(1);
-            cell.setCellValue((String) modelTableFoodDiff.getValueAt(j, 1));
-            cell = row.createCell(2);
-            cell.setCellValue((Double) modelTableFoodDiff.getValueAt(j, 2));
-            cell = row.createCell(3);
-            cell.setCellValue((Double) modelTableFoodDiff.getValueAt(j, 3));
-            cell = row.createCell(4);
-            cell.setCellValue((Double) modelTableFoodDiff.getValueAt(j, 4));
-            cell.setCellStyle(cellStyleValue);
+        for( int j = 0; j < modelTableFoodDiff.getRowCount(); j++ ) {
+            row = s.createRow( rownum++ );
+            cell = row.createCell( 0 );
+            cell.setCellValue( ( String ) modelTableFoodDiff.getValueAt( j, 0 ) );
+            cell = row.createCell( 1 );
+            cell.setCellValue( ( String ) modelTableFoodDiff.getValueAt( j, 1 ) );
+            cell = row.createCell( 2 );
+            cell.setCellValue( ( Double ) modelTableFoodDiff.getValueAt( j, 2 ) );
+            cell = row.createCell( 3 );
+            cell.setCellValue( ( Double ) modelTableFoodDiff.getValueAt( j, 3 ) );
+            cell = row.createCell( 4 );
+            cell.setCellValue( ( Double ) modelTableFoodDiff.getValueAt( j, 4 ) );
+            cell.setCellStyle( cellStyleValue );
         }
         try {
-            out = new FileOutputStream(filepath.toString());
-            wb.write(out);
+            out = new FileOutputStream( filepath.toString() );
+            wb.write( out );
             out.close();
-        } catch (IOException e) {
+        } catch( IOException e ) {
 
         }
-        JComponent[] inputs = new JComponent[]{
-            new JLabel("Spreadsheet is ready")
+        JComponent[] inputs = new JComponent[] {
+            new JLabel( "Spreadsheet is ready" )
         };
-        Message.showOptionDialog(inputs, "Export Food Comparison");
+        Message.showOptionDialog( inputs, "Export Food Comparison" );
     }
 
     private CellStyle getCellStyleValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
-        cellStyleFoodItemValue.setDataFormat(cellFormat.getFormat("0;[RED]-0"));
-        cellStyleFoodItemValue.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "0;[RED]-0" ) );
+        cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
 
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
-        cellStyleColumnName.setBorderBottom(BorderStyle.THIN);
-        cellStyleColumnName.setFont(fontBold);
-        cellStyleColumnName.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
+        cellStyleColumnName.setFont( fontBold );
+        cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
 
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
-        cellStyleMixName.setFillPattern(FillPatternType.SPARSE_DOTS);
-        cellStyleMixName.setFont(fontBold);
-        cellStyleMixName.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyleMixName.setFillPattern( FillPatternType.SPARSE_DOTS );
+        cellStyleMixName.setFont( fontBold );
+        cellStyleMixName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleMixName;
     }
 }

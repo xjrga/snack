@@ -26,40 +26,41 @@ public class TableModelFat extends DefaultTableModel {
 
     private Vector columns;
 
-    public TableModelFat(Result_loader loader) {
+    public TableModelFat( Result_loader loader ) {
         columns = new Vector();
-        columns.add("Name"); //0
-        columns.add("Weight");
-        columns.add("eFat");
-        columns.add("Fat");
-        columns.add("MUFA");
-        columns.add("PUFA");
-        columns.add("SFA");
-        columns.add("CHOL");
-        columns.add("LA");
-        columns.add("ALA");
-        columns.add("DHA");
-        columns.add("EPA");
-        this.setDataVector(loader.get_fats_table(), columns);
+        columns.add( "Name" ); //0
+        columns.add( "Weight" );
+        columns.add( "eFat" );
+        columns.add( "Fat" );
+        columns.add( "MUFA" );
+        columns.add( "PUFA" );
+        columns.add( "SFA" );
+        columns.add( "CHOL" );
+        columns.add( "LA" );
+        columns.add( "ALA" );
+        columns.add( "DHA" );
+        columns.add( "EPA" );
+        this.setDataVector( loader.get_fats_table(), columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i == 0) {
+        if( i == 0 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void set_table(Vector table) {
-        this.setDataVector(table, columns);
+    public void set_table( Vector table ) {
+        this.setDataVector( table, columns );
     }
 }

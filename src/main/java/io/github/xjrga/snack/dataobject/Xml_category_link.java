@@ -14,11 +14,11 @@ public class Xml_category_link {
         sb = new StringBuilder();
     }
 
-    public void set_foodid(String name) {
+    public void set_foodid( String name ) {
         this.foodid = name;
     }
 
-    public void set_categoryid(String mixid) {
+    public void set_categoryid( String mixid ) {
         this.categoryid = mixid;
     }
 
@@ -32,11 +32,11 @@ public class Xml_category_link {
 
     @Override
     public String toString() {
-        sb.append("[");
-        sb.append(foodid);
-        sb.append(",");
-        sb.append(categoryid);
-        sb.append("]");
+        sb.append( "[" );
+        sb.append( foodid );
+        sb.append( "," );
+        sb.append( categoryid );
+        sb.append( "]" );
         return sb.toString();
     }
 

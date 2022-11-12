@@ -17,7 +17,7 @@ public class Xml_nutrient_ratio_constraint {
         return nutrientid_a;
     }
 
-    public void setNutrientid_a(String nutrientid_a) {
+    public void setNutrientid_a( String nutrientid_a ) {
         this.nutrientid_a = nutrientid_a;
     }
 
@@ -25,7 +25,7 @@ public class Xml_nutrient_ratio_constraint {
         return nutrientid_b;
     }
 
-    public void setNutrientid_b(String nutrientid_b) {
+    public void setNutrientid_b( String nutrientid_b ) {
         this.nutrientid_b = nutrientid_b;
     }
 
@@ -33,7 +33,7 @@ public class Xml_nutrient_ratio_constraint {
         return relationshipid;
     }
 
-    public void setRelationshipid(Integer relationshipid) {
+    public void setRelationshipid( Integer relationshipid ) {
         this.relationshipid = relationshipid;
     }
 
@@ -41,7 +41,7 @@ public class Xml_nutrient_ratio_constraint {
         return a;
     }
 
-    public void setA(Double a) {
+    public void setA( Double a ) {
         this.a = a;
     }
 
@@ -49,21 +49,21 @@ public class Xml_nutrient_ratio_constraint {
         return b;
     }
 
-    public void setB(Double b) {
+    public void setB( Double b ) {
         this.b = b;
     }
 
     @Override
     public String toString() {
-        sb.append("[");
-        sb.append(nutrientid_a);
-        sb.append(",");
-        sb.append(nutrientid_b);
-        sb.append(",");
-        sb.append(relationshipid);
-        sb.append(",");
-        sb.append(b);
-        sb.append("]");
+        sb.append( "[" );
+        sb.append( nutrientid_a );
+        sb.append( "," );
+        sb.append( nutrientid_b );
+        sb.append( "," );
+        sb.append( relationshipid );
+        sb.append( "," );
+        sb.append( b );
+        sb.append( "]" );
         return sb.toString();
     }
 

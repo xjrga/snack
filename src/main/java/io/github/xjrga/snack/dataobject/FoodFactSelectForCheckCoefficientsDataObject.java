@@ -15,7 +15,7 @@ public class FoodFactSelectForCheckCoefficientsDataObject {
         return Category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory( String category ) {
         Category = category;
     }
 
@@ -23,7 +23,7 @@ public class FoodFactSelectForCheckCoefficientsDataObject {
         return Nutrient;
     }
 
-    public void setNutrient(String nutrient) {
+    public void setNutrient( String nutrient ) {
         Nutrient = nutrient;
     }
 
@@ -31,7 +31,7 @@ public class FoodFactSelectForCheckCoefficientsDataObject {
         return q;
     }
 
-    public void setQ(Double q) {
+    public void setQ( Double q ) {
         this.q = q;
     }
 
@@ -39,7 +39,7 @@ public class FoodFactSelectForCheckCoefficientsDataObject {
         return NutrientId;
     }
 
-    public void setNutrientId(String nutrientId) {
+    public void setNutrientId( String nutrientId ) {
         NutrientId = nutrientId;
     }
 
@@ -47,7 +47,7 @@ public class FoodFactSelectForCheckCoefficientsDataObject {
         return c;
     }
 
-    public void setC(Double c) {
+    public void setC( Double c ) {
         this.c = c;
     }
 }

@@ -27,16 +27,16 @@ public class FoodDataObject {
     public FoodDataObject() {
     }
 
-    public FoodDataObject(String foodid, String foodname) {
-        this.setFoodId(foodid);
-        this.setFoodName(foodname);
+    public FoodDataObject( String foodid, String foodname ) {
+        this.setFoodId( foodid );
+        this.setFoodName( foodname );
     }
 
     public String getFoodId() {
         return foodid;
     }
 
-    public void setFoodId(String foodid) {
+    public void setFoodId( String foodid ) {
         this.foodid = foodid;
     }
 
@@ -49,7 +49,7 @@ public class FoodDataObject {
         return foodname;
     }
 
-    public void setFoodName(String foodname) {
+    public void setFoodName( String foodname ) {
         this.foodname = foodname;
     }
 }

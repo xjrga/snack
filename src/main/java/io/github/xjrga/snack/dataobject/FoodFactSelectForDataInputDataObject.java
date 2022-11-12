@@ -14,7 +14,7 @@ public class FoodFactSelectForDataInputDataObject {
         return Category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory( String category ) {
         Category = category;
     }
 
@@ -22,7 +22,7 @@ public class FoodFactSelectForDataInputDataObject {
         return Nutrient;
     }
 
-    public void setNutrient(String nutrient) {
+    public void setNutrient( String nutrient ) {
         Nutrient = nutrient;
     }
 
@@ -30,7 +30,7 @@ public class FoodFactSelectForDataInputDataObject {
         return q;
     }
 
-    public void setQ(Double q) {
+    public void setQ( Double q ) {
         this.q = q;
     }
 
@@ -38,7 +38,7 @@ public class FoodFactSelectForDataInputDataObject {
         return NutrientId;
     }
 
-    public void setNutrientId(String nutrientId) {
+    public void setNutrientId( String nutrientId ) {
         NutrientId = nutrientId;
     }
 

@@ -26,43 +26,44 @@ public class TableModelVitamins extends DefaultTableModel {
 
     private Vector columns;
 
-    public TableModelVitamins(Result_loader loader) {
+    public TableModelVitamins( Result_loader loader ) {
         columns = new Vector();
-        columns.add("Name");
-        columns.add("Weight");
-        columns.add("A");
-        columns.add("D");
-        columns.add("E");
-        columns.add("C");
-        columns.add("B1");
-        columns.add("B2");
-        columns.add("B3");
-        columns.add("B6");
-        columns.add("B9");
-        columns.add("B12");
-        columns.add("K");
-        columns.add("B5");
-        columns.add("B4");
-        this.setDataVector(loader.get_vitamins_table(), columns);
+        columns.add( "Name" );
+        columns.add( "Weight" );
+        columns.add( "A" );
+        columns.add( "D" );
+        columns.add( "E" );
+        columns.add( "C" );
+        columns.add( "B1" );
+        columns.add( "B2" );
+        columns.add( "B3" );
+        columns.add( "B6" );
+        columns.add( "B9" );
+        columns.add( "B12" );
+        columns.add( "K" );
+        columns.add( "B5" );
+        columns.add( "B4" );
+        this.setDataVector( loader.get_vitamins_table(), columns );
     }
 
     @Override
-    public Class getColumnClass(int i) {
+    public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if (i == 0) {
+        if( i == 0 ) {
             returnValue = String.class;
-        } else {
+        }
+        else {
             returnValue = Double.class;
         }
         return returnValue;
     }
 
     @Override
-    public boolean isCellEditable(int i, int i1) {
+    public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
 
-    public void set_table(Vector table) {
-        this.setDataVector(table, columns);
+    public void set_table( Vector table ) {
+        this.setDataVector( table, columns );
     }
 }

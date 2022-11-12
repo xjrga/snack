@@ -11,68 +11,68 @@ public class StringModelMixPct implements RoundUp {
     private final DbLink dbLink;
     private Integer precision = 0;
 
-    public StringModelMixPct(DbLink dbLink) {
+    public StringModelMixPct( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 
-    public String reload(String MixId) {
+    public String reload( String MixId ) {
         String s = "";
         try {
-            LinkedList all = (LinkedList) dbLink.MixResult_Select_Pct(MixId, precision);
+            LinkedList all = ( LinkedList ) dbLink.MixResult_Select_Pct( MixId, precision );
             Iterator it = all.iterator();
-            while (it.hasNext()) {
-                HashMap row = (HashMap) it.next();
-                Double calories = (Double) row.get("CALORIES");
-                Double fat = (Double) row.get("FAT");
-                Double carbs = (Double) row.get("CARBS");
-                Double protein = (Double) row.get("PROTEIN");
-                Double alcohol = (Double) row.get("ALCOHOL");
-                Double fq = (Double) row.get("FQ");
-                Double satfat = (Double) row.get("SATFAT");
-                Double monoufat = (Double) row.get("MONOUFAT");
-                Double polyufat = (Double) row.get("POLYUFAT");
+            while( it.hasNext() ) {
+                HashMap row = ( HashMap ) it.next();
+                Double calories = ( Double ) row.get( "CALORIES" );
+                Double fat = ( Double ) row.get( "FAT" );
+                Double carbs = ( Double ) row.get( "CARBS" );
+                Double protein = ( Double ) row.get( "PROTEIN" );
+                Double alcohol = ( Double ) row.get( "ALCOHOL" );
+                Double fq = ( Double ) row.get( "FQ" );
+                Double satfat = ( Double ) row.get( "SATFAT" );
+                Double monoufat = ( Double ) row.get( "MONOUFAT" );
+                Double polyufat = ( Double ) row.get( "POLYUFAT" );
                 //Calories calculation result is different if we choose digestible carbohydrate or carbohydrate by difference. I chose to use digestible carbohydrate.
                 //It is an approximation.
                 StringBuilder sb = new StringBuilder();
                 //This calories result is slightly different that the one reported because it uses digestible carbohydrate in calculation.
                 //sb.append("Calories: ");
                 //sb.append(mixResultDwPctDataObject.getCalories());
-                sb.append("* MACRONUTRIENT PERCENTAGES *\n");
-                sb.append("Fat: ");
-                sb.append(fat);
-                sb.append("\n");
-                sb.append("Carbohydrate: ");
-                sb.append(carbs);
-                sb.append("\n");
-                sb.append("Protein: ");
-                sb.append(protein);
-                sb.append("\n");
-                sb.append("Alcohol: ");
-                sb.append(alcohol);
-                sb.append("\n");
-                sb.append("Saturated Fatty Acids (SFA): ");
-                sb.append(satfat);
-                sb.append("\n");
-                sb.append("Monounsaturated Fatty Acids (MUFA): ");
-                sb.append(monoufat);
-                sb.append("\n");
-                sb.append("Polyunsaturated Fatty Acids (PUFA): ");
-                sb.append(polyufat);
-                sb.append("\n");
-                sb.append("Food Quotient (FQ): ");
-                sb.append(fq);
-                sb.append("\n");
-                sb.append("[ Values are percent of total energy except FQ ]");
+                sb.append( "* MACRONUTRIENT PERCENTAGES *\n" );
+                sb.append( "Fat: " );
+                sb.append( fat );
+                sb.append( "\n" );
+                sb.append( "Carbohydrate: " );
+                sb.append( carbs );
+                sb.append( "\n" );
+                sb.append( "Protein: " );
+                sb.append( protein );
+                sb.append( "\n" );
+                sb.append( "Alcohol: " );
+                sb.append( alcohol );
+                sb.append( "\n" );
+                sb.append( "Saturated Fatty Acids (SFA): " );
+                sb.append( satfat );
+                sb.append( "\n" );
+                sb.append( "Monounsaturated Fatty Acids (MUFA): " );
+                sb.append( monoufat );
+                sb.append( "\n" );
+                sb.append( "Polyunsaturated Fatty Acids (PUFA): " );
+                sb.append( polyufat );
+                sb.append( "\n" );
+                sb.append( "Food Quotient (FQ): " );
+                sb.append( fq );
+                sb.append( "\n" );
+                sb.append( "[ Values are percent of total energy except FQ ]" );
                 s = sb.toString();
             }
-        } catch (SQLException e) {
+        } catch( SQLException e ) {
 
         }
         return s;
     }
 
     @Override
-    public void setPrecision(Integer precision) {
+    public void setPrecision( Integer precision ) {
         this.precision = precision;
     }
 }
