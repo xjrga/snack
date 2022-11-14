@@ -11,6 +11,7 @@ ExpectedWt = (SELECT b.x*a.pct
                           mixfood b
                      WHERE a.mixid = v_MixId
                      AND   a.mealid = v_MealId
+                     AND  a.mixid = b.mixid
                      AND   a.foodid = b.foodid
                      AND   a.foodid = v_FoodId)
 WHERE

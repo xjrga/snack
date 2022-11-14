@@ -295,4 +295,9 @@ RELEASE NOTES
 
       Add "create meal plan" feature
       Add "export meal plan" feature
+
+1001
+
+      Fix bug
+      
       

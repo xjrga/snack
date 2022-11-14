@@ -11,7 +11,7 @@ IF
 --
 (SELECT COUNT(*)
 FROM MealFoodAllocation a
-WHERE a.foodid = V_FoodId) = 0
+WHERE a.mixid = v_MixId AND a.foodid = V_FoodId) = 0
 --
 THEN
 --
@@ -30,7 +30,7 @@ AND   FoodId = v_FoodId;
 --
 END IF;
 --
-RETURN ROUND(v_c*100,v_Precision);
+RETURN ROUND(v_c * 100,v_Precision);
 --
 END;
 /

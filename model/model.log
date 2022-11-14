@@ -30,3 +30,34 @@ Model is feasible. A solution exists which satisfies all the constraints.
 */
 <-----
 
+----->
+/*
+Title: Chicken, Rice and Veggies
+Date: 2022-November-14_at_10-43-57
+
+Variables
+x0: Chicken, broilers or fryers, breast, meat only, cooked, roasted
+x1: Broccoli, cooked, boiled, drained, without salt
+x2: Rice, brown, long-grain, cooked
+*/
+
+/* Minimize */
+min: 1.5620999999999998 x0 + 0.2873 x1 + 1.1561 x2;
+/* Subject To */
+0.3102 x0 + 0.0 x1 + 0.0 x2 = 100.0;
+1.5620999999999998 x0 + 0.2873 x1 + 1.1561 x2 = 2000.0;
+0.0 x0 + 0.033 x1 + 0.016 x2 = 40.0;
+
+/*
+Results
+Calories: 2000
+x0 = 322.373 g  = 11.371 oz
+x1 = 664.628 g  = 23.444 oz
+x2 = 1129.205 g  = 39.832 oz
+*/
+
+/*
+Model is feasible. A solution exists which satisfies all the constraints.
+*/
+<-----
+
