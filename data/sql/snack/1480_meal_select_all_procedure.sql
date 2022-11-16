@@ -8,8 +8,7 @@ DECLARE result CURSOR
 FOR
 SELECT MixId,
        MealId,
-       Name,
-       Note,
+       Name,       
        MealOrder
 FROM Meal
 WHERE MixId = V_MixId

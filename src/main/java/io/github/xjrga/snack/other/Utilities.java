@@ -92,12 +92,14 @@ public class Utilities {
                 try {
                     validator.validate( xmlDoc );
                 } catch( IOException e ) {
+                    System.out.println( "Reason: " + e.getLocalizedMessage() );
                 }
                 result = true;
             } catch( SAXException e ) {
                 System.out.println( "Reason: " + e.getLocalizedMessage() );
             }
         } catch( SAXException e ) {
+            System.out.println( "Reason: " + e.getLocalizedMessage() );
         }
         return result;
     }

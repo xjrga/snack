@@ -299,5 +299,10 @@ RELEASE NOTES
 1001
 
       Fix bug
+
+1010
       
+      Update database schema "erd"
+      Update snack.xsd schema "xml"
+      Add xml import and export of meals and meal food allocations
       

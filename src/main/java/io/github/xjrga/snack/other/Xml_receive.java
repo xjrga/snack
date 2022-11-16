@@ -19,6 +19,8 @@ package io.github.xjrga.snack.other;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
+import io.github.xjrga.snack.dataobject.O_Meal;
+import io.github.xjrga.snack.dataobject.O_MealFoodAllocation;
 import io.github.xjrga.snack.dataobject.Xml_category;
 import io.github.xjrga.snack.dataobject.Xml_category_link;
 import io.github.xjrga.snack.dataobject.Xml_food;
@@ -78,6 +80,8 @@ public class Xml_receive {
                 Xml_nutrient_percent_constraint nutrient_percent_constraint = null;
                 Xml_category category = null;
                 Xml_category_link category_link = null;
+                O_Meal meal = null;
+                O_MealFoodAllocation allocation = new O_MealFoodAllocation();
                 while( eventReader.hasNext() ) {
                     XMLEvent event = eventReader.nextEvent();
                     switch( event.getEventType() ) {
@@ -129,15 +133,57 @@ public class Xml_receive {
                                     nutrient_percent_constraint = new Xml_nutrient_percent_constraint();
                                     main_event = start_event;
                                     break;
+                                case "meal":
+                                    System.out.println( "Start meal" );
+                                    meal = new O_Meal();
+                                    main_event = start_event;
+                                    break;
+                                case "meal_food_allocation":
+                                    System.out.println( "Start meal_food_allocation" );
+                                    allocation = new O_MealFoodAllocation();
+                                    main_event = start_event;
+                                    break;
                             }
                             break;
                         case XMLEvent.CHARACTERS:
                             String data = event.asCharacters().getData().strip();
                             if( !data.isBlank() ) {
                                 switch( start_event ) {
+                                    //meal
+                                    case "mealid":
+                                        switch( main_event ) {
+                                            case "meal":
+                                                meal.setMealid( Integer.valueOf( data ) );
+                                                break;
+                                            case "meal_food_allocation":
+                                                allocation.setMealid( Integer.valueOf( data ) );
+                                                break;
+                                        }
+                                    case "pct":
+                                        allocation.setPct( Double.valueOf( data ) );
+                                        break;
+                                    case "expectedwt":
+                                        allocation.setExpectedwt( Double.valueOf( data ) );
+                                        break;
+                                    case "actualwt":
+                                        allocation.setActualwt( Double.valueOf( data ) );
+                                        break;
+                                    case "mealorder":
+                                        meal.setMealOrder( Integer.valueOf( data ) );
+                                        break;
                                     //mix
                                     case "mixid":
-                                        mix.set_mixid( data );
+                                        switch( main_event ) {
+                                            case "mix":
+                                                mix.set_mixid( data );
+                                                break;
+                                            case "meal":
+                                                meal.setMixid( data );
+                                                break;
+                                            case "meal_food_allocation":
+                                                allocation.setMixid( data );
+                                                break;
+                                        }
                                         break;
                                     case "name":
                                         switch( main_event ) {
@@ -146,6 +192,9 @@ public class Xml_receive {
                                                 break;
                                             case "food":
                                                 food.setName( data );
+                                                break;
+                                            case "meal":
+                                                meal.setName( data );
                                                 break;
                                         }
                                         break;
@@ -175,6 +224,9 @@ public class Xml_receive {
                                                 break;
                                             case "nutrient_percent_constraint":
                                                 nutrient_percent_constraint.setFoodid( data );
+                                                break;
+                                            case "meal_food_allocation":
+                                                allocation.setFoodid( data );
                                                 break;
                                         }
                                         break;
@@ -645,6 +697,36 @@ public class Xml_receive {
                                                 + " " + nutrient_percent_constraint.getFoodid()
                                                 + " " + nutrient_percent_constraint.getNutrientid()
                                                 + " " + nutrient_percent_constraint.getRelationshipid()
+                                        );
+                                    }
+                                    break;
+                                case "meal":
+                                    System.out.println( "End meal" );
+                                    System.out.println( meal );
+                                    try {
+                                        dbLink.Meal_insert_02( meal.getMixid(), meal.getMealid(), meal.getName(), meal.getMealOrder() );
+                                    } catch( SQLException ex ) {
+                                        System.out.println( "-> " + ex.getMessage()
+                                                + " " + meal.getMixid()
+                                                + " " + meal.getMealid()
+                                                + " " + meal.getName()
+                                                + " " + meal.getMealOrder()
+                                        );
+                                    }
+                                    break;
+                                case "meal_food_allocation":
+                                    System.out.println( "End meal_food_allocation" );
+                                    System.out.println( allocation );
+                                    try {
+                                        dbLink.MealFoodAllocation_insert( allocation.getMixid(), allocation.getMealid(), allocation.getFoodid(), allocation.getPct(), allocation.getExpectedwt(), allocation.getActualwt() );
+                                    } catch( SQLException ex ) {
+                                        System.out.println( "-> " + ex.getMessage()
+                                                + " " + allocation.getMixid()
+                                                + " " + allocation.getMealid()
+                                                + " " + allocation.getFoodid()
+                                                + " " + allocation.getPct()
+                                                + " " + allocation.getExpectedwt()
+                                                + " " + allocation.getActualwt()
                                         );
                                     }
                                     break;

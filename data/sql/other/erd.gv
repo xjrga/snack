@@ -181,10 +181,9 @@ digraph example_1 {
     Meal [shape=Mrecord, label=<
         <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="yellow">Meal</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: INTEGER (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
             <tr><td bgcolor="lightblue" align="left">MealId: INTEGER (PK)</td></tr>
             <tr><td align="left">Name: LONGVARCHAR</td></tr>
-            <tr><td align="left">Note: LONGVARCHAR</td></tr>
             <tr><td align="left">Order: INTEGER</td></tr>
         </table>
     >]

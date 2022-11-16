@@ -54,4 +54,17 @@ public class ComboBoxAllocationFood extends DefaultComboBoxModel {
 
         }
     }
+
+    public int find_by_foodid( String foodid ) {
+        int index = 0;
+        int size = this.getSize();
+        for( int i = 0; i < size; i++ ) {
+            FoodDataObject elementAt = ( FoodDataObject ) this.getElementAt( i );
+            if( elementAt.getFoodId().equals( foodid ) ) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 }

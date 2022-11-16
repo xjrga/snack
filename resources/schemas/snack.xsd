@@ -6,7 +6,7 @@
                 Data Exchange Document Schema For Snack Software
                 Snack: Learning Software For Nutrition
                 Author: Jorge Rolando Garcia de Alba
-                Version: 04
+                Version: 05
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
@@ -29,6 +29,10 @@
                 <xsd:element name="nutrient_ratio_constraint_list" type="nutrient_ratio_constraint_list" minOccurs="0" maxOccurs="1"/>
                 <!-- nutrient percent constraint -->
                 <xsd:element name="nutrient_percent_constraint_list" type="nutrient_percent_constraint_list" minOccurs="0" maxOccurs="1"/>
+                <!-- meal -->
+                <xsd:element name="meal_list" type="meal_list" minOccurs="0" maxOccurs="1"/>
+                <!-- meal food allocation -->
+                <xsd:element name="meal_food_allocation_list" type="meal_food_allocation_list" minOccurs="0" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
         <xsd:unique name="Uniquely_Specified_Food">
@@ -288,7 +292,7 @@
             <xsd:enumeration value = "309"/>
             <!-- Copper, Cu (mg) -->
             <xsd:enumeration value = "312"/>
-           <!-- Manganese, Mn (mg) -->
+            <!-- Manganese, Mn (mg) -->
             <xsd:enumeration value = "315"/>
             <!-- Selenium, Se (µg) -->
             <xsd:enumeration value = "317"/>
@@ -360,6 +364,38 @@
     <xsd:complexType name="category_link_list">
         <xsd:sequence>
             <xsd:element name="category_link" type="category_link" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal list -->
+    <xsd:complexType name="meal_list">
+        <xsd:sequence>
+            <xsd:element name="meal" type="meal" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal -->
+    <xsd:complexType name="meal">
+        <xsd:sequence>
+            <xsd:element name="mixid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="mealid" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>            
+            <xsd:element name="mealorder" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>    
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal allocation list -->
+    <xsd:complexType name="meal_food_allocation_list">
+        <xsd:sequence>
+            <xsd:element name="meal_food_allocation" type="meal_food_allocation" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>    
+    <!-- meal food allocation -->
+    <xsd:complexType name="meal_food_allocation">
+        <xsd:sequence>
+            <xsd:element name="mixid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="mealid" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="foodid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="pct" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="expectedwt" type="xsd:double" minOccurs="1" maxOccurs="1"/>    
+            <xsd:element name="actualwt" type="xsd:double" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
 </xsd:schema>

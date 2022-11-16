@@ -144,8 +144,7 @@ public class DbLink {
             row.put( "MIXID", rs.getObject( 1 ) );
             row.put( "MEALID", rs.getObject( 2 ) );
             row.put( "NAME", rs.getObject( 3 ) );
-            row.put( "NOTE", rs.getObject( 4 ) );
-            row.put( "MEALORDER", rs.getObject( 5 ) );
+            row.put( "MEALORDER", rs.getObject( 4 ) );
             list.add( row );
         }
         proc.close();
@@ -198,6 +197,17 @@ public class DbLink {
         proc.setInt( 2, mealid );
         proc.setString( 3, foodid );
         proc.setDouble( 4, pct );
+        proc.execute();
+    }
+
+    public void MealFoodAllocation_insert( String mixid, Integer mealid, String foodid, Double pct, Double expectedwt, Double actualwt ) throws SQLException {
+        CallableStatement proc = connection.prepareCall( "{CALL public.MealFoodAllocation_insert( ?, ?, ?, ?, ?, ? )}" );
+        proc.setString( 1, mixid );
+        proc.setInt( 2, mealid );
+        proc.setString( 3, foodid );
+        proc.setDouble( 4, pct );
+        proc.setDouble( 5, expectedwt );
+        proc.setDouble( 6, actualwt );
         proc.execute();
     }
 
@@ -434,11 +444,19 @@ public class DbLink {
         return list;
     }
 
-    public void Meal_insert( String MixId, String Name, String Note, Integer Order ) throws SQLException {
-        CallableStatement proc = connection.prepareCall( "{CALL public.Meal_insert( ?, ?, ?, ? )}" );
+    public void Meal_insert( String MixId, String Name, Integer Order ) throws SQLException {
+        CallableStatement proc = connection.prepareCall( "{CALL public.Meal_insert( ?, ?, ? )}" );
         proc.setString( 1, MixId );
         proc.setString( 2, Name );
-        proc.setString( 3, Note );
+        proc.setInt( 3, Order );
+        proc.execute();
+    }
+
+    public void Meal_insert_02( String MixId, Integer MealId, String Name, Integer Order ) throws SQLException {
+        CallableStatement proc = connection.prepareCall( "{CALL public.Meal_insert_02( ?, ?, ?, ? )}" );
+        proc.setString( 1, MixId );
+        proc.setInt( 2, MealId );
+        proc.setString( 3, Name );
         proc.setInt( 4, Order );
         proc.execute();
     }
@@ -450,13 +468,12 @@ public class DbLink {
         proc.execute();
     }
 
-    public void Meal_update( String mixid, Integer mealid, String name, String note, Integer order ) throws SQLException {
-        CallableStatement proc = connection.prepareCall( "{CALL public.Meal_update( ?, ?, ?, ?, ? )}" );
+    public void Meal_update( String mixid, Integer mealid, String name, Integer order ) throws SQLException {
+        CallableStatement proc = connection.prepareCall( "{CALL public.Meal_update( ?, ?, ?, ? )}" );
         proc.setString( 1, mixid );
         proc.setInt( 2, mealid );
         proc.setString( 3, name );
-        proc.setString( 4, note );
-        proc.setInt( 5, order );
+        proc.setInt( 4, order );
         proc.execute();
     }
 

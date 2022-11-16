@@ -62,8 +62,7 @@ CREATE TABLE Meal
 (
         MixId LONGVARCHAR,
         MealId IDENTITY,
-        Name LONGVARCHAR,
-        Note LONGVARCHAR,
+        Name LONGVARCHAR,        
         MealOrder INTEGER,
         CONSTRAINT Meal_primary_key PRIMARY KEY (MixId,MealId)
 );

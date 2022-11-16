@@ -4,7 +4,6 @@ public class O_Meal {
     private String MixId;
     private Integer MealId;
     private String Name;
-    private String Note;
     private Integer MealOrder;
 
     public O_Meal() {
@@ -32,14 +31,6 @@ public class O_Meal {
 
     public String getName() {
         return Name;
-    }
-
-    public void setNote( String Time ) {
-        this.Note = Time;
-    }
-
-    public String getNote() {
-        return Note;
     }
 
     public void setMealOrder( Integer order ) {

@@ -42,7 +42,6 @@ public class TableModelMeals extends DefaultTableModel {
         columns.add( "MixId" );
         columns.add( "MealId" );
         columns.add( "Name" );
-        columns.add( "Note" );
         columns.add( "Order" );
         this.setColumnIdentifiers( columns );
     }
@@ -61,9 +60,6 @@ public class TableModelMeals extends DefaultTableModel {
                 returnValue = String.class;
                 break;
             case 3:
-                returnValue = String.class;
-                break;
-            case 4:
                 returnValue = Integer.class;
                 break;
         }
@@ -87,7 +83,6 @@ public class TableModelMeals extends DefaultTableModel {
                 row.add( ( String ) map.get( "MIXID" ) );
                 row.add( ( Integer ) map.get( "MEALID" ) );
                 row.add( ( String ) map.get( "NAME" ) );
-                row.add( ( String ) map.get( "NOTE" ) );
                 row.add( ( Integer ) map.get( "MEALORDER" ) );
                 table.add( row );
             }

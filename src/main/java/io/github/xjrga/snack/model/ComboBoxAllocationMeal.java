@@ -46,18 +46,29 @@ public class ComboBoxAllocationMeal extends DefaultComboBoxModel {
                 String mixid2 = ( String ) row.get( "MIXID" );
                 Integer mealid = ( Integer ) row.get( "MEALID" );
                 String name = ( String ) row.get( "NAME" );
-                String note = ( String ) row.get( "NOTE" );
                 Integer order = ( Integer ) row.get( "MEALORDER" );
                 O_Meal meal = new O_Meal();
                 meal.setMixid( mixid2 );
                 meal.setMealid( mealid );
                 meal.setName( name );
-                meal.setNote( note );
                 meal.setMealOrder( order );
                 this.addElement( meal );
             }
         } catch( SQLException e ) {
 
         }
+    }
+
+    public int find_by_mealid( Integer mealid ) {
+        int index = 0;
+        int size = this.getSize();
+        for( int i = 0; i < size; i++ ) {
+            O_Meal elementAt = ( O_Meal ) this.getElementAt( i );
+            if( elementAt.getMealid().equals( mealid ) ) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

@@ -18,6 +18,7 @@ FROM MealFoodAllocation a,
      Food b, Meal c
 WHERE a.foodid = b.foodid
 AND a.mealid = c.mealid
+AND a.mixid = c.mixid
 AND   a.MixId = v_MixId
 ORDER BY c.MealOrder,b.Name;
 OPEN result;

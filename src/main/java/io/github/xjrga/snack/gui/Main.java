@@ -566,8 +566,8 @@ public class Main {
 
         }
         evt_mnui_roundup();
-        resize_table_meals_columns();
-        resize_table_allocation_columns();
+        resize_col_tbl_meal();
+        resize_col_tbl_meal_allocation();
         dbLink.startTransaction();
     }
 
@@ -586,28 +586,21 @@ public class Main {
     private void evt_btn_MealAdd() {
         if( is_mix_journal_selected() ) {
             JTextField input_name = new JTextField();
-            JTextArea input_note = new JTextArea();
             JTextField input_order = new JTextField();
-            JScrollPane scrollPane = new JScrollPane( input_note );
-            input_note.setLineWrap( true );
             JPanel input_panel = new JPanel();
             FormLayout panelLayout = new FormLayout(
                     "24dlu,34dlu,100dlu", //columns
-                    "fill:16dlu,4dlu,fill:100dlu,4dlu,fill:16dlu" //rows
+                    "fill:16dlu,4dlu,fill:16dlu" //rows
             );
             input_panel.setLayout( panelLayout );
             JLabel lbl_name = new JLabel( "Name: " );
             lbl_name.setHorizontalAlignment( JLabel.RIGHT );
             input_panel.add( lbl_name, cc.xy( 1, 1 ) );
             input_panel.add( input_name, cc.xyw( 2, 1, 2 ) );
-            JLabel lbl_note = new JLabel( "Note: " );
-            lbl_note.setHorizontalAlignment( JLabel.RIGHT );
-            input_panel.add( lbl_note, cc.xy( 1, 3 ) );
-            input_panel.add( scrollPane, cc.xyw( 2, 3, 2 ) );
             JLabel lbl_order = new JLabel( "Order: " );
             lbl_order.setHorizontalAlignment( JLabel.RIGHT );
-            input_panel.add( lbl_order, cc.xy( 1, 5 ) );
-            input_panel.add( input_order, cc.xy( 2, 5 ) );
+            input_panel.add( lbl_order, cc.xy( 1, 3 ) );
+            input_panel.add( input_order, cc.xy( 2, 3 ) );
             JComponent[] inputs = new JComponent[] {
                 input_panel
             };
@@ -617,15 +610,14 @@ public class Main {
                     MixDataObject mix = ( MixDataObject ) list_journal_mix.getSelectedValue();
                     String mixId = mix.getMixId();
                     String text = input_name.getText();
-                    String note = input_note.getText();
                     NumberCheck checkNumber = new NumberCheck();
                     checkNumber.addToUncheckedList( input_order.getText() );
                     if( checkNumber.pass() ) {
                         Integer order = Integer.valueOf( input_order.getText() );
-                        dbLink.Meal_insert( mixId, text, note, order );
+                        dbLink.Meal_insert( mixId, text, order );
                         dbLink.stopTransaction();
                         modelTableMeals.reload( mixId );
-                        resize_table_meals_columns();
+                        resize_col_tbl_meal();
                         modelComboBox_AllocationMeal.reload( mixId );
                     }
                 } catch( SQLException e ) {
@@ -646,8 +638,8 @@ public class Main {
                 modelTableMeals.reload( mixid );
                 modelTableAllocation.reload( mixid, precision );
                 modelComboBox_AllocationMeal.reload( mixid );
-                resize_table_meals_columns();
-                resize_table_allocation_columns();
+                resize_col_tbl_meal();
+                resize_col_tbl_meal_allocation();
             } catch( SQLException e ) {
 
             }
@@ -657,36 +649,27 @@ public class Main {
     private void evt_btn_MealUpdate() {
         if( is_mix_journal_selected() ) {
             JTextField input_name = new JTextField();
-            JTextArea input_note = new JTextArea();
             JTextField input_order = new JTextField();
-            JScrollPane scrollPane = new JScrollPane( input_note );
-            input_note.setLineWrap( true );
             int selectedRow = table_meals.getSelectedRow();
             if( selectedRow != -1 ) {
                 String name = ( String ) table_meals.getValueAt( selectedRow, 2 );
-                String note = ( String ) table_meals.getValueAt( selectedRow, 3 );
-                Integer order = ( Integer ) table_meals.getValueAt( selectedRow, 4 );
+                Integer order = ( Integer ) table_meals.getValueAt( selectedRow, 3 );
                 input_name.setText( String.valueOf( name ) );
-                input_note.setText( String.valueOf( note ) );
                 input_order.setText( String.valueOf( order ) );
                 JPanel input_panel = new JPanel();
                 FormLayout panelLayout = new FormLayout(
                         "24dlu,34dlu,100dlu", //columns
-                        "fill:16dlu,4dlu,fill:100dlu,4dlu,fill:16dlu" //rows
+                        "fill:16dlu,4dlu,fill:16dlu" //rows
                 );
                 input_panel.setLayout( panelLayout );
                 JLabel lbl_name = new JLabel( "Name: " );
                 lbl_name.setHorizontalAlignment( JLabel.RIGHT );
                 input_panel.add( lbl_name, cc.xy( 1, 1 ) );
                 input_panel.add( input_name, cc.xyw( 2, 1, 2 ) );
-                JLabel lbl_note = new JLabel( "Note: " );
-                lbl_note.setHorizontalAlignment( JLabel.RIGHT );
-                input_panel.add( lbl_note, cc.xy( 1, 3 ) );
-                input_panel.add( scrollPane, cc.xyw( 2, 3, 2 ) );
                 JLabel lbl_order = new JLabel( "Order: " );
                 lbl_order.setHorizontalAlignment( JLabel.RIGHT );
-                input_panel.add( lbl_order, cc.xy( 1, 5 ) );
-                input_panel.add( input_order, cc.xy( 2, 5 ) );
+                input_panel.add( lbl_order, cc.xy( 1, 3 ) );
+                input_panel.add( input_order, cc.xy( 2, 3 ) );
                 JComponent[] inputs = new JComponent[] {
                     input_panel
                 };
@@ -700,13 +683,13 @@ public class Main {
                         NumberCheck checkNumber = new NumberCheck();
                         checkNumber.addToUncheckedList( input_order.getText() );
                         if( checkNumber.pass() ) {
-                            dbLink.Meal_update( mixid, mealid, input_name.getText(), input_note.getText(), Integer.valueOf( input_order.getText() ) );
+                            dbLink.Meal_update( mixid, mealid, input_name.getText(), Integer.valueOf( input_order.getText() ) );
                             dbLink.stopTransaction();
                             modelTableMeals.reload( mixId );
                             modelTableAllocation.reload( mixId, precision );
                             modelComboBox_AllocationMeal.reload( mixid );
-                            resize_table_meals_columns();
-                            resize_table_allocation_columns();
+                            resize_col_tbl_meal();
+                            resize_col_tbl_meal_allocation();
                         }
                     } catch( SQLException e ) {
                         e.printStackTrace();
@@ -746,15 +729,15 @@ public class Main {
 
     private void reload_table_model_constraints( String mixId ) {
         modelTableNutrientConstraints.reload( mixId );
-        resize_columns_nutrient_constraint_table();
+        resize_col_tbl_nutrient_constraint();
         modelTableFoodNutrientConstraints.reload( mixId );
-        resize_columns_food_nutrient_constraint_table();
+        resize_col_tbl_food_nutrient_constraint();
         modelTableNutrientRatioConstraints.reload( mixId );
-        resize_columns_nutrient_ratio_constraint_table();
+        resize_col_tbl_nutrient_ratio_constraint();
         modelTableFoodNutrientRatioConstraints.reload( mixId );
-        resize_columns_food_nutrient_ratio_constraint_table();
+        resize_col_tbl_food_nutrient_ratio_constraint();
         tableModelPercentNutrientConstraints.reload( mixId );
-        resize_columns_percent_nutrient_constraint_table();
+        resize_col_tbl_percent_nutrient_constraint();
     }
 
     private void reload_relationship_combo_boxes() {
@@ -1833,7 +1816,7 @@ public class Main {
         table_mix_comparison.setRowSorter( mix_comparison_tablesorter );
         modelList_A_MixDiff.reload();
         modelList_B_MixDiff.reload();
-        resize_columns_on_mix_comparison_table();
+        resize_col_tbl_mix_comparison();
         return panel;
     }
 
@@ -1988,7 +1971,7 @@ public class Main {
         table_food_comparison.setRowSorter( food_comparison_tablesorter );
         modelList_A_FoodDiff.reload();
         modelList_B_FoodDiff.reload();
-        resize_columns_on_food_comparison_table();
+        resize_col_tbl_food_comparison();
         return panel;
     }
 
@@ -2081,7 +2064,7 @@ public class Main {
         tbl_results_rda.setFillsViewportHeight( true );
         tbl_results_rda.setTableHeader( new TableHeaderRdaDiff( tbl_results_rda.getColumnModel() ) );
         tbl_results_rda.setAutoCreateRowSorter( true );
-        resize_columns_tbl_results_rda();
+        resize_col_tbl_results_rda();
         cb_results_lifestage.addActionListener( ( ActionEvent e )
                 -> {
             evt_cb_results_lifestage();
@@ -2148,7 +2131,7 @@ public class Main {
         tbl_journal_rda.setFillsViewportHeight( true );
         tbl_journal_rda.setTableHeader( new TableHeaderRdaDiff( tbl_journal_rda.getColumnModel() ) );
         tbl_journal_rda.setAutoCreateRowSorter( true );
-        resize_columns_tbl_journal_rda();
+        resize_col_tbl_journal_rda();
         cb_journal_lifestage.addActionListener( ( ActionEvent e )
                 -> {
             evt_cb_journal_lifestage();
@@ -2198,7 +2181,7 @@ public class Main {
             NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, nutrient, null );
             modelComboBox_NutrientLookupListNutrient.setSelectedItem( nutrientDataObject );
             modelTableNutrientLookup.reload( nutrientid, rda );
-            resize_columns_nutrient_lookup_table();
+            resize_col_tbl_nutrient_lookup();
             main_tabbed_pane.setSelectedIndex( 6 );
         }
         else {
@@ -2216,7 +2199,7 @@ public class Main {
             NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, nutrient, null );
             modelComboBox_NutrientLookupListNutrient.setSelectedItem( nutrientDataObject );
             modelTableNutrientLookup.reload( nutrientid, rda );
-            resize_columns_nutrient_lookup_table();
+            resize_col_tbl_nutrient_lookup();
             main_tabbed_pane.setSelectedIndex( 6 );
         }
         else {
@@ -2233,7 +2216,7 @@ public class Main {
             MixDataObject mixDataObject = ( MixDataObject ) lst_mix.getSelectedValue();
             RdaLifeStageDataObject rdaLifeStageDataObject = ( RdaLifeStageDataObject ) cb_results_lifestage.getSelectedItem();
             tblmdl_results_rda.reload( mixDataObject.getMixId(), rdaLifeStageDataObject.getLifeStageId() );
-            resize_columns_tbl_results_rda();
+            resize_col_tbl_results_rda();
         }
     }
 
@@ -2246,7 +2229,7 @@ public class Main {
             MixDataObject mixDataObject = ( MixDataObject ) list_journal_mix.getSelectedValue();
             RdaLifeStageDataObject rdaLifeStageDataObject = ( RdaLifeStageDataObject ) cb_journal_lifestage.getSelectedItem();
             tblmdl_journal_rda.reload( mixDataObject.getMixId(), rdaLifeStageDataObject.getLifeStageId() );
-            resize_columns_tbl_journal_rda();
+            resize_col_tbl_journal_rda();
         }
     }
 
@@ -2556,8 +2539,8 @@ public class Main {
             reload_allocation_food_cb();
             reload_meals_tbl();
             reload_allocation_tbl();
-            resize_table_meals_columns();
-            resize_table_allocation_columns();
+            resize_col_tbl_meal();
+            resize_col_tbl_meal_allocation();
         }
     }
 
@@ -2589,20 +2572,22 @@ public class Main {
         }
     }
 
-    private void resize_table_meals_columns() {
+    private void resize_col_tbl_meal() {
         table_meals.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         table_meals.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         table_meals.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
         table_meals.getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
+        table_meals.getColumnModel().getColumn( 2 ).setMinWidth( 900 );
     }
 
-    private void resize_table_allocation_columns() {
+    private void resize_col_tbl_meal_allocation() {
         table_allocation.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         table_allocation.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         table_allocation.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
         table_allocation.getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
         table_allocation.getColumnModel().getColumn( 2 ).setMinWidth( 0 );
         table_allocation.getColumnModel().getColumn( 2 ).setMaxWidth( 0 );
+        table_allocation.getColumnModel().getColumn( 4 ).setMinWidth( 600 );
     }
 
     private void evt_btn_edit_journal_mix() {
@@ -2803,7 +2788,7 @@ public class Main {
         tableCheckCoefficients.setFillsViewportHeight( true );
         modelTableCheckCoefficients.setPrecision( 5 );
         modelTableCheckCoefficients.reload( foodId );
-        resize_columns_check_coefficients_table();
+        resize_col_tbl_check_coefficients();
         JPanel panel = new JPanel();
         JLabel labelFoodName = new JLabel( "Food Name:" );
         JLabel labelNutrientSearch = new JLabel( "Search:" );
@@ -3389,7 +3374,7 @@ public class Main {
         textFieldNutrientSearch.setText( "" );
         if( optionValue == -1 ) {
             modelTableNutrientInput.reload( foodId );
-            resize_columns_nutrient_input_table();
+            resize_col_tbl_nutrient_input();
         }
         JPanel panel = new JPanel();
         JLabel labelFoodName = new JLabel( "Food Name:" );
@@ -3565,7 +3550,7 @@ public class Main {
         modelTableFoodList.reload();
         modelTreeFoodList.reload();
         modelListFood.reload();
-        resize_columns_food_list_table();
+        resize_col_tbl_food_list();
     }
 
     private void evt_btn_FoodListAdd() {
@@ -3686,7 +3671,7 @@ public class Main {
         tableNutrientLookup.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         tableNutrientLookup.setFillsViewportHeight( true );
         tableNutrientLookup.setRowSorter( nutrientlookup_tablesorter );
-        resize_columns_nutrient_lookup_table();
+        resize_col_tbl_nutrient_lookup();
         return panel;
     }
 
@@ -4009,7 +3994,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1001" );
+        sb.append( "This is build 1010" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         JTextArea textArea = new JTextArea();
@@ -4582,7 +4567,7 @@ public class Main {
                 Integer relationshipid = ( Integer ) tableNutrientPercentConstraint.getValueAt( selectedRow, 3 );
                 dbLink.PercentNutrientConstraint_Delete( mixid, foodid, nutrientid, relationshipid );
                 tableModelPercentNutrientConstraints.reload( mixid );
-                resize_columns_percent_nutrient_constraint_table();
+                resize_col_tbl_percent_nutrient_constraint();
             } catch( SQLException e ) {
 
             }
@@ -4603,7 +4588,7 @@ public class Main {
                         Double b = Double.parseDouble( textFieldPercentNutrientConstraintQuantity.getText() );
                         dbLink.NutrientPercentConstraint_Merge( mix.getMixId(), foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
                         tableModelPercentNutrientConstraints.reload( mix.getMixId() );
-                        resize_columns_percent_nutrient_constraint_table();
+                        resize_col_tbl_percent_nutrient_constraint();
                     } catch( SQLException e ) {
 
                     }
@@ -4615,7 +4600,7 @@ public class Main {
         }
     }
 
-    private void resize_columns_percent_nutrient_constraint_table() {
+    private void resize_col_tbl_percent_nutrient_constraint() {
         tableNutrientPercentConstraint.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tableNutrientPercentConstraint.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tableNutrientPercentConstraint.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
@@ -4714,7 +4699,7 @@ public class Main {
         }
     }
 
-    private void resize_columns_nutrient_constraint_table() {
+    private void resize_col_tbl_nutrient_constraint() {
         for( int i = 0; i < 3; i++ ) {
             tableNutrientConstraint.getColumnModel().getColumn( i ).setMinWidth( 0 );
             tableNutrientConstraint.getColumnModel().getColumn( i ).setMaxWidth( 0 );
@@ -4747,7 +4732,7 @@ public class Main {
             mix_comparison_tablesorter.sort();
             mix_comparison_tablesorter.toggleSortOrder( 0 );
             mix_comparison_tablesorter.sort();
-            resize_columns_on_mix_comparison_table();
+            resize_col_tbl_mix_comparison();
         }
     }
 
@@ -4770,7 +4755,7 @@ public class Main {
             FoodDataObject food_b = ( FoodDataObject ) list_food_compare_b.getSelectedValue();
             String food_id_b = food_b.getFoodId();
             model_for_food_difference_table.reload( food_id_a, food_id_b );
-            resize_columns_on_food_comparison_table();
+            resize_col_tbl_food_comparison();
         }
     }
 
@@ -4946,7 +4931,7 @@ public class Main {
             if( !text.isBlank() ) {
                 Double q = Double.parseDouble( text );
                 modelTableNutrientLookup.reload( nutrientDataObject.getNutr_no(), q );
-                resize_columns_nutrient_lookup_table();
+                resize_col_tbl_nutrient_lookup();
             }
         } catch( NumberFormatException e ) {
             Message.showMessage( e.toString() );
@@ -5219,7 +5204,7 @@ public class Main {
                         double b = Double.parseDouble( textFieldNutrientConstraintQuantity.getText() );
                         dbLink.NutrientConstraint_Merge( mix.getMixId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
                         modelTableNutrientConstraints.reload( mix.getMixId() );
-                        resize_columns_nutrient_constraint_table();
+                        resize_col_tbl_nutrient_constraint();
                     } catch( SQLException e ) {
 
                     }
@@ -5272,7 +5257,7 @@ public class Main {
                 Integer relationshipid = ( Integer ) tableNutrientConstraint.getValueAt( selectedRow, 2 );
                 dbLink.NutrientConstraint_Delete( mixid, nutrientid, relationshipid );
                 modelTableNutrientConstraints.reload( mixid );
-                resize_columns_nutrient_constraint_table();
+                resize_col_tbl_nutrient_constraint();
             } catch( SQLException e ) {
 
             }
@@ -5293,7 +5278,7 @@ public class Main {
                         double b = Double.parseDouble( textFieldFoodNutrientConstraintQuantity.getText() );
                         dbLink.FoodNutrientConstraint_Merge( mix.getMixId(), foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
                         modelTableFoodNutrientConstraints.reload( mix.getMixId() );
-                        resize_columns_food_nutrient_constraint_table();
+                        resize_col_tbl_food_nutrient_constraint();
                     } catch( SQLException e ) {
 
                     }
@@ -5320,7 +5305,7 @@ public class Main {
                     dbLink.MealFoodAllocation_insert_and_calculate( mixId, mealid, foodid, pct );
                     dbLink.stopTransaction();
                     modelTableAllocation.reload( mixId, precision );
-                    resize_table_allocation_columns();
+                    resize_col_tbl_meal_allocation();
                     Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
                     textfield_allocation_remaining.setText( String.valueOf( remaining ) );
                 }
@@ -5366,7 +5351,7 @@ public class Main {
         return flag_isReady;
     }
 
-    private void resize_columns_food_nutrient_constraint_table() {
+    private void resize_col_tbl_food_nutrient_constraint() {
         for( int i = 0; i < 4; i++ ) {
             tableFoodNutrientConstraint.getColumnModel().getColumn( i ).setMinWidth( 0 );
             tableFoodNutrientConstraint.getColumnModel().getColumn( i ).setMaxWidth( 0 );
@@ -5402,10 +5387,13 @@ public class Main {
                         dbLink.MealFoodAllocation_update_pct( mixid, mealid, foodid, Double.valueOf( input.getText() ) );
                         dbLink.stopTransaction();
                         modelTableAllocation.reload( mixId, precision );
-                        resize_table_allocation_columns();
+                        resize_col_tbl_meal_allocation();
                         Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
                         textfield_allocation_remaining.setText( String.valueOf( remaining ) );
-
+                        int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
+                        int index_meal = modelComboBox_AllocationMeal.find_by_mealid( mealid );
+                        comboBoxAllocationFood.setSelectedIndex( index_food );
+                        comboBoxAllocationMeal.setSelectedIndex( index_meal );
                     } catch( SQLException e ) {
 
                     }
@@ -5439,7 +5427,7 @@ public class Main {
                         dbLink.MealFoodAllocation_update_actualwt( mixid, mealid, foodid, Double.valueOf( input.getText() ) );
                         dbLink.stopTransaction();
                         modelTableAllocation.reload( mixId, precision );
-                        resize_table_allocation_columns();
+                        resize_col_tbl_meal_allocation();
                     } catch( SQLException e ) {
 
                     }
@@ -5461,9 +5449,13 @@ public class Main {
                     dbLink.MealFoodAllocation_delete( mixid, mealid, foodid );
                     dbLink.stopTransaction();
                     modelTableAllocation.reload( mixId, precision );
-                    resize_table_allocation_columns();
+                    resize_col_tbl_meal_allocation();
                     Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
                     textfield_allocation_remaining.setText( String.valueOf( remaining ) );
+                    int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
+                    int index_meal = modelComboBox_AllocationMeal.find_by_mealid( mealid );
+                    comboBoxAllocationFood.setSelectedIndex( index_food );
+                    comboBoxAllocationMeal.setSelectedIndex( index_meal );
                 }
             } catch( SQLException e ) {
 
@@ -5481,7 +5473,7 @@ public class Main {
                 Integer relationshipid = ( Integer ) tableFoodNutrientConstraint.getValueAt( selectedRow, 3 );
                 dbLink.FoodNutrientConstraint_Delete( mixid, foodid, nutrientid, relationshipid );
                 modelTableFoodNutrientConstraints.reload( mixid );
-                resize_columns_food_nutrient_constraint_table();
+                resize_col_tbl_food_nutrient_constraint();
             } catch( SQLException e ) {
 
             }
@@ -5504,7 +5496,7 @@ public class Main {
                         Double b = Double.parseDouble( textFieldNutrientRatioNutrientB.getText() );
                         dbLink.NutrientRatio_Merge( mix.getMixId(), nutrientDataObjectA.getNutr_no(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
                         modelTableNutrientRatioConstraints.reload( mix.getMixId() );
-                        resize_columns_nutrient_ratio_constraint_table();
+                        resize_col_tbl_nutrient_ratio_constraint();
                     } catch( SQLException e ) {
 
                     }
@@ -5552,7 +5544,7 @@ public class Main {
         return flag_isReady;
     }
 
-    private void resize_columns_nutrient_ratio_constraint_table() {
+    private void resize_col_tbl_nutrient_ratio_constraint() {
         for( int i = 0; i < 4; i++ ) {
             tableNutrientRatio.getColumnModel().getColumn( i ).setMinWidth( 0 );
             tableNutrientRatio.getColumnModel().getColumn( i ).setMaxWidth( 0 );
@@ -5562,7 +5554,7 @@ public class Main {
         tableNutrientRatio.getColumnModel().getColumn( 7 ).setMaxWidth( 21 );
     }
 
-    private void resize_columns_on_food_comparison_table() {
+    private void resize_col_tbl_food_comparison() {
         table_food_comparison.getColumnModel().getColumn( 0 ).setMinWidth( 120 );
         table_food_comparison.getColumnModel().getColumn( 0 ).setMaxWidth( 120 );
         table_food_comparison.getColumnModel().getColumn( 1 ).setMinWidth( 250 );
@@ -5573,7 +5565,7 @@ public class Main {
         }
     }
 
-    private void resize_columns_on_mix_comparison_table() {
+    private void resize_col_tbl_mix_comparison() {
         table_mix_comparison.getColumnModel().getColumn( 0 ).setMinWidth( 120 );
         table_mix_comparison.getColumnModel().getColumn( 0 ).setMaxWidth( 120 );
         table_mix_comparison.getColumnModel().getColumn( 1 ).setMinWidth( 250 );
@@ -5584,7 +5576,7 @@ public class Main {
         }
     }
 
-    private void resize_columns_tbl_results_rda() {
+    private void resize_col_tbl_results_rda() {
         tbl_results_rda.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tbl_results_rda.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tbl_results_rda.getColumnModel().getColumn( 1 ).setMinWidth( 310 );
@@ -5595,7 +5587,7 @@ public class Main {
         }
     }
 
-    private void resize_columns_tbl_journal_rda() {
+    private void resize_col_tbl_journal_rda() {
         tbl_journal_rda.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tbl_journal_rda.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tbl_journal_rda.getColumnModel().getColumn( 1 ).setMinWidth( 310 );
@@ -5606,7 +5598,7 @@ public class Main {
         }
     }
 
-    private void resize_columns_nutrient_lookup_table() {
+    private void resize_col_tbl_nutrient_lookup() {
         tableNutrientLookup.getColumnModel().getColumn( 0 ).setMinWidth( 250 );
         tableNutrientLookup.getColumnModel().getColumn( 0 ).setMaxWidth( 550 );
         tableNutrientLookup.getColumnModel().getColumn( 1 ).setMinWidth( 75 );
@@ -5615,7 +5607,7 @@ public class Main {
         tableNutrientLookup.getColumnModel().getColumn( 2 ).setMaxWidth( 75 );
     }
 
-    private void resize_columns_nutrient_input_table() {
+    private void resize_col_tbl_nutrient_input() {
         tableNutrientInput.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tableNutrientInput.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tableNutrientInput.getColumnModel().getColumn( 1 ).setMaxWidth( 150 );
@@ -5623,7 +5615,7 @@ public class Main {
         tableNutrientInput.getColumnModel().getColumn( 3 ).setMaxWidth( 100 );
     }
 
-    private void resize_columns_check_coefficients_table() {
+    private void resize_col_tbl_check_coefficients() {
         tableCheckCoefficients.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tableCheckCoefficients.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tableCheckCoefficients.getColumnModel().getColumn( 1 ).setMaxWidth( 150 );
@@ -5632,7 +5624,7 @@ public class Main {
         tableCheckCoefficients.getColumnModel().getColumn( 4 ).setMaxWidth( 100 );
     }
 
-    private void resize_columns_food_list_table() {
+    private void resize_col_tbl_food_list() {
         tableFoodList01.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tableFoodList01.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tableFoodList01.getColumnModel().getColumn( 1 ).setMinWidth( 350 );
@@ -5648,7 +5640,7 @@ public class Main {
                 Integer relationshipid = ( Integer ) tableNutrientRatio.getValueAt( selectedRow, 3 );
                 dbLink.NutrientRatio_Delete( mixid, nutrientidA, nutrientidB, relationshipid );
                 modelTableNutrientRatioConstraints.reload( mixid );
-                resize_columns_nutrient_ratio_constraint_table();
+                resize_col_tbl_nutrient_ratio_constraint();
             } catch( SQLException e ) {
 
             }
@@ -5673,7 +5665,7 @@ public class Main {
                         RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxFoodNutrientRatioRelationship.getSelectedItem();
                         dbLink.FoodNutrientRatio_Merge( mix.getMixId(), foodDataObjectA.getFoodId(), nutrientDataObjectA.getNutr_no(), foodDataObjectB.getFoodId(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
                         modelTableFoodNutrientRatioConstraints.reload( mix.getMixId() );
-                        resize_columns_food_nutrient_ratio_constraint_table();
+                        resize_col_tbl_food_nutrient_ratio_constraint();
                     } catch( SQLException e ) {
 
                     }
@@ -5735,7 +5727,7 @@ public class Main {
         return flag_isReady;
     }
 
-    private void resize_columns_food_nutrient_ratio_constraint_table() {
+    private void resize_col_tbl_food_nutrient_ratio_constraint() {
         for( int i = 0; i < 6; i++ ) {
             tableFoodNutrientRatio.getColumnModel().getColumn( i ).setMinWidth( 0 );
             tableFoodNutrientRatio.getColumnModel().getColumn( i ).setMaxWidth( 0 );
@@ -5757,7 +5749,7 @@ public class Main {
                 Integer relationshipid = ( Integer ) tableFoodNutrientRatio.getValueAt( selectedRow, 5 );
                 dbLink.FoodNutrientRatio_Delete( mixid, foodidA, nutrientidA, foodidB, nutrientidB, relationshipid );
                 modelTableFoodNutrientRatioConstraints.reload( mixid );
-                resize_columns_food_nutrient_ratio_constraint_table();
+                resize_col_tbl_food_nutrient_ratio_constraint();
             } catch( SQLException e ) {
 
             }
