@@ -19,6 +19,7 @@ import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
 import io.github.xjrga.snack.model.Food_legend_generator;
 import io.github.xjrga.snack.model.Food_loader;
+import io.github.xjrga.snack.model.ListModelAllocationMeal;
 import io.github.xjrga.snack.model.ListModelCategory;
 import io.github.xjrga.snack.model.ListModelFood;
 import io.github.xjrga.snack.model.ListModelFood2;
@@ -134,6 +135,7 @@ public class Main {
     private final DefaultComboBoxModel modelComboBox_FoodAtNutrientPct = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_NutrientAtNutrientConstraint = new DefaultComboBoxModel();
     private final ComboBoxAllocationMeal modelComboBox_AllocationMeal = new ComboBoxAllocationMeal( dbLink );
+    private final ListModelAllocationMeal modelList_AllocationMeal = new ListModelAllocationMeal( dbLink );
     private final DefaultComboBoxModel modelComboBox_NutrientAtNutrientPctContraint = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_RelationshipAtFoodNutrient = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_RelationshipAtFoodNutrientRatio = new DefaultComboBoxModel();
@@ -218,6 +220,7 @@ public class Main {
     private final JCheckBox checkBoxEnergyFatCarbohydrate = new JCheckBox();
     private final JComboBox comboBoxAllocationFood = new JComboBox();
     private final JComboBox comboBoxAllocationMeal = new JComboBox();
+    private final JList listAllocationMeal = new JList();
     private final JComboBox comboBoxFoodNutrientConstraintFood = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintNutrient = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintRelationship = new JComboBox();
@@ -583,7 +586,7 @@ public class Main {
         Main main = new Main();
     }
 
-    private void evt_btn_MealAdd() {
+    private void evt_btn_meal_add() {
         if( is_mix_journal_selected() ) {
             JTextField input_name = new JTextField();
             JTextField input_order = new JTextField();
@@ -619,6 +622,7 @@ public class Main {
                         modelTableMeals.reload( mixId );
                         resize_col_tbl_meal();
                         modelComboBox_AllocationMeal.reload( mixId );
+                        modelList_AllocationMeal.reload( mixId );
                     }
                 } catch( SQLException e ) {
                     e.printStackTrace();
@@ -627,7 +631,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_MealDelete() {
+    private void evt_btn_meal_delete() {
         if( is_mix_journal_selected() ) {
             try {
                 int selectedRow = table_meals.getSelectedRow();
@@ -638,6 +642,7 @@ public class Main {
                 modelTableMeals.reload( mixid );
                 modelTableAllocation.reload( mixid, precision );
                 modelComboBox_AllocationMeal.reload( mixid );
+                modelList_AllocationMeal.reload( mixid );
                 resize_col_tbl_meal();
                 resize_col_tbl_meal_allocation();
             } catch( SQLException e ) {
@@ -646,7 +651,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_MealUpdate() {
+    private void evt_btn_meal_update() {
         if( is_mix_journal_selected() ) {
             JTextField input_name = new JTextField();
             JTextField input_order = new JTextField();
@@ -688,6 +693,7 @@ public class Main {
                             modelTableMeals.reload( mixId );
                             modelTableAllocation.reload( mixId, precision );
                             modelComboBox_AllocationMeal.reload( mixid );
+                            modelList_AllocationMeal.reload( mixid );
                             resize_col_tbl_meal();
                             resize_col_tbl_meal_allocation();
                         }
@@ -699,7 +705,7 @@ public class Main {
         }
     }
 
-    private void evt_cb_AllocationFood() {
+    private void evt_cb_meal_food_allocation() {
         if( is_mix_journal_selected() ) {
             try {
                 MixDataObject mix = ( MixDataObject ) list_journal_mix.getSelectedValue();
@@ -1194,7 +1200,7 @@ public class Main {
                 -> {
             if( !e.getValueIsAdjusting() ) {
                 frm_snack.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-                evt_lst_Mixes( e );
+                evt_lst_mixes( e );
                 frm_snack.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         } );
@@ -1272,19 +1278,19 @@ public class Main {
         pnl_mix_list.add( pnl_buttons, cc.xy( 1, 2 ) );
         btn_create_mix.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_create_mix();
+            evt_btn_mix_create();
         } );
         btn_delete_mix.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_delete_mix();
+            evt_btn_mix_delete();
         } );
         btn_rename_mix.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_rename_mix();
+            evt_btn_mix_rename();
         } );
         btn_duplicate_mix.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_duplicate_mix();
+            evt_btn_mix_duplicate();
         } );
         btn_archive_mix.addActionListener( ( ActionEvent e )
                 -> {
@@ -1308,32 +1314,32 @@ public class Main {
                 -> {
             evt_btn_undo();
         } );
-        JPopupMenu pnl_mix_list_pmn = new JPopupMenu();
-        JMenuItem pnl_mix_list_mni_00 = new JMenuItem( "Pin" );
-        pnl_mix_list_pmn.add( pnl_mix_list_mni_00 );
-        pnl_mix_list_mni_00.addActionListener( ( ActionEvent e )
+        JPopupMenu mnu_mix_list = new JPopupMenu();
+        JMenuItem mnui_pin_mix = new JMenuItem( "Pin" );
+        mnu_mix_list.add( mnui_pin_mix );
+        mnui_pin_mix.addActionListener( ( ActionEvent e )
                 -> {
-            pnl_mix_list_mni_00_evt_actn();
+            evt_mnui_pin_mix();
         } );
         lst_mix.addMouseListener( new MouseAdapter() {
             @Override
             public void mouseClicked( MouseEvent e ) {
                 super.mouseClicked( e );
-                lst_mix_evt_mouse_clicked( e, pnl_mix_list_pmn );
+                evt_lst_mixes( e, mnu_mix_list );
             }
         } );
         return pnl_mix_list;
 
     }
 
-    private void lst_mix_evt_mouse_clicked( MouseEvent e, JPopupMenu pmn ) {
+    private void evt_lst_mixes( MouseEvent e, JPopupMenu pmn ) {
         if( (e.getModifiers() & InputEvent.BUTTON3_MASK) != 0 ) {
             Component component = e.getComponent();
             pmn.show( component, e.getX(), e.getY() );
         }
     }
 
-    private void pnl_mix_list_mni_00_evt_actn() {
+    private void evt_mnui_pin_mix() {
         if( is_mix_selected() ) {
             MixDataObject mix = ( MixDataObject ) lst_mix.getSelectedValue();
             String mixId = mix.getMixId();
@@ -1364,7 +1370,7 @@ public class Main {
                     dbLink.stopTransaction();
                     modelList_Solve.reload();
                     modelListFoodJournal.reload();
-                    clear_solve_tab_models();
+                    clear_model_solve_tab();
                 } catch( SQLException e ) {
 
                 }
@@ -1372,7 +1378,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_create_mix() {
+    private void evt_btn_mix_create() {
         JTextField input = new JTextField();
         JComponent[] inputs = new JComponent[] {
             new JLabel( "What would you like to call it?" ),
@@ -1394,7 +1400,7 @@ public class Main {
                     dbLink.Mix_Update_Status( mixid, 1 );
                     dbLink.stopTransaction();
                     reload_mixes();
-                    clear_all_models();
+                    clear_model_all();
                     lst_mix.setSelectedIndex( lst_mix.getLastVisibleIndex() );
                 }
                 else {
@@ -1543,7 +1549,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_delete_mix() {
+    private void evt_btn_mix_delete() {
         if( is_mix_selected() ) {
             JComponent[] inputs = new JComponent[] {
                 new JLabel( "Would you like to delete mix?" )
@@ -1556,7 +1562,7 @@ public class Main {
                     dbLink.Mix_Delete( mixId );
                     dbLink.stopTransaction();
                     reload_mixes();
-                    clear_all_models();
+                    clear_model_all();
                 } catch( SQLException e ) {
 
                 }
@@ -1569,17 +1575,17 @@ public class Main {
         }
     }
 
-    private void clear_all_models() {
-        clear_solve_tab_models();
-        clear_journal_models();
-        clear_mealplan_models();
+    private void clear_model_all() {
+        clear_model_solve_tab();
+        clear_model_journal();
+        clear_model_meal_plan();
         model_for_mix_difference_table.setRowCount( 0 );
         tblmdl_journal_rda.setRowCount( 0 );
         food_loader.reload( "" );
         textAreaModel.setText( "" );
     }
 
-    private void clear_journal_models() {
+    private void clear_model_journal() {
         modelTableJournalEnergy.setRowCount( 0 );
         modelTableJournalProtein.setRowCount( 0 );
         modelTableJournalFats.setRowCount( 0 );
@@ -1592,7 +1598,7 @@ public class Main {
         modelTableJournalGlycemic.setRowCount( 0 );
     }
 
-    private void clear_solve_tab_models() {
+    private void clear_model_solve_tab() {
         modelListSelectedFood.clear();
         modelTableNutrientConstraints.setRowCount( 0 );
         modelTableFoodNutrientConstraints.setRowCount( 0 );
@@ -1612,7 +1618,7 @@ public class Main {
         modelTableGlycemic.setRowCount( 0 );
     }
 
-    private void evt_btn_rename_mix() {
+    private void evt_btn_mix_rename() {
         if( is_mix_selected() ) {
             JTextField input = new JTextField();
             JComponent[] inputs = new JComponent[] {
@@ -1645,7 +1651,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_duplicate_mix() {
+    private void evt_btn_mix_duplicate() {
         if( is_mix_selected() ) {
             JComponent[] inputs = new JComponent[] {
                 new JLabel( "Would you like to duplicate mix?" )
@@ -1772,11 +1778,11 @@ public class Main {
         scrollPaneC.setBorder( new TitledBorder( "Mix Difference" ) );
         list_mix_compare_a.addListSelectionListener( ( ListSelectionEvent e )
                 -> {
-            evt_lst_MixCompareA( e );
+            evt_lst_mix_compare_a( e );
         } );
         list_mix_compare_b.addListSelectionListener( ( ListSelectionEvent e )
                 -> {
-            evt_lst_MixCompareB( e );
+            evt_lst_mix_compare_b( e );
         } );
         search_field.getDocument().addDocumentListener( new DocumentListener() {
             @Override
@@ -1919,11 +1925,11 @@ public class Main {
         scrollPaneC.setBorder( new TitledBorder( "Food Difference" ) );
         list_food_compare_a.addListSelectionListener( ( ListSelectionEvent e )
                 -> {
-            evt_lst_FoodCompareA( e );
+            evt_lst_food_compare_a( e );
         } );
         list_food_compare_b.addListSelectionListener( ( ListSelectionEvent e )
                 -> {
-            evt_lst_FoodCompareB( e );
+            evt_lst_food_compare_b( e );
         } );
         search_field_a.addActionListener( ( ActionEvent e )
                 -> {
@@ -2094,11 +2100,11 @@ public class Main {
                 -> {
             results_tabbed_pane.setSelectedIndex( 6 );
         } );
-        tbl_results_rda.addMouseListener( new MouseAdapter() {
+        tbl_results_rda.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked( MouseEvent e ) {
                 super.mouseClicked( e );
-                lst_mix_evt_mouse_clicked( e, popMenu );
+                evt_lst_mixes( e, popMenu );
             }
         } );
         return panel;
@@ -2161,11 +2167,11 @@ public class Main {
                 -> {
             journal_results_tabbed_pane.setSelectedIndex( 6 );
         } );
-        tbl_journal_rda.addMouseListener( new MouseAdapter() {
+        tbl_journal_rda.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked( MouseEvent e ) {
                 super.mouseClicked( e );
-                lst_mix_evt_mouse_clicked( e, popMenu );
+                evt_lst_mixes( e, popMenu );
             }
         } );
         return panel;
@@ -2236,9 +2242,14 @@ public class Main {
     private JPanel get_meal_allocation() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
-                "10px,60px,50px,155px,50px,53px,292px,60px,292px,10px", //columns
-                "10px,fill:25px,10px,fill:25px,10px,fill:p:grow,p" //rows
+                "10px,60px,50px,155px,50px,53px,420px,60px,171px,10px", //columns
+                "10px,fill:25px,10px,p,100px,10px,fill:p:grow,p" //rows
         );
+        JScrollPane scroll_pane = new JScrollPane( listAllocationMeal );
+        textfield_allocation_remaining.setPreferredSize( new Dimension( 100, 25 ) );
+        textfield_allocation_pct.setPreferredSize( new Dimension( 100, 25 ) );
+        comboBoxAllocationFood.setPreferredSize( new Dimension( 100, 25 ) );
+        scroll_pane.setPreferredSize( new Dimension( 100, 100 ) );
         panel.setLayout( panelLayout );
         JScrollPane spTable = new JScrollPane( table_allocation );
         JPanel buttons = new JPanel();
@@ -2264,19 +2275,20 @@ public class Main {
         JLabel label04 = new JLabel( "to meal" );
         label04.setHorizontalAlignment( JLabel.CENTER );
         panel.add( label04, cc.xy( 8, 4 ) );
-        panel.add( comboBoxAllocationMeal, cc.xy( 9, 4 ) );
+        panel.add( scroll_pane, cc.xywh( 9, 4, 1, 2 ) );
         //third row
-        panel.add( spTable, cc.xyw( 2, 6, 8 ) );
+        panel.add( spTable, cc.xyw( 2, 7, 8 ) );
         buttons.add( buttonAllocationAdd );
         buttons.add( buttonAllocationDelete );
         buttons.add( buttonAllocationUpdatePct );
         buttons.add( buttonAllocationUpdateWeight );
         //fourth row
-        panel.add( buttons, cc.xyw( 2, 7, 8 ) );
+        panel.add( buttons, cc.xyw( 2, 8, 8 ) );
         spTable.setBorder( new TitledBorder( "Meal Plan" ) );
-        comboBoxAllocationMeal.setMaximumRowCount( 10 );
+        comboBoxAllocationMeal.setMaximumRowCount( 6 );
         comboBoxAllocationMeal.setModel( modelComboBox_AllocationMeal );
-        comboBoxAllocationFood.setMaximumRowCount( 10 );
+        listAllocationMeal.setModel( modelList_AllocationMeal );
+        comboBoxAllocationFood.setMaximumRowCount( 6 );
         comboBoxAllocationFood.setModel( modelComboBox_AllocationFood );
         table_allocation.getTableHeader().setReorderingAllowed( false );
         table_allocation.setAutoCreateRowSorter( true );
@@ -2289,23 +2301,23 @@ public class Main {
         buttonAllocationUpdateWeight.setToolTipText( "Update Actual Weight" );
         buttonAllocationAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_MealAllocationAdd();
+            evt_btn_meal_food_allocation_add();
         } );
         buttonAllocationDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_MealAllocationDelete();
+            evt_btn_meal_food_allocation_delete();
         } );
         buttonAllocationUpdatePct.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_MealAllocationPct();
+            evt_btn_meal_food_allocation_update_pct();
         } );
         buttonAllocationUpdateWeight.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_MealAllocationUpdateWeight();
+            evt_btn_meal_food_allocation_update_weight();
         } );
-        comboBoxAllocationFood.addActionListener( ( ActionEvent e )
+        comboBoxAllocationFood.addActionListener(( ActionEvent e )
                 -> {
-            evt_cb_AllocationFood();
+            evt_cb_meal_food_allocation();
         } );
         table_allocation.setFillsViewportHeight( true );
         textfield_allocation_search.getDocument().addDocumentListener( new DocumentListener() {
@@ -2364,17 +2376,17 @@ public class Main {
         buttonMealAdd.setToolTipText( "Add Meal" );
         buttonMealDelete.setToolTipText( "Delete Meal" );
         buttonMealUpdate.setToolTipText( "Update Meal" );
-        buttonMealAdd.addActionListener( ( ActionEvent e )
+        buttonMealAdd.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_MealAdd();
+            evt_btn_meal_add();
         } );
-        buttonMealDelete.addActionListener( ( ActionEvent e )
+        buttonMealDelete.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_MealDelete();
+            evt_btn_meal_delete();
         } );
-        buttonMealUpdate.addActionListener( ( ActionEvent e )
+        buttonMealUpdate.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_MealUpdate();
+            evt_btn_meal_update();
         } );
         table_meals.setFillsViewportHeight( true );
         return panel;
@@ -2441,15 +2453,15 @@ public class Main {
         journal_tabs.add( "Meal Plan", get_meal_allocation() );
         journal_tabs.add( "Meals", get_meal() );
         panel.add( journal_tabs, cc.xy( 4, 2 ) );
-        list_journal_mix.addListSelectionListener( e -> evt_lst_MixesJournal( e ) );
+        list_journal_mix.addListSelectionListener( e -> evt_lst_mixes_journal( e ) );
         list_journal_mix.setModel( modelListFoodJournal );
         modelListFoodJournal.reload();
-        btn_edit_journal_mix.addActionListener( e -> evt_btn_edit_journal_mix() );
-        btn_duplicate_journal_mix.addActionListener( e -> evt_btn_duplicate_journal_mix() );
+        btn_edit_journal_mix.addActionListener( e -> evt_btn_journal_mix_edit() );
+        btn_duplicate_journal_mix.addActionListener( e -> evt_btn_journal_mix_duplicate() );
         return panel;
     }
 
-    private void evt_lst_MixesJournal( ListSelectionEvent e ) {
+    private void evt_lst_mixes_journal( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             frm_snack.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             reload_journal_table_models();
@@ -2569,6 +2581,7 @@ public class Main {
         if( is_mix_journal_selected() ) {
             MixDataObject mixDataObject = ( MixDataObject ) list_journal_mix.getSelectedValue();
             modelComboBox_AllocationMeal.reload( mixDataObject.getMixId() );
+            modelList_AllocationMeal.reload( mixDataObject.getMixId() );
         }
     }
 
@@ -2590,7 +2603,7 @@ public class Main {
         table_allocation.getColumnModel().getColumn( 4 ).setMinWidth( 600 );
     }
 
-    private void evt_btn_edit_journal_mix() {
+    private void evt_btn_journal_mix_edit() {
         if( is_mix_journal_selected() ) {
             JComponent[] inputs = new JComponent[] {
                 new JLabel( "Would you like to edit mix?" )
@@ -2604,8 +2617,8 @@ public class Main {
                     dbLink.stopTransaction();
                     modelList_Solve.reload();
                     modelListFoodJournal.reload();
-                    clear_journal_models();
-                    clear_mealplan_models();
+                    clear_model_journal();
+                    clear_model_meal_plan();
                     int index = modelList_Solve.find_by_mixid( mixId );
                     lst_mix.setSelectedIndex( index );
                 } catch( SQLException e ) {
@@ -2615,14 +2628,14 @@ public class Main {
         }
     }
 
-    private void clear_mealplan_models() {
+    private void clear_model_meal_plan() {
         modelTableMeals.setRowCount( 0 );
         modelTableAllocation.setRowCount( 0 );
         comboBoxAllocationFood.removeAllItems();
         comboBoxAllocationMeal.removeAllItems();
     }
 
-    private void evt_btn_duplicate_journal_mix() {
+    private void evt_btn_journal_mix_duplicate() {
         if( is_mix_journal_selected() ) {
             JComponent[] inputs = new JComponent[] {
                 new JLabel( "Would you like to copy and edit mix?" )
@@ -2697,19 +2710,19 @@ public class Main {
         buttonFoodListDuplicate.setToolTipText( "Duplicate food item" );
         buttonFoodListAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodListAdd();
+            evt_btn_food_list_add();
         } );
         buttonFoodListDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodListDelete();
+            evt_btn_food_list_delete();
         } );
         buttonFoodListUpdate.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodListUpdate();
+            evt_btn_food_list_update();
         } );
         buttonFoodListDuplicate.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodListDuplicate();
+            evt_btn_food_list_duplicate();
         } );
         textFieldFoodListSearch.getDocument().addDocumentListener( new DocumentListener() {
             @Override
@@ -2760,7 +2773,7 @@ public class Main {
         return panel;
     }
 
-    private void evt_btn_FoodListDuplicate() {
+    private void evt_btn_food_list_duplicate() {
         int selectedRowNo = tableFoodList01.getSelectedRow();
         if( selectedRowNo != -1 ) {
             String foodId = ( String ) tableFoodList01.getValueAt( selectedRowNo, 0 );
@@ -2768,7 +2781,7 @@ public class Main {
         }
     }
 
-    private void nutrient_search_check_coefficients_filter() {
+    private void filter_search_nutrient_coefficient_check() {
         RowFilter<TableModelCheckCoefficients, Object> rf = null;
         try {
             ArrayList filters = new ArrayList();
@@ -2840,26 +2853,26 @@ public class Main {
                 select_table_row_using_table( tableCheckCoefficients, 0 );
             }
         } );
-        textFieldNutrientSearchCheckCoefficients.getDocument().addDocumentListener( new DocumentListener() {
+        textFieldNutrientSearchCheckCoefficients.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate( DocumentEvent e ) {
-                nutrient_search_check_coefficients_filter();
+                filter_search_nutrient_coefficient_check();
             }
 
             @Override
             public void insertUpdate( DocumentEvent e ) {
-                nutrient_search_check_coefficients_filter();
+                filter_search_nutrient_coefficient_check();
             }
 
             @Override
             public void removeUpdate( DocumentEvent e ) {
-                nutrient_search_check_coefficients_filter();
+                filter_search_nutrient_coefficient_check();
             }
         } );
         Message.showOptionDialog( inputs, "Check Coefficients" );
     }
 
-    private void nutrient_search_filter() {
+    private void filter_search_nutrient() {
         RowFilter<TableModelDataInput, Object> rf = null;
         try {
             ArrayList filters = new ArrayList();
@@ -2873,7 +2886,7 @@ public class Main {
         nutrientinput_tablesorter.setRowFilter( rf );
     }
 
-    private void evt_btn_fillCompleteProteinData() {
+    private void evt_btn_fill_complete_protein_data() {
         JTextPane instructions = new JTextPane();
         JTextField fld_protein = new JTextField();
         JTextField fld_complete_protein = new JTextField();
@@ -2929,7 +2942,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_fillFat() {
+    private void evt_btn_fill_fat() {
         JTextPane instructions = new JTextPane();
         JTextField totalFatText = new JTextField();
         JTextField saturatedFatText = new JTextField();
@@ -3011,7 +3024,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_fillCarbohydrateData() {
+    private void evt_btn_fill_carbohydrate_data() {
         JTextPane instructions = new JTextPane();
         JTextField carbsByDiffText = new JTextField();
         JTextField fiberText = new JTextField();
@@ -3075,7 +3088,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_fillEnergyData() {
+    private void evt_btn_fill_energy_data() {
         JTextPane instructions = new JTextPane();
         JTextField proteinText = new JTextField();
         JTextField fatText = new JTextField();
@@ -3176,7 +3189,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_fillVitaminsValues() {
+    private void evt_btn_fill_vitamin_values() {
         FormLayout layout = new FormLayout( "min:grow,min,min:grow", //columns
                                             "fill:min:grow" //rows
         );
@@ -3222,7 +3235,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_fillGlycemicLoad() {
+    private void evt_btn_fill_glycemic_load() {
         JTextPane instructions = new JTextPane();
         JTextField digestibleCarbohydrateText = new JTextField();
         JTextField glycemicIndexText = new JTextField();
@@ -3333,29 +3346,29 @@ public class Main {
         fillVitaminsButton.setToolTipText( "Vitamin and mineral values calculator assistant" );
         fillGlycemicLoadButton.setToolTipText( "Glycemic load calculator assistant" );
         btn_cost.setToolTipText( "Cost calculator assistant" );
-        fillCompleteProteinButton.addActionListener( ( ActionEvent e )
+        fillCompleteProteinButton.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_fillCompleteProteinData();
+            evt_btn_fill_complete_protein_data();
         } );
-        fillFatButton.addActionListener( ( ActionEvent e )
+        fillFatButton.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_fillFat();
+            evt_btn_fill_fat();
         } );
-        fillDigestibleCarbsButton.addActionListener( ( ActionEvent e )
+        fillDigestibleCarbsButton.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_fillCarbohydrateData();
+            evt_btn_fill_carbohydrate_data();
         } );
-        fillEnergyDataButton.addActionListener( ( ActionEvent e )
+        fillEnergyDataButton.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_fillEnergyData();
+            evt_btn_fill_energy_data();
         } );
-        fillVitaminsButton.addActionListener( ( ActionEvent e )
+        fillVitaminsButton.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_fillVitaminsValues();
+            evt_btn_fill_vitamin_values();
         } );
-        fillGlycemicLoadButton.addActionListener( ( ActionEvent e )
+        fillGlycemicLoadButton.addActionListener(( ActionEvent e )
                 -> {
-            evt_btn_fillGlycemicLoad();
+            evt_btn_fill_glycemic_load();
         } );
         btn_cost.addActionListener( ( ActionEvent e )
                 -> {
@@ -3485,20 +3498,20 @@ public class Main {
                 labelNutrientWeight.setText( nutrient );
             }
         } );
-        textFieldNutrientSearch.getDocument().addDocumentListener( new DocumentListener() {
+        textFieldNutrientSearch.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate( DocumentEvent e ) {
-                nutrient_search_filter();
+                filter_search_nutrient();
             }
 
             @Override
             public void insertUpdate( DocumentEvent e ) {
-                nutrient_search_filter();
+                filter_search_nutrient();
             }
 
             @Override
             public void removeUpdate( DocumentEvent e ) {
-                nutrient_search_filter();
+                filter_search_nutrient();
             }
         } );
         //scroll to weight field
@@ -3553,7 +3566,7 @@ public class Main {
         resize_col_tbl_food_list();
     }
 
-    private void evt_btn_FoodListAdd() {
+    private void evt_btn_food_list_add() {
         try {
             String foodId = dbLink.Food_Insert_Temp( "New Food Item Name" );
             update_food_item( foodId, -1 );
@@ -3562,7 +3575,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_FoodListUpdate() {
+    private void evt_btn_food_list_update() {
         int selectedRowNo = tableFoodList01.getSelectedRow();
         if( selectedRowNo != -1 ) {
             String foodId = ( String ) tableFoodList01.getValueAt( selectedRowNo, 0 );
@@ -3570,7 +3583,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_FoodListDelete() {
+    private void evt_btn_food_list_delete() {
         int selectedRowNo = tableFoodList01.getSelectedRow();
         if( selectedRowNo != -1 ) {
             String foodId = ( String ) tableFoodList01.getValueAt( selectedRowNo, 0 );
@@ -3634,7 +3647,7 @@ public class Main {
         tableNutrientLookup.setAutoCreateRowSorter( true );
         textFieldNutrientLookup.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_NutrientLookupListRun();
+            evt_btn_nutrient_lookup();
         } );
         search_field.getDocument().addDocumentListener( new DocumentListener() {
             @Override
@@ -3769,7 +3782,7 @@ public class Main {
                     }
                     dbLink.stopTransaction();
                     reload_mixes();
-                    clear_all_models();
+                    clear_model_all();
                     int index = modelList_Solve.find_by_mixid( o.getMixId() );
                     lst_mix.setSelectedIndex( index );
                 } catch( SQLException ex ) {
@@ -3932,7 +3945,7 @@ public class Main {
         sb.append( "\n\n" );
         sb.append( "commons-math3-3.6.1.jar" );
         sb.append( "\n" );
-        sb.append( "hsqldb-2.6.1.jar" );
+        sb.append( "hsqldb-2.7.1.jar" );
         sb.append( "\n" );
         sb.append( "jgoodies-common-1.8.1.jar" );
         sb.append( "\n" );
@@ -3994,7 +4007,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1010" );
+        sb.append( "This is build 1020" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         JTextArea textArea = new JTextArea();
@@ -4067,7 +4080,7 @@ public class Main {
             @Override
             public void keyPressed( KeyEvent keyEvent ) {
                 if( keyEvent.getKeyCode() == KeyEvent.VK_DELETE ) {
-                    evt_lst_HighScore();
+                    evt_lst_high_score();
                 }
             }
 
@@ -4298,7 +4311,7 @@ public class Main {
         return scrollPane;
     }
 
-    private void evt_lst_HighScore() {
+    private void evt_lst_high_score() {
         modelListHighScore.clear();
     }
 
@@ -4334,10 +4347,10 @@ public class Main {
         buttonDeleteMixFood.setToolTipText( "Delete Food Item from Mix" );
         buttonExpandMixFood.setToolTipText( "Expand Food List" );
         buttonCollapseMixFood.setToolTipText( "Collapse Food List" );
-        buttonAddMixFood.addActionListener( e -> evt_btn_AddMixFood() );
-        buttonDeleteMixFood.addActionListener( e -> evt_btn_DeleteMixFood() );
-        buttonExpandMixFood.addActionListener( e -> evt_btn_ExpandMixFood() );
-        buttonCollapseMixFood.addActionListener( e -> evt_btn_CollapseMixFood() );
+        buttonAddMixFood.addActionListener( e -> evt_btn_mix_food_add() );
+        buttonDeleteMixFood.addActionListener( e -> evt_btn_mix_food_delete() );
+        buttonExpandMixFood.addActionListener( e -> evt_btn_mix_food_expand() );
+        buttonCollapseMixFood.addActionListener( e -> evt_btn_mix_food_collapse() );
         listSelectedFood.setModel( modelListSelectedFood );
         return panel;
     }
@@ -4371,11 +4384,11 @@ public class Main {
         buttonNutrientConstraintDelete.setToolTipText( "Delete Constraint" );
         buttonNutrientConstraintAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_NutrientConstraintAdd();
+            evt_btn_nutrient_constraint_add();
         } );
         buttonNutrientConstraintDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_NutrientConstraintDelete();
+            evt_btn_nutrient_constraint_delete();
         } );
         tableNutrientConstraint.setFillsViewportHeight( true );
         return panel;
@@ -4413,11 +4426,11 @@ public class Main {
         buttonFoodNutrientConstraintDelete.setToolTipText( "Delete Constraint" );
         buttonFoodNutrientConstraintAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodNutrientConstraintAdd();
+            evt_btn_food_nutrient_constraint_add();
         } );
         buttonFoodNutrientConstraintDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodNutrientConstraintDelete();
+            evt_btn_food_nutrient_constraint_delete();
         } );
         tableFoodNutrientConstraint.setFillsViewportHeight( true );
         return panel;
@@ -4456,11 +4469,11 @@ public class Main {
         buttonNutrientRatioDelete.setToolTipText( "Delete Constraint" );
         buttonNutrientRatioAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_NutrientRatioAdd();
+            evt_btn_nutrient_ratio_add();
         } );
         buttonNutrientRatioDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_NutrientRatioDelete();
+            evt_btn_nutrient_ratio_delete();
         } );
         tableNutrientRatio.setFillsViewportHeight( true );
         return panel;
@@ -4505,11 +4518,11 @@ public class Main {
         comboBoxFoodNutrientRatioRelationship.setModel( modelComboBox_RelationshipAtFoodNutrientRatio );
         buttonFoodNutrientRatioAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodNutrientRatioAdd();
+            evt_btn_food_nutrient_ratio_add();
         } );
         buttonFoodNutrientRatioDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_FoodNutrientRatioDelete();
+            evt_btn_food_nutrient_ratio_delete();
         } );
         tableFoodNutrientRatio.setFillsViewportHeight( true );
         return panel;
@@ -4547,17 +4560,17 @@ public class Main {
         buttonPercentNutrientConstraintDelete.setToolTipText( "Delete Constraint" );
         buttonPercentNutrientConstraintAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_PercentNutrientConstraintAdd();
+            evt_btn_percent_nutrient_constraint_add();
         } );
         buttonPercentNutrientConstraintDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_PercentNutrientConstraintDelete();
+            evt_btn_percent_nutrient_constraint_delete();
         } );
         tableNutrientPercentConstraint.setFillsViewportHeight( true );
         return panel;
     }
 
-    private void evt_btn_PercentNutrientConstraintDelete() {
+    private void evt_btn_percent_nutrient_constraint_delete() {
         if( is_mix_selected() ) {
             try {
                 int selectedRow = tableNutrientPercentConstraint.getSelectedRow();
@@ -4574,7 +4587,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_PercentNutrientConstraintAdd() {
+    private void evt_btn_percent_nutrient_constraint_add() {
         if( is_mix_selected() ) {
             if( is_it_ready_to_add_percent_nutrient_constraint() ) {
                 NumberCheck numberCheck = new NumberCheck();
@@ -4677,7 +4690,7 @@ public class Main {
         return panel;
     }
 
-    private void evt_lst_Mixes( ListSelectionEvent e ) {
+    private void evt_lst_mixes( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             if( is_mix_selected() ) {
                 MixDataObject mixDataObject = ( MixDataObject ) lst_mix.getSelectedValue();
@@ -4709,13 +4722,13 @@ public class Main {
         tableNutrientConstraint.getColumnModel().getColumn( 4 ).setMaxWidth( 21 );
     }
 
-    private void evt_lst_MixCompareA( ListSelectionEvent e ) {
+    private void evt_lst_mix_compare_a( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             reload_mix_comparison();
         }
     }
 
-    private void evt_lst_MixCompareB( ListSelectionEvent e ) {
+    private void evt_lst_mix_compare_b( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             reload_mix_comparison();
         }
@@ -4736,13 +4749,13 @@ public class Main {
         }
     }
 
-    private void evt_lst_FoodCompareA( ListSelectionEvent e ) {
+    private void evt_lst_food_compare_a( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             reload_food_comparison();
         }
     }
 
-    private void evt_lst_FoodCompareB( ListSelectionEvent e ) {
+    private void evt_lst_food_compare_b( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             reload_food_comparison();
         }
@@ -4836,40 +4849,40 @@ public class Main {
         //
         buttonCategoriesAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_CategoriesAdd();
+            evt_btn_categories_add();
         } );
         buttonCategoriesRename.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_CategoriesRename();
+            evt_btn_categories_rename();
         } );
         buttonCategoriesDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_CategoriesDelete();
+            evt_btn_categories_delete();
         } );
         listCategories.addListSelectionListener( ( ListSelectionEvent e )
                 -> {
-            evt_lst_Categories( e );
+            evt_lst_categories( e );
         } );
         buttonAddFoodToCategory.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_AddFoodToCategory();
+            evt_btn_category_add_food();
         } );
         buttonDeleteFoodFromCategory.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_DeleteFoodFromCategory();
+            evt_btn_category_delete_food();
         } );
         textFieldSearch.addActionListener( ( ActionEvent e )
                 -> {
-            evt_fld_Search( e );
+            evt_fld_search( e );
         } );
         return panel;
     }
 
-    private void evt_fld_Search( ActionEvent e ) {
+    private void evt_fld_search( ActionEvent e ) {
         modelListFood.reload( (( JTextComponent ) e.getSource()).getText() );
     }
 
-    private void evt_btn_DeleteFoodFromCategory() {
+    private void evt_btn_category_delete_food() {
         if( !listCategories.isSelectionEmpty() ) {
             try {
                 FoodCategoryDataObject foodCategoryDataObject = ( FoodCategoryDataObject ) listCategories.getSelectedValue();
@@ -4887,7 +4900,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_AddFoodToCategory() {
+    private void evt_btn_category_add_food() {
         if( !listCategories.isSelectionEmpty() ) {
             if( !listAllFoodItems.isSelectionEmpty() ) {
                 try {
@@ -4910,7 +4923,7 @@ public class Main {
         }
     }
 
-    private void evt_lst_Categories( ListSelectionEvent e ) {
+    private void evt_lst_categories( ListSelectionEvent e ) {
         if( !e.getValueIsAdjusting() ) {
             if( !listCategories.isSelectionEmpty() ) {
                 FoodCategoryDataObject foodCategoryDataObject = ( FoodCategoryDataObject ) listCategories.getSelectedValue();
@@ -4920,7 +4933,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_NutrientLookupListRun() {
+    private void evt_btn_nutrient_lookup() {
         reload_nutrient_lookup();
     }
 
@@ -4938,7 +4951,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_AddMixFood() {
+    private void evt_btn_mix_food_add() {
         if( is_mix_selected() ) {
             MixDataObject mix = ( MixDataObject ) lst_mix.getSelectedValue();
             DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) treeFoodList.getLastSelectedPathComponent();
@@ -4963,9 +4976,9 @@ public class Main {
         }
     }
 
-    private void evt_btn_DeleteMixFood() {
+    private void evt_btn_mix_food_delete() {
         if( is_mix_selected() ) {
-            if( is_selected_food() ) {
+            if( is_food_selected() ) {
                 try {
                     MixDataObject mix = ( MixDataObject ) lst_mix.getSelectedValue();
                     FoodDataObject foodDataObject = ( FoodDataObject ) listSelectedFood.getSelectedValue();
@@ -4983,7 +4996,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_ExpandMixFood() {
+    private void evt_btn_mix_food_expand() {
         int rowCount = treeFoodList.getRowCount();
         this.expand_all_nodes( treeFoodList, 0, rowCount );
     }
@@ -4997,7 +5010,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_CollapseMixFood() {
+    private void evt_btn_mix_food_collapse() {
         int rowCount = treeFoodList.getRowCount();
         for( int i = 1; i < rowCount; i++ ) {
             treeFoodList.collapseRow( i );
@@ -5191,7 +5204,7 @@ public class Main {
         return sb.toString();
     }
 
-    private void evt_btn_NutrientConstraintAdd() {
+    private void evt_btn_nutrient_constraint_add() {
         if( is_mix_selected() ) {
             if( is_it_ready_to_add_nutrient_constraint() ) {
                 NumberCheck numberCheck = new NumberCheck();
@@ -5248,7 +5261,7 @@ public class Main {
         return flag_isReady;
     }
 
-    private void evt_btn_NutrientConstraintDelete() {
+    private void evt_btn_nutrient_constraint_delete() {
         if( is_mix_selected() ) {
             try {
                 int selectedRow = tableNutrientConstraint.getSelectedRow();
@@ -5264,7 +5277,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_FoodNutrientConstraintAdd() {
+    private void evt_btn_food_nutrient_constraint_add() {
         if( is_mix_selected() ) {
             if( is_it_ready_to_add_food_nutrient_constraint() ) {
                 NumberCheck numberCheck = new NumberCheck();
@@ -5290,25 +5303,30 @@ public class Main {
         }
     }
 
-    private void evt_btn_MealAllocationAdd() {
+    private void evt_btn_meal_food_allocation_add() {
         if( is_mix_journal_selected() ) {
             try {
                 MixDataObject mix = ( MixDataObject ) list_journal_mix.getSelectedValue();
                 String mixId = mix.getMixId();
                 String foodid = (( FoodDataObject ) comboBoxAllocationFood.getSelectedItem()).getFoodId();
-                O_Meal meal = ( O_Meal ) comboBoxAllocationMeal.getSelectedItem();
-                Integer mealid = meal.getMealid();
-                NumberCheck checkNumber = new NumberCheck();
-                checkNumber.addToUncheckedList( textfield_allocation_pct.getText() );
-                if( checkNumber.pass() ) {
-                    Double pct = Double.valueOf( textfield_allocation_pct.getText() );
-                    dbLink.MealFoodAllocation_insert_and_calculate( mixId, mealid, foodid, pct );
-                    dbLink.stopTransaction();
-                    modelTableAllocation.reload( mixId, precision );
-                    resize_col_tbl_meal_allocation();
-                    Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
-                    textfield_allocation_remaining.setText( String.valueOf( remaining ) );
+                ArrayList selectedValuesList = ( ArrayList ) listAllocationMeal.getSelectedValuesList();
+                for( Object o : selectedValuesList ) {
+                    O_Meal meal = ( O_Meal ) o;
+                    Integer mealid = meal.getMealid();
+                    NumberCheck checkNumber = new NumberCheck();
+                    checkNumber.addToUncheckedList( textfield_allocation_pct.getText() );
+                    if( checkNumber.pass() ) {
+                        Double pct = Double.valueOf( textfield_allocation_pct.getText() );
+                        int n = selectedValuesList.size();
+                        Double pcti = pct / n;
+                        dbLink.MealFoodAllocation_insert_and_calculate( mixId, mealid, foodid, pcti );
+                        modelTableAllocation.reload( mixId, precision );
+                        resize_col_tbl_meal_allocation();
+                        Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
+                        textfield_allocation_remaining.setText( String.valueOf( remaining ) );
+                    }
                 }
+                dbLink.stopTransaction();
             } catch( SQLException e ) {
                 e.printStackTrace();
             }
@@ -5364,7 +5382,7 @@ public class Main {
         tableFoodNutrientConstraint.getColumnModel().getColumn( 6 ).setMaxWidth( 21 );
     }
 
-    private void evt_btn_MealAllocationPct() {
+    private void evt_btn_meal_food_allocation_update_pct() {
         if( is_mix_journal_selected() ) {
             int selectedRow = table_allocation.getSelectedRow();
             if( selectedRow != -1 ) {
@@ -5391,9 +5409,11 @@ public class Main {
                         Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
                         textfield_allocation_remaining.setText( String.valueOf( remaining ) );
                         int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
-                        int index_meal = modelComboBox_AllocationMeal.find_by_mealid( mealid );
+                        //int index_meal = modelComboBox_AllocationMeal.find_by_mealid( mealid );
+                        int index_meal = modelList_AllocationMeal.find_by_mealid( mealid );
                         comboBoxAllocationFood.setSelectedIndex( index_food );
-                        comboBoxAllocationMeal.setSelectedIndex( index_meal );
+                        //comboBoxAllocationMeal.setSelectedIndex( index_meal );
+                        listAllocationMeal.setSelectedIndex( index_meal );
                     } catch( SQLException e ) {
 
                     }
@@ -5402,7 +5422,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_MealAllocationUpdateWeight() {
+    private void evt_btn_meal_food_allocation_update_weight() {
         if( is_mix_journal_selected() ) {
             JTextField input = new JTextField();
             input.setPreferredSize( new Dimension( 50, 25 ) );
@@ -5436,7 +5456,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_MealAllocationDelete() {
+    private void evt_btn_meal_food_allocation_delete() {
         if( is_mix_journal_selected() ) {
             try {
                 MixDataObject mix = ( MixDataObject ) list_journal_mix.getSelectedValue();
@@ -5453,9 +5473,10 @@ public class Main {
                     Double remaining = dbLink.calculate_remaining_allocation( mixId, foodid, precision );
                     textfield_allocation_remaining.setText( String.valueOf( remaining ) );
                     int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
-                    int index_meal = modelComboBox_AllocationMeal.find_by_mealid( mealid );
+                    int index_meal = modelList_AllocationMeal.find_by_mealid( mealid );
                     comboBoxAllocationFood.setSelectedIndex( index_food );
-                    comboBoxAllocationMeal.setSelectedIndex( index_meal );
+                    //comboBoxAllocationMeal.setSelectedIndex( index_meal );
+                    listAllocationMeal.setSelectedIndex( index_meal );
                 }
             } catch( SQLException e ) {
 
@@ -5463,7 +5484,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_FoodNutrientConstraintDelete() {
+    private void evt_btn_food_nutrient_constraint_delete() {
         if( is_mix_selected() ) {
             try {
                 int selectedRow = tableFoodNutrientConstraint.getSelectedRow();
@@ -5480,7 +5501,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_NutrientRatioAdd() {
+    private void evt_btn_nutrient_ratio_add() {
         if( is_mix_selected() ) {
             if( is_it_ready_to_add_nutrient_ratio_constraint() ) {
                 NumberCheck numberCheck = new NumberCheck();
@@ -5630,7 +5651,7 @@ public class Main {
         tableFoodList01.getColumnModel().getColumn( 1 ).setMinWidth( 350 );
     }
 
-    private void evt_btn_NutrientRatioDelete() {
+    private void evt_btn_nutrient_ratio_delete() {
         if( is_mix_selected() ) {
             try {
                 int selectedRow = tableNutrientRatio.getSelectedRow();
@@ -5647,7 +5668,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_FoodNutrientRatioAdd() {
+    private void evt_btn_food_nutrient_ratio_add() {
         if( is_mix_selected() ) {
             if( is_it_ready_to_add_food_nutrient_ratio_constraint() ) {
                 NumberCheck numberCheck = new NumberCheck();
@@ -5737,7 +5758,7 @@ public class Main {
         tableFoodNutrientRatio.getColumnModel().getColumn( 11 ).setMaxWidth( 21 );
     }
 
-    private void evt_btn_FoodNutrientRatioDelete() {
+    private void evt_btn_food_nutrient_ratio_delete() {
         if( is_mix_selected() ) {
             try {
                 int selectedRow = tableFoodNutrientRatio.getSelectedRow();
@@ -5756,7 +5777,7 @@ public class Main {
         }
     }
 
-    private boolean is_selected_food() {
+    private boolean is_food_selected() {
         return !listSelectedFood.isSelectionEmpty();
     }
 
@@ -5784,7 +5805,7 @@ public class Main {
         return !list_mix_compare_b.isSelectionEmpty();
     }
 
-    private void evt_btn_CategoriesAdd() {
+    private void evt_btn_categories_add() {
         JTextField input = new JTextField();
         JComponent[] inputs = new JComponent[] {
             new JLabel( "What is your new category name?" ),
@@ -5806,7 +5827,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_CategoriesRename() {
+    private void evt_btn_categories_rename() {
         if( !listCategories.isSelectionEmpty() ) {
             JTextField input = new JTextField();
             JComponent[] inputs = new JComponent[] {
@@ -5832,7 +5853,7 @@ public class Main {
         }
     }
 
-    private void evt_btn_CategoriesDelete() {
+    private void evt_btn_categories_delete() {
         if( !listCategories.isSelectionEmpty() ) {
             try {
                 FoodCategoryDataObject foodCategoryDataObject = ( FoodCategoryDataObject ) listCategories.getSelectedValue();
@@ -6187,12 +6208,12 @@ public class Main {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
             fileChooser.setCurrentDirectory( new File( path ) );
-            HashSet set01 = new HashSet();
-            HashSet set02 = new HashSet();
+            HashSet set_without = new HashSet();
+            HashSet set_with = new HashSet();
             final int old_size = modelList_Solve.size();
             for( int i = 0; i < old_size; i++ ) {
                 MixDataObject o = ( MixDataObject ) modelList_Solve.get( i );
-                set01.add( o.getMixId() );
+                set_without.add( o.getMixId() );
             }
             Xml_receive receive = new Xml_receive( dbLink );
             receive.import_snack_data( path );
@@ -6201,13 +6222,11 @@ public class Main {
             modelListCategory.reload();
             for( int i = 0; i < modelList_Solve.size(); i++ ) {
                 MixDataObject o = ( MixDataObject ) modelList_Solve.get( i );
-                set02.add( o.getMixId() );
+                set_with.add( o.getMixId() );
             }
-            if( old_size > 0 ) {
-                if( set02.removeAll( set01 ) ) {
-                    int index = modelList_Solve.find_by_mixid( ( String ) set02.toArray()[ 0 ] );
-                    lst_mix.setSelectedIndex( index );
-                }
+            if( set_with.removeAll( set_without ) ) {
+                int index = modelList_Solve.find_by_mixid( ( String ) set_with.toArray()[ 0 ] );
+                lst_mix.setSelectedIndex( index );
             }
             else {
                 lst_mix.setSelectedIndex( 0 );

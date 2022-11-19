@@ -39,16 +39,16 @@
 
 Installing
 
-    1. Download snack-1010-app.zip from https://xjrga.github.io
-    2. unzip snack-1010-app.zip
-    3. cd snack-1010
-    4. java -jar snack-1010.jar (if you are on windows double click on jar file)
+    1. Download snack-1020-app.zip from https://xjrga.github.io
+    2. unzip snack-1020-app.zip
+    3. cd snack-1020
+    4. java -jar snack-1020.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1010
+    1020
 
 Authors
 
@@ -63,7 +63,7 @@ Acknowledgments
 Snack uses the following libraries:
 
     commons-math3-3.6.1.jar
-    hsqldb-2.6.1.jar (v2.5.1)
+    hsqldb-2.7.1.jar (v2.5.1)
     jgoodies-common-1.8.1.jar
     jgoodies-forms-1.9.0.jar
     poi-4.1.1.jar

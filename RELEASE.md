@@ -1,4 +1,4 @@
-[Snack](https://xjrga.github.io/snack "Snack: Learning Software for Nutrition")
+[Snack](https://xjrga.github.io/ "Snack: Learning Software for Nutrition")
 
 RELEASE NOTES
 
@@ -305,4 +305,8 @@ RELEASE NOTES
       Update database schema "erd"
       Update snack.xsd schema "xml"
       Add xml import and export of meals and meal food allocations
+
+1020
+
+      Add multiple meal food allocation
       
