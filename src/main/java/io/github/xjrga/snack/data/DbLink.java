@@ -151,6 +151,38 @@ public class DbLink {
         return list;
     }
 
+    public List<Map<String, Object>> results_by_meal_select( String mixid, Integer precision ) throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.results_by_meal_select( ?, ? )}" );
+        proc.setString( 1, mixid );
+        proc.setInt( 2, precision );
+        ResultSet rs = proc.executeQuery();
+        while( rs.next() ) {
+            Map<String, Object> row = new HashMap<>();
+            row.put( "NAME", rs.getObject( 1 ) );
+            row.put( "WEIGHT", rs.getObject( 2 ) );
+            row.put( "EGROSS", rs.getObject( 3 ) );
+            row.put( "EDIGEST", rs.getObject( 4 ) );
+            row.put( "EFAT", rs.getObject( 5 ) );
+            row.put( "ECARBS", rs.getObject( 6 ) );
+            row.put( "EFATCARBS", rs.getObject( 7 ) );
+            row.put( "EPROTEIN", rs.getObject( 8 ) );
+            row.put( "EALCOHOL", rs.getObject( 9 ) );
+            row.put( "FAT", rs.getObject( 10 ) );
+            row.put( "CARBS", rs.getObject( 11 ) );
+            row.put( "PROTEIN", rs.getObject( 12 ) );
+            row.put( "COMPLETE", rs.getObject( 13 ) );
+            row.put( "ALCOHOL", rs.getObject( 14 ) );
+            row.put( "FIBER", rs.getObject( 15 ) );
+            row.put( "SODIUM", rs.getObject( 16 ) );
+            row.put( "POTASSIUM", rs.getObject( 17 ) );
+            list.add( row );
+        }
+        proc.close();
+        return list;
+    }
+
     public Double calculate_remaining_allocation( String mixid, String foodid, Integer precision ) throws SQLException {
         Double out;
         try(  CallableStatement proc = connection.prepareCall( "{CALL public.calculate_remaining_allocation( ?, ?, ? )}" ) ) {

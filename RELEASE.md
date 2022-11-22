@@ -309,4 +309,8 @@ RELEASE NOTES
 1020
 
       Add multiple meal food allocation
+
+1030
+
+      Add results per meal view
       
