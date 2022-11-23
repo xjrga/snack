@@ -27,13 +27,13 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelApportionment extends DefaultTableModel implements RoundUp {
+public class TableModelPortions extends DefaultTableModel implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
 
-    public TableModelApportionment( DbLink dbLink ) {
+    public TableModelPortions( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }

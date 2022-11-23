@@ -308,9 +308,13 @@ RELEASE NOTES
 
 1020
 
-      Add multiple meal food allocation
+      Add multiple meal food portion addition
 
 1030
 
       Add results per meal view
+
+1040
+
+      Add multiple meal food portion deletion
       

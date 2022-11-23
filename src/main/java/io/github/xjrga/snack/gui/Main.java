@@ -30,7 +30,6 @@ import io.github.xjrga.snack.model.Nutrient_loader;
 import io.github.xjrga.snack.model.Relationship_loader;
 import io.github.xjrga.snack.model.Result_loader;
 import io.github.xjrga.snack.model.StringModelMixPct;
-import io.github.xjrga.snack.model.TableModelApportionment;
 import io.github.xjrga.snack.model.TableModelCarbs;
 import io.github.xjrga.snack.model.TableModelCheckCoefficients;
 import io.github.xjrga.snack.model.TableModelCost;
@@ -50,6 +49,7 @@ import io.github.xjrga.snack.model.TableModelNutrientConstraints;
 import io.github.xjrga.snack.model.TableModelNutrientLookup;
 import io.github.xjrga.snack.model.TableModelNutrientRatioConstraints;
 import io.github.xjrga.snack.model.TableModelPercentNutrientConstraints;
+import io.github.xjrga.snack.model.TableModelPortions;
 import io.github.xjrga.snack.model.TableModelProtein;
 import io.github.xjrga.snack.model.TableModelRdaCheck;
 import io.github.xjrga.snack.model.TableModelResultsByMealEnergy;
@@ -160,7 +160,6 @@ public class Main {
     private final JButton buttonMealDelete = new JButton( "-" );
     private final JButton buttonMealUpdate = new JButton( "u" );
     private final JButton buttonAllocationDelete = new JButton( "-" );
-    private final JButton buttonAllocationUpdatePct = new JButton( "%" );
     private final JButton buttonAllocationUpdateWeight = new JButton( "w" );
     private final JButton buttonFoodNutrientConstraintDelete = new JButton( "-" );
     private final JButton buttonFoodNutrientRatioAdd = new JButton( "+" );
@@ -371,7 +370,7 @@ public class Main {
     private final TableModelFat modelTableJournalFats = new TableModelFat( result_loader_journal );
     private final TableModelFoodComparison modelTableFoodDifference = new TableModelFoodComparison( dbLink );
     private final TableModelFoodList modelTableFoodList = new TableModelFoodList( dbLink );
-    private final TableModelApportionment modelTableAllocation = new TableModelApportionment( dbLink );
+    private final TableModelPortions modelTableAllocation = new TableModelPortions( dbLink );
     private final TableModelMeals modelTableMeals = new TableModelMeals( dbLink );
     private final TableModelResultsByMealEnergy modelTableResultByMealsCalories = new TableModelResultsByMealEnergy( dbLink );
     private final TableModelResultsByMealNutrient modelTableResultByMealsGrams = new TableModelResultsByMealNutrient( dbLink );
@@ -583,6 +582,7 @@ public class Main {
         resize_col_tbl_nutrient_ratio_constraint();
         resize_col_tbl_food_nutrient_ratio_constraint();
         resize_col_tbl_percent_nutrient_constraint();
+        splitPane.setDividerLocation( 0.5 );
         dbLink.startTransaction();
     }
 
@@ -754,7 +754,7 @@ public class Main {
         JTabbedPane panel = new JTabbedPane();
         panel.setTabPlacement( JTabbedPane.BOTTOM );
         panel.add( "Meal", get_meal() );
-        panel.add( "Apportionment", get_meal_food_allocation() );
+        panel.add( "Portion", get_meal_food_allocation() );
         panel.add( "Nutrient", get_results_by_meal_grams() );
         panel.add( "Energy", get_results_by_meal_calories() );
         return panel;
@@ -1238,9 +1238,7 @@ public class Main {
         );
         JPanel panel = new JPanel();
         panel.setLayout( layout );
-        JSplitPane splitPane = new JSplitPane();
         splitPane.setOrientation( JSplitPane.VERTICAL_SPLIT );
-        splitPane.setDividerLocation( 0.6 );
         splitPane.setOneTouchExpandable( true );
         splitPane.setTopComponent( get_results() );
         JTabbedPane bottomTabPane = new JTabbedPane();
@@ -1291,7 +1289,7 @@ public class Main {
         Action middle = new AbstractAction() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                splitPane.setDividerLocation( 0.6 );
+                splitPane.setDividerLocation( 0.5 );
             }
         };
         Action low = new AbstractAction() {
@@ -1310,6 +1308,7 @@ public class Main {
         action_map.put( "max", high );
         return panel;
     }
+    private JSplitPane splitPane = new JSplitPane();
 
     private JPanel get_mix_list() {
         JPanel pnl_mix_list = new JPanel();
@@ -2087,7 +2086,6 @@ public class Main {
                 Double valueAt;
                 switch( columnIndex ) {
                     case 0:
-
                         component.setForeground( offwhite );
                         break;
                     case 1:
@@ -2367,7 +2365,6 @@ public class Main {
         panel.add( spTable, cc.xyw( 2, 7, 8 ) );
         buttons.add( buttonAllocationAdd );
         buttons.add( buttonAllocationDelete );
-        buttons.add( buttonAllocationUpdatePct );
         buttons.add( buttonAllocationUpdateWeight );
         //fourth row
         panel.add( buttons, cc.xyw( 2, 8, 8 ) );
@@ -2379,10 +2376,8 @@ public class Main {
         tbl_allocation.setAutoCreateRowSorter( true );
         tbl_allocation.setModel( modelTableAllocation );
         tbl_allocation.setRowSorter( srttbl_allocationlookup );
-        tbl_allocation.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        buttonAllocationAdd.setToolTipText( "Apportion food" );
+        buttonAllocationAdd.setToolTipText( "Add food portion" );
         buttonAllocationDelete.setToolTipText( "Delete food portion" );
-        buttonAllocationUpdatePct.setToolTipText( "Update food portion percentage" );
         buttonAllocationUpdateWeight.setToolTipText( "Update weight of food consumed" );
         buttonAllocationAdd.addActionListener( ( ActionEvent e )
                 -> {
@@ -2391,10 +2386,6 @@ public class Main {
         buttonAllocationDelete.addActionListener( ( ActionEvent e )
                 -> {
             evt_btn_meal_food_allocation_delete();
-        } );
-        buttonAllocationUpdatePct.addActionListener( ( ActionEvent e )
-                -> {
-            evt_btn_meal_food_allocation_update_pct();
         } );
         buttonAllocationUpdateWeight.addActionListener( ( ActionEvent e )
                 -> {
@@ -2422,12 +2413,12 @@ public class Main {
             }
 
             private void allocationlookup_search_filter() {
-                RowFilter<TableModelApportionment, Object> rf = null;
+                RowFilter<TableModelPortions, Object> rf = null;
                 try {
                     ArrayList filters = new ArrayList();
                     filters.add( RowFilter.regexFilter( "(?i)" + textfield_allocation_search.getText(), 3 ) );
                     filters.add( RowFilter.regexFilter( "(?i)" + textfield_allocation_search.getText(), 4 ) );
-                    rf = RowFilter.orFilter( ( Iterable<? extends RowFilter<? super TableModelApportionment, ? super Object>> ) filters );
+                    rf = RowFilter.orFilter( ( Iterable<? extends RowFilter<? super TableModelPortions, ? super Object>> ) filters );
                 } catch( java.util.regex.PatternSyntaxException e ) {
                     return;
                 }
@@ -4096,7 +4087,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1030" );
+        sb.append( "This is build 1040" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         JTextArea textArea = new JTextArea();
@@ -5411,34 +5402,41 @@ public class Main {
 
     private void evt_btn_meal_food_allocation_add() {
         if( is_mix_journal_selected() ) {
-            try {
+            NumberCheck checkNumber = new NumberCheck();
+            Double pcti = Double.NaN;
+            checkNumber.addToUncheckedList( textfield_allocation_pct.getText() );
+            if( checkNumber.pass() ) {
                 MixDataObject mix = ( MixDataObject ) lst_journal_mix.getSelectedValue();
                 String mixid = mix.getMixId();
                 String foodid = (( FoodDataObject ) comboBoxAllocationFood.getSelectedItem()).getFoodId();
                 ArrayList selectedValuesList = ( ArrayList ) listAllocationMeal.getSelectedValuesList();
-                for( Object o : selectedValuesList ) {
-                    O_Meal meal = ( O_Meal ) o;
-                    Integer mealid = meal.getMealid();
-                    NumberCheck checkNumber = new NumberCheck();
-                    checkNumber.addToUncheckedList( textfield_allocation_pct.getText() );
-                    if( checkNumber.pass() ) {
-                        Double pct = Double.valueOf( textfield_allocation_pct.getText() );
-                        int n = selectedValuesList.size();
-                        Double pcti = pct / n;
+                Double pct = Double.valueOf( textfield_allocation_pct.getText() );
+                int n = selectedValuesList.size();
+                pcti = pct / n;
+                Double remaining = Double.NaN;
+                try {
+                    for( Object o : selectedValuesList ) {
+                        O_Meal meal = ( O_Meal ) o;
+                        Integer mealid = meal.getMealid();
                         dbLink.MealFoodAllocation_insert_and_calculate( mixid, mealid, foodid, pcti );
-                        reload_tblmdl_allocation( mixid );
-                        reload_tblmdl_results_by_meal( mixid );
-                        resize_col_tbl_meal_allocation();
-                        resize_col_tbl_results_by_meal_calories();
-                        resize_col_tbl_results_by_meal_grams();
-                        Double remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
-                        textfield_allocation_remaining.setText( String.valueOf( remaining ) );
                     }
+                    dbLink.stopTransaction();
+                    remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
+                } catch( SQLException e ) {
                 }
-                dbLink.stopTransaction();
-            } catch( SQLException e ) {
-                e.printStackTrace();
+                reload_tblmdl_allocation( mixid );
+                reload_tblmdl_results_by_meal( mixid );
+                resize_col_tbl_meal_allocation();
+                resize_col_tbl_results_by_meal_calories();
+                resize_col_tbl_results_by_meal_grams();
+                textfield_allocation_remaining.setText( String.valueOf( remaining ) );
             }
+            else {
+                Message.showMessage( "Character must be number." );
+            }
+        }
+        else {
+            Message.showMessage( "Please select row or rows." );
         }
     }
 
@@ -5491,47 +5489,6 @@ public class Main {
         tableFoodNutrientConstraint.getColumnModel().getColumn( 6 ).setMaxWidth( 21 );
     }
 
-    private void evt_btn_meal_food_allocation_update_pct() {
-        if( is_mix_journal_selected() ) {
-            int selectedRow = tbl_allocation.getSelectedRow();
-            if( selectedRow != -1 ) {
-                JTextField input = new JTextField();
-                input.setPreferredSize( new Dimension( 50, 25 ) );
-                JPanel input_panel = new JPanel();
-                input_panel.add( new JLabel( "Allocation Pct: " ) );
-                input_panel.add( input );
-                JComponent[] inputs = new JComponent[] {
-                    input_panel
-                };
-                int optionValue = Message.showOptionDialogOkCancel( inputs, "Update Allocation Percent" );
-                if( optionValue == 0 ) {
-                    try {
-                        String mixid = ( String ) tbl_allocation.getValueAt( selectedRow, 0 );
-                        Integer mealid = ( Integer ) tbl_allocation.getValueAt( selectedRow, 1 );
-                        String foodid = ( String ) tbl_allocation.getValueAt( selectedRow, 2 );
-                        dbLink.MealFoodAllocation_update_pct( mixid, mealid, foodid, Double.valueOf( input.getText() ) );
-                        dbLink.stopTransaction();
-                        reload_tblmdl_allocation( mixid );
-                        reload_tblmdl_results_by_meal( mixid );
-                        resize_col_tbl_meal_allocation();
-                        resize_col_tbl_results_by_meal_calories();
-                        resize_col_tbl_results_by_meal_grams();
-                        Double remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
-                        textfield_allocation_remaining.setText( String.valueOf( remaining ) );
-                        int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
-                        //int index_meal = modelComboBox_AllocationMeal.find_by_mealid( mealid );
-                        int index_meal = modelList_AllocationMeal.find_by_mealid( mealid );
-                        comboBoxAllocationFood.setSelectedIndex( index_food );
-                        //comboBoxAllocationMeal.setSelectedIndex( index_meal );
-                        listAllocationMeal.setSelectedIndex( index_meal );
-                    } catch( SQLException e ) {
-
-                    }
-                }
-            }
-        }
-    }
-
     private void evt_btn_meal_food_allocation_update_weight() {
         if( is_mix_journal_selected() ) {
             JTextField input = new JTextField();
@@ -5569,29 +5526,42 @@ public class Main {
 
     private void evt_btn_meal_food_allocation_delete() {
         if( is_mix_journal_selected() ) {
-            try {
-                int selectedRow = tbl_allocation.getSelectedRow();
-                if( selectedRow != -1 ) {
-                    String mixid = ( String ) tbl_allocation.getValueAt( selectedRow, 0 );
-                    Integer mealid = ( Integer ) tbl_allocation.getValueAt( selectedRow, 1 );
-                    String foodid = ( String ) tbl_allocation.getValueAt( selectedRow, 2 );
-                    dbLink.MealFoodAllocation_delete( mixid, mealid, foodid );
-                    dbLink.stopTransaction();
-                    reload_tblmdl_allocation( mixid );
-                    reload_tblmdl_results_by_meal( mixid );
-                    resize_col_tbl_meal_allocation();
-                    resize_col_tbl_results_by_meal_calories();
-                    resize_col_tbl_results_by_meal_grams();
-                    Double remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
-                    textfield_allocation_remaining.setText( String.valueOf( remaining ) );
-                    int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
-                    int index_meal = modelList_AllocationMeal.find_by_mealid( mealid );
-                    comboBoxAllocationFood.setSelectedIndex( index_food );
-                    listAllocationMeal.setSelectedIndex( index_meal );
+            int[] selectedRows = tbl_allocation.getSelectedRows();
+            if( selectedRows.length > 0 ) {
+                String mixid = "";
+                Integer mealid = -1;
+                String foodid = "";
+                Double remaining = Double.NaN;
+                for( int i = 0; i < selectedRows.length; i++ ) {
+                    int selectedRow = selectedRows[ i ];
+                    mixid = ( String ) tbl_allocation.getValueAt( selectedRow, 0 );
+                    mealid = ( Integer ) tbl_allocation.getValueAt( selectedRow, 1 );
+                    foodid = ( String ) tbl_allocation.getValueAt( selectedRow, 2 );
+                    try {
+                        dbLink.MealFoodAllocation_delete( mixid, mealid, foodid );
+                    } catch( SQLException e ) {
+                    }
                 }
-            } catch( SQLException e ) {
-
+                dbLink.stopTransaction();
+                try {
+                    remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
+                } catch( SQLException e ) {
+                }
+                textfield_allocation_remaining.setText( String.valueOf( remaining ) );
+                int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
+                int index_meal = modelList_AllocationMeal.find_by_mealid( mealid );
+                comboBoxAllocationFood.setSelectedIndex( index_food );
+                listAllocationMeal.setSelectedIndex( index_meal );
+                reload_tblmdl_allocation( mixid );
+                reload_tblmdl_results_by_meal( mixid );
+                resize_col_tbl_meal_allocation();
+                resize_col_tbl_results_by_meal_calories();
+                resize_col_tbl_results_by_meal_grams();
             }
+            else {
+                Message.showMessage( "Please select row or rows." );
+            }
+
         }
     }
 
