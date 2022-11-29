@@ -3,20 +3,16 @@ package io.github.xjrga.snack.other;
 import java.awt.event.MouseEvent;
 import javax.swing.table.TableColumnModel;
 
-public class TableHeaderResultsByMealGrams extends MyTableHeader {
+public class TableHeaderMacroNutrient extends MyTableHeader {
 
-    public TableHeaderResultsByMealGrams( TableColumnModel columnModel ) {
+    public TableHeaderMacroNutrient( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
-            "Meal",
+            "Food Name",
             "Weight (g)",
             "Fat (g)",
             "Digestible Carbohydrate (g)",
-            "Fiber, Total (g)",
             "Protein (g)",
-            "Complete Protein (g)",
-            "Alcohol (g)",
-            "Sodium, Na (mg)",
-            "Potassium, K (mg)"
+            "Alcohol (g)"
         } );
     }
 

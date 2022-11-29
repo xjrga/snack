@@ -18,18 +18,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 
 
-<project default="unzip, run">
+<project default="">    
     <xmlproperty file="pom.xml" prefix="pom" />
-    <target name="1. unzip to target">
-        <!-- unzip files -->
-        <unzip src="target/${pom.project.artifactId}-${pom.project.version}-app.zip" dest="target" overwrite="true"/>                                        
+    <!-- unzip app in software dir -->
+    <target name="1. unzip to software">
+        <delete dir="${user.dir}/Software/${pom.project.artifactId}-${pom.project.version}/"/>
+        <unzip src="target/${pom.project.artifactId}-${pom.project.version}-app.zip" dest="${user.dir}/Software/" overwrite="true"/>                                        
     </target>
-    <target name="2. run">
-        <!-- run application -->                
-        <java jar="target/${pom.project.artifactId}-${pom.project.version}/${pom.project.artifactId}-${pom.project.version}.jar" fork="true" failonerror="true" maxmemory="128m">
-            <classpath>
-                <pathelement location="target/${pom.project.artifactId}-${pom.project.version}/${pom.project.artifactId}-${pom.project.version}.jar"/>                
-            </classpath>
-        </java>
+    <!-- copy to releases -->
+    <target name="2. copy to releases">
+        <copy file="target/${pom.project.artifactId}-${pom.project.version}-app.zip" tofile="${user.dir}/Project/Public/xjrga.github.io/releases/${pom.project.artifactId}-${pom.project.version}-app.zip"/>
+        <copy file="target/${pom.project.artifactId}-${pom.project.version}-app.zip.asc" tofile="${user.dir}/Project/Public/xjrga.github.io/releases/${pom.project.artifactId}-${pom.project.version}-app.zip.asc"/>       
     </target>    
 </project>

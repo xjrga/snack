@@ -51,7 +51,7 @@ call Select_meal_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --
-call Select_meal_food_allocation_as_xml (doc,v_MixId);
+call Select_meal_food_portion_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --

@@ -1,10 +1,13 @@
-CREATE PROCEDURE MealFoodAllocation_delete (
+CREATE PROCEDURE MealFoodPortion_update_actualwt (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
-IN v_FoodId LONGVARCHAR
+IN v_FoodId LONGVARCHAR,
+IN v_ActualWt DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-DELETE FROM MealFoodAllocation
+UPDATE MealFoodPortion
+SET
+ActualWt = v_ActualWt
 WHERE
 MixId = v_MixId AND
 MealId = v_MealId AND

@@ -40,6 +40,7 @@ public class Result_loader implements RoundUp {
     private Vector fat_table;
     private Vector protein_table;
     private Vector energy_table;
+    private Vector macronutrient_table;
 
     public Result_loader( DbLink dbLink ) {
         this.dbLink = dbLink;
@@ -47,6 +48,7 @@ public class Result_loader implements RoundUp {
 
     public void reload( String mixid ) {
         Vector energy_row = null;
+        Vector macronutrient_row = null;
         Vector protein_row = null;
         Vector fat_row = null;
         Vector carbs_row = null;
@@ -56,6 +58,7 @@ public class Result_loader implements RoundUp {
         Vector water_row = null;
         Vector cost_row = null;
         energy_table = new Vector();
+        macronutrient_table = new Vector();
         protein_table = new Vector();
         fat_table = new Vector();
         carbs_table = new Vector();
@@ -79,10 +82,6 @@ public class Result_loader implements RoundUp {
                 Double EnergyProtein = ( Double ) rowm.get( Nutrient.ENERGYPROTEIN.getLabel() );
                 Double EnergyAlcohol = ( Double ) rowm.get( Nutrient.ENERGYALCOHOL.getLabel() );
                 Double EnergyFatCarbohydrate = ( Double ) rowm.get( Nutrient.ENERGYFATCARBOHYDRATE.getLabel() );
-                Double Fat = ( Double ) rowm.get( Nutrient.FAT.getLabel() );
-                Double DigestibleCarbohydrate = ( Double ) rowm.get( Nutrient.DIGESTIBLECARBOHYDRATE.getLabel() );
-                Double Protein = ( Double ) rowm.get( Nutrient.PROTEIN.getLabel() );
-                Double Alcohol = ( Double ) rowm.get( Nutrient.ALCOHOL.getLabel() );
                 energy_row = new Vector();
                 energy_row.add( Name );
                 energy_row.add( Weight );
@@ -90,13 +89,23 @@ public class Result_loader implements RoundUp {
                 energy_row.add( EnergyDigestible );
                 energy_row.add( EnergyFat );
                 energy_row.add( EnergyCarbohydrate );
+                energy_row.add( EnergyFatCarbohydrate );
                 energy_row.add( EnergyProtein );
                 energy_row.add( EnergyAlcohol );
-                energy_row.add( Fat );
-                energy_row.add( DigestibleCarbohydrate );
-                energy_row.add( Protein );
-                energy_row.add( Alcohol );
                 energy_table.add( energy_row );
+                //MACRONUTRIENT TABLE
+                Double Fat = ( Double ) rowm.get( Nutrient.FAT.getLabel() );
+                Double DigestibleCarbohydrate = ( Double ) rowm.get( Nutrient.DIGESTIBLECARBOHYDRATE.getLabel() );
+                Double Protein = ( Double ) rowm.get( Nutrient.PROTEIN.getLabel() );
+                Double Alcohol = ( Double ) rowm.get( Nutrient.ALCOHOL.getLabel() );
+                macronutrient_row = new Vector();
+                macronutrient_row.add( Name );
+                macronutrient_row.add( Weight );
+                macronutrient_row.add( Fat );
+                macronutrient_row.add( DigestibleCarbohydrate );
+                macronutrient_row.add( Protein );
+                macronutrient_row.add( Alcohol );
+                macronutrient_table.add( macronutrient_row );
                 //PROTEIN TABLE
                 Double CompleteProtein = ( Double ) rowm.get( Nutrient.COMPLETEPROTEIN.getLabel() );
                 protein_row = new Vector();
@@ -265,6 +274,10 @@ public class Result_loader implements RoundUp {
 
     public Vector get_energy_table() {
         return energy_table;
+    }
+
+    public Vector get_macronutrient_table() {
+        return macronutrient_table;
     }
 
 }

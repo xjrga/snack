@@ -1,13 +1,13 @@
-CREATE PROCEDURE MealFoodAllocation_update_expectedwt (
+CREATE PROCEDURE MealFoodPortion_update_expectedwt (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-UPDATE MealFoodAllocation
+UPDATE MealFoodPortion
 SET
 ExpectedWt = (SELECT b.x*a.pct
-                     FROM mealfoodallocation a,
+                     FROM mealfoodportion a,
                           mixfood b
                      WHERE a.mixid = v_MixId
                      AND   a.mealid = v_MealId

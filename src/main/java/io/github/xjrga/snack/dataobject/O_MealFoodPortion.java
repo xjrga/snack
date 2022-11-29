@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.dataobject;
 
-public class O_MealFoodAllocation {
+public class O_MealFoodPortion {
     private String MixId;
     private Integer MealId;
     private String FoodId;
@@ -8,7 +8,7 @@ public class O_MealFoodAllocation {
     private Double ExpectedWt;
     private Double ActualWt;
 
-    public O_MealFoodAllocation() {
+    public O_MealFoodPortion() {
     }
 
     public void setMixid( String MixId ) {

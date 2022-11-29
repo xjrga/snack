@@ -34,12 +34,9 @@ public class TableModelEnergy extends DefaultTableModel {
         columns.add( "eDigest" );
         columns.add( "eFat" );
         columns.add( "eCarbs" );
+        columns.add( "eFat+eCarbs" );
         columns.add( "eProtein" );
         columns.add( "eAlcohol" );
-        columns.add( "Fat" );
-        columns.add( "Carbs" );
-        columns.add( "Protein" );
-        columns.add( "Alcohol" );
         this.setDataVector( loader.get_energy_table(), columns );
 
     }

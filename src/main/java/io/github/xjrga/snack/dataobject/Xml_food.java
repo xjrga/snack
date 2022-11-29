@@ -18,19 +18,11 @@ public class Xml_food {
     private double copper = 0.0;
     private double cost = 0.0;
     private double dha = 0.0;
-    private double digestible_carbohydrate = 0.0;
-    private double energy_alcohol = 0.0;
-    private double energy_carbohydrate = 0.0;
-    private double energy_digestible = 0.0;
-    private double energy_fat_and_carbohydrate = 0.0;
-    private double energy_fat = 0.0;
     private double energy_gross = 0.0;
-    private double energy_protein = 0.0;
     private double epa = 0.0;
     private double fat = 0.0;
     private double fiber = 0.0;
     private double folate = 0.0;
-    private double glycemic_load = 0.0;
     private double iron = 0.0;
     private double linoleic = 0.0;
     private double linolenic = 0.0;
@@ -58,6 +50,7 @@ public class Xml_food {
     private double water = 0.0;
     private double weight = 0.0;
     private double zinc = 0.0;
+    private double glycemicindex = 0.0;
 
     public Xml_food() {
         sb = new StringBuilder();
@@ -151,68 +144,12 @@ public class Xml_food {
         this.dha = dha;
     }
 
-    public double getDigestible_carbohydrate() {
-        return digestible_carbohydrate;
-    }
-
-    public void setDigestible_carbohydrate( double digestible_carbohydrate ) {
-        this.digestible_carbohydrate = digestible_carbohydrate;
-    }
-
-    public double getEnergy_alcohol() {
-        return energy_alcohol;
-    }
-
-    public void setEnergy_alcohol( double energy_alcohol ) {
-        this.energy_alcohol = energy_alcohol;
-    }
-
-    public double getEnergy_carbohydrate() {
-        return energy_carbohydrate;
-    }
-
-    public void setEnergy_carbohydrate( double energy_carbohydrate ) {
-        this.energy_carbohydrate = energy_carbohydrate;
-    }
-
-    public double getEnergy_digestible() {
-        return energy_digestible;
-    }
-
-    public void setEnergy_digestible( double energy_digestible ) {
-        this.energy_digestible = energy_digestible;
-    }
-
-    public double getEnergy_fat_and_carbohydrate() {
-        return energy_fat_and_carbohydrate;
-    }
-
-    public void setEnergy_fat_and_carbohydrate( double energy_fat_and_carbohydrate ) {
-        this.energy_fat_and_carbohydrate = energy_fat_and_carbohydrate;
-    }
-
-    public double getEnergy_fat() {
-        return energy_fat;
-    }
-
-    public void setEnergy_fat( double energy_fat ) {
-        this.energy_fat = energy_fat;
-    }
-
     public double getEnergy_gross() {
         return energy_gross;
     }
 
     public void setEnergy_gross( double energy_gross ) {
         this.energy_gross = energy_gross;
-    }
-
-    public double getEnergy_protein() {
-        return energy_protein;
-    }
-
-    public void setEnergy_protein( double energy_protein ) {
-        this.energy_protein = energy_protein;
     }
 
     public double getEpa() {
@@ -245,14 +182,6 @@ public class Xml_food {
 
     public void setFolate( double folate ) {
         this.folate = folate;
-    }
-
-    public double getGlycemic_load() {
-        return glycemic_load;
-    }
-
-    public void setGlycemic_load( double glycemic_load ) {
-        this.glycemic_load = glycemic_load;
     }
 
     public double getIron() {
@@ -471,6 +400,14 @@ public class Xml_food {
         this.zinc = zinc;
     }
 
+    public double getGlycemicindex() {
+        return glycemicindex;
+    }
+
+    public void setGlycemicindex( double glycemicindex ) {
+        this.glycemicindex = glycemicindex;
+    }
+
     @Override
     public String toString() {
         sb.append( "[" );
@@ -496,19 +433,7 @@ public class Xml_food {
         sb.append( "," );
         sb.append( dha );
         sb.append( "," );
-        sb.append( digestible_carbohydrate );
-        sb.append( "," );
-        sb.append( energy_alcohol );
-        sb.append( "," );
-        sb.append( energy_carbohydrate );
-        sb.append( "," );
-        sb.append( energy_digestible );
-        sb.append( "," );
-        sb.append( energy_fat );
-        sb.append( "," );
         sb.append( energy_gross );
-        sb.append( "," );
-        sb.append( energy_protein );
         sb.append( "," );
         sb.append( epa );
         sb.append( "," );
@@ -517,8 +442,6 @@ public class Xml_food {
         sb.append( fiber );
         sb.append( "," );
         sb.append( folate );
-        sb.append( "," );
-        sb.append( glycemic_load );
         sb.append( "," );
         sb.append( iron );
         sb.append( "," );
@@ -573,6 +496,8 @@ public class Xml_food {
         sb.append( weight );
         sb.append( "," );
         sb.append( zinc );
+        sb.append( "," );
+        sb.append( glycemicindex );
         sb.append( "]" );
         return sb.toString();
     }

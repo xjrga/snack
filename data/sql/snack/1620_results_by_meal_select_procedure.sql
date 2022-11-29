@@ -27,7 +27,7 @@ FROM
         a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -42,7 +42,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -57,7 +57,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -72,7 +72,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -87,7 +87,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -102,7 +102,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -117,7 +117,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -132,7 +132,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -147,7 +147,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -162,7 +162,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -177,7 +177,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -192,7 +192,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -207,7 +207,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -222,7 +222,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -237,7 +237,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -252,7 +252,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -303,7 +303,7 @@ FROM
 --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -313,7 +313,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -323,7 +323,7 @@ FROM
      --     
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -333,7 +333,7 @@ FROM
      --               
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -343,7 +343,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -353,7 +353,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -363,7 +363,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -373,7 +373,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -383,7 +383,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -393,7 +393,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -403,7 +403,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -413,7 +413,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -423,7 +423,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -433,7 +433,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -443,7 +443,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -453,7 +453,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid

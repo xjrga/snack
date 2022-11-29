@@ -12,19 +12,19 @@ import io.github.xjrga.snack.dataobject.O_Meal;
 import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
 import io.github.xjrga.snack.dataobject.RelationshipDataObject;
 import io.github.xjrga.snack.lp.LpModel;
-import io.github.xjrga.snack.model.ComboBoxAllocationFood;
 import io.github.xjrga.snack.model.ComboBoxModelLifeStage;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
+import io.github.xjrga.snack.model.ComboBoxPortionFood;
 import io.github.xjrga.snack.model.Food_legend_generator;
 import io.github.xjrga.snack.model.Food_loader;
-import io.github.xjrga.snack.model.ListModelAllocationMeal;
 import io.github.xjrga.snack.model.ListModelCategory;
 import io.github.xjrga.snack.model.ListModelFood;
 import io.github.xjrga.snack.model.ListModelFood2;
 import io.github.xjrga.snack.model.ListModelMix;
 import io.github.xjrga.snack.model.ListModelMix0;
 import io.github.xjrga.snack.model.ListModelMix1;
+import io.github.xjrga.snack.model.ListModelPortionMeal;
 import io.github.xjrga.snack.model.ListModelSelectedFood;
 import io.github.xjrga.snack.model.Nutrient_loader;
 import io.github.xjrga.snack.model.Relationship_loader;
@@ -42,6 +42,7 @@ import io.github.xjrga.snack.model.TableModelFoodList;
 import io.github.xjrga.snack.model.TableModelFoodNutrientConstraints;
 import io.github.xjrga.snack.model.TableModelFoodNutrientRatioConstraints;
 import io.github.xjrga.snack.model.TableModelGlycemic;
+import io.github.xjrga.snack.model.TableModelMacroNutrient;
 import io.github.xjrga.snack.model.TableModelMeals;
 import io.github.xjrga.snack.model.TableModelMinerals;
 import io.github.xjrga.snack.model.TableModelMixComparison;
@@ -73,10 +74,10 @@ import io.github.xjrga.snack.other.GlycemicLoad;
 import io.github.xjrga.snack.other.GoldenRatio;
 import io.github.xjrga.snack.other.ImageUtilities;
 import io.github.xjrga.snack.other.KatchMcArdleFormula;
-import io.github.xjrga.snack.other.MacroNutrientEnergyValues;
 import io.github.xjrga.snack.other.MinimumNutrientRequirements;
 import io.github.xjrga.snack.other.NumberCheck;
 import io.github.xjrga.snack.other.StringCheck;
+import io.github.xjrga.snack.other.String_display_component;
 import io.github.xjrga.snack.other.TableHeaderCarbs;
 import io.github.xjrga.snack.other.TableHeaderCost;
 import io.github.xjrga.snack.other.TableHeaderElectrolytes;
@@ -84,6 +85,7 @@ import io.github.xjrga.snack.other.TableHeaderEnergy;
 import io.github.xjrga.snack.other.TableHeaderFats;
 import io.github.xjrga.snack.other.TableHeaderFoodList;
 import io.github.xjrga.snack.other.TableHeaderGlycemic;
+import io.github.xjrga.snack.other.TableHeaderMacroNutrient;
 import io.github.xjrga.snack.other.TableHeaderMinerals;
 import io.github.xjrga.snack.other.TableHeaderNutrientLookup;
 import io.github.xjrga.snack.other.TableHeaderProtein;
@@ -133,11 +135,11 @@ public class Main {
     private final DefaultComboBoxModel modelComboBox_1_FoodAtFoodNutrientRatio = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_1_NutrientAtFoodNutrientRatio = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_1_NutrientAtNutrientRatio = new DefaultComboBoxModel();
-    private final ComboBoxAllocationFood modelComboBox_AllocationFood = new ComboBoxAllocationFood( dbLink );
+    private final ComboBoxPortionFood modelComboBox_PortionFood = new ComboBoxPortionFood( dbLink );
     private final DefaultComboBoxModel modelComboBox_FoodAtNutrient = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_FoodAtNutrientPct = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_NutrientAtNutrientConstraint = new DefaultComboBoxModel();
-    private final ListModelAllocationMeal modelList_AllocationMeal = new ListModelAllocationMeal( dbLink );
+    private final ListModelPortionMeal modelList_PortionMeal = new ListModelPortionMeal( dbLink );
     private final DefaultComboBoxModel modelComboBox_NutrientAtNutrientPctContraint = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_RelationshipAtFoodNutrient = new DefaultComboBoxModel();
     private final DefaultComboBoxModel modelComboBox_RelationshipAtFoodNutrientRatio = new DefaultComboBoxModel();
@@ -153,14 +155,15 @@ public class Main {
     private final JButton buttonFoodListAdd = new JButton( "+" );
     private final JButton buttonFoodListDelete = new JButton( "-" );
     private final JButton buttonFoodListDuplicate = new JButton( "d" );
+    private final JButton buttonFoodListGi = new JButton( "gi" );
     private final JButton buttonFoodListUpdate = new JButton( "u" );
-    private final JButton buttonAllocationAdd = new JButton( "+" );
+    private final JButton buttonPortionAdd = new JButton( "+" );
     private final JButton buttonMealAdd = new JButton( "+" );
     private final JButton buttonFoodNutrientConstraintAdd = new JButton( "+" );
     private final JButton buttonMealDelete = new JButton( "-" );
     private final JButton buttonMealUpdate = new JButton( "u" );
-    private final JButton buttonAllocationDelete = new JButton( "-" );
-    private final JButton buttonAllocationUpdateWeight = new JButton( "w" );
+    private final JButton buttonPortionDelete = new JButton( "-" );
+    private final JButton buttonPortionUpdateWeight = new JButton( "w" );
     private final JButton buttonFoodNutrientConstraintDelete = new JButton( "-" );
     private final JButton buttonFoodNutrientRatioAdd = new JButton( "+" );
     private final JButton buttonFoodNutrientRatioDelete = new JButton( "-" );
@@ -219,8 +222,8 @@ public class Main {
     private final JCheckBox checkBoxWeight = new JCheckBox();
     private final JCheckBox checkBoxZinc = new JCheckBox();
     private final JCheckBox checkBoxEnergyFatCarbohydrate = new JCheckBox();
-    private final JComboBox comboBoxAllocationFood = new JComboBox();
-    private final JList listAllocationMeal = new JList();
+    private final JComboBox comboBoxPortionFood = new JComboBox();
+    private final JList listPortionMeal = new JList();
     private final JComboBox comboBoxFoodNutrientConstraintFood = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintNutrient = new JComboBox();
     private final JComboBox comboBoxFoodNutrientConstraintRelationship = new JComboBox();
@@ -290,10 +293,11 @@ public class Main {
     private final JTable tableCost = new JTable();
     private final JTable tableElectrolytes = new JTable();
     private final JTable tableEnergy = new JTable();
+    private final JTable tableMacronutrient = new JTable();
     private final JTable tableFats = new JTable();
     private JTable table_food_comparison;
     private final JTable tableFoodList01 = new JTable();
-    private final JTable tbl_allocation = new JTable();
+    private final JTable tbl_meal_portions = new JTable();
     private final JTable tbl_meals = new JTable();
     private final JTable tbl_results_by_meal_calories = new JTable();
     private final JTable tbl_results_by_meal_grams = new JTable();
@@ -304,6 +308,7 @@ public class Main {
     private final JTable tableJournalCost = new JTable();
     private final JTable tableJournalElectrolytes = new JTable();
     private final JTable tableJournalEnergy = new JTable();
+    private final JTable tableJournalMacronutrient = new JTable();
     private final JTable tableJournalFats = new JTable();
     private final JTable tableJournalGlycemic = new JTable();
     private final JTable tableJournalMinerals = new JTable();
@@ -325,9 +330,9 @@ public class Main {
     private final JTextArea textAreaJournalModel = new JTextArea();
     private final JTextArea textAreaModel = new JTextArea();
     private final JTextField textFieldFoodListSearch = new JTextField();
-    private final JTextField textfield_allocation_remaining = new JTextField();
-    private final JTextField textfield_allocation_pct = new JTextField();
-    private final JTextField textfield_allocation_search = new JTextField();
+    private final JTextField textfield_portion_remaining = new JTextField();
+    private final JTextField textfield_portion_pct = new JTextField();
+    private final JTextField textfield_portion_search = new JTextField();
     private final JTextField textFieldFoodNutrientConstraintQuantity = new JTextField();
     private final JTextField textFieldFoodNutrientRatioQuantityA = new JTextField();
     private final JTextField textFieldFoodNutrientRatioQuantityB = new JTextField();
@@ -365,12 +370,14 @@ public class Main {
     private final TableModelElectrolytes modelTableElectrolytes = new TableModelElectrolytes( result_loader );
     private final TableModelElectrolytes modelTableJournalElectrolytes = new TableModelElectrolytes( result_loader_journal );
     private final TableModelEnergy modelTableEnergy = new TableModelEnergy( result_loader );
+    private final TableModelMacroNutrient modelTableMacroNutrient = new TableModelMacroNutrient( result_loader );
+    private final TableModelMacroNutrient modelTableJournalMacroNutrient = new TableModelMacroNutrient( result_loader );
     private final TableModelEnergy modelTableJournalEnergy = new TableModelEnergy( result_loader_journal );
     private final TableModelFat modelTableFats = new TableModelFat( result_loader );
     private final TableModelFat modelTableJournalFats = new TableModelFat( result_loader_journal );
     private final TableModelFoodComparison modelTableFoodDifference = new TableModelFoodComparison( dbLink );
     private final TableModelFoodList modelTableFoodList = new TableModelFoodList( dbLink );
-    private final TableModelPortions modelTableAllocation = new TableModelPortions( dbLink );
+    private final TableModelPortions modelTablePortion = new TableModelPortions( dbLink );
     private final TableModelMeals modelTableMeals = new TableModelMeals( dbLink );
     private final TableModelResultsByMealEnergy modelTableResultByMealsCalories = new TableModelResultsByMealEnergy( dbLink );
     private final TableModelResultsByMealNutrient modelTableResultByMealsGrams = new TableModelResultsByMealNutrient( dbLink );
@@ -398,7 +405,7 @@ public class Main {
     private final TableRowSorter srttbl_mix_comparison = new TableRowSorter<>( modelTableMixDifference );
     private final TableRowSorter srttbl_nutrientinput = new TableRowSorter<>( modelTableNutrientInput );
     private final TableRowSorter srttbl_nutrientlookup = new TableRowSorter<>( modelTableNutrientLookup );
-    private final TableRowSorter srttbl_allocationlookup = new TableRowSorter<>( modelTableAllocation );
+    private final TableRowSorter srttbl_portionlookup = new TableRowSorter<>( modelTablePortion );
     private final TableRowSorter srttbl_CheckCoefficients = new TableRowSorter<>( modelTableCheckCoefficients );
     private final TreeModelFood modelTreeFoodList = new TreeModelFood( dbLink );
     private final JRadioButtonMenuItem mnui_cost = new JRadioButtonMenuItem();
@@ -407,6 +414,7 @@ public class Main {
     private JTabbedPane main_tabbed_pane = new JTabbedPane();
     private JTabbedPane results_tabbed_pane = new JTabbedPane();
     private JTabbedPane journal_results_tabbed_pane = new JTabbedPane();
+    private JSplitPane editor_split_pane = new JSplitPane();
 
     public Main() {
         fileChooser = new JFileChooser();
@@ -416,27 +424,27 @@ public class Main {
         frame.setIconImage( logo );
         frame.setJMenuBar( get_menubar() );
         main_tabbed_pane.setTabPlacement( JTabbedPane.BOTTOM );
-        main_tabbed_pane.add( get_solve() );
+        main_tabbed_pane.add( get_editor() );
+        main_tabbed_pane.add( get_journal() );
         main_tabbed_pane.add( get_food_list() );
         main_tabbed_pane.add( get_food_comparison() );
-        main_tabbed_pane.add( get_food_categories() );
-        main_tabbed_pane.add( get_mix_journal() );
         main_tabbed_pane.add( get_mix_comparison() );
-        main_tabbed_pane.add( get_nutrient_lookup_list() );
-        main_tabbed_pane.setTitleAt( 0, "Solve" );
-        main_tabbed_pane.setToolTipTextAt( 0, "Specify your mix problem here" );
-        main_tabbed_pane.setTitleAt( 1, "Food List" );
-        main_tabbed_pane.setToolTipTextAt( 1, "This is your list of favorite food items" );
-        main_tabbed_pane.setTitleAt( 2, "Food Comparison" );
-        main_tabbed_pane.setToolTipTextAt( 2, "This is where you compare two food items (100g)" );
-        main_tabbed_pane.setTitleAt( 3, "Food Category" );
-        main_tabbed_pane.setToolTipTextAt( 3, "This is where you categorize food items" );
-        main_tabbed_pane.setTitleAt( 4, "Journal" );
-        main_tabbed_pane.setToolTipTextAt( 4, "This is your list of mixes" );
-        main_tabbed_pane.setTitleAt( 5, "Mix Comparison" );
-        main_tabbed_pane.setToolTipTextAt( 5, "This is where you compare two mixes" );
-        main_tabbed_pane.setTitleAt( 6, "Nutrient Lookup" );
-        main_tabbed_pane.setToolTipTextAt( 6, "This is where you find food items that provide a specific nutrient" );
+        main_tabbed_pane.add( get_nutrient_lookup() );
+        main_tabbed_pane.add( get_food_categories() );
+        main_tabbed_pane.setTitleAt( 0, "Editor" );
+        main_tabbed_pane.setToolTipTextAt( 0, "Create, edit and solve your mix problem here" );
+        main_tabbed_pane.setTitleAt( 1, "Journal" );
+        main_tabbed_pane.setToolTipTextAt( 1, "This is the meal planning area" );
+        main_tabbed_pane.setTitleAt( 2, "Food List" );
+        main_tabbed_pane.setToolTipTextAt( 2, "This is your list of favorite food items" );
+        main_tabbed_pane.setTitleAt( 3, "Food Comparison" );
+        main_tabbed_pane.setToolTipTextAt( 3, "This is where you compare two food items (100g)" );
+        main_tabbed_pane.setTitleAt( 4, "Mix Comparison" );
+        main_tabbed_pane.setToolTipTextAt( 4, "This is where you compare two mixes" );
+        main_tabbed_pane.setTitleAt( 5, "Nutrient Lookup" );
+        main_tabbed_pane.setToolTipTextAt( 5, "This is where you find food items that provide a specific nutrient" );
+        main_tabbed_pane.setTitleAt( 6, "Food Category" );
+        main_tabbed_pane.setToolTipTextAt( 6, "This is where you categorize food items" );
         JPanel panelF = new JPanel();
         panelF.setLayout( layout );
         panelF.add( main_tabbed_pane, cc.xy( 1, 1 ) );
@@ -572,9 +580,9 @@ public class Main {
         } catch( SQLException e ) {
 
         }
-        evt_chkb_roundup();
+        resize_col_tbl_nutrient_lookup();
         resize_col_tbl_meal();
-        resize_col_tbl_meal_allocation();
+        resize_col_tbl_meal_portions();
         resize_col_tbl_results_by_meal_calories();
         resize_col_tbl_results_by_meal_grams();
         resize_col_tbl_nutrient_constraint();
@@ -582,7 +590,7 @@ public class Main {
         resize_col_tbl_nutrient_ratio_constraint();
         resize_col_tbl_food_nutrient_ratio_constraint();
         resize_col_tbl_percent_nutrient_constraint();
-        splitPane.setDividerLocation( 0.5 );
+        editor_split_pane.setDividerLocation( 0.6 );
         dbLink.startTransaction();
     }
 
@@ -596,6 +604,46 @@ public class Main {
 
         }
         Main main = new Main();
+    }
+
+    private void evt_btn_food_list_update_gi() {
+        JTextField input = new JTextField();
+        input.setPreferredSize( new Dimension( 50, 25 ) );
+        int selectedRow = tableFoodList01.getSelectedRow();
+        if( selectedRow != -1 ) {
+            String foodid = ( String ) tableFoodList01.getValueAt( selectedRow, 0 );
+            JPanel input_panel = new JPanel();
+            double q = 0.0;
+            try {
+                LinkedList list = ( LinkedList ) dbLink.GlycemicIndex_Select( foodid );
+                Iterator it = list.iterator();
+                if( it.hasNext() ) {
+                    HashMap rowm = ( HashMap ) it.next();
+                    q = ( double ) rowm.get( "Q" );
+                }
+            } catch( SQLException ex ) {
+            }
+            input.setText( String.valueOf( q ) );
+            input_panel.add( new JLabel( "What is the glycemic index of food item?  " ) );
+            input_panel.add( input );
+            JComponent[] inputs = new JComponent[] {
+                input_panel
+            };
+            int optionValue = Message.showOptionDialogOkCancel( inputs, "Update Glycemic Index" );
+            if( optionValue == 0 ) {
+                try {
+                    dbLink.GlycemicIndex_Merge( foodid, Double.valueOf( input.getText() ) );
+                    dbLink.foodfact_calculated_quantities_update( foodid );
+                    dbLink.stopTransaction();
+                } catch( SQLException e ) {
+
+                }
+                reload_food_items();
+                resize_col_tbl_food_list();
+                Integer rowIndex = modelTableFoodList.find( foodid );
+                scroll_to_row_using_table( tableFoodList01, tableFoodList01.convertRowIndexToView( rowIndex ) );
+            }
+        }
     }
 
     private void evt_btn_meal_add() {
@@ -633,7 +681,7 @@ public class Main {
                         dbLink.stopTransaction();
                         reload_tblmdl_meals();
                         resize_col_tbl_meal();
-                        reload_lstmdl_allocation( mixid );
+                        reload_lstmdl_portion( mixid );
                     }
                 } catch( SQLException e ) {
                     e.printStackTrace();
@@ -651,11 +699,11 @@ public class Main {
                 dbLink.Meal_delete( mixid, mealid );
                 dbLink.stopTransaction();
                 reload_tblmdl_meals();
-                reload_tblmdl_allocation( mixid );
-                reload_lstmdl_allocation( mixid );
+                reload_tblmdl_portion( mixid );
+                reload_lstmdl_portion( mixid );
                 reload_tblmdl_results_by_meal( mixid );
                 resize_col_tbl_meal();
-                resize_col_tbl_meal_allocation();
+                resize_col_tbl_meal_portions();
                 resize_col_tbl_results_by_meal_calories();
                 resize_col_tbl_results_by_meal_grams();
             } catch( SQLException e ) {
@@ -702,11 +750,11 @@ public class Main {
                             dbLink.Meal_update( mixid, mealid, input_name.getText(), Integer.valueOf( input_order.getText() ) );
                             dbLink.stopTransaction();
                             reload_tblmdl_meals();
-                            reload_tblmdl_allocation( mixid );
-                            reload_lstmdl_allocation( mixid );
+                            reload_tblmdl_portion( mixid );
+                            reload_lstmdl_portion( mixid );
                             reload_tblmdl_results_by_meal( mixid );
                             resize_col_tbl_meal();
-                            resize_col_tbl_meal_allocation();
+                            resize_col_tbl_meal_portions();
                             resize_col_tbl_results_by_meal_calories();
                             resize_col_tbl_results_by_meal_grams();
                         }
@@ -718,19 +766,19 @@ public class Main {
         }
     }
 
-    private void reload_lstmdl_allocation( String mixid ) {
-        modelList_AllocationMeal.reload( mixid );
+    private void reload_lstmdl_portion( String mixid ) {
+        modelList_PortionMeal.reload( mixid );
     }
 
-    private void evt_cb_meal_food_allocation() {
+    private void evt_cb_meal_food_portion() {
         if( is_mix_journal_selected() ) {
             try {
                 MixDataObject mix = ( MixDataObject ) lst_journal_mix.getSelectedValue();
                 String mixid = mix.getMixId();
-                if( comboBoxAllocationFood.getSelectedItem() != null ) {
-                    String foodid = (( FoodDataObject ) comboBoxAllocationFood.getSelectedItem()).getFoodId();
-                    Double remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
-                    textfield_allocation_remaining.setText( String.valueOf( remaining ) );
+                if( comboBoxPortionFood.getSelectedItem() != null ) {
+                    String foodid = (( FoodDataObject ) comboBoxPortionFood.getSelectedItem()).getFoodId();
+                    Double remaining = dbLink.calculate_remaining_percentage( mixid, foodid, precision );
+                    textfield_portion_remaining.setText( String.valueOf( remaining ) );
                 }
             } catch( SQLException e ) {
                 e.printStackTrace();
@@ -739,7 +787,7 @@ public class Main {
 
     }
 
-    private void evt_mnui_meal_plan_export() {
+    private void evt_mnui_export_meal_plan() {
         if( is_mix_journal_selected() ) {
             MixDataObject mixDataObject = ( MixDataObject ) lst_journal_mix.getSelectedValue();
             ExportMealPlan export_meal_plan = new ExportMealPlan( dbLink );
@@ -754,13 +802,14 @@ public class Main {
         JTabbedPane panel = new JTabbedPane();
         panel.setTabPlacement( JTabbedPane.BOTTOM );
         panel.add( "Meal", get_meal() );
-        panel.add( "Portion", get_meal_food_allocation() );
-        panel.add( "Nutrient", get_results_by_meal_grams() );
-        panel.add( "Energy", get_results_by_meal_calories() );
+        panel.add( "Portion", get_meal_portion() );
+        panel.add( "Energy", get_meal_calories() );
+        panel.add( "Macronutrient+", get_meal_grams() );
+        panel.setSelectedIndex( 1 );
         return panel;
     }
 
-    private JPanel get_results_by_meal_calories() {
+    private JPanel get_meal_calories() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout( "min:grow", //columns
                                             "fill:min:grow" //rows
@@ -778,7 +827,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_results_by_meal_grams() {
+    private JPanel get_meal_grams() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout( "min:grow", //columns
                                             "fill:min:grow" //rows
@@ -859,6 +908,7 @@ public class Main {
         menuProgram.setText( "Program" );
         menuTools.setText( "Tools" );
         menuData.setText( "Data" );
+        menuData.setToolTipText( "Find your documents in snack's model directory" );
         menuHelp.setText( "Help" );
         menuSettings.setText( "Settings" );
         menuItemExit.setText( "Exit" );
@@ -890,7 +940,7 @@ public class Main {
         checkBoxResultRoundUp.setSelected( true );
         menuItemMicronutrientConversion.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_micronutrient_conversion();
+            evt_mnui_convert_micronutrient();
         } );
         menuItemBmr.addActionListener( ( ActionEvent e )
                 -> {
@@ -928,31 +978,31 @@ public class Main {
         } );
         menuItemExportFoodList.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_food_list_export();
+            evt_mnui_export_food_list();
         } );
         menuItemExportFoodComparison.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_food_comparison_export();
+            evt_mnui_export_food_comparison();
         } );
         menuItemExportMixJournal.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_journal_export();
+            evt_mnui_export_journal();
         } );
         menuItemExportMixComparison.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_mix_comparison_export();
+            evt_mnui_export_mix_comparison();
         } );
         menuItemExportMixJournalRda.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_rda_check_export();
+            evt_mnui_export_rda_check();
         } );
         menuItemExportNutrientLookup.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_nutrient_lookup_export();
+            evt_mnui_export_nutrient_lookup();
         } );
         menuItemExportMealPlan.addActionListener( ( ActionEvent e )
                 -> {
-            evt_mnui_meal_plan_export();
+            evt_mnui_export_meal_plan();
         } );
         mnui_export_model.addActionListener( ( ActionEvent e )
                 -> {
@@ -1004,7 +1054,7 @@ public class Main {
         reload_tblmdl_mix_comparison();
         reload_tblmdl_nutrient_lookup();
         resize_col_tbl_meal();
-        resize_col_tbl_meal_allocation();
+        resize_col_tbl_meal_portions();
         resize_col_tbl_results_by_meal_calories();
         resize_col_tbl_results_by_meal_grams();
         resize_col_tbl_results_rda();
@@ -1013,42 +1063,47 @@ public class Main {
     }
 
     private void evt_mnui_digestible_carbs() {
-        JTextField totalCarbs = new JTextField();
-        JTextField totalFiber = new JTextField();
+        FormLayout layout = new FormLayout( "min,30dlu", //columns
+                                            "min,16dlu" //rows
+        );
+        JPanel input_panel = new JPanel();
+        input_panel.setLayout( layout );
+        JTextField total_carbs = new JTextField();
+        JTextField total_fiber = new JTextField();
+        JLabel total_carbs_label = new JLabel( "What is total carbohydrate (g) of food item? " );
+        JLabel total_fiber_label = new JLabel( "What is total fiber (g) in food item? " );
+        total_carbs_label.setHorizontalAlignment( JLabel.RIGHT );
+        total_fiber_label.setHorizontalAlignment( JLabel.RIGHT );
+        input_panel.add( total_carbs_label, cc.xy( 1, 1 ) );
+        input_panel.add( total_carbs, cc.xy( 2, 1 ) );
+        input_panel.add( total_fiber_label, cc.xy( 1, 2 ) );
+        input_panel.add( total_fiber, cc.xy( 2, 2 ) );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "What is total carbohydrate (g) of food item?" ),
-            totalCarbs
+            input_panel
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Digestible Carbohydrate" );
         if( optionValue == 0 ) {
-            String totalCarbsText = totalCarbs.getText();
-            inputs = new JComponent[] {
-                new JLabel( "What is total fiber (g) in food item?" ),
-                totalFiber
-            };
-            optionValue = Message.showOptionDialogOkCancel( inputs, "Digestible Carbohydrate" );
-            if( optionValue == 0 ) {
-                String totalFiberText = totalFiber.getText();
-                if( totalCarbsText != null && totalCarbsText.length() > 0 ) {
-                    if( totalFiberText != null && totalFiberText.length() > 0 ) {
-                        StringBuilder sb = new StringBuilder();
-                        NumberCheck checkNumber = new NumberCheck();
-                        checkNumber.addToUncheckedList( totalCarbsText );
-                        checkNumber.addToUncheckedList( totalFiberText );
-                        if( checkNumber.pass() ) {
-                            Double totalCarbsNumber = Double.valueOf( totalCarbsText );
-                            Double totalFiberNumber = Double.valueOf( totalFiberText );
-                            double digestibleCarbsNumber = new DigestibleCarbohydrate( totalCarbsNumber, totalFiberNumber ).getDigestibleCarbohydrate();
-                            sb.append( "Digestible Carbohydrate: " );
-                            sb.append( digestibleCarbsNumber );
-                            JTextArea textArea = new JTextArea( 1, 10 );
-                            textArea.setText( sb.toString() );
-                            textArea.setEditable( false );
-                            inputs = new JComponent[] {
-                                textArea
-                            };
-                            Message.showOptionDialog( inputs, "Digestible Carbohydrate" );
-                        }
+            String totalCarbsText = total_carbs.getText();
+            String totalFiberText = total_fiber.getText();
+            if( totalCarbsText != null && totalCarbsText.length() > 0 ) {
+                if( totalFiberText != null && totalFiberText.length() > 0 ) {
+                    StringBuilder sb = new StringBuilder();
+                    NumberCheck checkNumber = new NumberCheck();
+                    checkNumber.addToUncheckedList( totalCarbsText );
+                    checkNumber.addToUncheckedList( totalFiberText );
+                    if( checkNumber.pass() ) {
+                        Double totalCarbsNumber = Double.valueOf( totalCarbsText );
+                        Double totalFiberNumber = Double.valueOf( totalFiberText );
+                        double digestibleCarbsNumber = new DigestibleCarbohydrate( totalCarbsNumber, totalFiberNumber ).getDigestibleCarbohydrate();
+                        sb.append( "There are " );
+                        sb.append( digestibleCarbsNumber );
+                        sb.append( " grams of digestible carbohydrates." );
+                        String_display_component component = new String_display_component();
+                        component.setText( sb.toString() );
+                        component.setPreferredSize( new Dimension( 314, 40 ) );
+                        inputs = new JComponent[ 1 ];
+                        inputs[ 0 ] = component;
+                        Message.showOptionDialog( inputs, "Digestible Carbohydrate" );
                     }
                 }
             }
@@ -1056,14 +1111,17 @@ public class Main {
     }
 
     private void evt_mnui_glycemic_index_range() {
-        JTextField txtGI = new JTextField();
+        JTextField input = new JTextField();
+        JPanel input_panel = new JPanel();
+        input.setPreferredSize( new Dimension( 50, 25 ) );
+        input_panel.add( new JLabel( "What is glycemic index of food item?" ) );
+        input_panel.add( input );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "What is glycemic index of food item?" ),
-            txtGI
+            input_panel
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Glycemic Index Range" );
         if( optionValue == 0 ) {
-            String strGI = txtGI.getText();
+            String strGI = input.getText();
             if( strGI != null && strGI.length() > 0 ) {
                 StringBuilder sb = new StringBuilder();
                 NumberCheck checkNumber = new NumberCheck();
@@ -1071,14 +1129,14 @@ public class Main {
                 if( checkNumber.pass() ) {
                     Integer gi = Integer.valueOf( strGI );
                     String range = new GlycemicIndexRange( gi ).getGlycemicIndexRange();
-                    sb.append( "Glycemic Index Range: " );
-                    sb.append( range );
-                    JTextArea textArea = new JTextArea( 1, 10 );
-                    textArea.setText( sb.toString() );
-                    textArea.setEditable( false );
-                    inputs = new JComponent[] {
-                        textArea
-                    };
+                    sb.append( "The glycemic index is in " );
+                    sb.append( range.toLowerCase() );
+                    sb.append( " range." );
+                    String_display_component component = new String_display_component();
+                    component.setText( sb.toString() );
+                    component.setPreferredSize( new Dimension( 275, 40 ) );
+                    inputs = new JComponent[ 1 ];
+                    inputs[ 0 ] = component;
                     Message.showOptionDialog( inputs, "Glycemic Index Range" );
                 }
             }
@@ -1086,14 +1144,17 @@ public class Main {
     }
 
     private void evt_mnui_bmr() {
-        JTextField textFieldLbs = new JTextField();
+        JTextField input = new JTextField();
+        JPanel input_panel = new JPanel();
+        input.setPreferredSize( new Dimension( 50, 25 ) );
+        input_panel.add( new JLabel( "What is your lean body mass in pounds?" ) );
+        input_panel.add( input );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "What is your lean body mass in pounds?" ),
-            textFieldLbs
+            input_panel
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Basal Metabolic Rate" );
         if( optionValue == 0 ) {
-            String s = textFieldLbs.getText();
+            String s = input.getText();
             if( s != null && s.length() > 0 ) {
                 StringBuilder sb = new StringBuilder();
                 NumberCheck checkNumber = new NumberCheck();
@@ -1110,12 +1171,11 @@ public class Main {
                     sb.append( Math.round( rdee2 ) );
                     sb.append( " Kcals" );
                     sb.append( "\n" );
-                    JTextArea textArea = new JTextArea( 1, 40 );
-                    textArea.setText( sb.toString() );
-                    textArea.setEditable( false );
-                    inputs = new JComponent[] {
-                        textArea
-                    };
+                    String_display_component component = new String_display_component();
+                    component.setText( sb.toString() );
+                    component.setPreferredSize( new Dimension( 500, 40 ) );
+                    inputs = new JComponent[ 1 ];
+                    inputs[ 0 ] = component;
                     Message.showOptionDialog( inputs, "Basal Metabolic Rate" );
                 }
                 else {
@@ -1127,9 +1187,12 @@ public class Main {
 
     private void evt_mnui_nitrogen_balance() {
         JTextField textFieldLbs = new JTextField();
+        textFieldLbs.setPreferredSize( new Dimension( 50, 25 ) );
+        JPanel input_panel = new JPanel();
+        input_panel.add( new JLabel( "What is your lean body mass in pounds?" ) );
+        input_panel.add( textFieldLbs );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "What is your lean body mass in pounds?" ),
-            textFieldLbs
+            input_panel
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Complete Protein Required" );
         if( optionValue == 0 ) {
@@ -1141,16 +1204,15 @@ public class Main {
                 if( checkNumber.pass() ) {
                     Double weightinlbs = Double.valueOf( s );
                     double protein = new MinimumNutrientRequirements( weightinlbs ).getProtein();
-                    sb.append( "Complete protein required in a no fat, no carbs regimen is " );
+                    sb.append( "The amount of complete protein required in a no fat, no carbs regimen to maintain nitrogen balance is " );
                     sb.append( Math.round( protein ) );
-                    sb.append( " grams" );
+                    sb.append( " grams." );
                     sb.append( "\n" );
-                    JTextArea textArea = new JTextArea( 1, 40 );
-                    textArea.setText( sb.toString() );
-                    textArea.setEditable( false );
-                    inputs = new JComponent[] {
-                        textArea
-                    };
+                    String_display_component component = new String_display_component();
+                    component.setText( sb.toString() );
+                    component.setPreferredSize( new Dimension( 760, 40 ) );
+                    inputs = new JComponent[ 1 ];
+                    inputs[ 0 ] = component;
                     Message.showOptionDialog( inputs, "Complete Protein Required (no carbs, no fats)" );
                 }
                 else {
@@ -1165,30 +1227,29 @@ public class Main {
         double carbohydrateLow = new MinimumNutrientRequirements( 0.0 ).getCarbohydrateLow();
         double carbohydrateMedium = new MinimumNutrientRequirements( 0.0 ).getCarbohydrateMedium();
         double carbohydrateHigh = new MinimumNutrientRequirements( 0.0 ).getCarbohydrateHigh();
-        sb.append( "Carbohydrate Required to Appreciably Reduce Ketosis: " );
+        sb.append( "The carbohydrate amount required to appreciably reduce ketosis is between " );
         sb.append( carbohydrateLow );
         sb.append( " to " );
         sb.append( carbohydrateMedium );
-        sb.append( " g" );
+        sb.append( " grams." );
         sb.append( "\n" );
-        sb.append( "Carbohydrate Required to Inhibit Ketosis: " );
+        sb.append( "The carbohydrate amount required to inhibit ketosis is between " );
         sb.append( carbohydrateMedium );
         sb.append( " to " );
         sb.append( carbohydrateHigh );
-        sb.append( " g" );
+        sb.append( " grams." );
         sb.append( "\n" );
-        JTextArea textArea = new JTextArea( 1, 40 );
-        textArea.setText( sb.toString() );
-        textArea.setEditable( false );
-        JComponent[] inputs = new JComponent[] {
-            textArea
-        };
+        String_display_component component = new String_display_component();
+        component.setText( sb.toString() );
+        component.setPreferredSize( new Dimension( 670, 40 ) );
+        JComponent[] inputs = new JComponent[ 1 ];
+        inputs[ 0 ] = component;
         Message.showOptionDialog( inputs, "Carbohydrate Required to Inhibit Ketosis" );
     }
 
-    private void evt_mnui_micronutrient_conversion() {
-        FormLayout layout = new FormLayout( "min:grow,min,min:grow", //columns
-                                            "fill:min:grow" //rows
+    private void evt_mnui_convert_micronutrient() {
+        FormLayout layout = new FormLayout( "min:grow,30dlu,min", //columns
+                                            "fill:16dlu" //rows
         );
         JPanel panel = new JPanel();
         panel.setLayout( layout );
@@ -1217,12 +1278,11 @@ public class Main {
                     sb.append( " " );
                     sb.append( nutrientDataObject.getNutrdesc() );
                     sb.append( "\n" );
-                    JTextArea textArea = new JTextArea( 1, 30 );
-                    textArea.setText( sb.toString() );
-                    textArea.setEditable( false );
-                    inputs = new JComponent[] {
-                        textArea
-                    };
+                    String_display_component component = new String_display_component();
+                    component.setText( sb.toString() );
+                    component.setPreferredSize( new Dimension( 275, 40 ) );
+                    inputs = new JComponent[ 1 ];
+                    inputs[ 0 ] = component;
                     Message.showOptionDialog( inputs, "Pct Daily Value to Grams" );
                 }
                 else {
@@ -1232,45 +1292,39 @@ public class Main {
         }
     }
 
-    private JPanel get_solve() {
+    private JPanel get_editor() {
+        JPanel panel = new JPanel();
         FormLayout layout = new FormLayout( "4dlu,min:grow,4dlu", //columns
                                             "4dlu,fill:min:grow,4dlu" //rows
         );
-        JPanel panel = new JPanel();
         panel.setLayout( layout );
-        splitPane.setOrientation( JSplitPane.VERTICAL_SPLIT );
-        splitPane.setOneTouchExpandable( true );
-        splitPane.setTopComponent( get_results() );
-        JTabbedPane bottomTabPane = new JTabbedPane();
-        bottomTabPane.setBorder( new TitledBorder( "Model Definition" ) );
-        bottomTabPane.setTabPlacement( JTabbedPane.BOTTOM );
-        FormLayout splitpane_bottom_layout = new FormLayout( "min,min", //columns
-                                                             "fill:min:grow" //rows
+        JPanel constraints_split_pane = new JPanel();
+        FormLayout constraints_split_pane_layout = new FormLayout( "min,min", //columns
+                                                                   "fill:min:grow" //rows
         );
-        JPanel splitpane_bottom = new JPanel();
-        splitPane.setBottomComponent( splitpane_bottom );
-        splitpane_bottom.setLayout( splitpane_bottom_layout );
-        splitpane_bottom.add( get_mix_list(), cc.xy( 1, 1 ) );
-        splitpane_bottom.add( bottomTabPane, cc.xy( 2, 1 ) );
-        bottomTabPane.add( get_mix_food() );
-        bottomTabPane.add( get_nutrient_constraint() );
-        bottomTabPane.add( get_food_nutrient_constraint() );
-        bottomTabPane.add( get_nutrient_ratio_constraint() );
-        bottomTabPane.add( get_food_nutrient_ratio_constraint() );
-        bottomTabPane.add( get_percent_of_food_nutrient_constraint() );
-        bottomTabPane.setTitleAt( 0, "Food" );
-        bottomTabPane.setToolTipTextAt( 0, "Pick your food here" );
-        bottomTabPane.setTitleAt( 1, "Nutrient" );
-        bottomTabPane.setToolTipTextAt( 1, "Use this to specify amount of nutrient or calories in your mix" );
-        bottomTabPane.setTitleAt( 2, "Food" );
-        bottomTabPane.setToolTipTextAt( 2, "Use this to specify amount of food nutrient or food calories in your mix" );
-        bottomTabPane.setTitleAt( 3, "Nutrient Ratio" );
-        bottomTabPane.setToolTipTextAt( 3, "Use this to specify proportion nutrients should be in" );
-        bottomTabPane.setTitleAt( 4, "Food Ratio" );
-        bottomTabPane.setToolTipTextAt( 4, "Use this to specify proportion food nutrients should be in" );
-        bottomTabPane.setTitleAt( 5, "Food(%)" );
-        bottomTabPane.setToolTipTextAt( 5, "Use this to specify percentage of food nutrient or food calories in your mix" );
-        panel.add( splitPane, cc.xy( 2, 2 ) );
+        constraints_split_pane.setLayout( constraints_split_pane_layout );
+        JTabbedPane constraints_tab_pane = new JTabbedPane();
+        constraints_tab_pane.setBorder( new TitledBorder( "Model Definition" ) );
+        constraints_tab_pane.setTabPlacement( JTabbedPane.BOTTOM );
+        constraints_split_pane.add( get_mix_list(), cc.xy( 1, 1 ) );
+        constraints_split_pane.add( constraints_tab_pane, cc.xy( 2, 1 ) );
+        constraints_tab_pane.add( "Food List", get_mix_food() );
+        constraints_tab_pane.add( "Nutrient", get_constraint_nutrient() );
+        constraints_tab_pane.add( "Food Nutrient", get_constraint_food_nutrient() );
+        constraints_tab_pane.add( "Nutrient Ratio", get_constraint_nutrient_ratio() );
+        constraints_tab_pane.add( "Food Nutrient Ratio", get_constraint_food_nutrient_ratio() );
+        constraints_tab_pane.add( "Food Nutrient Percent", get_constraint_percent_of_food_nutrient() );
+        constraints_tab_pane.setToolTipTextAt( 0, "Add food items to this list" );
+        constraints_tab_pane.setToolTipTextAt( 1, "Specify limit for mix" );
+        constraints_tab_pane.setToolTipTextAt( 2, "Specify limit for food" );
+        constraints_tab_pane.setToolTipTextAt( 3, "Specify proportion between nutrients" );
+        constraints_tab_pane.setToolTipTextAt( 4, "Specify proportion between foods" );
+        constraints_tab_pane.setToolTipTextAt( 5, "Specify limit for food using percentage" );
+        editor_split_pane.setOrientation( JSplitPane.VERTICAL_SPLIT );
+        editor_split_pane.setOneTouchExpandable( true );
+        editor_split_pane.setTopComponent( get_editor_solution() );
+        editor_split_pane.setBottomComponent( constraints_split_pane );
+        panel.add( editor_split_pane, cc.xy( 2, 2 ) );
         lst_mix.addListSelectionListener( ( ListSelectionEvent e )
                 -> {
             if( !e.getValueIsAdjusting() ) {
@@ -1283,23 +1337,23 @@ public class Main {
         Action high = new AbstractAction() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                splitPane.setDividerLocation( 0.0 );
+                editor_split_pane.setDividerLocation( 0.0 );
             }
         };
         Action middle = new AbstractAction() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                splitPane.setDividerLocation( 0.5 );
+                editor_split_pane.setDividerLocation( 0.6 );
             }
         };
         Action low = new AbstractAction() {
             @Override
             public void actionPerformed( ActionEvent e ) {
-                splitPane.setDividerLocation( 1.0 );
+                editor_split_pane.setDividerLocation( 1.0 );
             }
         };
-        InputMap input_map = splitPane.getInputMap( JSplitPane.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
-        ActionMap action_map = splitPane.getActionMap();
+        InputMap input_map = editor_split_pane.getInputMap( JSplitPane.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
+        ActionMap action_map = editor_split_pane.getActionMap();
         input_map.put( KeyStroke.getKeyStroke( "control T" ), "min" );
         input_map.put( KeyStroke.getKeyStroke( "control M" ), "mid" );
         input_map.put( KeyStroke.getKeyStroke( "control B" ), "max" );
@@ -1308,7 +1362,6 @@ public class Main {
         action_map.put( "max", high );
         return panel;
     }
-    private JSplitPane splitPane = new JSplitPane();
 
     private JPanel get_mix_list() {
         JPanel pnl_mix_list = new JPanel();
@@ -1554,73 +1607,60 @@ public class Main {
             result_loader.reload( mixid );
             modelTableEnergy.set_table( result_loader.get_energy_table() );
             tableEnergy.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableEnergy.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
-            for( int i = 1; i < 12; i++ ) {
+            for( int i = 1; i < 9; i++ ) {
                 tableEnergy.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableEnergy.getColumnModel().getColumn( i ).setMaxWidth( 70 );
+            }
+            tableEnergy.getColumnModel().getColumn( 6 ).setMinWidth( 90 );
+            modelTableMacroNutrient.set_table( result_loader.get_macronutrient_table() );
+            tableMacronutrient.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
+            for( int i = 1; i < 6; i++ ) {
+                tableMacronutrient.getColumnModel().getColumn( i ).setMinWidth( 70 );
             }
             modelTableProtein.set_table( result_loader.get_protein_table() );
             tableProtein.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableProtein.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 5; i++ ) {
                 tableProtein.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableProtein.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableFats.set_table( result_loader.get_fats_table() );
             tableFats.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableFats.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 12; i++ ) {
                 tableFats.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableFats.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableCarbs.set_table( result_loader.get_carbs_table() );
             tableCarbs.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableCarbs.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 6; i++ ) {
                 tableCarbs.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableCarbs.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
+            tableCarbs.getColumnModel().getColumn( 3 ).setMinWidth( 90 );
             modelTableVitamins.set_table( result_loader.get_vitamins_table() );
             tableVitamins.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableVitamins.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 15; i++ ) {
                 tableVitamins.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableVitamins.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableMinerals.set_table( result_loader.get_minerals_table() );
             tableMinerals.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableMinerals.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 10; i++ ) {
                 tableMinerals.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableMinerals.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableWater.set_table( result_loader.get_water_table() );
             tableWater.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableWater.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 3; i++ ) {
                 tableWater.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableWater.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableCost.set_table( result_loader.get_cost_table() );
             tableCost.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableCost.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 3; i++ ) {
                 tableCost.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableCost.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableElectrolytes.set_table( result_loader.get_electrolytes_table() );
             tableElectrolytes.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableElectrolytes.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 4; i++ ) {
                 tableElectrolytes.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableElectrolytes.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableGlycemic.reload( mixid );
             tableGlycemic.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableGlycemic.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 8; i++ ) {
                 tableGlycemic.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableGlycemic.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
         }
     }
@@ -1837,26 +1877,25 @@ public class Main {
         JScrollPane scrollPaneA = new JScrollPane( lst_mix_compare_a );
         JScrollPane scrollPaneB = new JScrollPane( lst_mix_compare_b );
         JScrollPane scrollPaneC = new JScrollPane( tbl_mix_comparison );
-        CellConstraints cc = new CellConstraints();
         JPanel search_panel = new JPanel();
         JLabel search_label = new JLabel( "Search: " );
         JTextField search_field = new JTextField();
         //create layouts
         FormLayout layout = new FormLayout(
-                "4dlu,min:grow(.62),4dlu,min:grow(.62),4dlu,min:grow,4dlu", //columns
+                "4dlu,200dlu,4dlu,200dlu,4dlu,min:grow,4dlu", //columns
                 "4dlu,min,fill:min:grow,4dlu" //rows
         );
         FormLayout layout02 = new FormLayout(
-                "min:grow(.5),min:grow(.5)", //columns
-                "4dlu,fill:16dlu" //rows
+                "min:grow,200dlu", //columns
+                "fill:16dlu,4dlu" //rows
         );
         panel.setLayout( layout );
         panel.add( scrollPaneA, cc.xywh( 2, 2, 1, 2 ) );
         panel.add( scrollPaneB, cc.xywh( 4, 2, 1, 2 ) );
         search_panel.setLayout( layout02 );
         search_label.setHorizontalAlignment( JLabel.RIGHT );
-        search_panel.add( search_label, cc.xy( 1, 2 ) );
-        search_panel.add( search_field, cc.xy( 2, 2 ) );
+        search_panel.add( search_label, cc.xy( 1, 1 ) );
+        search_panel.add( search_field, cc.xy( 2, 1 ) );
         panel.add( search_panel, cc.xy( 6, 2 ) );
         panel.add( scrollPaneC, cc.xy( 6, 3 ) );
         scrollPaneA.setBorder( new TitledBorder( "Mix A" ) );
@@ -1964,17 +2003,16 @@ public class Main {
         JPanel panel = new JPanel();
         table_food_comparison = get_table_food_comparison();
         JScrollPane scrollPaneC = new JScrollPane( table_food_comparison );
-        CellConstraints cc = new CellConstraints();
         JPanel search_panel = new JPanel();
         JLabel search_label = new JLabel( "Search: " );
         JTextField search_field = new JTextField();
         //create layouts
         FormLayout layout = new FormLayout(
-                "4dlu,min:grow(.60),4dlu,min:grow(.60),4dlu,min:grow,4dlu", //columns
+                "4dlu,200dlu,4dlu,200dlu,4dlu,min:grow,4dlu", //columns
                 "min,fill:min:grow,4dlu" //rows
         );
         FormLayout layout02 = new FormLayout(
-                "min:grow(.5),min:grow(.5)", //columns
+                "min:grow,200dlu", //columns
                 "4dlu,fill:16dlu,4dlu" //rows
         );
         JPanel food_list_a_panel = new JPanel();
@@ -2128,30 +2166,32 @@ public class Main {
         return table;
     }
 
-    private JPanel get_mix_results_rda() {
-        JPanel panel = new JPanel();
+    private JPanel get_editor_rda() {
         tbl_results_rda = get_table_rda_check();
         JScrollPane scrollPaneRdaDiff = new JScrollPane( tbl_results_rda );
-        CellConstraints cellc = new CellConstraints();
-        FormLayout layout = new FormLayout(
-                "min:grow", //columns
-                "fill:min:grow" //rows
-        );
         FormLayout layoutPanelRdaDiff = new FormLayout(
-                "min, min:grow", //columns
+                "400dlu", //columns
                 "5dlu,min,5dlu,fill:min:grow" //rows
         );
+        FormLayout layout = new FormLayout(
+                "5dlu,min:grow,5dlu,min", //columns
+                "min" //rows
+        );
+        JPanel panel = new JPanel();
+        panel.setLayout( layout );
+        JLabel label = new JLabel( " Lifestage:" );
+        label.setHorizontalAlignment( JLabel.RIGHT );
+        panel.add( label, cc.xy( 2, 1 ) );
+        panel.add( cb_results_lifestage, cc.xy( 4, 1 ) );
         JPanel panelRdaDiff = new JPanel();
         panelRdaDiff.setLayout( layoutPanelRdaDiff );
-        panelRdaDiff.add( new JLabel( " Lifestage:" ), cellc.xy( 1, 2 ) );
-        panelRdaDiff.add( cb_results_lifestage, cellc.xy( 2, 2 ) );
-        panelRdaDiff.add( scrollPaneRdaDiff, cellc.xyw( 1, 4, 2 ) );
-        panel.setLayout( layout );
-        panel.add( panelRdaDiff, cellc.xy( 1, 1 ) );
+        panelRdaDiff.add( panel, cc.xy( 1, 2 ) );
+        panelRdaDiff.add( scrollPaneRdaDiff, cc.xy( 1, 4 ) );
         scrollPaneRdaDiff.setBorder( new TitledBorder( "RDA Check" ) );
         cb_results_lifestage.setModel( cbmdl_results_lifestage );
         tbl_results_rda.setModel( modelTableRda );
         tbl_results_rda.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        tbl_results_rda.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         tbl_results_rda.setFillsViewportHeight( true );
         tbl_results_rda.setTableHeader( new TableHeaderRdaDiff( tbl_results_rda.getColumnModel() ) );
         tbl_results_rda.setAutoCreateRowSorter( true );
@@ -2192,33 +2232,36 @@ public class Main {
                 evt_lst_mixes( e, popMenu );
             }
         } );
-        return panel;
+        return panelRdaDiff;
     }
 
-    private JPanel get_mix_journal_rda() {
+    private JPanel get_journal_rda() {
         JPanel panel = new JPanel();
         tbl_journal_rda = get_table_rda_check();
         JScrollPane scrollPaneRdaDiff = new JScrollPane( tbl_journal_rda );
-        CellConstraints cellc = new CellConstraints();
         FormLayout layout = new FormLayout(
-                "min:grow", //columns
-                "fill:min:grow" //rows
+                "5dlu,min:grow,5dlu,min", //columns
+                "min" //rows
         );
+        panel.setLayout( layout );
         FormLayout layoutPanelRdaDiff = new FormLayout(
-                "min, min:grow", //columns
+                "400dlu", //columns
                 "5dlu,min,5dlu,fill:min:grow" //rows
         );
+        JLabel label = new JLabel( " Lifestage:" );
+        label.setHorizontalAlignment( JLabel.RIGHT );
+        panel.add( label, cc.xy( 2, 1 ) );
+        panel.add( cb_journal_lifestage, cc.xy( 4, 1 ) );
         JPanel panelRdaDiff = new JPanel();
         panelRdaDiff.setLayout( layoutPanelRdaDiff );
-        panelRdaDiff.add( new JLabel( " Lifestage:" ), cellc.xy( 1, 2 ) );
-        panelRdaDiff.add( cb_journal_lifestage, cellc.xy( 2, 2 ) );
-        panelRdaDiff.add( scrollPaneRdaDiff, cellc.xyw( 1, 4, 2 ) );
-        panel.setLayout( layout );
-        panel.add( panelRdaDiff, cellc.xy( 1, 1 ) );
+        panelRdaDiff.setLayout( layoutPanelRdaDiff );
+        panelRdaDiff.add( panel, cc.xy( 1, 2 ) );
+        panelRdaDiff.add( scrollPaneRdaDiff, cc.xy( 1, 4 ) );
         scrollPaneRdaDiff.setBorder( new TitledBorder( "RDA Check" ) );
         cb_journal_lifestage.setModel( cbmdl_journal_lifestage );
         tbl_journal_rda.setModel( modelTableJournalRda );
         tbl_journal_rda.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        tbl_journal_rda.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
         tbl_journal_rda.setFillsViewportHeight( true );
         tbl_journal_rda.setTableHeader( new TableHeaderRdaDiff( tbl_journal_rda.getColumnModel() ) );
         tbl_journal_rda.setAutoCreateRowSorter( true );
@@ -2259,7 +2302,7 @@ public class Main {
                 evt_lst_mixes( e, popMenu );
             }
         } );
-        return panel;
+        return panelRdaDiff;
     }
 
     private void evt_mnui_results_nutrient_lookup() {
@@ -2324,107 +2367,93 @@ public class Main {
         }
     }
 
-    private JPanel get_meal_food_allocation() {
+    private JPanel get_meal_portion() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "10px,60px,50px,155px,50px,53px,420px,60px,171px,10px", //columns
                 "10px,fill:25px,10px,p,100px,10px,fill:p:grow,p" //rows
         );
-        JScrollPane scroll_pane = new JScrollPane( listAllocationMeal );
-        textfield_allocation_remaining.setPreferredSize( new Dimension( 100, 25 ) );
-        textfield_allocation_pct.setPreferredSize( new Dimension( 100, 25 ) );
-        comboBoxAllocationFood.setPreferredSize( new Dimension( 100, 25 ) );
+        JScrollPane scroll_pane = new JScrollPane( listPortionMeal );
+        textfield_portion_remaining.setPreferredSize( new Dimension( 100, 25 ) );
+        textfield_portion_pct.setPreferredSize( new Dimension( 100, 25 ) );
+        comboBoxPortionFood.setPreferredSize( new Dimension( 100, 25 ) );
         scroll_pane.setPreferredSize( new Dimension( 100, 100 ) );
         panel.setLayout( panelLayout );
-        JScrollPane spTable = new JScrollPane( tbl_allocation );
+        JScrollPane spTable = new JScrollPane( tbl_meal_portions );
         JPanel buttons = new JPanel();
-        textfield_allocation_remaining.setEditable( false );
+        textfield_portion_remaining.setEditable( false );
         JLabel label_search = new JLabel( "Search: " );
         label_search.setHorizontalAlignment( JLabel.RIGHT );
         //first row
         panel.add( label_search, cc.xy( 6, 2 ) );
-        panel.add( textfield_allocation_search, cc.xyw( 7, 2, 3 ) );
+        panel.add( textfield_portion_search, cc.xyw( 7, 2, 3 ) );
         //second row
         JLabel label01 = new JLabel( "Out of" );
         label01.setHorizontalAlignment( JLabel.CENTER );
         panel.add( label01, cc.xy( 2, 4 ) );
-        panel.add( textfield_allocation_remaining, cc.xy( 3, 4 ) );
+        panel.add( textfield_portion_remaining, cc.xy( 3, 4 ) );
         JLabel label02 = new JLabel( "% remaining, apportion" );
         label02.setHorizontalAlignment( JLabel.CENTER );
         panel.add( label02, cc.xy( 4, 4 ) );
-        panel.add( textfield_allocation_pct, cc.xy( 5, 4 ) );
+        panel.add( textfield_portion_pct, cc.xy( 5, 4 ) );
         JLabel label03 = new JLabel( "% of" );
         label03.setHorizontalAlignment( JLabel.CENTER );
         panel.add( label03, cc.xy( 6, 4 ) );
-        panel.add( comboBoxAllocationFood, cc.xy( 7, 4 ) );
+        panel.add( comboBoxPortionFood, cc.xy( 7, 4 ) );
         JLabel label04 = new JLabel( "to meal" );
         label04.setHorizontalAlignment( JLabel.CENTER );
         panel.add( label04, cc.xy( 8, 4 ) );
         panel.add( scroll_pane, cc.xywh( 9, 4, 1, 2 ) );
         //third row
         panel.add( spTable, cc.xyw( 2, 7, 8 ) );
-        buttons.add( buttonAllocationAdd );
-        buttons.add( buttonAllocationDelete );
-        buttons.add( buttonAllocationUpdateWeight );
+        buttons.add( buttonPortionAdd );
+        buttons.add( buttonPortionDelete );
+        buttons.add( buttonPortionUpdateWeight );
         //fourth row
         panel.add( buttons, cc.xyw( 2, 8, 8 ) );
         spTable.setBorder( new TitledBorder( "Food Portions" ) );
-        listAllocationMeal.setModel( modelList_AllocationMeal );
-        comboBoxAllocationFood.setMaximumRowCount( 6 );
-        comboBoxAllocationFood.setModel( modelComboBox_AllocationFood );
-        tbl_allocation.getTableHeader().setReorderingAllowed( false );
-        tbl_allocation.setAutoCreateRowSorter( true );
-        tbl_allocation.setModel( modelTableAllocation );
-        tbl_allocation.setRowSorter( srttbl_allocationlookup );
-        buttonAllocationAdd.setToolTipText( "Add food portion" );
-        buttonAllocationDelete.setToolTipText( "Delete food portion" );
-        buttonAllocationUpdateWeight.setToolTipText( "Update weight of food consumed" );
-        buttonAllocationAdd.addActionListener( ( ActionEvent e )
+        listPortionMeal.setModel( modelList_PortionMeal );
+        comboBoxPortionFood.setMaximumRowCount( 6 );
+        comboBoxPortionFood.setModel( modelComboBox_PortionFood );
+        tbl_meal_portions.getTableHeader().setReorderingAllowed( false );
+        tbl_meal_portions.setAutoCreateRowSorter( true );
+        tbl_meal_portions.setModel( modelTablePortion );
+        tbl_meal_portions.setRowSorter( srttbl_portionlookup );
+        buttonPortionAdd.setToolTipText( "Add food portion" );
+        buttonPortionDelete.setToolTipText( "Delete food portion" );
+        buttonPortionUpdateWeight.setToolTipText( "Update weight of food consumed" );
+        buttonPortionAdd.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_meal_food_allocation_add();
+            evt_btn_food_portion_add();
         } );
-        buttonAllocationDelete.addActionListener( ( ActionEvent e )
+        buttonPortionDelete.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_meal_food_allocation_delete();
+            evt_btn_food_portion_delete();
         } );
-        buttonAllocationUpdateWeight.addActionListener( ( ActionEvent e )
+        buttonPortionUpdateWeight.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_meal_food_allocation_update_weight();
+            evt_btn_food_portion_update_weight();
         } );
-        comboBoxAllocationFood.addActionListener( ( ActionEvent e )
+        comboBoxPortionFood.addActionListener( ( ActionEvent e )
                 -> {
-            evt_cb_meal_food_allocation();
+            evt_cb_meal_food_portion();
         } );
-        tbl_allocation.setFillsViewportHeight( true );
-        textfield_allocation_search.getDocument().addDocumentListener( new DocumentListener() {
+        tbl_meal_portions.setFillsViewportHeight( true );
+        textfield_portion_search.getDocument().addDocumentListener( new DocumentListener() {
             @Override
             public void changedUpdate( DocumentEvent e ) {
-                allocationlookup_search_filter();
+                filter_portion();
             }
 
             @Override
             public void insertUpdate( DocumentEvent e ) {
-                allocationlookup_search_filter();
+                filter_portion();
             }
 
             @Override
             public void removeUpdate( DocumentEvent e ) {
-                allocationlookup_search_filter();
+                filter_portion();
             }
-
-            private void allocationlookup_search_filter() {
-                RowFilter<TableModelPortions, Object> rf = null;
-                try {
-                    ArrayList filters = new ArrayList();
-                    filters.add( RowFilter.regexFilter( "(?i)" + textfield_allocation_search.getText(), 3 ) );
-                    filters.add( RowFilter.regexFilter( "(?i)" + textfield_allocation_search.getText(), 4 ) );
-                    rf = RowFilter.orFilter( ( Iterable<? extends RowFilter<? super TableModelPortions, ? super Object>> ) filters );
-                } catch( java.util.regex.PatternSyntaxException e ) {
-                    return;
-                }
-                srttbl_allocationlookup.setRowFilter( rf );
-            }
-
         } );
 
         return panel;
@@ -2468,7 +2497,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_mix_journal() {
+    private JPanel get_journal() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout(
                 "4dlu,208dlu,4dlu,min:grow,4dlu", //columns
@@ -2498,30 +2527,32 @@ public class Main {
         leftComponent.add( mixesJournalSp, cc.xy( 1, 1 ) );
         leftComponent.add( buttons, cc.xy( 1, 3 ) );
         journal_results_tabbed_pane.setTabPlacement( JTabbedPane.BOTTOM );
-        journal_results_tabbed_pane.add( get_energy_journal() );
-        journal_results_tabbed_pane.add( get_protein_journal() );
-        journal_results_tabbed_pane.add( get_fats_journal() );
-        journal_results_tabbed_pane.add( get_carbs_journal() );
-        journal_results_tabbed_pane.add( get_vitamins_journal() );
-        journal_results_tabbed_pane.add( get_minerals_journal() );
-        journal_results_tabbed_pane.add( get_electrolytes_journal() );
-        journal_results_tabbed_pane.add( get_water_journal() );
-        journal_results_tabbed_pane.add( get_cost_journal() );
-        journal_results_tabbed_pane.add( get_glycemic_journal() );
+        journal_results_tabbed_pane.add( get_journal_energy() );
+        journal_results_tabbed_pane.add( get_journal_macronutrient() );
+        journal_results_tabbed_pane.add( get_journal_protein() );
+        journal_results_tabbed_pane.add( get_journal_fats() );
+        journal_results_tabbed_pane.add( get_journal_carbs() );
+        journal_results_tabbed_pane.add( get_journal_vitamins() );
+        journal_results_tabbed_pane.add( get_journal_minerals() );
+        journal_results_tabbed_pane.add( get_journal_electrolytes() );
+        journal_results_tabbed_pane.add( get_journal_water() );
+        journal_results_tabbed_pane.add( get_journal_cost() );
+        journal_results_tabbed_pane.add( get_journal_glycemic() );
+        journal_results_tabbed_pane.add( get_journal_rda() );
         journal_results_tabbed_pane.add( get_journal_model() );
-        journal_results_tabbed_pane.add( get_mix_journal_rda() );
         journal_results_tabbed_pane.setTitleAt( 0, "Energy" );
-        journal_results_tabbed_pane.setTitleAt( 1, "Protein" );
-        journal_results_tabbed_pane.setTitleAt( 2, "Fats" );
-        journal_results_tabbed_pane.setTitleAt( 3, "Carbohydrates" );
-        journal_results_tabbed_pane.setTitleAt( 4, "Vitamins" );
-        journal_results_tabbed_pane.setTitleAt( 5, "Minerals" );
-        journal_results_tabbed_pane.setTitleAt( 6, "Electrolytes" );
-        journal_results_tabbed_pane.setTitleAt( 7, "Water" );
-        journal_results_tabbed_pane.setTitleAt( 8, "Cost" );
-        journal_results_tabbed_pane.setTitleAt( 9, "Glycemic" );
-        journal_results_tabbed_pane.setTitleAt( 10, "Model" );
+        journal_results_tabbed_pane.setTitleAt( 1, "Macronutrient" );
+        journal_results_tabbed_pane.setTitleAt( 2, "Protein" );
+        journal_results_tabbed_pane.setTitleAt( 3, "Fats" );
+        journal_results_tabbed_pane.setTitleAt( 4, "Carbohydrates" );
+        journal_results_tabbed_pane.setTitleAt( 5, "Vitamins" );
+        journal_results_tabbed_pane.setTitleAt( 6, "Minerals" );
+        journal_results_tabbed_pane.setTitleAt( 7, "Electrolytes" );
+        journal_results_tabbed_pane.setTitleAt( 8, "Water" );
+        journal_results_tabbed_pane.setTitleAt( 9, "Cost" );
+        journal_results_tabbed_pane.setTitleAt( 10, "Glycemic" );
         journal_results_tabbed_pane.setTitleAt( 11, "Rda" );
+        journal_results_tabbed_pane.setTitleAt( 12, "Model" );
         panel.add( leftComponent, cc.xy( 2, 2 ) );
         JTabbedPane journal_tabs = new JTabbedPane();
         journal_tabs.add( "Results", journal_results_tabbed_pane );
@@ -2541,7 +2572,7 @@ public class Main {
             reload_tblmdl_journal();
             reload_tblmdl_journal_rda_check();
             resize_col_tbl_meal();
-            resize_col_tbl_meal_allocation();
+            resize_col_tbl_meal_portions();
             resize_col_tbl_results_by_meal_calories();
             resize_col_tbl_results_by_meal_grams();
             resize_col_tbl_journal_rda();
@@ -2557,79 +2588,66 @@ public class Main {
             result_loader_journal.reload( mixid );
             modelTableJournalEnergy.set_table( result_loader_journal.get_energy_table() );
             tableJournalEnergy.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalEnergy.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
-            for( int i = 1; i < 12; i++ ) {
+            for( int i = 1; i < 9; i++ ) {
                 tableJournalEnergy.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalEnergy.getColumnModel().getColumn( i ).setMaxWidth( 70 );
+            }
+            tableJournalEnergy.getColumnModel().getColumn( 6 ).setMinWidth( 90 );
+            modelTableJournalMacroNutrient.set_table( result_loader_journal.get_macronutrient_table() );
+            tableJournalMacronutrient.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
+            for( int i = 1; i < 6; i++ ) {
+                tableJournalMacronutrient.getColumnModel().getColumn( i ).setMinWidth( 70 );
             }
             modelTableJournalProtein.set_table( result_loader_journal.get_protein_table() );
             tableJournalProtein.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalProtein.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 5; i++ ) {
                 tableJournalProtein.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalProtein.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalFats.set_table( result_loader_journal.get_fats_table() );
             tableJournalFats.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalFats.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 12; i++ ) {
                 tableJournalFats.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalFats.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalCarbs.set_table( result_loader_journal.get_carbs_table() );
             tableJournalCarbs.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalCarbs.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 6; i++ ) {
                 tableJournalCarbs.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalCarbs.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
+            tableJournalCarbs.getColumnModel().getColumn( 3 ).setMinWidth( 90 );
             modelTableJournalVitamins.set_table( result_loader_journal.get_vitamins_table() );
             tableJournalVitamins.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalVitamins.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 15; i++ ) {
                 tableJournalVitamins.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalVitamins.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalMinerals.set_table( result_loader_journal.get_minerals_table() );
             tableJournalMinerals.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalMinerals.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 10; i++ ) {
                 tableJournalMinerals.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalMinerals.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalElectrolytes.set_table( result_loader_journal.get_electrolytes_table() );
             tableJournalElectrolytes.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalElectrolytes.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 4; i++ ) {
                 tableJournalElectrolytes.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalElectrolytes.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalWater.set_table( result_loader_journal.get_water_table() );
             tableJournalWater.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalWater.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 3; i++ ) {
                 tableJournalWater.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalWater.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalCost.set_table( result_loader_journal.get_cost_table() );
             tableJournalCost.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalCost.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 3; i++ ) {
                 tableJournalCost.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalCost.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             modelTableJournalGlycemic.reload( mixid );
             tableJournalGlycemic.getColumnModel().getColumn( 0 ).setMinWidth( 400 );
-            tableJournalGlycemic.getColumnModel().getColumn( 0 ).setMaxWidth( 400 );
             for( int i = 1; i < 8; i++ ) {
                 tableJournalGlycemic.getColumnModel().getColumn( i ).setMinWidth( 70 );
-                tableJournalGlycemic.getColumnModel().getColumn( i ).setMaxWidth( 70 );
             }
             textAreaJournalModel.setText( model );
-            reload_lstmdl_allocation_meal();
-            reload_cbmdl_allocation_food();
+            reload_lstmdl_portion_meal();
+            reload_cbmdl_portion_food();
             reload_tblmdl_meals();
-            reload_tblmdl_allocation( mixid );
+            reload_tblmdl_portion( mixid );
             reload_tblmdl_results_by_meal( mixid );
         }
     }
@@ -2641,17 +2659,17 @@ public class Main {
         }
     }
 
-    private void reload_cbmdl_allocation_food() {
+    private void reload_cbmdl_portion_food() {
         if( is_mix_journal_selected() ) {
             MixDataObject mixDataObject = ( MixDataObject ) lst_journal_mix.getSelectedValue();
-            modelComboBox_AllocationFood.reload( mixDataObject.getMixId() );
+            modelComboBox_PortionFood.reload( mixDataObject.getMixId() );
         }
     }
 
-    private void reload_lstmdl_allocation_meal() {
+    private void reload_lstmdl_portion_meal() {
         if( is_mix_journal_selected() ) {
             MixDataObject mixDataObject = ( MixDataObject ) lst_journal_mix.getSelectedValue();
-            reload_lstmdl_allocation( mixDataObject.getMixId() );
+            reload_lstmdl_portion( mixDataObject.getMixId() );
         }
     }
 
@@ -2660,22 +2678,22 @@ public class Main {
         tbl_meals.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tbl_meals.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
         tbl_meals.getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
-        tbl_meals.getColumnModel().getColumn( 2 ).setMinWidth( 900 );
     }
 
-    private void resize_col_tbl_meal_allocation() {
-        tbl_allocation.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-        tbl_allocation.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
-        tbl_allocation.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
-        tbl_allocation.getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
-        tbl_allocation.getColumnModel().getColumn( 2 ).setMinWidth( 0 );
-        tbl_allocation.getColumnModel().getColumn( 2 ).setMaxWidth( 0 );
-        tbl_allocation.getColumnModel().getColumn( 3 ).setMinWidth( 200 );
-        tbl_allocation.getColumnModel().getColumn( 4 ).setMinWidth( 600 );
+    private void resize_col_tbl_meal_portions() {
+        tbl_meal_portions.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
+        tbl_meal_portions.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
+        tbl_meal_portions.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
+        tbl_meal_portions.getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
+        tbl_meal_portions.getColumnModel().getColumn( 2 ).setMinWidth( 0 );
+        tbl_meal_portions.getColumnModel().getColumn( 2 ).setMaxWidth( 0 );
+        tbl_meal_portions.getColumnModel().getColumn( 3 ).setMinWidth( 200 );
+        tbl_meal_portions.getColumnModel().getColumn( 4 ).setMinWidth( 600 );
     }
 
     private void resize_col_tbl_results_by_meal_calories() {
         tbl_results_by_meal_calories.getColumnModel().getColumn( 0 ).setMinWidth( 200 );
+        tbl_results_by_meal_calories.getColumnModel().getColumn( 6 ).setMinWidth( 90 );
     }
 
     private void resize_col_tbl_results_by_meal_grams() {
@@ -2709,11 +2727,11 @@ public class Main {
 
     private void clear_model_meal_plan() {
         modelTableMeals.setRowCount( 0 );
-        modelTableAllocation.setRowCount( 0 );
-        comboBoxAllocationFood.removeAllItems();
+        modelTablePortion.setRowCount( 0 );
+        comboBoxPortionFood.removeAllItems();
         modelTableResultByMealsCalories.setRowCount( 0 );
         modelTableResultByMealsGrams.setRowCount( 0 );
-        modelList_AllocationMeal.clear();
+        modelList_PortionMeal.clear();
     }
 
     private void evt_btn_journal_mix_duplicate() {
@@ -2741,6 +2759,19 @@ public class Main {
         }
     }
 
+    private void filter_portion() {
+        RowFilter<TableModelPortions, Object> rf = null;
+        try {
+            ArrayList filters = new ArrayList();
+            filters.add( RowFilter.regexFilter( "(?i)" + textfield_portion_search.getText(), 3 ) );
+            filters.add( RowFilter.regexFilter( "(?i)" + textfield_portion_search.getText(), 4 ) );
+            rf = RowFilter.orFilter( ( Iterable<? extends RowFilter<? super TableModelPortions, ? super Object>> ) filters );
+        } catch( java.util.regex.PatternSyntaxException e ) {
+            return;
+        }
+        srttbl_portionlookup.setRowFilter( rf );
+    }
+
     private void filter_food_list() {
         RowFilter<TableModelFoodList, Object> rf = null;
         try {
@@ -2764,23 +2795,26 @@ public class Main {
         panel.setLayout( paneLayout );
         JPanel searchPanel = new JPanel();
         FormLayout searchPanelLayout = new FormLayout(
-                "min,min:grow", //columns
+                "min:grow,200dlu", //columns
                 "4dlu,fill:16dlu,4dlu" //rows
         );
         searchPanel.setLayout( searchPanelLayout );
         JPanel buttonPanel = new JPanel();
         FormLayout buttonPanelLayout = new FormLayout(
-                "min:grow,min,min,min,min,min:grow", //columns
+                "min:grow,min,min,min,min,min,min:grow", //columns
                 "min" //rows
         );
         buttonPanel.setLayout( buttonPanelLayout );
         JScrollPane scrollPaneTable01 = new JScrollPane( tableFoodList01 );
-        searchPanel.add( new JLabel( "Search: " ), cc.xy( 1, 2 ) );
+        JLabel label = new JLabel( "Search: " );
+        label.setHorizontalAlignment( JLabel.RIGHT );
+        searchPanel.add( label, cc.xy( 1, 2 ) );
         searchPanel.add( textFieldFoodListSearch, cc.xy( 2, 2 ) );
         buttonPanel.add( buttonFoodListAdd, cc.xy( 2, 1 ) );
         buttonPanel.add( buttonFoodListDelete, cc.xy( 3, 1 ) );
         buttonPanel.add( buttonFoodListUpdate, cc.xy( 4, 1 ) );
         buttonPanel.add( buttonFoodListDuplicate, cc.xy( 5, 1 ) );
+        buttonPanel.add( buttonFoodListGi, cc.xy( 6, 1 ) );
         panel.add( searchPanel, cc.xy( 2, 1 ) );
         panel.add( scrollPaneTable01, cc.xy( 2, 2 ) );
         panel.add( buttonPanel, cc.xy( 2, 4 ) );
@@ -2789,6 +2823,7 @@ public class Main {
         buttonFoodListUpdate.setToolTipText( "Update food item" );
         buttonFoodListDelete.setToolTipText( "Delete food item" );
         buttonFoodListDuplicate.setToolTipText( "Duplicate food item" );
+        buttonFoodListGi.setToolTipText( "Update glycemic index" );
         buttonFoodListAdd.addActionListener( ( ActionEvent e )
                 -> {
             evt_btn_food_list_add();
@@ -2804,6 +2839,10 @@ public class Main {
         buttonFoodListDuplicate.addActionListener( ( ActionEvent e )
                 -> {
             evt_btn_food_list_duplicate();
+        } );
+        buttonFoodListGi.addActionListener( ( ActionEvent e )
+                -> {
+            evt_btn_food_list_update_gi();
         } );
         textFieldFoodListSearch.getDocument().addDocumentListener( new DocumentListener() {
             @Override
@@ -2863,7 +2902,7 @@ public class Main {
         }
     }
 
-    private void filter_search_nutrient_coefficient_check() {
+    private void filter_nutrient_coefficient() {
         RowFilter<TableModelCheckCoefficients, Object> rf = null;
         try {
             ArrayList filters = new ArrayList();
@@ -2938,23 +2977,23 @@ public class Main {
         textFieldNutrientSearchCheckCoefficients.getDocument().addDocumentListener( new DocumentListener() {
             @Override
             public void changedUpdate( DocumentEvent e ) {
-                filter_search_nutrient_coefficient_check();
+                filter_nutrient_coefficient();
             }
 
             @Override
             public void insertUpdate( DocumentEvent e ) {
-                filter_search_nutrient_coefficient_check();
+                filter_nutrient_coefficient();
             }
 
             @Override
             public void removeUpdate( DocumentEvent e ) {
-                filter_search_nutrient_coefficient_check();
+                filter_nutrient_coefficient();
             }
         } );
         Message.showOptionDialog( inputs, "Check Coefficients" );
     }
 
-    private void filter_search_nutrient() {
+    private void filter_nutrient() {
         RowFilter<TableModelDataInput, Object> rf = null;
         try {
             ArrayList filters = new ArrayList();
@@ -3106,171 +3145,6 @@ public class Main {
         }
     }
 
-    private void evt_btn_fill_carbohydrate_data() {
-        JTextPane instructions = new JTextPane();
-        JTextField carbsByDiffText = new JTextField();
-        JTextField fiberText = new JTextField();
-        StringBuilder sb = new StringBuilder();
-        JPanel inputsPanel = new JPanel();
-        JComponent[] inputs = new JComponent[] {
-            inputsPanel
-        };
-        FormLayout layout = new FormLayout(
-                "min:grow,min:grow", //columns
-                "fill:min:grow,min,min" //rows
-        );
-        JLabel carbsByDiffLabel = new JLabel( "Total Carbohydrate (g): " );
-        JLabel fiberLabel = new JLabel( "Dietary Fiber (g): " );
-        NumberCheck checkNumber = new NumberCheck();
-        //model row index is specified by sql query.
-        int model_column_index = 3;
-        int model_row_index_carbsbydiff = modelTableNutrientInput.find( "205" );
-        int model_row_index_fiber = modelTableNutrientInput.find( "291" );
-        int model_row_index_digestible_carbohydrate = modelTableNutrientInput.find( "10003" );
-        carbsByDiffText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_carbsbydiff, model_column_index ) ) );
-        fiberText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_fiber, model_column_index ) ) );
-        instructions.setEditable( false );
-        sb.append( "* CARBOHYDRATE *\n\n" );
-        sb.append( "To calculate digestible carbohydrate quantity\n\n" );
-        sb.append( "1. Please find 'Total Carbohydrate' quantity on nutrition facts label and enter that number\n\n" );
-        sb.append( "2. Please find 'Dietary Fiber' quantity on nutrition facts label and enter that number\n\n" );
-        sb.append( "3. Verify 'Digestible Carbs (g)' field has been filled\n\n" );
-        sb.append( "[ Total Carbohydrate also appears as 'Carbohydrate, by difference (g)' or 'CarbsBD' ]" );
-        instructions.setText( sb.toString() );
-        inputsPanel.setPreferredSize( new Dimension( 350, GoldenRatio.getShortSide( 350 ) ) );
-        inputsPanel.setLayout( layout );
-        inputsPanel.add( new JScrollPane( instructions ), cc.xyw( 1, 1, 2 ) );
-        carbsByDiffLabel.setHorizontalAlignment( JLabel.RIGHT );
-        fiberLabel.setHorizontalAlignment( JLabel.RIGHT );
-        inputsPanel.add( carbsByDiffLabel, cc.xy( 1, 2 ) );
-        inputsPanel.add( carbsByDiffText, cc.xy( 2, 2 ) );
-        inputsPanel.add( fiberLabel, cc.xy( 1, 3 ) );
-        inputsPanel.add( fiberText, cc.xy( 2, 3 ) );
-        int optionValue = Message.showOptionDialogOkCancel( inputs, "Digestible Carbohydrate" );
-        if( optionValue == 0 ) {
-            String s0 = carbsByDiffText.getText();
-            String s1 = fiberText.getText();
-            if( (s0 != null && s0.length() > 0) && (s1 != null && s1.length() > 0) ) {
-                checkNumber.addToUncheckedList( s0 );
-                if( checkNumber.pass() ) {
-                    Double carbsByDiff = Double.valueOf( carbsByDiffText.getText() );
-                    Double fiber = Double.valueOf( fiberText.getText() );
-                    Double digestibleCarbohydrate = carbsByDiff - fiber;
-                    //model row index is specified by sql query.
-                    modelTableNutrientInput.setValueAt( carbsByDiff, model_row_index_carbsbydiff, model_column_index );
-                    modelTableNutrientInput.setValueAt( digestibleCarbohydrate, model_row_index_digestible_carbohydrate, model_column_index );
-                    modelTableNutrientInput.setValueAt( fiber, model_row_index_fiber, model_column_index );
-                    select_table_row_using_model( tableNutrientInput, model_row_index_carbsbydiff );
-                    scroll_to_row_using_model( tableNutrientInput, model_row_index_carbsbydiff );
-                }
-                else {
-                    Message.showMessage( "Numbers only" );
-                }
-            }
-        }
-    }
-
-    private void evt_btn_fill_energy_data() {
-        JTextPane instructions = new JTextPane();
-        JTextField proteinText = new JTextField();
-        JTextField fatText = new JTextField();
-        JTextField digestibleCarbohydrateText = new JTextField();
-        JTextField alcoholText = new JTextField();
-        StringBuilder sb = new StringBuilder();
-        JPanel inputsPanel = new JPanel();
-        JComponent[] inputs = new JComponent[] {
-            inputsPanel
-        };
-        FormLayout layout = new FormLayout(
-                "min:grow,min:grow", //columns
-                "fill:min:grow,min,min,min,min" //rows
-        );
-        JLabel proteinLabel = new JLabel( "Protein (g): " );
-        JLabel fatLabel = new JLabel( "Fat (g): " );
-        JLabel digestibleCarbohydrateLabel = new JLabel( "Digestible Carbohydrate (g): " );
-        JLabel alcoholLabel = new JLabel( "Alcohol (g): " );
-        NumberCheck checkNumber = new NumberCheck();
-        //
-        proteinText.setEditable( false );
-        fatText.setEditable( false );
-        digestibleCarbohydrateText.setEditable( false );
-        alcoholText.setEditable( false );
-        //model row index is specified by sql query.
-        int model_column_index = 3;
-        int model_row_index_protein = modelTableNutrientInput.find( "203" );
-        int model_row_index_fat = modelTableNutrientInput.find( "204" );
-        int model_row_index_digestible_carbohydrate = modelTableNutrientInput.find( "10003" );
-        int model_row_index_alcohol = modelTableNutrientInput.find( "221" );
-        proteinText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_protein, model_column_index ) ) );
-        fatText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_fat, model_column_index ) ) );
-        digestibleCarbohydrateText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_digestible_carbohydrate, model_column_index ) ) );
-        alcoholText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_alcohol, model_column_index ) ) );
-        instructions.setEditable( false );
-        sb.append( "* ENERGY *\n\n" );
-        sb.append( "To calculate energy (kcal) values\n\n" );
-        sb.append( "1. Verify displayed quantities are correct\n\n" );
-        sb.append( "2. Click ok\n\n" );
-        sb.append( "3. Verify energy fields have been filled" );
-        instructions.setText( sb.toString() );
-        inputsPanel.setPreferredSize( new Dimension( 350, GoldenRatio.getShortSide( 350 ) ) );
-        inputsPanel.setLayout( layout );
-        JScrollPane scrollPane = new JScrollPane( instructions );
-        inputsPanel.add( scrollPane, cc.xyw( 1, 1, 2 ) );
-        proteinLabel.setHorizontalAlignment( JLabel.RIGHT );
-        fatLabel.setHorizontalAlignment( JLabel.RIGHT );
-        digestibleCarbohydrateLabel.setHorizontalAlignment( JLabel.RIGHT );
-        alcoholLabel.setHorizontalAlignment( JLabel.RIGHT );
-        inputsPanel.add( proteinLabel, cc.xy( 1, 2 ) );
-        inputsPanel.add( proteinText, cc.xy( 2, 2 ) );
-        inputsPanel.add( fatLabel, cc.xy( 1, 3 ) );
-        inputsPanel.add( fatText, cc.xy( 2, 3 ) );
-        inputsPanel.add( digestibleCarbohydrateLabel, cc.xy( 1, 4 ) );
-        inputsPanel.add( digestibleCarbohydrateText, cc.xy( 2, 4 ) );
-        inputsPanel.add( alcoholLabel, cc.xy( 1, 5 ) );
-        inputsPanel.add( alcoholText, cc.xy( 2, 5 ) );
-        SwingUtilities.invokeLater( ()
-                -> {
-            scrollPane.getViewport().setViewPosition( new Point( 0, 0 ) );
-        } );
-        int optionValue = Message.showOptionDialogOkCancel( inputs, "Energy" );
-        if( optionValue == 0 ) {
-            String s0 = proteinText.getText();
-            String s1 = fatText.getText();
-            String s2 = digestibleCarbohydrateText.getText();
-            String s3 = alcoholText.getText();
-            if( (s0 != null && s0.length() > 0) && (s1 != null && s1.length() > 0) && (s2 != null && s2.length() > 0) && (s3 != null && s3.length() > 0) ) {
-                checkNumber.addToUncheckedList( s0 );
-                if( checkNumber.pass() ) {
-                    Double protein = Double.valueOf( proteinText.getText() );
-                    Double fat = Double.valueOf( fatText.getText() );
-                    Double digestibleCarbohydrate = Double.valueOf( digestibleCarbohydrateText.getText() );
-                    Double alcohol = Double.valueOf( alcoholText.getText() );
-                    MacroNutrientEnergyValues energyValues = new MacroNutrientEnergyValues.Builder().protein( protein ).fat( fat ).digestibleCarbohydrate( digestibleCarbohydrate ).alcohol( alcohol ).build();
-                    energyValues.getProteinEnergy();
-                    //model row index is specified by sql query.
-                    int model_row_index_energy_alcohol = modelTableNutrientInput.find( "10014" );
-                    int model_row_index_energy_digestible_carbohydrate = modelTableNutrientInput.find( "10011" );
-                    int model_row_index_energy_digestible = modelTableNutrientInput.find( "10009" );
-                    int model_row_index_energy_fat = modelTableNutrientInput.find( "10013" );
-                    int model_row_index_energy_fat_carbohydrate = modelTableNutrientInput.find( "10010" );
-                    int model_row_index_energy_protein = modelTableNutrientInput.find( "10012" );
-                    modelTableNutrientInput.setValueAt( energyValues.getAlcoholEnergy(), model_row_index_energy_alcohol, model_column_index );
-                    modelTableNutrientInput.setValueAt( energyValues.getDigestibleCarbohydrateEnergy(), model_row_index_energy_digestible_carbohydrate, model_column_index );
-                    modelTableNutrientInput.setValueAt( energyValues.getEnergyDigestible(), model_row_index_energy_digestible, model_column_index );
-                    modelTableNutrientInput.setValueAt( energyValues.getFatEnergy(), model_row_index_energy_fat, model_column_index );
-                    modelTableNutrientInput.setValueAt( energyValues.get_energy_fat_and_carbohydrate(), model_row_index_energy_fat_carbohydrate, model_column_index );
-                    modelTableNutrientInput.setValueAt( energyValues.getProteinEnergy(), model_row_index_energy_protein, model_column_index );
-                    Integer modelRowId = 4;
-                    select_table_row_using_model( tableNutrientInput, modelRowId );
-                    scroll_to_row_using_model( tableNutrientInput, modelRowId );
-                }
-                else {
-                    Message.showMessage( "Numbers only" );
-                }
-            }
-        }
-    }
-
     private void evt_btn_fill_vitamin_values() {
         FormLayout layout = new FormLayout( "min:grow,min,min:grow", //columns
                                             "fill:min:grow" //rows
@@ -3317,68 +3191,6 @@ public class Main {
         }
     }
 
-    private void evt_btn_fill_glycemic_load() {
-        JTextPane instructions = new JTextPane();
-        JTextField digestibleCarbohydrateText = new JTextField();
-        JTextField glycemicIndexText = new JTextField();
-        StringBuilder sb = new StringBuilder();
-        JPanel inputsPanel = new JPanel();
-        JComponent[] inputs = new JComponent[] {
-            inputsPanel
-        };
-        FormLayout layout = new FormLayout(
-                "min:grow,min:grow", //columns
-                "fill:min:grow,min,min" //rows
-        );
-        JLabel digestibleCarbohydrateLabel = new JLabel( "Digestible Carbohydrate (g): " );
-        JLabel glycemicIndexLabel = new JLabel( "Glycemic Index: " );
-        NumberCheck checkNumber = new NumberCheck();
-        //
-        digestibleCarbohydrateText.setEditable( false );
-        //model row index is specified by sql query.
-        int model_column_index = 3;
-        int model_row_index_digestible_carbohydrate = modelTableNutrientInput.find( "10003" );
-        int model_row_index_glycemic_load = modelTableNutrientInput.find( "10006" );
-        digestibleCarbohydrateText.setText( String.valueOf( modelTableNutrientInput.getValueAt( model_row_index_digestible_carbohydrate, model_column_index ) ) );
-        instructions.setEditable( false );
-        sb.append( "* GLYCEMIC LOAD *\n\n" );
-        sb.append( "To calculate glycemic load value\n\n" );
-        sb.append( "1. Verify 'Digestible Carbs (g)' value is correct\n\n" );
-        sb.append( "2. Please find 'Glycemic Index' of the food and enter that number\n\n" );
-        sb.append( "3. Verify 'Glycemic Load' field has been filled" );
-        instructions.setText( sb.toString() );
-        inputsPanel.setPreferredSize( new Dimension( 350, GoldenRatio.getShortSide( 350 ) ) );
-        inputsPanel.setLayout( layout );
-        inputsPanel.add( new JScrollPane( instructions ), cc.xyw( 1, 1, 2 ) );
-        digestibleCarbohydrateLabel.setHorizontalAlignment( JLabel.RIGHT );
-        glycemicIndexLabel.setHorizontalAlignment( JLabel.RIGHT );
-        inputsPanel.add( digestibleCarbohydrateLabel, cc.xy( 1, 2 ) );
-        inputsPanel.add( digestibleCarbohydrateText, cc.xy( 2, 2 ) );
-        inputsPanel.add( glycemicIndexLabel, cc.xy( 1, 3 ) );
-        inputsPanel.add( glycemicIndexText, cc.xy( 2, 3 ) );
-        int optionValue = Message.showOptionDialogOkCancel( inputs, "Glycemic Load" );
-        if( optionValue == 0 ) {
-            String s0 = digestibleCarbohydrateText.getText();
-            String s1 = glycemicIndexText.getText();
-            if( (s0 != null && s0.length() > 0) && (s1 != null && s1.length() > 0) ) {
-                checkNumber.addToUncheckedList( s0 );
-                if( checkNumber.pass() ) {
-                    Double digestibleCarbohydrate = Double.valueOf( digestibleCarbohydrateText.getText() );
-                    Double glycemicIndex = Double.valueOf( glycemicIndexText.getText() );
-                    GlycemicLoad glycemicLoad = new GlycemicLoad( glycemicIndex, digestibleCarbohydrate );
-                    //Row value is determined by sql query.
-                    modelTableNutrientInput.setValueAt( digestibleCarbohydrate, model_row_index_digestible_carbohydrate, model_column_index );
-                    modelTableNutrientInput.setValueAt( glycemicLoad.getGlycemicLoad(), model_row_index_glycemic_load, model_column_index );
-                    select_table_row_using_model( tableNutrientInput, model_row_index_glycemic_load );
-                    scroll_to_row_using_model( tableNutrientInput, model_row_index_glycemic_load );
-                }
-                else {
-                    Message.showMessage( "Numbers only" );
-                }
-            }
-        }
-    }
-
     private void select_table_row_using_model( JTable table, Integer modelRowId ) {
         Integer tableRowId = table.convertRowIndexToView( modelRowId );
         this.select_table_row_using_table( table, tableRowId );
@@ -3402,31 +3214,22 @@ public class Main {
     private JPanel get_wizard_panel() {
         JPanel wizardPanel = new JPanel();
         FormLayout layout = new FormLayout(
-                "min:grow,min,min,min,min,min,min,min,min:grow", //columns
+                "min:grow,min,min,min,min,min:grow", //columns
                 "min" //rows
         );
         wizardPanel.setLayout( layout );
         JButton fillCompleteProteinButton = new JButton( "Protein" );
         JButton fillFatButton = new JButton( "Fat" );
-        JButton fillDigestibleCarbsButton = new JButton( "Carbs" );
-        JButton fillEnergyDataButton = new JButton( "Energy" );
         JButton fillVitaminsButton = new JButton( "Vitamins" );
-        JButton fillGlycemicLoadButton = new JButton( "Glycemic" );
         JButton btn_cost = new JButton( "Cost" );
         wizardPanel.add( fillCompleteProteinButton, cc.xy( 2, 1 ) );
         wizardPanel.add( fillFatButton, cc.xy( 3, 1 ) );
-        wizardPanel.add( fillDigestibleCarbsButton, cc.xy( 4, 1 ) );
-        wizardPanel.add( fillEnergyDataButton, cc.xy( 5, 1 ) );
-        wizardPanel.add( fillVitaminsButton, cc.xy( 6, 1 ) );
-        wizardPanel.add( fillGlycemicLoadButton, cc.xy( 7, 1 ) );
-        wizardPanel.add( btn_cost, cc.xy( 8, 1 ) );
-        layout.setColumnGroup( 2, 3, 4, 5, 6, 7, 8 );
+        wizardPanel.add( fillVitaminsButton, cc.xy( 4, 1 ) );
+        wizardPanel.add( btn_cost, cc.xy( 5, 1 ) );
+        layout.setColumnGroup( 2, 3, 4, 5 );
         fillCompleteProteinButton.setToolTipText( "Complete Protein calculator assistant" );
         fillFatButton.setToolTipText( "Fat calculator assistant" );
-        fillDigestibleCarbsButton.setToolTipText( "Digestible carbohydrate calculator assistant" );
-        fillEnergyDataButton.setToolTipText( "Energy values calculator assistant" );
         fillVitaminsButton.setToolTipText( "Vitamin and mineral values calculator assistant" );
-        fillGlycemicLoadButton.setToolTipText( "Glycemic load calculator assistant" );
         btn_cost.setToolTipText( "Cost calculator assistant" );
         fillCompleteProteinButton.addActionListener( ( ActionEvent e )
                 -> {
@@ -3436,21 +3239,9 @@ public class Main {
                 -> {
             evt_btn_fill_fat();
         } );
-        fillDigestibleCarbsButton.addActionListener( ( ActionEvent e )
-                -> {
-            evt_btn_fill_carbohydrate_data();
-        } );
-        fillEnergyDataButton.addActionListener( ( ActionEvent e )
-                -> {
-            evt_btn_fill_energy_data();
-        } );
         fillVitaminsButton.addActionListener( ( ActionEvent e )
                 -> {
             evt_btn_fill_vitamin_values();
-        } );
-        fillGlycemicLoadButton.addActionListener( ( ActionEvent e )
-                -> {
-            evt_btn_fill_glycemic_load();
         } );
         btn_cost.addActionListener( ( ActionEvent e )
                 -> {
@@ -3459,7 +3250,7 @@ public class Main {
         return wizardPanel;
     }
 
-    private void update_food_item( String foodId, Integer optionValue ) {
+    private void update_food_item( String foodid, Integer optionValue ) {
         tableNutrientInput.setRowSorter( srttbl_nutrientinput );
         tableNutrientInput.setModel( modelTableNutrientInput );
         tableNutrientInput.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -3468,7 +3259,7 @@ public class Main {
         modelTableNutrientInput.setPrecision( 5 );
         textFieldNutrientSearch.setText( "" );
         if( optionValue == -1 ) {
-            modelTableNutrientInput.reload( foodId );
+            modelTableNutrientInput.reload( foodid );
             resize_col_tbl_nutrient_input();
         }
         JPanel panel = new JPanel();
@@ -3514,7 +3305,7 @@ public class Main {
         else {
             try {
                 FoodDataObject foodDataObject = new FoodDataObject();
-                foodDataObject.setFoodId( foodId );
+                foodDataObject.setFoodId( foodid );
                 LinkedList<FoodDataObject> list = ( LinkedList ) dbLink.Food_Select( foodDataObject );
                 Iterator it = list.listIterator();
                 foodDataObject = ( FoodDataObject ) it.next();
@@ -3583,17 +3374,17 @@ public class Main {
         textFieldNutrientSearch.getDocument().addDocumentListener( new DocumentListener() {
             @Override
             public void changedUpdate( DocumentEvent e ) {
-                filter_search_nutrient();
+                filter_nutrient();
             }
 
             @Override
             public void insertUpdate( DocumentEvent e ) {
-                filter_search_nutrient();
+                filter_nutrient();
             }
 
             @Override
             public void removeUpdate( DocumentEvent e ) {
-                filter_search_nutrient();
+                filter_nutrient();
             }
         } );
         //scroll to weight field
@@ -3605,36 +3396,37 @@ public class Main {
             if( q > 0 ) {
                 try {
                     FoodDataObject foodDataObject = new FoodDataObject();
-                    foodDataObject.setFoodId( foodId );
+                    foodDataObject.setFoodId( foodid );
                     foodDataObject.setFoodName( textFieldFoodName.getText() );
                     dbLink.Food_Update( foodDataObject );
                     rowIndex = modelTableNutrientInput.find( "10000" );
                     q = ( Double ) modelTableNutrientInput.getValueAt( rowIndex, 3 );
                     //Weight must be first "NutrientId" updated for trigger to calculate correct nutrient coefficients. Weight is serving size.
-                    dbLink.FoodFact_Merge( foodId, "10000", q );
+                    dbLink.FoodFact_Merge( foodid, "10000", q );
                     int rowNo = modelTableNutrientInput.getRowCount();
                     for( int j = 0; j < rowNo; j++ ) {
                         String nutrientid = ( String ) modelTableNutrientInput.getValueAt( j, 0 );
                         //Weight was updated earlier, I do not want to update it again
                         if( !nutrientid.equals( "10000" ) ) {
                             q = ( Double ) modelTableNutrientInput.getValueAt( j, 3 );
-                            dbLink.FoodFact_Merge( foodId, nutrientid, q );
+                            dbLink.FoodFact_Merge( foodid, nutrientid, q );
                         }
                     }
+                    dbLink.foodfact_calculated_quantities_update( foodid );
+                    dbLink.stopTransaction();
                 } catch( SQLException e ) {
 
                 }
-                dbLink.stopTransaction();
                 reload_food_items();
                 resize_col_tbl_food_list();
-                rowIndex = modelTableFoodList.find( foodId );
+                rowIndex = modelTableFoodList.find( foodid );
                 scroll_to_row_using_table( tableFoodList01, tableFoodList01.convertRowIndexToView( rowIndex ) );
                 foodNameText = "";
             }
             else {
                 foodNameText = textFieldFoodName.getText();
                 Message.showMessage( "What is serving size? Weight must be greater than zero." );
-                update_food_item( foodId, optionValue );
+                update_food_item( foodid, optionValue );
             }
         }
         else {
@@ -3705,35 +3497,50 @@ public class Main {
         }
     }
 
-    private JPanel get_nutrient_lookup_list() {
-        JPanel panel = new JPanel();
+    private JPanel get_nutrient_lookup() {
+        JPanel panel_00 = new JPanel();
+        JPanel panel_01 = new JPanel();
+        FormLayout layout_00 = new FormLayout(
+                "4dlu,404dlu,4dlu", //columns
+                "4dlu,min,4dlu,fill:min:grow,4dlu" //rows
+        );
+
+        FormLayout layout_01 = new FormLayout(
+                "4dlu,min,min,4dlu,min,min:grow,4dlu", //columns
+                "4dlu,fill:25px,4dlu,fill:25px,4dlu" //rows
+        );
+        panel_00.setLayout( layout_00 );
+        panel_01.setLayout( layout_01 );
         JLabel search_label = new JLabel( "Search: " );
         JLabel nutrient_label = new JLabel( "Nutrient: " );
-        JLabel value_label = new JLabel( "Value: " );
-        JTextField search_field = new JTextField();
-        FormLayout panelLayout = new FormLayout(
-                "4dlu,min,min:grow,2dlu,min,min:grow,min,4dlu", //columns
-                "4dlu,3dlu,fill:25px,3dlu,fill:25px,1dlu,fill:min:grow,4dlu" //rows
-        );
-        search_label.setHorizontalAlignment( JLabel.RIGHT );
         nutrient_label.setHorizontalAlignment( JLabel.RIGHT );
+        JLabel value_label = new JLabel( "Value: " );
         value_label.setHorizontalAlignment( JLabel.RIGHT );
-        panel.setLayout( panelLayout );
-        JScrollPane scrollPaneNutrientLookup = new JScrollPane( tableNutrientLookup );
-        panel.add( search_label, cc.xy( 5, 3 ) );
-        panel.add( search_field, cc.xyw( 6, 3, 2 ) );
-        panel.add( nutrient_label, cc.xy( 2, 5 ) );
-        panel.add( comboBoxNutrientLookupListNutrient, cc.xy( 3, 5 ) );
-        panel.add( value_label, cc.xy( 5, 5 ) );
-        panel.add( textFieldNutrientLookup, cc.xy( 6, 5 ) );
-        panel.add( scrollPaneNutrientLookup, cc.xyw( 2, 7, 6 ) );
-        scrollPaneNutrientLookup.setBorder( new TitledBorder( "Nutrient Lookup" ) );
+        JTextField search_field = new JTextField();
+        search_label.setHorizontalAlignment( JLabel.RIGHT );
         tableNutrientLookup.setToolTipText( "These food items contain the specific nutrient" );
         tableNutrientLookup.setTableHeader( new TableHeaderNutrientLookup( tableNutrientLookup.getColumnModel() ) );
-        tableNutrientLookup.setAutoCreateRowSorter( true );
+        tableNutrientLookup.setModel( modelTableNutrientLookup );
+        tableNutrientLookup.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        tableNutrientLookup.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        tableNutrientLookup.setFillsViewportHeight( true );
+        tableNutrientLookup.setRowSorter( srttbl_nutrientlookup );
+        comboBoxNutrientLookupListNutrient.setModel( modelComboBox_NutrientLookupListNutrient );
+        JScrollPane scrollPaneNutrientLookup = new JScrollPane( tableNutrientLookup );
+        scrollPaneNutrientLookup.setBorder( new TitledBorder( "Nutrient Lookup" ) );
+        panel_01.add( search_label, cc.xy( 5, 2 ) );
+        panel_01.add( search_field, cc.xy( 6, 2 ) );
+        panel_01.add( nutrient_label, cc.xy( 2, 4 ) );
+        panel_01.add( comboBoxNutrientLookupListNutrient, cc.xy( 3, 4 ) );
+        panel_01.add( value_label, cc.xy( 5, 4 ) );
+        panel_01.add( textFieldNutrientLookup, cc.xy( 6, 4 ) );
+        panel_00.add( panel_01, cc.xy( 2, 2 ) );
+        panel_00.add( scrollPaneNutrientLookup, cc.xy( 2, 4 ) );
+        modelComboBox_NutrientLookupListNutrient.reload();
+        resize_col_tbl_nutrient_lookup();
         textFieldNutrientLookup.addActionListener( ( ActionEvent e )
                 -> {
-            evt_btn_nutrient_lookup();
+            reload_tblmdl_nutrient_lookup();
         } );
         search_field.getDocument().addDocumentListener( new DocumentListener() {
             @Override
@@ -3762,16 +3569,8 @@ public class Main {
                 }
                 srttbl_nutrientlookup.setRowFilter( rf );
             }
-
         } );
-        comboBoxNutrientLookupListNutrient.setModel( modelComboBox_NutrientLookupListNutrient );
-        modelComboBox_NutrientLookupListNutrient.reload();
-        tableNutrientLookup.setModel( modelTableNutrientLookup );
-        tableNutrientLookup.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        tableNutrientLookup.setFillsViewportHeight( true );
-        tableNutrientLookup.setRowSorter( srttbl_nutrientlookup );
-        resize_col_tbl_nutrient_lookup();
-        return panel;
+        return panel_00;
     }
 
     private void set_precision() {
@@ -3809,7 +3608,7 @@ public class Main {
 
     private void evt_mnui_nutrients_shown_as_constraints() {
         JComponent[] inputs = new JComponent[] {
-            get_constraints_panel()
+            get_mnui_constraints_panel()
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Nutrients, Energies and Cost Shown As Constraints" );
         if( optionValue == 0 ) {
@@ -3865,7 +3664,7 @@ public class Main {
         }
     }
 
-    private JPanel get_constraints_panel() {
+    private JPanel get_mnui_constraints_panel() {
         JPanel panel00 = new JPanel();
         FormLayout panel00Layout = new FormLayout(
                 "4px,min:grow,4px", //columns
@@ -3957,12 +3756,12 @@ public class Main {
         System.exit( 0 );
     }
 
-    private void evt_mnui_food_list_export() {
+    private void evt_mnui_export_food_list() {
         ExportFoodList exportFoodList = new ExportFoodList( dbLink );
         exportFoodList.print();
     }
 
-    private void evt_mnui_journal_export() {
+    private void evt_mnui_export_journal() {
         if( is_mix_journal_selected() ) {
             ExportFoodMixes exportFoodMixes = new ExportFoodMixes( dbLink );
             exportFoodMixes.print();
@@ -3973,7 +3772,7 @@ public class Main {
 
     }
 
-    private void evt_mnui_mix_comparison_export() {
+    private void evt_mnui_export_mix_comparison() {
         if( is_list_mix_compare_a_selected() && is_list_mix_compare_b_selected() ) {
             ExportMixComparison exportMixComparison = new ExportMixComparison();
             exportMixComparison.print( modelTableMixDifference, lst_mix_compare_a, lst_mix_compare_b );
@@ -3983,7 +3782,7 @@ public class Main {
         }
     }
 
-    private void evt_mnui_food_comparison_export() {
+    private void evt_mnui_export_food_comparison() {
         if( is_list_food_compare_a_selected() && is_list_food_compare_b_selected() ) {
             ExportFoodComparison exportFoodComparison = new ExportFoodComparison();
             exportFoodComparison.print( modelTableFoodDifference, lst_food_compare_a, lst_food_compare_b );
@@ -3993,7 +3792,7 @@ public class Main {
         }
     }
 
-    private void evt_mnui_rda_check_export() {
+    private void evt_mnui_export_rda_check() {
         if( is_mix_journal_selected() ) {
             MixDataObject mixDataObject = ( MixDataObject ) lst_journal_mix.getSelectedValue();
             RdaLifeStageDataObject rdaLifeStageDataObject = ( RdaLifeStageDataObject ) cb_journal_lifestage.getSelectedItem();
@@ -4005,7 +3804,7 @@ public class Main {
         }
     }
 
-    private void evt_mnui_nutrient_lookup_export() {
+    private void evt_mnui_export_nutrient_lookup() {
         if( !textFieldNutrientLookup.getText().isBlank() ) {
             ExportNutrientLookup exportNutrientLookup = new ExportNutrientLookup( dbLink );
             exportNutrientLookup.print( textFieldNutrientLookup, comboBoxNutrientLookupListNutrient );
@@ -4034,7 +3833,7 @@ public class Main {
         sb.append( "poi-4.1.1.jar" );
         sb.append( "\n" );
         sb.append( "looks-01.jar" );
-        sb.append( "\n\n\n" );
+        sb.append( "\n\n" );
         sb.append( "Snack uses a data subset from:" );
         sb.append( "\n\n" );
         sb.append( "1) USDA National Nutrient Database for Standard Reference, Release 28" );
@@ -4042,15 +3841,11 @@ public class Main {
         sb.append( "2) Dietary Reference Intakes Nutrient Recommendations Report from" );
         sb.append( "\n" );
         sb.append( "   Food and Nutrition Board of the Institute of Medicine, National Academy of Sciences" );
-        JTextArea textArea = new JTextArea();
-        textArea.setText( sb.toString() );
-        textArea.setEditable( false );
-        textArea.setLineWrap( true );
-        JScrollPane scrollPane = new JScrollPane( textArea );
-        scrollPane.setPreferredSize( new Dimension( 700, 433 ) );
-        JComponent[] inputs = new JComponent[] {
-            scrollPane
-        };
+        String_display_component component = new String_display_component();
+        component.setText( sb.toString() );
+        component.setPreferredSize( new Dimension( 550, 250 ) );
+        JComponent[] inputs = new JComponent[ 1 ];
+        inputs[ 0 ] = component;
         Message.showOptionDialog( inputs, "Credits" );
     }
 
@@ -4087,26 +3882,18 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1040" );
+        sb.append( "This is build 1050" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
-        JTextArea textArea = new JTextArea();
-        textArea.setText( sb.toString() );
-        textArea.setEditable( false );
-        textArea.setLineWrap( true );
-        JScrollPane scrollPane = new JScrollPane( textArea );
-        scrollPane.setPreferredSize( new Dimension( 700, 433 ) );
-        JComponent[] inputs = new JComponent[] {
-            scrollPane
-        };
-        SwingUtilities.invokeLater( ()
-                -> {
-            scrollPane.getViewport().setViewPosition( new Point( 0, 0 ) );
-        } );
+        String_display_component component = new String_display_component();
+        component.setText( sb.toString() );
+        component.setPreferredSize( new Dimension( 754, 575 ) );
+        JComponent[] inputs = new JComponent[ 1 ];
+        inputs[ 0 ] = component;
         Message.showOptionDialog( inputs, "About" );
     }
 
-    private JPanel get_results() {
+    private JPanel get_editor_solution() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout(
                 "min:grow,60dlu", //columns
@@ -4115,30 +3902,32 @@ public class Main {
         panel.setLayout( layout );
         results_tabbed_pane.setBorder( new TitledBorder( "Mix Results" ) );
         results_tabbed_pane.setTabPlacement( JTabbedPane.BOTTOM );
-        results_tabbed_pane.add( get_energy() );
-        results_tabbed_pane.add( get_protein() );
-        results_tabbed_pane.add( get_fats() );
-        results_tabbed_pane.add( get_carbs() );
-        results_tabbed_pane.add( get_vitamins() );
-        results_tabbed_pane.add( get_minerals() );
-        results_tabbed_pane.add( get_electrolytes() );
-        results_tabbed_pane.add( get_water() );
-        results_tabbed_pane.add( get_cost() );
-        results_tabbed_pane.add( get_glycemic() );
-        results_tabbed_pane.add( get_model() );
-        results_tabbed_pane.add( get_mix_results_rda() );
+        results_tabbed_pane.add( get_editor_energy() );
+        results_tabbed_pane.add( get_editor_macronutrient() );
+        results_tabbed_pane.add( get_editor_protein() );
+        results_tabbed_pane.add( get_editor_fats() );
+        results_tabbed_pane.add( get_editor_carbs() );
+        results_tabbed_pane.add( get_editor_vitamins() );
+        results_tabbed_pane.add( get_editor_minerals() );
+        results_tabbed_pane.add( get_editor_electrolytes() );
+        results_tabbed_pane.add( get_editor_water() );
+        results_tabbed_pane.add( get_editor_cost() );
+        results_tabbed_pane.add( get_editor_glycemic() );
+        results_tabbed_pane.add( get_editor_rda() );
+        results_tabbed_pane.add( get_editor_model() );
         results_tabbed_pane.setTitleAt( 0, "Energy" );
-        results_tabbed_pane.setTitleAt( 1, "Protein" );
-        results_tabbed_pane.setTitleAt( 2, "Fats" );
-        results_tabbed_pane.setTitleAt( 3, "Carbohydrates" );
-        results_tabbed_pane.setTitleAt( 4, "Vitamins" );
-        results_tabbed_pane.setTitleAt( 5, "Minerals" );
-        results_tabbed_pane.setTitleAt( 6, "Electrolytes" );
-        results_tabbed_pane.setTitleAt( 7, "Water" );
-        results_tabbed_pane.setTitleAt( 8, "Cost" );
-        results_tabbed_pane.setTitleAt( 9, "Glycemic" );
-        results_tabbed_pane.setTitleAt( 10, "Model" );
+        results_tabbed_pane.setTitleAt( 1, "Macronutrient" );
+        results_tabbed_pane.setTitleAt( 2, "Protein" );
+        results_tabbed_pane.setTitleAt( 3, "Fats" );
+        results_tabbed_pane.setTitleAt( 4, "Carbohydrates" );
+        results_tabbed_pane.setTitleAt( 5, "Vitamins" );
+        results_tabbed_pane.setTitleAt( 6, "Minerals" );
+        results_tabbed_pane.setTitleAt( 7, "Electrolytes" );
+        results_tabbed_pane.setTitleAt( 8, "Water" );
+        results_tabbed_pane.setTitleAt( 9, "Cost" );
+        results_tabbed_pane.setTitleAt( 10, "Glycemic" );
         results_tabbed_pane.setTitleAt( 11, "Rda" );
+        results_tabbed_pane.setTitleAt( 12, "Model" );
         JScrollPane highScorePane = new JScrollPane( lst_high_score );
         panel.add( results_tabbed_pane, cc.xywh( 1, 1, 1, 2 ) );
         panel.add( highScorePane, cc.xy( 2, 2 ) );
@@ -4171,7 +3960,7 @@ public class Main {
         return panel;
     }
 
-    private JScrollPane get_glycemic_journal() {
+    private JScrollPane get_journal_glycemic() {
         JScrollPane scrollPane = new JScrollPane( tableJournalGlycemic );
         tableJournalGlycemic.setModel( modelTableJournalGlycemic );
         tableJournalGlycemic.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4182,7 +3971,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_glycemic() {
+    private JScrollPane get_editor_glycemic() {
         JScrollPane scrollPane = new JScrollPane( tableGlycemic );
         tableGlycemic.setModel( modelTableGlycemic );
         tableGlycemic.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4193,7 +3982,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_energy_journal() {
+    private JScrollPane get_journal_energy() {
         JScrollPane scrollPane = new JScrollPane( tableJournalEnergy );
         tableJournalEnergy.setModel( modelTableJournalEnergy );
         tableJournalEnergy.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4204,7 +3993,18 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_energy() {
+    private JScrollPane get_journal_macronutrient() {
+        JScrollPane scrollPane = new JScrollPane( tableJournalMacronutrient );
+        tableJournalMacronutrient.setModel( modelTableJournalMacroNutrient );
+        tableJournalMacronutrient.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        tableJournalMacronutrient.setFillsViewportHeight( true );
+        tableJournalMacronutrient.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        tableJournalMacronutrient.setTableHeader( new TableHeaderMacroNutrient( tableJournalMacronutrient.getColumnModel() ) );
+        tableJournalMacronutrient.setAutoCreateRowSorter( true );
+        return scrollPane;
+    }
+
+    private JScrollPane get_editor_energy() {
         JScrollPane scrollPane = new JScrollPane( tableEnergy );
         tableEnergy.setModel( modelTableEnergy );
         tableEnergy.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4215,7 +4015,18 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_protein_journal() {
+    private JScrollPane get_editor_macronutrient() {
+        JScrollPane scrollPane = new JScrollPane( tableMacronutrient );
+        tableMacronutrient.setModel( modelTableMacroNutrient );
+        tableMacronutrient.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        tableMacronutrient.setFillsViewportHeight( true );
+        tableMacronutrient.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        tableMacronutrient.setTableHeader( new TableHeaderMacroNutrient( tableMacronutrient.getColumnModel() ) );
+        tableMacronutrient.setAutoCreateRowSorter( true );
+        return scrollPane;
+    }
+
+    private JScrollPane get_journal_protein() {
         JScrollPane scrollPane = new JScrollPane( tableJournalProtein );
         tableJournalProtein.setModel( modelTableJournalProtein );
         tableJournalProtein.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4226,7 +4037,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_protein() {
+    private JScrollPane get_editor_protein() {
         JScrollPane scrollPane = new JScrollPane( tableProtein );
         tableProtein.setModel( modelTableProtein );
         tableProtein.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4237,7 +4048,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_fats_journal() {
+    private JScrollPane get_journal_fats() {
         JScrollPane scrollPane = new JScrollPane( tableJournalFats );
         tableJournalFats.setModel( modelTableJournalFats );
         tableJournalFats.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4248,7 +4059,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_fats() {
+    private JScrollPane get_editor_fats() {
         JScrollPane scrollPane = new JScrollPane( tableFats );
         tableFats.setModel( modelTableFats );
         tableFats.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4259,7 +4070,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_carbs_journal() {
+    private JScrollPane get_journal_carbs() {
         JScrollPane scrollPane = new JScrollPane( tableJournalCarbs );
         tableJournalCarbs.setModel( modelTableJournalCarbs );
         tableJournalCarbs.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4270,7 +4081,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_carbs() {
+    private JScrollPane get_editor_carbs() {
         JScrollPane scrollPane = new JScrollPane( tableCarbs );
         tableCarbs.setModel( modelTableCarbs );
         tableCarbs.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4281,7 +4092,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_vitamins_journal() {
+    private JScrollPane get_journal_vitamins() {
         JScrollPane scrollPane = new JScrollPane( tableJournalVitamins );
         tableJournalVitamins.setModel( modelTableJournalVitamins );
         tableJournalVitamins.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4292,7 +4103,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_vitamins() {
+    private JScrollPane get_editor_vitamins() {
         JScrollPane scrollPane = new JScrollPane( tableVitamins );
         tableVitamins.setModel( modelTableVitamins );
         tableVitamins.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4303,7 +4114,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_minerals_journal() {
+    private JScrollPane get_journal_minerals() {
         JScrollPane scrollPane = new JScrollPane( tableJournalMinerals );
         tableJournalMinerals.setModel( modelTableJournalMinerals );
         tableJournalMinerals.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4314,7 +4125,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_minerals() {
+    private JScrollPane get_editor_minerals() {
         JScrollPane scrollPane = new JScrollPane( tableMinerals );
         tableMinerals.setModel( modelTableMinerals );
         tableMinerals.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4325,7 +4136,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_electrolytes_journal() {
+    private JScrollPane get_journal_electrolytes() {
         JScrollPane scrollPane = new JScrollPane( tableJournalElectrolytes );
         tableJournalElectrolytes.setModel( modelTableJournalElectrolytes );
         tableJournalElectrolytes.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4336,7 +4147,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_electrolytes() {
+    private JScrollPane get_editor_electrolytes() {
         JScrollPane scrollPane = new JScrollPane( tableElectrolytes );
         tableElectrolytes.setModel( modelTableElectrolytes );
         tableElectrolytes.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4347,7 +4158,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_water_journal() {
+    private JScrollPane get_journal_water() {
         JScrollPane scrollPane = new JScrollPane( tableJournalWater );
         tableJournalWater.setModel( modelTableJournalWater );
         tableJournalWater.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4358,7 +4169,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_water() {
+    private JScrollPane get_editor_water() {
         JScrollPane scrollPane = new JScrollPane( tableWater );
         tableWater.setModel( modelTableWater );
         tableWater.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4369,7 +4180,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_cost_journal() {
+    private JScrollPane get_journal_cost() {
         JScrollPane scrollPane = new JScrollPane( tableJournalCost );
         tableJournalCost.setModel( modelTableJournalCost );
         tableJournalCost.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4380,7 +4191,7 @@ public class Main {
         return scrollPane;
     }
 
-    private JScrollPane get_cost() {
+    private JScrollPane get_editor_cost() {
         JScrollPane scrollPane = new JScrollPane( tableCost );
         tableCost.setModel( modelTableCost );
         tableCost.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -4435,7 +4246,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_nutrient_constraint() {
+    private JPanel get_constraint_nutrient() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min", //columns
@@ -4474,7 +4285,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_food_nutrient_constraint() {
+    private JPanel get_constraint_food_nutrient() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min,550px", //columns
@@ -4492,7 +4303,7 @@ public class Main {
         buttons.add( buttonFoodNutrientConstraintAdd );
         buttons.add( buttonFoodNutrientConstraintDelete );
         panel.add( buttons, cc.xyw( 1, 4, 4 ) );
-        spTable.setBorder( new TitledBorder( "Food Constraints" ) );
+        spTable.setBorder( new TitledBorder( "Food Nutrient Constraints" ) );
         comboBoxFoodNutrientConstraintNutrient.setMaximumRowCount( 10 );
         comboBoxFoodNutrientConstraintNutrient.setModel( modelComboBox_NutrientAtNutrientPctContraint );
         comboBoxFoodNutrientConstraintRelationship.setMaximumRowCount( 3 );
@@ -4516,7 +4327,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_nutrient_ratio_constraint() {
+    private JPanel get_constraint_nutrient_ratio() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "660px,min,min,min:grow", //columns
@@ -4559,7 +4370,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_food_nutrient_ratio_constraint() {
+    private JPanel get_constraint_food_nutrient_ratio() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min,min:grow", //columns
@@ -4581,7 +4392,7 @@ public class Main {
         buttons.add( buttonFoodNutrientRatioAdd );
         buttons.add( buttonFoodNutrientRatioDelete );
         panel.add( buttons, cc.xyw( 1, 6, 4 ) );
-        spTable.setBorder( new TitledBorder( "Food Ratio Constraints" ) );
+        spTable.setBorder( new TitledBorder( "Food Nutrient Ratio Constraints" ) );
         comboBoxFoodNutrientRatioNutrientA.setMaximumRowCount( 10 );
         comboBoxFoodNutrientRatioNutrientA.setModel( modelComboBox_0_NutrientAtFoodNutrientRatio );
         comboBoxFoodNutrientRatioNutrientB.setMaximumRowCount( 10 );
@@ -4608,7 +4419,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_percent_of_food_nutrient_constraint() {
+    private JPanel get_constraint_percent_of_food_nutrient() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
                 "min,min,min,min,550px", //columns
@@ -4627,7 +4438,7 @@ public class Main {
         buttons.add( buttonPercentNutrientConstraintAdd );
         buttons.add( buttonPercentNutrientConstraintDelete );
         panel.add( buttons, cc.xyw( 1, 4, 5 ) );
-        spTable.setBorder( new TitledBorder( "Foods Constraints (%)" ) );
+        spTable.setBorder( new TitledBorder( "Food Nutrient Percent Constraints" ) );
         comboBoxPercentNutrientConstraintNutrient.setMaximumRowCount( 10 );
         comboBoxPercentNutrientConstraintNutrient.setModel( modelComboBox_NutrientAtNutrientPctContraint );
         comboBoxPercentNutrientConstraintFood.setMaximumRowCount( 10 );
@@ -4694,18 +4505,12 @@ public class Main {
     }
 
     private void resize_col_tbl_percent_nutrient_constraint() {
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 1 ).setMinWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 2 ).setMinWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 2 ).setMaxWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 3 ).setMinWidth( 0 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 3 ).setMaxWidth( 0 );
+        for( int i = 0; i < 4; i++ ) {
+            tableNutrientPercentConstraint.getColumnModel().getColumn( i ).setMinWidth( 0 );
+            tableNutrientPercentConstraint.getColumnModel().getColumn( i ).setMaxWidth( 0 );
+        }
         tableNutrientPercentConstraint.getColumnModel().getColumn( 4 ).setMinWidth( 480 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 4 ).setMaxWidth( 480 );
         tableNutrientPercentConstraint.getColumnModel().getColumn( 5 ).setMinWidth( 250 );
-        tableNutrientPercentConstraint.getColumnModel().getColumn( 5 ).setMaxWidth( 250 );
         tableNutrientPercentConstraint.getColumnModel().getColumn( 6 ).setMinWidth( 21 );
         tableNutrientPercentConstraint.getColumnModel().getColumn( 6 ).setMaxWidth( 21 );
     }
@@ -4756,7 +4561,7 @@ public class Main {
         return panel;
     }
 
-    private JPanel get_model() {
+    private JPanel get_editor_model() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout(
                 "min:grow", //columns
@@ -5022,21 +4827,21 @@ public class Main {
         }
     }
 
-    private void evt_btn_nutrient_lookup() {
-        reload_tblmdl_nutrient_lookup();
-    }
-
     private void reload_tblmdl_nutrient_lookup() {
         NutrientDataObject nutrientDataObject = ( NutrientDataObject ) comboBoxNutrientLookupListNutrient.getSelectedItem();
-        try {
-            String text = textFieldNutrientLookup.getText();
-            if( !text.isBlank() ) {
-                Double q = Double.parseDouble( text );
-                modelTableNutrientLookup.reload( nutrientDataObject.getNutr_no(), q );
-                resize_col_tbl_nutrient_lookup();
+        String text = textFieldNutrientLookup.getText();
+        NumberCheck checkNumber = new NumberCheck();
+        checkNumber.addToUncheckedList( text );
+        if( checkNumber.pass() ) {
+            Double q = Double.parseDouble( text );
+            modelTableNutrientLookup.reload( nutrientDataObject.getNutr_no(), q );
+            resize_col_tbl_nutrient_lookup();
+        }
+        else {
+            if( !text.isEmpty() ) {
+                Message.showMessage( "Character must be number." );
             }
-        } catch( NumberFormatException e ) {
-            Message.showMessage( e.toString() );
+
         }
     }
 
@@ -5251,7 +5056,7 @@ public class Main {
                     reload_tblmdl_food_comparison();
                     reload_tblmdl_mix_comparison();
                     resize_col_tbl_results_rda();
-                    dbLink.allocate( mixid );
+                    dbLink.apportion( mixid );
                     int journal_mix_index = lst_journal_mix.getSelectedIndex();
                     reload_lstmdl_mixes();
                     lst_journal_mix.setSelectedIndex( journal_mix_index );
@@ -5400,17 +5205,17 @@ public class Main {
         }
     }
 
-    private void evt_btn_meal_food_allocation_add() {
+    private void evt_btn_food_portion_add() {
         if( is_mix_journal_selected() ) {
             NumberCheck checkNumber = new NumberCheck();
             Double pcti = Double.NaN;
-            checkNumber.addToUncheckedList( textfield_allocation_pct.getText() );
+            checkNumber.addToUncheckedList( textfield_portion_pct.getText() );
             if( checkNumber.pass() ) {
                 MixDataObject mix = ( MixDataObject ) lst_journal_mix.getSelectedValue();
                 String mixid = mix.getMixId();
-                String foodid = (( FoodDataObject ) comboBoxAllocationFood.getSelectedItem()).getFoodId();
-                ArrayList selectedValuesList = ( ArrayList ) listAllocationMeal.getSelectedValuesList();
-                Double pct = Double.valueOf( textfield_allocation_pct.getText() );
+                String foodid = (( FoodDataObject ) comboBoxPortionFood.getSelectedItem()).getFoodId();
+                ArrayList selectedValuesList = ( ArrayList ) listPortionMeal.getSelectedValuesList();
+                Double pct = Double.valueOf( textfield_portion_pct.getText() );
                 int n = selectedValuesList.size();
                 pcti = pct / n;
                 Double remaining = Double.NaN;
@@ -5418,18 +5223,19 @@ public class Main {
                     for( Object o : selectedValuesList ) {
                         O_Meal meal = ( O_Meal ) o;
                         Integer mealid = meal.getMealid();
-                        dbLink.MealFoodAllocation_insert_and_calculate( mixid, mealid, foodid, pcti );
+                        dbLink.MealFoodPortion_insert_and_calculate( mixid, mealid, foodid, pcti );
                     }
                     dbLink.stopTransaction();
-                    remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
+                    remaining = dbLink.calculate_remaining_percentage( mixid, foodid, precision );
                 } catch( SQLException e ) {
+                    e.printStackTrace();
                 }
-                reload_tblmdl_allocation( mixid );
+                reload_tblmdl_portion( mixid );
                 reload_tblmdl_results_by_meal( mixid );
-                resize_col_tbl_meal_allocation();
+                resize_col_tbl_meal_portions();
                 resize_col_tbl_results_by_meal_calories();
                 resize_col_tbl_results_by_meal_grams();
-                textfield_allocation_remaining.setText( String.valueOf( remaining ) );
+                textfield_portion_remaining.setText( String.valueOf( remaining ) );
             }
             else {
                 Message.showMessage( "Character must be number." );
@@ -5482,20 +5288,18 @@ public class Main {
             tableFoodNutrientConstraint.getColumnModel().getColumn( i ).setMaxWidth( 0 );
         }
         tableFoodNutrientConstraint.getColumnModel().getColumn( 4 ).setMinWidth( 480 );
-        tableFoodNutrientConstraint.getColumnModel().getColumn( 4 ).setMaxWidth( 480 );
         tableFoodNutrientConstraint.getColumnModel().getColumn( 5 ).setMinWidth( 250 );
-        tableFoodNutrientConstraint.getColumnModel().getColumn( 5 ).setMaxWidth( 250 );
         tableFoodNutrientConstraint.getColumnModel().getColumn( 6 ).setMinWidth( 21 );
         tableFoodNutrientConstraint.getColumnModel().getColumn( 6 ).setMaxWidth( 21 );
     }
 
-    private void evt_btn_meal_food_allocation_update_weight() {
+    private void evt_btn_food_portion_update_weight() {
         if( is_mix_journal_selected() ) {
             JTextField input = new JTextField();
             input.setPreferredSize( new Dimension( 50, 25 ) );
-            int selectedRow = tbl_allocation.getSelectedRow();
+            int selectedRow = tbl_meal_portions.getSelectedRow();
             if( selectedRow != -1 ) {
-                Double actualwt = ( Double ) tbl_allocation.getValueAt( selectedRow, 7 );
+                Double actualwt = ( Double ) tbl_meal_portions.getValueAt( selectedRow, 7 );
                 input.setText( String.valueOf( actualwt ) );
                 JPanel input_panel = new JPanel();
                 input_panel.add( new JLabel( "Actual Weight: " ) );
@@ -5506,14 +5310,14 @@ public class Main {
                 int optionValue = Message.showOptionDialogOkCancel( inputs, "Update Actual Weight" );
                 if( optionValue == 0 ) {
                     try {
-                        String mixid = ( String ) tbl_allocation.getValueAt( selectedRow, 0 );
-                        Integer mealid = ( Integer ) tbl_allocation.getValueAt( selectedRow, 1 );
-                        String foodid = ( String ) tbl_allocation.getValueAt( selectedRow, 2 );
-                        dbLink.MealFoodAllocation_update_actualwt( mixid, mealid, foodid, Double.valueOf( input.getText() ) );
+                        String mixid = ( String ) tbl_meal_portions.getValueAt( selectedRow, 0 );
+                        Integer mealid = ( Integer ) tbl_meal_portions.getValueAt( selectedRow, 1 );
+                        String foodid = ( String ) tbl_meal_portions.getValueAt( selectedRow, 2 );
+                        dbLink.MealFoodPortion_update_actualwt( mixid, mealid, foodid, Double.valueOf( input.getText() ) );
                         dbLink.stopTransaction();
-                        reload_tblmdl_allocation( mixid );
+                        reload_tblmdl_portion( mixid );
                         reload_tblmdl_results_by_meal( mixid );
-                        resize_col_tbl_meal_allocation();
+                        resize_col_tbl_meal_portions();
                         resize_col_tbl_results_by_meal_calories();
                         resize_col_tbl_results_by_meal_grams();
                     } catch( SQLException e ) {
@@ -5524,9 +5328,9 @@ public class Main {
         }
     }
 
-    private void evt_btn_meal_food_allocation_delete() {
+    private void evt_btn_food_portion_delete() {
         if( is_mix_journal_selected() ) {
-            int[] selectedRows = tbl_allocation.getSelectedRows();
+            int[] selectedRows = tbl_meal_portions.getSelectedRows();
             if( selectedRows.length > 0 ) {
                 String mixid = "";
                 Integer mealid = -1;
@@ -5534,27 +5338,27 @@ public class Main {
                 Double remaining = Double.NaN;
                 for( int i = 0; i < selectedRows.length; i++ ) {
                     int selectedRow = selectedRows[ i ];
-                    mixid = ( String ) tbl_allocation.getValueAt( selectedRow, 0 );
-                    mealid = ( Integer ) tbl_allocation.getValueAt( selectedRow, 1 );
-                    foodid = ( String ) tbl_allocation.getValueAt( selectedRow, 2 );
+                    mixid = ( String ) tbl_meal_portions.getValueAt( selectedRow, 0 );
+                    mealid = ( Integer ) tbl_meal_portions.getValueAt( selectedRow, 1 );
+                    foodid = ( String ) tbl_meal_portions.getValueAt( selectedRow, 2 );
                     try {
-                        dbLink.MealFoodAllocation_delete( mixid, mealid, foodid );
+                        dbLink.MealFoodPortion_delete( mixid, mealid, foodid );
                     } catch( SQLException e ) {
                     }
                 }
                 dbLink.stopTransaction();
                 try {
-                    remaining = dbLink.calculate_remaining_allocation( mixid, foodid, precision );
+                    remaining = dbLink.calculate_remaining_percentage( mixid, foodid, precision );
                 } catch( SQLException e ) {
                 }
-                textfield_allocation_remaining.setText( String.valueOf( remaining ) );
-                int index_food = modelComboBox_AllocationFood.find_by_foodid( foodid );
-                int index_meal = modelList_AllocationMeal.find_by_mealid( mealid );
-                comboBoxAllocationFood.setSelectedIndex( index_food );
-                listAllocationMeal.setSelectedIndex( index_meal );
-                reload_tblmdl_allocation( mixid );
+                textfield_portion_remaining.setText( String.valueOf( remaining ) );
+                int index_food = modelComboBox_PortionFood.find_by_foodid( foodid );
+                int index_meal = modelList_PortionMeal.find_by_mealid( mealid );
+                comboBoxPortionFood.setSelectedIndex( index_food );
+                listPortionMeal.setSelectedIndex( index_meal );
+                reload_tblmdl_portion( mixid );
                 reload_tblmdl_results_by_meal( mixid );
-                resize_col_tbl_meal_allocation();
+                resize_col_tbl_meal_portions();
                 resize_col_tbl_results_by_meal_calories();
                 resize_col_tbl_results_by_meal_grams();
             }
@@ -5565,8 +5369,8 @@ public class Main {
         }
     }
 
-    private void reload_tblmdl_allocation( String mixid ) {
-        modelTableAllocation.reload( mixid, precision );
+    private void reload_tblmdl_portion( String mixid ) {
+        modelTablePortion.reload( mixid, precision );
     }
 
     private void reload_tblmdl_results_by_meal( String mixid ) {
@@ -5667,23 +5471,17 @@ public class Main {
 
     private void resize_col_tbl_food_comparison() {
         table_food_comparison.getColumnModel().getColumn( 0 ).setMinWidth( 120 );
-        table_food_comparison.getColumnModel().getColumn( 0 ).setMaxWidth( 120 );
         table_food_comparison.getColumnModel().getColumn( 1 ).setMinWidth( 250 );
-        table_food_comparison.getColumnModel().getColumn( 1 ).setMaxWidth( 250 );
         for( int i = 2; i < 5; i++ ) {
             table_food_comparison.getColumnModel().getColumn( i ).setMinWidth( 75 );
-            table_food_comparison.getColumnModel().getColumn( i ).setMaxWidth( 75 );
         }
     }
 
     private void resize_col_tbl_mix_comparison() {
         tbl_mix_comparison.getColumnModel().getColumn( 0 ).setMinWidth( 120 );
-        tbl_mix_comparison.getColumnModel().getColumn( 0 ).setMaxWidth( 120 );
         tbl_mix_comparison.getColumnModel().getColumn( 1 ).setMinWidth( 250 );
-        tbl_mix_comparison.getColumnModel().getColumn( 1 ).setMaxWidth( 250 );
         for( int i = 2; i < 5; i++ ) {
-            tbl_mix_comparison.getColumnModel().getColumn( i ).setMinWidth( 75 );
-            tbl_mix_comparison.getColumnModel().getColumn( i ).setMaxWidth( 75 );
+            tbl_mix_comparison.getColumnModel().getColumn( i ).setMinWidth( 70 );
         }
     }
 
@@ -5691,10 +5489,8 @@ public class Main {
         tbl_results_rda.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tbl_results_rda.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tbl_results_rda.getColumnModel().getColumn( 1 ).setMinWidth( 310 );
-        tbl_results_rda.getColumnModel().getColumn( 1 ).setMaxWidth( 310 );
         for( int i = 2; i < 7; i++ ) {
-            tbl_results_rda.getColumnModel().getColumn( i ).setMinWidth( 75 );
-            tbl_results_rda.getColumnModel().getColumn( i ).setMaxWidth( 75 );
+            tbl_results_rda.getColumnModel().getColumn( i ).setMinWidth( 70 );
         }
     }
 
@@ -5702,43 +5498,30 @@ public class Main {
         tbl_journal_rda.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tbl_journal_rda.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tbl_journal_rda.getColumnModel().getColumn( 1 ).setMinWidth( 310 );
-        tbl_journal_rda.getColumnModel().getColumn( 1 ).setMaxWidth( 310 );
         for( int i = 2; i < 7; i++ ) {
-            tbl_journal_rda.getColumnModel().getColumn( i ).setMinWidth( 75 );
-            tbl_journal_rda.getColumnModel().getColumn( i ).setMaxWidth( 75 );
+            tbl_journal_rda.getColumnModel().getColumn( i ).setMinWidth( 70 );
         }
     }
 
     private void resize_col_tbl_nutrient_lookup() {
-        tableNutrientLookup.getColumnModel().getColumn( 0 ).setMinWidth( 250 );
-        tableNutrientLookup.getColumnModel().getColumn( 0 ).setMaxWidth( 550 );
-        tableNutrientLookup.getColumnModel().getColumn( 1 ).setMinWidth( 75 );
-        tableNutrientLookup.getColumnModel().getColumn( 1 ).setMaxWidth( 75 );
-        tableNutrientLookup.getColumnModel().getColumn( 2 ).setMinWidth( 75 );
-        tableNutrientLookup.getColumnModel().getColumn( 2 ).setMaxWidth( 75 );
+        tableNutrientLookup.getColumnModel().getColumn( 0 ).setMinWidth( 550 );
+        tableNutrientLookup.getColumnModel().getColumn( 1 ).setMinWidth( 70 );
+        tableNutrientLookup.getColumnModel().getColumn( 2 ).setMinWidth( 70 );
     }
 
     private void resize_col_tbl_nutrient_input() {
         tableNutrientInput.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-        tableNutrientInput.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
-        tableNutrientInput.getColumnModel().getColumn( 1 ).setMaxWidth( 150 );
-        tableNutrientInput.getColumnModel().getColumn( 2 ).setMaxWidth( 320 );
-        tableNutrientInput.getColumnModel().getColumn( 3 ).setMaxWidth( 100 );
     }
 
     private void resize_col_tbl_check_coefficients() {
         tableCheckCoefficients.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-        tableCheckCoefficients.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
-        tableCheckCoefficients.getColumnModel().getColumn( 1 ).setMaxWidth( 150 );
-        tableCheckCoefficients.getColumnModel().getColumn( 2 ).setMaxWidth( 320 );
-        tableCheckCoefficients.getColumnModel().getColumn( 3 ).setMaxWidth( 100 );
-        tableCheckCoefficients.getColumnModel().getColumn( 4 ).setMaxWidth( 100 );
     }
 
     private void resize_col_tbl_food_list() {
         tableFoodList01.getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         tableFoodList01.getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
         tableFoodList01.getColumnModel().getColumn( 1 ).setMinWidth( 350 );
+        tableFoodList01.getColumnModel().getColumn( 16 ).setMinWidth( 90 );
     }
 
     private void evt_btn_nutrient_ratio_delete() {
@@ -5971,42 +5754,47 @@ public class Main {
     }
 
     private void evt_mnui_glycemic_load() {
-        JTextField textFieldGI = new JTextField();
-        JTextField textFieldCarbs = new JTextField();
+        FormLayout layout = new FormLayout( "min,30dlu", //columns
+                                            "min,16dlu" //rows
+        );
+        JPanel input_panel = new JPanel();
+        input_panel.setLayout( layout );
+        JTextField txt_gi = new JTextField();
+        JTextField txt_digestible_carbs = new JTextField();
+        JLabel digestiblel_carbs_label = new JLabel( "How many digestible carbs (g) in food item? " );
+        JLabel gi_label = new JLabel( "What is glycemic index of food item? " );
+        digestiblel_carbs_label.setHorizontalAlignment( JLabel.RIGHT );
+        gi_label.setHorizontalAlignment( JLabel.RIGHT );
+        input_panel.add( digestiblel_carbs_label, cc.xy( 1, 1 ) );
+        input_panel.add( txt_digestible_carbs, cc.xy( 2, 1 ) );
+        input_panel.add( gi_label, cc.xy( 1, 2 ) );
+        input_panel.add( txt_gi, cc.xy( 2, 2 ) );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "What is glycemic index of food item?" ),
-            textFieldGI
+            input_panel
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Glycemic Load" );
         if( optionValue == 0 ) {
-            String strGI = textFieldGI.getText();
-            inputs = new JComponent[] {
-                new JLabel( "How many digestible carbs (g) in food item?" ),
-                textFieldCarbs
-            };
-            optionValue = Message.showOptionDialogOkCancel( inputs, "Glycemic Load" );
-            if( optionValue == 0 ) {
-                String strCarbs = textFieldCarbs.getText();
-                if( strGI != null && strGI.length() > 0 ) {
-                    if( strCarbs != null && strCarbs.length() > 0 ) {
-                        StringBuilder sb = new StringBuilder();
-                        NumberCheck checkNumber = new NumberCheck();
-                        checkNumber.addToUncheckedList( strGI );
-                        checkNumber.addToUncheckedList( strCarbs );
-                        if( checkNumber.pass() ) {
-                            Double gi = Double.valueOf( strGI );
-                            Double carbs = Double.valueOf( strCarbs );
-                            double gl = new GlycemicLoad( gi, carbs ).getGlycemicLoad();
-                            sb.append( "Glycemic Load: " );
-                            sb.append( gl );
-                            JTextArea textArea = new JTextArea( 1, 10 );
-                            textArea.setText( sb.toString() );
-                            textArea.setEditable( false );
-                            inputs = new JComponent[] {
-                                textArea
-                            };
-                            Message.showOptionDialog( inputs, "Glycemic Load" );
-                        }
+            String strGI = txt_gi.getText();
+            String strCarbs = txt_digestible_carbs.getText();
+            if( strGI != null && strGI.length() > 0 ) {
+                if( strCarbs != null && strCarbs.length() > 0 ) {
+                    StringBuilder sb = new StringBuilder();
+                    NumberCheck checkNumber = new NumberCheck();
+                    checkNumber.addToUncheckedList( strGI );
+                    checkNumber.addToUncheckedList( strCarbs );
+                    if( checkNumber.pass() ) {
+                        Double gi = Double.valueOf( strGI );
+                        Double carbs = Double.valueOf( strCarbs );
+                        double gl = new GlycemicLoad( gi, carbs ).getGlycemicLoad();
+                        sb.append( "The glycemic load is " );
+                        sb.append( gl );
+                        sb.append( " grams." );
+                        String_display_component component = new String_display_component();
+                        component.setText( sb.toString() );
+                        component.setPreferredSize( new Dimension( 0, 40 ) );
+                        inputs = new JComponent[ 1 ];
+                        inputs[ 0 ] = component;
+                        Message.showOptionDialog( inputs, "Glycemic Load" );
                     }
                 }
             }
@@ -6014,14 +5802,17 @@ public class Main {
     }
 
     private void evt_mnui_n3_fatty_acid_recommendations() {
-        JTextField energy = new JTextField();
+        JTextField input = new JTextField();
+        JPanel input_panel = new JPanel();
+        input.setPreferredSize( new Dimension( 50, 25 ) );
+        input_panel.add( new JLabel( "What is your optimal calorie intake?" ) );
+        input_panel.add( input );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "What is your optimal calorie intake?" ),
-            energy
+            input_panel
         };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Alpha-Linolenic Acid (ALA)" );
         if( optionValue == 0 ) {
-            String s = energy.getText();
+            String s = input.getText();
             if( s != null && s.length() > 0 ) {
                 StringBuilder sb = new StringBuilder();
                 NumberCheck checkNumber = new NumberCheck();
@@ -6033,15 +5824,14 @@ public class Main {
                     BigDecimal ala_high = n3_fatty_acid_recommendation.get_high_in_grams();
                     sb.append( "Alpha-linolenic acid (ALA) required is between " );
                     sb.append( ala_low.setScale( 1, RoundingMode.HALF_UP ) );
-                    sb.append( " - " );
+                    sb.append( " and " );
                     sb.append( ala_high.setScale( 1, RoundingMode.HALF_UP ) );
-                    sb.append( " grams" );
-                    JTextArea textArea = new JTextArea( 1, 40 );
-                    textArea.setText( sb.toString() );
-                    textArea.setEditable( false );
-                    inputs = new JComponent[] {
-                        textArea
-                    };
+                    sb.append( " grams." );
+                    String_display_component component = new String_display_component();
+                    component.setText( sb.toString() );
+                    component.setPreferredSize( new Dimension( 415, 40 ) );
+                    inputs = new JComponent[ 1 ];
+                    inputs[ 0 ] = component;
                     Message.showOptionDialog( inputs, "Alpha-Linolenic Acid (ALA)" );
                 }
                 else {
@@ -6058,14 +5848,14 @@ public class Main {
         );
         StringBuilder sbPanel1 = new StringBuilder();
         StringBuilder sbPanel2 = new StringBuilder();
-        sbPanel1.append( get_no_feasible_solution_text() );
+        sbPanel1.append( get_text_no_feasible_solution() );
         sbPanel2.append( "One or more of these constraints makes the solution unfeasible." );
         sbPanel2.append( "\n\n" );
-        sbPanel2.append( get_nutrient_constraint_text() );
-        sbPanel2.append( get_nutrient_percent_constraint_text() );
-        sbPanel2.append( get_food_constraint_text() );
-        sbPanel2.append( get_food_ratio_text() );
-        sbPanel2.append( get_nutrient_ratio_text() );
+        sbPanel2.append( get_text_nutrient_constraint() );
+        sbPanel2.append( get_text_nutrient_percent_constraint() );
+        sbPanel2.append( get_text_food_constraint() );
+        sbPanel2.append( get_text_food_ratio() );
+        sbPanel2.append( get_text_nutrient_ratio() );
         JTabbedPane tp = new JTabbedPane();
         JPanel p1 = new JPanel();
         JPanel p2 = new JPanel();
@@ -6090,7 +5880,7 @@ public class Main {
         return tp;
     }
 
-    private String get_nutrient_ratio_text() {
+    private String get_text_nutrient_ratio() {
         StringBuilder sb = new StringBuilder();
         if( tableNutrientRatio.getRowCount() > 0 ) {
             sb.append( "Nutrient Ratio" );
@@ -6119,7 +5909,7 @@ public class Main {
         return sb.toString();
     }
 
-    private String get_food_ratio_text() {
+    private String get_text_food_ratio() {
         StringBuilder sb = new StringBuilder();
         if( tableFoodNutrientRatio.getRowCount() > 0 ) {
             sb.append( "Food Ratio" );
@@ -6154,7 +5944,7 @@ public class Main {
         return sb.toString();
     }
 
-    private String get_nutrient_percent_constraint_text() {
+    private String get_text_nutrient_percent_constraint() {
         StringBuilder sb = new StringBuilder();
         if( tableNutrientPercentConstraint.getRowCount() > 0 ) {
             sb.append( "Nutrient Percent Constraint" );
@@ -6180,7 +5970,7 @@ public class Main {
         return sb.toString();
     }
 
-    private String get_food_constraint_text() {
+    private String get_text_food_constraint() {
         StringBuilder sb = new StringBuilder();
         if( tableFoodNutrientConstraint.getRowCount() > 0 ) {
             sb.append( "Food Constraint" );
@@ -6206,7 +5996,7 @@ public class Main {
         return sb.toString();
     }
 
-    private String get_nutrient_constraint_text() {
+    private String get_text_nutrient_constraint() {
         StringBuilder sb = new StringBuilder();
         if( tableNutrientConstraint.getRowCount() > 0 ) {
             sb.append( "Nutrient Constraint" );
@@ -6229,7 +6019,7 @@ public class Main {
         return sb.toString();
     }
 
-    private String get_no_feasible_solution_text() {
+    private String get_text_no_feasible_solution() {
         StringBuilder sb = new StringBuilder();
         for( int i = 0; i < 8; i++ ) {
             sb.append( "\n" );
@@ -6318,12 +6108,11 @@ public class Main {
         if( is_mix_selected() ) {
             try {
                 MixDataObject mix = ( MixDataObject ) lst_mix.getSelectedValue();
-                JTextArea textArea = new JTextArea( 1, 24 );
-                textArea.setText( stringModelMixPct.reload( mix.getMixId() ) );
-                textArea.setEditable( false );
-                JComponent[] inputs = new JComponent[] {
-                    textArea
-                };
+                String_display_component component = new String_display_component();
+                component.setText( stringModelMixPct.reload( mix.getMixId() ) );
+                component.setPreferredSize( new Dimension( 280, 130 ) );
+                JComponent[] inputs = new JComponent[ 1 ];
+                inputs[ 0 ] = component;
                 Message.showOptionDialog( inputs, "Macronutrient Percentages" );
             } catch( Exception e ) {
 

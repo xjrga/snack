@@ -1,4 +1,4 @@
-CREATE FUNCTION calculate_remaining_allocation (
+CREATE FUNCTION calculate_remaining_percentage (
 IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_Precision INTEGER) RETURNS DOUBLE 
@@ -10,7 +10,7 @@ DECLARE v_c DOUBLE;
 IF
 --
 (SELECT COUNT(*)
-FROM MealFoodAllocation a
+FROM MealFoodPortion a
 WHERE a.mixid = v_MixId AND a.foodid = V_FoodId) = 0
 --
 THEN
@@ -24,7 +24,7 @@ SELECT CASE
          ELSE 1 -SUM(pct)
        END 
 INTO v_c
-FROM MealFoodAllocation
+FROM MealFoodPortion
 WHERE MixId = v_MixId
 AND   FoodId = v_FoodId;
 --

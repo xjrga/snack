@@ -27,11 +27,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelAllocationMeal extends DefaultListModel {
+public class ListModelPortionMeal extends DefaultListModel {
 
     private final DbLink dbLink;
 
-    public ListModelAllocationMeal( DbLink dbLink ) {
+    public ListModelPortionMeal( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 

@@ -8,7 +8,8 @@ public class TableHeaderNutrientLookup extends MyTableHeader {
     public TableHeaderNutrientLookup( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
-            "Weight (g)"
+            "Weight (g)",
+            "Calories (Kcal)"
         } );
     }
 

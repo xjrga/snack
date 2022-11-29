@@ -317,4 +317,9 @@ RELEASE NOTES
 1040
 
       Add multiple meal food portion deletion
+
+1050
+
+      Modified graphical user interface
+      Simplified data exchange document
       

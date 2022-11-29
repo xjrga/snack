@@ -58,6 +58,13 @@ CREATE TABLE FoodNutrientRatio
         CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (MixId,Food_Id_1,Nutrient_Id_1,Food_Id_2,Nutrient_Id_2,RelationshipId)
 );
 /
+CREATE TABLE GlycemicIndex
+(
+        FoodId LONGVARCHAR,
+        q DOUBLE,
+        CONSTRAINT GlycemicIndex_primary_key PRIMARY KEY (FoodId)
+);
+/
 CREATE TABLE Meal
 (
         MixId LONGVARCHAR,
@@ -67,7 +74,7 @@ CREATE TABLE Meal
         CONSTRAINT Meal_primary_key PRIMARY KEY (MixId,MealId)
 );
 /
-CREATE TABLE MealFoodAllocation
+CREATE TABLE MealFoodPortion
 (
         MixId LONGVARCHAR,
         MealId INTEGER,
@@ -75,7 +82,7 @@ CREATE TABLE MealFoodAllocation
         Pct DOUBLE,
         ExpectedWt DOUBLE,
         ActualWt DOUBLE,
-        CONSTRAINT MealFoodAllocation_primary_key PRIMARY KEY (MixId,MealId,FoodId)
+        CONSTRAINT MealFoodPortion_primary_key PRIMARY KEY (MixId,MealId,FoodId)
 );
 /
 CREATE TABLE Mix
@@ -259,7 +266,7 @@ ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R10_Nutrient_FoodNutrientConst
 /
 ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R11_FoodFact_FoodFactCoefficient FOREIGN KEY (FoodId, NutrientId) REFERENCES FoodFact (FoodId, NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodAllocation ADD CONSTRAINT R12_Meal_MealFoodAllocation FOREIGN KEY (MealId, MixId) REFERENCES Meal (MealId, MixId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R12_Meal_MealFoodPortion FOREIGN KEY (MealId, MixId) REFERENCES Meal (MealId, MixId) ON DELETE CASCADE;
 /
 ALTER TABLE NutrientRatio ADD CONSTRAINT R13_Relationship_NutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
@@ -277,7 +284,7 @@ ALTER TABLE Meal ADD CONSTRAINT R19_Mix_Meal FOREIGN KEY (MixId) REFERENCES Mix 
 /
 ALTER TABLE MixFood ADD CONSTRAINT R20_Mix_MixFood FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodAllocation ADD CONSTRAINT R21_MixFood_MealFoodAllocation FOREIGN KEY (MixId, FoodId) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R21_MixFood_MealFoodPortion FOREIGN KEY (MixId, FoodId) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
 ALTER TABLE PercentConstraint ADD CONSTRAINT R22_MixFood_PercentConstraint FOREIGN KEY (MixId, Foodid) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
@@ -297,7 +304,9 @@ ALTER TABLE CategoryLink ADD CONSTRAINT R29_Food_CategoryLink FOREIGN KEY (FoodI
 /
 ALTER TABLE FoodFact ADD CONSTRAINT R30_Food_FoodFact FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE MixFood ADD CONSTRAINT R31_Food_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE GlycemicIndex ADD CONSTRAINT R31_Food_GlycemicIndex FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE CategoryLink ADD CONSTRAINT R32_FoodCategory_CategoryLink FOREIGN KEY (FoodCategoryId) REFERENCES FoodCategory (FoodCategoryId) ON DELETE CASCADE;
+ALTER TABLE MixFood ADD CONSTRAINT R32_Food_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+/
+ALTER TABLE CategoryLink ADD CONSTRAINT R33_FoodCategory_CategoryLink FOREIGN KEY (FoodCategoryId) REFERENCES FoodCategory (FoodCategoryId) ON DELETE CASCADE;
 /

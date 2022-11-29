@@ -44,10 +44,10 @@ public class TableModelResultsByMealNutrient extends DefaultTableModel implement
         columns.add( "Weight" );
         columns.add( "Fat" );
         columns.add( "Carbs" );
+        columns.add( "Fiber" );
         columns.add( "Protein" );
         columns.add( "Complete" );
         columns.add( "Alcohol" );
-        columns.add( "Fiber" );
         columns.add( "Sodium" );
         columns.add( "Potassium" );
         this.setColumnIdentifiers( columns );
@@ -83,10 +83,10 @@ public class TableModelResultsByMealNutrient extends DefaultTableModel implement
                 row.add( ( Double ) map.get( "WEIGHT" ) );
                 row.add( ( Double ) map.get( "FAT" ) );
                 row.add( ( Double ) map.get( "CARBS" ) );
+                row.add( ( Double ) map.get( "FIBER" ) );
                 row.add( ( Double ) map.get( "PROTEIN" ) );
                 row.add( ( Double ) map.get( "COMPLETE" ) );
                 row.add( ( Double ) map.get( "ALCOHOL" ) );
-                row.add( ( Double ) map.get( "FIBER" ) );
                 row.add( ( Double ) map.get( "SODIUM" ) );
                 row.add( ( Double ) map.get( "POTASSIUM" ) );
                 table.add( row );

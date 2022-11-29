@@ -1,4 +1,4 @@
-CREATE PROCEDURE allocate (
+CREATE PROCEDURE apportion (
 --
 IN v_MixId LONGVARCHAR
 --
@@ -9,7 +9,7 @@ BEGIN ATOMIC
 --
 FOR SELECT mixid,foodid FROM mixfood WHERE mixid = v_MixId DO
 FOR SELECT mealid FROM meal DO
-CALL MealFoodAllocation_update_expectedwt(mixid,mealid, foodid);
+CALL MealFoodPortion_update_expectedwt(mixid,mealid, foodid);
 END FOR;
 END FOR;
 --

@@ -1,4 +1,4 @@
-CREATE PROCEDURE meal_food_allocation_copy (
+CREATE PROCEDURE meal_food_portion_copy (
 --
 IN v_MixId_Old LONGVARCHAR,
 --
@@ -8,7 +8,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO mealfoodallocation
+INSERT INTO mealfoodportion
 (
   mixid,
   mealid,  
@@ -23,7 +23,7 @@ SELECT v_MixId_New,
        pct,
        expectedwt,
        actualwt
-FROM mealfoodallocation
+FROM mealfoodportion
 WHERE mixid = v_MixId_Old;
 --
 END;

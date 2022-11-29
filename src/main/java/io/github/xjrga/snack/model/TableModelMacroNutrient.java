@@ -22,19 +22,20 @@ package io.github.xjrga.snack.model;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelCarbs extends DefaultTableModel {
+public class TableModelMacroNutrient extends DefaultTableModel {
 
     private Vector columns;
 
-    public TableModelCarbs( Result_loader loader ) {
+    public TableModelMacroNutrient( Result_loader loader ) {
         columns = new Vector();
         columns.add( "Name" );
         columns.add( "Weight" );
-        columns.add( "eCarbs" );
-        columns.add( "CarbsByDiff" );
-        columns.add( "Fiber" );
+        columns.add( "Fat" );
         columns.add( "Carbs" );
-        this.setDataVector( loader.get_carbs_table(), columns );
+        columns.add( "Protein" );
+        columns.add( "Alcohol" );
+        this.setDataVector( loader.get_macronutrient_table(), columns );
+
     }
 
     @Override
@@ -57,5 +58,4 @@ public class TableModelCarbs extends DefaultTableModel {
     public void set_table( Vector table ) {
         this.setDataVector( table, columns );
     }
-
 }

@@ -119,7 +119,7 @@ public class ExportMealPlan {
         cell.setCellValue( "Actual" );
         cell.setCellStyle( cellStyleColumnName );
         try {
-            LinkedList list = ( LinkedList ) dbLink.MealFoodAllocation_select_all( mixDataObject.getMixId(), 5 );
+            LinkedList list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixDataObject.getMixId(), 5 );
             Iterator it = list.iterator();
             while( it.hasNext() ) {
                 HashMap rowm = ( HashMap ) it.next();

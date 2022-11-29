@@ -28,7 +28,7 @@ CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_copy(v_MixId_Old,v_MixId_New);
 --
-CALL meal_food_allocation_copy(v_MixId_Old,v_MixId_New);
+CALL meal_food_portion_copy(v_MixId_Old,v_MixId_New);
 --
 END;
 /

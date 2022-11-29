@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
@@ -102,6 +103,34 @@ public class Utilities {
             System.out.println( "Reason: " + e.getLocalizedMessage() );
         }
         return result;
+    }
+
+    public static double[] convert_to_double_array( int[] array ) {
+        double[] darray = new double[ array.length ];
+        for( int i = 0; i < array.length; i++ ) {
+            darray[ i ] = array[ i ];
+        }
+        return darray;
+    }
+
+    public static double[] convert_to_double_array( List<Double> list ) {
+        double[] arr = new double[ list.size() ];
+        for( int i = 0; i < arr.length; i++ ) {
+            arr[ i ] = list.get( i );
+        }
+        return arr;
+    }
+
+    public static String print_double_array( double[] array ) {
+        StringBuilder sb = new StringBuilder();
+        sb.append( "[" );
+        for( int i = 0; i < array.length; i++ ) {
+            sb.append( array[ i ] );
+            sb.append( ", " );
+        }
+        sb.setLength( sb.length() - 1 );
+        sb.append( "]" );
+        return sb.toString();
     }
 
 }

@@ -1,4 +1,4 @@
-CREATE PROCEDURE MealFoodAllocation_insert (
+CREATE PROCEDURE MealFoodPortion_insert (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
@@ -7,7 +7,7 @@ IN v_ExpectedWt DOUBLE,
 IN v_ActualWt DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-INSERT INTO MealFoodAllocation (
+INSERT INTO MealFoodPortion (
 MixId,
 MealId,
 FoodId,
@@ -25,7 +25,7 @@ v_ActualWt
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_merge_01 (
+CREATE PROCEDURE MealFoodPortion_merge_01 (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
@@ -34,7 +34,7 @@ IN v_ExpectedWt DOUBLE,
 IN v_ActualWt DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO MealFoodAllocation USING ( VALUES (
+MERGE INTO MealFoodPortion USING ( VALUES (
 v_MixId,
 v_MealId,
 v_FoodId,

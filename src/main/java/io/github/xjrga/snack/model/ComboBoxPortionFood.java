@@ -27,11 +27,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ComboBoxAllocationFood extends DefaultComboBoxModel {
+public class ComboBoxPortionFood extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
-    public ComboBoxAllocationFood( DbLink dbLink ) {
+    public ComboBoxPortionFood( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
 

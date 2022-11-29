@@ -61,6 +61,13 @@ CREATE TABLE FoodNutrientRatio
         CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (MixId,Food_Id_1,Nutrient_Id_1,Food_Id_2,Nutrient_Id_2,RelationshipId)
 );
 /
+CREATE TABLE GlycemicIndex
+(
+        FoodId LONGVARCHAR,
+        q DOUBLE,
+        CONSTRAINT GlycemicIndex_primary_key PRIMARY KEY (FoodId)
+);
+/
 CREATE TABLE Meal
 (
         MixId LONGVARCHAR,
@@ -70,7 +77,7 @@ CREATE TABLE Meal
         CONSTRAINT Meal_primary_key PRIMARY KEY (MixId,MealId)
 );
 /
-CREATE TABLE MealFoodAllocation
+CREATE TABLE MealFoodPortion
 (
         MixId LONGVARCHAR,
         MealId INTEGER,
@@ -78,7 +85,7 @@ CREATE TABLE MealFoodAllocation
         Pct DOUBLE,
         ExpectedWt DOUBLE,
         ActualWt DOUBLE,
-        CONSTRAINT MealFoodAllocation_primary_key PRIMARY KEY (MixId,MealId,FoodId)
+        CONSTRAINT MealFoodPortion_primary_key PRIMARY KEY (MixId,MealId,FoodId)
 );
 /
 CREATE TABLE Mix
@@ -262,7 +269,7 @@ ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R10_Nutrient_FoodNutrientConst
 /
 ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R11_FoodFact_FoodFactCoefficient FOREIGN KEY (FoodId, NutrientId) REFERENCES FoodFact (FoodId, NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodAllocation ADD CONSTRAINT R12_Meal_MealFoodAllocation FOREIGN KEY (MealId, MixId) REFERENCES Meal (MealId, MixId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R12_Meal_MealFoodPortion FOREIGN KEY (MealId, MixId) REFERENCES Meal (MealId, MixId) ON DELETE CASCADE;
 /
 ALTER TABLE NutrientRatio ADD CONSTRAINT R13_Relationship_NutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
@@ -280,7 +287,7 @@ ALTER TABLE Meal ADD CONSTRAINT R19_Mix_Meal FOREIGN KEY (MixId) REFERENCES Mix 
 /
 ALTER TABLE MixFood ADD CONSTRAINT R20_Mix_MixFood FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodAllocation ADD CONSTRAINT R21_MixFood_MealFoodAllocation FOREIGN KEY (MixId, FoodId) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R21_MixFood_MealFoodPortion FOREIGN KEY (MixId, FoodId) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
 ALTER TABLE PercentConstraint ADD CONSTRAINT R22_MixFood_PercentConstraint FOREIGN KEY (MixId, Foodid) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
@@ -300,9 +307,11 @@ ALTER TABLE CategoryLink ADD CONSTRAINT R29_Food_CategoryLink FOREIGN KEY (FoodI
 /
 ALTER TABLE FoodFact ADD CONSTRAINT R30_Food_FoodFact FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE MixFood ADD CONSTRAINT R31_Food_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE GlycemicIndex ADD CONSTRAINT R31_Food_GlycemicIndex FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE CategoryLink ADD CONSTRAINT R32_FoodCategory_CategoryLink FOREIGN KEY (FoodCategoryId) REFERENCES FoodCategory (FoodCategoryId) ON DELETE CASCADE;
+ALTER TABLE MixFood ADD CONSTRAINT R32_Food_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+/
+ALTER TABLE CategoryLink ADD CONSTRAINT R33_FoodCategory_CategoryLink FOREIGN KEY (FoodCategoryId) REFERENCES FoodCategory (FoodCategoryId) ON DELETE CASCADE;
 /
 
 
@@ -627,6 +636,7 @@ FROM NutrientCategory a,
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
 AND c.FoodId = v_FoodId
+AND (b.NutrientId != '10003' AND b.NutrientId != '10006' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014')
 ORDER BY a.Name,b.Name;
 OPEN result;
 END;
@@ -4462,43 +4472,44 @@ BEGIN ATOMIC
 --
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
+DECLARE v_gi DOUBLE;
 --
 SET doc = '';
 SET doc2 = '';
 --
-SELECT '<food_list>' INTO doc FROM (VALUES (0));
---
-SET doc2 = doc2 + doc + CHAR(10) ;
---
-SET doc = '';
+SET doc2 = '<food_list>' + CHAR(10) ;
 ------------------------------------------------------------
 FOR SELECT a.foodid as id ,name FROM mixfood a, food b WHERE a.foodid = b.foodid  AND a.mixid = v_MixId  DO 
 --
-SET doc = doc + '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+name +'</name>' +CHAR (10);
+SET doc = '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+name +'</name>' +CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
-SET doc = '';
+FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND x.mixid = v_MixId AND x.foodid = id AND (y.nutrientid != '10003' AND y.nutrientid != '10006' AND y.nutrientid != '10009' AND y.nutrientid != '10010' AND y.nutrientid != '10011' AND y.nutrientid != '10012' AND y.nutrientid != '10013' AND y.nutrientid != '10014') ORDER BY foodid, label DO
 --
-FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND   x.mixid = v_MixId AND x.foodid = id ORDER BY foodid, label DO
+SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' +CHAR (10);
 --
-SET doc = doc + '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' +CHAR (10);
+SET doc2 = doc2 + doc;
 --
 END FOR;
 --
-SET doc2 = doc2 + doc;
+IF (SELECT COUNT(q) FROM glycemicindex WHERE foodid = id) = 0 THEN
 --
-SET doc = '</food>' + CHAR (10);
+SET v_gi = 0;
 --
-SET doc2 = doc2 + doc;
+ELSE
 --
-SET doc = '';
+SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = id;
+--
+END IF;
+--
+SET doc2 = doc2 + '<glycemicindex>'+cast(v_gi as decimal(128,32)) +'</glycemicindex>' +CHAR (10);
+--
+SET doc2 = doc2 + '</food>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = '</food_list>';
---
-SET v_doc = doc2 + doc;
+SET v_doc = doc2 + '</food_list>';
 --
 END
 /
@@ -5556,7 +5567,7 @@ v_MealOrder
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_insert (
+CREATE PROCEDURE MealFoodPortion_insert (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
@@ -5565,7 +5576,7 @@ IN v_ExpectedWt DOUBLE,
 IN v_ActualWt DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-INSERT INTO MealFoodAllocation (
+INSERT INTO MealFoodPortion (
 MixId,
 MealId,
 FoodId,
@@ -5583,7 +5594,7 @@ v_ActualWt
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_merge_01 (
+CREATE PROCEDURE MealFoodPortion_merge_01 (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
@@ -5592,7 +5603,7 @@ IN v_ExpectedWt DOUBLE,
 IN v_ActualWt DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO MealFoodAllocation USING ( VALUES (
+MERGE INTO MealFoodPortion USING ( VALUES (
 v_MixId,
 v_MealId,
 v_FoodId,
@@ -5616,16 +5627,16 @@ v_ActualWt;
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_update_expectedwt (
+CREATE PROCEDURE MealFoodPortion_update_expectedwt (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-UPDATE MealFoodAllocation
+UPDATE MealFoodPortion
 SET
 ExpectedWt = (SELECT b.x*a.pct
-                     FROM mealfoodallocation a,
+                     FROM mealfoodportion a,
                           mixfood b
                      WHERE a.mixid = v_MixId
                      AND   a.mealid = v_MealId
@@ -5639,7 +5650,7 @@ FoodId = v_FoodId;
 END;
 /
 
-CREATE PROCEDURE allocate (
+CREATE PROCEDURE apportion (
 --
 IN v_MixId LONGVARCHAR
 --
@@ -5650,7 +5661,7 @@ BEGIN ATOMIC
 --
 FOR SELECT mixid,foodid FROM mixfood WHERE mixid = v_MixId DO
 FOR SELECT mealid FROM meal DO
-CALL MealFoodAllocation_update_expectedwt(mixid,mealid, foodid);
+CALL MealFoodPortion_update_expectedwt(mixid,mealid, foodid);
 END FOR;
 END FOR;
 --
@@ -5658,7 +5669,7 @@ END;
 /
 
 
-CREATE FUNCTION calculate_remaining_allocation (
+CREATE FUNCTION calculate_remaining_percentage (
 IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
 IN v_Precision INTEGER) RETURNS DOUBLE 
@@ -5670,7 +5681,7 @@ DECLARE v_c DOUBLE;
 IF
 --
 (SELECT COUNT(*)
-FROM MealFoodAllocation a
+FROM MealFoodPortion a
 WHERE a.mixid = v_MixId AND a.foodid = V_FoodId) = 0
 --
 THEN
@@ -5684,7 +5695,7 @@ SELECT CASE
          ELSE 1 -SUM(pct)
        END 
 INTO v_c
-FROM MealFoodAllocation
+FROM MealFoodPortion
 WHERE MixId = v_MixId
 AND   FoodId = v_FoodId;
 --
@@ -5729,7 +5740,7 @@ MealId = v_MealId;
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_select_all (
+CREATE PROCEDURE MealFoodPortion_select_all (
 IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
 )
@@ -5745,7 +5756,7 @@ SELECT MixId,
        ROUND(a.ExpectedWt,v_Precision),
        ROUND(a.ActualWt,v_Precision),
        c.MealOrder
-FROM MealFoodAllocation a,
+FROM MealFoodPortion a,
      Food b, Meal c
 WHERE a.foodid = b.foodid
 AND a.mealid = c.mealid
@@ -5756,14 +5767,14 @@ OPEN result;
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_update_pct (
+CREATE PROCEDURE MealFoodPortion_update_pct (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
 IN v_Pct DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-UPDATE MealFoodAllocation
+UPDATE MealFoodPortion
 SET
 Pct = v_Pct
 WHERE
@@ -5773,7 +5784,7 @@ FoodId = v_FoodId;
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_insert_and_calculate (
+CREATE PROCEDURE MealFoodPortion_insert_and_calculate (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
@@ -5782,12 +5793,12 @@ IN v_Pct DOUBLE
 MODIFIES SQL DATA BEGIN ATOMIC
 DECLARE v_Pct_d DOUBLE;
 SET v_Pct_d = v_Pct/100;
-CALL MealFoodAllocation_merge_01(v_MixId,v_MealId,v_FoodId,v_Pct_d,null,0);
-CALL MealFoodAllocation_update_expectedwt(v_MixId,v_MealId,v_FoodId);
+CALL MealFoodPortion_merge_01(v_MixId,v_MealId,v_FoodId,v_Pct_d,null,0);
+CALL MealFoodPortion_update_expectedwt(v_MixId,v_MealId,v_FoodId);
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_insert_and_calculate_01 (
+CREATE PROCEDURE MealFoodPortion_insert_and_calculate_01 (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
@@ -5796,18 +5807,18 @@ IN v_Pct DOUBLE
 MODIFIES SQL DATA BEGIN ATOMIC
 DECLARE v_Pct_d DOUBLE;
 SET v_Pct_d = v_Pct/100;
-CALL MealFoodAllocation_update_pct(v_MixId,v_MealId,v_FoodId,v_Pct_d);
-CALL MealFoodAllocation_update_expectedwt(v_MixId,v_MealId,v_FoodId);
+CALL MealFoodPortion_update_pct(v_MixId,v_MealId,v_FoodId,v_Pct_d);
+CALL MealFoodPortion_update_expectedwt(v_MixId,v_MealId,v_FoodId);
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_delete (
+CREATE PROCEDURE MealFoodPortion_delete (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-DELETE FROM MealFoodAllocation
+DELETE FROM MealFoodPortion
 WHERE
 MixId = v_MixId AND
 MealId = v_MealId AND
@@ -5815,14 +5826,14 @@ FoodId = v_FoodId;
 END;
 /
 
-CREATE PROCEDURE MealFoodAllocation_update_actualwt (
+CREATE PROCEDURE MealFoodPortion_update_actualwt (
 IN v_MixId LONGVARCHAR,
 IN v_MealId INTEGER,
 IN v_FoodId LONGVARCHAR,
 IN v_ActualWt DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-UPDATE MealFoodAllocation
+UPDATE MealFoodPortion
 SET
 ActualWt = v_ActualWt
 WHERE
@@ -5879,7 +5890,7 @@ END
 /
 
 
-CREATE PROCEDURE Select_meal_food_allocation_as_xml (
+CREATE PROCEDURE Select_meal_food_portion_as_xml (
 --
 OUT v_doc LONGVARCHAR,
 --
@@ -5893,15 +5904,15 @@ BEGIN ATOMIC
 --
 DECLARE doc LONGVARCHAR;
 --
-SET doc = CHAR(10) + '<meal_food_allocation_list>' + CHAR(10) ;
+SET doc = CHAR(10) + '<meal_food_portion_list>' + CHAR(10) ;
 --
-FOR SELECT mixid, mealid, foodid, pct, expectedwt, actualwt FROM mealfoodallocation WHERE mixid = v_MixId ORDER BY mealid, foodid DO
+FOR SELECT mixid, mealid, foodid, pct, expectedwt, actualwt FROM mealfoodportion WHERE mixid = v_MixId ORDER BY mealid, foodid DO
 --
-SET doc = doc +  '<meal_food_allocation>' + CHAR (10) + '<mixid>' + mixid + '</mixid>' + CHAR (10) + '<mealid>' + mealid + '</mealid>' + CHAR (10) + '<foodid>' + foodid + '</foodid>' + CHAR (10) + '<pct>' + pct + '</pct>' + CHAR (10) + '<expectedwt>' + expectedwt + '</expectedwt>' + CHAR (10) + '<actualwt>' + actualwt + '</actualwt>'  + CHAR (10) + '</meal_food_allocation>' + CHAR (10);
+SET doc = doc +  '<meal_food_portion>' + CHAR (10) + '<mixid>' + mixid + '</mixid>' + CHAR (10) + '<mealid>' + mealid + '</mealid>' + CHAR (10) + '<foodid>' + foodid + '</foodid>' + CHAR (10) + '<pct>' + pct + '</pct>' + CHAR (10) + '<expectedwt>' + expectedwt + '</expectedwt>' + CHAR (10) + '<actualwt>' + actualwt + '</actualwt>'  + CHAR (10) + '</meal_food_portion>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = doc + '</meal_food_allocation_list>';
+SET doc = doc + '</meal_food_portion_list>';
 --
 SET v_doc = doc;
 --
@@ -5961,7 +5972,7 @@ call Select_meal_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --
-call Select_meal_food_allocation_as_xml (doc,v_MixId);
+call Select_meal_food_portion_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --
@@ -6034,7 +6045,7 @@ END;
 
 
 
-CREATE PROCEDURE meal_food_allocation_copy (
+CREATE PROCEDURE meal_food_portion_copy (
 --
 IN v_MixId_Old LONGVARCHAR,
 --
@@ -6044,7 +6055,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO mealfoodallocation
+INSERT INTO mealfoodportion
 (
   mixid,
   mealid,  
@@ -6059,7 +6070,7 @@ SELECT v_MixId_New,
        pct,
        expectedwt,
        actualwt
-FROM mealfoodallocation
+FROM mealfoodportion
 WHERE mixid = v_MixId_Old;
 --
 END;
@@ -6097,7 +6108,7 @@ CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_copy(v_MixId_Old,v_MixId_New);
 --
-CALL meal_food_allocation_copy(v_MixId_Old,v_MixId_New);
+CALL meal_food_portion_copy(v_MixId_Old,v_MixId_New);
 --
 END;
 /
@@ -6131,7 +6142,7 @@ FROM
         a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6146,7 +6157,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6161,7 +6172,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6176,7 +6187,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6191,7 +6202,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6206,7 +6217,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6221,7 +6232,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6236,7 +6247,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6251,7 +6262,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6266,7 +6277,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6281,7 +6292,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6296,7 +6307,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6311,7 +6322,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6326,7 +6337,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6341,7 +6352,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6356,7 +6367,7 @@ FROM
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6407,7 +6418,7 @@ FROM
 --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6417,7 +6428,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6427,7 +6438,7 @@ FROM
      --     
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6437,7 +6448,7 @@ FROM
      --               
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6447,7 +6458,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6457,7 +6468,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6467,7 +6478,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6477,7 +6488,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6487,7 +6498,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6497,7 +6508,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6507,7 +6518,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6517,7 +6528,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6527,7 +6538,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6537,7 +6548,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6547,7 +6558,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6557,7 +6568,7 @@ FROM
      --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
-      mealfoodallocation b,
+      mealfoodportion b,
       foodfactcoefficient c
  WHERE a.mixid = b.mixid
  AND   a.mealid = b.mealid
@@ -6570,4 +6581,91 @@ OPEN result;
 END;
 /
 
+
+CREATE PROCEDURE foodfact_calculated_quantities_update (
+IN v_foodid LONGVARCHAR
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE v_carbsbydiff DOUBLE;
+DECLARE v_fiber DOUBLE;
+DECLARE v_digestible_carbohydrate DOUBLE;
+DECLARE v_energy_alcohol DOUBLE;
+DECLARE v_energy_carbohydrate DOUBLE;
+DECLARE v_energy_fat DOUBLE;
+DECLARE v_energy_protein DOUBLE;
+DECLARE v_gi DOUBLE;
+--
+--digestible_carbohydrate
+SELECT q INTO v_carbsbydiff FROM foodfact WHERE nutrientid = '205' AND foodid = v_foodid;
+SELECT q INTO v_fiber FROM foodfact  WHERE nutrientid = '291' AND foodid = v_foodid;
+SET v_digestible_carbohydrate = v_carbsbydiff - v_fiber;
+CALL foodfact_merge (v_foodid,'10003',v_digestible_carbohydrate);
+--
+-- energy_alcohol
+SELECT q * 6.93 INTO v_energy_alcohol FROM foodfact  WHERE nutrientid = '221' AND foodid = v_foodid;
+CALL foodfact_merge (v_foodid,'10014',v_energy_alcohol);
+--
+-- energy_carbohydrate
+SELECT q * 4 INTO v_energy_carbohydrate FROM foodfact  WHERE nutrientid = '10003' AND foodid = v_foodid;
+CALL foodfact_merge (v_foodid,'10011',v_energy_carbohydrate);
+--
+-- energy_fat
+SELECT q * 9 INTO v_energy_fat FROM foodfact  WHERE nutrientid = '204' AND foodid = v_foodid;
+CALL foodfact_merge (v_foodid,'10013',v_energy_fat);
+--
+-- energy_protein
+SELECT q * 4 INTO v_energy_protein FROM foodfact  WHERE nutrientid = '203' AND foodid = v_foodid;
+CALL foodfact_merge (v_foodid,'10012',v_energy_protein);
+--
+-- energy_fat_and_carbohydrate
+CALL foodfact_merge (v_foodid,'10010',v_energy_carbohydrate+v_energy_fat);
+--
+-- energy_digestible
+CALL foodfact_merge (v_foodid,'10009',v_energy_carbohydrate+v_energy_fat+v_energy_protein+v_energy_alcohol);
+--
+-- glycemic_load
+SELECT q  INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
+CALL foodfact_merge (v_foodid,'10006',v_digestible_carbohydrate*v_gi/100);
+--
+--
+END;
+/
+
+CREATE PROCEDURE GlycemicIndex_merge (
+IN v_FoodId LONGVARCHAR,
+IN v_q DOUBLE
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+MERGE INTO GlycemicIndex USING ( VALUES (
+v_FoodId,
+v_q
+) ) ON (
+FoodId = v_FoodId
+)
+WHEN MATCHED THEN UPDATE SET
+q = v_q
+WHEN NOT MATCHED THEN INSERT VALUES
+v_FoodId,
+v_q;
+END;
+/
+
+CREATE PROCEDURE GlycemicIndex_select (
+IN v_FoodId LONGVARCHAR
+)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+DECLARE result CURSOR
+FOR
+SELECT
+FoodId,
+q
+FROM
+GlycemicIndex
+WHERE
+FoodId = v_FoodId;
+OPEN result;
+END;
+/
 

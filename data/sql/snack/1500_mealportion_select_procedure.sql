@@ -1,4 +1,4 @@
-CREATE PROCEDURE MealFoodAllocation_select_all (
+CREATE PROCEDURE MealFoodPortion_select_all (
 IN v_MixId LONGVARCHAR,
 IN v_Precision INTEGER
 )
@@ -14,7 +14,7 @@ SELECT MixId,
        ROUND(a.ExpectedWt,v_Precision),
        ROUND(a.ActualWt,v_Precision),
        c.MealOrder
-FROM MealFoodAllocation a,
+FROM MealFoodPortion a,
      Food b, Meal c
 WHERE a.foodid = b.foodid
 AND a.mealid = c.mealid

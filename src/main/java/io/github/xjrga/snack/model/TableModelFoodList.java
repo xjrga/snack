@@ -57,7 +57,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         columns.add( "Na" );
         columns.add( "K" );
         columns.add( "Complete" );
-        columns.add( "CarbsBD" );
+        columns.add( "CarbsByDiff" );
         columns.add( "Fiber" );
         columns.add( "Ca" );
         columns.add( "P" );

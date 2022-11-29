@@ -20,7 +20,7 @@ package io.github.xjrga.snack.other;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import io.github.xjrga.snack.dataobject.O_Meal;
-import io.github.xjrga.snack.dataobject.O_MealFoodAllocation;
+import io.github.xjrga.snack.dataobject.O_MealFoodPortion;
 import io.github.xjrga.snack.dataobject.Xml_category;
 import io.github.xjrga.snack.dataobject.Xml_category_link;
 import io.github.xjrga.snack.dataobject.Xml_food;
@@ -44,7 +44,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 /**
- * This class allows import and export of color data in xml format
+ * This class allows import and export of snack data in xml format
  *
  * @author Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
  */
@@ -58,7 +58,7 @@ public class Xml_receive {
     private final DbLink dbLink;
 
     /**
-     * Constructs DataTransfer class
+     * Constructs Xml_receive class
      */
     public Xml_receive( DbLink dbLink ) {
         inputFactory = XMLInputFactory.newInstance();
@@ -81,7 +81,7 @@ public class Xml_receive {
                 Xml_category category = null;
                 Xml_category_link category_link = null;
                 O_Meal meal = null;
-                O_MealFoodAllocation allocation = new O_MealFoodAllocation();
+                O_MealFoodPortion portion = new O_MealFoodPortion();
                 while( eventReader.hasNext() ) {
                     XMLEvent event = eventReader.nextEvent();
                     switch( event.getEventType() ) {
@@ -138,9 +138,9 @@ public class Xml_receive {
                                     meal = new O_Meal();
                                     main_event = start_event;
                                     break;
-                                case "meal_food_allocation":
-                                    System.out.println( "Start meal_food_allocation" );
-                                    allocation = new O_MealFoodAllocation();
+                                case "meal_food_portion":
+                                    System.out.println( "Start meal_food_portion" );
+                                    portion = new O_MealFoodPortion();
                                     main_event = start_event;
                                     break;
                             }
@@ -155,18 +155,18 @@ public class Xml_receive {
                                             case "meal":
                                                 meal.setMealid( Integer.valueOf( data ) );
                                                 break;
-                                            case "meal_food_allocation":
-                                                allocation.setMealid( Integer.valueOf( data ) );
+                                            case "meal_food_portion":
+                                                portion.setMealid( Integer.valueOf( data ) );
                                                 break;
                                         }
                                     case "pct":
-                                        allocation.setPct( Double.valueOf( data ) );
+                                        portion.setPct( Double.valueOf( data ) );
                                         break;
                                     case "expectedwt":
-                                        allocation.setExpectedwt( Double.valueOf( data ) );
+                                        portion.setExpectedwt( Double.valueOf( data ) );
                                         break;
                                     case "actualwt":
-                                        allocation.setActualwt( Double.valueOf( data ) );
+                                        portion.setActualwt( Double.valueOf( data ) );
                                         break;
                                     case "mealorder":
                                         meal.setMealOrder( Integer.valueOf( data ) );
@@ -180,8 +180,8 @@ public class Xml_receive {
                                             case "meal":
                                                 meal.setMixid( data );
                                                 break;
-                                            case "meal_food_allocation":
-                                                allocation.setMixid( data );
+                                            case "meal_food_portion":
+                                                portion.setMixid( data );
                                                 break;
                                         }
                                         break;
@@ -225,8 +225,8 @@ public class Xml_receive {
                                             case "nutrient_percent_constraint":
                                                 nutrient_percent_constraint.setFoodid( data );
                                                 break;
-                                            case "meal_food_allocation":
-                                                allocation.setFoodid( data );
+                                            case "meal_food_portion":
+                                                portion.setFoodid( data );
                                                 break;
                                         }
                                         break;
@@ -347,29 +347,8 @@ public class Xml_receive {
                                     case "dha":
                                         food.setDha( Double.valueOf( data ) );
                                         break;
-                                    case "digestible_carbohydrate":
-                                        food.setDigestible_carbohydrate( Double.valueOf( data ) );
-                                        break;
-                                    case "energy_alcohol":
-                                        food.setEnergy_alcohol( Double.valueOf( data ) );
-                                        break;
-                                    case "energy_carbohydrate":
-                                        food.setEnergy_carbohydrate( Double.valueOf( data ) );
-                                        break;
-                                    case "energy_digestible":
-                                        food.setEnergy_digestible( Double.valueOf( data ) );
-                                        break;
-                                    case "energy_fat_and_carbohydrate":
-                                        food.setEnergy_fat_and_carbohydrate( Double.valueOf( data ) );
-                                        break;
-                                    case "energy_fat":
-                                        food.setEnergy_fat( Double.valueOf( data ) );
-                                        break;
                                     case "energy_gross":
                                         food.setEnergy_gross( Double.valueOf( data ) );
-                                        break;
-                                    case "energy_protein":
-                                        food.setEnergy_protein( Double.valueOf( data ) );
                                         break;
                                     case "epa":
                                         food.setEpa( Double.valueOf( data ) );
@@ -382,9 +361,6 @@ public class Xml_receive {
                                         break;
                                     case "folate":
                                         food.setFolate( Double.valueOf( data ) );
-                                        break;
-                                    case "glycemic_load":
-                                        food.setGlycemic_load( Double.valueOf( data ) );
                                         break;
                                     case "iron":
                                         food.setIron( Double.valueOf( data ) );
@@ -467,6 +443,9 @@ public class Xml_receive {
                                     case "zinc":
                                         food.setZinc( Double.valueOf( data ) );
                                         break;
+                                    case "glycemicindex":
+                                        food.setZinc( Double.valueOf( data ) );
+                                        break;
                                 }
                             }
                             break;
@@ -510,19 +489,11 @@ public class Xml_receive {
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.COPPER.getNumber(), food.getCopper() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.COST.getNumber(), food.getCost() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.DHA.getNumber(), food.getDha() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.DIGESTIBLECARBOHYDRATE.getNumber(), food.getDigestible_carbohydrate() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYALCOHOL.getNumber(), food.getEnergy_alcohol() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYCARBOHYDRATE.getNumber(), food.getEnergy_carbohydrate() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYDIGESTIBLE.getNumber(), food.getEnergy_digestible() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYFATCARBOHYDRATE.getNumber(), food.getEnergy_fat_and_carbohydrate() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYFAT.getNumber(), food.getEnergy_fat() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYGROSS.getNumber(), food.getEnergy_gross() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ENERGYPROTEIN.getNumber(), food.getEnergy_protein() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.EPA.getNumber(), food.getEpa() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.FAT.getNumber(), food.getFat() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.FIBER.getNumber(), food.getFiber() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.FOLATE.getNumber(), food.getFolate() );
-                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.GLYCEMICLOAD.getNumber(), food.getGlycemic_load() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.IRON.getNumber(), food.getIron() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.LINOLEIC.getNumber(), food.getLinoleic() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.LINOLENIC.getNumber(), food.getLinolenic() );
@@ -550,6 +521,8 @@ public class Xml_receive {
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.WATER.getNumber(), food.getWater() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.WEIGHT.getNumber(), food.getWeight() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ZINC.getNumber(), food.getZinc() );
+                                        dbLink.GlycemicIndex_Merge( food.getFoodid(), food.getGlycemicindex() );
+                                        dbLink.foodfact_calculated_quantities_update( food.getFoodid() );
                                     } catch( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + food.getFoodid()
@@ -714,19 +687,19 @@ public class Xml_receive {
                                         );
                                     }
                                     break;
-                                case "meal_food_allocation":
-                                    System.out.println( "End meal_food_allocation" );
-                                    System.out.println( allocation );
+                                case "meal_food_portion":
+                                    System.out.println( "End meal_food_portion" );
+                                    System.out.println( portion );
                                     try {
-                                        dbLink.MealFoodAllocation_insert( allocation.getMixid(), allocation.getMealid(), allocation.getFoodid(), allocation.getPct(), allocation.getExpectedwt(), allocation.getActualwt() );
+                                        dbLink.MealFoodPortion_insert( portion.getMixid(), portion.getMealid(), portion.getFoodid(), portion.getPct(), portion.getExpectedwt(), portion.getActualwt() );
                                     } catch( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
-                                                + " " + allocation.getMixid()
-                                                + " " + allocation.getMealid()
-                                                + " " + allocation.getFoodid()
-                                                + " " + allocation.getPct()
-                                                + " " + allocation.getExpectedwt()
-                                                + " " + allocation.getActualwt()
+                                                + " " + portion.getMixid()
+                                                + " " + portion.getMealid()
+                                                + " " + portion.getFoodid()
+                                                + " " + portion.getPct()
+                                                + " " + portion.getExpectedwt()
+                                                + " " + portion.getActualwt()
                                         );
                                     }
                                     break;

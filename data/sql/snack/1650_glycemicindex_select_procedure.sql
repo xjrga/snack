@@ -1,0 +1,16 @@
+CREATE PROCEDURE GlycemicIndex_select (
+IN v_FoodId LONGVARCHAR
+)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+DECLARE result CURSOR
+FOR
+SELECT
+FoodId,
+q
+FROM
+GlycemicIndex
+WHERE
+FoodId = v_FoodId;
+OPEN result;
+END;
+/

@@ -92,7 +92,7 @@ public class TableModelPortions extends DefaultTableModel implements RoundUp {
         Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList all = ( LinkedList ) dbLink.MealFoodAllocation_select_all( mixid, precision );
+            LinkedList all = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixid, precision );
             Iterator it = all.iterator();
             while( it.hasNext() ) {
                 HashMap map = ( HashMap ) it.next();

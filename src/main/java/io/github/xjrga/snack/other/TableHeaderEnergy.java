@@ -13,12 +13,9 @@ public class TableHeaderEnergy extends MyTableHeader {
             "Energy Digestible (Kcal)",
             "Energy Fat (Kcal)",
             "Energy Carbohydrate (Kcal)",
+            "Energy Fat and Carbohydrate (Kcal)",
             "Energy Protein (Kcal)",
-            "Energy Alcohol (Kcal)",
-            "Fat (g)",
-            "Digestible Carbohydrate (g)",
-            "Protein (g)",
-            "Alcohol (g)"
+            "Energy Alcohol (Kcal)"
         } );
     }
 

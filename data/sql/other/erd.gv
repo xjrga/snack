@@ -198,6 +198,13 @@ digraph example_1 {
             <tr><td align="left">ActualWt: DOUBLE</td></tr>
         </table>
     >]
+   GlycemicIndex [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">GlycemicIndex</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">q: DOUBLE</td></tr>
+        </table>
+    >]
 
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "FoodCategory" -> "CategoryLink" [dir=forward,weight=1];
@@ -269,4 +276,7 @@ digraph example_1 {
     "Meal" -> "MealFoodAllocation" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "MixFood" -> "MealFoodAllocation" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+    "Food" -> "GlycemicIndex" [dir=forward,weight=1];
+    
 }
