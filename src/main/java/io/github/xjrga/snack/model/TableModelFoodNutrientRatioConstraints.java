@@ -22,12 +22,12 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
+public class TableModelFoodNutrientRatioConstraints
+        extends DefaultTableModel {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -58,7 +58,7 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch( i ) {
+        switch ( i ) {
             case 0:
                 //mixid
                 returnValue = Integer.class;
@@ -121,13 +121,11 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
     }
 
     public void reload( String mixid ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.FoodNutrientRatio_Select( mixid );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.FoodNutrientRatio_Select( mixid );
+            list.forEach( rowm ->
+            {
                 String mixid2 = ( String ) rowm.get( "MIXID" );
                 String foodidA = ( String ) rowm.get( "FOOD_ID_1" );
                 String nutrientidA = ( String ) rowm.get( "NUTRIENT_ID_1" );
@@ -141,7 +139,7 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
                 Double a = ( Double ) rowm.get( "A" );
                 Double b = ( Double ) rowm.get( "B" );
                 String relationship = ( String ) rowm.get( "RELATIONSHIP" );
-                row = new Vector();
+                Vector row = new Vector();
                 row.add( mixid2 );
                 row.add( foodidA );
                 row.add( nutrientidA );
@@ -156,9 +154,9 @@ public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel {
                 row.add( relationship );
                 row.add( b );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

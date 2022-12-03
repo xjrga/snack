@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -78,33 +77,32 @@ public class ExportFoodList {
             createNewRow();
             fillRowCellWithColumnName( 0, "Name" );
             //Rest of values
-            for( Nutrient nutrient : Nutrient.values() ) {
+            for ( Nutrient nutrient : Nutrient.values() ) {
                 int number = nutrient.ordinal() + 1;
                 fillRowCellWithColumnName( number, nutrient.getName() );
             }
-            LinkedList list = ( LinkedList ) dbLink.Food_Select_Details( 5 );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_Details( 5 );
+            list.forEach( rowm ->
+            {
                 String Name = ( String ) rowm.get( "Name" );
                 createNewRow();
                 fillRowCellWithFoodValue( Name, 0 );
                 //Rest of values
-                for( Nutrient nutrient : Nutrient.values() ) {
+                for ( Nutrient nutrient : Nutrient.values() ) {
                     Double value = ( Double ) rowm.get( nutrient.getLabel() );
                     int number = nutrient.ordinal() + 1;
                     fillRowCellWithFoodValue( value, number );
                 }
-            }
+            } );
             try {
                 out = new FileOutputStream( filepath.toString() );
                 wb.write( out );
                 out.close();
-            } catch( IOException e ) {
+            } catch ( IOException e ) {
 
             }
             showMessage();
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

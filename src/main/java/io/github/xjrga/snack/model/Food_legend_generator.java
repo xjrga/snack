@@ -24,7 +24,6 @@ import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Food_legend_generator {
@@ -39,16 +38,15 @@ public class Food_legend_generator {
     public void reload( String mixId ) {
         try {
             list = new ArrayList();
-            LinkedList all = ( LinkedList ) dbLink.MixFood_Select_All_By_Foodid( mixId );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> all = ( LinkedList ) dbLink.MixFood_Select_All_By_Foodid( mixId );
+            all.forEach( row ->
+            {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
                 list.add( foodDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

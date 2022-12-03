@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ComboBoxPortionFood extends DefaultComboBoxModel {
+public class ComboBoxPortionFood
+        extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
@@ -37,20 +37,19 @@ public class ComboBoxPortionFood extends DefaultComboBoxModel {
 
     public void reload( String mixid ) {
         this.removeAllElements();
-        LinkedList all = null;
+        LinkedList<HashMap> list = null;
         try {
-            all = ( LinkedList ) dbLink.MixFood_Select_All_By_Foodid( mixid );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            list = ( LinkedList ) dbLink.MixFood_Select_All_By_Foodid( mixid );
+            list.forEach( row ->
+            {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject food = new FoodDataObject();
                 food.setFoodId( foodid );
                 food.setFoodName( name );
                 this.addElement( food );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }
@@ -58,9 +57,9 @@ public class ComboBoxPortionFood extends DefaultComboBoxModel {
     public int find_by_foodid( String foodid ) {
         int index = 0;
         int size = this.getSize();
-        for( int i = 0; i < size; i++ ) {
+        for ( int i = 0; i < size; i++ ) {
             FoodDataObject elementAt = ( FoodDataObject ) this.getElementAt( i );
-            if( elementAt.getFoodId().equals( foodid ) ) {
+            if ( elementAt.getFoodId().equals( foodid ) ) {
                 index = i;
                 break;
             }

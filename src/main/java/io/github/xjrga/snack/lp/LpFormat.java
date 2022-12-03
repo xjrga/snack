@@ -31,7 +31,7 @@ public class LpFormat {
         sb.append( "/* Minimize */" );
         sb.append( "\n" );
         sb.append( "min: " );
-        for( int i = 0; i < coefficients.length; i++ ) {
+        for ( int i = 0; i < coefficients.length; i++ ) {
             double c = coefficients[ i ];
             sb.append( c );
             sb.append( " " );
@@ -51,7 +51,7 @@ public class LpFormat {
     public void constraintToLp( double[] coefficients, int rel, double value ) {
         String relationship = "";
         relationship = getRelationship( rel );
-        for( int i = 0; i < coefficients.length; i++ ) {
+        for ( int i = 0; i < coefficients.length; i++ ) {
             double c = coefficients[ i ];
             sb.append( c );
             sb.append( " " );
@@ -70,7 +70,7 @@ public class LpFormat {
 
     private String getRelationship( int rel ) {
         String relationship = "";
-        switch( rel ) {
+        switch ( rel ) {
             case 1:
                 relationship = ">=";
                 break;

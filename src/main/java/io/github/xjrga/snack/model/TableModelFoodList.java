@@ -23,12 +23,13 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelFoodList extends DefaultTableModel implements RoundUp {
+public class TableModelFoodList
+        extends DefaultTableModel
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -97,10 +98,9 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if( i < 2 ) {
+        if ( i < 2 ) {
             returnValue = String.class;
-        }
-        else {
+        } else {
             returnValue = Double.class;
         }
         return returnValue;
@@ -112,13 +112,11 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
     }
 
     public void reload() {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.Food_Select_Details( precision );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_Details( precision );
+            list.forEach( rowm ->
+            {
                 //Name
                 String Name = ( String ) rowm.get( "Name" );
                 //Mass
@@ -183,8 +181,7 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 Double Cost = ( Double ) rowm.get( Nutrient.COST.getLabel() );
                 //Ids
                 String FoodId = ( String ) rowm.get( "FoodId" );
-
-                row = new Vector();
+                Vector row = new Vector();
                 row.add( FoodId );
                 row.add( Name );
                 row.add( Weight );
@@ -237,9 +234,9 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
                 row.add( Cost );
                 //row.add(CategoryId);
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }
@@ -253,9 +250,9 @@ public class TableModelFoodList extends DefaultTableModel implements RoundUp {
         int index = 0;
         int rowNo = this.getRowCount();
         int colNo = this.getColumnCount();
-        for( int j = 0; j < rowNo; j++ ) {
-            for( int i = 0; i < colNo; i++ ) {
-                if( FoodId.equals( this.getValueAt( j, 0 ) ) ) {
+        for ( int j = 0; j < rowNo; j++ ) {
+            for ( int i = 0; i < colNo; i++ ) {
+                if ( FoodId.equals( this.getValueAt( j, 0 ) ) ) {
                     index = j;
                 }
             }

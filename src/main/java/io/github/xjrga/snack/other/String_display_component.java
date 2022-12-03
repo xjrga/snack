@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import org.apache.commons.math3.stat.StatUtils;
 
-public class String_display_component extends JComponent {
+public class String_display_component
+        extends JComponent {
 
     private String text = "";
 
@@ -34,10 +35,10 @@ public class String_display_component extends JComponent {
         //double factor = get_character_advance_width_mode( g2d ) / 1.25;
         Dimension d = getSize();
         String[] lines = text.split( "\n" );
-        for( String line : lines ) {
+        for ( String line : lines ) {
             line = line + "\n";
             ArrayList<String> list = get_list( line, d, factor );
-            for( String s : list ) {
+            for ( String s : list ) {
                 int x = 0;
                 y = y + hgt;
                 g2d.drawString( s, x, y );
@@ -48,12 +49,11 @@ public class String_display_component extends JComponent {
     private ArrayList<String> get_list( String txt, Dimension d, double factor ) {
         ArrayList<String> list = new ArrayList();
         int limit = ( int ) Math.round( d.width / factor );
-        for( int i = 0; i < txt.length(); i = i + limit ) {
+        for ( int i = 0; i < txt.length(); i = i + limit ) {
             CharSequence subSequence;
-            if( i + limit < txt.length() - 1 ) {
+            if ( i + limit < txt.length() - 1 ) {
                 subSequence = txt.subSequence( i, i + limit );
-            }
-            else {
+            } else {
                 subSequence = txt.subSequence( i, txt.length() );
             }
             list.add( subSequence.toString() );
@@ -66,7 +66,7 @@ public class String_display_component extends JComponent {
         FontMetrics m = g.getFontMetrics( getFont() );
         CharacterIterator it = new StringCharacterIterator( txt );
         double max = 0;
-        for( char ch = it.first(); ch != CharacterIterator.DONE; ch = it.next() ) {
+        for ( char ch = it.first(); ch != CharacterIterator.DONE; ch = it.next() ) {
             sb.append( ch );
             double subwidth = m.stringWidth( sb.toString() );
             max = Math.max( max, subwidth );

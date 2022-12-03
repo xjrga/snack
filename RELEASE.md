@@ -322,4 +322,8 @@ RELEASE NOTES
 
       Modified graphical user interface
       Simplified data exchange document
+
+1060
+
+      Improve constraint creation user process      
       

@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ComboBoxModelLifeStage extends DefaultComboBoxModel {
+public class ComboBoxModelLifeStage
+        extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
@@ -37,18 +37,17 @@ public class ComboBoxModelLifeStage extends DefaultComboBoxModel {
 
     public void reload() {
         this.removeAllElements();
-        LinkedList all = null;
+        LinkedList<HashMap> list = null;
         try {
-            all = ( LinkedList ) dbLink.RdaLifeStage_Select_All();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            list = ( LinkedList ) dbLink.RdaLifeStage_Select_All();
+            list.forEach( row ->
+            {
                 Integer lifestageid = ( Integer ) row.get( "LIFESTAGEID" );
                 String label = ( String ) row.get( "LABEL" );
                 RdaLifeStageDataObject rdaLifeStageDataObject = new RdaLifeStageDataObject( lifestageid, label );
                 this.addElement( rdaLifeStageDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

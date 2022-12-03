@@ -3,7 +3,8 @@ package io.github.xjrga.snack.other;
 import java.awt.event.MouseEvent;
 import javax.swing.table.TableColumnModel;
 
-public class TableHeaderNutrientLookup extends MyTableHeader {
+public class TableHeaderNutrientLookup
+        extends MyTableHeader {
 
     public TableHeaderNutrientLookup( TableColumnModel columnModel ) {
         super( columnModel, new String[] {

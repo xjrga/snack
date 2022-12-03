@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ComboBoxModelNutrientsConvert extends DefaultComboBoxModel {
+public class ComboBoxModelNutrientsConvert
+        extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
@@ -37,19 +37,18 @@ public class ComboBoxModelNutrientsConvert extends DefaultComboBoxModel {
 
     public void reload() {
         this.removeAllElements();
-        LinkedList all = null;
+        LinkedList<HashMap> list = null;
         try {
-            all = ( LinkedList ) dbLink.Nutrient_To_Pct_Select();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            list = ( LinkedList ) dbLink.Nutrient_To_Pct_Select();
+            list.forEach( row ->
+            {
                 String nutrientid = ( String ) row.get( "NUTRIENTID" );
                 String name = ( String ) row.get( "NAME" );
                 Double q = ( Double ) row.get( "q" );
                 NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, name, q );
                 this.addElement( nutrientDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

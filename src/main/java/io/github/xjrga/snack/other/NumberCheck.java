@@ -18,7 +18,7 @@ public class NumberCheck {
 
     public boolean pass() {
         boolean pass = false;
-        if( checkNumbers() ) {
+        if ( checkNumbers() ) {
             pass = true;
         }
         return pass;
@@ -26,13 +26,12 @@ public class NumberCheck {
 
     private boolean checkNumbers() {
         boolean pass = true;
-        for( String s : numbers ) {
-            if( s.isEmpty() ) {
+        for ( String s : numbers ) {
+            if ( s.isEmpty() ) {
                 pass = false;
                 break;
-            }
-            else {
-                if( !checkStringIsNumber( s ) ) {
+            } else {
+                if ( !checkStringIsNumber( s ) ) {
                     pass = false;
                     break;
                 }
@@ -46,7 +45,7 @@ public class NumberCheck {
         String patternStr = "^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$";
         Pattern pattern = Pattern.compile( patternStr );
         Matcher matcher = pattern.matcher( s );
-        if( matcher.matches() ) {
+        if ( matcher.matches() ) {
             pass = true;
         }
         return pass;

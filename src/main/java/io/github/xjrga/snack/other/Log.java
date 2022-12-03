@@ -45,14 +45,14 @@ public class Log {
         messageList = new LinkedList<>();
         try {
             out = new BufferedWriter( new FileWriter( filePath, true ) );
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
         }
     }
 
     public void close() {
         try {
             out.close();
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
         }
     }
 
@@ -60,17 +60,17 @@ public class Log {
         try {
             out.write( "----->" );
             out.write( "\n" );
-            messageList.forEach( m
-                    -> {
+            messageList.forEach( m ->
+            {
                 try {
                     out.write( m );
                     out.write( "\n" );
-                } catch( IOException e ) {
+                } catch ( IOException e ) {
                 }
             } );
             out.write( "<-----" );
             out.write( "\n\n" );
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
         }
     }
 }

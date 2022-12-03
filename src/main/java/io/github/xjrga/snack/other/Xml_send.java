@@ -18,7 +18,7 @@ public class Xml_send {
             BufferedWriter writer = new BufferedWriter( new FileWriter( path.toString() ) );
             writer.write( Utilities.format_xml_doc( doc ) );
             writer.close();
-        } catch( SQLException | IOException ex ) {
+        } catch ( SQLException | IOException ex ) {
 
         }
     }

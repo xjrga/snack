@@ -22,7 +22,8 @@ package io.github.xjrga.snack.model;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelMacroNutrient extends DefaultTableModel {
+public class TableModelMacroNutrient
+        extends DefaultTableModel {
 
     private Vector columns;
 
@@ -41,10 +42,9 @@ public class TableModelMacroNutrient extends DefaultTableModel {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if( i == 0 ) {
+        if ( i == 0 ) {
             returnValue = String.class;
-        }
-        else {
+        } else {
             returnValue = Double.class;
         }
         return returnValue;

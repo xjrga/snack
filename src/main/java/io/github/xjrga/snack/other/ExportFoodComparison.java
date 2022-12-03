@@ -68,7 +68,7 @@ public class ExportFoodComparison {
     }
 
     public void print( TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB ) {
-        if( !listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty() ) {
+        if ( !listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty() ) {
             FoodDataObject food_a = ( FoodDataObject ) listCompareA.getSelectedValue();
             FoodDataObject food_b = ( FoodDataObject ) listCompareB.getSelectedValue();
             row = s.createRow( rownum++ );
@@ -96,7 +96,7 @@ public class ExportFoodComparison {
             cell.setCellValue( "Difference" );
             cell.setCellStyle( cellStyleColumnName );
         }
-        for( int j = 0; j < modelTableFoodDiff.getRowCount(); j++ ) {
+        for ( int j = 0; j < modelTableFoodDiff.getRowCount(); j++ ) {
             row = s.createRow( rownum++ );
             cell = row.createCell( 0 );
             cell.setCellValue( ( String ) modelTableFoodDiff.getValueAt( j, 0 ) );
@@ -114,7 +114,7 @@ public class ExportFoodComparison {
             out = new FileOutputStream( filepath.toString() );
             wb.write( out );
             out.close();
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
 
         }
         JComponent[] inputs = new JComponent[] {

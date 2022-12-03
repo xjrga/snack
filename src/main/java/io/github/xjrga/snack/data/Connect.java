@@ -49,7 +49,7 @@ public class Connect {
         prop = new Properties();
         try {
             input = new FileInputStream( "resources/connection.properties" );
-        } catch( FileNotFoundException e ) {
+        } catch ( FileNotFoundException e ) {
 
         }
         try {
@@ -58,17 +58,17 @@ public class Connect {
             DB_URL = prop.getProperty( "jdbc.url" );
             DB_USER = prop.getProperty( "jdbc.username" );
             DB_PASS = prop.getProperty( "jdbc.password" );
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
 
         }
         try {
             Class.forName( JDBC_DRIVER );
-        } catch( ClassNotFoundException e ) {
+        } catch ( ClassNotFoundException e ) {
 
         }
         try {
             connection = DriverManager.getConnection( DB_URL, DB_USER, DB_PASS );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
         }
         return connection;
     }

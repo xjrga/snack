@@ -24,13 +24,11 @@ import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Nutrient_loader {
 
     private final DbLink dbLink;
-    private Integer precision = 0;
     private ArrayList<NutrientDataObject> nutrient_list;
 
     public Nutrient_loader( DbLink dbLink ) {
@@ -40,16 +38,15 @@ public class Nutrient_loader {
     public void reload() {
         nutrient_list = new ArrayList();
         try {
-            LinkedList all = ( LinkedList ) dbLink.Nutrient_Select_All_Visible();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Select_All_Visible();
+            list.forEach( row ->
+            {
                 String nutrientid = ( String ) row.get( "NUTRIENTID" );
                 String name = ( String ) row.get( "NAME" );
                 NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, name, null );
                 nutrient_list.add( nutrientDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

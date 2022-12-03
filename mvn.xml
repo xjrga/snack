@@ -16,49 +16,47 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
-
-
-<project default="package">    
+<project default="package">
     <target name="compile">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="compile"/>	        
-        </exec>	
+            <arg line="compile"/>
+        </exec>
     </target>    
     <target name="install">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="install"/>	        
+            <arg line="install"/>
         </exec>	
     </target>
     <target name="deploy">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="deploy"/>	        
+            <arg line="deploy"/>
         </exec>	
     </target>
     <target name="package">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="package"/>	        
-        </exec>	
+            <arg line="package"/>
+        </exec>
     </target>
     <target name="clean">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="clean"/>	        
-        </exec>	
+            <arg line="clean"/>
+        </exec>
     </target>
     <target name="verify">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="verify"/>	        
+            <arg line="verify"/>
         </exec>	
     </target>
     <target name="test">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="test"/>	        
+            <arg line="test"/>
         </exec>	
     </target>
 </project>

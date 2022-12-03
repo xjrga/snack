@@ -67,7 +67,7 @@ public class Xml_receive {
 
     public void import_snack_data( String path ) {
         try {
-            if( Utilities.validate_xml_doc( "resources/schemas/snack.xsd", path ) ) {
+            if ( Utilities.validate_xml_doc( "resources/schemas/snack.xsd", path ) ) {
                 File file = new File( path );
                 BufferedReader reader = new BufferedReader( new FileReader( file ) );
                 eventReader = inputFactory.createXMLEventReader( reader );
@@ -82,12 +82,12 @@ public class Xml_receive {
                 Xml_category_link category_link = null;
                 O_Meal meal = null;
                 O_MealFoodPortion portion = new O_MealFoodPortion();
-                while( eventReader.hasNext() ) {
+                while ( eventReader.hasNext() ) {
                     XMLEvent event = eventReader.nextEvent();
-                    switch( event.getEventType() ) {
+                    switch ( event.getEventType() ) {
                         case XMLEvent.START_ELEMENT:
                             start_event = event.asStartElement().getName().getLocalPart();
-                            switch( start_event ) {
+                            switch ( start_event ) {
                                 case "mix":
                                     System.out.println( "Start mix" );
                                     mix = new Xml_mix();
@@ -147,11 +147,11 @@ public class Xml_receive {
                             break;
                         case XMLEvent.CHARACTERS:
                             String data = event.asCharacters().getData().strip();
-                            if( !data.isBlank() ) {
-                                switch( start_event ) {
+                            if ( !data.isBlank() ) {
+                                switch ( start_event ) {
                                     //meal
                                     case "mealid":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "meal":
                                                 meal.setMealid( Integer.valueOf( data ) );
                                                 break;
@@ -173,7 +173,7 @@ public class Xml_receive {
                                         break;
                                     //mix
                                     case "mixid":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "mix":
                                                 mix.set_mixid( data );
                                                 break;
@@ -186,7 +186,7 @@ public class Xml_receive {
                                         }
                                         break;
                                     case "name":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "mix":
                                                 mix.set_name( data );
                                                 break;
@@ -199,7 +199,7 @@ public class Xml_receive {
                                         }
                                         break;
                                     case "categoryid":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "category":
                                                 category.set_categoryid( data );
                                                 break;
@@ -212,7 +212,7 @@ public class Xml_receive {
                                         category.set_categoryname( data );
                                         break;
                                     case "foodid":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "food":
                                                 food.setFoodid( data );
                                                 break;
@@ -237,7 +237,7 @@ public class Xml_receive {
                                         food_nutrient_ratio_constraint.setFoodid_b( data );
                                         break;
                                     case "nutrientid":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "mix":
                                                 mix.set_nutrientid( data );
                                                 break;
@@ -253,7 +253,7 @@ public class Xml_receive {
                                         }
                                         break;
                                     case "nutrientid_01":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "food_nutrient_ratio_constraint":
                                                 food_nutrient_ratio_constraint.setNutrientid_a( data );
                                                 break;
@@ -263,7 +263,7 @@ public class Xml_receive {
                                         }
                                         break;
                                     case "nutrientid_02":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "food_nutrient_ratio_constraint":
                                                 food_nutrient_ratio_constraint.setNutrientid_b( data );
                                                 break;
@@ -273,7 +273,7 @@ public class Xml_receive {
                                         }
                                         break;
                                     case "relationshipid":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "nutrient_constraint":
                                                 nutrient_constraint.setRelationshipid( Integer.valueOf( data ) );
                                                 break;
@@ -292,7 +292,7 @@ public class Xml_receive {
                                         }
                                         break;
                                     case "a":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "food_nutrient_ratio_constraint":
                                                 food_nutrient_ratio_constraint.setA( Double.valueOf( data ) );
                                                 break;
@@ -301,7 +301,7 @@ public class Xml_receive {
                                                 break;
                                         }
                                     case "b":
-                                        switch( main_event ) {
+                                        switch ( main_event ) {
                                             case "nutrient_constraint":
                                                 nutrient_constraint.setB( Double.valueOf( data ) );
                                                 break;
@@ -451,7 +451,7 @@ public class Xml_receive {
                             break;
                         case XMLEvent.END_ELEMENT:
                             end_event = event.asEndElement().getName().getLocalPart();
-                            switch( end_event ) {
+                            switch ( end_event ) {
                                 case "mix":
                                     System.out.println( "End mix" );
                                     System.out.println( mix.toString() );
@@ -463,7 +463,7 @@ public class Xml_receive {
                                                 mix.get_nutrientid(),
                                                 ""
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + mix.get_name()
@@ -523,7 +523,7 @@ public class Xml_receive {
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ZINC.getNumber(), food.getZinc() );
                                         dbLink.GlycemicIndex_Merge( food.getFoodid(), food.getGlycemicindex() );
                                         dbLink.foodfact_calculated_quantities_update( food.getFoodid() );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + food.getFoodid()
                                                 + " " + food.getName()
@@ -534,7 +534,7 @@ public class Xml_receive {
                                                 mix.get_mixid(),
                                                 food.getFoodid()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + food.getFoodid()
@@ -549,7 +549,7 @@ public class Xml_receive {
                                                 category.get_categoryid(),
                                                 category.get_categoryname()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + category.get_categoryid()
                                                 + " " + category.get_categoryname()
@@ -564,7 +564,7 @@ public class Xml_receive {
                                                 category_link.get_categoryid(),
                                                 category_link.get_foodid()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + category_link.get_categoryid()
                                                 + " " + category_link.get_foodid()
@@ -581,7 +581,7 @@ public class Xml_receive {
                                                 nutrient_constraint.getRelationshipid(),
                                                 nutrient_constraint.getB()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + nutrient_constraint.getNutrientid()
@@ -600,7 +600,7 @@ public class Xml_receive {
                                                 food_nutrient_constraint.getRelationshipid(),
                                                 food_nutrient_constraint.getB()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + food_nutrient_constraint.getFoodid()
@@ -622,7 +622,7 @@ public class Xml_receive {
                                                 food_nutrient_ratio_constraint.getA(),
                                                 food_nutrient_ratio_constraint.getB()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + food_nutrient_ratio_constraint.getFoodid_a()
@@ -645,7 +645,7 @@ public class Xml_receive {
                                                 nutrient_ratio_constraint.getA(),
                                                 nutrient_ratio_constraint.getB()
                                         );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + nutrient_ratio_constraint.getNutrientid_a()
@@ -664,7 +664,7 @@ public class Xml_receive {
                                                 nutrient_percent_constraint.getNutrientid(),
                                                 nutrient_percent_constraint.getRelationshipid(),
                                                 nutrient_percent_constraint.getB() );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + mix.get_mixid()
                                                 + " " + nutrient_percent_constraint.getFoodid()
@@ -678,7 +678,7 @@ public class Xml_receive {
                                     System.out.println( meal );
                                     try {
                                         dbLink.Meal_insert_02( meal.getMixid(), meal.getMealid(), meal.getName(), meal.getMealOrder() );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + meal.getMixid()
                                                 + " " + meal.getMealid()
@@ -692,7 +692,7 @@ public class Xml_receive {
                                     System.out.println( portion );
                                     try {
                                         dbLink.MealFoodPortion_insert( portion.getMixid(), portion.getMealid(), portion.getFoodid(), portion.getPct(), portion.getExpectedwt(), portion.getActualwt() );
-                                    } catch( SQLException ex ) {
+                                    } catch ( SQLException ex ) {
                                         System.out.println( "-> " + ex.getMessage()
                                                 + " " + portion.getMixid()
                                                 + " " + portion.getMealid()
@@ -709,11 +709,10 @@ public class Xml_receive {
                 }
                 reader.close();
                 dbLink.stopTransaction();
-            }
-            else {
+            } else {
                 show_message_invalid();
             }
-        } catch( IOException | NumberFormatException | XMLStreamException ex ) {
+        } catch ( IOException | NumberFormatException | XMLStreamException ex ) {
 
         }
     }

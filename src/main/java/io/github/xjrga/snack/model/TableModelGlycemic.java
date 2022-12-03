@@ -22,12 +22,13 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
+public class TableModelGlycemic
+        extends DefaultTableModel
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -54,10 +55,9 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if( i == 0 ) {
+        if ( i == 0 ) {
             returnValue = String.class;
-        }
-        else {
+        } else {
             returnValue = Double.class;
         }
         return returnValue;
@@ -69,13 +69,11 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
     }
 
     public void reload( String mixid ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.Mix_GetMealGi( mixid, precision );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetMealGi( mixid, precision );
+            list.forEach( rowm ->
+            {
                 String Name = ( String ) rowm.get( "name" );
                 Double Weight = ( Double ) rowm.get( "weight" );
                 Double DigestibleCarbohydrate = ( Double ) rowm.get( "carbs" );
@@ -84,7 +82,7 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
                 Double GlycemicLoad = ( Double ) rowm.get( "gl" );
                 Double MealGI = ( Double ) rowm.get( "mealgi" );
                 Double EnergyCarbohydrate = DigestibleCarbohydrate * 4;
-                row = new Vector();
+                Vector row = new Vector();
                 row.add( Name );
                 row.add( Weight );
                 row.add( EnergyCarbohydrate );
@@ -94,9 +92,9 @@ public class TableModelGlycemic extends DefaultTableModel implements RoundUp {
                 row.add( GlycemicLoad );
                 row.add( MealGI );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

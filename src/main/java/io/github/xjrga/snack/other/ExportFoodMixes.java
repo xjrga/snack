@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -83,10 +82,9 @@ public class ExportFoodMixes {
 
     public void print() {
         try {
-            LinkedList all = ( LinkedList ) dbLink.Mix_Select_All();
-            Iterator iteratorMix = all.iterator();
-            while( iteratorMix.hasNext() ) {
-                HashMap rowMap = ( HashMap ) iteratorMix.next();
+            LinkedList<HashMap> all = ( LinkedList ) dbLink.Mix_Select_All();
+            all.forEach( rowMap ->
+            {
                 MixDataObject mixDataObject = new MixDataObject( ( String ) rowMap.get( "MIXID" ), ( String ) rowMap.get( "NAME" ) );
                 //Set mix name
                 createNewRow();
@@ -96,50 +94,48 @@ public class ExportFoodMixes {
                 //Name
                 fillRowCellWithColumnName( 0, "Name" );
                 //Rest of values
-                for( Nutrient nutrient : Nutrient.values() ) {
+                for ( Nutrient nutrient : Nutrient.values() ) {
                     int number = nutrient.ordinal() + 1;
                     fillRowCellWithColumnName( number, nutrient.getName() );
                 }
                 //Set nutrient values
                 try {
-                    LinkedList list = ( LinkedList ) dbLink.MixResult_Select( mixDataObject.getMixId(), 5 );
-                    Iterator iteratorFoodItems = list.iterator();
-                    while( iteratorFoodItems.hasNext() ) {
+                    LinkedList<HashMap> list = ( LinkedList ) dbLink.MixResult_Select( mixDataObject.getMixId(), 5 );
+                    list.forEach( rowm ->
+                    {
                         createNewRow();
-                        HashMap rowm = ( HashMap ) iteratorFoodItems.next();
                         //Name
                         String Name = ( String ) rowm.get( "Name" );
                         //Make "Total" row bold
-                        if( Name.equals( "Total" ) ) {
+                        if ( Name.equals( "Total" ) ) {
                             cellStyleName = cellStyleTotalName;
                             cellStyleValue = cellStyleTotalValue;
                             rownum++;
-                        }
-                        else {
+                        } else {
                             cellStyleName = cellStyleFoodItemName;
                             cellStyleValue = cellStyleFoodItemValue;
                         }
                         fillRowCellWithItemName( 0, Name );
                         //Rest of values
-                        for( Nutrient nutrient : Nutrient.values() ) {
+                        for ( Nutrient nutrient : Nutrient.values() ) {
                             Double value = ( Double ) rowm.get( nutrient.getLabel() );
                             int number = nutrient.ordinal() + 1;
                             fillRowCellWithValue( value, number );
                         }
-                    }
-                } catch( SQLException e ) {
+                    } );
+                } catch ( SQLException e ) {
 
                 }
-            }
+            } );
             try {
                 out = new FileOutputStream( filepath.toString() );
                 wb.write( out );
                 out.close();
-            } catch( IOException e ) {
+            } catch ( IOException e ) {
 
             }
             showMessage();
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

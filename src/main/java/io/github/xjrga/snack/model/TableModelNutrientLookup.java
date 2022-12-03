@@ -22,12 +22,13 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelNutrientLookup extends DefaultTableModel implements RoundUp {
+public class TableModelNutrientLookup
+        extends DefaultTableModel
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -49,7 +50,7 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch( i ) {
+        switch ( i ) {
             case 0:
                 returnValue = String.class;
                 break;
@@ -68,24 +69,22 @@ public class TableModelNutrientLookup extends DefaultTableModel implements Round
     }
 
     public void reload( String NutrientId, Double Weight ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.Nutrient_Lookup_List( NutrientId, Weight, precision );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Lookup_List( NutrientId, Weight, precision );
+            list.forEach( rowm ->
+            {
                 String foodname = ( String ) rowm.get( "NAME" );
                 Double calories = ( Double ) rowm.get( "CALORIES" );
                 Double weight = ( Double ) rowm.get( "WEIGHT" );
-                row = new Vector();
+                Vector row = new Vector();
                 row.add( foodname );
                 row.add( weight );
                 row.add( calories );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

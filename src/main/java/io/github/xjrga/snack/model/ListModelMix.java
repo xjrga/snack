@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.MixDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelMix extends DefaultListModel {
+public class ListModelMix
+        extends DefaultListModel {
 
     private final DbLink dbLink;
 
@@ -38,10 +38,9 @@ public class ListModelMix extends DefaultListModel {
     public void reload() {
         this.clear();
         try {
-            LinkedList all = ( LinkedList ) dbLink.Mix_Select_All();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_Select_All();
+            list.forEach( row ->
+            {
                 String mixid = ( String ) row.get( "MIXID" );
                 String name = ( String ) row.get( "NAME" );
                 Integer status = ( Integer ) row.get( "STATUS" );
@@ -54,8 +53,8 @@ public class ListModelMix extends DefaultListModel {
                 mixDataObject.setNutrientid( nutrientid );
                 mixDataObject.setModel( model );
                 this.addElement( mixDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }
@@ -63,9 +62,9 @@ public class ListModelMix extends DefaultListModel {
     public int find_by_mixid( String mixid ) {
         int index = 0;
         int size = this.getSize();
-        for( int i = 0; i < size; i++ ) {
+        for ( int i = 0; i < size; i++ ) {
             MixDataObject elementAt = ( MixDataObject ) this.getElementAt( i );
-            if( elementAt.getMixId().equals( mixid ) ) {
+            if ( elementAt.getMixId().equals( mixid ) ) {
                 index = i;
                 break;
             }

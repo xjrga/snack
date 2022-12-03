@@ -68,7 +68,7 @@ public class ExportMixComparison {
     }
 
     public void print( TableModelMixComparison modelTableMixDiff, JList listCompareA, JList listCompareB ) {
-        if( !listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty() ) {
+        if ( !listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty() ) {
             MixDataObject mix1 = ( MixDataObject ) listCompareA.getSelectedValue();
             MixDataObject mix2 = ( MixDataObject ) listCompareB.getSelectedValue();
             row = s.createRow( rownum++ );
@@ -96,7 +96,7 @@ public class ExportMixComparison {
             cell.setCellValue( "Difference" );
             cell.setCellStyle( cellStyleColumnName );
         }
-        for( int j = 0; j < modelTableMixDiff.getRowCount(); j++ ) {
+        for ( int j = 0; j < modelTableMixDiff.getRowCount(); j++ ) {
             row = s.createRow( rownum++ );
             cell = row.createCell( 0 );
             cell.setCellValue( ( String ) modelTableMixDiff.getValueAt( j, 0 ) );
@@ -115,7 +115,7 @@ public class ExportMixComparison {
             out = new FileOutputStream( filepath.toString() );
             wb.write( out );
             out.close();
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
 
         }
         JComponent[] inputs = new JComponent[] {

@@ -87,17 +87,16 @@ public class MacroNutrientEnergyValues {
 
         private boolean isComplete() {
             boolean isComplete = false;
-            if( protein != -1 && fat != -1 && digestibleCarbohydrate != -1 && alcohol != -1 ) {
+            if ( protein != -1 && fat != -1 && digestibleCarbohydrate != -1 && alcohol != -1 ) {
                 isComplete = true;
             }
             return isComplete;
         }
 
         public MacroNutrientEnergyValues build() {
-            if( isComplete() ) {
+            if ( isComplete() ) {
                 return new MacroNutrientEnergyValues( this );
-            }
-            else {
+            } else {
                 throw new UnsupportedOperationException( "Not all parameters are set." );
             }
 

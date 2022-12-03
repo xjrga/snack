@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <project default="">
     <xmlproperty file="pom.xml" prefix="pom" />
     <tstamp>
-     <format property="time.stamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+        <format property="time.stamp" pattern="yyyy-MM-dd HH:mm:ss"/>
     </tstamp>
     <!-- show system values -->
     <target name="1. show system values">

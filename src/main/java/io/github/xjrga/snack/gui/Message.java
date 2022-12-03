@@ -35,7 +35,7 @@ public class Message {
         //null - x
         Object optionValue = optionPane.getValue();
         int value = -1;
-        if( optionValue != null ) {
+        if ( optionValue != null ) {
             value = ( int ) optionValue;
         }
         return value;
@@ -51,7 +51,7 @@ public class Message {
         //null - x
         Object optionValue = optionPane.getValue();
         int value = -1;
-        if( optionValue != null ) {
+        if ( optionValue != null ) {
             value = ( int ) optionValue;
         }
         return value;
@@ -67,7 +67,7 @@ public class Message {
         //null - x
         Object optionValue = optionPane.getValue();
         int value = -1;
-        if( optionValue != null ) {
+        if ( optionValue != null ) {
             value = ( int ) optionValue;
         }
         return value;

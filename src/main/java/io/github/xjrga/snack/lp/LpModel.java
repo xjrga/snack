@@ -62,7 +62,7 @@ public class LpModel {
 
     public void addConstraint( double[] coefficients, int rel, double amount ) {
         Relationship relationship = null;
-        switch( rel ) {
+        switch ( rel ) {
             case LpModel.GEQ:
                 relationship = Relationship.GEQ;
                 break;
@@ -88,7 +88,7 @@ public class LpModel {
             //Constraint Set
             LinearConstraintSet linearConstraintSet = new LinearConstraintSet( constraints );
             //Solution
-            if( !linearConstraintSet.getConstraints().isEmpty() ) {
+            if ( !linearConstraintSet.getConstraints().isEmpty() ) {
                 GoalType minimize = GoalType.MINIMIZE;
                 NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint( true );
                 Log.getLog().start( "model/model.log" );
@@ -102,7 +102,7 @@ public class LpModel {
                 cost = solution.getSecond();
                 flag = true;
             }
-        } catch( Exception e ) {
+        } catch ( Exception e ) {
             Log.getLog().logMessage( "" );
             Log.getLog().logMessage( "/*" );
             Log.getLog().logMessage( getResults() );

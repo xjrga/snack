@@ -3,7 +3,8 @@ package io.github.xjrga.snack.other;
 import java.awt.event.MouseEvent;
 import javax.swing.table.TableColumnModel;
 
-public class TableHeaderProtein extends MyTableHeader {
+public class TableHeaderProtein
+        extends MyTableHeader {
 
     public TableHeaderProtein( TableColumnModel columnModel ) {
         super( columnModel, new String[] {

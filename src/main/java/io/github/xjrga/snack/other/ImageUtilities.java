@@ -33,7 +33,7 @@ public class ImageUtilities {
         writeBufferedImage(subimage,format,pathname);*/
         try {
             ImageIO.write( subimage, format, new File( pathname ) );
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
 
         }
     }
@@ -42,7 +42,7 @@ public class ImageUtilities {
         BufferedImage img = null;
         try {
             img = ImageIO.read( new File( pathname ) );
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
 
         }
         return img;

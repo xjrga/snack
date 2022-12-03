@@ -24,13 +24,11 @@ import io.github.xjrga.snack.dataobject.RelationshipDataObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Relationship_loader {
 
     private final DbLink dbLink;
-    private Integer precision = 0;
     private ArrayList<RelationshipDataObject> relationship_list;
 
     public Relationship_loader( DbLink dbLink ) {
@@ -40,16 +38,15 @@ public class Relationship_loader {
     public void reload() {
         relationship_list = new ArrayList();
         try {
-            LinkedList all = ( LinkedList ) dbLink.Relationship_Select_All();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Relationship_Select_All();
+            list.forEach( row ->
+            {
                 int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
                 String name = ( String ) row.get( "NAME" );
                 RelationshipDataObject relationshipDataObject = new RelationshipDataObject( relationshipid, name );
                 relationship_list.add( relationshipDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

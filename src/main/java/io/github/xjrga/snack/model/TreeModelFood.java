@@ -23,12 +23,12 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-public class TreeModelFood extends DefaultTreeModel {
+public class TreeModelFood
+        extends DefaultTreeModel {
 
     private final DbLink dbLink;
     private DefaultMutableTreeNode node;
@@ -43,31 +43,29 @@ public class TreeModelFood extends DefaultTreeModel {
     @Override
     public void reload() {
         HashMap hm = new HashMap();
-        LinkedList list = null;
+        LinkedList<HashMap> list = null;
         try {
             list = ( LinkedList ) dbLink.Food_Select_All();
-            Iterator it = list.iterator();
             node = new DefaultMutableTreeNode( "Food" );
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            list.forEach( row ->
+            {
                 String categoryName = ( String ) row.get( "CATEGORY" );
                 String foodid = ( String ) row.get( "FOODID" );
                 String foodName = ( String ) row.get( "FOOD" );
                 DefaultMutableTreeNode category = new DefaultMutableTreeNode( categoryName );
                 FoodDataObject foodobject = new FoodDataObject( foodid, foodName );
                 DefaultMutableTreeNode food = new DefaultMutableTreeNode( foodobject );
-                if( hm.containsKey( categoryName ) ) {
+                if ( hm.containsKey( categoryName ) ) {
                     category = ( DefaultMutableTreeNode ) hm.get( categoryName );
                     category.add( food );
-                }
-                else {
+                } else {
                     hm.put( categoryName, category );
                     node.add( category );
                     category.add( food );
                 }
-            }
+            } );
             this.setRoot( node );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

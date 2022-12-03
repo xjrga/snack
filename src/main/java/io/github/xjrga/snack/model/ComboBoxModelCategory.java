@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodCategoryDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ComboBoxModelCategory extends DefaultComboBoxModel {
+public class ComboBoxModelCategory
+        extends DefaultComboBoxModel {
 
     private final DbLink dbLink;
 
@@ -38,18 +38,17 @@ public class ComboBoxModelCategory extends DefaultComboBoxModel {
     public void reload() {
         this.removeAllElements();
         try {
-            LinkedList all = ( LinkedList ) dbLink.FoodCategory_Select_All();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.FoodCategory_Select_All();
+            list.forEach( row ->
+            {
                 String foodcategoryid = ( String ) row.get( "FOODCATEGORYID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodCategoryDataObject foodCategoryDataObject = new FoodCategoryDataObject();
                 foodCategoryDataObject.setFoodCategoryId( foodcategoryid );
                 foodCategoryDataObject.setName( name );
                 this.addElement( foodCategoryDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }
@@ -57,9 +56,9 @@ public class ComboBoxModelCategory extends DefaultComboBoxModel {
     public int find( FoodCategoryDataObject foodCategoryDataObject ) {
         int index = 0;
         int size = this.getSize();
-        for( int i = 0; i < size; i++ ) {
+        for ( int i = 0; i < size; i++ ) {
             FoodCategoryDataObject elementAt = ( FoodCategoryDataObject ) this.getElementAt( i );
-            if( elementAt.getFoodCategoryId().equals( foodCategoryDataObject.getFoodCategoryId() ) ) {
+            if ( elementAt.getFoodCategoryId().equals( foodCategoryDataObject.getFoodCategoryId() ) ) {
                 index = i;
                 break;
             }

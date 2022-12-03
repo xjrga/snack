@@ -16,7 +16,9 @@ import javax.swing.table.TableCellEditor;
  *
  * @author Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
  */
-public class DoubleTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class DoubleTableCellEditor
+        extends AbstractCellEditor
+        implements TableCellEditor {
 
     JComponent component = new JTextField();
     JTextField textfield = ( JTextField ) component;
@@ -27,7 +29,7 @@ public class DoubleTableCellEditor extends AbstractCellEditor implements TableCe
         //if editing
         textfield.selectAll();
         textfield.setText( "" );
-        if( table.isCellEditable( rowIndex, vColIndex ) ) {
+        if ( table.isCellEditable( rowIndex, vColIndex ) ) {
             //Message.showMessage("Cell is editable");
         }
         return component;
@@ -38,10 +40,9 @@ public class DoubleTableCellEditor extends AbstractCellEditor implements TableCe
         NumberCheck checkNumber = new NumberCheck();
         Double n = 0.0;
         checkNumber.addToUncheckedList( textfield.getText() );
-        if( checkNumber.pass() ) {
+        if ( checkNumber.pass() ) {
             n = Double.valueOf( textfield.getText() );
-        }
-        else {
+        } else {
             //System.out.println(rowIndex+","+vColIndex+","+editingRow);
             //first click stops editor, second click enters new cell
             //java.lang.IndexOutOfBoundsException: Invalid index when click on next cell

@@ -32,10 +32,10 @@ public class Utilities {
             MessageDigest digest = MessageDigest.getInstance( "SHA-256" );
             byte[] encodedhash = digest.digest( s.getBytes( StandardCharsets.UTF_8 ) );
             sb = new StringBuilder( 2 * encodedhash.length );
-            for( byte b : encodedhash ) {
+            for ( byte b : encodedhash ) {
                 sb.append( String.format( "%02x", b ) );
             }
-        } catch( NoSuchAlgorithmException ex ) {
+        } catch ( NoSuchAlgorithmException ex ) {
 
         }
         return sb.toString();
@@ -43,7 +43,7 @@ public class Utilities {
 
     public static String random() {
         StringBuilder sb = new StringBuilder();
-        for( int i = 0; i < 8; i++ ) {
+        for ( int i = 0; i < 8; i++ ) {
             sb.append( Math.random() );
         }
         String replace = sb.toString().replace( ".", "" );
@@ -52,7 +52,7 @@ public class Utilities {
 
     private String convert_to_hex_02( byte[] hash ) {
         StringBuilder sb = new StringBuilder( 2 * hash.length );
-        for( byte b : hash ) {
+        for ( byte b : hash ) {
             sb.append( String.format( "%02x", b ) );
         }
         return sb.toString();
@@ -60,7 +60,7 @@ public class Utilities {
 
     private String convert_to_hex_03( byte[] hash ) {
         StringBuilder sb = new StringBuilder( 2 * hash.length );
-        for( byte b : hash ) {
+        for ( byte b : hash ) {
             sb.append( Integer.toString( (b & 0xff) + 0x100, 16 ).substring( 1 ) );
         }
         return sb.toString();
@@ -77,7 +77,7 @@ public class Utilities {
             writer.getDomConfig().setParameter( "format-pretty-print", Boolean.TRUE );
             writer.getDomConfig().setParameter( "xml-declaration", keepDeclaration );
             return writer.writeToString( document );
-        } catch( Exception e ) {
+        } catch ( Exception e ) {
             throw new RuntimeException( e );
         }
     }
@@ -92,14 +92,14 @@ public class Utilities {
             try {
                 try {
                     validator.validate( xmlDoc );
-                } catch( IOException e ) {
+                } catch ( IOException e ) {
                     System.out.println( "Reason: " + e.getLocalizedMessage() );
                 }
                 result = true;
-            } catch( SAXException e ) {
+            } catch ( SAXException e ) {
                 System.out.println( "Reason: " + e.getLocalizedMessage() );
             }
-        } catch( SAXException e ) {
+        } catch ( SAXException e ) {
             System.out.println( "Reason: " + e.getLocalizedMessage() );
         }
         return result;
@@ -107,7 +107,7 @@ public class Utilities {
 
     public static double[] convert_to_double_array( int[] array ) {
         double[] darray = new double[ array.length ];
-        for( int i = 0; i < array.length; i++ ) {
+        for ( int i = 0; i < array.length; i++ ) {
             darray[ i ] = array[ i ];
         }
         return darray;
@@ -115,7 +115,7 @@ public class Utilities {
 
     public static double[] convert_to_double_array( List<Double> list ) {
         double[] arr = new double[ list.size() ];
-        for( int i = 0; i < arr.length; i++ ) {
+        for ( int i = 0; i < arr.length; i++ ) {
             arr[ i ] = list.get( i );
         }
         return arr;
@@ -124,7 +124,7 @@ public class Utilities {
     public static String print_double_array( double[] array ) {
         StringBuilder sb = new StringBuilder();
         sb.append( "[" );
-        for( int i = 0; i < array.length; i++ ) {
+        for ( int i = 0; i < array.length; i++ ) {
             sb.append( array[ i ] );
             sb.append( ", " );
         }

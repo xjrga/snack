@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelFood extends DefaultListModel {
+public class ListModelFood
+        extends DefaultListModel {
 
     private final DbLink dbLink;
 
@@ -38,16 +38,15 @@ public class ListModelFood extends DefaultListModel {
     public void reload() {
         this.clear();
         try {
-            LinkedList all = ( LinkedList ) dbLink.Food_Select_All_2();
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_All_2();
+            list.forEach( row ->
+            {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
                 this.addElement( foodDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }
@@ -55,16 +54,15 @@ public class ListModelFood extends DefaultListModel {
     public void reload( String txt ) {
         this.clear();
         try {
-            LinkedList all = ( LinkedList ) dbLink.Food_Select_All_Like( txt );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_All_Like( txt );
+            list.forEach( row ->
+            {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
                 this.addElement( foodDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

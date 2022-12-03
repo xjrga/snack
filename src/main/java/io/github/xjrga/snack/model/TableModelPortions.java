@@ -22,12 +22,13 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelPortions extends DefaultTableModel implements RoundUp {
+public class TableModelPortions
+        extends DefaultTableModel
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -54,7 +55,7 @@ public class TableModelPortions extends DefaultTableModel implements RoundUp {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch( i ) {
+        switch ( i ) {
             case 0:
                 returnValue = String.class;
                 break;
@@ -89,14 +90,12 @@ public class TableModelPortions extends DefaultTableModel implements RoundUp {
     }
 
     public void reload( String mixid, Integer precision ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList all = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixid, precision );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap map = ( HashMap ) it.next();
-                row = new Vector();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixid, precision );
+            list.forEach( map ->
+            {
+                Vector row = new Vector();
                 row.add( ( String ) map.get( "MIXID" ) );
                 row.add( ( Integer ) map.get( "MEALID" ) );
                 row.add( ( String ) map.get( "FOODID" ) );
@@ -106,9 +105,9 @@ public class TableModelPortions extends DefaultTableModel implements RoundUp {
                 row.add( ( Double ) map.get( "EXPECTEDWT" ) );
                 row.add( ( Double ) map.get( "ACTUALWT" ) );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

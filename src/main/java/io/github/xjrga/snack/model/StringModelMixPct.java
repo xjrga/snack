@@ -3,10 +3,10 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 
-public class StringModelMixPct implements RoundUp {
+public class StringModelMixPct
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Integer precision = 0;
@@ -16,12 +16,11 @@ public class StringModelMixPct implements RoundUp {
     }
 
     public String reload( String MixId ) {
-        String s = "";
+        StringBuilder sb = new StringBuilder();
         try {
-            LinkedList all = ( LinkedList ) dbLink.MixResult_Select_Pct( MixId, precision );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.MixResult_Select_Pct( MixId, precision );
+            list.forEach( row ->
+            {
                 Double calories = ( Double ) row.get( "CALORIES" );
                 Double fat = ( Double ) row.get( "FAT" );
                 Double carbs = ( Double ) row.get( "CARBS" );
@@ -33,7 +32,6 @@ public class StringModelMixPct implements RoundUp {
                 Double polyufat = ( Double ) row.get( "POLYUFAT" );
                 //Calories calculation result is different if we choose digestible carbohydrate or carbohydrate by difference. I chose to use digestible carbohydrate.
                 //It is an approximation.
-                StringBuilder sb = new StringBuilder();
                 //This calories result is slightly different that the one reported because it uses digestible carbohydrate in calculation.
                 //sb.append("Calories: ");
                 //sb.append(mixResultDwPctDataObject.getCalories());
@@ -61,12 +59,11 @@ public class StringModelMixPct implements RoundUp {
                 sb.append( "Food Quotient (FQ): " );
                 sb.append( fq );
                 sb.append( "\n" );
-                s = sb.toString();
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
-        return s;
+        return sb.toString();
     }
 
     @Override

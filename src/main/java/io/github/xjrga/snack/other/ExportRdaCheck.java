@@ -2,6 +2,7 @@ package io.github.xjrga.snack.other;
 
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.MixDataObject;
+import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
 import io.github.xjrga.snack.gui.Message;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -114,15 +114,15 @@ public class ExportRdaCheck {
         return cellStyleMixName;
     }
 
-    public void print( MixDataObject mixDataObject, Integer lifeStageId ) {
+    public void print( MixDataObject mixDataObject, RdaLifeStageDataObject obj ) {
+        int lifeStageId = obj.getLifeStageId();
         row = s.createRow( rownum++ );
         cell = row.createCell( 0 );
         StringBuilder sb1 = new StringBuilder();
-        sb1.append( "RDA Check, " );
-        sb1.append( "Lifestage " );
-        sb1.append( lifeStageId );
-        sb1.append( ", " );
+        sb1.append( "The Recommended Dietary Allowance (RDA) check of " );
         sb1.append( mixDataObject.getName() );
+        sb1.append( " on " );
+        sb1.append( obj.getLabel() );
         cell.setCellValue( sb1.toString() );
         cell.setCellStyle( cellStyleMixName );
         row = s.createRow( rownum++ );
@@ -145,10 +145,9 @@ public class ExportRdaCheck {
         cell.setCellValue( "% UL" );
         cell.setCellStyle( cellStyleColumnName );
         try {
-            LinkedList list = ( LinkedList ) dbLink.Mix_GetRdaDiff( mixDataObject.getMixId(), lifeStageId, 2 );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetRdaDiff( mixDataObject.getMixId(), lifeStageId, 2 );
+            list.forEach( rowm ->
+            {
                 String nutrient = ( String ) rowm.get( "NAME" );
                 Double mix = ( Double ) rowm.get( "MIX" );
                 Double rda = ( Double ) rowm.get( "RDA" );
@@ -172,18 +171,18 @@ public class ExportRdaCheck {
                 cell = row.createCell( 5 );
                 cell.setCellValue( pctul );
                 cell.setCellStyle( cellStylePctULValue );
-            }
+            } );
             try {
                 out = new FileOutputStream( filepath.toString() );
                 wb.write( out );
                 out.close();
-            } catch( IOException e ) {
+            } catch ( IOException e ) {
             }
             JComponent[] inputs = new JComponent[] {
                 new JLabel( "Spreadsheet is ready" )
             };
             Message.showOptionDialog( inputs, "Export RDA Check" );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
 //
         }

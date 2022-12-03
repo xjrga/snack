@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -103,12 +102,10 @@ public class ExportNutrientLookup {
         row = s.createRow( rownum++ );
         cell = row.createCell( 0 );
         StringBuilder sb1 = new StringBuilder();
-        sb1.append( "*You get" );
-        sb1.append( " " );
+        sb1.append( "This amount of food gives you " );
         sb1.append( textFieldNutrientLookup.getText() );
-        sb1.append( " " );
+        sb1.append( " of " );
         sb1.append( nutrientDataObject.getNutrdesc() );
-        sb1.append( " in this amount (g) of food" );
         cell.setCellValue( sb1.toString() );
         cell.setCellStyle( cellStyleMixName );
         row = s.createRow( rownum++ );
@@ -122,10 +119,9 @@ public class ExportNutrientLookup {
         cell.setCellValue( "Calories (kcal)" );
         cell.setCellStyle( cellStyleColumnName );
         try {
-            LinkedList list = ( LinkedList ) dbLink.Nutrient_Lookup_List( nutrientDataObject.getNutr_no(), Double.valueOf( textFieldNutrientLookup.getText() ), 5 );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Lookup_List( nutrientDataObject.getNutr_no(), Double.valueOf( textFieldNutrientLookup.getText() ), 5 );
+            list.forEach( rowm ->
+            {
                 String foodname = ( String ) rowm.get( "NAME" );
                 Double calories = ( Double ) rowm.get( "CALORIES" );
                 Double weight = ( Double ) rowm.get( "WEIGHT" );
@@ -139,16 +135,15 @@ public class ExportNutrientLookup {
                 cell = row.createCell( 2 );
                 cell.setCellValue( calories );
                 cell.setCellStyle( cellStyleValue );
-
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
         try {
             out = new FileOutputStream( filepath.toString() );
             wb.write( out );
             out.close();
-        } catch( IOException e ) {
+        } catch ( IOException e ) {
 
         }
         JComponent[] inputs = new JComponent[] {

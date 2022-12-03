@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.O_Meal;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelPortionMeal extends DefaultListModel {
+public class ListModelPortionMeal
+        extends DefaultListModel {
 
     private final DbLink dbLink;
 
@@ -37,12 +37,11 @@ public class ListModelPortionMeal extends DefaultListModel {
 
     public void reload( String mixid ) {
         this.removeAllElements();
-        LinkedList all = null;
+        LinkedList<HashMap> list = null;
         try {
-            all = ( LinkedList ) dbLink.Meal_Select_All( mixid );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            list = ( LinkedList ) dbLink.Meal_Select_All( mixid );
+            list.forEach( row ->
+            {
                 String mixid2 = ( String ) row.get( "MIXID" );
                 Integer mealid = ( Integer ) row.get( "MEALID" );
                 String name = ( String ) row.get( "NAME" );
@@ -53,8 +52,8 @@ public class ListModelPortionMeal extends DefaultListModel {
                 meal.setName( name );
                 meal.setMealOrder( order );
                 this.addElement( meal );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }
@@ -62,9 +61,9 @@ public class ListModelPortionMeal extends DefaultListModel {
     public int find_by_mealid( Integer mealid ) {
         int index = 0;
         int size = this.getSize();
-        for( int i = 0; i < size; i++ ) {
+        for ( int i = 0; i < size; i++ ) {
             O_Meal elementAt = ( O_Meal ) this.getElementAt( i );
-            if( elementAt.getMealid().equals( mealid ) ) {
+            if ( elementAt.getMealid().equals( mealid ) ) {
                 index = i;
                 break;
             }

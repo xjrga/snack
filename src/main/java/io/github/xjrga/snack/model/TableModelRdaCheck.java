@@ -22,12 +22,13 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
+public class TableModelRdaCheck
+        extends DefaultTableModel
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -53,10 +54,9 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if( i < 2 ) {
+        if ( i < 2 ) {
             returnValue = String.class;
-        }
-        else {
+        } else {
             returnValue = Double.class;
         }
         return returnValue;
@@ -68,13 +68,11 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
     }
 
     public void reload( String MixId, Integer LifeStageId ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.Mix_GetRdaDiff( MixId, LifeStageId, precision );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetRdaDiff( MixId, LifeStageId, precision );
+            list.forEach( rowm ->
+            {
                 String nutrientid = ( String ) rowm.get( "NUTRIENTID" );
                 String nutrient = ( String ) rowm.get( "NAME" );
                 Double mix = ( Double ) rowm.get( "MIX" );
@@ -82,7 +80,7 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
                 Double pctrda = ( Double ) rowm.get( "PCTRDA" );
                 Double ul = ( Double ) rowm.get( "UL" );
                 Double pctul = ( Double ) rowm.get( "PCTUL" );
-                row = new Vector();
+                Vector row = new Vector();
                 row.add( nutrientid );
                 row.add( nutrient );
                 row.add( mix );
@@ -91,9 +89,9 @@ public class TableModelRdaCheck extends DefaultTableModel implements RoundUp {
                 row.add( ul );
                 row.add( pctul );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

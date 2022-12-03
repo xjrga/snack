@@ -22,12 +22,13 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelResultsByMealEnergy extends DefaultTableModel implements RoundUp {
+public class TableModelResultsByMealEnergy
+        extends DefaultTableModel
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -55,10 +56,9 @@ public class TableModelResultsByMealEnergy extends DefaultTableModel implements 
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        if( i == 0 ) {
+        if ( i == 0 ) {
             returnValue = String.class;
-        }
-        else {
+        } else {
             returnValue = Double.class;
         }
         return returnValue;
@@ -70,14 +70,12 @@ public class TableModelResultsByMealEnergy extends DefaultTableModel implements 
     }
 
     public void reload( String mixid, Integer precision ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList all = ( LinkedList ) dbLink.results_by_meal_select( mixid, precision );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap map = ( HashMap ) it.next();
-                row = new Vector();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.results_by_meal_select( mixid, precision );
+            list.forEach( map ->
+            {
+                Vector row = new Vector();
                 row.add( ( String ) map.get( "NAME" ) );
                 row.add( ( Double ) map.get( "WEIGHT" ) );
                 row.add( ( Double ) map.get( "EGROSS" ) );
@@ -88,9 +86,9 @@ public class TableModelResultsByMealEnergy extends DefaultTableModel implements 
                 row.add( ( Double ) map.get( "EPROTEIN" ) );
                 row.add( ( Double ) map.get( "EALCOHOL" ) );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

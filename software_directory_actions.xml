@@ -20,14 +20,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 <project default="">    
     <xmlproperty file="pom.xml" prefix="pom" />
+    <tstamp>
+        <format property="time.stamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>    
     <!-- unzip app in software dir -->
     <target name="1. unzip to software">
         <delete dir="${user.dir}/Software/${pom.project.artifactId}-${pom.project.version}/"/>
-        <unzip src="target/${pom.project.artifactId}-${pom.project.version}-app.zip" dest="${user.dir}/Software/" overwrite="true"/>                                        
+        <unzip src="target/${pom.project.artifactId}-${pom.project.version}-app.zip" dest="${user.dir}/Software/" overwrite="true"/>
+        <echo message="Unzipped to software directory on ${time.stamp}"/>
     </target>
     <!-- copy to releases -->
     <target name="2. copy to releases">
         <copy file="target/${pom.project.artifactId}-${pom.project.version}-app.zip" tofile="${user.dir}/Project/Public/xjrga.github.io/releases/${pom.project.artifactId}-${pom.project.version}-app.zip"/>
-        <copy file="target/${pom.project.artifactId}-${pom.project.version}-app.zip.asc" tofile="${user.dir}/Project/Public/xjrga.github.io/releases/${pom.project.artifactId}-${pom.project.version}-app.zip.asc"/>       
+        <copy file="target/${pom.project.artifactId}-${pom.project.version}-app.zip.asc" tofile="${user.dir}/Project/Public/xjrga.github.io/releases/${pom.project.artifactId}-${pom.project.version}-app.zip.asc"/>
+        <echo message="Copied to releases directory on ${time.stamp}"/>
     </target>    
 </project>

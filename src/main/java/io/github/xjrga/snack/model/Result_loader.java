@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 
-public class Result_loader implements RoundUp {
+public class Result_loader
+        implements RoundUp {
 
     private final DbLink dbLink;
     private Integer precision = 0;
@@ -47,16 +47,6 @@ public class Result_loader implements RoundUp {
     }
 
     public void reload( String mixid ) {
-        Vector energy_row = null;
-        Vector macronutrient_row = null;
-        Vector protein_row = null;
-        Vector fat_row = null;
-        Vector carbs_row = null;
-        Vector vitamins_row = null;
-        Vector minerals_row = null;
-        Vector electrolytes_row = null;
-        Vector water_row = null;
-        Vector cost_row = null;
         energy_table = new Vector();
         macronutrient_table = new Vector();
         protein_table = new Vector();
@@ -68,10 +58,9 @@ public class Result_loader implements RoundUp {
         water_table = new Vector();
         cost_table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.MixResult_Select( mixid, precision );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.MixResult_Select( mixid, precision );
+            list.forEach( rowm ->
+            {
                 //ENERGY TABLE
                 String Name = ( String ) rowm.get( "Name" );
                 Double Weight = ( Double ) rowm.get( Nutrient.WEIGHT.getLabel() );
@@ -82,7 +71,7 @@ public class Result_loader implements RoundUp {
                 Double EnergyProtein = ( Double ) rowm.get( Nutrient.ENERGYPROTEIN.getLabel() );
                 Double EnergyAlcohol = ( Double ) rowm.get( Nutrient.ENERGYALCOHOL.getLabel() );
                 Double EnergyFatCarbohydrate = ( Double ) rowm.get( Nutrient.ENERGYFATCARBOHYDRATE.getLabel() );
-                energy_row = new Vector();
+                Vector energy_row = new Vector();
                 energy_row.add( Name );
                 energy_row.add( Weight );
                 energy_row.add( EnergyGross );
@@ -98,7 +87,7 @@ public class Result_loader implements RoundUp {
                 Double DigestibleCarbohydrate = ( Double ) rowm.get( Nutrient.DIGESTIBLECARBOHYDRATE.getLabel() );
                 Double Protein = ( Double ) rowm.get( Nutrient.PROTEIN.getLabel() );
                 Double Alcohol = ( Double ) rowm.get( Nutrient.ALCOHOL.getLabel() );
-                macronutrient_row = new Vector();
+                Vector macronutrient_row = new Vector();
                 macronutrient_row.add( Name );
                 macronutrient_row.add( Weight );
                 macronutrient_row.add( Fat );
@@ -108,7 +97,7 @@ public class Result_loader implements RoundUp {
                 macronutrient_table.add( macronutrient_row );
                 //PROTEIN TABLE
                 Double CompleteProtein = ( Double ) rowm.get( Nutrient.COMPLETEPROTEIN.getLabel() );
-                protein_row = new Vector();
+                Vector protein_row = new Vector();
                 protein_row.add( Name );
                 protein_row.add( Weight );
                 protein_row.add( EnergyProtein );
@@ -124,7 +113,7 @@ public class Result_loader implements RoundUp {
                 Double Linolenic = ( Double ) rowm.get( Nutrient.LINOLENIC.getLabel() );
                 Double DHA = ( Double ) rowm.get( Nutrient.DHA.getLabel() );
                 Double EPA = ( Double ) rowm.get( Nutrient.EPA.getLabel() );
-                fat_row = new Vector();
+                Vector fat_row = new Vector();
                 fat_row.add( Name );
                 fat_row.add( Weight );
                 fat_row.add( EnergyFat );
@@ -141,7 +130,7 @@ public class Result_loader implements RoundUp {
                 //CARBOHYDRATE TABLE
                 Double CarbsByDiff = ( Double ) rowm.get( Nutrient.CARBOHYDRATEBYDIFFERENCE.getLabel() );
                 Double Fiber = ( Double ) rowm.get( Nutrient.FIBER.getLabel() );
-                carbs_row = new Vector();
+                Vector carbs_row = new Vector();
                 carbs_row.add( Name );
                 carbs_row.add( Weight );
                 carbs_row.add( EnergyCarbohydrate );
@@ -163,7 +152,7 @@ public class Result_loader implements RoundUp {
                 Double Choline = ( Double ) rowm.get( Nutrient.CHOLINE.getLabel() );
                 Double VitaminK = ( Double ) rowm.get( Nutrient.VITAMINK.getLabel() );
                 Double Folate = ( Double ) rowm.get( Nutrient.FOLATE.getLabel() );
-                vitamins_row = new Vector();
+                Vector vitamins_row = new Vector();
                 vitamins_row.add( Name );
                 vitamins_row.add( Weight );
                 vitamins_row.add( VitaminA );
@@ -189,7 +178,7 @@ public class Result_loader implements RoundUp {
                 Double Copper = ( Double ) rowm.get( Nutrient.COPPER.getLabel() );
                 Double Manganese = ( Double ) rowm.get( Nutrient.MANGANESE.getLabel() );
                 Double Selenium = ( Double ) rowm.get( Nutrient.SELENIUM.getLabel() );
-                minerals_row = new Vector();
+                Vector minerals_row = new Vector();
                 minerals_row.add( Name );
                 minerals_row.add( Weight );
                 minerals_row.add( Calcium );
@@ -204,7 +193,7 @@ public class Result_loader implements RoundUp {
                 //ELECTROLYTES TABLE
                 Double Potassium = ( Double ) rowm.get( Nutrient.POTASSIUM.getLabel() );
                 Double Sodium = ( Double ) rowm.get( Nutrient.SODIUM.getLabel() );
-                electrolytes_row = new Vector();
+                Vector electrolytes_row = new Vector();
                 electrolytes_row.add( Name );
                 electrolytes_row.add( Weight );
                 electrolytes_row.add( Sodium );
@@ -212,21 +201,20 @@ public class Result_loader implements RoundUp {
                 electrolytes_table.add( electrolytes_row );
                 //WATER TABLE
                 Double Water = ( Double ) rowm.get( Nutrient.WATER.getLabel() );
-                water_row = new Vector();
+                Vector water_row = new Vector();
                 water_row.add( Name );
                 water_row.add( Weight );
                 water_row.add( Water );
                 water_table.add( water_row );
                 //COST TABLE
                 Double Cost = ( Double ) rowm.get( Nutrient.COST.getLabel() );
-                cost_row = new Vector();
+                Vector cost_row = new Vector();
                 cost_row.add( Name );
                 cost_row.add( Weight );
                 cost_row.add( Cost );
                 cost_table.add( cost_row );
-
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

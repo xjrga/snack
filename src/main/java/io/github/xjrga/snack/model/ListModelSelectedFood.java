@@ -23,11 +23,11 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelSelectedFood extends DefaultListModel {
+public class ListModelSelectedFood
+        extends DefaultListModel {
 
     private final DbLink dbLink;
 
@@ -38,16 +38,15 @@ public class ListModelSelectedFood extends DefaultListModel {
     public void reload( String mixId ) {
         this.clear();
         try {
-            LinkedList all = ( LinkedList ) dbLink.MixFood_Select_All_By_Name( mixId );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.MixFood_Select_All_By_Name( mixId );
+            list.forEach( row ->
+            {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
                 this.addElement( foodDataObject );
-            }
-        } catch( SQLException e ) {
+            } );
+        } catch ( SQLException e ) {
 
         }
     }

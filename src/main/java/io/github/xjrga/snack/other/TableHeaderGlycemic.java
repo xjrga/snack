@@ -3,7 +3,8 @@ package io.github.xjrga.snack.other;
 import java.awt.event.MouseEvent;
 import javax.swing.table.TableColumnModel;
 
-public class TableHeaderGlycemic extends MyTableHeader {
+public class TableHeaderGlycemic
+        extends MyTableHeader {
 
     public TableHeaderGlycemic( TableColumnModel columnModel ) {
         super( columnModel, new String[] {

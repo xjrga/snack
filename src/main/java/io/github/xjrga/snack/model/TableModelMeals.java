@@ -22,12 +22,12 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelMeals extends DefaultTableModel {
+public class TableModelMeals
+        extends DefaultTableModel {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -49,7 +49,7 @@ public class TableModelMeals extends DefaultTableModel {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch( i ) {
+        switch ( i ) {
             case 0:
                 returnValue = String.class;
                 break;
@@ -72,22 +72,20 @@ public class TableModelMeals extends DefaultTableModel {
     }
 
     public void reload( String mixid ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList all = ( LinkedList ) dbLink.Meal_Select_All( mixid );
-            Iterator it = all.iterator();
-            while( it.hasNext() ) {
-                HashMap map = ( HashMap ) it.next();
-                row = new Vector();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Meal_Select_All( mixid );
+            list.forEach( map ->
+            {
+                Vector row = new Vector();
                 row.add( ( String ) map.get( "MIXID" ) );
                 row.add( ( Integer ) map.get( "MEALID" ) );
                 row.add( ( String ) map.get( "NAME" ) );
                 row.add( ( Integer ) map.get( "MEALORDER" ) );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }

@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -119,10 +118,9 @@ public class ExportMealPlan {
         cell.setCellValue( "Actual" );
         cell.setCellStyle( cellStyleColumnName );
         try {
-            LinkedList list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixDataObject.getMixId(), 5 );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixDataObject.getMixId(), 5 );
+            list.forEach( rowm ->
+            {
                 String mixid = ( String ) rowm.get( "MIXID" );
                 Integer mealid = ( Integer ) rowm.get( "MEALID" );
                 String foodid = ( String ) rowm.get( "FOODID" );
@@ -145,18 +143,18 @@ public class ExportMealPlan {
                 cell.setCellStyle( cellStyleMixValue );
                 cell = row.createCell( 4 );
                 cell.setCellValue( actualwt );
-            }
+            } );
             try {
                 out = new FileOutputStream( filepath.toString() );
                 wb.write( out );
                 out.close();
-            } catch( IOException e ) {
+            } catch ( IOException e ) {
             }
             JComponent[] inputs = new JComponent[] {
                 new JLabel( "Spreadsheet is ready" )
             };
             Message.showOptionDialog( inputs, "Export Meal Plan" );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
 //
         }

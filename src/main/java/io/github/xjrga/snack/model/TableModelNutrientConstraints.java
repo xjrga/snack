@@ -22,12 +22,12 @@ package io.github.xjrga.snack.model;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelNutrientConstraints extends DefaultTableModel {
+public class TableModelNutrientConstraints
+        extends DefaultTableModel {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -51,7 +51,7 @@ public class TableModelNutrientConstraints extends DefaultTableModel {
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
-        switch( i ) {
+        switch ( i ) {
             case 0:
                 //mixid
                 returnValue = Integer.class;
@@ -86,20 +86,18 @@ public class TableModelNutrientConstraints extends DefaultTableModel {
     }
 
     public void reload( String mixid ) {
-        Vector row = null;
         Vector table = new Vector();
         try {
-            LinkedList list = ( LinkedList ) dbLink.NutrientConstraint_Select( mixid );
-            Iterator it = list.iterator();
-            while( it.hasNext() ) {
-                HashMap rowm = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.NutrientConstraint_Select( mixid );
+            list.forEach( rowm ->
+            {
                 String mixid2 = ( String ) rowm.get( "MIXID" );
                 String nutrientid = ( String ) rowm.get( "NUTRIENTID" );
                 Integer relationid = ( Integer ) rowm.get( "RELATIONSHIPID" );
                 String nutrient = ( String ) rowm.get( "NUTRIENT" );
                 String relationship = ( String ) rowm.get( "RELATIONSHIP" );
                 double value = ( double ) rowm.get( "B" );
-                row = new Vector();
+                Vector row = new Vector();
                 row.add( mixid2 );
                 row.add( nutrientid );
                 row.add( relationid );
@@ -107,9 +105,9 @@ public class TableModelNutrientConstraints extends DefaultTableModel {
                 row.add( relationship );
                 row.add( value );
                 table.add( row );
-            }
+            } );
             this.setDataVector( table, columns );
-        } catch( SQLException e ) {
+        } catch ( SQLException e ) {
 
         }
     }
