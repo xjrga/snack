@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelWater
         extends DefaultTableModel {
 
-    private Vector columns;
+    private final Vector columns;
 
     public TableModelWater( Result_loader loader ) {
         columns = new Vector();

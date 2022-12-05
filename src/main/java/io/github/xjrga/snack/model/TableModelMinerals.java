@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelMinerals
         extends DefaultTableModel {
 
-    private Vector columns;
+    private final Vector columns;
 
     public TableModelMinerals( Result_loader loader ) {
         columns = new Vector();

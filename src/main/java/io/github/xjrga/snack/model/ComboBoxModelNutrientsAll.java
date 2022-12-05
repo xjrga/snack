@@ -23,7 +23,6 @@ import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.*;
 
@@ -38,18 +37,16 @@ public class ComboBoxModelNutrientsAll
 
     public void reload() {
         this.removeAllElements();
-        LinkedList all = null;
         try {
-            all = ( LinkedList ) dbLink.Nutrient_Select_All();
-            Iterator it = all.iterator();
-            while ( it.hasNext() ) {
-                HashMap row = ( HashMap ) it.next();
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Select_All();
+            list.forEach( row ->
+            {
                 String nutrientid = ( String ) row.get( "NUTRIENTID" );
                 String name = ( String ) row.get( "NAME" );
                 NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, name, null );
                 this.addElement( nutrientDataObject );
-            }
-        } catch ( SQLException e ) {
+            } );
+        } catch ( SQLException ex ) {
 
         }
     }

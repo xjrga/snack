@@ -1580,6 +1580,11 @@ public class Main {
                     modelList_Solve.reload();
                     modelList_FoodJournal.reload();
                     clear_model_solve();
+                    int index = modelList_FoodJournal.find_by_mixid( mixid );
+                    lst_journal_mix.setSelectedIndex( index );
+                    if ( lst_mix.getModel().getSize() > 0 ) {
+                        lst_mix.setSelectedIndex( 0 );
+                    }
                 } catch ( SQLException e ) {
 
                 }
@@ -2354,15 +2359,15 @@ public class Main {
         } );
         item_02.addActionListener( ( ActionEvent e ) ->
         {
-            results_tabbed_pane.setSelectedIndex( 4 );
+            results_tabbed_pane.setSelectedIndex( 5 );
         } );
         item_03.addActionListener( ( ActionEvent e ) ->
         {
-            results_tabbed_pane.setSelectedIndex( 5 );
+            results_tabbed_pane.setSelectedIndex( 6 );
         } );
         item_04.addActionListener( ( ActionEvent e ) ->
         {
-            results_tabbed_pane.setSelectedIndex( 6 );
+            results_tabbed_pane.setSelectedIndex( 7 );
         } );
         tbl_results_rda.addMouseListener( new MouseAdapter() {
             @Override
@@ -2424,15 +2429,15 @@ public class Main {
         } );
         item_02.addActionListener( ( ActionEvent e ) ->
         {
-            journal_results_tabbed_pane.setSelectedIndex( 4 );
+            journal_results_tabbed_pane.setSelectedIndex( 5 );
         } );
         item_03.addActionListener( ( ActionEvent e ) ->
         {
-            journal_results_tabbed_pane.setSelectedIndex( 5 );
+            journal_results_tabbed_pane.setSelectedIndex( 6 );
         } );
         item_04.addActionListener( ( ActionEvent e ) ->
         {
-            journal_results_tabbed_pane.setSelectedIndex( 6 );
+            journal_results_tabbed_pane.setSelectedIndex( 7 );
         } );
         tbl_journal_rda.addMouseListener( new MouseAdapter() {
             @Override
@@ -2455,7 +2460,7 @@ public class Main {
             modelComboBox_NutrientLookupListNutrient.setSelectedItem( nutrientDataObject );
             modelTableNutrientLookup.reload( nutrientid, rda );
             resize_col_tbl_nutrient_lookup();
-            main_tabbed_pane.setSelectedIndex( 6 );
+            main_tabbed_pane.setSelectedIndex( 5 );
         } else {
             Message.showMessage( "Please select nutrient" );
         }
@@ -2472,7 +2477,7 @@ public class Main {
             modelComboBox_NutrientLookupListNutrient.setSelectedItem( nutrientDataObject );
             modelTableNutrientLookup.reload( nutrientid, rda );
             resize_col_tbl_nutrient_lookup();
-            main_tabbed_pane.setSelectedIndex( 6 );
+            main_tabbed_pane.setSelectedIndex( 5 );
         } else {
             Message.showMessage( "Please select nutrient" );
         }
@@ -2858,6 +2863,9 @@ public class Main {
                     clear_model_meal_plan();
                     int index = modelList_Solve.find_by_mixid( mixid );
                     lst_mix.setSelectedIndex( index );
+                    if ( lst_journal_mix.getModel().getSize() > 0 ) {
+                        lst_journal_mix.setSelectedIndex( 0 );
+                    }
                 } catch ( SQLException e ) {
 
                 }
@@ -3996,7 +4004,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1060" );
+        sb.append( "This is build 1070" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();

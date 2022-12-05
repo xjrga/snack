@@ -326,4 +326,8 @@ RELEASE NOTES
 1060
 
       Improve constraint creation user process      
+
+1070
+
+      Fix rda check right click popup     
       

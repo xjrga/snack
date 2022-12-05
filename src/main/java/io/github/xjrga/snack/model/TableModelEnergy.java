@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelEnergy
         extends DefaultTableModel {
 
-    private Vector columns;
+    private final Vector columns;
 
     public TableModelEnergy( Result_loader loader ) {
         columns = new Vector();
