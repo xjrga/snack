@@ -111,6 +111,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -587,6 +588,20 @@ public class Main {
         resize_col_tbl_results_by_meal_grams();
         resize_tbls_constraint();
         editor_split_pane.setDividerLocation( 0.5 );
+        main_tabbed_pane.addChangeListener( ( ChangeEvent e ) ->
+        {
+            switch ( main_tabbed_pane.getSelectedIndex() ) {
+                case 0:
+                    mnui_show_mix_stats.setEnabled( true );
+                    break;
+                case 1:
+                    mnui_show_mix_stats.setEnabled( true );
+                    break;
+                default:
+                    mnui_show_mix_stats.setEnabled( false );
+                    break;
+            }
+        } );
         dbLink.startTransaction();
     }
 
@@ -1836,6 +1851,9 @@ public class Main {
                     dbLink.stopTransaction();
                     reload_lstmdl_mixes();
                     clear_model_all();
+                    if ( lst_mix.getModel().getSize() > 0 ) {
+                        lst_mix.setSelectedIndex( 0 );
+                    }
                 } catch ( SQLException e ) {
 
                 }
@@ -4004,7 +4022,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1070" );
+        sb.append( "This is build 1080" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -6186,22 +6204,43 @@ public class Main {
 
     private void evt_mnui_export_model() {
         if ( is_mix_journal_selected() ) {
-            try {
-                MixDataObject mix = ( MixDataObject ) lst_journal_mix.getSelectedValue();
-                frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-                Xml_send send = new Xml_send( dbLink, mix.getMixId() );
-                frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-                show_message_sent();
-            } catch ( Exception e ) {
+            fileChooser.setAcceptAllFileFilterUsed( false );
+            fileChooser.addChoosableFileFilter( new FileNameExtensionFilter( "Xml Document", "xml" ) );
+            StringBuilder sb = new StringBuilder();
+            sb.append( System.getProperty( "user.dir" ) );
+            sb.append( File.separator );
+            sb.append( "model" );
+            sb.append( File.separator );
+            sb.append( "export.xml" );
+            fileChooser.setSelectedFile( new File( sb.toString() ) );
+            int returnVal = fileChooser.showSaveDialog( frame );
+            if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+                File file = fileChooser.getSelectedFile();
+                String path = file.getAbsolutePath();
+                fileChooser.setCurrentDirectory( new File( path ) );
+                try {
+                    MixDataObject mix = ( MixDataObject ) lst_journal_mix.getSelectedValue();
+                    frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+                    Xml_send send = new Xml_send( dbLink, mix.getMixId(), path );
+                    frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    show_message_sent( path );
+                } catch ( Exception e ) {
+                }
             }
         } else {
             Message.showMessage( "Go to journal and select mix" );
         }
     }
 
-    private void show_message_sent() {
+    private void show_message_sent( String path ) {
+        String_display_component label = new String_display_component();
+        label.setPreferredSize( new Dimension( 320, 40 ) );
+        StringBuilder sb = new StringBuilder();
+        sb.append( "Document saved to\n" );
+        sb.append( path );
+        label.setText( sb.toString() );
         JComponent[] inputs = new JComponent[] {
-            new JLabel( "Data exchange document is in model directory." )
+            label
         };
         Message.showOptionDialog( inputs, "Data Exchange" );
     }
@@ -6209,6 +6248,7 @@ public class Main {
     private void evt_mnui_import_model() {
         fileChooser.setAcceptAllFileFilterUsed( false );
         fileChooser.addChoosableFileFilter( new FileNameExtensionFilter( "Xml Document", "xml" ) );
+        fileChooser.setSelectedFile( new File( "" ) );
         int returnVal = fileChooser.showOpenDialog( frame );
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
             File file = fileChooser.getSelectedFile();
@@ -6241,22 +6281,26 @@ public class Main {
     }
 
     private void evt_mnui_show_mix_stats() {
-        if ( is_mix_selected() ) {
-            try {
-                MixDataObject mix = ( MixDataObject ) lst_mix.getSelectedValue();
-                String_display_component component = new String_display_component();
-                component.setText( stringModelMixPct.reload( mix.getMixId() ) );
-                component.setPreferredSize( new Dimension( 280, 130 ) );
-                JComponent[] inputs = new JComponent[ 1 ];
-                inputs[ 0 ] = component;
-                Message.showOptionDialog( inputs, "Macronutrient Percentages" );
-            } catch ( Exception e ) {
-
-            }
-        } else {
-            Message.showMessage( "Go to solve and select mix" );
+        String_display_component component = new String_display_component();
+        component.setPreferredSize( new Dimension( 280, 130 ) );
+        JComponent[] inputs = new JComponent[ 1 ];
+        inputs[ 0 ] = component;
+        switch ( main_tabbed_pane.getSelectedIndex() ) {
+            case 0:
+                if ( is_mix_selected() ) {
+                    MixDataObject mix = ( MixDataObject ) lst_mix.getSelectedValue();
+                    component.setText( stringModelMixPct.reload( mix.getMixId() ) );
+                    Message.showOptionDialog( inputs, "Macronutrient Percentages" );
+                }
+                break;
+            case 1:
+                if ( is_mix_journal_selected() ) {
+                    MixDataObject mix = ( MixDataObject ) lst_journal_mix.getSelectedValue();
+                    component.setText( stringModelMixPct.reload( mix.getMixId() ) );
+                    Message.showOptionDialog( inputs, "Macronutrient Percentages" );
+                }
+                break;
         }
-
     }
 
     private void evt_btn_cost() {

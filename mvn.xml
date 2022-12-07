@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
-<project default="package">
+<project default="">
     <target name="compile">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <target name="package">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
-            <arg line="package"/>
+            <arg line="clean package"/>
         </exec>
     </target>
     <target name="clean">

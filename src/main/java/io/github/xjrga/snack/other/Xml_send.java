@@ -8,14 +8,10 @@ import java.sql.SQLException;
 
 public class Xml_send {
 
-    public Xml_send( DbLink dbLink, String mixid ) {
+    public Xml_send( DbLink dbLink, String mixid, String path ) {
         try {
-            StringBuilder path = new StringBuilder();
-            path.append( "model/" );
-            path.append( mixid );
-            path.append( ".xml" );
             String doc = dbLink.export_mix( mixid );
-            BufferedWriter writer = new BufferedWriter( new FileWriter( path.toString() ) );
+            BufferedWriter writer = new BufferedWriter( new FileWriter( path ) );
             writer.write( Utilities.format_xml_doc( doc ) );
             writer.close();
         } catch ( SQLException | IOException ex ) {

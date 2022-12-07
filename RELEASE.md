@@ -330,4 +330,8 @@ RELEASE NOTES
 1070
 
       Fix rda check right click popup     
+
+1080
+
+      Add filechooser to data document export process      
       
