@@ -333,5 +333,12 @@ RELEASE NOTES
 
 1080
 
-      Add filechooser to data document export process      
+      Add filechooser to data document export process
+      Fix gui bloopers   
+
+1090
+
+      Fix referential integrity bug
+      Fix gui bloopers
+      Add constraint count display
       
