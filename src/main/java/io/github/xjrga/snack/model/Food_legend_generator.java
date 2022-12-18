@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
@@ -26,7 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Food_legend_generator {
+public class Food_legend_generator
+        implements Reload_mixid {
 
     private final DbLink dbLink;
     private ArrayList list;
@@ -35,6 +37,7 @@ public class Food_legend_generator {
         this.dbLink = dbLink;
     }
 
+    @Override
     public void reload( String mixId ) {
         try {
             list = new ArrayList();

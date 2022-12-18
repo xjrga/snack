@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Round_up;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class TableModelMixComparison
         extends DefaultTableModel
-        implements RoundUp {
+        implements Round_up {
 
     public static int c = 0;
     private final DbLink dbLink;
@@ -83,10 +84,10 @@ public class TableModelMixComparison
         return false;
     }
 
-    public void reload( String MixId1, String MixId2 ) {
+    public void reload( String mixid_a, String mixid_b ) {
         Vector table = new Vector();
         try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetDiff( MixId1, MixId2, precision );
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetDiff( mixid_a, mixid_b, precision );
             list.forEach( rowm ->
             {
                 String category = ( String ) rowm.get( "CATEGORY" );
@@ -102,7 +103,7 @@ public class TableModelMixComparison
                 row.add( diff );
                 table.add( row );
             } );
-            list = ( LinkedList ) dbLink.Mix_GetMealGIDiff( MixId1, MixId2, precision );
+            list = ( LinkedList ) dbLink.Mix_GetMealGIDiff( mixid_a, mixid_b, precision );
             list.forEach( rowm ->
             {
                 String nutrient = ( String ) rowm.get( "NUTRIENT" );
@@ -124,7 +125,7 @@ public class TableModelMixComparison
     }
 
     @Override
-    public void setPrecision( Integer precision ) {
+    public void set_precision( Integer precision ) {
         this.precision = precision;
     }
 }

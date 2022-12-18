@@ -267,14 +267,10 @@ digraph example_1 {
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "MixFood" -> "MixResult" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "MixResult" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "FoodFactCoefficient" -> "MixResult" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "MixFood" -> "MixResultDn" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "MixResultDn" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]    
     "Mix" -> "Meal" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "Meal" -> "MealFoodAllocation" [dir=forward,weight=1];

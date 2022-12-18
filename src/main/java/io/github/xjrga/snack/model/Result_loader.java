@@ -19,6 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Round_up;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import java.sql.SQLException;
@@ -27,7 +29,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 public class Result_loader
-        implements RoundUp {
+        implements Round_up, Reload_mixid {
 
     private final DbLink dbLink;
     private Integer precision = 0;
@@ -46,6 +48,7 @@ public class Result_loader
         this.dbLink = dbLink;
     }
 
+    @Override
     public void reload( String mixid ) {
         energy_table = new Vector();
         macronutrient_table = new Vector();
@@ -220,7 +223,7 @@ public class Result_loader
     }
 
     @Override
-    public void setPrecision( Integer precision ) {
+    public void set_precision( Integer precision ) {
         this.precision = precision;
     }
 

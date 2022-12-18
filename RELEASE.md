@@ -341,4 +341,9 @@ RELEASE NOTES
       Fix referential integrity bug
       Fix gui bloopers
       Add constraint count display
+
+1100
+
+      Redesign gui
+      Unify editor and journal mix lists
       

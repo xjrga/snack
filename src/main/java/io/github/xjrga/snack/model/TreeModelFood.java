@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
@@ -28,7 +29,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 public class TreeModelFood
-        extends DefaultTreeModel {
+        extends DefaultTreeModel
+        implements Reload {
 
     private final DbLink dbLink;
     private DefaultMutableTreeNode node;

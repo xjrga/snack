@@ -19,6 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Round_up;
+import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
 import java.sql.SQLException;
@@ -29,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class TableModelFoodList
         extends DefaultTableModel
-        implements RoundUp {
+        implements Round_up, Reload {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -242,7 +244,7 @@ public class TableModelFoodList
     }
 
     @Override
-    public void setPrecision( Integer precision ) {
+    public void set_precision( Integer precision ) {
         this.precision = precision;
     }
 

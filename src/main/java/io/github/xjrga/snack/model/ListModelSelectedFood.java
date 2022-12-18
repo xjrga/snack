@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
@@ -27,7 +28,8 @@ import java.util.LinkedList;
 import javax.swing.*;
 
 public class ListModelSelectedFood
-        extends DefaultListModel {
+        extends DefaultListModel
+        implements Reload_mixid {
 
     private final DbLink dbLink;
 
@@ -35,6 +37,7 @@ public class ListModelSelectedFood
         this.dbLink = dbLink;
     }
 
+    @Override
     public void reload( String mixId ) {
         this.clear();
         try {

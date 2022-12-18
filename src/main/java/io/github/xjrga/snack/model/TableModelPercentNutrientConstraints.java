@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -27,7 +28,8 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class TableModelPercentNutrientConstraints
-        extends DefaultTableModel {
+        extends DefaultTableModel
+        implements Reload_mixid {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -95,6 +97,7 @@ public class TableModelPercentNutrientConstraints
         return false;
     }
 
+    @Override
     public void reload( String mixid ) {
         Vector table = new Vector();
         try {

@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.RelationshipDataObject;
 import java.sql.SQLException;
@@ -26,7 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Relationship_loader {
+public class Relationship_loader
+        implements Reload {
 
     private final DbLink dbLink;
     private ArrayList<RelationshipDataObject> relationship_list;
@@ -35,6 +37,7 @@ public class Relationship_loader {
         this.dbLink = dbLink;
     }
 
+    @Override
     public void reload() {
         relationship_list = new ArrayList();
         try {

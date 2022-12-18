@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodCategoryDataObject;
 import java.sql.SQLException;
@@ -27,7 +28,8 @@ import java.util.LinkedList;
 import javax.swing.*;
 
 public class ListModelCategory
-        extends DefaultListModel {
+        extends DefaultListModel
+        implements Reload {
 
     private final DbLink dbLink;
 
@@ -35,6 +37,7 @@ public class ListModelCategory
         this.dbLink = dbLink;
     }
 
+    @Override
     public void reload() {
         this.clear();
         try {

@@ -19,15 +19,19 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Reload;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class TableModelMacroNutrient
-        extends DefaultTableModel {
+        extends DefaultTableModel
+        implements Reload {
 
-    private Vector columns;
+    private final Vector columns;
+    private final Result_loader loader;
 
     public TableModelMacroNutrient( Result_loader loader ) {
+        this.loader = loader;
         columns = new Vector();
         columns.add( "Name" );
         columns.add( "Weight" );
@@ -55,7 +59,8 @@ public class TableModelMacroNutrient
         return false;
     }
 
-    public void set_table( Vector table ) {
-        this.setDataVector( table, columns );
+    @Override
+    public void reload() {
+        this.setDataVector( loader.get_macronutrient_table(), columns );
     }
 }

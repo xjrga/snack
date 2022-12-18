@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Round_up;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class TableModelFoodComparison
         extends DefaultTableModel
-        implements RoundUp {
+        implements Round_up {
 
     public static int c = 0;
     private final DbLink dbLink;
@@ -83,10 +84,10 @@ public class TableModelFoodComparison
         return false;
     }
 
-    public void reload( String food_id_a, String food_id_b ) {
+    public void reload( String foodid_a, String foodid_b ) {
         Vector table = new Vector();
         try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.get_food_differences( food_id_a, food_id_b, precision );
+            LinkedList<HashMap> list = ( LinkedList ) dbLink.get_food_differences( foodid_a, foodid_b, precision );
             list.forEach( rowm ->
             {
                 String category = ( String ) rowm.get( "CATEGORY" );
@@ -109,7 +110,7 @@ public class TableModelFoodComparison
     }
 
     @Override
-    public void setPrecision( Integer precision ) {
+    public void set_precision( Integer precision ) {
         this.precision = precision;
     }
 }

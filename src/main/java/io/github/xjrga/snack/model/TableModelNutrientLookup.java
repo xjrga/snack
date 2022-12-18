@@ -19,6 +19,7 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Round_up;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class TableModelNutrientLookup
         extends DefaultTableModel
-        implements RoundUp {
+        implements Round_up {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -90,7 +91,7 @@ public class TableModelNutrientLookup
     }
 
     @Override
-    public void setPrecision( Integer precision ) {
+    public void set_precision( Integer precision ) {
         this.precision = precision;
     }
 }

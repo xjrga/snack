@@ -19,6 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
+import io.github.xjrga.snack.model.iface.Round_up;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class TableModelGlycemic
         extends DefaultTableModel
-        implements RoundUp {
+        implements Round_up, Reload_mixid {
 
     private final DbLink dbLink;
     private Vector columns;
@@ -68,6 +70,7 @@ public class TableModelGlycemic
         return false;
     }
 
+    @Override
     public void reload( String mixid ) {
         Vector table = new Vector();
         try {
@@ -100,7 +103,7 @@ public class TableModelGlycemic
     }
 
     @Override
-    public void setPrecision( Integer precision ) {
+    public void set_precision( Integer precision ) {
         this.precision = precision;
     }
 }
