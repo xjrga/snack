@@ -11,8 +11,8 @@ public class Spacer_panel
     public Spacer_panel( JComponent panel ) {
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout(
-                "4dlu,p:grow,4dlu", //columns
-                "4dlu,fill:p:grow,4dlu" //rows
+                "4dlu,CENTER:p:grow,4dlu", //columns
+                "4dlu,FILL:p:GROW,4dlu" //rows
         );
         setLayout( layout );
         add( panel, cc.xy( 2, 2 ) );

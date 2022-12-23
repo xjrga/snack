@@ -204,7 +204,7 @@ RELEASE NOTES
       Improve gui behavior
 
 770
-        
+
       Improve performance
       Add macronutrient percentages function to Tools menu
 
@@ -248,7 +248,7 @@ RELEASE NOTES
       Fix food input wizard
 
 860
-                  
+
       Add minimize cost option
       Update snack.xsd schema
       Add cost calculator assistant in "Add New Food Item" wizard
@@ -267,7 +267,7 @@ RELEASE NOTES
       Fix vitamin calculator assistant in "Add New Food Item" wizard to include choline
       Add 'Duplicate mix and edit in 'Solve' area' button to journal area
       Improve 'Tools' options for better user interaction
-      
+
 861
 
      Update poi-4.0.1.jar to poi-4.1.1.jar
@@ -278,7 +278,7 @@ RELEASE NOTES
       Delete fluoride nutrient tracking
 
 880
-        
+
       Removed notes
       Fixed archive function behavior
 
@@ -289,7 +289,7 @@ RELEASE NOTES
 
 900
 
-      Add "Undo model definition changes" functionality     
+      Add "Undo model definition changes" functionality
 
 1000
 
@@ -301,7 +301,7 @@ RELEASE NOTES
       Fix bug
 
 1010
-      
+
       Update database schema "erd"
       Update snack.xsd schema "xml"
       Add xml import and export of meals and meal food allocations
@@ -325,16 +325,16 @@ RELEASE NOTES
 
 1060
 
-      Improve constraint creation user process      
+      Improve constraint creation user process
 
 1070
 
-      Fix rda check right click popup     
+      Fix rda check right click popup
 
 1080
 
       Add filechooser to data document export process
-      Fix gui bloopers   
+      Fix gui bloopers
 
 1090
 
@@ -346,4 +346,9 @@ RELEASE NOTES
 
       Redesign gui
       Unify editor and journal mix lists
-      
+
+1200
+
+      Add "Assign portion to meal" action
+      Fix "pin mix" action
+      Fix gui bloopers

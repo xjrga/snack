@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2021 Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<project default="">
+    <!--    This ant script helps me document and memorize the git commands I use. Use with care.-->
+    <xmlproperty file="pom.xml" prefix="pom" />
+    <tstamp>
+        <!--        <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>-->
+        <format property="timestamp" pattern="yyyyMMdd_HHmm"/>
+    </tstamp>
+    <target name="1. check status">
+        <exec executable="git">
+            <arg line="status"/>
+        </exec>
+    </target>
+    <target name="2. local - stage all">
+        <exec executable="git">
+            <arg line="add"/>
+            <arg line="."/>
+        </exec>
+    </target>
+    <target name="3. staged - commit all">
+        <input message="What is commit message?" addproperty="message"/>
+        <exec executable="git">
+            <arg line="commit"/>
+            <arg line="-m"/>
+            <arg line="'${message}'"/>
+        </exec>
+    </target>
+    <target name="9. staged - show changes" >
+        <echo>Shows changes that are about to be committed.</echo>
+        <echo>Shows the difference between last commit and index.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--staged"/>
+        </exec>
+    </target>
+    <target name="7. staged - show files" >
+        <echo>Shows changes that are about to be committed.</echo>
+        <echo>Shows the difference between last commit and index.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--staged"/>
+            <arg line="--name-only"/>
+        </exec>
+    </target>
+    <target name="8. unstaged - show changes" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+        </exec>
+    </target>
+    <target name="6. unstaged - show files" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--name-only"/>
+        </exec>
+    </target>
+    <target name="5. untracked - show files">
+        <exec executable="git">
+            <arg line="ls-files"/>
+            <arg line="--others"/>
+            <arg line="--exclude-standard"/>
+        </exec>
+    </target>
+    <target name="file - modified - discard">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>Discard ${file_name} change in working directory.</echo>
+        <exec executable="git">
+            <arg line="restore"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - staged - unstage">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only --staged | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>Discard ${file_name} change in index.</echo>
+        <exec executable="git">
+            <arg line="restore"/>
+            <arg line="--staged"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - list commits in all branches which touched file">
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <echo>List all files under source control in ${branch_name}</echo>
+        <echo>$  git ls-tree -r ${branch_name} --name-only</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git ls-tree -r ${branch_name} --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--all"/>
+            <arg line="--full-history"/>
+            <arg line="--oneline"/>
+            <arg line="--"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - show commit history">
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git ls-tree -r ${branch_name} --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--follow"/>
+            <arg line="--oneline"/>
+            <arg line="--"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - show commit history with changes">
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git ls-tree -r ${branch_name} --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>$ git log --follow --oneline -p -- ${file_name}</echo>
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--follow"/>
+            <arg line="--oneline"/>
+            <arg line="-p"/>
+            <arg line="--"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - modified - stage">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="add"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - untracked - stage">
+        <exec executable="git">
+            <arg line="ls-files"/>
+            <arg line="--others"/>
+            <arg line="--exclude-standard"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="add"/>
+            <arg line="**${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - staged - commit">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only --staged | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="commit"/>
+            <arg line="**${file_name}"/>
+            <arg line="-m"/>
+            <arg line="'fix ${file_name}'"/>
+        </exec>
+    </target>
+    <target name="commit - list all files touched by commit" >
+        <echo>List all files touched by commit.</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="show"/>
+            <arg line="--name-only"/>
+            <arg line="--oneline"/>
+            <arg line="'${id}'"/>
+        </exec>
+    </target>
+    <target name="commit - resets HEAD, index and working tree (hard)" >
+        <echo>Resets HEAD, index and working tree</echo>
+        <echo>Current local and staged changes will be lost.</echo>
+        <echo>$ git reset --hard commitid</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="reset"/>
+            <arg line="--hard"/>
+            <arg line="${id}"/>
+        </exec>
+    </target>
+    <target name="commit - resets HEAD, index and working tree (merge)" >
+        <echo>Resets HEAD, index and working tree</echo>
+        <echo>If a file to be replaced has working tree or index changes, the reset is aborted</echo>
+        <echo>Current local and staged changes will be lost.</echo>
+        <echo>$ git reset --merge commitid</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="reset"/>
+            <arg line="--merge"/>
+            <arg line="${id}"/>
+        </exec>
+    </target>
+    <target name="commit - resets HEAD (soft)" >
+        <echo>Does not touch the index nor the working tree</echo>
+        <echo>Commits before the selected commit will be removed from history and all changes will remain staged</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git log --oneline | cut -c 1-8 | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_commitid" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is commit id?" validargs="${lst_commitid}" addproperty="commit_id" />
+        <echo>$ git reset --soft ${commit_id}</echo>
+        <exec executable="git">
+            <arg line="reset"/>
+            <arg line="--soft"/>
+            <arg line="${commit_id}"/>
+        </exec>
+    </target>
+    <target name="commit - resets HEAD and index (mixed)" >
+        <echo>Resets HEAD and index.</echo>
+        <echo>Current staged changes will be lost and local changes will appear unstaged</echo>
+        <echo>$ git reset --mixed commitid</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="reset"/>
+            <arg line="--mixed"/>
+            <arg line="${id}"/>
+        </exec>
+    </target>
+    <target name="commit - resets HEAD but keep local changes (keep)" >
+        <echo>Resets HEAD but keeps local changes.</echo>
+        <echo>If a file to be replaced has working tree changes, the reset is aborted</echo>
+        <echo>Current local and staged changes will be lost.</echo>
+        <echo>$ git reset --keep commitid</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="reset"/>
+            <arg line="--keep"/>
+            <arg line="${id}"/>
+        </exec>
+    </target>
+    <target name="commit - restore deleted file" >
+        <echo>Show commit</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <input message="What is file path" addproperty="path"/>
+        <exec executable="git">
+            <arg line="checkout"/>
+            <arg line="'${id}'"/>
+            <arg line="--"/>
+            <arg line="'${path}'"/>
+        </exec>
+    </target>
+    <target name="commit - revert" >
+        <echo>Undo selected commit's changes.</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="revert"/>
+            <arg line="'${id}'"/>
+        </exec>
+    </target>
+    <target name="commit - show" >
+        <echo>Show commit</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <exec executable="git">
+            <arg line="show"/>
+            <arg line="'${id}'"/>
+            <arg line="--oneline"/>
+        </exec>
+    </target>
+    <target name="commit - show file source code" >
+        <echo>Show files</echo>
+        <input message="What is commit id?" addproperty="id"/>
+        <input message="What is file path" addproperty="path"/>
+        <exec executable="git">
+            <arg line="show ${id}:${path}"/>
+            <redirector outputproperty="redirector.out" errorproperty="redirector.err"/>
+        </exec>
+        <echo>${redirector.out}</echo>
+        <echo>${redirector.err}</echo>
+    </target>
+    <target name="log - search log (regex)" >
+        <input message="What is regex pattern?" addproperty="pattern"/>
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="-G"/>
+            <arg line="'${pattern}'"/>
+            <arg line="--oneline"/>
+            <arg line="--name-status"/>
+        </exec>
+    </target>
+    <target name="log - search log and show changes (regex)" >
+        <input message="What is regex pattern?" addproperty="pattern"/>
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="-p"/>
+            <arg line="-G"/>
+            <arg line="'${pattern}'"/>
+        </exec>
+    </target>
+    <target name="log - search log (string)" >
+        <input message="What is string?" addproperty="string"/>
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="-S"/>
+            <arg line="'${string}'"/>
+            <arg line="--oneline"/>
+            <arg line="--name-status"/>
+        </exec>
+    </target>
+    <target name="log - search log and show changes (string)" >
+        <input message="What is string?" addproperty="string"/>
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="-p"/>
+            <arg line="-S"/>
+            <arg line="'${string}'"/>
+            <arg line="--oneline"/>
+        </exec>
+    </target>
+    <target name="4. log - show" >
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--graph"/>
+            <arg line="--oneline"/>
+            <arg line="--decorate"/>
+        </exec>
+    </target>
+    <target name="log - show log with changes" >
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="-p"/>
+        </exec>
+    </target>
+    <target name="0. project - make backup" >
+        <echo>Backup files to ../${pom.project.name}_${timestamp}.tgz</echo>
+        <exec executable="tar">
+            <arg line="czfv"/>
+            <arg line="../'${pom.project.name}'_'${timestamp}'.tgz"/>
+            <arg line="."/>
+        </exec>
+    </target>
+    <target name="commit - amend" >
+        <echo>Edit commit messagexample -</echo>
+        <input message="What is commit message?" addproperty="message"/>
+        <exec executable="git">
+            <arg line="commit"/>
+            <arg line="--amend"/>
+            <arg line="-m"/>
+            <arg line="'${message}'"/>
+        </exec>
+    </target>
+    <target name="example - select commit from list">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git log --oneline | cut -c 1-8 | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_commitid" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is commit id?" validargs="${lst_commitid}" addproperty="commit_id" />
+        <exec executable="git">
+            <arg line="show"/>
+            <arg line="${commit_id}"/>
+        </exec>
+    </target>
+    <target name="example - select file from list">
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <echo>List all files under source control in ${branch_name}</echo>
+        <echo>$  git ls-tree -r ${branch_name} --name-only</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git ls-tree -r ${branch_name} --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>${file_name}</echo>
+    </target>
+    <target name="example - select files with changes not staged for commit from list">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>${file_name}</echo>
+    </target>
+    <target name="example - select files with changes staged for commit from list">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only --staged | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>${file_name}</echo>
+    </target>
+    <target name="remote - add origin" >
+        <input message="What is origin?" addproperty="origin"/>
+        <echo>Add origin</echo>
+        <exec executable="git">
+            <arg line="remote"/>
+            <arg line="add"/>
+            <arg line="origin"/>
+            <arg line="'${origin}'"/>
+        </exec>
+    </target>
+    <target name="remote - list remotes" >
+        <echo>List remote</echo>
+        <exec executable="git">
+            <arg line="remote"/>
+            <arg line="-v"/>
+        </exec>
+    </target>
+    <target name="remote - remove origin" >
+        <echo>Remove origin</echo>
+        <exec executable="git">
+            <arg line="remote"/>
+            <arg line="remove"/>
+            <arg line="origin"/>
+        </exec>
+    </target>
+    <target name="stash - apply">
+        <echo>Restore stash state</echo>
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="apply"/>
+        </exec>
+    </target>
+    <target name="stash - clear">
+        <echo>Deletes the entire stash list.</echo>
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="clear"/>
+        </exec>
+    </target>
+    <target name="stash - drop">
+        <echo>Remove stash from stash list.</echo>
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="drop"/>
+        </exec>
+    </target>
+    <target name="stash - list">
+        <echo>List stashes.</echo>
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="list"/>
+        </exec>
+    </target>
+    <target name="stash - pop">
+        <echo>Restore stash state and remove stash from the stash list.</echo>
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="pop"/>
+        </exec>
+    </target>
+    <target name="stash - save">
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="save"/>
+        </exec>
+    </target>
+    <target name="stash - show">
+        <exec executable="git">
+            <arg line="stash -"/>
+            <arg line="show"/>
+        </exec>
+    </target>
+    <target name="branch - checkout branch" >
+        <echo>Checkout branch.</echo>
+        <echo>$ git checkout branch</echo>
+        <input message="What is branch name?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="checkout"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - list branches" >
+        <echo>List branches.</echo>
+        <echo>$ git branch --all</echo>
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--all"/>
+        </exec>
+    </target>
+    <target name="branch - list all files under source control for current branch" >
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <echo>List all files under source control in ${name}</echo>
+        <echo>$  git ls-tree -r ${branch_name} --name-only</echo>
+        <exec executable="git">
+            <arg line="ls-tree"/>
+            <arg line="-r"/>
+            <arg line="'${branch_name}'"/>
+            <arg line="--name-only"/>
+        </exec>
+    </target>
+    <target name="branch - merge" >
+        <echo>Merge branch.</echo>
+        <echo>$ git merge --squash branch</echo>
+        <input message="What is branch name to be merged?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="merge"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - merge - squash" >
+        <echo>Merge branch.</echo>
+        <echo>$ git merge --squash branch</echo>
+        <input message="What is branch name to be merged?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="merge"/>
+            <arg line="--squash"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - merge - cancel" >
+        <echo>Abort merge</echo>
+        <echo>$ git merge --abort</echo>
+        <exec executable="git">
+            <arg line="merge"/>
+            <arg line="--abort"/>
+        </exec>
+    </target>
+    <target name="branch - merge - discard all changes from the other branch" >
+        <echo>$ git merge -s ours branch</echo>
+        <echo>Discard all changes from the other branch and merge</echo>
+        <input message="What is branch name to be merged?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="merge"/>
+            <arg line="-s"/>
+            <arg line="ours"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - merge - use all changes from their branch" >
+        <echo>test</echo>
+        <echo>Use all changes from the other branch and merge</echo>
+        <input message="What is branch name to be merged?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="merge"/>
+            <arg line="-X"/>
+            <arg line="theirs"/>
+            <arg line="--squash"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - merge - use all changes from our branch" >
+        <echo>test</echo>
+        <echo>Use all changes from the other branch and merge</echo>
+        <input message="What is branch name to be merged?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="merge"/>
+            <arg line="-X"/>
+            <arg line="ours"/>
+            <arg line="--squash"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - pull from master" >
+        <echo>Update your clone withe latest work committed to the origin repository</echo>
+        <echo>$ git pull origin master</echo>
+        <exec executable="git">
+            <arg line="pull"/>
+            <arg line="origin"/>
+            <arg line="master"/>
+        </exec>
+    </target>
+    <target name="branch - pull from master (rebase)" >
+        <echo>Update your clone withe latest work committed to the origin repository</echo>
+        <echo>$ git pull origin master</echo>
+        <exec executable="git">
+            <arg line="pull"/>
+            <arg line="--rebase"/>
+            <arg line="origin"/>
+            <arg line="master"/>
+        </exec>
+    </target>
+    <target name="branch - force push to master" >
+        <echo>Force push branch.</echo>
+        <echo>$ git push -f origin master</echo>
+        <input message="What is branch name?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="push"/>
+            <arg line="-f"/>
+            <arg line="origin"/>
+            <arg line="master"/>
+        </exec>
+    </target>
+    <target name="branch - push to master" >
+        <echo>Push branch.</echo>
+        <echo>$ git push -u origin master</echo>
+        <exec executable="git">
+            <arg line="push"/>
+            <arg line="-u"/>
+            <arg line="origin"/>
+            <arg line="master"/>
+        </exec>
+    </target>
+    <target name="branch - rename branch" >
+        <echo>Rename branch</echo>
+        <echo>$ git branch -m old new</echo>
+        <input message="What is branch old name?" addproperty="old"/>
+        <input message="What is branch new name?" addproperty="new"/>
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="-m"/>
+            <arg line="${old}"/>
+            <arg line="${new}"/>
+        </exec>
+    </target>
+    <target name="tag - add tag" >
+        <echo>Add tag</echo>
+        <input message="What is tag?" addproperty="tag"/>
+        <exec executable="git">
+            <arg line="tag"/>
+            <arg line="-a"/>
+            <arg line="'${tag}'"/>
+            <arg line="-m"/>
+            <arg line="'${tag}'"/>
+        </exec>
+    </target>
+    <target name="tag - delete tag" >
+        <echo>Delete tag</echo>
+        <input message="What is tag?" addproperty="tag"/>
+        <exec executable="git">
+            <arg line="tag"/>
+            <arg line="-d"/>
+            <arg line="'${tag}'"/>
+        </exec>
+    </target>
+    <target name="tag - delete tag from remote" >
+        <echo>Delete from remote</echo>
+        <input message="What is tag?" addproperty="tag"/>
+        <exec executable="git">
+            <arg line="push origin :'${tag}'"/>
+        </exec>
+    </target>
+    <target name="tag - list tags" >
+        <echo>List tags</echo>
+        <exec executable="git">
+            <arg line="tag"/>
+            <arg line="-l"/>
+        </exec>
+    </target>
+    <target name="tag - add tag to remote" >
+        <echo>Push to remote</echo>
+        <input message="What is tag?" addproperty="tag"/>
+        <exec executable="git">
+            <arg line="push origin '${tag}'"/>
+        </exec>
+    </target>
+</project>

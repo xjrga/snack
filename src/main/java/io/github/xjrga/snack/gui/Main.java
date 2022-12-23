@@ -99,7 +99,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -111,7 +110,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
@@ -288,6 +286,7 @@ public class Main {
     private final JMenuItem mnui_minimize_option = new JMenuItem();
     private final JMenuItem mnui_duplicate_mix = new JMenuItem();
     private final JMenuItem mnui_add_mix_to_foodlist = new JMenuItem();
+    private final JMenuItem mnui_pin_mix = new JMenuItem( "Pin" );
     private final JMenu menuData = new JMenu();
     private final JMenu mnu_exchange = new JMenu();
     private final JMenu menuHelp = new JMenu();
@@ -751,6 +750,46 @@ public class Main {
         }
     }
 
+    private void process_evt_mnui_assign_portion_to_meal() {
+        int[] selected_portions = tbl_meal_portions.getSelectedRows();
+        String mixid = "";
+        if ( selected_portions.length > 0 ) {
+            if ( !listPortionMeal.getSelectedValuesList().isEmpty() ) {
+                Integer mealid;
+                String foodid;
+                Double pct;
+                Double pcti;
+                ArrayList<O_Meal> selected_meals = ( ArrayList ) listPortionMeal.getSelectedValuesList();
+                for ( int i = 0; i < selected_portions.length; i++ ) {
+                    int selected_row = selected_portions[ i ];
+                    mixid = ( String ) tbl_meal_portions.getValueAt( selected_row, 0 );
+                    mealid = ( Integer ) tbl_meal_portions.getValueAt( selected_row, 1 );
+                    foodid = ( String ) tbl_meal_portions.getValueAt( selected_row, 2 );
+                    pct = ( Double ) tbl_meal_portions.getValueAt( selected_row, 5 );
+                    pcti = pct / selected_meals.size();
+                    try {
+                        dbLink.MealFoodPortion_delete( mixid, mealid, foodid );
+                    } catch ( SQLException e ) {
+                    }
+                    for ( O_Meal meal : selected_meals ) {
+                        try {
+                            dbLink.MealFoodPortion_insert_and_calculate( mixid, meal.getMealid(), foodid, pcti );
+                        } catch ( SQLException e ) {
+                        }
+                    }
+                }
+                dbLink.stopTransaction();
+                reload_tblmdl_portion( mixid );
+                reload_tblmdl_results_by_meal( mixid );
+                resize_col_tbl_meal_portions();
+                resize_col_tbl_results_by_meal_calories();
+                resize_col_tbl_results_by_meal_grams();
+            } else {
+                Message.showMessage( "Please select one or more meals." );
+            }
+        }
+    }
+
     private void process_evt_tbl_food_nutrient_constraint() {
         int selectedRow = tableFoodNutrient.getSelectedRow();
         if ( selectedRow != -1 ) {
@@ -886,7 +925,7 @@ public class Main {
 
     private JPanel get_meal_calories() {
         JPanel panel = new JPanel();
-        FormLayout layout = new FormLayout( "min:grow", //columns
+        FormLayout layout = new FormLayout( "482dlu:grow", //columns
                                             "fill:min:grow" //rows
         );
         panel.setLayout( layout );
@@ -904,7 +943,7 @@ public class Main {
 
     private JPanel get_meal_grams() {
         JPanel panel = new JPanel();
-        FormLayout layout = new FormLayout( "min:grow", //columns
+        FormLayout layout = new FormLayout( "482dlu:grow", //columns
                                             "fill:min:grow" //rows
         );
         panel.setLayout( layout );
@@ -983,9 +1022,10 @@ public class Main {
         menu_mix.add( mnui_create_mix );
         menu_mix.add( mnui_delete_mix );
         menu_mix.add( mnui_rename_mix );
-        menu_mix.add( mnui_minimize_option );
         menu_mix.add( mnui_duplicate_mix );
+        menu_mix.add( mnui_pin_mix );
         menu_mix.add( mnui_add_mix_to_foodlist );
+        menu_mix.add( mnui_minimize_option );
         menuProgram.setText( "Program" );
         menu_mix.setText( "Mix" );
         menuTools.setText( "Tools" );
@@ -1023,7 +1063,8 @@ public class Main {
         mnui_rename_mix.setText( "Rename mix" );
         mnui_minimize_option.setText( "Choose minimization option" );
         mnui_duplicate_mix.setText( "Duplicate mix" );
-        mnui_add_mix_to_foodlist.setText( "Add to food list" );
+        mnui_add_mix_to_foodlist.setText( "Add mix to food list" );
+        mnui_pin_mix.setText( "Pin mix" );
         checkBoxResultRoundUp.setSelected( true );
         menuItemMicronutrientConversion.addActionListener( ( ActionEvent e ) ->
         {
@@ -1134,27 +1175,31 @@ public class Main {
         } );
         mnui_create_mix.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_btn_mix_create();
+            process_evt_mnui_mix_create();
         } );
         mnui_delete_mix.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_btn_mix_delete();
+            process_evt_mnui_mix_delete();
         } );
         mnui_rename_mix.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_btn_mix_rename();
+            process_evt_mnui_mix_rename();
         } );
         mnui_minimize_option.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_btn_minimize_option();
+            process_evt_mnui_choose_minimization_option();
         } );
         mnui_duplicate_mix.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_btn_mix_duplicate();
+            process_evt_mnui_mix_duplicate();
         } );
         mnui_add_mix_to_foodlist.addActionListener( ( ActionEvent e ) ->
         {
             process_evt_btn_add_mix_to_foodlist();
+        } );
+        mnui_pin_mix.addActionListener( ( ActionEvent e ) ->
+        {
+            process_evt_mnui_pin_mix();
         } );
         return mnuBar;
     }
@@ -1498,20 +1543,6 @@ public class Main {
         {
             process_evt_btn_undo();
         } );
-        JPopupMenu mnu_mix_list = new JPopupMenu();
-        JMenuItem mnui_pin_mix = new JMenuItem( "Pin" );
-        mnu_mix_list.add( mnui_pin_mix );
-        mnui_pin_mix.addActionListener( ( ActionEvent e ) ->
-        {
-            process_evt_mnui_pin_mix();
-        } );
-        cmb_mix.addMouseListener( new MouseAdapter() {
-            @Override
-            public void mouseClicked( MouseEvent e ) {
-                super.mouseClicked( e );
-                process_evt_lst_mixes( e, mnu_mix_list );
-            }
-        } );
         return pnl_mix_list;
 
     }
@@ -1535,7 +1566,7 @@ public class Main {
         }
     }
 
-    private void process_evt_btn_mix_create() {
+    private void process_evt_mnui_mix_create() {
         JTextField input = new JTextField();
         JComponent[] inputs = new JComponent[] {
             new JLabel( "What would you like to call it?" ),
@@ -1765,7 +1796,7 @@ public class Main {
         modelTableGlycemic.reload( mixid );
     }
 
-    private void process_evt_btn_mix_delete() {
+    private void process_evt_mnui_mix_delete() {
         JComponent[] inputs = new JComponent[] {
             new JLabel( "Would you like to delete mix?" )
         };
@@ -1825,7 +1856,7 @@ public class Main {
         txta_editor_model.setText( "" );
     }
 
-    private void process_evt_btn_mix_rename() {
+    private void process_evt_mnui_mix_rename() {
         JTextField input = new JTextField();
         JComponent[] inputs = new JComponent[] {
             new JLabel( "What is your new mix name?" ),
@@ -1855,7 +1886,7 @@ public class Main {
         }
     }
 
-    private void process_evt_btn_mix_duplicate() {
+    private void process_evt_mnui_mix_duplicate() {
         JComponent[] inputs = new JComponent[] {
             new JLabel( "Would you like to duplicate mix?" )
         };
@@ -1866,9 +1897,26 @@ public class Main {
                 String mixid = mix.getMixId();
                 dbLink.Mix_Duplicate( mixid );
                 dbLink.stopTransaction();
+                HashSet set_without = new HashSet();
+                HashSet set_with = new HashSet();
+                final int old_size = mdl_cmb_mix.getSize();
+                for ( int i = 0; i < old_size; i++ ) {
+                    MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
+                    set_without.add( o.getMixId() );
+                }
                 reload_lstmdl_mixes();
-                int index = mdl_cmb_mix.find_by_mixid( mix.getMixId() );
-                cmb_mix.setSelectedIndex( index );
+                for ( int i = 0; i < mdl_cmb_mix.getSize(); i++ ) {
+                    MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
+                    set_with.add( o.getMixId() );
+                }
+                if ( set_with.removeAll( set_without ) ) {
+                    if ( !set_with.isEmpty() ) {
+                        int index = mdl_cmb_mix.find_by_mixid( ( String ) set_with.toArray()[ 0 ] );
+                        cmb_mix.setSelectedIndex( index );
+                    }
+                } else {
+                    cmb_mix.setSelectedIndex( 0 );
+                }
             } catch ( SQLException e ) {
 
             }
@@ -2397,14 +2445,27 @@ public class Main {
                 filter_portion();
             }
         } );
-
+        JPopupMenu popMenu = new JPopupMenu();
+        JMenuItem item_01 = new JMenuItem( "Assign portion to meal" );
+        popMenu.add( item_01 );
+        item_01.addActionListener( ( ActionEvent e ) ->
+        {
+            process_evt_mnui_assign_portion_to_meal();
+        } );
+        tbl_meal_portions.addMouseListener( new MouseAdapter() {
+            @Override
+            public void mouseClicked( MouseEvent e ) {
+                super.mouseClicked( e );
+                process_evt_lst_mixes( e, popMenu );
+            }
+        } );
         return panel;
     }
 
     private JPanel get_meal() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
-                "min:grow", //columns
+                "400dlu:grow", //columns
                 "fill:p:grow,p" //rows
         );
         panel.setLayout( panelLayout );
@@ -3356,7 +3417,7 @@ public class Main {
         }
     }
 
-    private void process_evt_btn_minimize_option() {
+    private void process_evt_mnui_choose_minimization_option() {
         JComponent[] inputs = new JComponent[] {
             get_minimization_options_panel()
         };
@@ -3579,7 +3640,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1100" );
+        sb.append( "This is build 1200" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -3955,7 +4016,8 @@ public class Main {
     private JPanel get_constraint_food_nutrient() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
-                "min,min,min,550px", //columns
+                //374dlu is limit
+                "min,min,min,374dlu", //columns
                 "min,min,fill:min:grow,min" //rows
         );
         panel.setLayout( panelLayout );
@@ -4050,7 +4112,7 @@ public class Main {
     private JPanel get_constraint_food_nutrient_ratio() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
-                "min,min,min,min:grow", //columns
+                "min,min,min,374dlu:grow", //columns
                 "min,min,min,min,fill:min:grow,min" //rows
         );
         panel.setLayout( panelLayout );
