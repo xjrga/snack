@@ -580,6 +580,7 @@ public class Main {
                     break;
             }
         } );
+        cmb_mix.setMaximumRowCount( 24 );
         if ( cmb_mix.getSelectedItem() != null ) {
             cmb_mix.setSelectedIndex( 0 );
         } else {
@@ -1003,7 +1004,6 @@ public class Main {
         menuTools.add( menuItemGlycemicLoad );
         menuTools.add( menuItemGlycemicIndexRange );
         menuTools.add( mnui_alpha_linolenic_acid_required );
-        menuTools.add( mnui_show_mix_stats );
         menuData.add( mnu_spreadsheet );
         menuData.add( mnu_exchange );
         mnu_spreadsheet.add( menuItemExportFoodList );
@@ -1026,6 +1026,7 @@ public class Main {
         menu_mix.add( mnui_pin_mix );
         menu_mix.add( mnui_add_mix_to_foodlist );
         menu_mix.add( mnui_minimize_option );
+        menu_mix.add( mnui_show_mix_stats );
         menuProgram.setText( "Program" );
         menu_mix.setText( "Mix" );
         menuTools.setText( "Tools" );
@@ -1041,7 +1042,6 @@ public class Main {
         menuItemDigestibleCarbs.setText( "Digestible Carbohydrate Of A Food Item" );
         menuItemGlycemicLoad.setText( "Glycemic Load Of A Food Item" );
         mnui_alpha_linolenic_acid_required.setText( "Alpha-Linolenic Acid Required" );
-        mnui_show_mix_stats.setText( "Macronutrient Percentages" );
         menuItemGlycemicIndexRange.setText( "Glycemic Index Range Of A Food Item" );
         mnu_spreadsheet.setText( "Spreadsheet" );
         mnu_exchange.setText( "Exchange" );
@@ -1061,10 +1061,11 @@ public class Main {
         mnui_create_mix.setText( "Create mix" );
         mnui_delete_mix.setText( "Delete mix" );
         mnui_rename_mix.setText( "Rename mix" );
-        mnui_minimize_option.setText( "Choose minimization option" );
         mnui_duplicate_mix.setText( "Duplicate mix" );
-        mnui_add_mix_to_foodlist.setText( "Add mix to food list" );
         mnui_pin_mix.setText( "Pin mix" );
+        mnui_add_mix_to_foodlist.setText( "Add mix to food list" );
+        mnui_minimize_option.setText( "Choose minimization option" );
+        mnui_show_mix_stats.setText( "Show macronutrient percentages" );
         checkBoxResultRoundUp.setSelected( true );
         menuItemMicronutrientConversion.addActionListener( ( ActionEvent e ) ->
         {
@@ -1501,17 +1502,19 @@ public class Main {
     private void enable_jcomponent( boolean value ) {
         mnui_delete_mix.setEnabled( value );
         mnui_rename_mix.setEnabled( value );
-        mnui_minimize_option.setEnabled( value );
         mnui_duplicate_mix.setEnabled( value );
+        mnui_pin_mix.setEnabled( value );
         mnui_add_mix_to_foodlist.setEnabled( value );
+        mnui_minimize_option.setEnabled( value );
+        mnui_show_mix_stats.setEnabled( value );
         btn_solve.setEnabled( value );
         btn_undo.setEnabled( value );
-        mnui_show_mix_stats.setEnabled( value );
         mnui_export_rda.setEnabled( value );
         mnui_export_mealplan.setEnabled( value );
         mnui_export_model.setEnabled( value );
         cmb_food_portion.setEnabled( value );
         mnui_export_mixcomparison.setEnabled( value );
+
     }
 
     private JPanel get_editor_mixes() {
@@ -1587,15 +1590,37 @@ public class Main {
                     dbLink.Mix_Update_Other( mixid, model );
                     dbLink.Mix_Update_Status( mixid, 1 );
                     dbLink.stopTransaction();
-                    reload_lstmdl_mixes();
                     clear_model_all();
-                    cmb_mix.setSelectedIndex( 0 );
+                    set_selected_index_cmb_mix();
                 } else {
                     Message.showMessage( "These characters are not allowed: < & > ' \"" );
                 }
             } catch ( SQLException e ) {
 
             }
+        }
+    }
+
+    private void set_selected_index_cmb_mix() {
+        HashSet set_without = new HashSet();
+        HashSet set_with = new HashSet();
+        final int old_size = mdl_cmb_mix.getSize();
+        for ( int i = 0; i < old_size; i++ ) {
+            MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
+            set_without.add( o.getMixId() );
+        }
+        reload_lstmdl_mixes();
+        for ( int i = 0; i < mdl_cmb_mix.getSize(); i++ ) {
+            MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
+            set_with.add( o.getMixId() );
+        }
+        if ( set_with.removeAll( set_without ) ) {
+            if ( !set_with.isEmpty() ) {
+                int index = mdl_cmb_mix.find_by_mixid( ( String ) set_with.toArray()[ 0 ] );
+                cmb_mix.setSelectedIndex( index );
+            }
+        } else {
+            cmb_mix.setSelectedIndex( 0 );
         }
     }
 
@@ -1897,26 +1922,7 @@ public class Main {
                 String mixid = mix.getMixId();
                 dbLink.Mix_Duplicate( mixid );
                 dbLink.stopTransaction();
-                HashSet set_without = new HashSet();
-                HashSet set_with = new HashSet();
-                final int old_size = mdl_cmb_mix.getSize();
-                for ( int i = 0; i < old_size; i++ ) {
-                    MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
-                    set_without.add( o.getMixId() );
-                }
-                reload_lstmdl_mixes();
-                for ( int i = 0; i < mdl_cmb_mix.getSize(); i++ ) {
-                    MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
-                    set_with.add( o.getMixId() );
-                }
-                if ( set_with.removeAll( set_without ) ) {
-                    if ( !set_with.isEmpty() ) {
-                        int index = mdl_cmb_mix.find_by_mixid( ( String ) set_with.toArray()[ 0 ] );
-                        cmb_mix.setSelectedIndex( index );
-                    }
-                } else {
-                    cmb_mix.setSelectedIndex( 0 );
-                }
+                set_selected_index_cmb_mix();
             } catch ( SQLException e ) {
 
             }
@@ -3640,7 +3646,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1200" );
+        sb.append( "This is build 1210" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -5731,17 +5737,6 @@ public class Main {
             sb.append( " " );
         }
         sb.append( "2. Add a food item" );
-        return sb.toString();
-    }
-
-    //todo - delete
-    private String show_constraints_count() {
-        StringBuilder sb = new StringBuilder();
-        sb.append( get_text_nutrient_constraint_count() );
-        sb.append( get_text_nutrient_percent_constraint_count() );
-        sb.append( get_text_food_constraint_count() );
-        sb.append( get_text_food_ratio_count() );
-        sb.append( get_text_nutrient_ratio_count() );
         return sb.toString();
     }
 

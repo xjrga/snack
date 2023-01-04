@@ -81,14 +81,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <arg line="--exclude-standard"/>
         </exec>
     </target>
-    <target name="file - modified - discard">
+    <target name="file - modified - restore">
         <exec executable="bash">
             <arg value="-c"/>
             <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
             <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
         </exec>
         <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
-        <echo>Discard ${file_name} change in working directory.</echo>
+        <echo>Restore ${file_name} change in working directory.</echo>
         <exec executable="git">
             <arg line="restore"/>
             <arg line="**${file_name}"/>
@@ -385,7 +385,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         </exec>
     </target>
     <target name="commit - amend" >
-        <echo>Edit commit messagexample -</echo>
+        <echo>Edit commit message</echo>
         <input message="What is commit message?" addproperty="message"/>
         <exec executable="git">
             <arg line="commit"/>

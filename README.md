@@ -5,8 +5,8 @@
     understand your food intake and second by allowing you to create new food
     combinations that meet specific requirements.
 
-    Snack is a training program designed to find lowest calorie or cost food 
-    combination. It lets you experiment and get faster, better, less expensive 
+    Snack is a training program designed to find lowest calorie or cost food
+    combination. It lets you experiment and get faster, better, less expensive
     results so you can rapidly learn. Its intended audience is anyone with
     interest in nutrition.
 
@@ -23,12 +23,12 @@
         - compare meals against Required Daily Allowance (RDA) values
         - compare meals against Upper Limit (UL) values
         - create nutritional reports in spreadsheet
-        - quantify any popular diet for comparison and research purposes        
+        - quantify any popular diet for comparison and research purposes
         - calculate basal metabolic rate (BMR)
         - calculate glycemic index (GI) and glycemic load (GL) of a meal
         - check glycemic index range
         - calculate food quotient (FQ)
-        - convert percent daily value (%DV) to grams        
+        - convert percent daily value (%DV) to grams
         - exchange mix and food data easily
         - easily create and export meal plans
         - facilitate learning/teaching anyone with interest in nutrition
@@ -39,16 +39,16 @@
 
 Installing
 
-    1. Download snack-1200-app.zip from https://xjrga.github.io
-    2. unzip snack-1200-app.zip
-    3. cd snack-1200
-    4. java -jar snack-1200.jar (if you are on windows double click on jar file)
+    1. Download snack-1210-app.zip from https://xjrga.github.io
+    2. unzip snack-1210-app.zip
+    3. cd snack-1210
+    4. java -jar snack-1210.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1200
+    1210
 
 Authors
 

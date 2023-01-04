@@ -352,3 +352,8 @@ RELEASE NOTES
       Add "Assign portion to meal" action
       Fix "pin mix" action
       Fix gui bloopers
+
+1210
+
+      Fix disable menu item when empty mix combo box
+      Fix automatic select mix when creating mix
