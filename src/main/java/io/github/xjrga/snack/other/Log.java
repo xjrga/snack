@@ -1,76 +1,20 @@
 package io.github.xjrga.snack.other;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.LinkedList;
+public enum Log {
+    Log1,
+    Log2;
 
-public class Log {
-
-    private static final Log INSTANCE = new Log();
-    private BufferedWriter out;
-    private LinkedList<String> messageList;
+    private final StringBuilder error_log_builder;
 
     private Log() {
-        File file = new File( "model" );
-        file.mkdirs();
+        error_log_builder = new StringBuilder();
     }
 
-    public static Log getLog() {
-        return INSTANCE;
+    public void append( String text ) {
+        error_log_builder.append( text );
     }
 
-    public void logMessage( String message ) {
-        messageList.add( message );
-    }
-
-    public void removeLast() {
-        messageList.removeLast();
-    }
-
-    public void remove( int index ) {
-        messageList.remove( index );
-    }
-
-    public void removeFirst() {
-        messageList.removeFirst();
-    }
-
-    public void clear() {
-        messageList.clear();
-    }
-
-    public void start( String filePath ) {
-        messageList = new LinkedList<>();
-        try {
-            out = new BufferedWriter( new FileWriter( filePath, true ) );
-        } catch ( IOException e ) {
-        }
-    }
-
-    public void close() {
-        try {
-            out.close();
-        } catch ( IOException e ) {
-        }
-    }
-
-    public void write() {
-        try {
-            out.write( "----->" );
-            out.write( "\n" );
-            messageList.forEach( m ->
-            {
-                try {
-                    out.write( m );
-                    out.write( "\n" );
-                } catch ( IOException e ) {
-                }
-            } );
-            out.write( "<-----" );
-            out.write( "\n\n" );
-        } catch ( IOException e ) {
-        }
+    public String get_text() {
+        return error_log_builder.toString();
     }
 }

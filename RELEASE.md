@@ -357,3 +357,8 @@ RELEASE NOTES
 
       Fix disable menu item when empty mix combo box
       Fix automatic select mix when creating mix
+
+1220
+
+      Fix round up on meal plan
+      Add log display area

@@ -1,6 +1,8 @@
 package io.github.xjrga.snack.other;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
@@ -93,14 +95,20 @@ public class Utilities {
                 try {
                     validator.validate( xmlDoc );
                 } catch ( IOException e ) {
-                    System.out.println( "Reason: " + e.getLocalizedMessage() );
+                    Log.Log2.append( "Xml doc validation error: " );
+                    Log.Log2.append( e.getLocalizedMessage() );
+                    Log.Log2.append( "\n" );
                 }
                 result = true;
             } catch ( SAXException e ) {
-                System.out.println( "Reason: " + e.getLocalizedMessage() );
+                Log.Log2.append( "Xml doc validation error: " );
+                Log.Log2.append( e.getLocalizedMessage() );
+                Log.Log2.append( "\n" );
             }
         } catch ( SAXException e ) {
-            System.out.println( "Reason: " + e.getLocalizedMessage() );
+            Log.Log2.append( "Xml doc validation error: " );
+            Log.Log2.append( e.getLocalizedMessage() );
+            Log.Log2.append( "\n" );
         }
         return result;
     }
@@ -131,6 +139,13 @@ public class Utilities {
         sb.setLength( sb.length() - 1 );
         sb.append( "]" );
         return sb.toString();
+    }
+
+    public static void write_to_file( String filePath, String txt ) {
+        try ( BufferedWriter out = new BufferedWriter( new FileWriter( filePath, true ) ) ) {
+            out.write( txt );
+        } catch ( IOException ex ) {
+        }
     }
 
 }

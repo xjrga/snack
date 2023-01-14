@@ -63,10 +63,10 @@ public class Mdl_cmb_mix
     }
 
     public int find_by_mixid( String mixid ) {
-        int index = 0;
-        int size = this.getSize();
+        int index = -1;
+        int size = getSize();
         for ( int i = 0; i < size; i++ ) {
-            MixDataObject elementAt = ( MixDataObject ) this.getElementAt( i );
+            MixDataObject elementAt = ( MixDataObject ) getElementAt( i );
             if ( elementAt.getMixId().equals( mixid ) ) {
                 index = i;
                 break;

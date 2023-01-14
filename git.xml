@@ -91,7 +91,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <echo>Restore ${file_name} change in working directory.</echo>
         <exec executable="git">
             <arg line="restore"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - staged - unstage">
@@ -105,7 +105,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <exec executable="git">
             <arg line="restore"/>
             <arg line="--staged"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - list commits in all branches which touched file">
@@ -468,47 +468,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <target name="stash - apply">
         <echo>Restore stash state</echo>
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="apply"/>
         </exec>
     </target>
     <target name="stash - clear">
         <echo>Deletes the entire stash list.</echo>
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="clear"/>
         </exec>
     </target>
     <target name="stash - drop">
         <echo>Remove stash from stash list.</echo>
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="drop"/>
         </exec>
     </target>
     <target name="stash - list">
         <echo>List stashes.</echo>
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="list"/>
         </exec>
     </target>
     <target name="stash - pop">
         <echo>Restore stash state and remove stash from the stash list.</echo>
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="pop"/>
         </exec>
     </target>
     <target name="stash - save">
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="save"/>
         </exec>
     </target>
     <target name="stash - show">
         <exec executable="git">
-            <arg line="stash -"/>
+            <arg line="stash"/>
             <arg line="show"/>
         </exec>
     </target>
@@ -518,6 +518,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <input message="What is branch name?" addproperty="name"/>
         <exec executable="git">
             <arg line="checkout"/>
+            <arg line="${name}"/>
+        </exec>
+    </target>
+    <target name="branch - make branch" >
+        <echo>Make branch.</echo>
+        <echo>$ git branch name</echo>
+        <input message="What is branch name?" addproperty="name"/>
+        <exec executable="git">
+            <arg line="branch"/>
             <arg line="${name}"/>
         </exec>
     </target>

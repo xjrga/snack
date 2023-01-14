@@ -1,5 +1,6 @@
 package io.github.xjrga.snack.gui;
 
+import io.github.xjrga.snack.other.Log;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import io.github.xjrga.snack.data.DbLink;
@@ -261,6 +262,7 @@ public class Main {
     private final JMenuItem mnui_export_model = new JMenuItem();
     private final JMenuItem mnui_import_model = new JMenuItem();
     private final JMenuItem mnui_show_mix_stats = new JMenuItem();
+    private final JMenuItem mnui_error_log = new JMenuItem();
     private final JMenuItem mnui_About = new JMenuItem();
     private final JMenuItem mnui_alpha_linolenic_acid_required = new JMenuItem();
     private final JMenuItem menuItemBmr = new JMenuItem();
@@ -402,6 +404,10 @@ public class Main {
     private final JLabel nutrient_constraint_count = new JLabel();
     private final Mdl_cmb_mix mdl_cmb_mix = new Mdl_cmb_mix( dbLink );
     private final JSplitPane split = new JSplitPane();
+    private MixDataObject mixdataobject;
+    private String mixid;
+    private String mixname;
+    private String mixobjective;
 
     public Main() {
         fileChooser = new JFileChooser();
@@ -593,11 +599,16 @@ public class Main {
     public static void main( String[] args ) {
         try {
             Font font = new Font( Font.DIALOG, Font.PLAIN, 12 );
-            MetalLookAndFeel.setCurrentTheme( new io.github.xjrga.looks.themes.Dawn_180( font ) );
+            MetalLookAndFeel.setCurrentTheme( new io.github.xjrga.looks.themes.Dawn_120( font ) );
             UIManager.setLookAndFeel( "javax.swing.plaf.metal.MetalLookAndFeel" );
         } catch ( ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e ) {
         }
-        Main main = new Main();
+
+        try {
+            Main main = new Main();
+        } catch ( Exception e ) {
+            Log.Log2.append( e.getMessage() );
+        }
     }
 
     private void process_evt_btn_food_list_update_gi() {
@@ -660,8 +671,6 @@ public class Main {
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Add Meal" );
         if ( optionValue == 0 ) {
             try {
-                MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-                String mixid = mix.getMixId();
                 String text = input_name.getText();
                 NumberCheck checkNumber = new NumberCheck();
                 checkNumber.addToUncheckedList( input_order.getText() );
@@ -791,6 +800,18 @@ public class Main {
         }
     }
 
+    private void process_evt_mnui_error_log() {
+        JTextArea txa_log = new JTextArea();
+        txa_log.setLineWrap( true );
+        txa_log.setEditable( false );
+        JScrollPane scr_log = new JScrollPane( txa_log );
+        txa_log.setText( Log.Log2.get_text() );
+        scr_log.setPreferredSize( new Dimension( 754, 575 ) );
+        JComponent[] inputs = new JComponent[ 1 ];
+        inputs[ 0 ] = scr_log;
+        Message.showOptionDialog( inputs, "Log" );
+    }
+
     private void process_evt_tbl_food_nutrient_constraint() {
         int selectedRow = tableFoodNutrient.getSelectedRow();
         if ( selectedRow != -1 ) {
@@ -890,8 +911,6 @@ public class Main {
     private void process_evt_cb_meal_food_portion() {
         try {
             if ( cmb_food_portion.getSelectedItem() != null ) {
-                MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-                String mixid = mix.getMixId();
                 String foodid = (( FoodDataObject ) cmb_food_portion.getSelectedItem()).getFoodId();
                 Double remaining = dbLink.calculate_remaining_percentage( mixid, foodid, precision );
                 textfield_portion_remaining.setText( String.valueOf( remaining ) );
@@ -902,9 +921,8 @@ public class Main {
     }
 
     private void process_evt_mnui_export_meal_plan() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
         ExportMealPlan export_meal_plan = new ExportMealPlan( dbLink );
-        export_meal_plan.print( mixDataObject );
+        export_meal_plan.print( mixdataobject );
     }
 
     private JPanel get_editor_meal_plan() {
@@ -1017,6 +1035,7 @@ public class Main {
         menuHelp.add( menuItemGuide );
         menuHelp.add( menuItemCredits );
         menuHelp.add( mnui_About );
+        menuHelp.add( mnui_error_log );
         menuSettings.add( checkBoxResultRoundUp );
         menuSettings.add( menuItemConstraintsShownInList );
         menu_mix.add( mnui_create_mix );
@@ -1057,6 +1076,7 @@ public class Main {
         menuItemConstraintsShownInList.setText( "Nutrients, Energies and Cost Shown As Constraints" );
         menuItemGuide.setText( "Guide" );
         menuItemCredits.setText( "Credits" );
+        mnui_error_log.setText( "Log" );
         mnui_About.setText( "About" );
         mnui_create_mix.setText( "Create mix" );
         mnui_delete_mix.setText( "Delete mix" );
@@ -1098,7 +1118,7 @@ public class Main {
         mnui_show_mix_stats.addActionListener( ( ActionEvent e ) ->
         {
             frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-            process_evt_mnui_show_mix_stats();
+            process_evt_mnui_mix_stats();
             frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         } );
         menuItemGlycemicIndexRange.addActionListener( ( ActionEvent e ) ->
@@ -1142,13 +1162,8 @@ public class Main {
         mnui_import_model.addActionListener( ( ActionEvent e ) ->
         {
             frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-            int return_val = process_evt_mnui_import_model();
+            process_evt_mnui_import_model();
             frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-            if ( return_val == JFileChooser.APPROVE_OPTION ) {
-                frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-                process_evt_btn_solve();
-                frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-            }
         } );
         menuItemGuide.addActionListener( ( ActionEvent e ) ->
         {
@@ -1157,6 +1172,10 @@ public class Main {
         menuItemCredits.addActionListener( ( ActionEvent e ) ->
         {
             process_evt_mnui_credits();
+        } );
+        mnui_error_log.addActionListener( ( ActionEvent e ) ->
+        {
+            process_evt_mnui_error_log();
         } );
         mnui_About.addActionListener( ( ActionEvent e ) ->
         {
@@ -1188,7 +1207,7 @@ public class Main {
         } );
         mnui_minimize_option.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_mnui_choose_minimization_option();
+            process_evt_mnui_mix_minimization_option();
         } );
         mnui_duplicate_mix.addActionListener( ( ActionEvent e ) ->
         {
@@ -1200,7 +1219,7 @@ public class Main {
         } );
         mnui_pin_mix.addActionListener( ( ActionEvent e ) ->
         {
-            process_evt_mnui_pin_mix();
+            process_evt_mnui_mix_pin();
         } );
         return mnuBar;
     }
@@ -1213,6 +1232,8 @@ public class Main {
         reload_tblmdl_food_comparison();
         reload_tblmdl_mix_comparison();
         reload_tblmdl_nutrient_lookup();
+        reload_tblmdl_portion( mixid );
+        reload_tblmdl_results_by_meal( mixid );
         resize_col_tbl_meal();
         resize_col_tbl_meal_portions();
         resize_col_tbl_results_by_meal_calories();
@@ -1557,13 +1578,10 @@ public class Main {
         }
     }
 
-    private void process_evt_mnui_pin_mix() {
-        MixDataObject mix = ( MixDataObject ) mdl_cmb_mix.getSelectedItem();
-        String mixid = mix.getMixId();
+    private void process_evt_mnui_mix_pin() {
         try {
             dbLink.pin_mix( mixid );
-            reload_lstmdl_mixes();
-            int index = mdl_cmb_mix.find_by_mixid( mix.getMixId() );
+            int index = mdl_cmb_mix.find_by_mixid( mixid );
             cmb_mix.setSelectedIndex( index );
         } catch ( SQLException ex ) {
         }
@@ -1590,8 +1608,8 @@ public class Main {
                     dbLink.Mix_Update_Other( mixid, model );
                     dbLink.Mix_Update_Status( mixid, 1 );
                     dbLink.stopTransaction();
-                    clear_model_all();
                     set_selected_index_cmb_mix();
+                    clear_model_all();
                 } else {
                     Message.showMessage( "These characters are not allowed: < & > ' \"" );
                 }
@@ -1602,8 +1620,8 @@ public class Main {
     }
 
     private void set_selected_index_cmb_mix() {
-        HashSet set_without = new HashSet();
-        HashSet set_with = new HashSet();
+        HashSet<String> set_without = new HashSet();
+        HashSet<String> set_with = new HashSet();
         final int old_size = mdl_cmb_mix.getSize();
         for ( int i = 0; i < old_size; i++ ) {
             MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
@@ -1628,6 +1646,7 @@ public class Main {
         mdl_cmb_mix.reload();
         modelList_A_MixDiff.reload();
         modelList_B_MixDiff.reload();
+        //Model reload selects first item by default, which triggers selection event and therefore mixid changes
     }
 
     private void reload_cbmdl_nutrient() {
@@ -1668,52 +1687,37 @@ public class Main {
     }
 
     private void reload_cbmdl_food( String mixid ) {
+        modelComboBox_0_FoodAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_1_FoodAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_FoodAtFoodNutrient.removeAllElements();
+        modelComboBox_FoodAtNutrientPct.removeAllElements();
+        modelComboBox_PortionFood.removeAllElements();
         cb_food_loader.reload( mixid );
         if ( !cb_food_loader.get_food_list().isEmpty() ) {
-            FoodDataObject food01 = ( FoodDataObject ) comboBoxFoodNutrientRatioFoodA.getSelectedItem();
-            FoodDataObject food02 = ( FoodDataObject ) comboBoxFoodNutrientRatioFoodB.getSelectedItem();
-            FoodDataObject food03 = ( FoodDataObject ) comboBoxFoodNutrient_Food.getSelectedItem();
-            FoodDataObject food04 = ( FoodDataObject ) comboBoxPercentNutrient_Food.getSelectedItem();
-            modelComboBox_0_FoodAtFoodNutrientRatio.removeAllElements();
-            modelComboBox_1_FoodAtFoodNutrientRatio.removeAllElements();
-            modelComboBox_FoodAtFoodNutrient.removeAllElements();
-            modelComboBox_FoodAtNutrientPct.removeAllElements();
             modelComboBox_0_FoodAtFoodNutrientRatio.addAll( cb_food_loader.get_food_list() );
             modelComboBox_1_FoodAtFoodNutrientRatio.addAll( cb_food_loader.get_food_list() );
             modelComboBox_FoodAtFoodNutrient.addAll( cb_food_loader.get_food_list() );
             modelComboBox_FoodAtNutrientPct.addAll( cb_food_loader.get_food_list() );
-            comboBoxFoodNutrientRatioFoodA.setSelectedIndex( 0 );
-            comboBoxFoodNutrientRatioFoodB.setSelectedIndex( 0 );
-            comboBoxFoodNutrient_Food.setSelectedIndex( 0 );
-            comboBoxPercentNutrient_Food.setSelectedIndex( 0 );
-            if ( food01 != null ) {
-                int index01 = find_fooddataobject( food01, modelComboBox_0_FoodAtFoodNutrientRatio );
-                int index02 = find_fooddataobject( food02, modelComboBox_1_FoodAtFoodNutrientRatio );
-                int index03 = find_fooddataobject( food03, modelComboBox_FoodAtFoodNutrient );
-                int index04 = find_fooddataobject( food04, modelComboBox_FoodAtNutrientPct );
-                food01 = ( FoodDataObject ) modelComboBox_0_FoodAtFoodNutrientRatio.getElementAt( index01 );
-                food02 = ( FoodDataObject ) modelComboBox_1_FoodAtFoodNutrientRatio.getElementAt( index02 );
-                food03 = ( FoodDataObject ) modelComboBox_FoodAtFoodNutrient.getElementAt( index03 );
-                food04 = ( FoodDataObject ) modelComboBox_FoodAtNutrientPct.getElementAt( index04 );
-                comboBoxFoodNutrientRatioFoodA.setSelectedItem( food01 );
-                comboBoxFoodNutrientRatioFoodB.setSelectedItem( food02 );
-                comboBoxFoodNutrient_Food.setSelectedItem( food03 );
-                comboBoxPercentNutrient_Food.setSelectedItem( food04 );
-            }
+            modelComboBox_PortionFood.addAll( cb_food_loader.get_food_list() );
         }
     }
 
-    private int find_fooddataobject( FoodDataObject food01, DefaultComboBoxModel model ) {
-        int index = 0;
-        int size = model.getSize();
-        for ( int i = 0; i < size; i++ ) {
-            FoodDataObject elementAt = ( FoodDataObject ) model.getElementAt( i );
-            if ( elementAt.getFoodId().equals( food01.getFoodId() ) ) {
-                index = i;
-                break;
-            }
+    private void set_selected_index_cmb_food() {
+        if ( comboBoxFoodNutrientRatioFoodA.getItemCount() > 0 ) {
+            comboBoxFoodNutrientRatioFoodA.setSelectedIndex( 0 );
         }
-        return index;
+        if ( comboBoxFoodNutrientRatioFoodB.getItemCount() > 0 ) {
+            comboBoxFoodNutrientRatioFoodB.setSelectedIndex( 0 );
+        }
+        if ( comboBoxFoodNutrient_Food.getItemCount() > 0 ) {
+            comboBoxFoodNutrient_Food.setSelectedIndex( 0 );
+        }
+        if ( comboBoxPercentNutrient_Food.getItemCount() > 0 ) {
+            comboBoxPercentNutrient_Food.setSelectedIndex( 0 );
+        }
+        if ( cmb_food_portion.getItemCount() > 0 ) {
+            cmb_food_portion.setSelectedIndex( 0 );
+        }
     }
 
     private int find_fooddataobject( String foodid, DefaultComboBoxModel model ) {
@@ -1805,8 +1809,6 @@ public class Main {
     }
 
     private void reload_tblmdl_editor_results() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
-        String mixid = mixDataObject.getMixId();
         result_loader.reload( mixid );
         modelTableEnergy.reload();
         modelTableMacroNutrient.reload();
@@ -1828,8 +1830,6 @@ public class Main {
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Delete Mix" );
         if ( optionValue == 0 ) {
             try {
-                MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-                String mixid = mix.getMixId();
                 dbLink.Mix_Delete( mixid );
                 dbLink.stopTransaction();
                 reload_lstmdl_mixes();
@@ -1857,7 +1857,11 @@ public class Main {
     }
 
     private void clear_model_food_combo_boxes() {
-        cb_food_loader.reload( "" );
+        modelComboBox_0_FoodAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_1_FoodAtFoodNutrientRatio.removeAllElements();
+        modelComboBox_FoodAtFoodNutrient.removeAllElements();
+        modelComboBox_FoodAtNutrientPct.removeAllElements();
+        modelComboBox_PortionFood.removeAllElements();
     }
 
     private void clear_model_solve() {
@@ -1868,6 +1872,7 @@ public class Main {
         modelTableFoodNutrientRatioConstraints.setRowCount( 0 );
         tableModelPercentNutrientConstraints.setRowCount( 0 );
         modelTableEnergy.setRowCount( 0 );
+        modelTableMacroNutrient.setRowCount( 0 );
         modelTableProtein.setRowCount( 0 );
         modelTableFats.setRowCount( 0 );
         modelTableCarbs.setRowCount( 0 );
@@ -1887,8 +1892,7 @@ public class Main {
             new JLabel( "What is your new mix name?" ),
             input
         };
-        MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-        input.setText( mix.getName() );
+        input.setText( mixname );
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Update Mix" );
         if ( optionValue == 0 ) {
             try {
@@ -1896,11 +1900,11 @@ public class Main {
                 StringCheck sc = new StringCheck();
                 sc.addUncheckedList( mixnom );
                 if ( sc.pass() ) {
-                    String mixid = mix.getMixId();
                     dbLink.Mix_Update_Name( mixid, mixnom );
+                    String l_mixid = mixid;
                     dbLink.stopTransaction();
                     reload_lstmdl_mixes();
-                    int index = mdl_cmb_mix.find_by_mixid( mix.getMixId() );
+                    int index = mdl_cmb_mix.find_by_mixid( l_mixid );
                     cmb_mix.setSelectedIndex( index );
                 } else {
                     Message.showMessage( "These characters are not allowed: < & > ' \"" );
@@ -1918,8 +1922,6 @@ public class Main {
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Duplicate Mix" );
         if ( optionValue == 0 ) {
             try {
-                MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-                String mixid = mix.getMixId();
                 dbLink.Mix_Duplicate( mixid );
                 dbLink.stopTransaction();
                 set_selected_index_cmb_mix();
@@ -1935,8 +1937,7 @@ public class Main {
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Add to Food List" );
         if ( optionValue == 0 ) {
             try {
-                MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
-                dbLink.Food_Put( mixDataObject.getMixId() );
+                dbLink.Food_Put( mixid );
                 dbLink.stopTransaction();
                 reload_food_items();
                 resize_col_tbl_food_list();
@@ -2356,16 +2357,15 @@ public class Main {
 
     private void reload_tblmdl_editor_rda_check() {
         if ( cmb_mix.getSelectedItem() != null ) {
-            MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
             RdaLifeStageDataObject rdaLifeStageDataObject = ( RdaLifeStageDataObject ) cb_results_lifestage.getSelectedItem();
-            modelTableRda.reload( mixDataObject.getMixId(), rdaLifeStageDataObject.getLifeStageId() );
+            modelTableRda.reload( mixid, rdaLifeStageDataObject.getLifeStageId() );
         }
     }
 
     private JPanel get_meal_portion() {
         JPanel panel = new JPanel();
         FormLayout panelLayout = new FormLayout(
-                "60px,50px,155px,50px,53px,min:grow,60px,171px", //columns
+                "60px,50px,155px,50px,53px,299dlu,60px,171px", //columns
                 "10px,fill:25px,10px,p,100px,10px,fill:p:grow,p" //rows
         );
         JScrollPane scroll_pane = new JScrollPane( listPortionMeal );
@@ -2507,22 +2507,15 @@ public class Main {
     }
 
     private void reload_tblmdl_meals() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
-        modelTableMeals.reload( mixDataObject.getMixId() );
+        modelTableMeals.reload( mixid );
     }
 
     private void reload_tblmdl_meals( String mixid ) {
         modelTableMeals.reload( mixid );
     }
 
-    private void reload_cbmdl_portion_food() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
-        modelComboBox_PortionFood.reload( mixDataObject.getMixId() );
-    }
-
     private void reload_lstmdl_portion_meal() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
-        reload_lstmdl_portion( mixDataObject.getMixId() );
+        reload_lstmdl_portion( mixid );
     }
 
     private void resize_col_tbl_meal() {
@@ -3064,7 +3057,7 @@ public class Main {
         JLabel labelNutrientSearch = new JLabel( "Search:" );
         JTextField textFieldFoodName = new JTextField();
         JTextField textFieldNutrientValue = new JTextField();
-        JButton buttonNutrientWeightSave = new JButton( "S" );
+        JButton buttonNutrientWeightSave = new JButton( "Set" );
         JButton buttonPrevious = new JButton( "<" );
         JButton buttonNext = new JButton( ">" );
         labelFoodName.setHorizontalAlignment( JLabel.RIGHT );
@@ -3423,13 +3416,11 @@ public class Main {
         }
     }
 
-    private void process_evt_mnui_choose_minimization_option() {
+    private void process_evt_mnui_mix_minimization_option() {
         JComponent[] inputs = new JComponent[] {
             get_minimization_options_panel()
         };
-        MixDataObject o = ( MixDataObject ) cmb_mix.getSelectedItem();
-        String nutrientid = o.getNutrientid();
-        if ( nutrientid.equals( "10009" ) ) {
+        if ( mixobjective.equals( "10009" ) ) {
             mnui_calories.setSelected( true );
         } else {
             mnui_cost.setSelected( true );
@@ -3438,14 +3429,13 @@ public class Main {
         if ( optionValue == 0 ) {
             try {
                 if ( mnui_calories.isSelected() ) {
-                    dbLink.Mix_Update_NutrientId( o.getMixId(), "10009" );
+                    dbLink.Mix_Update_NutrientId( mixid, "10009" );
                 } else {
-                    dbLink.Mix_Update_NutrientId( o.getMixId(), "10005" );
+                    dbLink.Mix_Update_NutrientId( mixid, "10005" );
                 }
                 dbLink.stopTransaction();
                 reload_lstmdl_mixes();
-                clear_model_all();
-                int index = mdl_cmb_mix.find_by_mixid( o.getMixId() );
+                int index = mdl_cmb_mix.find_by_mixid( mixid );
                 cmb_mix.setSelectedIndex( index );
             } catch ( SQLException ex ) {
             }
@@ -3563,10 +3553,9 @@ public class Main {
     }
 
     private void process_evt_mnui_export_rda_check() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
         RdaLifeStageDataObject rdaLifeStageDataObject = ( RdaLifeStageDataObject ) cb_results_lifestage.getSelectedItem();
         ExportRdaCheck exportRdaCheck = new ExportRdaCheck( dbLink );
-        exportRdaCheck.print( mixDataObject, rdaLifeStageDataObject );
+        exportRdaCheck.print( mixdataobject, rdaLifeStageDataObject );
     }
 
     private void process_evt_mnui_export_nutrient_lookup() {
@@ -3646,7 +3635,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1210" );
+        sb.append( "This is build 1220" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -3942,10 +3931,10 @@ public class Main {
                                                   "min:grow,min,min,min,min,min:grow" //rows
         );
         buttons.setLayout( buttonLayout );
-        JScrollPane scrSelectedFood = new JScrollPane( lst_selected_food );
-        scrSelectedFood.setBorder( new TitledBorder( "Mix Food" ) );
-        JScrollPane s_store = new JScrollPane( treeFoodList );
-        s_store.setBorder( new TitledBorder( "Store" ) );
+        JScrollPane scr_food_selected = new JScrollPane( lst_selected_food );
+        scr_food_selected.setBorder( new TitledBorder( "Mix Food" ) );
+        JScrollPane scr_food = new JScrollPane( treeFoodList );
+        scr_food.setBorder( new TitledBorder( "Food" ) );
         modelTreeFoodList.reload();
         treeFoodList.setModel( modelTreeFoodList );
         JButton buttonAddMixFood = new JButton( "+" );
@@ -3956,9 +3945,9 @@ public class Main {
         buttons.add( buttonDeleteMixFood, cc.xy( 1, 3 ) );
         buttons.add( buttonExpandMixFood, cc.xy( 1, 4 ) );
         buttons.add( buttonCollapseMixFood, cc.xy( 1, 5 ) );
-        panel.add( s_store, cc.xy( 1, 1 ) );
+        panel.add( scr_food, cc.xy( 1, 1 ) );
         panel.add( buttons, cc.xy( 2, 1 ) );
-        panel.add( scrSelectedFood, cc.xy( 3, 1 ) );
+        panel.add( scr_food_selected, cc.xy( 3, 1 ) );
         buttonAddMixFood.setToolTipText( "Add Food Item to Mix" );
         buttonDeleteMixFood.setToolTipText( "Delete Food Item from Mix" );
         buttonExpandMixFood.setToolTipText( "Expand Food List" );
@@ -4242,13 +4231,12 @@ public class Main {
             numberCheck.addToUncheckedList( textFieldPercentNutrient_Quantity.getText() );
             if ( numberCheck.pass() ) {
                 try {
-                    MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
                     FoodDataObject foodDataObject = ( FoodDataObject ) comboBoxPercentNutrient_Food.getSelectedItem();
                     NutrientDataObject nutrientDataObject = ( NutrientDataObject ) comboBoxPercentNutrient_Nutrient.getSelectedItem();
                     RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxPercentNutrient_Relationship.getSelectedItem();
                     Double b = Double.parseDouble( textFieldPercentNutrient_Quantity.getText() );
-                    dbLink.NutrientPercentConstraint_Merge( mix.getMixId(), foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
-                    tableModelPercentNutrientConstraints.reload( mix.getMixId() );
+                    dbLink.NutrientPercentConstraint_Merge( mixid, foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
+                    tableModelPercentNutrientConstraints.reload( mixid );
                     set_constraint_counts();
                     resize_col_tbl_percent_nutrient_constraint();
                 } catch ( SQLException e ) {
@@ -4313,16 +4301,20 @@ public class Main {
     }
 
     private void process_evt_cmb_mix() {
-        MixDataObject mixDataObject = ( MixDataObject ) cmb_mix.getSelectedItem();
-        String mixid = mixDataObject.getMixId();
+        mixdataobject = ( MixDataObject ) cmb_mix.getSelectedItem();
+        mixid = mixdataobject.getMixId();
+        mixname = mixdataobject.getName();
+        mixobjective = mixdataobject.getNutrientid();
+        String model = mixdataobject.getModel();
         modelList_selected_food.reload( mixid );
         legend_generator.reload( mixid );
         reload_tblmdl_editor_results();
         reload_tblmdl_editor_rda_check();
         reload_cbmdl_food( mixid );
+        set_selected_index_cmb_food();
         reload_tblmdl_constraints( mixid );
         reload_lstmdl_portion_meal();
-        reload_cbmdl_portion_food();
+        modelComboBox_PortionFood.reload( mixid );
         reload_tblmdl_meals( mixid );
         reload_tblmdl_portion( mixid );
         reload_tblmdl_results_by_meal( mixid );
@@ -4333,9 +4325,9 @@ public class Main {
         resize_col_tbl_results_by_meal_calories();
         resize_col_tbl_results_by_meal_grams();
         resize_tbl_editor_results();
-        txta_editor_model.setText( mixDataObject.getModel() );
+        txta_editor_model.setText( model );
         set_constraint_counts();
-        if ( mixDataObject.getNutrientid().equals( "10009" ) ) {
+        if ( mixdataobject.getNutrientid().equals( "10009" ) ) {
             lbl_min.setText( "Calories" );
         } else {
             lbl_min.setText( "Cost" );
@@ -4593,7 +4585,6 @@ public class Main {
     }
 
     private void process_evt_btn_mix_food_add() {
-        MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
         DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) treeFoodList.getLastSelectedPathComponent();
         if ( node == null ) {
             return;
@@ -4601,11 +4592,11 @@ public class Main {
         FoodDataObject food = ( FoodDataObject ) node.getUserObject();
         if ( node.isLeaf() ) {
             try {
-                String mixid = mix.getMixId();
                 dbLink.MixFood_Insert( mixid, food.getFoodId() );
                 modelList_selected_food.reload( mixid );
                 legend_generator.reload( mixid );
                 reload_cbmdl_food( mixid );
+                set_selected_index_cmb_food();
             } catch ( SQLException e ) {
 
             }
@@ -4615,13 +4606,12 @@ public class Main {
     private void process_evt_btn_mix_food_delete() {
         if ( is_food_selected() ) {
             try {
-                MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
                 FoodDataObject foodDataObject = ( FoodDataObject ) lst_selected_food.getSelectedValue();
-                String mixid = mix.getMixId();
                 dbLink.MixFood_Delete( mixid, foodDataObject.getFoodId() );
                 modelList_selected_food.reload( mixid );
                 legend_generator.reload( mixid );
                 reload_cbmdl_food( mixid );
+                set_selected_index_cmb_food();
                 reload_tblmdl_constraints( mixid );
                 reload_tblmdl_editor_results();
                 reload_tblmdl_editor_rda_check();
@@ -4656,18 +4646,13 @@ public class Main {
     }
 
     private void process_evt_btn_undo() {
-        MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
         dbLink.revertTransaction();
-        reload_lstmdl_mixes();
-        int index = mdl_cmb_mix.find_by_mixid( mix.getMixId() );
-        cmb_mix.setSelectedIndex( index );
+        cmb_mix.setSelectedItem( mixdataobject );
         set_constraint_counts();
     }
 
     private void process_evt_btn_solve() {
         try {
-            MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-            String mixid = mix.getMixId();
             txta_editor_model.setText( "" );
             LpModel lpModel = new LpModel();
             lpModel.setComponent( get_no_feasible_solution_panel() );
@@ -4743,7 +4728,7 @@ public class Main {
             SimpleDateFormat dateFormat = new SimpleDateFormat( pattern );
             Date date = new Date();
             String stringDate = dateFormat.format( date );
-            lpModel.setTitle( mix.getName() );
+            lpModel.setTitle( mixname );
             lpModel.setDate( stringDate );
             lpModel.setVariables( get_food_legend( mixid ) );
             StringBuilder sbResults = new StringBuilder();
@@ -4797,6 +4782,7 @@ public class Main {
                 sbAll.append( "\n*/" );
                 dbLink.Mix_Update_Time( mixid );
                 dbLink.Mix_Update_Other( mixid, sbAll.toString() );
+                mixdataobject.setModel( sbAll.toString() );
                 reload_tblmdl_editor_results();
                 reload_tblmdl_editor_rda_check();
                 reload_tblmdl_food_comparison();
@@ -4804,9 +4790,6 @@ public class Main {
                 resize_col_tbl_editor_rda_check();
                 resize_tbl_editor_results();
                 dbLink.apportion( mixid );
-                reload_lstmdl_mixes();
-                int mix_index = mdl_cmb_mix.find_by_mixid( mixid );
-                cmb_mix.setSelectedIndex( mix_index );
                 dbLink.stopTransaction();
             } else {
                 sbAll.append( "/*\n" );
@@ -4858,12 +4841,11 @@ public class Main {
             numberCheck.addToUncheckedList( textFieldNutrientConstraintQuantity.getText() );
             if ( numberCheck.pass() ) {
                 try {
-                    MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
                     NutrientDataObject nutrientDataObject = ( NutrientDataObject ) comboBoxNutrientConstraintNutrient.getSelectedItem();
                     RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxNutrientConstraintRelationship.getSelectedItem();
                     double b = Double.parseDouble( textFieldNutrientConstraintQuantity.getText() );
-                    dbLink.NutrientConstraint_Merge( mix.getMixId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
-                    modelTableNutrientConstraints.reload( mix.getMixId() );
+                    dbLink.NutrientConstraint_Merge( mixid, nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
+                    modelTableNutrientConstraints.reload( mixid );
                     set_constraint_counts();
                     resize_col_tbl_nutrient_constraint();
                 } catch ( SQLException e ) {
@@ -4922,13 +4904,12 @@ public class Main {
             numberCheck.addToUncheckedList( textFieldFoodNutrient_Quantity.getText() );
             if ( numberCheck.pass() ) {
                 try {
-                    MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
                     FoodDataObject foodDataObject = ( FoodDataObject ) comboBoxFoodNutrient_Food.getSelectedItem();
                     NutrientDataObject nutrientDataObject = ( NutrientDataObject ) comboBoxFoodNutrient_Nutrient.getSelectedItem();
                     RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxFoodNutrient_Relationship.getSelectedItem();
                     double b = Double.parseDouble( textFieldFoodNutrient_Quantity.getText() );
-                    dbLink.FoodNutrientConstraint_Merge( mix.getMixId(), foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
-                    modelTableFoodNutrientConstraints.reload( mix.getMixId() );
+                    dbLink.FoodNutrientConstraint_Merge( mixid, foodDataObject.getFoodId(), nutrientDataObject.getNutr_no(), relationshipDataObject.getRelationshipid(), b );
+                    modelTableFoodNutrientConstraints.reload( mixid );
                     set_constraint_counts();
                     resize_col_tbl_food_nutrient_constraint();
                 } catch ( SQLException e ) {
@@ -4945,8 +4926,6 @@ public class Main {
         Double pcti = Double.NaN;
         checkNumber.addToUncheckedList( textfield_portion_pct.getText() );
         if ( checkNumber.pass() ) {
-            MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-            String mixid = mix.getMixId();
             String foodid = (( FoodDataObject ) cmb_food_portion.getSelectedItem()).getFoodId();
             ArrayList selectedValuesList = ( ArrayList ) listPortionMeal.getSelectedValuesList();
             Double pct = Double.valueOf( textfield_portion_pct.getText() );
@@ -5122,14 +5101,13 @@ public class Main {
             numberCheck.addToUncheckedList( textFieldNutrientRatioNutrientB.getText() );
             if ( numberCheck.pass() ) {
                 try {
-                    MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
                     NutrientDataObject nutrientDataObjectA = ( NutrientDataObject ) comboBoxNutrientRatioNutrientA.getSelectedItem();
                     NutrientDataObject nutrientDataObjectB = ( NutrientDataObject ) comboBoxNutrientRatioNutrientB.getSelectedItem();
                     RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxNutrientRatioRelationship.getSelectedItem();
                     Double a = Double.parseDouble( textFieldNutrientRatioNutrientA.getText() );
                     Double b = Double.parseDouble( textFieldNutrientRatioNutrientB.getText() );
-                    dbLink.NutrientRatio_Merge( mix.getMixId(), nutrientDataObjectA.getNutr_no(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
-                    modelTableNutrientRatioConstraints.reload( mix.getMixId() );
+                    dbLink.NutrientRatio_Merge( mixid, nutrientDataObjectA.getNutr_no(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
+                    modelTableNutrientRatioConstraints.reload( mixid );
                     resize_col_tbl_nutrient_ratio_constraint();
                     set_constraint_counts();
                 } catch ( SQLException e ) {
@@ -5254,7 +5232,6 @@ public class Main {
             numberCheck.addToUncheckedList( textFieldFoodNutrientRatioQuantityB.getText() );
             if ( numberCheck.pass() ) {
                 try {
-                    MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
                     FoodDataObject foodDataObjectA = ( FoodDataObject ) comboBoxFoodNutrientRatioFoodA.getSelectedItem();
                     NutrientDataObject nutrientDataObjectA = ( NutrientDataObject ) comboBoxFoodNutrientRatioNutrientA.getSelectedItem();
                     FoodDataObject foodDataObjectB = ( FoodDataObject ) comboBoxFoodNutrientRatioFoodB.getSelectedItem();
@@ -5262,8 +5239,8 @@ public class Main {
                     Double a = Double.parseDouble( textFieldFoodNutrientRatioQuantityA.getText() );
                     Double b = Double.parseDouble( textFieldFoodNutrientRatioQuantityB.getText() );
                     RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxFoodNutrientRatioRelationship.getSelectedItem();
-                    dbLink.FoodNutrientRatio_Merge( mix.getMixId(), foodDataObjectA.getFoodId(), nutrientDataObjectA.getNutr_no(), foodDataObjectB.getFoodId(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
-                    modelTableFoodNutrientRatioConstraints.reload( mix.getMixId() );
+                    dbLink.FoodNutrientRatio_Merge( mixid, foodDataObjectA.getFoodId(), nutrientDataObjectA.getNutr_no(), foodDataObjectB.getFoodId(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
+                    modelTableFoodNutrientRatioConstraints.reload( mixid );
                     set_constraint_counts();
                 } catch ( SQLException e ) {
 
@@ -5787,11 +5764,11 @@ public class Main {
             switch ( main_tabbed_pane.getSelectedIndex() ) {
                 case 0:
                     frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-                    MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-                    Xml_send send = new Xml_send( dbLink, mix.getMixId(), path );
+                    Xml_send send = new Xml_send( dbLink, mixid, path );
                     frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
                     show_message_sent( path );
                     break;
+
             }
         }
     }
@@ -5818,47 +5795,28 @@ public class Main {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
             fileChooser.setCurrentDirectory( new File( path ) );
-            HashSet set_without = new HashSet();
-            HashSet set_with = new HashSet();
-            final int old_size = mdl_cmb_mix.getSize();
-            for ( int i = 0; i < old_size; i++ ) {
-                MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
-                set_without.add( o.getMixId() );
-            }
             Xml_receive receive = new Xml_receive( dbLink );
             receive.import_snack_data( path );
-            reload_lstmdl_mixes();
+            modelListCategory.reload();
             reload_food_items();
             resize_col_tbl_food_list();
-            modelListCategory.reload();
-            for ( int i = 0; i < mdl_cmb_mix.getSize(); i++ ) {
-                MixDataObject o = ( MixDataObject ) mdl_cmb_mix.getElementAt( i );
-                set_with.add( o.getMixId() );
-            }
-            if ( set_with.removeAll( set_without ) ) {
-                if ( !set_with.isEmpty() ) {
-                    int index = mdl_cmb_mix.find_by_mixid( ( String ) set_with.toArray()[ 0 ] );
-                    cmb_mix.setSelectedIndex( index );
-                }
-            } else {
-                cmb_mix.setSelectedIndex( 0 );
-            }
+            set_selected_index_cmb_mix();
         }
         return returnVal;
     }
 
-    private void process_evt_mnui_show_mix_stats() {
+    private void process_evt_mnui_mix_stats() {
         String_display_component component = new String_display_component();
         component.setPreferredSize( new Dimension( 310, 130 ) );
         JComponent[] inputs = new JComponent[ 1 ];
         inputs[ 0 ] = component;
         switch ( main_tabbed_pane.getSelectedIndex() ) {
             case 0:
-                MixDataObject mix = ( MixDataObject ) cmb_mix.getSelectedItem();
-                stringModelMixPct.reload( mix.getMixId() );
+                stringModelMixPct.reload( mixid );
                 component.setText( stringModelMixPct.get_mix_stats() );
                 Message.showOptionDialog( inputs, "Macronutrient Percentages" );
                 break;
+
         }
     }
 

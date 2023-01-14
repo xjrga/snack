@@ -109,7 +109,6 @@ public class ExportMixComparison {
             cell = row.createCell( 4 );
             cell.setCellValue( ( Double ) modelTableMixDiff.getValueAt( j, 4 ) );
             cell.setCellStyle( cellStyleValue );
-            System.out.println( rownum );
         }
         try {
             out = new FileOutputStream( filepath.toString() );

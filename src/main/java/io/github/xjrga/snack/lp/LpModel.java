@@ -20,8 +20,9 @@
 package io.github.xjrga.snack.lp;
 
 import com.jgoodies.forms.layout.CellConstraints;
-import io.github.xjrga.snack.gui.Message;
 import io.github.xjrga.snack.other.Log;
+import io.github.xjrga.snack.gui.Message;
+import io.github.xjrga.snack.other.Utilities;
 import java.util.ArrayList;
 import javax.swing.*;
 import org.apache.commons.math3.optim.PointValuePair;
@@ -91,28 +92,26 @@ public class LpModel {
             if ( !linearConstraintSet.getConstraints().isEmpty() ) {
                 GoalType minimize = GoalType.MINIMIZE;
                 NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint( true );
-                Log.getLog().start( "model/model.log" );
-                Log.getLog().logMessage( "/*" );
-                Log.getLog().logMessage( getDescription() );
-                Log.getLog().logMessage( "*/" );
-                Log.getLog().logMessage( "" );
-                Log.getLog().logMessage( getModel() );
+                Log.Log1.append( "/*" );
+                Log.Log1.append( getDescription() );
+                Log.Log1.append( "*/\n" );
+                Log.Log1.append( "" );
+                Log.Log1.append( getModel() );
                 PointValuePair solution = (new SimplexSolver()).optimize( linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint );
                 point = solution.getPoint();
                 cost = solution.getSecond();
                 flag = true;
             }
         } catch ( Exception e ) {
-            Log.getLog().logMessage( "" );
-            Log.getLog().logMessage( "/*" );
-            Log.getLog().logMessage( getResults() );
-            Log.getLog().logMessage( "*/" );
-            Log.getLog().logMessage( "" );
-            Log.getLog().logMessage( "/*" );
-            Log.getLog().logMessage( getInfeasibleMessage() );
-            Log.getLog().logMessage( "*/" );
-            Log.getLog().write();
-            Log.getLog().close();
+            Log.Log1.append( "" );
+            Log.Log1.append( "/*" );
+            Log.Log1.append( getResults() );
+            Log.Log1.append( "*/" );
+            Log.Log1.append( "" );
+            Log.Log1.append( "/*" );
+            Log.Log1.append( getInfeasibleMessage() );
+            Log.Log1.append( "*/\n" );
+            Utilities.write_to_file( "model/model.log", Log.Log1.get_text() );
             JComponent[] inputs = new JComponent[] {
                 component
             };
@@ -190,16 +189,16 @@ public class LpModel {
     }
 
     public void save() {
-        Log.getLog().logMessage( "" );
-        Log.getLog().logMessage( "/*" );
-        Log.getLog().logMessage( getResults() );
-        Log.getLog().logMessage( "*/" );
-        Log.getLog().logMessage( "" );
-        Log.getLog().logMessage( "/*" );
-        Log.getLog().logMessage( getFeasibleMessage() );
-        Log.getLog().logMessage( "*/" );
-        Log.getLog().write();
-        Log.getLog().close();
+        Log.Log1.append( "\n" );
+        Log.Log1.append( "/*" );
+        Log.Log1.append( getResults() );
+        Log.Log1.append( "*/" );
+        Log.Log1.append( "\n" );
+        Log.Log1.append( "/*" );
+        Log.Log1.append( getFeasibleMessage() );
+        Log.Log1.append( "*/" );
+        Log.Log1.append( "\n" );
+        Utilities.write_to_file( "model/model.log", Log.Log1.get_text() );
     }
 
     public String getInfeasibleMessage() {
