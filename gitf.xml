@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2021 Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<project default="">
+    <!--    This ant script helps me document and memorize the git commands I use. Use with care.-->
+    <xmlproperty file="pom.xml" prefix="pom" />
+    <tstamp>
+        <!--        <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>-->
+        <format property="timestamp" pattern="yyyyMMdd_HHmm"/>
+    </tstamp>
+    <target name="1. check status">
+        <exec executable="git">
+            <arg line="status"/>
+        </exec>
+    </target>
+    <target name="2. local - stage all">
+        <exec executable="git">
+            <arg line="add"/>
+            <arg line="."/>
+        </exec>
+    </target>
+    <target name="3. staged - commit all">
+        <input message="What is commit message?" addproperty="message"/>
+        <exec executable="git">
+            <arg line="commit"/>
+            <arg line="-m"/>
+            <arg line="'${message}'"/>
+        </exec>
+    </target>
+    <target name="9. staged - show changes" >
+        <echo>Shows changes that are about to be committed.</echo>
+        <echo>Shows the difference between last commit and index.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--staged"/>
+        </exec>
+    </target>
+    <target name="7. staged - show files" >
+        <echo>Shows changes that are about to be committed.</echo>
+        <echo>Shows the difference between last commit and index.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--staged"/>
+            <arg line="--name-only"/>
+        </exec>
+    </target>
+    <target name="8. unstaged - show changes" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+        </exec>
+    </target>
+    <target name="6. modified - show files" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--name-only"/>
+        </exec>
+    </target>
+    <target name="5. untracked - show files">
+        <exec executable="git">
+            <arg line="ls-files"/>
+            <arg line="--others"/>
+            <arg line="--exclude-standard"/>
+        </exec>
+    </target>
+    <target name="file - modified - restore">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>Restore ${file_name} change in working directory.</echo>
+        <exec executable="git">
+            <arg line="restore"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - staged - unstage">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only --staged | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>Discard ${file_name} change in index.</echo>
+        <exec executable="git">
+            <arg line="restore"/>
+            <arg line="--staged"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - modified - show changes" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - staged - show changes" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --staged --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--staged"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - history">
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git ls-tree -r ${branch_name} --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--follow"/>
+            <arg line="--oneline"/>
+            <arg line="--"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - history with changes">
+        <exec executable="git">
+            <arg line="branch"/>
+            <arg line="--show-current"/>
+            <redirector outputproperty="branch_name" errorproperty="redirector.err"/>
+        </exec>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git ls-tree -r ${branch_name} --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <echo>$ git log --follow --oneline -p -- ${file_name}</echo>
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--follow"/>
+            <arg line="--oneline"/>
+            <arg line="-p"/>
+            <arg line="--"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - modified - stage">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="add"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - untracked - stage">
+        <exec executable="git">
+            <arg line="ls-files"/>
+            <arg line="--others"/>
+            <arg line="--exclude-standard"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="add"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - staged - commit">
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only --staged | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="commit"/>
+            <arg line="${file_name}"/>
+            <arg line="-m"/>
+            <arg line="'fix ${file_name}'"/>
+        </exec>
+    </target>
+    <target name="log - show" >
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="--graph"/>
+            <arg line="--oneline"/>
+            <arg line="--decorate"/>
+        </exec>
+    </target>
+    <target name="log - show log with changes" >
+        <exec executable="git">
+            <arg line="log"/>
+            <arg line="-p"/>
+        </exec>
+    </target>
+    <target name="0. project - make backup" >
+        <echo>Backup files to ../${pom.project.name}_${timestamp}.tgz</echo>
+        <exec executable="tar">
+            <arg line="czfv"/>
+            <arg line="../'${pom.project.name}'_'${timestamp}'.tgz"/>
+            <arg line="."/>
+        </exec>
+    </target>
+</project>

@@ -1703,21 +1703,14 @@ public class Main {
     }
 
     private void set_selected_index_cmb_food() {
-        if ( comboBoxFoodNutrientRatioFoodA.getItemCount() > 0 ) {
-            comboBoxFoodNutrientRatioFoodA.setSelectedIndex( 0 );
+        if ( comboBoxFoodNutrientRatioFoodA.getItemCount() == 0 ) {
+            return;
         }
-        if ( comboBoxFoodNutrientRatioFoodB.getItemCount() > 0 ) {
-            comboBoxFoodNutrientRatioFoodB.setSelectedIndex( 0 );
-        }
-        if ( comboBoxFoodNutrient_Food.getItemCount() > 0 ) {
-            comboBoxFoodNutrient_Food.setSelectedIndex( 0 );
-        }
-        if ( comboBoxPercentNutrient_Food.getItemCount() > 0 ) {
-            comboBoxPercentNutrient_Food.setSelectedIndex( 0 );
-        }
-        if ( cmb_food_portion.getItemCount() > 0 ) {
-            cmb_food_portion.setSelectedIndex( 0 );
-        }
+        comboBoxFoodNutrientRatioFoodA.setSelectedIndex( 0 );
+        comboBoxFoodNutrientRatioFoodB.setSelectedIndex( 0 );
+        comboBoxFoodNutrient_Food.setSelectedIndex( 0 );
+        comboBoxPercentNutrient_Food.setSelectedIndex( 0 );
+        cmb_food_portion.setSelectedIndex( 0 );
     }
 
     private int find_fooddataobject( String foodid, DefaultComboBoxModel model ) {
@@ -3585,7 +3578,7 @@ public class Main {
         sb.append( "\n" );
         sb.append( "poi-4.1.1.jar" );
         sb.append( "\n" );
-        sb.append( "looks-01.jar" );
+        sb.append( "looks-02.jar" );
         sb.append( "\n\n" );
         sb.append( "Snack uses a data subset from:" );
         sb.append( "\n\n" );
@@ -3635,7 +3628,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1220" );
+        sb.append( "This is build 1230" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -4476,6 +4469,7 @@ public class Main {
         modelListCategory.reload();
         listFoodInCategory.setModel( modelListFoodInCategory );
         listAllFoodItems.setModel( modelListFood );
+        listAllFoodItems.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         reload_food_items();
         resize_col_tbl_food_list();
         //
@@ -4618,6 +4612,8 @@ public class Main {
                 resize_col_tbl_editor_rda_check();
                 resize_tbls_constraint();
                 resize_tbl_editor_results();
+                reload_tblmdl_portion( mixid );
+                resize_col_tbl_meal_portions();
             } catch ( SQLException e ) {
 
             }
@@ -5104,8 +5100,8 @@ public class Main {
                     NutrientDataObject nutrientDataObjectA = ( NutrientDataObject ) comboBoxNutrientRatioNutrientA.getSelectedItem();
                     NutrientDataObject nutrientDataObjectB = ( NutrientDataObject ) comboBoxNutrientRatioNutrientB.getSelectedItem();
                     RelationshipDataObject relationshipDataObject = ( RelationshipDataObject ) comboBoxNutrientRatioRelationship.getSelectedItem();
-                    Double a = Double.parseDouble( textFieldNutrientRatioNutrientA.getText() );
-                    Double b = Double.parseDouble( textFieldNutrientRatioNutrientB.getText() );
+                    Double a = Double.valueOf( textFieldNutrientRatioNutrientA.getText() );
+                    Double b = Double.valueOf( textFieldNutrientRatioNutrientB.getText() );
                     dbLink.NutrientRatio_Merge( mixid, nutrientDataObjectA.getNutr_no(), nutrientDataObjectB.getNutr_no(), relationshipDataObject.getRelationshipid(), a, b );
                     modelTableNutrientRatioConstraints.reload( mixid );
                     resize_col_tbl_nutrient_ratio_constraint();
@@ -5775,7 +5771,7 @@ public class Main {
 
     private void show_message_sent( String path ) {
         String_display_component label = new String_display_component();
-        label.setPreferredSize( new Dimension( 320, 40 ) );
+        label.setPreferredSize( new Dimension( 400, 60 ) );
         StringBuilder sb = new StringBuilder();
         sb.append( "Document saved to\n" );
         sb.append( path );

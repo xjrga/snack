@@ -6,7 +6,7 @@
 
     <groupId>io.github.xjrga</groupId>
     <artifactId>snack</artifactId>
-    <version>1220</version>
+    <version>1230</version>
 
     <name>snack</name>
     <url>https://xjrga.github.io/snack</url>
@@ -73,6 +73,12 @@
             <artifactId>looks</artifactId>
             <version>02</version>
         </dependency>
+
+        <!--        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>-->
 
     </dependencies>
 

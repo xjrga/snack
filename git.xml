@@ -66,7 +66,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <arg line="diff"/>
         </exec>
     </target>
-    <target name="6. unstaged - show files" >
+    <target name="6. modified - show files" >
         <echo>Shows changes not yet staged for commit.</echo>
         <echo>Shows the difference between your index and working tree.</echo>
         <exec executable="git">
@@ -108,6 +108,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <arg line="${file_name}"/>
         </exec>
     </target>
+    <target name="file - modified - show changes" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
+    <target name="file - staged - show changes" >
+        <echo>Shows changes not yet staged for commit.</echo>
+        <echo>Shows the difference between your index and working tree.</echo>
+        <exec executable="bash">
+            <arg value="-c"/>
+            <arg value="git diff --staged --name-only | tr -s '[\n ]' ',' | awk '{ print substr( $0, 1, length($0)-1 ) }'"/>
+            <redirector outputproperty="lst_files" errorproperty="redirector.err"/>
+        </exec>
+        <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
+        <exec executable="git">
+            <arg line="diff"/>
+            <arg line="--staged"/>
+            <arg line="${file_name}"/>
+        </exec>
+    </target>
     <target name="file - list commits in all branches which touched file">
         <exec executable="git">
             <arg line="branch"/>
@@ -128,7 +157,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <arg line="--full-history"/>
             <arg line="--oneline"/>
             <arg line="--"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - show commit history">
@@ -148,7 +177,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <arg line="--follow"/>
             <arg line="--oneline"/>
             <arg line="--"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - show commit history with changes">
@@ -170,7 +199,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <arg line="--oneline"/>
             <arg line="-p"/>
             <arg line="--"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - modified - stage">
@@ -182,7 +211,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
         <exec executable="git">
             <arg line="add"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - untracked - stage">
@@ -195,7 +224,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
         <exec executable="git">
             <arg line="add"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
         </exec>
     </target>
     <target name="file - staged - commit">
@@ -207,7 +236,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
         <input  message="What is file name?" validargs="${lst_files}" addproperty="file_name" />
         <exec executable="git">
             <arg line="commit"/>
-            <arg line="**${file_name}"/>
+            <arg line="${file_name}"/>
             <arg line="-m"/>
             <arg line="'fix ${file_name}'"/>
         </exec>

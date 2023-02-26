@@ -362,3 +362,9 @@ RELEASE NOTES
 
       Fix round up on meal plan
       Add log display area
+
+1230
+
+      Fix add food to category bug
+      Fix mix import logic
+      Fix meal portion reload on mix food delete
