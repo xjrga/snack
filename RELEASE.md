@@ -368,3 +368,7 @@ RELEASE NOTES
       Fix add food to category bug
       Fix mix import logic
       Fix meal portion reload on mix food delete
+
+1240
+
+      Fix meal portion reload on solve

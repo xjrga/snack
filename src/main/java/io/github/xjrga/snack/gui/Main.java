@@ -3628,7 +3628,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1230" );
+        sb.append( "This is build 1240" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -4787,6 +4787,8 @@ public class Main {
                 resize_tbl_editor_results();
                 dbLink.apportion( mixid );
                 dbLink.stopTransaction();
+                reload_tblmdl_portion( mixid );
+                resize_col_tbl_meal_portions();
             } else {
                 sbAll.append( "/*\n" );
                 sbAll.append( lpModel.getDescription() );
