@@ -1,0 +1,61 @@
+﻿<xsd:schema version="1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="food" type="food">
+        <xsd:annotation>
+            <xsd:documentation>
+                Data Exchange Document Schema For Snack Software Food
+                Snack: Learning Software For Nutrition
+                Author: Jorge Rolando Garcia de Alba
+                Version: 01
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="food">
+        <xsd:sequence>
+            <xsd:element name="foodid" type="xsd:string" />
+            <xsd:element name="name" type="xsd:string" />
+            <xsd:element name="alcohol" type="xsd:decimal" />
+            <xsd:element name="calcium" type="xsd:decimal" />
+            <xsd:element name="carbohydrate_by_difference" type="xsd:decimal" />
+            <xsd:element name="cholesterol" type="xsd:decimal" />
+            <xsd:element name="choline" type="xsd:decimal" />
+            <xsd:element name="complete_protein" type="xsd:decimal" />
+            <xsd:element name="copper" type="xsd:decimal" />
+            <xsd:element name="cost" type="xsd:decimal" />
+            <xsd:element name="dha" type="xsd:decimal" />
+            <xsd:element name="energy_gross" type="xsd:decimal" />
+            <xsd:element name="epa" type="xsd:decimal" />
+            <xsd:element name="fat" type="xsd:decimal" />
+            <xsd:element name="fiber" type="xsd:decimal" />
+            <xsd:element name="folate" type="xsd:decimal" />
+            <xsd:element name="iron" type="xsd:decimal" />
+            <xsd:element name="linoleic" type="xsd:decimal" />
+            <xsd:element name="linolenic" type="xsd:decimal" />
+            <xsd:element name="magnesium" type="xsd:decimal" />
+            <xsd:element name="manganese" type="xsd:decimal" />
+            <xsd:element name="mufa" type="xsd:decimal" />
+            <xsd:element name="niacin" type="xsd:decimal" />
+            <xsd:element name="pantothenic_acid" type="xsd:decimal" />
+            <xsd:element name="phosphorus" type="xsd:decimal" />
+            <xsd:element name="potassium" type="xsd:decimal" />
+            <xsd:element name="protein" type="xsd:decimal" />
+            <xsd:element name="pufa" type="xsd:decimal" />
+            <xsd:element name="riboflavin" type="xsd:decimal" />
+            <xsd:element name="selenium" type="xsd:decimal" />
+            <xsd:element name="sfa" type="xsd:decimal" />
+            <xsd:element name="sodium" type="xsd:decimal" />
+            <xsd:element name="thiamin" type="xsd:decimal" />
+            <xsd:element name="vitamin_a" type="xsd:decimal" />
+            <xsd:element name="vitamin_b12" type="xsd:decimal" />
+            <xsd:element name="vitamin_b6" type="xsd:decimal" />
+            <xsd:element name="vitamin_c" type="xsd:decimal" />
+            <xsd:element name="vitamin_d" type="xsd:decimal" />
+            <xsd:element name="vitamin_e" type="xsd:decimal" />
+            <xsd:element name="vitamin_k" type="xsd:decimal" />
+            <xsd:element name="water" type="xsd:decimal" />
+            <xsd:element name="weight" type="xsd:decimal" />
+            <xsd:element name="zinc" type="xsd:decimal" />
+            <xsd:element name="glycemicindex" type="xsd:decimal" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

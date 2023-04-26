@@ -94,8 +94,10 @@ import io.github.xjrga.snack.other.TableHeaderResultsByMealCalories;
 import io.github.xjrga.snack.other.TableHeaderResultsByMealGrams;
 import io.github.xjrga.snack.other.TableHeaderVitamins;
 import io.github.xjrga.snack.other.TableHeaderWater;
-import io.github.xjrga.snack.other.Xml_receive;
-import io.github.xjrga.snack.other.Xml_send;
+import io.github.xjrga.snack.other.Xml_food_receive;
+import io.github.xjrga.snack.other.Xml_food_send;
+import io.github.xjrga.snack.other.Xml_model_receive;
+import io.github.xjrga.snack.other.Xml_model_send;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -112,7 +114,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -261,6 +262,8 @@ public class Main {
     private final JList lst_selected_food = new JList();
     private final JMenuItem mnui_export_model = new JMenuItem();
     private final JMenuItem mnui_import_model = new JMenuItem();
+    private final JMenuItem mnui_export_food = new JMenuItem();
+    private final JMenuItem mnui_import_food = new JMenuItem();
     private final JMenuItem mnui_show_mix_stats = new JMenuItem();
     private final JMenuItem mnui_error_log = new JMenuItem();
     private final JMenuItem mnui_About = new JMenuItem();
@@ -290,7 +293,8 @@ public class Main {
     private final JMenuItem mnui_add_mix_to_foodlist = new JMenuItem();
     private final JMenuItem mnui_pin_mix = new JMenuItem( "Pin" );
     private final JMenu menuData = new JMenu();
-    private final JMenu mnu_exchange = new JMenu();
+    private final JMenu mnu_mix_exchange = new JMenu();
+    private final JMenu mnu_food_exchange = new JMenu();
     private final JMenu menuHelp = new JMenu();
     private final JMenu menuProgram = new JMenu();
     private final JMenu menuSettings = new JMenu();
@@ -569,23 +573,7 @@ public class Main {
         resize_col_tbl_results_by_meal_calories();
         resize_col_tbl_results_by_meal_grams();
         resize_tbls_constraint();
-        main_tabbed_pane.addChangeListener( ( ChangeEvent e ) ->
-        {
-            switch ( main_tabbed_pane.getSelectedIndex() ) {
-                case 0:
-                    mnui_show_mix_stats.setEnabled( true );
-                    mnui_export_model.setEnabled( true );
-                    break;
-                case 1:
-                    mnui_show_mix_stats.setEnabled( true );
-                    mnui_export_model.setEnabled( true );
-                    break;
-                default:
-                    mnui_show_mix_stats.setEnabled( false );
-                    mnui_export_model.setEnabled( false );
-                    break;
-            }
-        } );
+        mnui_export_food.setEnabled( false );
         cmb_mix.setMaximumRowCount( 24 );
         if ( cmb_mix.getSelectedItem() != null ) {
             cmb_mix.setSelectedIndex( 0 );
@@ -809,7 +797,28 @@ public class Main {
         scr_log.setPreferredSize( new Dimension( 754, 575 ) );
         JComponent[] inputs = new JComponent[ 1 ];
         inputs[ 0 ] = scr_log;
-        Message.showOptionDialog( inputs, "Log" );
+        txa_log.addKeyListener( new KeyListener() {
+            @Override
+            public void keyPressed( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_DELETE ) {
+                    txa_log.setText( "" );
+                    Log.Log2.clear();
+                }
+            }
+
+            @Override
+            public void keyTyped( KeyEvent e ) {
+            }
+
+            @Override
+            public void keyReleased( KeyEvent e ) {
+            }
+        } );
+        Message.showOptionDialog( inputs, "Log (For Developers)" );
+    }
+
+    private void process_evt_tbl_food_list() {
+        mnui_export_food.setEnabled( true );
     }
 
     private void process_evt_tbl_food_nutrient_constraint() {
@@ -1023,15 +1032,18 @@ public class Main {
         menuTools.add( menuItemGlycemicIndexRange );
         menuTools.add( mnui_alpha_linolenic_acid_required );
         menuData.add( mnu_spreadsheet );
-        menuData.add( mnu_exchange );
+        menuData.add( mnu_mix_exchange );
+        menuData.add( mnu_food_exchange );
         mnu_spreadsheet.add( menuItemExportFoodList );
         mnu_spreadsheet.add( menuItemExportFoodComparison );
         mnu_spreadsheet.add( mnui_export_rda );
         mnu_spreadsheet.add( mnui_export_mixcomparison );
         mnu_spreadsheet.add( menuItemExportNutrientLookup );
         mnu_spreadsheet.add( mnui_export_mealplan );
-        mnu_exchange.add( mnui_import_model );
-        mnu_exchange.add( mnui_export_model );
+        mnu_mix_exchange.add( mnui_import_model );
+        mnu_mix_exchange.add( mnui_export_model );
+        mnu_food_exchange.add( mnui_import_food );
+        mnu_food_exchange.add( mnui_export_food );
         menuHelp.add( menuItemGuide );
         menuHelp.add( menuItemCredits );
         menuHelp.add( mnui_About );
@@ -1063,7 +1075,8 @@ public class Main {
         mnui_alpha_linolenic_acid_required.setText( "Alpha-Linolenic Acid Required" );
         menuItemGlycemicIndexRange.setText( "Glycemic Index Range Of A Food Item" );
         mnu_spreadsheet.setText( "Spreadsheet" );
-        mnu_exchange.setText( "Exchange" );
+        mnu_mix_exchange.setText( "Mix" );
+        mnu_food_exchange.setText( "Food" );
         menuItemExportFoodList.setText( "Food List" );
         menuItemExportFoodComparison.setText( "Food Comparison" );
         mnui_export_rda.setText( "Mix Rda" );
@@ -1072,6 +1085,8 @@ public class Main {
         mnui_export_mealplan.setText( "Meal Plan " );
         mnui_import_model.setText( "Import" );
         mnui_export_model.setText( "Export" );
+        mnui_import_food.setText( "Import" );
+        mnui_export_food.setText( "Export" );
         checkBoxResultRoundUp.setText( "Round Up" );
         menuItemConstraintsShownInList.setText( "Nutrients, Energies and Cost Shown As Constraints" );
         menuItemGuide.setText( "Guide" );
@@ -1163,6 +1178,18 @@ public class Main {
         {
             frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             process_evt_mnui_import_model();
+            frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        } );
+        mnui_export_food.addActionListener( ( ActionEvent e ) ->
+        {
+            frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+            process_evt_mnui_export_food();
+            frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        } );
+        mnui_import_food.addActionListener( ( ActionEvent e ) ->
+        {
+            frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+            process_evt_mnui_import_food();
             frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         } );
         menuItemGuide.addActionListener( ( ActionEvent e ) ->
@@ -1500,11 +1527,11 @@ public class Main {
     private JPanel get_editor() {
         JPanel panel = new JPanel();
         FormLayout layout = new FormLayout( "min:grow", //columns
-                                            "fill:min:grow,min" //rows
+                                            "min,fill:min:grow" //rows
         );
         panel.setLayout( layout );
-        panel.add( get_editor_solution(), cc.xy( 1, 1 ) );
-        panel.add( get_editor_mixes(), cc.xy( 1, 2 ) );
+        panel.add( get_editor_mixes(), cc.xy( 1, 1 ) );
+        panel.add( get_editor_solution(), cc.xy( 1, 2 ) );
         cmb_mix.addActionListener( ( ActionEvent e ) ->
         {
             if ( cmb_mix.getSelectedItem() != null ) {
@@ -2654,6 +2681,11 @@ public class Main {
         tableFoodList01.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         tableFoodList01.setFillsViewportHeight( true );
         tableFoodList01.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        tableFoodList01.getSelectionModel().addListSelectionListener( (
+                ListSelectionEvent e ) ->
+        {
+            process_evt_tbl_food_list();
+        } );
         reload_food_items();
         resize_col_tbl_food_list();
         JPopupMenu popMenu = new JPopupMenu();
@@ -3220,6 +3252,7 @@ public class Main {
         try {
             String foodId = dbLink.Food_Insert_Temp( "New Food Item Name" );
             update_food_item( foodId, -1 );
+            mnui_export_food.setEnabled( false );
         } catch ( SQLException e ) {
 
         }
@@ -3238,6 +3271,7 @@ public class Main {
         if ( selectedRowNo != -1 ) {
             String foodId = ( String ) tableFoodList01.getValueAt( selectedRowNo, 0 );
             delete_food_item( foodId );
+            mnui_export_food.setEnabled( false );
         }
     }
 
@@ -3628,7 +3662,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1240" );
+        sb.append( "This is build 1250" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -5753,7 +5787,7 @@ public class Main {
         sb.append( File.separator );
         sb.append( "model" );
         sb.append( File.separator );
-        sb.append( "export.xml" );
+        sb.append( "model.xml" );
         fileChooser.setSelectedFile( new File( sb.toString() ) );
         int returnVal = fileChooser.showSaveDialog( frame );
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
@@ -5762,12 +5796,43 @@ public class Main {
             switch ( main_tabbed_pane.getSelectedIndex() ) {
                 case 0:
                     frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-                    Xml_send send = new Xml_send( dbLink, mixid, path );
+                    Xml_model_send send = new Xml_model_send( dbLink, mixid, path );
                     frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
                     show_message_sent( path );
                     break;
 
             }
+        }
+    }
+
+    private void process_evt_mnui_export_food() {
+        int selectedRow = tableFoodList01.getSelectedRow();
+        if ( selectedRow != -1 ) {
+            fileChooser.setAcceptAllFileFilterUsed( false );
+            fileChooser.addChoosableFileFilter( new FileNameExtensionFilter( "Xml Document", "xml" ) );
+            StringBuilder sb = new StringBuilder();
+            sb.append( System.getProperty( "user.dir" ) );
+            sb.append( File.separator );
+            sb.append( "model" );
+            sb.append( File.separator );
+            sb.append( "food.xml" );
+            fileChooser.setSelectedFile( new File( sb.toString() ) );
+            int returnVal = fileChooser.showSaveDialog( frame );
+            if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+                File file = fileChooser.getSelectedFile();
+                String path = file.getAbsolutePath();
+                switch ( main_tabbed_pane.getSelectedIndex() ) {
+                    case 1:
+                        String foodid = ( String ) tableFoodList01.getValueAt( selectedRow, 0 );
+                        frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+                        Xml_food_send send = new Xml_food_send( dbLink, foodid, path );
+                        frame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                        show_message_sent( path );
+                        break;
+                }
+            }
+        } else {
+            Message.showMessage( "Go to food list and select a food item" );
         }
     }
 
@@ -5793,12 +5858,32 @@ public class Main {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
             fileChooser.setCurrentDirectory( new File( path ) );
-            Xml_receive receive = new Xml_receive( dbLink );
+            Xml_model_receive receive = new Xml_model_receive( dbLink );
             receive.import_snack_data( path );
             modelListCategory.reload();
             reload_food_items();
             resize_col_tbl_food_list();
             set_selected_index_cmb_mix();
+        }
+        return returnVal;
+    }
+
+    private int process_evt_mnui_import_food() {
+        fileChooser.setAcceptAllFileFilterUsed( false );
+        fileChooser.addChoosableFileFilter( new FileNameExtensionFilter( "Xml Document", "xml" ) );
+        fileChooser.setSelectedFile( new File( "" ) );
+        int returnVal = fileChooser.showOpenDialog( frame );
+        if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            fileChooser.setCurrentDirectory( new File( path ) );
+            //todo - create Xml_food_receive class
+            Xml_food_receive receive = new Xml_food_receive( dbLink );
+            receive.import_snack_data( path );
+            modelListCategory.reload();
+            reload_food_items();
+            resize_col_tbl_food_list();
+            mnui_export_food.setEnabled( false );
         }
         return returnVal;
     }

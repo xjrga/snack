@@ -17,4 +17,8 @@ public enum Log {
     public String get_text() {
         return error_log_builder.toString();
     }
+
+    public void clear() {
+        error_log_builder.setLength( 0 );
+    }
 }

@@ -372,3 +372,11 @@ RELEASE NOTES
 1240
 
       Fix meal portion reload on solve
+
+1250
+
+      Add xml import and export of individual food items
+      Moved mix combo box to top
+      Add key delete erases log
+      Add food item xml schema
+

@@ -48,7 +48,7 @@ import javax.xml.stream.events.XMLEvent;
  *
  * @author Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
  */
-public class Xml_receive {
+public class Xml_model_receive {
 
     private final XMLInputFactory inputFactory;
     private XMLEventReader eventReader;
@@ -61,7 +61,7 @@ public class Xml_receive {
     /**
      * Constructs Xml_receive class
      */
-    public Xml_receive( DbLink dbLink ) {
+    public Xml_model_receive( DbLink dbLink ) {
         inputFactory = XMLInputFactory.newInstance();
         this.dbLink = dbLink;
     }

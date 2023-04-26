@@ -1,4 +1,4 @@
-﻿<xsd:schema version="1.0"
+<xsd:schema version="1.0"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:element name="snack">
         <xsd:annotation>
@@ -160,7 +160,7 @@
     </xsd:complexType>
     <!-- nutrient ratio constraint -->
     <xsd:complexType name="nutrient_ratio_constraint">
-        <xsd:sequence>            
+        <xsd:sequence>
             <xsd:element name="nutrientid_01" type="nutrientid" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="nutrientid_02" type="nutrientid" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="relationshipid" type="relationshipid" minOccurs="1" maxOccurs="1"/>
@@ -344,7 +344,7 @@
             <xsd:enumeration value = "645"/>
             <!-- Fatty acids, total polyunsaturated (g) -->
             <xsd:enumeration value = "646"/>
-        </xsd:restriction>        
+        </xsd:restriction>
     </xsd:simpleType>
     <!-- category -->
     <xsd:complexType name="category">

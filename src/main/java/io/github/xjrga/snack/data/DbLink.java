@@ -194,7 +194,7 @@ public class DbLink {
     public Double calculate_remaining_percentage( String mixid, String foodid, Integer precision )
             throws SQLException {
         Double out;
-        try (  CallableStatement proc = connection.prepareCall( "{CALL public.calculate_remaining_percentage( ?, ?, ? )}" ) ) {
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.calculate_remaining_percentage( ?, ?, ? )}" ) ) {
             proc.setString( 1, mixid );
             proc.setString( 2, foodid );
             proc.setInt( 3, precision );
@@ -1767,6 +1767,20 @@ public class DbLink {
         CallableStatement proc;
         proc = connection.prepareCall( "{CALL public.Export_xml( ? )}" );
         proc.setString( 1, mixid );
+        ResultSet rs = proc.executeQuery();
+        while ( rs.next() ) {
+            doc = rs.getString( 1 );
+        }
+        proc.close();
+        return doc;
+    }
+
+    public String export_food( String foodid )
+            throws SQLException {
+        String doc = "";
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.Select_food_as_xml( ? )}" );
+        proc.setString( 1, foodid );
         ResultSet rs = proc.executeQuery();
         while ( rs.next() ) {
             doc = rs.getString( 1 );
