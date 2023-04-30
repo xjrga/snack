@@ -8,7 +8,7 @@ IN v_MixId LONGVARCHAR
 --
 MODIFIES SQL DATA
 --
-BEGIN ATOMIC 
+BEGIN ATOMIC
 --
 DECLARE doc LONGVARCHAR;
 --
@@ -16,7 +16,7 @@ SET doc = CHAR(10) + '<meal_list>' + CHAR(10);
 --
 FOR SELECT mixid, mealid, name, mealorder FROM meal WHERE mixid = v_MixId ORDER BY mealorder DO
 --
-SET doc = doc +  '<meal>' + CHAR(10) + '<mixid>' + mixid + '</mixid>' + CHAR(10)  + '<mealid>' + mealid + '</mealid>' + CHAR(10) + '<name>' + name + '</name>' + CHAR(10)  + '<mealorder>'  + mealorder + '</mealorder>' + CHAR(10) + '</meal>' + CHAR (10);
+SET doc = doc +  '<meal>' + CHAR(10) + '<mixid>' + mixid + '</mixid>' + CHAR(10)  + '<mealid>' + mealid + '</mealid>' + CHAR(10) + '<name>' + regexp_replace(name,'&','&amp;') + '</name>' + CHAR(10)  + '<mealorder>'  + mealorder + '</mealorder>' + CHAR(10) + '</meal>' + CHAR (10);
 --
 END FOR;
 --

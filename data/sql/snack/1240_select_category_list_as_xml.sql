@@ -8,7 +8,7 @@ IN v_MixId LONGVARCHAR
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
-BEGIN ATOMIC 
+BEGIN ATOMIC
 --
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
@@ -22,9 +22,9 @@ SET doc2 = doc2 + doc + CHAR(10) ;
 --
 SET doc = '';
 --
-FOR SELECT DISTINCT c.foodcategoryid as id, c.name as name FROM mixfood a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND   b.foodcategoryid = c.foodcategoryid AND a.mixid = v_MixId  DO 
+FOR SELECT DISTINCT c.foodcategoryid as id, c.name as name FROM mixfood a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND   b.foodcategoryid = c.foodcategoryid AND a.mixid = v_MixId  DO
 --
-SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + name + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
+SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + regexp_replace(name,'&','&amp;') + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --

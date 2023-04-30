@@ -380,3 +380,10 @@ RELEASE NOTES
       Add key delete erases log
       Add food item xml schema
 
+1260
+
+      Fix glycemic value on food import
+      Fix selected food list for mix on food list delete event
+      Fix import and export ampersand (&) bug
+
+

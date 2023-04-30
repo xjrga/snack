@@ -3246,6 +3246,7 @@ public class Main {
         modelTableFoodList.reload();
         modelTreeFoodList.reload();
         modelListFood.reload();
+        modelList_selected_food.reload( mixid );
     }
 
     private void process_evt_btn_food_list_add() {
@@ -3662,7 +3663,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1250" );
+        sb.append( "This is build 1260" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();

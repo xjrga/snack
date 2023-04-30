@@ -53,6 +53,7 @@ public class Xml_food_receive {
      */
     public Xml_food_receive( DbLink dbLink ) {
         inputFactory = XMLInputFactory.newInstance();
+        inputFactory.setProperty( "javax.xml.stream.isCoalescing", true );
         this.dbLink = dbLink;
     }
 
@@ -220,7 +221,7 @@ public class Xml_food_receive {
                                             food.setZinc( Double.valueOf( data ) );
                                             break;
                                         case "glycemicindex":
-                                            food.setZinc( Double.valueOf( data ) );
+                                            food.setGlycemicindex( Double.valueOf( data ) );
                                             break;
                                     }
                                 }
