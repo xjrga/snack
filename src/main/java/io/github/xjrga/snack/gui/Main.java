@@ -94,6 +94,7 @@ import io.github.xjrga.snack.other.TableHeaderResultsByMealCalories;
 import io.github.xjrga.snack.other.TableHeaderResultsByMealGrams;
 import io.github.xjrga.snack.other.TableHeaderVitamins;
 import io.github.xjrga.snack.other.TableHeaderWater;
+import io.github.xjrga.snack.other.Utilities;
 import io.github.xjrga.snack.other.Xml_food_receive;
 import io.github.xjrga.snack.other.Xml_food_send;
 import io.github.xjrga.snack.other.Xml_model_receive;
@@ -3663,7 +3664,7 @@ public class Main {
                 + "       - Java 11";
         sb.append( txt );
         sb.append( "\n\n" );
-        sb.append( "This is build 1260" );
+        sb.append( "This is build 1270" );
         sb.append( "\n\n" );
         sb.append( "Please send your comments and suggestions to jorge.r.garciadealba+snack@gmail.com" );
         String_display_component component = new String_display_component();
@@ -4771,7 +4772,10 @@ public class Main {
                 mdl_lst_high_score.addElement( formatter.format( objective_function_value ) );
                 lst_high_score.ensureIndexIsVisible( mdl_lst_high_score.getSize() - 1 );
                 lst_high_score.setSelectedIndex( lst_high_score.getLastVisibleIndex() );
-                sbResults.append( lbl_min.getText() ).append( ": " ).append( formatter.format( objective_function_value ) );
+                sbResults.append( "Value of objective function" ).append( ": " ).append( formatter.format( objective_function_value ) );
+                lpModel.set_value_of_objective_function( sbResults.toString() );
+                sbResults.setLength( 0 );
+                sbResults.append( "Actual values of the variables:" );
                 sbResults.append( "\n" );
                 DecimalFormat formatter2 = new DecimalFormat( "####.###" );
                 for ( int i = 0; i < point.length; i++ ) {
@@ -4780,9 +4784,6 @@ public class Main {
                     sbResults.append( " = " );
                     sbResults.append( formatter2.format( point[ i ] ) );
                     sbResults.append( " g " );
-                    sbResults.append( " = " );
-                    sbResults.append( formatter2.format( point[ i ] / 28.3495 ) );
-                    sbResults.append( " oz" );
                     sbResults.append( "\n" );
                 }
                 sbResults.setLength( sbResults.length() - 1 );
@@ -4796,21 +4797,27 @@ public class Main {
                 dbLink.fill_mixresult( mixid );
                 dbLink.delete_mixresultdn( mixid );
                 dbLink.fill_mixresultdn( mixid );
-                lpModel.setResults( sbResults.toString() );
-                lpModel.save();
+                lpModel.set_actual_values_of_the_variables( sbResults.toString() );
                 sbAll.append( "/*\n" );
-                sbAll.append( lpModel.getDescription() );
+                sbAll.append( lpModel.get_description() );
                 sbAll.append( "\n*/" );
                 sbAll.append( "\n\n" );
-                sbAll.append( lpModel.getModel() );
+                sbAll.append( lpModel.get_model() );
                 sbAll.append( "\n\n" );
                 sbAll.append( "/*\n" );
-                sbAll.append( lpModel.getResults() );
+                sbAll.append( lpModel.value_of_objective_function() );
+                sbAll.append( "\n\n" );
+                sbAll.append( lpModel.get_actual_values_of_the_variables() );
+                sbAll.append( "\n\n" );
+                sbAll.append( lpModel.get_actual_values_of_the_constraints() );
                 sbAll.append( "\n*/" );
                 sbAll.append( "\n\n" );
                 sbAll.append( "/*\n" );
-                sbAll.append( lpModel.getFeasibleMessage() );
+                sbAll.append( lpModel.get_feasible_message() );
                 sbAll.append( "\n*/" );
+                sbAll.append( "\n\n" );
+                Log.Log1.append( sbAll.toString() );
+                Utilities.write_to_file( "model/model.log", Log.Log1.get_text() );
                 dbLink.Mix_Update_Time( mixid );
                 dbLink.Mix_Update_Other( mixid, sbAll.toString() );
                 mixdataobject.setModel( sbAll.toString() );
@@ -4826,18 +4833,17 @@ public class Main {
                 resize_col_tbl_meal_portions();
             } else {
                 sbAll.append( "/*\n" );
-                sbAll.append( lpModel.getDescription() );
+                sbAll.append( lpModel.get_description() );
                 sbAll.append( "\n*/" );
                 sbAll.append( "\n\n" );
-                sbAll.append( lpModel.getModel() );
-                sbAll.append( "\n\n" );
-                sbAll.append( "/*\n" );
-                sbAll.append( lpModel.getResults() );
-                sbAll.append( "\n*/" );
+                sbAll.append( lpModel.get_model() );
                 sbAll.append( "\n\n" );
                 sbAll.append( "/*\n" );
-                sbAll.append( lpModel.getInfeasibleMessage() );
+                sbAll.append( lpModel.get_infeasible_message() );
                 sbAll.append( "\n*/" );
+                sbAll.append( "\n\n" );
+                Log.Log1.append( sbAll.toString() );
+                Utilities.write_to_file( "model/model.log", Log.Log1.get_text() );
                 dbLink.Mix_Update_Time( mixid );
                 dbLink.Mix_Update_Other( mixid, sbAll.toString() );
             }

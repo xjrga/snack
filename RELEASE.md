@@ -386,4 +386,7 @@ RELEASE NOTES
       Fix selected food list for mix on food list delete event
       Fix import and export ampersand (&) bug
 
+1270
+
+      Add actual value of constraints and bind status to model results
 

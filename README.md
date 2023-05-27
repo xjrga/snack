@@ -1,4 +1,4 @@
-[Snack](https://xjrga.github.io "Snack: Learning Software for Nutrition")
+[Snack](https://xjrga.github.io/main/#snack-learning-software-for-nutrition "Snack: Learning Software for Nutrition")
 
     Snack is learning software for nutrition, a meal design tool and calculator that
     could facilitate achieving your health goals and objectives by first helping you
@@ -10,8 +10,8 @@
     results so you can rapidly learn. Its intended audience is anyone with
     interest in nutrition.
 
-    Home page: https://github.com/xjrga/snack
-    Download: https://xjrga.github.io
+    Home page: https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    Download: https://xjrga.github.io/main/#snack-learning-software-for-nutrition
 
     Features:
         - minimize calories or cost
@@ -39,16 +39,16 @@
 
 Installing
 
-    1. Download snack-1260-app.zip from https://xjrga.github.io
-    2. unzip snack-1260-app.zip
-    3. cd snack-1260
-    4. java -jar snack-1260.jar (if you are on windows double click on jar file)
+    1. Download snack-1270-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    2. unzip snack-1270-app.zip
+    3. cd snack-1270
+    4. java -jar snack-1270.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1260
+    1270
 
 Authors
 

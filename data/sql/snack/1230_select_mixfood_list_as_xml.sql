@@ -21,7 +21,7 @@ SET doc2 = '<food_list>' + CHAR(10) ;
 ------------------------------------------------------------
 FOR SELECT a.foodid as id ,name FROM mixfood a, food b WHERE a.foodid = b.foodid  AND a.mixid = v_MixId  DO
 --
-SET doc = '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+ regexp_replace(name,'&','&amp;') +'</name>' +CHAR (10);
+SET doc = '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+ escape_xml_element_data(name) +'</name>' +CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --

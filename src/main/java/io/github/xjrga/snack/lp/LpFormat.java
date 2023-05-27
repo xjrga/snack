@@ -49,21 +49,7 @@ public class LpFormat {
     }
 
     public void constraintToLp( double[] coefficients, int rel, double value ) {
-        String relationship = "";
-        relationship = getRelationship( rel );
-        for ( int i = 0; i < coefficients.length; i++ ) {
-            double c = coefficients[ i ];
-            sb.append( c );
-            sb.append( " " );
-            sb.append( "x" );
-            sb.append( i );
-            sb.append( " + " );
-        }
-        sb.deleteCharAt( sb.length() - 1 );
-        sb.deleteCharAt( sb.length() - 1 );
-        sb.append( relationship );
-        sb.append( " " );
-        sb.append( value );
+        sb.append( generate_constraint_name( coefficients, rel, value ) );
         sb.append( ";" );
         sb.append( "\n" );
     }
@@ -86,5 +72,34 @@ public class LpFormat {
 
     public String getModel() {
         return sb.toString().strip();
+    }
+
+    public String generate_constraint_name( double[] coefficients, int rel, double value ) {
+
+        StringBuilder sb = new StringBuilder();
+        String relationship = getRelationship( rel );
+
+        sb.append( "" );
+
+        for ( int i = 0; i < coefficients.length; i++ ) {
+
+            double c = coefficients[ i ];
+            sb.append( c );
+            sb.append( " " );
+            sb.append( "x" );
+            sb.append( i );
+            sb.append( " + " );
+
+        }
+
+        sb.deleteCharAt( sb.length() - 1 );
+        sb.deleteCharAt( sb.length() - 1 );
+
+        sb.append( relationship );
+        sb.append( " " );
+        sb.append( value );
+
+        return sb.toString();
+
     }
 }

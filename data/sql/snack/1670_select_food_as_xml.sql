@@ -18,7 +18,7 @@ SET doc2 = '<food' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-in
 --
 FOR SELECT foodid as id ,name FROM food WHERE  foodid  = v_FoodId DO
 --
-SET doc = '<foodid>'+id +'</foodid>' + CHAR (10) + '<name>'+ regexp_replace(name,'&','&amp;') +'</name>' + CHAR (10);
+SET doc = '<foodid>'+id +'</foodid>' + CHAR (10) + '<name>'+ escape_xml_element_data(name) +'</name>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --

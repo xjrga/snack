@@ -88,27 +88,23 @@ public class Utilities {
         boolean result = false;
         Source xmlDoc = new StreamSource( new File( xmldoc_path ) );
         SchemaFactory schemaFactory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
+        Validator validator = null;
         try {
             Schema xmlSchema = schemaFactory.newSchema( new File( schema_path ) );
-            Validator validator = xmlSchema.newValidator();
-            try {
-                try {
-                    validator.validate( xmlDoc );
-                } catch ( IOException e ) {
-                    Log.Log2.append( "Xml doc validation error: " );
-                    Log.Log2.append( e.getLocalizedMessage() );
-                    Log.Log2.append( "\n" );
-                }
-                result = true;
-            } catch ( SAXException e ) {
-                Log.Log2.append( "Xml doc validation error: " );
-                Log.Log2.append( e.getLocalizedMessage() );
-                Log.Log2.append( "\n" );
-            }
+            validator = xmlSchema.newValidator();
         } catch ( SAXException e ) {
             Log.Log2.append( "Xml doc validation error: " );
             Log.Log2.append( e.getLocalizedMessage() );
             Log.Log2.append( "\n" );
+        } finally {
+            try {
+                validator.validate( xmlDoc );
+                result = true;
+            } catch ( SAXException | IOException e ) {
+                Log.Log2.append( "Xml doc validation error: " );
+                Log.Log2.append( e.getLocalizedMessage() );
+                Log.Log2.append( "\n" );
+            }
         }
         return result;
     }

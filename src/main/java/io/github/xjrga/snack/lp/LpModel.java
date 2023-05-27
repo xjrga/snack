@@ -20,14 +20,17 @@
 package io.github.xjrga.snack.lp;
 
 import com.jgoodies.forms.layout.CellConstraints;
-import io.github.xjrga.snack.other.Log;
 import io.github.xjrga.snack.gui.Message;
-import io.github.xjrga.snack.other.Utilities;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import javax.swing.*;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.util.Precision;
 
 /*
  * @author  Jorge R Garcia de Alba
@@ -45,9 +48,12 @@ public class LpModel {
     private String title;
     private String date;
     private String variables;
-    private String results;
+    private String value_of_objective_function;
+    private String actual_values_of_the_variables;
     private final CellConstraints cc = new CellConstraints();
     private JTabbedPane component;
+    private LinearConstraintSet linearConstraintSet;
+    private HashMap<String, String> map = new HashMap();
 
     public LpModel() {
         constraints = new ArrayList();
@@ -80,6 +86,7 @@ public class LpModel {
         //Linear Constraint
         LinearConstraint c = new LinearConstraint( coefficients, relationship, amount );
         constraints.add( c );
+        map.put( c.toString(), lp.generate_constraint_name( coefficients, rel, amount ) );
         lp.constraintToLp( coefficients, rel, amount );
     }
 
@@ -87,31 +94,17 @@ public class LpModel {
         boolean flag = false;
         try {
             //Constraint Set
-            LinearConstraintSet linearConstraintSet = new LinearConstraintSet( constraints );
+            linearConstraintSet = new LinearConstraintSet( constraints );
             //Solution
             if ( !linearConstraintSet.getConstraints().isEmpty() ) {
                 GoalType minimize = GoalType.MINIMIZE;
                 NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint( true );
-                Log.Log1.append( "/*" );
-                Log.Log1.append( getDescription() );
-                Log.Log1.append( "*/\n" );
-                Log.Log1.append( "" );
-                Log.Log1.append( getModel() );
                 PointValuePair solution = (new SimplexSolver()).optimize( linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint );
                 point = solution.getPoint();
                 cost = solution.getSecond();
                 flag = true;
             }
         } catch ( Exception e ) {
-            Log.Log1.append( "" );
-            Log.Log1.append( "/*" );
-            Log.Log1.append( getResults() );
-            Log.Log1.append( "*/" );
-            Log.Log1.append( "" );
-            Log.Log1.append( "/*" );
-            Log.Log1.append( getInfeasibleMessage() );
-            Log.Log1.append( "*/\n" );
-            Utilities.write_to_file( "model/model.log", Log.Log1.get_text() );
             JComponent[] inputs = new JComponent[] {
                 component
             };
@@ -162,7 +155,7 @@ public class LpModel {
         this.variables = legend;
     }
 
-    public String getDescription() {
+    public String get_description() {
         StringBuilder sb = new StringBuilder();
         sb.append( getTitle() );
         sb.append( "\n" );
@@ -172,44 +165,70 @@ public class LpModel {
         return sb.toString();
     }
 
-    public String getModel() {
+    public String get_model() {
         return lp.getModel();
     }
 
-    public String getResults() {
+    public String get_actual_values_of_the_variables() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "Results" );
-        sb.append( "\n" );
-        sb.append( results );
+        sb.append( actual_values_of_the_variables );
         return sb.toString();
     }
 
-    public void setResults( String results ) {
-        this.results = results;
+    public void set_actual_values_of_the_variables( String txt ) {
+        this.actual_values_of_the_variables = txt;
     }
 
-    public void save() {
-        Log.Log1.append( "\n" );
-        Log.Log1.append( "/*" );
-        Log.Log1.append( getResults() );
-        Log.Log1.append( "*/" );
-        Log.Log1.append( "\n" );
-        Log.Log1.append( "/*" );
-        Log.Log1.append( getFeasibleMessage() );
-        Log.Log1.append( "*/" );
-        Log.Log1.append( "\n" );
-        Utilities.write_to_file( "model/model.log", Log.Log1.get_text() );
+    public String value_of_objective_function() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( value_of_objective_function );
+        return sb.toString();
     }
 
-    public String getInfeasibleMessage() {
+    public void set_value_of_objective_function( String txt ) {
+        this.value_of_objective_function = txt;
+    }
+
+    public String get_infeasible_message() {
         return "Model is infeasible. No solution exists which satisfies all the constraints.";
     }
 
-    public String getFeasibleMessage() {
+    public String get_feasible_message() {
         return "Model is feasible. A solution exists which satisfies all the constraints.";
     }
 
     public void setComponent( JTabbedPane component ) {
         this.component = component;
+    }
+
+    private double get_actual_value_of_constraint( RealVector v, double value, double[] point ) {
+        ArrayRealVector rvpoint = new ArrayRealVector( point );
+        return v.dotProduct( rvpoint );
+    }
+
+    private boolean get_constraint_binding_status( double value, double dot_product ) {
+        boolean flag = false;
+        double epsilon = 0.000001d;
+        if ( Precision.equals( value, dot_product, epsilon ) ) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    public String get_actual_values_of_the_constraints() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( "Actual values of the constraints:" );
+        sb.append( "\n" );
+        Collection<LinearConstraint> cs = linearConstraintSet.getConstraints();
+        for ( LinearConstraint lc : cs ) {
+            String name = map.get( lc.toString() );
+            sb.append( name )
+                    .append( ", " )
+                    .append( get_actual_value_of_constraint( lc.getCoefficients(), lc.getValue(), point ) )
+                    .append( ", " )
+                    .append( get_constraint_binding_status( lc.getValue(), get_actual_value_of_constraint( lc.getCoefficients(), lc.getValue(), point ) ) );
+            sb.append( "\n" );
+        }
+        return sb.toString().stripTrailing();
     }
 }

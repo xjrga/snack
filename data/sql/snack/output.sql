@@ -3793,9 +3793,9 @@ OPEN result;
 END;
 /
 
-call relationship_insert(1,'>');
+call relationship_insert(1,'≥');
 /
-call relationship_insert(2,'<');
+call relationship_insert(2,'≤');
 /
 call relationship_insert(3,'=');
 /
@@ -4441,6 +4441,23 @@ END;
 /
 
 
+CREATE FUNCTION escape_xml_element_data (IN v_text LONGVARCHAR) RETURNS LONGVARCHAR
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_clean LONGVARCHAR;
+--
+SET v_clean = REGEXP_REPLACE (v_text,'&','&amp;');
+SET v_clean = REGEXP_REPLACE (v_clean,'<','&lt;');
+SET v_clean = REGEXP_REPLACE (v_clean,'>','&gt;');
+--
+RETURN v_clean;
+
+--
+END;
+/
+
+
 CREATE PROCEDURE Select_mix_as_xml (
 --
 OUT v_doc LONGVARCHAR,
@@ -4457,7 +4474,7 @@ DECLARE doc LONGVARCHAR;
 --
 SET doc = '';
 --
-SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + regexp_replace(Name,'&','&amp;') + '</name>' + CHAR(10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + escape_xml_element_data(Name) + '</name>' + CHAR(10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
 --
 SET v_doc = doc + CHAR (10);
 --
@@ -4487,7 +4504,7 @@ SET doc2 = '<food_list>' + CHAR(10) ;
 ------------------------------------------------------------
 FOR SELECT a.foodid as id ,name FROM mixfood a, food b WHERE a.foodid = b.foodid  AND a.mixid = v_MixId  DO
 --
-SET doc = '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+ regexp_replace(name,'&','&amp;') +'</name>' +CHAR (10);
+SET doc = '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+ escape_xml_element_data(name) +'</name>' +CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
@@ -4547,7 +4564,7 @@ SET doc = '';
 --
 FOR SELECT DISTINCT c.foodcategoryid as id, c.name as name FROM mixfood a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND   b.foodcategoryid = c.foodcategoryid AND a.mixid = v_MixId  DO
 --
-SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + regexp_replace(name,'&','&amp;') + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
+SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + escape_xml_element_data(name) + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
@@ -5884,7 +5901,7 @@ SET doc = CHAR(10) + '<meal_list>' + CHAR(10);
 --
 FOR SELECT mixid, mealid, name, mealorder FROM meal WHERE mixid = v_MixId ORDER BY mealorder DO
 --
-SET doc = doc +  '<meal>' + CHAR(10) + '<mixid>' + mixid + '</mixid>' + CHAR(10)  + '<mealid>' + mealid + '</mealid>' + CHAR(10) + '<name>' + regexp_replace(name,'&','&amp;') + '</name>' + CHAR(10)  + '<mealorder>'  + mealorder + '</mealorder>' + CHAR(10) + '</meal>' + CHAR (10);
+SET doc = doc +  '<meal>' + CHAR(10) + '<mixid>' + mixid + '</mixid>' + CHAR(10)  + '<mealid>' + mealid + '</mealid>' + CHAR(10) + '<name>' + escape_xml_element_data(name) + '</name>' + CHAR(10)  + '<mealorder>'  + mealorder + '</mealorder>' + CHAR(10) + '</meal>' + CHAR (10);
 --
 END FOR;
 --
@@ -6716,7 +6733,7 @@ SET doc2 = '<food' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-in
 --
 FOR SELECT foodid as id ,name FROM food WHERE  foodid  = v_FoodId DO
 --
-SET doc = '<foodid>'+id +'</foodid>' + CHAR (10) + '<name>'+ regexp_replace(name,'&','&amp;') +'</name>' + CHAR (10);
+SET doc = '<foodid>'+id +'</foodid>' + CHAR (10) + '<name>'+ escape_xml_element_data(name) +'</name>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
