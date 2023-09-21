@@ -33,6 +33,10 @@ public enum Nutrient {
     FOLATE( "435", "Folate, DFE (µg)", "Folate" ),
     CHOLESTEROL( "601", "Cholesterol (mg)", "Cholesterol" ),
     SFA( "606", "Fatty acids, total saturated (g)", "Saturated" ),
+    LAURIC( "611", "Lauric, 12:0 (g)", "Lauric" ),
+    MYRISTIC( "612", "Myristic, 14:0 (g)", "Myristic" ),
+    PALMITIC( "613", "Palmitic, 16:0 (g)", "Palmitic" ),
+    STEARIC( "614", "Stearic, 18:0 (g)", "Stearic" ),
     DHA( "621", "22:6 n-3 (DHA) (g)", "DHA" ),
     EPA( "629", "20:5 n-3 (EPA) (g)", "EPA" ),
     MUFA( "645", "Fatty acids, total monounsaturated (g)", "Monounsaturated" ),
@@ -53,25 +57,20 @@ public enum Nutrient {
     //LINOLEIC("675", "18:2 n-6 c,c (LA) (g)", "Linoleic"),
     //ALPHALINOLENIC("851", "18:3 n-3 c,c,c (ALA) (g)", "AlphaLinolenic"),
     ;
-
     private final String Number;
     private final String Name;
     private final String Label;
-
     Nutrient( String number, String name, String label ) {
         this.Number = number;
         this.Name = name;
         this.Label = label;
     }
-
     public String getNumber() {
         return Number;
     }
-
     public String getName() {
         return Name;
     }
-
     public String getLabel() {
         return Label;
     }

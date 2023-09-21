@@ -5,11 +5,10 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderMinerals
         extends MyTableHeader {
-
     public TableHeaderMinerals( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
-            "Weight",
+            "Weight (g)",
             "Calcium, Ca (mg)",
             "Phosphorus, P (mg)",
             "Magnesium, Mg (mg)",
@@ -20,7 +19,6 @@ public class TableHeaderMinerals
             "Selenium, Se (mcg)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

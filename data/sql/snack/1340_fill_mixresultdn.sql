@@ -61,7 +61,11 @@ energycarbohydrate,
 energyprotein,
 energyfat,
 energyalcohol,
-energyfatcarbohydrate
+energyfatcarbohydrate,
+lauric,
+myristic,
+palmitic,
+stearic
 )
 SELECT a.MixId,
        a.FoodId,
@@ -84,7 +88,7 @@ SELECT a.MixId,
        Potassium,
        Sodium,
        Zinc,
-       Copper,       
+       Copper,
        Manganese,
        Selenium,
        VitaminA,
@@ -114,7 +118,11 @@ SELECT a.MixId,
        EnergyProtein,
        EnergyFat,
        EnergyAlcohol,
-       EnergyFatCarbohydrate
+       EnergyFatCarbohydrate,
+       Lauric,
+       Myristic,
+       Palmitic,
+       Stearic
 FROM (SELECT x0.Mixid,
              x0.Foodid,
              x1.Weight,
@@ -135,7 +143,7 @@ FROM (SELECT x0.Mixid,
              x20.Potassium,
              x21.Sodium,
              x22.Zinc,
-             x23.Copper,             
+             x23.Copper,
              x25.Manganese,
              x26.Selenium,
              x27.VitaminA,
@@ -165,7 +173,11 @@ FROM (SELECT x0.Mixid,
              x54.EnergyProtein,
              x55.EnergyFat,
              x56.EnergyAlcohol,
-             x57.EnergyFatCarbohydrate
+             x57.EnergyFatCarbohydrate,
+             x58.Lauric,
+             x59.Myristic,
+             x60.Palmitic,
+             x61.Stearic
       FROM
       --
       (SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
@@ -518,7 +530,35 @@ FROM (SELECT x0.Mixid,
               q AS EnergyFatCarbohydrate
        FROM mixresult
        WHERE mixid = v_MixId
-       AND   nutrientid = '10010') x57
+       AND   nutrientid = '10010') x57,
+           --611, Lauric, 12:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Lauric
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '611') x58,
+           --612, Myristic, 14:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Myristic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '612') x59,
+           --613, Palmitic, 16:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Palmitic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '613') x60,
+           --614, Stearic, 18:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Stearic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '614') x61
       --
       WHERE x0.mixid = x1.mixid
       AND   x0.foodid = x1.foodid
@@ -616,7 +656,16 @@ FROM (SELECT x0.Mixid,
       AND   x0.foodid = x55.foodid
       AND   x0.mixid = x56.mixid
       AND   x0.foodid = x56.foodid
-      AND   x0.foodid = x57.foodid) a,
+      AND   x0.mixid = x57.mixid
+      AND   x0.foodid = x57.foodid
+      AND   x0.mixid = x58.mixid
+      AND   x0.foodid = x58.foodid
+      AND   x0.mixid = x59.mixid
+      AND   x0.foodid = x59.foodid
+      AND   x0.mixid = x60.mixid
+      AND   x0.foodid = x60.foodid
+      AND   x0.mixid = x61.mixid
+      AND   x0.foodid = x61.foodid) a,
      (SELECT foodid, name FROM food) b
 WHERE a.foodid = b.foodid;
 --

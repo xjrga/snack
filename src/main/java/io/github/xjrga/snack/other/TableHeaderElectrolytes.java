@@ -5,16 +5,15 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderElectrolytes
         extends MyTableHeader {
-
     public TableHeaderElectrolytes( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
-            "Weight",
+            "Weight (g)",
+            "Water (g)",
             "Sodium, Na (mg)",
             "Potassium, K (mg)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

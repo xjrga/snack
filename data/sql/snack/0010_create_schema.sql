@@ -69,7 +69,7 @@ CREATE TABLE Meal
 (
         MixId LONGVARCHAR,
         MealId IDENTITY,
-        Name LONGVARCHAR,        
+        Name LONGVARCHAR,
         MealOrder INTEGER,
         CONSTRAINT Meal_primary_key PRIMARY KEY (MixId,MealId)
 );
@@ -239,6 +239,10 @@ CREATE TABLE mixresultdn
         energyfat DOUBLE,
         energyalcohol DOUBLE,
         energyfatcarbohydrate DOUBLE,
+        lauric DOUBLE,
+        myristic DOUBLE,
+        palmitic DOUBLE,
+        stearic DOUBLE,
         CONSTRAINT mixresultdn_primary_key PRIMARY KEY (mixid,foodid)
 );
 /

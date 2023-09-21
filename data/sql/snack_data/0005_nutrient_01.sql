@@ -1,77 +1,85 @@
-call Nutrient_Insert('203','Protein (g)','1','protein');
+call Nutrient_Insert('203','Protein, Total (g)','1','protein-total');
 /
-call Nutrient_Insert('204','Total lipid (Fat) (g)','2','fat');
+call Nutrient_Insert('204','Fats, Total (g)','2','fats-total');
 /
-call Nutrient_Insert('205','Carbohydrate, by difference (g)','3','carbohydrate_by_difference');
+call Nutrient_Insert('205','Carbohydrates, By Difference (g)','3','carbohydrates-carbs_by_diff');
 /
-call Nutrient_Insert('208','Energy, gross (kcal)','7','energy_gross');
+call Nutrient_Insert('208','Energy, Gross (kcal)','7','energy-gross');
 /
-call Nutrient_Insert('221','Alcohol, ethyl (g)','6','alcohol');
+call Nutrient_Insert('221','Other, Alcohol, Ethyl (g)','6','other-alcohol');
 /
-call Nutrient_Insert('255','Water (g)','6','water');
+call Nutrient_Insert('255','Other, Water (g)','6','other-water');
 /
-call Nutrient_Insert('291','Fiber, total dietary (g)','3','fiber');
+call Nutrient_Insert('291','Carbohydrates, Fiber (g)','3','carbohydrates-fiber');
 /
-call Nutrient_Insert('301','Calcium, Ca (mg)','5','calcium');
+call Nutrient_Insert('301','Minerals, Calcium (mg)','5','minerals-calcium');
 /
-call Nutrient_Insert('303','Iron, Fe (mg)','5','iron');
+call Nutrient_Insert('303','Minerals, Iron (mg)','5','minerals-iron');
 /
-call Nutrient_Insert('304','Magnesium, Mg (mg)','5','magnesium');
+call Nutrient_Insert('304','Minerals, Magnesium (mg)','5','minerals-magnesium');
 /
-call Nutrient_Insert('305','Phosphorus, P (mg)','5','phosphorus');
+call Nutrient_Insert('305','Minerals, Phosphorus (mg)','5','minerals-phosphorus');
 /
-call Nutrient_Insert('306','Potassium, K (mg)','5','potassium');
+call Nutrient_Insert('306','Minerals, Potassium (mg)','5','minerals-potassium');
 /
-call Nutrient_Insert('307','Sodium, Na (mg)','5','sodium');
+call Nutrient_Insert('307','Minerals, Sodium (mg)','5','minerals-sodium');
 /
-call Nutrient_Insert('309','Zinc, Zn (mg)','5','zinc');
+call Nutrient_Insert('309','Minerals, Zinc (mg)','5','minerals-zinc');
 /
-call Nutrient_Insert('312','Copper, Cu (mg)','5','copper');
+call Nutrient_Insert('312','Minerals, Copper (mg)','5','minerals-copper');
 /
-call Nutrient_Insert('315','Manganese, Mn (mg)','5','manganese');
+call Nutrient_Insert('315','Minerals, Manganese (mg)','5','minerals-manganese');
 /
-call Nutrient_Insert('317','Selenium, Se (µg)','5','selenium');
+call Nutrient_Insert('317','Minerals, Selenium (µg)','5','minerals-selenium');
 /
-call Nutrient_Insert('320','Vitamin A, RAE (µg)','4','vitamin_a');
+call Nutrient_Insert('320','Vitamins, A, RAE (µg)','4','vitamins-vitamin_a');
 /
-call Nutrient_Insert('323','Vitamin E (Alpha-Tocopherol) (mg)','4','vitamin_e');
+call Nutrient_Insert('323','Vitamins, E, Alpha-Tocopherol (mg)','4','vitamins-vitamin_e');
 /
-call Nutrient_Insert('328','Vitamin D (D2 + D3) (µg)','4','vitamin_d');
+call Nutrient_Insert('328','Vitamins, D, D2 + D3 (µg)','4','vitamins-vitamin_d');
 /
-call Nutrient_Insert('401','Vitamin C, total (Ascorbic Acid) (mg)','4','vitamin_c');
+call Nutrient_Insert('401','Vitamins, C, Ascorbic Acid (mg)','4','vitamins-vitamin_c');
 /
-call Nutrient_Insert('404','Thiamin (mg)','4','thiamin');
+call Nutrient_Insert('404','Vitamins, Thiamin (mg)','4','vitamins-thiamin');
 /
-call Nutrient_Insert('405','Riboflavin (mg)','4','riboflavin');
+call Nutrient_Insert('405','Vitamins, Riboflavin (mg)','4','vitamins-riboflavin');
 /
-call Nutrient_Insert('406','Niacin (mg)','4','niacin');
+call Nutrient_Insert('406','Vitamins, Niacin (mg)','4','vitamins-niacin');
 /
-call Nutrient_Insert('410','Pantothenic acid (mg)','4','pantothenic_acid');
+call Nutrient_Insert('410','Vitamins, Pantothenic Acid (mg)','4','vitamins-pantothenic_acid');
 /
-call Nutrient_Insert('415','Vitamin B-6 (mg)','4','vitamin_b6');
+call Nutrient_Insert('415','Vitamins, B6 (mg)','4','vitamins-vitamin_b6');
 /
-call Nutrient_Insert('418','Vitamin B-12 (µg)','4','vitamin_b12');
+call Nutrient_Insert('418','Vitamins, B12 (µg)','4','vitamins-vitamin_b12');
 /
-call Nutrient_Insert('421','Choline, total (mg)','4','choline');
+call Nutrient_Insert('421','Vitamins, Choline (mg)','4','vitamins-choline');
 /
-call Nutrient_Insert('430','Vitamin K (Phylloquinone) (µg)','4','vitamin_k');
+call Nutrient_Insert('430','Vitamins, K, Phylloquinone (µg)','4','vitamins-vitamin_k');
 /
-call Nutrient_Insert('435','Folate, DFE (µg)','4','folate');
+call Nutrient_Insert('435','Vitamins, Folate, DFE (µg)','4','vitamins-folate');
 /
-call Nutrient_Insert('601','Cholesterol (mg)','2','cholesterol');
+call Nutrient_Insert('601','Fats, Cholesterol (mg)','2','fats-cholesterol');
 /
-call Nutrient_Insert('606','Fatty acids, total saturated (g)','2','sfa');
+call Nutrient_Insert('606','Fats, Saturated Fatty Acids (g)','2','fats-saturated');
 /
-call Nutrient_Insert('618','18:2 undifferentiated (g) (Linoleic)','2','linoleic');
+call Nutrient_Insert('611','Fats, 12:0, Lauric Acid (g)','2','fats-lauric');
 /
-call Nutrient_Insert('619','18:3 undifferentiated (g) (Linolenic)','2','linolenic');
+call Nutrient_Insert('612','Fats, 14:0, Myristic Acid (g)','2','fats-myristic');
 /
-call Nutrient_Insert('621','22:6 n-3 (DHA) (g)','2','dha');
+call Nutrient_Insert('613','Fats, 16:0, Palmitic Acid (g)','2','fats-palmitic');
 /
-call Nutrient_Insert('629','20:5 n-3 (EPA) (g)','2','epa');
+call Nutrient_Insert('614','Fats, 18:0, Stearic Acid (g)','2','fats-stearic');
 /
-call Nutrient_Insert('645','Fatty acids, total monounsaturated (g)','2','mufa');
+call Nutrient_Insert('618','Fats, 18:2 n-6, Linoleic Acid (g)','2','fats-linoleic');
 /
-call Nutrient_Insert('646','Fatty acids, total polyunsaturated (g)','2','pufa');
+call Nutrient_Insert('619','Fats, 18:3 n-3, Linolenic Acid (g)','2','fats-linolenic');
+/
+call Nutrient_Insert('629','Fats, 20:5 n-3, EPA (g)','2','fats-epa');
+/
+call Nutrient_Insert('621','Fats, 22:6 n-3, DHA (g)','2','fats-dha');
+/
+call Nutrient_Insert('645','Fats, Monounsaturated Fatty Acids (g)','2','fats-monounsaturated');
+/
+call Nutrient_Insert('646','Fats, Polyunsaturated Fatty Acids (g)','2','fats-polyunsaturated');
 /
 

@@ -26,20 +26,18 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelElectrolytes
         extends DefaultTableModel
         implements Reload {
-
     private final Vector columns;
     private final Result_loader loader;
-
     public TableModelElectrolytes( Result_loader loader ) {
         this.loader = loader;
         columns = new Vector();
         columns.add( "Name" );
         columns.add( "Weight" );
+        columns.add( "Water" );
         columns.add( "Na" );
         columns.add( "K" );
         this.setDataVector( loader.get_electrolytes_table(), columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -50,12 +48,10 @@ public class TableModelElectrolytes
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload() {
         this.setDataVector( loader.get_electrolytes_table(), columns );

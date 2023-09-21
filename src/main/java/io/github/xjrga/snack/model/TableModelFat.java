@@ -26,10 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelFat
         extends DefaultTableModel
         implements Reload {
-
     private final Vector columns;
     private final Result_loader loader;
-
     public TableModelFat( Result_loader loader ) {
         this.loader = loader;
         columns = new Vector();
@@ -41,13 +39,8 @@ public class TableModelFat
         columns.add( "PUFA" );
         columns.add( "SFA" );
         columns.add( "CHOL" );
-        columns.add( "LA" );
-        columns.add( "ALA" );
-        columns.add( "DHA" );
-        columns.add( "EPA" );
         this.setDataVector( loader.get_fats_table(), columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -58,12 +51,10 @@ public class TableModelFat
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload() {
         this.setDataVector( loader.get_fats_table(), columns );

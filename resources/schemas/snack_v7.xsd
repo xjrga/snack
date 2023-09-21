@@ -1,0 +1,411 @@
+<xsd:schema version="1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="snack">
+        <xsd:annotation>
+            <xsd:documentation>
+                Data Exchange Document Schema For Snack Software
+                Snack: Learning Software For Nutrition
+                Author: Jorge Rolando Garcia de Alba
+                Version: 07
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- mix -->
+                <xsd:element name="mix" type="mix" minOccurs="1" maxOccurs="1"/>
+                <!-- food list -->
+                <xsd:element name="food_list" type="food_list" minOccurs="1" maxOccurs="1"/>
+                <!-- category list -->
+                <xsd:element name="category_list" type="category_list" minOccurs="1" maxOccurs="1"/>
+                <!-- category link list -->
+                <xsd:element name="category_link_list" type="category_link_list" minOccurs="1" maxOccurs="1"/>
+                <!-- nutrient constraint -->
+                <xsd:element name="nutrient_constraint_list" type="nutrient_constraint_list" minOccurs="0" maxOccurs="1"/>
+                <!-- food nutrient constraint -->
+                <xsd:element name="food_nutrient_constraint_list" type="food_nutrient_constraint_list" minOccurs="0" maxOccurs="1"/>
+                <!-- food nutrient ratio constraint -->
+                <xsd:element name="food_nutrient_ratio_constraint_list" type="food_nutrient_ratio_constraint_list" minOccurs="0" maxOccurs="1"/>
+                <!-- nutrient ratio constraint -->
+                <xsd:element name="nutrient_ratio_constraint_list" type="nutrient_ratio_constraint_list" minOccurs="0" maxOccurs="1"/>
+                <!-- nutrient percent constraint -->
+                <xsd:element name="nutrient_percent_constraint_list" type="nutrient_percent_constraint_list" minOccurs="0" maxOccurs="1"/>
+                <!-- meal list -->
+                <xsd:element name="meal_list" type="meal_list" minOccurs="0" maxOccurs="1"/>
+                <!-- meal food portion list -->
+                <xsd:element name="meal_food_portion_list" type="meal_food_portion_list" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+        <xsd:unique name="Uniquely_Specified_Food">
+            <xsd:selector xpath="food_list/food"/>
+            <xsd:field xpath="foodid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Category">
+            <xsd:selector xpath="category_list/category"/>
+            <xsd:field xpath="categoryid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Category_Link">
+            <xsd:selector xpath="category_link_list/category_link"/>
+            <xsd:field xpath="foodid"/>
+            <xsd:field xpath="categoryid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Nutrient_Constraint">
+            <xsd:selector xpath="nutrient_constraint_list/nutrient_constraint"/>
+            <xsd:field xpath="nutrientid"/>
+            <xsd:field xpath="relationshipid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Food_Nutrient_Constraint">
+            <xsd:selector xpath="food_nutrient_constraint_list/food_nutrient_constraint"/>
+            <xsd:field xpath="foodid"/>
+            <xsd:field xpath="nutrientid"/>
+            <xsd:field xpath="relationshipid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Food_Nutrient_Ratio">
+            <xsd:selector xpath="food_nutrient_ratio_constraint_list/food_nutrient_ratio_constraint"/>
+            <xsd:field xpath="foodid_01"/>
+            <xsd:field xpath="nutrientid_01"/>
+            <xsd:field xpath="foodid_02"/>
+            <xsd:field xpath="nutrientid_02"/>
+            <xsd:field xpath="relationshipid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Nutrient_Ratio">
+            <xsd:selector xpath="nutrient_ratio_constraint_list/nutrient_ratio_constraint"/>
+            <xsd:field xpath="nutrientid_01"/>
+            <xsd:field xpath="nutrientid_02"/>
+            <xsd:field xpath="relationshipid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Nutrient_Percent_Constraint">
+            <xsd:selector xpath="nutrient_percent_constraint_list/nutrient_percent_constraint"/>
+            <xsd:field xpath="foodid"/>
+            <xsd:field xpath="nutrientid"/>
+            <xsd:field xpath="relationshipid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Meal">
+            <xsd:selector xpath="meal_list/meal"/>
+            <xsd:field xpath="mixid"/>
+            <xsd:field xpath="mealid"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_meal_food_portion">
+            <xsd:selector xpath="meal_food_portion_list/meal_food_portion"/>
+            <xsd:field xpath="mixid"/>
+            <xsd:field xpath="mealid"/>
+            <xsd:field xpath="foodid"/>
+        </xsd:unique>
+    </xsd:element>
+    <!-- mix -->
+    <xsd:complexType name="mix">
+        <xsd:sequence>
+            <xsd:element name="mixid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrientid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- food list -->
+    <xsd:complexType name="food_list">
+        <xsd:sequence>
+            <xsd:element name="food" type="food" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- nutrient_constraint_list -->
+    <xsd:complexType name="nutrient_constraint_list">
+        <xsd:sequence>
+            <xsd:element name="nutrient_constraint" type="nutrient_constraint" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- nutrient constraint -->
+    <xsd:complexType name="nutrient_constraint">
+        <xsd:sequence>
+            <xsd:element name="nutrientid" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationshipid" type="relationshipid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- food_nutrient_constraint_list -->
+    <xsd:complexType name="food_nutrient_constraint_list">
+        <xsd:sequence>
+            <xsd:element name="food_nutrient_constraint" type="food_nutrient_constraint" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- food nutrient constraint -->
+    <xsd:complexType name="food_nutrient_constraint">
+        <xsd:sequence>
+            <xsd:element name="foodid" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrientid" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationshipid" type="relationshipid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- food_nutrient_ratio_constraint_list -->
+    <xsd:complexType name="food_nutrient_ratio_constraint_list">
+        <xsd:sequence>
+            <xsd:element name="food_nutrient_ratio_constraint" type="food_nutrient_ratio_constraint" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- food nutrient ratio constraint -->
+    <xsd:complexType name="food_nutrient_ratio_constraint">
+        <xsd:sequence>
+            <xsd:element name="foodid_01" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrientid_01" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="foodid_02" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrientid_02" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationshipid" type="relationshipid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="a" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- nutrient_ratio_constraint_list -->
+    <xsd:complexType name="nutrient_ratio_constraint_list">
+        <xsd:sequence>
+            <xsd:element name="nutrient_ratio_constraint" type="nutrient_ratio_constraint" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- nutrient ratio constraint -->
+    <xsd:complexType name="nutrient_ratio_constraint">
+        <xsd:sequence>
+            <xsd:element name="nutrientid_01" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrientid_02" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationshipid" type="relationshipid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="a" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- nutrient percent constraint_list -->
+    <xsd:complexType name="nutrient_percent_constraint_list">
+        <xsd:sequence>
+            <xsd:element name="nutrient_percent_constraint" type="nutrient_percent_constraint" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- nutrient percent constraint -->
+    <xsd:complexType name="nutrient_percent_constraint">
+        <xsd:sequence>
+            <xsd:element name="foodid" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrientid" type="nutrientid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationshipid" type="relationshipid" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- food -->
+    <xsd:complexType name="food">
+        <xsd:sequence>
+            <xsd:element name="food-id" type="xsd:string" />
+            <xsd:element name="food-name" type="xsd:string" />
+            <xsd:element name="carbohydrates-carbs_by_diff" type="xsd:decimal" />
+            <xsd:element name="carbohydrates-fiber" type="xsd:decimal" />
+            <xsd:element name="carbohydrates-glycemicindex" type="xsd:decimal" />
+            <xsd:element name="energy-gross" type="xsd:decimal" />
+            <xsd:element name="fats-cholesterol" type="xsd:decimal" />
+            <xsd:element name="fats-dha" type="xsd:decimal" />
+            <xsd:element name="fats-epa" type="xsd:decimal" />
+            <xsd:element name="fats-lauric" type="xsd:decimal" />
+            <xsd:element name="fats-linoleic" type="xsd:decimal" />
+            <xsd:element name="fats-linolenic" type="xsd:decimal" />
+            <xsd:element name="fats-monounsaturated" type="xsd:decimal" />
+            <xsd:element name="fats-myristic" type="xsd:decimal" />
+            <xsd:element name="fats-palmitic" type="xsd:decimal" />
+            <xsd:element name="fats-polyunsaturated" type="xsd:decimal" />
+            <xsd:element name="fats-saturated" type="xsd:decimal" />
+            <xsd:element name="fats-stearic" type="xsd:decimal" />
+            <xsd:element name="fats-total" type="xsd:decimal" />
+            <xsd:element name="minerals-calcium" type="xsd:decimal" />
+            <xsd:element name="minerals-copper" type="xsd:decimal" />
+            <xsd:element name="minerals-iron" type="xsd:decimal" />
+            <xsd:element name="minerals-magnesium" type="xsd:decimal" />
+            <xsd:element name="minerals-manganese" type="xsd:decimal" />
+            <xsd:element name="minerals-phosphorus" type="xsd:decimal" />
+            <xsd:element name="minerals-potassium" type="xsd:decimal" />
+            <xsd:element name="minerals-selenium" type="xsd:decimal" />
+            <xsd:element name="minerals-sodium" type="xsd:decimal" />
+            <xsd:element name="minerals-zinc" type="xsd:decimal" />
+            <xsd:element name="other-alcohol" type="xsd:decimal" />
+            <xsd:element name="other-cost" type="xsd:decimal" />
+            <xsd:element name="other-water" type="xsd:decimal" />
+            <xsd:element name="other-weight" type="xsd:decimal" />
+            <xsd:element name="protein-complete" type="xsd:decimal" />
+            <xsd:element name="protein-total" type="xsd:decimal" />
+            <xsd:element name="vitamins-choline" type="xsd:decimal" />
+            <xsd:element name="vitamins-folate" type="xsd:decimal" />
+            <xsd:element name="vitamins-niacin" type="xsd:decimal" />
+            <xsd:element name="vitamins-pantothenic_acid" type="xsd:decimal" />
+            <xsd:element name="vitamins-riboflavin" type="xsd:decimal" />
+            <xsd:element name="vitamins-thiamin" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_a" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_b12" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_b6" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_c" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_d" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_e" type="xsd:decimal" />
+            <xsd:element name="vitamins-vitamin_k" type="xsd:decimal" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="relationshipid">
+        <xsd:restriction base="xsd:nonNegativeInteger">
+            <!-- GEQ -->
+            <xsd:enumeration value = "1"/>
+            <!-- LEQ -->
+            <xsd:enumeration value = "2"/>
+            <!-- EQ -->
+            <xsd:enumeration value = "3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="nutrientid">
+        <xsd:restriction base="xsd:nonNegativeInteger">
+            <!-- Weight (g) -->
+            <xsd:enumeration value = "10000"/>
+            <!-- Complete Protein  (g) -->
+            <xsd:enumeration value = "10001"/>
+            <!-- Digestible Carbs (g) -->
+            <xsd:enumeration value = "10003"/>
+            <!-- Cost (g) -->
+            <xsd:enumeration value = "10005"/>
+            <!-- Glycemic Load (g) -->
+            <xsd:enumeration value = "10006"/>
+            <!-- Energy, digestible (kcal) -->
+            <xsd:enumeration value = "10009"/>
+            <!-- Energy, fat and carbohydrate (kcal) -->
+            <xsd:enumeration value = "10010"/>
+            <!-- Energy, carbohydrate (kcal) -->
+            <xsd:enumeration value = "10011"/>
+            <!-- Energy, protein (kcal) -->
+            <xsd:enumeration value = "10012"/>
+            <!-- Energy, fat (kcal) -->
+            <xsd:enumeration value = "10013"/>
+            <!-- Energy, alcohol (kcal) -->
+            <xsd:enumeration value = "10014"/>
+            <!-- Protein (g) -->
+            <xsd:enumeration value = "203"/>
+            <!-- Total lipid (Fat) (g) -->
+            <xsd:enumeration value = "204"/>
+            <!-- Carbohydrate, by difference (g) -->
+            <xsd:enumeration value = "205"/>
+            <!-- Energy, gross (kcal) -->
+            <xsd:enumeration value = "208"/>
+            <!-- Alcohol, ethyl (g) -->
+            <xsd:enumeration value = "221"/>
+            <!-- Water (g) -->
+            <xsd:enumeration value = "255"/>
+            <!-- Fiber, total dietary (g) -->
+            <xsd:enumeration value = "291"/>
+            <!-- Calcium, Ca (mg) -->
+            <xsd:enumeration value = "301"/>
+            <!-- Iron, Fe (mg) -->
+            <xsd:enumeration value = "303"/>
+            <!-- Magnesium, Mg (mg) -->
+            <xsd:enumeration value = "304"/>
+            <!-- Phosphorus, P (mg) -->
+            <xsd:enumeration value = "305"/>
+            <!-- Potassium, K (mg) -->
+            <xsd:enumeration value = "306"/>
+            <!-- Sodium, Na (mg) -->
+            <xsd:enumeration value = "307"/>
+            <!-- Zinc, Zn (mg) -->
+            <xsd:enumeration value = "309"/>
+            <!-- Copper, Cu (mg) -->
+            <xsd:enumeration value = "312"/>
+            <!-- Fluoride, F (µg) -->
+            <xsd:enumeration value = "313"/>
+            <!-- Manganese, Mn (mg) -->
+            <xsd:enumeration value = "315"/>
+            <!-- Selenium, Se (µg) -->
+            <xsd:enumeration value = "317"/>
+            <!-- Vitamin A, RAE (µg) -->
+            <xsd:enumeration value = "320"/>
+            <!-- Vitamin E (Alpha-Tocopherol) (mg) -->
+            <xsd:enumeration value = "323"/>
+            <!-- Vitamin D (D2 + D3) (µg) -->
+            <xsd:enumeration value = "328"/>
+            <!-- Vitamin C, total (Ascorbic Acid) (mg) -->
+            <xsd:enumeration value = "401"/>
+            <!-- Thiamin (mg) -->
+            <xsd:enumeration value = "404"/>
+            <!-- Riboflavin (mg) -->
+            <xsd:enumeration value = "405"/>
+            <!-- Niacin (mg) -->
+            <xsd:enumeration value = "406"/>
+            <!-- Pantothenic acid (mg) -->
+            <xsd:enumeration value = "410"/>
+            <!-- Vitamin B-6 (mg) -->
+            <xsd:enumeration value = "415"/>
+            <!-- Vitamin B-12 (µg) -->
+            <xsd:enumeration value = "418"/>
+            <!-- Choline, total (mg) -->
+            <xsd:enumeration value = "421"/>
+            <!-- Vitamin K (Phylloquinone) (µg) -->
+            <xsd:enumeration value = "430"/>
+            <!-- Folate, DFE (µg) -->
+            <xsd:enumeration value = "435"/>
+            <!-- Cholesterol (mg) -->
+            <xsd:enumeration value = "601"/>
+            <!-- Fatty acids, total saturated (g) -->
+            <xsd:enumeration value = "606"/>
+            <!-- 18:2 undifferentiated (g) (Linoleic) -->
+            <xsd:enumeration value = "618"/>
+            <!-- 18:3 undifferentiated (g) (Linolenic) -->
+            <xsd:enumeration value = "619"/>
+            <!-- 22:6 n-3 (DHA) (g) -->
+            <xsd:enumeration value = "621"/>
+            <!-- 20:5 n-3 (EPA) (g) -->
+            <xsd:enumeration value = "629"/>
+            <!-- Fatty acids, total monounsaturated (g) -->
+            <xsd:enumeration value = "645"/>
+            <!-- Fatty acids, total polyunsaturated (g) -->
+            <xsd:enumeration value = "646"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- category -->
+    <xsd:complexType name="category">
+        <xsd:sequence>
+            <xsd:element name="categoryid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="categoryname" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- category list -->
+    <xsd:complexType name="category_list">
+        <xsd:sequence>
+            <xsd:element name="category" type="category" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- category link -->
+    <xsd:complexType name="category_link">
+        <xsd:sequence>
+            <xsd:element name="foodid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="categoryid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- category link list -->
+    <xsd:complexType name="category_link_list">
+        <xsd:sequence>
+            <xsd:element name="category_link" type="category_link" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal list -->
+    <xsd:complexType name="meal_list">
+        <xsd:sequence>
+            <xsd:element name="meal" type="meal" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal -->
+    <xsd:complexType name="meal">
+        <xsd:sequence>
+            <xsd:element name="mixid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="mealid" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="mealorder" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal portion list -->
+    <xsd:complexType name="meal_food_portion_list">
+        <xsd:sequence>
+            <xsd:element name="meal_food_portion" type="meal_food_portion" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- meal food portion -->
+    <xsd:complexType name="meal_food_portion">
+        <xsd:sequence>
+            <xsd:element name="mixid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="mealid" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="foodid" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="pct" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="expectedwt" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="actualwt" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

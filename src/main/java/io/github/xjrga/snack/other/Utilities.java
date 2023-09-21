@@ -1,11 +1,16 @@
 package io.github.xjrga.snack.other;
 
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -24,10 +29,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class Utilities {
-
     public Utilities() {
     }
-
     public static String sha256_hash_to_hex( String s ) {
         StringBuilder sb = null;
         try {
@@ -38,11 +41,9 @@ public class Utilities {
                 sb.append( String.format( "%02x", b ) );
             }
         } catch ( NoSuchAlgorithmException ex ) {
-
         }
         return sb.toString();
     }
-
     public static String random() {
         StringBuilder sb = new StringBuilder();
         for ( int i = 0; i < 8; i++ ) {
@@ -51,7 +52,6 @@ public class Utilities {
         String replace = sb.toString().replace( ".", "" );
         return replace.substring( 0, 128 );
     }
-
     private String convert_to_hex_02( byte[] hash ) {
         StringBuilder sb = new StringBuilder( 2 * hash.length );
         for ( byte b : hash ) {
@@ -59,7 +59,6 @@ public class Utilities {
         }
         return sb.toString();
     }
-
     private String convert_to_hex_03( byte[] hash ) {
         StringBuilder sb = new StringBuilder( 2 * hash.length );
         for ( byte b : hash ) {
@@ -67,7 +66,6 @@ public class Utilities {
         }
         return sb.toString();
     }
-
     public static String format_xml_doc( String xml ) {
         try {
             final InputSource src = new InputSource( new StringReader( xml ) );
@@ -83,7 +81,6 @@ public class Utilities {
             throw new RuntimeException( e );
         }
     }
-
     public static boolean validate_xml_doc( String schema_path, String xmldoc_path ) {
         boolean result = false;
         Source xmlDoc = new StreamSource( new File( xmldoc_path ) );
@@ -108,7 +105,6 @@ public class Utilities {
         }
         return result;
     }
-
     public static double[] convert_to_double_array( int[] array ) {
         double[] darray = new double[ array.length ];
         for ( int i = 0; i < array.length; i++ ) {
@@ -116,7 +112,6 @@ public class Utilities {
         }
         return darray;
     }
-
     public static double[] convert_to_double_array( List<Double> list ) {
         double[] arr = new double[ list.size() ];
         for ( int i = 0; i < arr.length; i++ ) {
@@ -124,7 +119,6 @@ public class Utilities {
         }
         return arr;
     }
-
     public static String print_double_array( double[] array ) {
         StringBuilder sb = new StringBuilder();
         sb.append( "[" );
@@ -136,12 +130,24 @@ public class Utilities {
         sb.append( "]" );
         return sb.toString();
     }
-
     public static void write_to_file( String filePath, String txt ) {
         try ( BufferedWriter out = new BufferedWriter( new FileWriter( filePath, true ) ) ) {
             out.write( txt );
         } catch ( IOException ex ) {
         }
     }
-
+    public static String convert_file_to_string( String path ) {
+        String str = "";
+        try {
+            str = new String( Files.readAllBytes( Path.of( path ) ) );
+        } catch ( IOException ex ) {
+        }
+        return str;
+    }
+    public static void openUrl( String url ) {
+        try {
+            Desktop.getDesktop().browse( new URL( url ).toURI() );
+        } catch ( IOException | URISyntaxException e ) {
+        }
+    }
 }

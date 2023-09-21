@@ -32,6 +32,7 @@
         - exchange mix and food data easily
         - easily create and export meal plans
         - facilitate learning/teaching anyone with interest in nutrition
+        - provides many additional food items to experiment with
         - is free and open source
 
     Requirements:
@@ -39,16 +40,16 @@
 
 Installing
 
-    1. Download snack-1270-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
-    2. unzip snack-1270-app.zip
-    3. cd snack-1270
-    4. java -jar snack-1270.jar (if you are on windows double click on jar file)
+    1. Download snack-1280-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    2. unzip snack-1280-app.zip
+    3. cd snack-1280
+    4. java -jar snack-1280.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1270
+    1280
 
 Authors
 
@@ -67,6 +68,7 @@ Snack uses the following libraries:
     jgoodies-common-1.8.1.jar
     jgoodies-forms-1.9.0.jar
     poi-4.1.1.jar
+    looks-02.jar
 
 Snack uses a data subset from:
 

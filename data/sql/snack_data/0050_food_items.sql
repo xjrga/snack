@@ -6,6 +6,8 @@ call Food_Insert('01015','Cheese, cottage, lowfat, 2% milkfat');
 /
 call Food_Insert('01016','Cheese, cottage, lowfat, 1% milkfat');
 /
+call Food_Insert('01042','Cheese, pasteurized process, American, fortified with vitamin D');
+/
 call Food_Insert('01077','Milk, whole, 3.25% milkfat, with added vitamin D');
 /
 call Food_Insert('01078','Milk, producer, fluid, 3.7% milkfat');
@@ -49,6 +51,8 @@ call Food_Insert('01185','Parmesan cheese topping, fat free');
 call Food_Insert('01208','Cheese, provolone, reduced fat');
 /
 call Food_Insert('01256','Yogurt, Greek, plain, nonfat');
+/
+call Food_Insert('01265','Cheese, cheddar, nonfat or fat free');
 /
 call Food_Insert('01292','Milk, chocolate, fat free, with added vitamin A and vitamin D');
 /
@@ -359,6 +363,8 @@ call Food_Insert('11279','Okra, cooked, boiled, drained, without salt');
 call Food_Insert('11282','Onions, raw');
 /
 call Food_Insert('11283','Onions, cooked, boiled, drained, without salt');
+/
+call Food_Insert('11284','Onions, dehydrated flakes');
 /
 call Food_Insert('11304','Peas, green, raw');
 /

@@ -72,7 +72,7 @@ CREATE TABLE Meal
 (
         MixId LONGVARCHAR,
         MealId IDENTITY,
-        Name LONGVARCHAR,        
+        Name LONGVARCHAR,
         MealOrder INTEGER,
         CONSTRAINT Meal_primary_key PRIMARY KEY (MixId,MealId)
 );
@@ -242,6 +242,10 @@ CREATE TABLE mixresultdn
         energyfat DOUBLE,
         energyalcohol DOUBLE,
         energyfatcarbohydrate DOUBLE,
+        lauric DOUBLE,
+        myristic DOUBLE,
+        palmitic DOUBLE,
+        stearic DOUBLE,
         CONSTRAINT mixresultdn_primary_key PRIMARY KEY (mixid,foodid)
 );
 /
@@ -1551,13 +1555,13 @@ DECLARE result CURSOR
 FOR
 --
 SELECT
-       --Name     
+       --Name
        a.name AS "Name",
        --Mass
        ROUND(x0.q,v_Precision) AS "Weight",
        --Energy
        ROUND(x8.q,v_Precision) AS "EnergyGross",
-       ROUND(x53.q,v_Precision) AS "EnergyDigestible",       
+       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
        ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
        ROUND(x56.q,v_Precision) AS "EnergyProtein",
        ROUND(x57.q,v_Precision) AS "EnergyFat",
@@ -1568,11 +1572,11 @@ SELECT
        ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
        ROUND(x5.q,v_Precision) AS "Protein",
        ROUND(x12.q,v_Precision) AS "Alcohol",
-       --Protein       
-       ROUND(x1.q,v_Precision) AS "CompleteProtein",       
+       --Protein
+       ROUND(x1.q,v_Precision) AS "CompleteProtein",
        --Fiber
        ROUND(x7.q,v_Precision) AS "CarbsByDiff",
-       ROUND(x16.q,v_Precision) AS "Fiber",       
+       ROUND(x16.q,v_Precision) AS "Fiber",
        --Minerals
        ROUND(x17.q,v_Precision) AS "Calcium",
        ROUND(x18.q,v_Precision) AS "Iron",
@@ -1581,7 +1585,7 @@ SELECT
        ROUND(x21.q,v_Precision) AS "Potassium",
        ROUND(x22.q,v_Precision) AS "Sodium",
        ROUND(x23.q,v_Precision) AS "Zinc",
-       ROUND(x24.q,v_Precision) AS "Copper",      
+       ROUND(x24.q,v_Precision) AS "Copper",
        ROUND(x26.q,v_Precision) AS "Manganese",
        ROUND(x27.q,v_Precision) AS "Selenium",
        --Vitamins
@@ -1607,6 +1611,10 @@ SELECT
        ROUND(x47.q,v_Precision) AS "Polyunsaturated",
        ROUND(x48.q,v_Precision) AS "Linoleic",
        ROUND(x49.q,v_Precision) AS "AlphaLinolenic",
+       ROUND(x60.q,v_Precision) AS "Lauric",
+       ROUND(x61.q,v_Precision) AS "Myristic",
+       ROUND(x62.q,v_Precision) AS "Palmitic",
+       ROUND(x63.q,v_Precision) AS "Stearic",
        --Glycemic
        ROUND(x50.q,v_Precision) AS "GlycemicLoad",
        --Other
@@ -1616,7 +1624,7 @@ SELECT
        a.foodid AS "FoodId"
 FROM food a,
      foodfact x0,
-     foodfact x1,     
+     foodfact x1,
      foodfact x3,
      foodfact x4,
      foodfact x5,
@@ -1633,7 +1641,7 @@ FROM food a,
      foodfact x21,
      foodfact x22,
      foodfact x23,
-     foodfact x24,     
+     foodfact x24,
      foodfact x26,
      foodfact x27,
      foodfact x28,
@@ -1658,12 +1666,16 @@ FROM food a,
      foodfact x48,
      foodfact x49,
      foodfact x50,
-     foodfact x53,     
+     foodfact x53,
      foodfact x55,
      foodfact x56,
      foodfact x57,
      foodfact x58,
-     foodfact x59
+     foodfact x59,
+     foodfact x60,
+     foodfact x61,
+     foodfact x62,
+     foodfact x63
 WHERE
 (
 a.foodid = x0.foodid AND
@@ -1714,7 +1726,11 @@ a.foodid = x55.foodid AND
 a.foodid = x56.foodid AND
 a.foodid = x57.foodid AND
 a.foodid = x58.foodid AND
-a.foodid = x59.foodid
+a.foodid = x59.foodid AND
+a.foodid = x60.foodid AND
+a.foodid = x61.foodid AND
+a.foodid = x62.foodid AND
+a.foodid = x63.foodid
 )
 AND
 (
@@ -1766,17 +1782,21 @@ x55.nutrientid = '10011' AND
 x56.nutrientid = '10012' AND
 x57.nutrientid = '10013' AND
 x58.nutrientid = '10014' AND
-x59.nutrientid = '10010'
+x59.nutrientid = '10010' AND
+x60.nutrientid = '611' AND
+x61.nutrientid = '612' AND
+x62.nutrientid = '613' AND
+x63.nutrientid = '614'
 )
 UNION
 SELECT
-       --Name     
+       --Name
        a.name AS "Name",
        --Mass
        ROUND(x0.q,v_Precision) AS "Weight",
        --Energy
        ROUND(x8.q,v_Precision) AS "EnergyGross",
-       ROUND(x53.q,v_Precision) AS "EnergyDigestible",       
+       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
        ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
        ROUND(x56.q,v_Precision) AS "EnergyProtein",
        ROUND(x57.q,v_Precision) AS "EnergyFat",
@@ -1787,8 +1807,8 @@ SELECT
        ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
        ROUND(x5.q,v_Precision) AS "Protein",
        ROUND(x12.q,v_Precision) AS "Alcohol",
-       --Protein       
-       ROUND(x1.q,v_Precision) AS "CompleteProtein",       
+       --Protein
+       ROUND(x1.q,v_Precision) AS "CompleteProtein",
        --Fiber
        ROUND(x7.q,v_Precision) AS "CarbsByDiff",
        ROUND(x16.q,v_Precision) AS "Fiber",
@@ -1800,7 +1820,7 @@ SELECT
        ROUND(x21.q,v_Precision) AS "Potassium",
        ROUND(x22.q,v_Precision) AS "Sodium",
        ROUND(x23.q,v_Precision) AS "Zinc",
-       ROUND(x24.q,v_Precision) AS "Copper",       
+       ROUND(x24.q,v_Precision) AS "Copper",
        ROUND(x26.q,v_Precision) AS "Manganese",
        ROUND(x27.q,v_Precision) AS "Selenium",
        --Vitamins
@@ -1826,6 +1846,10 @@ SELECT
        ROUND(x47.q,v_Precision) AS "Polyunsaturated",
        ROUND(x48.q,v_Precision) AS "Linoleic",
        ROUND(x49.q,v_Precision) AS "AlphaLinolenic",
+       ROUND(x60.q,v_Precision) AS "Lauric",
+       ROUND(x61.q,v_Precision) AS "Myristic",
+       ROUND(x62.q,v_Precision) AS "Palmitic",
+       ROUND(x63.q,v_Precision) AS "Stearic",
        --Glycemic
        ROUND(x50.q,v_Precision) AS "GlycemicLoad",
        --Other
@@ -1841,7 +1865,7 @@ FROM (SELECT foodid,
                                 food b
                            WHERE a.foodid = b.foodid)) a,
      foodfact x0,
-     foodfact x1,     
+     foodfact x1,
      foodfact x3,
      foodfact x4,
      foodfact x5,
@@ -1858,7 +1882,7 @@ FROM (SELECT foodid,
      foodfact x21,
      foodfact x22,
      foodfact x23,
-     foodfact x24,     
+     foodfact x24,
      foodfact x26,
      foodfact x27,
      foodfact x28,
@@ -1883,12 +1907,16 @@ FROM (SELECT foodid,
      foodfact x48,
      foodfact x49,
      foodfact x50,
-     foodfact x53,     
+     foodfact x53,
      foodfact x55,
      foodfact x56,
      foodfact x57,
      foodfact x58,
-     foodfact x59
+     foodfact x59,
+     foodfact x60,
+     foodfact x61,
+     foodfact x62,
+     foodfact x63
 WHERE
 (
 a.foodid = x0.foodid AND
@@ -1939,7 +1967,11 @@ a.foodid = x55.foodid AND
 a.foodid = x56.foodid AND
 a.foodid = x57.foodid AND
 a.foodid = x58.foodid AND
-a.foodid = x59.foodid
+a.foodid = x59.foodid AND
+a.foodid = x60.foodid AND
+a.foodid = x61.foodid AND
+a.foodid = x62.foodid AND
+a.foodid = x63.foodid
 )
 AND
 (
@@ -1991,7 +2023,11 @@ x55.nutrientid = '10011' AND
 x56.nutrientid = '10012' AND
 x57.nutrientid = '10013' AND
 x58.nutrientid = '10014' AND
-x59.nutrientid = '10010'
+x59.nutrientid = '10010' AND
+x60.nutrientid = '611' AND
+x61.nutrientid = '612' AND
+x62.nutrientid = '613' AND
+x63.nutrientid = '614'
 );
 --
 OPEN result;
@@ -2971,7 +3007,7 @@ SELECT a.MixId,
        ROUND(Potassium,v_Precision) AS Potassium,
        ROUND(Sodium,v_Precision) AS Sodium,
        ROUND(Zinc,v_Precision) AS Zinc,
-       ROUND(Copper,v_Precision) AS Copper,       
+       ROUND(Copper,v_Precision) AS Copper,
        ROUND(Manganese,v_Precision) AS Manganese,
        ROUND(Selenium,v_Precision) AS Selenium,
        ROUND(VitaminA,v_Precision) AS VitaminA,
@@ -3001,7 +3037,11 @@ SELECT a.MixId,
        ROUND(EnergyProtein,v_Precision) AS EnergyProtein,
        ROUND(EnergyFat,v_Precision) AS EnergyFat,
        ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol,
-       ROUND(EnergyFatCarbohydrate,v_Precision) AS EnergyFatCarbohydrate
+       ROUND(EnergyFatCarbohydrate,v_Precision) AS EnergyFatCarbohydrate,
+       ROUND(Lauric,v_Precision) AS Lauric,
+       ROUND(Myristic,v_Precision) AS Myristic,
+       ROUND(Palmitic,v_Precision) AS Palmitic,
+       ROUND(Stearic,v_Precision) AS Stearic
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -3013,7 +3053,7 @@ select a.MixId,
        '',
        'Total',
        Round(sum(a.Weight),v_Precision),
-       Round(sum(CompleteProtein),v_Precision),       
+       Round(sum(CompleteProtein),v_Precision),
        Round(sum(DigestibleCarbohydrate),v_Precision),
        Round(sum(Cost),v_Precision),
        Round(sum(Protein),v_Precision),
@@ -3030,7 +3070,7 @@ select a.MixId,
        Round(sum(Potassium),v_Precision),
        Round(sum(Sodium),v_Precision),
        Round(sum(Zinc),v_Precision),
-       Round(sum(Copper),v_Precision),      
+       Round(sum(Copper),v_Precision),
        Round(sum(Manganese),v_Precision),
        Round(sum(Selenium),v_Precision),
        Round(sum(VitaminA),v_Precision),
@@ -3055,12 +3095,16 @@ select a.MixId,
        Round(sum(linoleicacid),v_Precision),
        Round(sum(alphalinolenicacid),v_Precision),
        Round(sum(GlycemicLoad),v_Precision),
-       Round(sum(EnergyDigestible),v_Precision),       
+       Round(sum(EnergyDigestible),v_Precision),
        Round(sum(EnergyCarbohydrate),v_Precision),
        Round(sum(EnergyProtein),v_Precision),
        Round(sum(EnergyFat),v_Precision),
        Round(sum(EnergyAlcohol),v_Precision),
-       ROUND(sum(EnergyFatCarbohydrate),v_Precision) AS EnergyFatCarbohydrate
+       ROUND(sum(EnergyFatCarbohydrate),v_Precision) AS EnergyFatCarbohydrate,
+       ROUND(sum(Lauric),v_Precision) AS Lauric,
+       ROUND(sum(Myristic),v_Precision) AS Myristic,
+       ROUND(sum(Palmitic),v_Precision) AS Palmitic,
+       ROUND(sum(Stearic),v_Precision) AS Stearic
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -3714,6 +3758,25 @@ OPEN result;
 END
 /
 
+CREATE PROCEDURE GlycemicIndex_merge (
+IN v_FoodId LONGVARCHAR,
+IN v_q DOUBLE
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+MERGE INTO GlycemicIndex USING ( VALUES (
+v_FoodId,
+v_q
+) ) ON (
+FoodId = v_FoodId
+)
+WHEN MATCHED THEN UPDATE SET
+q = v_q
+WHEN NOT MATCHED THEN INSERT VALUES
+v_FoodId,
+v_q;
+END;
+/
+
 CREATE PROCEDURE Food_Put (
 --
 IN v_MixId LONGVARCHAR
@@ -3724,6 +3787,9 @@ MODIFIES SQL DATA BEGIN ATOMIC
 --
 DECLARE v_FoodId LONGVARCHAR;
 DECLARE v_FoodName LONGVARCHAR;
+DECLARE v_gi DOUBLE;
+--
+SET v_gi = 0;
 --
 SELECT Name INTO v_FoodName
 FROM Mix
@@ -3741,6 +3807,9 @@ WHERE mixid = v_MixId
 GROUP BY mixid,nutrientid DO
 CALL FoodFact_Merge(v_FoodId,nutrientid,q);
 END FOR;
+--
+SELECT getMealGI(v_MixId) INTO v_gi FROM (VALUES(0));
+CALL GlycemicIndex_merge(v_FoodId,v_gi);
 --
 CALL CategoryLink_Insert (v_FoodId,'5000');
 --
@@ -4481,6 +4550,18 @@ SET v_doc = doc + CHAR (10);
 END
 /
 
+CREATE FUNCTION pick_food_gi(
+IN v_foodid LONGVARCHAR
+) RETURNS DOUBLE
+READS SQL DATA BEGIN ATOMIC
+DECLARE v_gi DOUBLE;
+SET v_gi = 0;
+SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
+RETURN v_gi;
+END;
+/
+
+
 CREATE PROCEDURE Select_mixfood_list_as_xml (
 --
 OUT v_doc LONGVARCHAR,
@@ -4495,7 +4576,6 @@ BEGIN ATOMIC
 --
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
-DECLARE v_gi DOUBLE;
 --
 SET doc = '';
 SET doc2 = '';
@@ -4504,29 +4584,17 @@ SET doc2 = '<food_list>' + CHAR(10) ;
 ------------------------------------------------------------
 FOR SELECT a.foodid as id ,name FROM mixfood a, food b WHERE a.foodid = b.foodid  AND a.mixid = v_MixId  DO
 --
-SET doc = '<food>' +CHAR(10)+'<foodid>'+id +'</foodid>' +CHAR (10) + '<name>'+ escape_xml_element_data(name) +'</name>' +CHAR (10);
+SET doc = '<food>' +CHAR(10)+'<food-id>'+id +'</food-id>' +CHAR (10) + '<food-name>'+ escape_xml_element_data(name) +'</food-name>' +CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
-FOR SELECT label, nutrientid, q FROM mixfood x,  foodfact y, nutrient z WHERE x.foodid = y.foodid AND y.nutrientid = z.nutrientid AND x.mixid = v_MixId AND x.foodid = id AND (y.nutrientid != '10003' AND y.nutrientid != '10006' AND y.nutrientid != '10009' AND y.nutrientid != '10010' AND y.nutrientid != '10011' AND y.nutrientid != '10012' AND y.nutrientid != '10013' AND y.nutrientid != '10014') ORDER BY foodid, label DO
+FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(id) FROM (VALUES(0)) ) ORDER BY LABEL DO
 --
-SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' +CHAR (10);
+SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
 END FOR;
---
-IF (SELECT COUNT(q) FROM glycemicindex WHERE foodid = id) = 0 THEN
---
-SET v_gi = 0;
---
-ELSE
---
-SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = id;
---
-END IF;
---
-SET doc2 = doc2 + '<glycemicindex>'+cast(v_gi as decimal(128,32)) +'</glycemicindex>' +CHAR (10);
 --
 SET doc2 = doc2 + '</food>' + CHAR (10);
 --
@@ -4921,7 +4989,11 @@ energycarbohydrate,
 energyprotein,
 energyfat,
 energyalcohol,
-energyfatcarbohydrate
+energyfatcarbohydrate,
+lauric,
+myristic,
+palmitic,
+stearic
 )
 SELECT a.MixId,
        a.FoodId,
@@ -4944,7 +5016,7 @@ SELECT a.MixId,
        Potassium,
        Sodium,
        Zinc,
-       Copper,       
+       Copper,
        Manganese,
        Selenium,
        VitaminA,
@@ -4974,7 +5046,11 @@ SELECT a.MixId,
        EnergyProtein,
        EnergyFat,
        EnergyAlcohol,
-       EnergyFatCarbohydrate
+       EnergyFatCarbohydrate,
+       Lauric,
+       Myristic,
+       Palmitic,
+       Stearic
 FROM (SELECT x0.Mixid,
              x0.Foodid,
              x1.Weight,
@@ -4995,7 +5071,7 @@ FROM (SELECT x0.Mixid,
              x20.Potassium,
              x21.Sodium,
              x22.Zinc,
-             x23.Copper,             
+             x23.Copper,
              x25.Manganese,
              x26.Selenium,
              x27.VitaminA,
@@ -5025,7 +5101,11 @@ FROM (SELECT x0.Mixid,
              x54.EnergyProtein,
              x55.EnergyFat,
              x56.EnergyAlcohol,
-             x57.EnergyFatCarbohydrate
+             x57.EnergyFatCarbohydrate,
+             x58.Lauric,
+             x59.Myristic,
+             x60.Palmitic,
+             x61.Stearic
       FROM
       --
       (SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
@@ -5378,7 +5458,35 @@ FROM (SELECT x0.Mixid,
               q AS EnergyFatCarbohydrate
        FROM mixresult
        WHERE mixid = v_MixId
-       AND   nutrientid = '10010') x57
+       AND   nutrientid = '10010') x57,
+           --611, Lauric, 12:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Lauric
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '611') x58,
+           --612, Myristic, 14:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Myristic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '612') x59,
+           --613, Palmitic, 16:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Palmitic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '613') x60,
+           --614, Stearic, 18:0 (g)
+      (SELECT mixid,
+              foodid,
+              q AS Stearic
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '614') x61
       --
       WHERE x0.mixid = x1.mixid
       AND   x0.foodid = x1.foodid
@@ -5476,7 +5584,16 @@ FROM (SELECT x0.Mixid,
       AND   x0.foodid = x55.foodid
       AND   x0.mixid = x56.mixid
       AND   x0.foodid = x56.foodid
-      AND   x0.foodid = x57.foodid) a,
+      AND   x0.mixid = x57.mixid
+      AND   x0.foodid = x57.foodid
+      AND   x0.mixid = x58.mixid
+      AND   x0.foodid = x58.foodid
+      AND   x0.mixid = x59.mixid
+      AND   x0.foodid = x59.foodid
+      AND   x0.mixid = x60.mixid
+      AND   x0.foodid = x60.foodid
+      AND   x0.mixid = x61.mixid
+      AND   x0.foodid = x61.foodid) a,
      (SELECT foodid, name FROM food) b
 WHERE a.foodid = b.foodid;
 --
@@ -5946,14 +6063,14 @@ CREATE PROCEDURE Export_xml (IN v_MixId LONGVARCHAR)
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
-BEGIN ATOMIC 
+BEGIN ATOMIC
 --
 DECLARE TABLE temp ( txt LONGVARCHAR);
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
 --
 SET doc = '';
-SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack.xsd''>' + CHAR (10);
+SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack_v7.xsd''>' + CHAR (10);
 --
 call Select_mix_as_xml (doc,v_MixId);
 --
@@ -6003,7 +6120,7 @@ SET doc2 = doc2 + CHAR(10) + '</snack>';
 --
 INSERT INTO temp (txt) VALUES (doc2);
 --
-BEGIN ATOMIC 
+BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
@@ -6656,25 +6773,6 @@ CALL foodfact_merge (v_foodid,'10006',v_digestible_carbohydrate*v_gi/100);
 END;
 /
 
-CREATE PROCEDURE GlycemicIndex_merge (
-IN v_FoodId LONGVARCHAR,
-IN v_q DOUBLE
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO GlycemicIndex USING ( VALUES (
-v_FoodId,
-v_q
-) ) ON (
-FoodId = v_FoodId
-)
-WHEN MATCHED THEN UPDATE SET
-q = v_q
-WHEN NOT MATCHED THEN INSERT VALUES
-v_FoodId,
-v_q;
-END;
-/
-
 CREATE PROCEDURE GlycemicIndex_select (
 IN v_FoodId LONGVARCHAR
 )
@@ -6729,33 +6827,21 @@ DECLARE doc2 LONGVARCHAR;
 DECLARE v_gi DOUBLE;
 --
 SET doc = '';
-SET doc2 = '<food' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/food.xsd''>' + CHAR (10);
+SET doc2 = '<food' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/food_v2.xsd''>' + CHAR (10);
 --
 FOR SELECT foodid as id ,name FROM food WHERE  foodid  = v_FoodId DO
 --
-SET doc = '<foodid>'+id +'</foodid>' + CHAR (10) + '<name>'+ escape_xml_element_data(name) +'</name>' + CHAR (10);
+SET doc = '<food-id>'+id +'</food-id>' + CHAR (10) + '<food-name>'+ escape_xml_element_data(name) +'</food-name>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
-FOR SELECT label, nutrientid, q FROM foodfact y, nutrient z WHERE y.foodid = v_FoodId AND y.nutrientid = z.nutrientid  AND (y.nutrientid != '10003' AND y.nutrientid != '10006' AND y.nutrientid != '10009' AND y.nutrientid != '10010' AND y.nutrientid != '10011' AND y.nutrientid != '10012' AND y.nutrientid != '10013' AND y.nutrientid != '10014') ORDER BY foodid, label DO
+FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = v_FoodId AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(v_FoodId) FROM (VALUES(0)) ) ORDER BY LABEL DO
 --
 SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
 END FOR;
---
-IF (SELECT COUNT(q) FROM glycemicindex WHERE foodid = id) = 0 THEN
---
-SET v_gi = 0;
---
-ELSE
---
-SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = id;
---
-END IF;
---
-SET doc2 = doc2 + '<glycemicindex>'+cast(v_gi as decimal(128,32)) +'</glycemicindex>' + CHAR (10);
 --
 SET doc2 = doc2 + '</food>' + CHAR (10);
 --

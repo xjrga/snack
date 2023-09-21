@@ -2,14 +2,14 @@ CREATE PROCEDURE Export_xml (IN v_MixId LONGVARCHAR)
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
-BEGIN ATOMIC 
+BEGIN ATOMIC
 --
 DECLARE TABLE temp ( txt LONGVARCHAR);
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
 --
 SET doc = '';
-SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack.xsd''>' + CHAR (10);
+SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack_v7.xsd''>' + CHAR (10);
 --
 call Select_mix_as_xml (doc,v_MixId);
 --
@@ -59,7 +59,7 @@ SET doc2 = doc2 + CHAR(10) + '</snack>';
 --
 INSERT INTO temp (txt) VALUES (doc2);
 --
-BEGIN ATOMIC 
+BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR

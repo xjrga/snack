@@ -19,10 +19,10 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
-import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
+import io.github.xjrga.snack.model.iface.Reload;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,16 +32,13 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelFoodList
         extends DefaultTableModel
         implements Round_up, Reload {
-
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelFoodList( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "FoodId" );
@@ -91,12 +88,15 @@ public class TableModelFoodList
         columns.add( "PUFA" );
         columns.add( "LA" );
         columns.add( "ALA" );
+        columns.add( "Lauric" );
+        columns.add( "Myristic" );
+        columns.add( "Palmitic" );
+        columns.add( "Stearic" );
         columns.add( "GL" );
         columns.add( "Water" );
         columns.add( "Cost" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -107,18 +107,16 @@ public class TableModelFoodList
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     public void reload() {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_Details( precision );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 //Name
                 String Name = ( String ) rowm.get( "Name" );
                 //Mass
@@ -176,6 +174,10 @@ public class TableModelFoodList
                 Double Polyunsaturated = ( Double ) rowm.get( Nutrient.PUFA.getLabel() );
                 Double Linoleic = ( Double ) rowm.get( Nutrient.LINOLEIC.getLabel() );
                 Double Linolenic = ( Double ) rowm.get( Nutrient.LINOLENIC.getLabel() );
+                Double Lauric = ( Double ) rowm.get( Nutrient.LAURIC.getLabel() );
+                Double Myristic = ( Double ) rowm.get( Nutrient.MYRISTIC.getLabel() );
+                Double Palmitic = ( Double ) rowm.get( Nutrient.PALMITIC.getLabel() );
+                Double Stearic = ( Double ) rowm.get( Nutrient.STEARIC.getLabel() );
                 //Glycemic
                 Double GlycemicLoad = ( Double ) rowm.get( Nutrient.GLYCEMICLOAD.getLabel() );
                 //Other
@@ -231,6 +233,10 @@ public class TableModelFoodList
                 row.add( Polyunsaturated );
                 row.add( Linoleic );
                 row.add( Linolenic );
+                row.add( Lauric );
+                row.add( Myristic );
+                row.add( Palmitic );
+                row.add( Stearic );
                 row.add( GlycemicLoad );
                 row.add( Water );
                 row.add( Cost );
@@ -239,15 +245,12 @@ public class TableModelFoodList
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;
     }
-
     public Integer find( String FoodId ) {
         int index = 0;
         int rowNo = this.getRowCount();

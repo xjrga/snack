@@ -19,10 +19,10 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
-import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.data.Nutrient;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,7 +30,6 @@ import java.util.Vector;
 
 public class Result_loader
         implements Round_up, Reload_mixid {
-
     private final DbLink dbLink;
     private Integer precision = 0;
     private Vector cost_table;
@@ -40,20 +39,22 @@ public class Result_loader
     private Vector vitamins_table;
     private Vector carbs_table;
     private Vector fat_table;
+    private Vector sfa_table;
+    private Vector pufa_table;
     private Vector protein_table;
     private Vector energy_table;
     private Vector macronutrient_table;
-
     public Result_loader( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     @Override
     public void reload( String mixid ) {
         energy_table = new Vector();
         macronutrient_table = new Vector();
         protein_table = new Vector();
         fat_table = new Vector();
+        sfa_table = new Vector();
+        pufa_table = new Vector();
         carbs_table = new Vector();
         vitamins_table = new Vector();
         minerals_table = new Vector();
@@ -62,8 +63,8 @@ public class Result_loader
         cost_table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.MixResult_Select( mixid, precision );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 //ENERGY TABLE
                 String Name = ( String ) rowm.get( "Name" );
                 Double Weight = ( Double ) rowm.get( Nutrient.WEIGHT.getLabel() );
@@ -112,10 +113,6 @@ public class Result_loader
                 Double Polyunsaturated = ( Double ) rowm.get( Nutrient.PUFA.getLabel() );
                 Double Saturated = ( Double ) rowm.get( Nutrient.SFA.getLabel() );
                 Double Cholesterol = ( Double ) rowm.get( Nutrient.CHOLESTEROL.getLabel() );
-                Double Linoleic = ( Double ) rowm.get( Nutrient.LINOLEIC.getLabel() );
-                Double Linolenic = ( Double ) rowm.get( Nutrient.LINOLENIC.getLabel() );
-                Double DHA = ( Double ) rowm.get( Nutrient.DHA.getLabel() );
-                Double EPA = ( Double ) rowm.get( Nutrient.EPA.getLabel() );
                 Vector fat_row = new Vector();
                 fat_row.add( Name );
                 fat_row.add( Weight );
@@ -125,11 +122,35 @@ public class Result_loader
                 fat_row.add( Polyunsaturated );
                 fat_row.add( Saturated );
                 fat_row.add( Cholesterol );
-                fat_row.add( Linoleic );
-                fat_row.add( Linolenic );
-                fat_row.add( DHA );
-                fat_row.add( EPA );
                 fat_table.add( fat_row );
+                //SFA TABLE
+                Double Lauric = ( Double ) rowm.get( Nutrient.LAURIC.getLabel() );
+                Double Myristic = ( Double ) rowm.get( Nutrient.MYRISTIC.getLabel() );
+                Double Palmitic = ( Double ) rowm.get( Nutrient.PALMITIC.getLabel() );
+                Double Stearic = ( Double ) rowm.get( Nutrient.STEARIC.getLabel() );
+                Vector sfa_row = new Vector();
+                sfa_row.add( Name );
+                sfa_row.add( Weight );
+                sfa_row.add( Saturated );
+                sfa_row.add( Lauric );
+                sfa_row.add( Myristic );
+                sfa_row.add( Palmitic );
+                sfa_row.add( Stearic );
+                sfa_table.add( sfa_row );
+                //PUFA TABLE
+                Double Linoleic = ( Double ) rowm.get( Nutrient.LINOLEIC.getLabel() );
+                Double Linolenic = ( Double ) rowm.get( Nutrient.LINOLENIC.getLabel() );
+                Double DHA = ( Double ) rowm.get( Nutrient.DHA.getLabel() );
+                Double EPA = ( Double ) rowm.get( Nutrient.EPA.getLabel() );
+                Vector pufa_row = new Vector();
+                pufa_row.add( Name );
+                pufa_row.add( Weight );
+                pufa_row.add( Polyunsaturated );
+                pufa_row.add( Linoleic );
+                pufa_row.add( Linolenic );
+                pufa_row.add( EPA );
+                pufa_row.add( DHA );
+                pufa_table.add( pufa_row );
                 //CARBOHYDRATE TABLE
                 Double CarbsByDiff = ( Double ) rowm.get( Nutrient.CARBOHYDRATEBYDIFFERENCE.getLabel() );
                 Double Fiber = ( Double ) rowm.get( Nutrient.FIBER.getLabel() );
@@ -196,19 +217,14 @@ public class Result_loader
                 //ELECTROLYTES TABLE
                 Double Potassium = ( Double ) rowm.get( Nutrient.POTASSIUM.getLabel() );
                 Double Sodium = ( Double ) rowm.get( Nutrient.SODIUM.getLabel() );
+                Double Water = ( Double ) rowm.get( Nutrient.WATER.getLabel() );
                 Vector electrolytes_row = new Vector();
                 electrolytes_row.add( Name );
                 electrolytes_row.add( Weight );
+                electrolytes_row.add( Water );
                 electrolytes_row.add( Sodium );
                 electrolytes_row.add( Potassium );
                 electrolytes_table.add( electrolytes_row );
-                //WATER TABLE
-                Double Water = ( Double ) rowm.get( Nutrient.WATER.getLabel() );
-                Vector water_row = new Vector();
-                water_row.add( Name );
-                water_row.add( Weight );
-                water_row.add( Water );
-                water_table.add( water_row );
                 //COST TABLE
                 Double Cost = ( Double ) rowm.get( Nutrient.COST.getLabel() );
                 Vector cost_row = new Vector();
@@ -218,57 +234,49 @@ public class Result_loader
                 cost_table.add( cost_row );
             } );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;
     }
-
     public Integer getPrecision() {
         return precision;
     }
-
     public Vector get_cost_table() {
         return cost_table;
     }
-
     public Vector get_water_table() {
         return water_table;
     }
-
     public Vector get_electrolytes_table() {
         return electrolytes_table;
     }
-
     public Vector get_minerals_table() {
         return minerals_table;
     }
-
     public Vector get_vitamins_table() {
         return vitamins_table;
     }
-
     public Vector get_carbs_table() {
         return carbs_table;
     }
-
     public Vector get_fats_table() {
         return fat_table;
     }
-
+    public Vector get_sfa_table() {
+        return sfa_table;
+    }
+    public Vector get_pufa_table() {
+        return pufa_table;
+    }
     public Vector get_protein_table() {
         return protein_table;
     }
-
     public Vector get_energy_table() {
         return energy_table;
     }
-
     public Vector get_macronutrient_table() {
         return macronutrient_table;
     }
-
 }

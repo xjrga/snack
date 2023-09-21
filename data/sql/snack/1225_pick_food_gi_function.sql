@@ -1,0 +1,10 @@
+CREATE FUNCTION pick_food_gi(
+IN v_foodid LONGVARCHAR
+) RETURNS DOUBLE
+READS SQL DATA BEGIN ATOMIC
+DECLARE v_gi DOUBLE;
+SET v_gi = 0;
+SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
+RETURN v_gi;
+END;
+/

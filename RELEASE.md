@@ -390,3 +390,10 @@ RELEASE NOTES
 
       Add actual value of constraints and bind status to model results
 
+1280
+
+      Add tracking for most potent cholesterol raising saturated fatty acids (12:0, 14:0, 16:0)
+      Update mix definition xml schema
+      Update food definition xml schema
+      Update mix nutritional value result tabs and help menu items
+

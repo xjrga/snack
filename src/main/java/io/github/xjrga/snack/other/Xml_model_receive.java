@@ -49,7 +49,6 @@ import javax.xml.stream.events.XMLEvent;
  * @author Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
  */
 public class Xml_model_receive {
-
     private final XMLInputFactory inputFactory;
     private XMLEventReader eventReader;
     private boolean integrity_constraint_violation_exists = false;
@@ -57,7 +56,6 @@ public class Xml_model_receive {
     private String end_event;
     private String main_event;
     private final DbLink dbLink;
-
     /**
      * Constructs Xml_receive class
      */
@@ -65,10 +63,9 @@ public class Xml_model_receive {
         inputFactory = XMLInputFactory.newInstance();
         this.dbLink = dbLink;
     }
-
     public void import_snack_data( String path ) {
         try {
-            if ( Utilities.validate_xml_doc( "resources/schemas/snack.xsd", path ) ) {
+            if ( Utilities.validate_xml_doc( "resources/schemas/snack_v7.xsd", path ) ) {
                 File file = new File( path );
                 BufferedReader reader = new BufferedReader( new FileReader( file ) );
                 eventReader = inputFactory.createXMLEventReader( reader );
@@ -192,9 +189,6 @@ public class Xml_model_receive {
                                                 case "mix":
                                                     mix.set_name( data );
                                                     break;
-                                                case "food":
-                                                    food.setName( data );
-                                                    break;
                                                 case "meal":
                                                     meal.setName( data );
                                                     break;
@@ -215,9 +209,6 @@ public class Xml_model_receive {
                                             break;
                                         case "foodid":
                                             switch ( main_event ) {
-                                                case "food":
-                                                    food.setFoodid( data );
-                                                    break;
                                                 case "category_link":
                                                     category_link.set_foodid( data );
                                                     break;
@@ -322,131 +313,149 @@ public class Xml_model_receive {
                                             }
                                             break;
                                         //food
-                                        case "alcohol":
+                                        case "food-id":
+                                            food.setFoodid( data );
+                                            break;
+                                        case "food-name":
+                                            food.setName( data );
+                                            break;
+                                        case "other-alcohol":
                                             food.setAlcohol( Double.valueOf( data ) );
                                             break;
-                                        case "calcium":
+                                        case "minerals-calcium":
                                             food.setCalcium( Double.valueOf( data ) );
                                             break;
-                                        case "carbohydrate_by_difference":
+                                        case "carbohydrates-carbs_by_diff":
                                             food.setCarbohydrate_by_difference( Double.valueOf( data ) );
                                             break;
-                                        case "cholesterol":
+                                        case "fats-cholesterol":
                                             food.setCholesterol( Double.valueOf( data ) );
                                             break;
-                                        case "choline":
+                                        case "vitamins-choline":
                                             food.setCholine( Double.valueOf( data ) );
                                             break;
-                                        case "complete_protein":
+                                        case "protein-complete":
                                             food.setComplete_protein( Double.valueOf( data ) );
                                             break;
-                                        case "copper":
+                                        case "minerals-copper":
                                             food.setCopper( Double.valueOf( data ) );
                                             break;
-                                        case "cost":
+                                        case "other-cost":
                                             food.setCost( Double.valueOf( data ) );
                                             break;
-                                        case "dha":
+                                        case "fats-dha":
                                             food.setDha( Double.valueOf( data ) );
                                             break;
-                                        case "energy_gross":
+                                        case "energy-gross":
                                             food.setEnergy_gross( Double.valueOf( data ) );
                                             break;
-                                        case "epa":
+                                        case "fats-epa":
                                             food.setEpa( Double.valueOf( data ) );
                                             break;
-                                        case "fat":
+                                        case "fats-total":
                                             food.setFat( Double.valueOf( data ) );
                                             break;
-                                        case "fiber":
+                                        case "carbohydrates-fiber":
                                             food.setFiber( Double.valueOf( data ) );
                                             break;
-                                        case "folate":
+                                        case "vitamins-folate":
                                             food.setFolate( Double.valueOf( data ) );
                                             break;
-                                        case "iron":
+                                        case "minerals-iron":
                                             food.setIron( Double.valueOf( data ) );
                                             break;
-                                        case "linoleic":
+                                        case "fats-linoleic":
                                             food.setLinoleic( Double.valueOf( data ) );
                                             break;
-                                        case "linolenic":
+                                        case "fats-linolenic":
                                             food.setLinolenic( Double.valueOf( data ) );
                                             break;
-                                        case "magnesium":
+                                        case "minerals-magnesium":
                                             food.setMagnesium( Double.valueOf( data ) );
                                             break;
-                                        case "manganese":
+                                        case "minerals-manganese":
                                             food.setManganese( Double.valueOf( data ) );
                                             break;
-                                        case "mufa":
+                                        case "fats-monounsaturated":
                                             food.setMufa( Double.valueOf( data ) );
                                             break;
-                                        case "niacin":
+                                        case "vitamins-niacin":
                                             food.setNiacin( Double.valueOf( data ) );
                                             break;
-                                        case "pantothenic_acid":
+                                        case "vitamins-pantothenic_acid":
                                             food.setPantothenic_acid( Double.valueOf( data ) );
                                             break;
-                                        case "phosphorus":
+                                        case "minerals-phosphorus":
                                             food.setPhosphorus( Double.valueOf( data ) );
                                             break;
-                                        case "potassium":
+                                        case "minerals-potassium":
                                             food.setPotassium( Double.valueOf( data ) );
                                             break;
-                                        case "protein":
+                                        case "protein-total":
                                             food.setProtein( Double.valueOf( data ) );
                                             break;
-                                        case "pufa":
+                                        case "fats-polyunsaturated":
                                             food.setPufa( Double.valueOf( data ) );
                                             break;
-                                        case "riboflavin":
+                                        case "vitamins-riboflavin":
                                             food.setRiboflavin( Double.valueOf( data ) );
                                             break;
-                                        case "selenium":
+                                        case "minerals-selenium":
                                             food.setSelenium( Double.valueOf( data ) );
                                             break;
-                                        case "sfa":
+                                        case "fats-saturated":
                                             food.setSfa( Double.valueOf( data ) );
                                             break;
-                                        case "sodium":
+                                        case "minerals-sodium":
                                             food.setSodium( Double.valueOf( data ) );
                                             break;
-                                        case "thiamin":
+                                        case "vitamins-thiamin":
                                             food.setThiamin( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_a":
+                                        case "vitamins-vitamin_a":
                                             food.setVitamin_a( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_b12":
+                                        case "vitamins-vitamin_b12":
                                             food.setVitamin_b12( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_b6":
+                                        case "vitamins-vitamin_b6":
                                             food.setVitamin_b6( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_c":
+                                        case "vitamins-vitamin_c":
                                             food.setVitamin_c( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_d":
+                                        case "vitamins-vitamin_d":
                                             food.setVitamin_d( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_e":
+                                        case "vitamins-vitamin_e":
                                             food.setVitamin_e( Double.valueOf( data ) );
                                             break;
-                                        case "vitamin_k":
+                                        case "vitamins-vitamin_k":
                                             food.setVitamin_k( Double.valueOf( data ) );
                                             break;
-                                        case "water":
+                                        case "other-water":
                                             food.setWater( Double.valueOf( data ) );
                                             break;
-                                        case "weight":
+                                        case "other-weight":
                                             food.setWeight( Double.valueOf( data ) );
                                             break;
-                                        case "zinc":
+                                        case "minerals-zinc":
                                             food.setZinc( Double.valueOf( data ) );
                                             break;
-                                        case "glycemicindex":
+                                        case "carbohydrates-glycemicindex":
                                             food.setZinc( Double.valueOf( data ) );
+                                            break;
+                                        case "fats-lauric":
+                                            food.setLauric( Double.valueOf( data ) );
+                                            break;
+                                        case "fats-myristic":
+                                            food.setMyristic( Double.valueOf( data ) );
+                                            break;
+                                        case "fats-palmitic":
+                                            food.setPalmitic( Double.valueOf( data ) );
+                                            break;
+                                        case "fats-stearic":
+                                            food.setStearic( Double.valueOf( data ) );
                                             break;
                                     }
                                 }
@@ -471,8 +480,8 @@ public class Xml_model_receive {
                                                 + " " + mix.get_name()
                                                 + " " + mix.get_nutrientid();
 //                                    System.out.println( message );
-                                        Log.Log2.append( message );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( message );
+//                                        Log.Log2.append( "\n" );
                                         integrity_constraint_violation_exists = true;
                                         Message.showMessage( "Mix already exists." );
                                     }
@@ -526,6 +535,10 @@ public class Xml_model_receive {
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.WATER.getNumber(), food.getWater() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.WEIGHT.getNumber(), food.getWeight() );
                                         dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.ZINC.getNumber(), food.getZinc() );
+                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.LAURIC.getNumber(), food.getLauric() );
+                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.MYRISTIC.getNumber(), food.getMyristic() );
+                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.PALMITIC.getNumber(), food.getPalmitic() );
+                                        dbLink.FoodFact_Merge( food.getFoodid(), Nutrient.STEARIC.getNumber(), food.getStearic() );
                                         dbLink.GlycemicIndex_Merge( food.getFoodid(), food.getGlycemicindex() );
                                         dbLink.foodfact_calculated_quantities_update( food.getFoodid() );
                                     } catch ( SQLException ex ) {
@@ -533,10 +546,10 @@ public class Xml_model_receive {
 //                                            + " " + food.getFoodid()
 //                                            + " " + food.getName()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + food.getFoodid()
-                                                + " " + food.getName() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + food.getFoodid()
+//                                                + " " + food.getName() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     try {
                                         dbLink.MixFood_Insert(
@@ -548,10 +561,10 @@ public class Xml_model_receive {
 //                                            + " " + mix.get_mixid()
 //                                            + " " + food.getFoodid()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + mix.get_mixid()
-                                                + " " + food.getFoodid() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + mix.get_mixid()
+//                                                + " " + food.getFoodid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "category":
@@ -567,10 +580,10 @@ public class Xml_model_receive {
 //                                            + " " + category.get_categoryid()
 //                                            + " " + category.get_categoryname()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + category.get_categoryid()
-                                                + " " + category.get_categoryname() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + category.get_categoryid()
+//                                                + " " + category.get_categoryname() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "category_link":
@@ -586,10 +599,10 @@ public class Xml_model_receive {
 //                                            + " " + category_link.get_categoryid()
 //                                            + " " + category_link.get_foodid()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + category_link.get_categoryid()
-                                                + " " + category_link.get_foodid() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + category_link.get_categoryid()
+//                                                + " " + category_link.get_foodid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "nutrient_constraint":
@@ -608,11 +621,11 @@ public class Xml_model_receive {
 //                                            + " " + nutrient_constraint.getNutrientid()
 //                                            + " " + nutrient_constraint.getRelationshipid()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + mix.get_mixid()
-                                                + " " + nutrient_constraint.getNutrientid()
-                                                + " " + nutrient_constraint.getRelationshipid() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + mix.get_mixid()
+//                                                + " " + nutrient_constraint.getNutrientid()
+//                                                + " " + nutrient_constraint.getRelationshipid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "food_nutrient_constraint":
@@ -632,12 +645,12 @@ public class Xml_model_receive {
 //                                            + " " + food_nutrient_constraint.getFoodid()
 //                                            + " " + food_nutrient_constraint.getNutrientid()
 //                                            + " " + food_nutrient_constraint.getRelationshipid() );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + mix.get_mixid()
-                                                + " " + food_nutrient_constraint.getFoodid()
-                                                + " " + food_nutrient_constraint.getNutrientid()
-                                                + " " + food_nutrient_constraint.getRelationshipid() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + mix.get_mixid()
+//                                                + " " + food_nutrient_constraint.getFoodid()
+//                                                + " " + food_nutrient_constraint.getNutrientid()
+//                                                + " " + food_nutrient_constraint.getRelationshipid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "food_nutrient_ratio_constraint":
@@ -663,14 +676,14 @@ public class Xml_model_receive {
 //                                            + " " + food_nutrient_ratio_constraint.getNutrientid_b()
 //                                            + " " + food_nutrient_ratio_constraint.getRelationshipid()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + mix.get_mixid()
-                                                + " " + food_nutrient_ratio_constraint.getFoodid_a()
-                                                + " " + food_nutrient_ratio_constraint.getNutrientid_a()
-                                                + " " + food_nutrient_ratio_constraint.getFoodid_b()
-                                                + " " + food_nutrient_ratio_constraint.getNutrientid_b()
-                                                + " " + food_nutrient_ratio_constraint.getRelationshipid() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + mix.get_mixid()
+//                                                + " " + food_nutrient_ratio_constraint.getFoodid_a()
+//                                                + " " + food_nutrient_ratio_constraint.getNutrientid_a()
+//                                                + " " + food_nutrient_ratio_constraint.getFoodid_b()
+//                                                + " " + food_nutrient_ratio_constraint.getNutrientid_b()
+//                                                + " " + food_nutrient_ratio_constraint.getRelationshipid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "nutrient_ratio_constraint":
@@ -692,12 +705,12 @@ public class Xml_model_receive {
 //                                            + " " + nutrient_ratio_constraint.getNutrientid_b()
 //                                            + " " + nutrient_ratio_constraint.getRelationshipid()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + mix.get_mixid()
-                                                + " " + nutrient_ratio_constraint.getNutrientid_a()
-                                                + " " + nutrient_ratio_constraint.getNutrientid_b()
-                                                + " " + nutrient_ratio_constraint.getRelationshipid() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + mix.get_mixid()
+//                                                + " " + nutrient_ratio_constraint.getNutrientid_a()
+//                                                + " " + nutrient_ratio_constraint.getNutrientid_b()
+//                                                + " " + nutrient_ratio_constraint.getRelationshipid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "nutrient_percent_constraint":
@@ -717,13 +730,12 @@ public class Xml_model_receive {
 //                                            + " " + nutrient_percent_constraint.getNutrientid()
 //                                            + " " + nutrient_percent_constraint.getRelationshipid()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + mix.get_mixid()
-                                                + " " + nutrient_percent_constraint.getFoodid()
-                                                + " " + nutrient_percent_constraint.getNutrientid()
-                                                + " " + nutrient_percent_constraint.getRelationshipid() );
-                                        Log.Log2.append( "\n" );
-
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + mix.get_mixid()
+//                                                + " " + nutrient_percent_constraint.getFoodid()
+//                                                + " " + nutrient_percent_constraint.getNutrientid()
+//                                                + " " + nutrient_percent_constraint.getRelationshipid() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "meal":
@@ -738,12 +750,12 @@ public class Xml_model_receive {
 //                                            + " " + meal.getName()
 //                                            + " " + meal.getMealOrder()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + meal.getMixid()
-                                                + " " + meal.getMealid()
-                                                + " " + meal.getName()
-                                                + " " + meal.getMealOrder() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + meal.getMixid()
+//                                                + " " + meal.getMealid()
+//                                                + " " + meal.getName()
+//                                                + " " + meal.getMealOrder() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                     case "meal_food_portion":
@@ -760,14 +772,14 @@ public class Xml_model_receive {
 //                                            + " " + portion.getExpectedwt()
 //                                            + " " + portion.getActualwt()
 //                                    );
-                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
-                                                + " " + portion.getMixid()
-                                                + " " + portion.getMealid()
-                                                + " " + portion.getFoodid()
-                                                + " " + portion.getPct()
-                                                + " " + portion.getExpectedwt()
-                                                + " " + portion.getActualwt() );
-                                        Log.Log2.append( "\n" );
+//                                        Log.Log2.append( ex.getMessage().substring( 0, 1 ).toUpperCase() + ex.getMessage().substring( 1 )
+//                                                + " " + portion.getMixid()
+//                                                + " " + portion.getMealid()
+//                                                + " " + portion.getFoodid()
+//                                                + " " + portion.getPct()
+//                                                + " " + portion.getExpectedwt()
+//                                                + " " + portion.getActualwt() );
+//                                        Log.Log2.append( "\n" );
                                     }
                                     break;
                                 }
@@ -783,10 +795,8 @@ public class Xml_model_receive {
                 show_message_invalid();
             }
         } catch ( IOException | NumberFormatException | XMLStreamException ex ) {
-
         }
     }
-
     private void show_message_invalid() {
         String_display_component component = new String_display_component();
         component.setPreferredSize( new Dimension( 200, 40 ) );
