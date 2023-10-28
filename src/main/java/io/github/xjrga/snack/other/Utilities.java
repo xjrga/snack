@@ -130,8 +130,14 @@ public class Utilities {
         sb.append( "]" );
         return sb.toString();
     }
-    public static void write_to_file( String filePath, String txt ) {
+    public static void append_to_file( String filePath, String txt ) {
         try ( BufferedWriter out = new BufferedWriter( new FileWriter( filePath, true ) ) ) {
+            out.write( txt );
+        } catch ( IOException ex ) {
+        }
+    }
+    public static void write_to_new_file( String filePath, String txt ) {
+        try ( BufferedWriter out = new BufferedWriter( new FileWriter( filePath, false ) ) ) {
             out.write( txt );
         } catch ( IOException ex ) {
         }

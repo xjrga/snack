@@ -36,7 +36,6 @@ import org.apache.commons.math3.util.Precision;
  * @author  Jorge R Garcia de Alba
  */
 public class LpModel {
-
     public static final int GEQ = 1;
     public static final int LEQ = 2;
     public static final int EQ = 3;
@@ -54,19 +53,16 @@ public class LpModel {
     private JTabbedPane component;
     private LinearConstraintSet linearConstraintSet;
     private HashMap<String, String> map = new HashMap();
-
     public LpModel() {
         constraints = new ArrayList();
         lp = new LpFormat();
     }
-
     public void addObjective( double[] coefficients ) {
         byte constantTerm = 0;
         //Objective function
         linearObjectiveFunction = new LinearObjectiveFunction( coefficients, constantTerm );
         lp.objectiveToLp( coefficients );
     }
-
     public void addConstraint( double[] coefficients, int rel, double amount ) {
         Relationship relationship = null;
         switch ( rel ) {
@@ -89,7 +85,6 @@ public class LpModel {
         map.put( c.toString(), lp.generate_constraint_name( coefficients, rel, amount ) );
         lp.constraintToLp( coefficients, rel, amount );
     }
-
     public boolean solve() {
         boolean flag = false;
         try {
@@ -112,37 +107,30 @@ public class LpModel {
         }
         return flag;
     }
-
     public double[] getPoint() {
         return point;
     }
-
     public double getCost() {
         return cost;
     }
-
     public String getTitle() {
         StringBuilder sb = new StringBuilder();
         sb.append( "Title: " );
         sb.append( title );
         return sb.toString();
     }
-
     public void setTitle( String title ) {
         this.title = title;
     }
-
     public String getDate() {
         StringBuilder sb = new StringBuilder();
         sb.append( "Date: " );
         sb.append( date );
         return sb.toString();
     }
-
     public void setDate( String date ) {
         this.date = date;
     }
-
     public String getVariables() {
         StringBuilder sb = new StringBuilder();
         sb.append( "Variables" );
@@ -150,11 +138,9 @@ public class LpModel {
         sb.append( variables );
         return sb.toString();
     }
-
     public void setVariables( String legend ) {
         this.variables = legend;
     }
-
     public String get_description() {
         StringBuilder sb = new StringBuilder();
         sb.append( getTitle() );
@@ -164,48 +150,38 @@ public class LpModel {
         sb.append( getVariables() );
         return sb.toString();
     }
-
     public String get_model() {
         return lp.getModel();
     }
-
     public String get_actual_values_of_the_variables() {
         StringBuilder sb = new StringBuilder();
         sb.append( actual_values_of_the_variables );
         return sb.toString();
     }
-
     public void set_actual_values_of_the_variables( String txt ) {
         this.actual_values_of_the_variables = txt;
     }
-
     public String value_of_objective_function() {
         StringBuilder sb = new StringBuilder();
         sb.append( value_of_objective_function );
         return sb.toString();
     }
-
     public void set_value_of_objective_function( String txt ) {
         this.value_of_objective_function = txt;
     }
-
     public String get_infeasible_message() {
         return "Model is infeasible. No solution exists which satisfies all the constraints.";
     }
-
     public String get_feasible_message() {
         return "Model is feasible. A solution exists which satisfies all the constraints.";
     }
-
     public void setComponent( JTabbedPane component ) {
         this.component = component;
     }
-
-    private double get_actual_value_of_constraint( RealVector v, double value, double[] point ) {
+    private double get_actual_value_of_constraint( RealVector v, double[] point ) {
         ArrayRealVector rvpoint = new ArrayRealVector( point );
         return v.dotProduct( rvpoint );
     }
-
     private boolean get_constraint_binding_status( double value, double dot_product ) {
         boolean flag = false;
         double epsilon = 0.000001d;
@@ -214,21 +190,22 @@ public class LpModel {
         }
         return flag;
     }
-
     public String get_actual_values_of_the_constraints() {
         StringBuilder sb = new StringBuilder();
         sb.append( "Actual values of the constraints:" );
         sb.append( "\n" );
         Collection<LinearConstraint> cs = linearConstraintSet.getConstraints();
+        int i = 1;
         for ( LinearConstraint lc : cs ) {
-            String name = map.get( lc.toString() );
-            sb.append( name )
-                    .append( ", " )
-                    .append( get_actual_value_of_constraint( lc.getCoefficients(), lc.getValue(), point ) )
-                    .append( ", " )
-                    .append( get_constraint_binding_status( lc.getValue(), get_actual_value_of_constraint( lc.getCoefficients(), lc.getValue(), point ) ) );
+            double actual = get_actual_value_of_constraint( lc.getCoefficients(), point );
+            boolean is_binding = get_constraint_binding_status( lc.getValue(), actual );
+            sb.append( String.format( "R%1$02d %2$ 35.17f", i, actual ) );
+            if ( is_binding ) {
+                sb.append( ", binding" );
+            }
             sb.append( "\n" );
+            i++;
         }
-        return sb.toString().stripTrailing();
+        return sb.toString();
     }
 }

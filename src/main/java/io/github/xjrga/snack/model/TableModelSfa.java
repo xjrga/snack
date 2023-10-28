@@ -34,6 +34,7 @@ public class TableModelSfa
         columns.add( "Name" ); //0
         columns.add( "Weight" );
         columns.add( "SFA" );
+        columns.add( "HCSFA" );
         columns.add( "Lauric" );
         columns.add( "Myristic" );
         columns.add( "Palmitic" );

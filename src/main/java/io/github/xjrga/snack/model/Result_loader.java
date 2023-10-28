@@ -128,10 +128,12 @@ public class Result_loader
                 Double Myristic = ( Double ) rowm.get( Nutrient.MYRISTIC.getLabel() );
                 Double Palmitic = ( Double ) rowm.get( Nutrient.PALMITIC.getLabel() );
                 Double Stearic = ( Double ) rowm.get( Nutrient.STEARIC.getLabel() );
+                Double Hcsfa = ( Double ) rowm.get( Nutrient.HCSFA.getLabel() );
                 Vector sfa_row = new Vector();
                 sfa_row.add( Name );
                 sfa_row.add( Weight );
                 sfa_row.add( Saturated );
+                sfa_row.add( Hcsfa );
                 sfa_row.add( Lauric );
                 sfa_row.add( Myristic );
                 sfa_row.add( Palmitic );
@@ -222,8 +224,8 @@ public class Result_loader
                 electrolytes_row.add( Name );
                 electrolytes_row.add( Weight );
                 electrolytes_row.add( Water );
-                electrolytes_row.add( Sodium );
                 electrolytes_row.add( Potassium );
+                electrolytes_row.add( Sodium );
                 electrolytes_table.add( electrolytes_row );
                 //COST TABLE
                 Double Cost = ( Double ) rowm.get( Nutrient.COST.getLabel() );

@@ -18,10 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 <project default="">
     <xmlproperty file="pom.xml" prefix="pom" />
-    <tstamp>
-        <!--        <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>-->
-        <format property="time.stamp" pattern="yyyyMMdd_HHmm"/>
-    </tstamp>
     <target name="compile">
         <exec executable="mvn">
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
@@ -75,17 +71,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             <env key="JAVA_HOME" value="/usr/lib/jvm/default-java"/>
             <arg line="dependency:tree"/>
         </exec>
-    </target>
-    <target name="0. show system values">
-        <echo message="This is the user home: ${user.home}"/>
-        <!--echo message="This is the user directory: ${user.dir}"/-->
-        <echo message="This is the base directory: ${basedir}"/>
-        <echo message="This is the java home: ${java.home}"/>
-        <echo message="This is the java class path: ${java.class.path}"/>
-        <echo message="This is the timestamp: ${time.stamp}"/>
-        <echo>The maven project name is ${pom.project.name}</echo>
-        <echo>The maven project group id is ${pom.project.groupId}</echo>
-        <echo>The maven project artifact id is ${pom.project.artifactId}</echo>
-        <echo>The maven project version is ${pom.project.version}</echo>
     </target>
 </project>

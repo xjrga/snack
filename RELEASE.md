@@ -397,3 +397,13 @@ RELEASE NOTES
       Update food definition xml schema
       Update mix nutritional value result tabs and help menu items
 
+1300
+
+      Add cholesterol raising saturated fatty acids (12:0, 14:0, 16:0) total result
+      Add essential fat ratio (la/ala)
+      Add electrolyte ratio (k/na)
+      Add polyunsaturate/saturate ratio (pufa/sfa)
+      Add monounsaturate/saturate ratio (mufa/sfa)
+      Update protein energy factor from 4 to 4.7 kcal/g
+      Calculate mix statistics by selecting menu item under mix menu
+      Calculate food statistics by right clicking on food list item

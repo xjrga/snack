@@ -246,6 +246,7 @@ CREATE TABLE mixresultdn
         myristic DOUBLE,
         palmitic DOUBLE,
         stearic DOUBLE,
+        hcsfa DOUBLE,
         CONSTRAINT mixresultdn_primary_key PRIMARY KEY (mixid,foodid)
 );
 /
@@ -332,7 +333,7 @@ READS SQL DATA BEGIN ATOMIC
 DECLARE fq DOUBLE;
 SELECT --Food quotient (FQ) calculated using the equation of Black et al
        --FQ for alcohol is 0.667
-       CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(digestiblecarbohydrate*4) /SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93)*1.00 +SUM(fat*9) /SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93)*0.71 +SUM(protein*4) /SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93)*0.81 +SUM(alcohol*6.93) /SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93)*0.667 END into fq
+       CASE WHEN SUM(energydigestible) <= 0 OR SUM(energydigestible) IS NULL THEN 0 ELSE SUM(energycarbohydrate) /SUM(energydigestible)*1.00 +SUM(energyfat) /SUM(energydigestible)*0.71 +SUM(energyprotein) /SUM(energydigestible)*0.81 +SUM(energyalcohol) /SUM(energydigestible)*0.667 END into fq
 FROM mixresultdn
 WHERE mixid = v_MixId;
 RETURN fq;
@@ -340,27 +341,252 @@ END;
 /
 
 
-CREATE PROCEDURE FoodFactCoefficient_Merge (
+CREATE FUNCTION get_essential_fat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE ratio DOUBLE;
+--
+SELECT CASEWHEN(sum(alphalinolenicacid) <= 0,0,sum(linoleicacid)/sum(alphalinolenicacid)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+--
+RETURN ratio;
+--
+END;
+/
+
+
+CREATE FUNCTION get_electrolyte_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE ratio DOUBLE;
+--
+SELECT CASEWHEN(sum(sodium) <= 0,0,sum(potassium)/sum(sodium)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+--
+RETURN ratio;
+--
+END;
+/
+
+
+CREATE FUNCTION get_polyufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE ratio DOUBLE;
+--
+SELECT CASEWHEN (SUM(sfa) <= 0,0,SUM(pufa) / SUM(sfa)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+--
+RETURN ratio;
+--
+END;
+/
+
+
+CREATE FUNCTION get_monoufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE ratio DOUBLE;
+--
+SELECT CASEWHEN (SUM(sfa) <= 0,0,SUM(mufa) / SUM(sfa)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+--
+RETURN ratio;
+--
+END;
+/
+
+
+CREATE FUNCTION getGIFromGL (
+--
+IN v_FoodId LONGVARCHAR
+--
+)
+--
+RETURNS DOUBLE READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_gi DOUBLE;
+--
+SELECT CASE WHEN b.q <= 0 OR b.q IS NULL THEN 0 ELSE (a.q*100) / b.q END INTO v_gi
+FROM (SELECT *
+      FROM foodfact
+      WHERE foodid = v_FoodId
+      AND   nutrientid = '10006') a,
+     (SELECT *
+      FROM foodfact
+      WHERE foodid = v_FoodId
+      AND   nutrientid = '10003') b
+WHERE a.foodid = b.foodid;
+--
+RETURN v_gi;
+--
+END;
+/
+
+CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE mealGI DOUBLE;
+--
+SET mealGI = 0;
+--
+SELECT SUM(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END * getGIFromGL (foodid)) INTO mealGI
+FROM (SELECT mixid,
+             foodid,
+             weight,
+             digestiblecarbohydrate AS carbs,
+             (SELECT SUM(digestiblecarbohydrate)
+              FROM mixresultdn
+              WHERE mixid = v_MixId) AS tcarbs,
+             glycemicload AS gl
+      FROM mixresultdn
+      WHERE mixid = v_MixId)
+GROUP BY mixid;
+--
+RETURN mealGI;
+--
+END;
+/
+
+
+CREATE FUNCTION generateLargeRandomNumber() RETURNS NUMERIC
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_count NUMERIC;
+--
+SELECT substring(replace(replace('' +replace('' + rand (),'-',''),'.',''),'E',''),0,11) INTO v_count FROM (VALUES (0));
+--
+RETURN v_count;
+--
+END;
+/
+
+CREATE FUNCTION CategoryLink_Count (
+--
+IN v_FoodCategoryId LONGVARCHAR,
+--
+IN v_FoodId LONGVARCHAR
+--
+) RETURNS INTEGER
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_count INTEGER;
+
+--
+SELECT COUNT(*) INTO v_count
+FROM CategoryLink
+WHERE FoodCategoryId = v_FoodCategoryId
+AND   FoodId = v_FoodId;
+--
+RETURN v_count;
+
+--
+END;
+/
+
+CREATE FUNCTION getCategoryId (IN v_FoodId LONGVARCHAR) RETURNS LONGVARCHAR
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_FoodCategoryId LONGVARCHAR;
+--
+SELECT FoodCategoryId INTO v_FoodCategoryId
+FROM CategoryLink
+WHERE FoodId = v_FoodId;
+--
+RETURN v_FoodCategoryId;
+--
+END;
+/
+
+CREATE FUNCTION escape_xml_element_data (IN v_text LONGVARCHAR) RETURNS LONGVARCHAR
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_clean LONGVARCHAR;
+--
+SET v_clean = REGEXP_REPLACE (v_text,'&','&amp;');
+SET v_clean = REGEXP_REPLACE (v_clean,'<','&lt;');
+SET v_clean = REGEXP_REPLACE (v_clean,'>','&gt;');
+--
+RETURN v_clean;
+
+--
+END;
+/
+
+
+CREATE FUNCTION pick_food_gi(
+IN v_foodid LONGVARCHAR
+) RETURNS DOUBLE
+READS SQL DATA BEGIN ATOMIC
+DECLARE v_gi DOUBLE;
+SET v_gi = 0;
+SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
+RETURN v_gi;
+END;
+/
+
+
+CREATE FUNCTION calculate_remaining_percentage (
+IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
-IN v_NutrientId LONGVARCHAR,
-IN v_c DOUBLE
+IN v_Precision INTEGER) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE v_c DOUBLE;
+--
+SELECT SUM(pct) INTO v_c FROM MealFoodPortion WHERE MixId = v_MixId AND FoodId = v_FoodId;
+--
+RETURN ROUND(v_c * 100,v_Precision);
+--
+END;
+/
+
+
+CREATE FUNCTION get_dri (
+--
+IN v_LifeStageId INTEGER,
+--
+IN v_NutrientId LONGVARCHAR
+--
 )
-MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO FoodFactCoefficient USING ( VALUES (
-v_FoodId,
-v_NutrientId,
-v_c
-) ) ON (
-FoodId = v_FoodId
-AND
-NutrientId = v_NutrientId
-)
-WHEN MATCHED THEN UPDATE SET
-c = v_c
-WHEN NOT MATCHED THEN INSERT VALUES
-v_FoodId,
-v_NutrientId,
-v_c;
+--
+RETURNS DOUBLE READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_c DOUBLE;
+
+--
+SELECT q INTO v_c  FROM rda WHERE lifestageid = v_LifeStageId AND nutrientid = v_NutrientId;
+--
+RETURN v_c;
+
+END;
+/
+
+
+CREATE FUNCTION generateId(
+--
+) RETURNS LONGVARCHAR
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_id LONGVARCHAR;
+--
+SELECT generateLargeRandomNumber() INTO v_id FROM (VALUES(0));
+--
+RETURN v_id;
+--
 END;
 /
 
@@ -453,6 +679,111 @@ END;
 /
 
 
+CREATE FUNCTION get_foodfact (
+--
+IN v_foodid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR
+--
+
+) RETURNS DOUBLE
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_q DOUBLE;
+--
+SELECT q INTO v_q FROM FoodFact WHERE foodid = v_foodid AND nutrientid = v_nutrientid;
+--
+RETURN IFNULL(v_q,0);
+--
+END;
+/
+
+
+CREATE FUNCTION get_food_fq(
+--
+IN v_foodid LONGVARCHAR
+--
+) RETURNS DOUBLE
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE fq DOUBLE;
+--
+SET fq = 0;
+--
+IF get_foodfact(v_foodid,'10009') > 0 THEN
+--
+SELECT
+--eCarbs
+get_foodfact(v_foodid,'10011') / get_foodfact(v_foodid,'10009') * 1.00 +
+--eFat
+get_foodfact(v_foodid,'10013') / get_foodfact(v_foodid,'10009') * 0.71 +
+--eProtein
+get_foodfact(v_foodid,'10012') / get_foodfact(v_foodid,'10009') * 0.81 +
+--eAlcohol
+get_foodfact(v_foodid,'10014') / get_foodfact(v_foodid,'10009') * 0.667
+--
+INTO fq
+--
+FROM (VALUES(0));
+--
+END IF;
+--
+RETURN fq;
+--
+END;
+/
+
+
+CREATE PROCEDURE get_food_statistics (
+--
+IN v_foodid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT
+--eFatPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'10013') / get_foodfact (v_foodid,'10009'))*100) AS efatpct,
+--eCarbsPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'10011') / get_foodfact (v_foodid,'10009'))*100) AS ecarbspct,
+--eProteinPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'10012') / get_foodfact (v_foodid,'10009'))*100) AS eproteinpct,
+--eAlcoholPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'10014') / get_foodfact (v_foodid,'10009'))*100) AS ealcoholpct,
+--eSaturatedFatPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'606')*9 / get_foodfact (v_foodid,'10009'))*100) AS esfapct,
+--ePolyunsaturatedFatPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'646')*9 / get_foodfact (v_foodid,'10009'))*100) AS epufapct,
+--eMonounsaturatedFatPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'645')*9 / get_foodfact (v_foodid,'10009'))*100) AS emufapct,
+--eLinoleicAcidPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'618')*9 / get_foodfact (v_foodid,'10009'))*100) AS elapct,
+--eAlphaLinolenicAcidPct
+CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'619')*9 / get_foodfact (v_foodid,'10009'))*100) AS ealapct,
+--pufa/sfa
+CASEWHEN(get_foodfact (v_foodid,'606') <= 0,0,get_foodfact (v_foodid,'646') / get_foodfact (v_foodid,'606')) AS pufa_sfa,
+--mufa/sfa
+CASEWHEN(get_foodfact (v_foodid,'606') <= 0,0,get_foodfact (v_foodid,'645') / get_foodfact (v_foodid,'606')) AS mufa_sfa,
+--la/ala
+CASEWHEN(get_foodfact (v_foodid,'619') <= 0,0,get_foodfact (v_foodid,'618') / get_foodfact (v_foodid,'619')) AS la_ala,
+--k/na
+CASEWHEN(get_foodfact (v_foodid,'307') <= 0,0,get_foodfact (v_foodid,'306') / get_foodfact (v_foodid,'307')) AS k_na,
+--fq
+get_food_fq(v_foodid) AS fq
+--
+FROM (VALUES (0));
+--
+OPEN result;
+--
+END;
+/
+
+
 CREATE PROCEDURE Rda_Update_UL (
 IN v_NutrientId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
@@ -526,34 +857,6 @@ v_Name
 END;
 /
 
-
-CREATE FUNCTION generateLargeRandomNumber() RETURNS NUMERIC
---
-READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_count NUMERIC;
---
-SELECT substring(replace(replace('' + rand () + '' + rand () + '' + rand () + '' + rand () + '' + rand () + '' + rand () + '' + rand () + rand (),'.',''),'E',''),0,129) INTO v_count FROM (VALUES (0));
---
-RETURN v_count;
---
-END;
-/
-
-CREATE FUNCTION generateId(
---
-) RETURNS LONGVARCHAR
---
-READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_id LONGVARCHAR;
---
-SELECT generateLargeRandomNumber() INTO v_id FROM (VALUES(0));
---
-RETURN v_id;
---
-END;
-/
 
 CREATE PROCEDURE FoodFact_ZeroOut_FoodId (
 --
@@ -646,40 +949,11 @@ FROM NutrientCategory a,
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
 AND c.FoodId = v_FoodId
-AND (b.NutrientId != '10003' AND b.NutrientId != '10006' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014')
+AND (b.NutrientId != '10003' AND b.NutrientId != '10006' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014' AND b.NutrientId != '10015')
 ORDER BY a.Name,b.Name;
 OPEN result;
 END;
 /
-
-CREATE TRIGGER FoodFact_RowLevelAfterUpdate_Trigger AFTER UPDATE OF q ON FoodFact REFERENCING NEW ROW AS newrow OLD AS oldrow
---
-FOR EACH ROW
-BEGIN ATOMIC
---
-DECLARE v_c DOUBLE;
---
-IF newrow.NutrientId = '10000' THEN
---
-FOR SELECT nutrientid FROM nutrient DO
---
-SET v_c = getFoodCoefficient(newrow.FoodId,nutrientid);
---
-call FoodFactCoefficient_Merge(newrow.FoodId,nutrientid,v_c);
---
-END FOR;
---
-ELSE
---
-SET v_c = getFoodCoefficient(newrow.FoodId,newrow.NutrientId);
---
-CALL FoodFactCoefficient_Merge(newrow.FoodId,newrow.NutrientId, v_c);
---
-END IF;
---
-END;
-/
-
 
 CREATE PROCEDURE FoodFact_Select_ForCheckCoefficient (
 IN v_FoodId LONGVARCHAR,
@@ -818,47 +1092,6 @@ END;
 /
 
 
-CREATE FUNCTION getGIFromGL (
---
-IN v_FoodId LONGVARCHAR
---
-)
---
-RETURNS DOUBLE READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_gi DOUBLE;
---
-SELECT CASE WHEN b.q <= 0 OR b.q IS NULL THEN 0 ELSE (a.q*100) / b.q END INTO v_gi
-FROM (SELECT *
-      FROM foodfact
-      WHERE foodid = v_FoodId
-      AND   nutrientid = '10006') a,
-     (SELECT *
-      FROM foodfact
-      WHERE foodid = v_FoodId
-      AND   nutrientid = '10003') b
-WHERE a.foodid = b.foodid;
---
-RETURN v_gi;
---
-END;
-/
-
-CREATE FUNCTION getCategoryId (IN v_FoodId LONGVARCHAR) RETURNS LONGVARCHAR
---
-READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_FoodCategoryId LONGVARCHAR;
---
-SELECT FoodCategoryId INTO v_FoodCategoryId
-FROM CategoryLink
-WHERE FoodId = v_FoodId;
---
-RETURN v_FoodCategoryId;
---
-END;
-/
-
 CREATE PROCEDURE Mix_getMealGi (
 --
 IN v_MixId LONGVARCHAR,
@@ -870,16 +1103,14 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
-SELECT CASE
-       WHEN b.name IS NULL THEN 'Total'
-       ELSE b.name
-       END as name,
+SELECT CASE WHEN b.name IS NULL THEN 'Total' ELSE b.name END as name,
        ROUND(a.weight, v_Precision) AS weight,
        ROUND(a.carbs, v_Precision) AS carbs,
        ROUND(a.pct*100, v_Precision) AS pct,
        ROUND(a.gl, v_Precision) AS gl,
        ROUND(a.gi, v_Precision) AS gi,
-       ROUND(a.mealgi, v_Precision) AS mealgi
+       ROUND(a.mealgi, v_Precision) AS mealgi,
+       ROUND(a.energycarbohydrate, v_Precision) as ecarbs
 FROM
 (
 SELECT mixid,
@@ -889,16 +1120,16 @@ SELECT mixid,
        CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END AS Pct,
        gl,
        getGIFromGL(foodid) as gi,
-       CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid) AS MealGI
+       CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid) AS MealGI,
+       energycarbohydrate
 FROM (
 SELECT mixid,
        foodid,
        weight,
        digestiblecarbohydrate AS carbs,
-       (SELECT SUM(digestiblecarbohydrate)
-        FROM mixresultdn
-        WHERE mixid = v_MixId) AS tcarbs,
-       glycemicload AS gl
+       (SELECT SUM(digestiblecarbohydrate) FROM mixresultdn WHERE mixid = v_MixId) AS tcarbs,
+       glycemicload AS gl,
+       energycarbohydrate
 FROM mixresultdn
 WHERE mixid = v_MixId
 )
@@ -909,20 +1140,20 @@ SELECT mixid,
        'Total',
        sum(weight),
        sum(carbs),
-       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END) AS Pct,
+       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END),
        sum(gl),
-       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid)) AS MealGI,
-       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid)) AS MealGI
+       -1,
+       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid)),
+       sum(energycarbohydrate)
 FROM
 (
 SELECT mixid,
        foodid,
        weight,
        digestiblecarbohydrate AS carbs,
-       (SELECT SUM(digestiblecarbohydrate)
-        FROM mixresultdn
-        WHERE mixid = v_MixId) AS tcarbs,
-       glycemicload AS gl
+       (SELECT SUM(digestiblecarbohydrate) FROM mixresultdn WHERE mixid = v_MixId) AS tcarbs,
+       glycemicload AS gl,
+       energycarbohydrate
 FROM mixresultdn
 WHERE mixid = v_MixId
 )
@@ -940,34 +1171,6 @@ ON a.foodid = b.foodid
 ORDER BY weight,name;
 --
 OPEN result;
---
-END;
-/
-
-
-CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
---
-READS SQL DATA
-BEGIN ATOMIC
---
-DECLARE mealGI DOUBLE;
---
-SET mealGI = 0;
---
-SELECT SUM(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END * getGIFromGL (foodid)) INTO mealGI
-FROM (SELECT mixid,
-             foodid,
-             weight,
-             digestiblecarbohydrate AS carbs,
-             (SELECT SUM(digestiblecarbohydrate)
-              FROM mixresultdn
-              WHERE mixid = v_MixId) AS tcarbs,
-             glycemicload AS gl
-      FROM mixresultdn
-      WHERE mixid = v_MixId)
-GROUP BY mixid;
---
-RETURN mealGI;
 --
 END;
 /
@@ -1104,7 +1307,7 @@ SET v_NutrientIdA = '203';
 --Energy, protein (kcal)
 SET v_NutrientIdB = '10012';
 --
-FOR SELECT FOODID, Q*4 AS ENERGY FROM FOODFACT WHERE NUTRIENTID = v_NutrientIdA DO
+FOR SELECT FOODID, Q * 4.7 AS ENERGY FROM FOODFACT WHERE NUTRIENTID = v_NutrientIdA DO
 --
 CALL FoodFact_Merge (FOODID,v_NutrientIdB,ENERGY);
 --
@@ -1135,7 +1338,7 @@ END;
 /
 
 
-CREATE PROCEDURE FoodFact_EnergyNoProtein ()
+CREATE PROCEDURE FoodFact_EnergyFatCarbs()
 --
 MODIFIES SQL DATA BEGIN ATOMIC
 --
@@ -1143,8 +1346,8 @@ DECLARE v_NutrientIdB LONGVARCHAR;
 --Energy, fat and carbohydrate (kcal)
 SET v_NutrientIdB = '10010';
 --
-FOR SELECT a.foodid,
-       energyfat + energycarbs AS energy
+FOR SELECT a.foodid,energyfat + energycarbs AS energy
+--
 FROM (SELECT FOODID,Q AS ENERGYFAT
       FROM FOODFACT
       WHERE NUTRIENTID = '10013') a,
@@ -1243,6 +1446,38 @@ AND   A.FOODID = D.FOODID
 DO
 --
 CALL FoodFact_Merge (FOODID,v_NutrientIdE,ENERGYDIGESTIBLE);
+--
+END FOR;
+--
+END;
+/
+
+
+CREATE PROCEDURE FoodFact_HCSFA()
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_NutrientIdB LONGVARCHAR;
+--Fats, Saturated Fatty Acids, HC (g)
+SET v_NutrientIdB = '10015';
+--
+FOR SELECT a.foodid,
+       a.lauric + b.myristic + c.palmitic AS hcsfa
+FROM (SELECT FOODID,Q AS lauric
+      FROM FOODFACT
+      WHERE NUTRIENTID = '611') a,
+     (SELECT FOODID, Q AS myristic
+      FROM FOODFACT
+      WHERE NUTRIENTID = '612') b,
+     (SELECT FOODID, Q AS palmitic
+      FROM FOODFACT
+      WHERE NUTRIENTID = '613') c
+WHERE a.foodid = b.foodid
+AND a.foodid = c.foodid
+--
+DO
+--
+CALL FoodFact_Merge (FOODID,v_NutrientIdB,hcsfa);
 --
 END FOR;
 --
@@ -1615,6 +1850,7 @@ SELECT
        ROUND(x61.q,v_Precision) AS "Myristic",
        ROUND(x62.q,v_Precision) AS "Palmitic",
        ROUND(x63.q,v_Precision) AS "Stearic",
+       ROUND(x64.q,v_Precision) AS "SaturatedHC",
        --Glycemic
        ROUND(x50.q,v_Precision) AS "GlycemicLoad",
        --Other
@@ -1675,7 +1911,8 @@ FROM food a,
      foodfact x60,
      foodfact x61,
      foodfact x62,
-     foodfact x63
+     foodfact x63,
+     foodfact x64
 WHERE
 (
 a.foodid = x0.foodid AND
@@ -1730,7 +1967,8 @@ a.foodid = x59.foodid AND
 a.foodid = x60.foodid AND
 a.foodid = x61.foodid AND
 a.foodid = x62.foodid AND
-a.foodid = x63.foodid
+a.foodid = x63.foodid AND
+a.foodid = x64.foodid
 )
 AND
 (
@@ -1786,7 +2024,8 @@ x59.nutrientid = '10010' AND
 x60.nutrientid = '611' AND
 x61.nutrientid = '612' AND
 x62.nutrientid = '613' AND
-x63.nutrientid = '614'
+x63.nutrientid = '614' AND
+x64.nutrientid = '10015'
 )
 UNION
 SELECT
@@ -1850,6 +2089,7 @@ SELECT
        ROUND(x61.q,v_Precision) AS "Myristic",
        ROUND(x62.q,v_Precision) AS "Palmitic",
        ROUND(x63.q,v_Precision) AS "Stearic",
+       ROUND(x64.q,v_Precision) AS "SaturatedHC",
        --Glycemic
        ROUND(x50.q,v_Precision) AS "GlycemicLoad",
        --Other
@@ -1916,7 +2156,8 @@ FROM (SELECT foodid,
      foodfact x60,
      foodfact x61,
      foodfact x62,
-     foodfact x63
+     foodfact x63,
+     foodfact x64
 WHERE
 (
 a.foodid = x0.foodid AND
@@ -1971,7 +2212,8 @@ a.foodid = x59.foodid AND
 a.foodid = x60.foodid AND
 a.foodid = x61.foodid AND
 a.foodid = x62.foodid AND
-a.foodid = x63.foodid
+a.foodid = x63.foodid AND
+a.foodid = x64.foodid
 )
 AND
 (
@@ -2027,7 +2269,8 @@ x59.nutrientid = '10010' AND
 x60.nutrientid = '611' AND
 x61.nutrientid = '612' AND
 x62.nutrientid = '613' AND
-x63.nutrientid = '614'
+x63.nutrientid = '614' AND
+x64.nutrientid = '10015'
 );
 --
 OPEN result;
@@ -2222,20 +2465,6 @@ FoodCategoryId = v_FoodCategoryId;
 END;
 /
 
-CREATE TRIGGER FoodFact_RowLevelAfterInsert_Trigger AFTER INSERT ON FoodFact
-REFERENCING NEW ROW AS newrow
-FOR EACH ROW
-BEGIN ATOMIC
---
-DECLARE v_c DOUBLE;
---
-SET v_c = getFoodCoefficient(newrow.FoodId,newrow.NutrientId);
-CALL FoodFactCoefficient_Merge(newrow.FoodId,newrow.NutrientId,v_c);
---
-END;
-/
-
-
 CREATE PROCEDURE foodnutrient_lhs (
 --
 IN v_MixId LONGVARCHAR,
@@ -2415,7 +2644,7 @@ FROM
 SELECT nutrientcategoryid, name
 FROM nutrientcategory) A,
 (
-SELECT 
+SELECT
        b.nutrientcategoryid,
        b.nutrientid,
        b.name,
@@ -2425,7 +2654,7 @@ SELECT
 FROM (SELECT a.nutrientid,
              a.value AS mix1,
              b.value AS mix2,
-             a.value - b.value AS diff
+             b.value - a.value AS diff
       FROM (SELECT nutrientid,
                    SUM(q) AS value
             FROM mixresult
@@ -2889,7 +3118,7 @@ INSERT INTO mixresultdn
     potassium,
     sodium,
     zinc,
-    copper,    
+    copper,
     manganese,
     selenium,
     vitamina,
@@ -2919,9 +3148,14 @@ INSERT INTO mixresultdn
     energyprotein,
     energyfat,
     energyalcohol,
-    energyfatcarbohydrate
+    energyfatcarbohydrate,
+    lauric,
+    myristic,
+    palmitic,
+    stearic,
+    hcsfa
 )
-SELECT  v_MixId_New,        
+SELECT  v_MixId_New,
         foodid,
         name,
         weight,
@@ -2942,7 +3176,7 @@ SELECT  v_MixId_New,
         potassium,
         sodium,
         zinc,
-        copper,       
+        copper,
         manganese,
         selenium,
         vitamina,
@@ -2972,7 +3206,12 @@ SELECT  v_MixId_New,
         energyprotein,
         energyfat,
         energyalcohol,
-        energyfatcarbohydrate
+        energyfatcarbohydrate,
+        lauric,
+        myristic,
+        palmitic,
+        stearic,
+        hcsfa
 FROM mixresultdn
 WHERE mixid = v_MixId_Old;
 --
@@ -3041,7 +3280,8 @@ SELECT a.MixId,
        ROUND(Lauric,v_Precision) AS Lauric,
        ROUND(Myristic,v_Precision) AS Myristic,
        ROUND(Palmitic,v_Precision) AS Palmitic,
-       ROUND(Stearic,v_Precision) AS Stearic
+       ROUND(Stearic,v_Precision) AS Stearic,
+       ROUND(Hcsfa,v_Precision) AS Hcsfa
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -3100,11 +3340,12 @@ select a.MixId,
        Round(sum(EnergyProtein),v_Precision),
        Round(sum(EnergyFat),v_Precision),
        Round(sum(EnergyAlcohol),v_Precision),
-       ROUND(sum(EnergyFatCarbohydrate),v_Precision) AS EnergyFatCarbohydrate,
+       ROUND(sum(EnergyFatCarbohydrate),v_Precision),
        ROUND(sum(Lauric),v_Precision) AS Lauric,
        ROUND(sum(Myristic),v_Precision) AS Myristic,
        ROUND(sum(Palmitic),v_Precision) AS Palmitic,
-       ROUND(sum(Stearic),v_Precision) AS Stearic
+       ROUND(sum(Stearic),v_Precision) AS Stearic,
+       ROUND(sum(Hcsfa),v_Precision)
 FROM mixresultdn a,
      food b
 WHERE a.mixid = v_mixid
@@ -3127,15 +3368,22 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 --
-SELECT ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END ,v_Precision) AS calories,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(fat*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS fat,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(digestiblecarbohydrate*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS carbs,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(protein*4) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS protein,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(alcohol*6.93) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS alcohol,
-       ROUND(getFoodQuotient(v_MixId),2) AS fq,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(sfa*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS satfat,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(mufa*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS monoufat,
-       ROUND(CASE WHEN SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) <= 0 OR SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) IS NULL THEN 0 ELSE SUM(pufa*9) / SUM(fat*9 + digestiblecarbohydrate*4 + protein*4 + alcohol*6.93) END * 100,v_Precision) AS polyufat
+SELECT
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energydigestible)),v_Precision) AS calories,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energyfat) / SUM(energydigestible)*100),v_Precision) AS fatpct,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energycarbohydrate) / SUM(energydigestible)*100),v_Precision) AS carbpct,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energyprotein) / SUM(energydigestible)*100),v_Precision) AS proteinpct,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energyalcohol) / SUM(energydigestible)*100),v_Precision) AS alcoholpct,
+       ROUND(getFoodQuotient (v_MixId),3) AS fq,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(sfa*9) / SUM(energydigestible)*100),v_Precision) AS satfatpct,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(mufa*9) / SUM(energydigestible)*100),v_Precision) AS monoufatpct,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(pufa*9) / SUM(energydigestible)*100),v_Precision) AS polyufatpct,
+       ROUND(get_essential_fat_ratio(v_MixId),v_Precision) AS essentialfatratio,
+       ROUND(get_electrolyte_ratio(v_MixId),v_Precision) AS electrolyteratio,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(linoleicacid*9) / SUM(energydigestible)*100),v_Precision) AS linoleicacidpct,
+       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(alphalinolenicacid*9) / SUM(energydigestible)*100),v_Precision) AS alphalinolenicacidpct,
+       ROUND(get_polyufat_ratio(v_MixId),v_Precision) AS psratio,
+       ROUND(get_monoufat_ratio(v_MixId),v_Precision) AS msratio
 FROM mixresultdn
 WHERE mixid = v_MixId;
 --
@@ -3749,7 +3997,7 @@ FROM (SELECT a.name,
              c
       FROM foodfactcoefficient
       WHERE nutrientid = '10009'
-      AND   c > 0) b
+      AND   c >= 0) b
 WHERE a.foodid = b.foodid
 ORDER BY calories,weight;
 --
@@ -3757,6 +4005,7 @@ OPEN result;
 --
 END
 /
+
 
 CREATE PROCEDURE GlycemicIndex_merge (
 IN v_FoodId LONGVARCHAR,
@@ -3817,30 +4066,6 @@ END;
 /
 
 
-CREATE FUNCTION CategoryLink_Count (
---
-IN v_FoodCategoryId LONGVARCHAR,
---
-IN v_FoodId LONGVARCHAR
---
-) RETURNS INTEGER
---
-READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_count INTEGER;
-
---
-SELECT COUNT(*) INTO v_count
-FROM CategoryLink
-WHERE FoodCategoryId = v_FoodCategoryId
-AND   FoodId = v_FoodId;
---
-RETURN v_count;
-
---
-END;
-/
-
 CREATE PROCEDURE Food_Select_All_Like (
 --
 IN v_txt LONGVARCHAR
@@ -3861,14 +4086,6 @@ OPEN result;
 --
 END;
 /
-
-call relationship_insert(1,'≥');
-/
-call relationship_insert(2,'≤');
-/
-call relationship_insert(3,'=');
-/
-
 
 CREATE PROCEDURE PercentNutrientConstraint_Merge (
 IN v_MixId LONGVARCHAR,
@@ -3901,6 +4118,30 @@ v_FoodId,
 v_NutrientId,
 v_RelationshipId,
 v_b;
+END;
+/
+
+CREATE PROCEDURE FoodFactCoefficient_Merge (
+IN v_FoodId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
+IN v_c DOUBLE
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+MERGE INTO FoodFactCoefficient USING ( VALUES (
+v_FoodId,
+v_NutrientId,
+v_c
+) ) ON (
+FoodId = v_FoodId
+AND
+NutrientId = v_NutrientId
+)
+WHEN MATCHED THEN UPDATE SET
+c = v_c
+WHEN NOT MATCHED THEN INSERT VALUES
+v_FoodId,
+v_NutrientId,
+v_c;
 END;
 /
 
@@ -4033,7 +4274,7 @@ FOR
 SELECT 'Food Quotient' AS nutrient,
        a.fq AS mix1,
        b.fq AS mix2,
-       a.fq - b.fq AS diff
+       b.fq - a.fq AS diff
 FROM (SELECT getFoodQuotient(v_MixId_1) AS fq FROM ( VALUES (0))) a,
      (SELECT getFoodQuotient(v_MixId_2) AS fq FROM ( VALUES (0))) b;
 --
@@ -4510,23 +4751,6 @@ END;
 /
 
 
-CREATE FUNCTION escape_xml_element_data (IN v_text LONGVARCHAR) RETURNS LONGVARCHAR
---
-READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_clean LONGVARCHAR;
---
-SET v_clean = REGEXP_REPLACE (v_text,'&','&amp;');
-SET v_clean = REGEXP_REPLACE (v_clean,'<','&lt;');
-SET v_clean = REGEXP_REPLACE (v_clean,'>','&gt;');
---
-RETURN v_clean;
-
---
-END;
-/
-
-
 CREATE PROCEDURE Select_mix_as_xml (
 --
 OUT v_doc LONGVARCHAR,
@@ -4549,18 +4773,6 @@ SET v_doc = doc + CHAR (10);
 --
 END
 /
-
-CREATE FUNCTION pick_food_gi(
-IN v_foodid LONGVARCHAR
-) RETURNS DOUBLE
-READS SQL DATA BEGIN ATOMIC
-DECLARE v_gi DOUBLE;
-SET v_gi = 0;
-SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
-RETURN v_gi;
-END;
-/
-
 
 CREATE PROCEDURE Select_mixfood_list_as_xml (
 --
@@ -4588,7 +4800,7 @@ SET doc = '<food>' +CHAR(10)+'<food-id>'+id +'</food-id>' +CHAR (10) + '<food-na
 --
 SET doc2 = doc2 + doc;
 --
-FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(id) FROM (VALUES(0)) ) ORDER BY LABEL DO
+FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014' AND Y.NUTRIENTID != '10015') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(id) FROM (VALUES(0)) ) ORDER BY LABEL DO
 --
 SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' + CHAR (10);
 --
@@ -4993,7 +5205,8 @@ energyfatcarbohydrate,
 lauric,
 myristic,
 palmitic,
-stearic
+stearic,
+hcsfa
 )
 SELECT a.MixId,
        a.FoodId,
@@ -5050,7 +5263,8 @@ SELECT a.MixId,
        Lauric,
        Myristic,
        Palmitic,
-       Stearic
+       Stearic,
+       HCSFA
 FROM (SELECT x0.Mixid,
              x0.Foodid,
              x1.Weight,
@@ -5105,7 +5319,8 @@ FROM (SELECT x0.Mixid,
              x58.Lauric,
              x59.Myristic,
              x60.Palmitic,
-             x61.Stearic
+             x61.Stearic,
+             x62.HCSFA
       FROM
       --
       (SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
@@ -5486,7 +5701,14 @@ FROM (SELECT x0.Mixid,
               q AS Stearic
        FROM mixresult
        WHERE mixid = v_MixId
-       AND   nutrientid = '614') x61
+       AND   nutrientid = '614') x61,
+         --10015, Fats, Saturated Fatty Acids, HC (g)
+      (SELECT mixid,
+              foodid,
+              q AS HCSFA
+       FROM mixresult
+       WHERE mixid = v_MixId
+       AND   nutrientid = '10015') x62
       --
       WHERE x0.mixid = x1.mixid
       AND   x0.foodid = x1.foodid
@@ -5593,7 +5815,9 @@ FROM (SELECT x0.Mixid,
       AND   x0.mixid = x60.mixid
       AND   x0.foodid = x60.foodid
       AND   x0.mixid = x61.mixid
-      AND   x0.foodid = x61.foodid) a,
+      AND   x0.foodid = x61.foodid
+      AND   x0.mixid = x62.mixid
+      AND   x0.foodid = x62.foodid) a,
      (SELECT foodid, name FROM food) b
 WHERE a.foodid = b.foodid;
 --
@@ -5633,7 +5857,7 @@ FROM
 SELECT nutrientcategoryid, name
 FROM nutrientcategory) A,
 (
-SELECT 
+SELECT
        b.nutrientcategoryid,
        b.nutrientid,
        b.name,
@@ -5643,7 +5867,7 @@ SELECT
 FROM (SELECT a.nutrientid,
              a.value AS food_a,
              b.value AS food_b,
-             a.value - b.value AS diff
+             b.value - a.value AS diff
       FROM (SELECT nutrientid,
                    c * 100 AS value
             FROM foodfactcoefficient
@@ -5790,7 +6014,7 @@ FoodId = v_FoodId;
 END;
 /
 
-CREATE PROCEDURE apportion (
+CREATE PROCEDURE allocate (
 --
 IN v_MixId LONGVARCHAR
 --
@@ -5804,44 +6028,6 @@ FOR SELECT mealid FROM meal DO
 CALL MealFoodPortion_update_expectedwt(mixid,mealid, foodid);
 END FOR;
 END FOR;
---
-END;
-/
-
-
-CREATE FUNCTION calculate_remaining_percentage (
-IN v_MixId LONGVARCHAR,
-IN v_FoodId LONGVARCHAR,
-IN v_Precision INTEGER) RETURNS DOUBLE 
---
-READS SQL DATA 
-BEGIN ATOMIC 
-DECLARE v_c DOUBLE;
---
-IF
---
-(SELECT COUNT(*)
-FROM MealFoodPortion a
-WHERE a.mixid = v_MixId AND a.foodid = V_FoodId) = 0
---
-THEN
---
-SET v_c = 1;
---
-ELSE
---
-SELECT CASE
-         WHEN SUM(pct) > 1 THEN 1 -SUM(pct)
-         ELSE 1 -SUM(pct)
-       END 
-INTO v_c
-FROM MealFoodPortion
-WHERE MixId = v_MixId
-AND   FoodId = v_FoodId;
---
-END IF;
---
-RETURN ROUND(v_c * 100,v_Precision);
 --
 END;
 /
@@ -6736,6 +6922,10 @@ DECLARE v_energy_carbohydrate DOUBLE;
 DECLARE v_energy_fat DOUBLE;
 DECLARE v_energy_protein DOUBLE;
 DECLARE v_gi DOUBLE;
+DECLARE v_lauric DOUBLE;
+DECLARE v_myristic DOUBLE;
+DECLARE v_palmitic DOUBLE;
+DECLARE v_hcsfa DOUBLE;
 --
 --digestible_carbohydrate
 SELECT q INTO v_carbsbydiff FROM foodfact WHERE nutrientid = '205' AND foodid = v_foodid;
@@ -6756,7 +6946,7 @@ SELECT q * 9 INTO v_energy_fat FROM foodfact  WHERE nutrientid = '204' AND foodi
 CALL foodfact_merge (v_foodid,'10013',v_energy_fat);
 --
 -- energy_protein
-SELECT q * 4 INTO v_energy_protein FROM foodfact  WHERE nutrientid = '203' AND foodid = v_foodid;
+SELECT q * 4.7 INTO v_energy_protein FROM foodfact  WHERE nutrientid = '203' AND foodid = v_foodid;
 CALL foodfact_merge (v_foodid,'10012',v_energy_protein);
 --
 -- energy_fat_and_carbohydrate
@@ -6768,6 +6958,13 @@ CALL foodfact_merge (v_foodid,'10009',v_energy_carbohydrate+v_energy_fat+v_energ
 -- glycemic_load
 SELECT q  INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
 CALL foodfact_merge (v_foodid,'10006',v_digestible_carbohydrate*v_gi/100);
+--
+--hcsfa
+SELECT q INTO v_lauric FROM foodfact WHERE nutrientid = '611' AND foodid = v_foodid;
+SELECT q INTO v_myristic FROM foodfact  WHERE nutrientid = '612' AND foodid = v_foodid;
+SELECT q INTO v_palmitic FROM foodfact  WHERE nutrientid = '613' AND foodid = v_foodid;
+SET v_hcsfa = v_lauric + v_myristic + v_palmitic;
+CALL foodfact_merge (v_foodid,'10015',v_hcsfa);
 --
 --
 END;
@@ -6789,27 +6986,6 @@ FoodId = v_FoodId;
 OPEN result;
 END;
 /
-
-CREATE FUNCTION get_dri (
---
-IN v_LifeStageId INTEGER,
---
-IN v_NutrientId LONGVARCHAR
---
-)
---
-RETURNS DOUBLE READS SQL DATA BEGIN ATOMIC
---
-DECLARE v_c DOUBLE;
-
---
-SELECT q INTO v_c  FROM rda WHERE lifestageid = v_LifeStageId AND nutrientid = v_NutrientId;
---
-RETURN v_c;
-
-END;
-/
-
 
 CREATE PROCEDURE Select_food_as_xml (
 --
@@ -6835,7 +7011,7 @@ SET doc = '<food-id>'+id +'</food-id>' + CHAR (10) + '<food-name>'+ escape_xml_e
 --
 SET doc2 = doc2 + doc;
 --
-FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = v_FoodId AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(v_FoodId) FROM (VALUES(0)) ) ORDER BY LABEL DO
+FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = v_FoodId AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014' AND Y.NUTRIENTID != '10015') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(v_FoodId) FROM (VALUES(0)) ) ORDER BY LABEL DO
 --
 SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' + CHAR (10);
 --
@@ -6861,6 +7037,153 @@ OPEN result;
 END;
 --
 END
+/
+
+
+CREATE PROCEDURE get_essential_fat_ratio_difference (
+--
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
+IN v_Precision INTEGER
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT 'Ratio LA/ALA' AS nutrient,
+       ROUND(a.ratio,v_Precision) AS mix1,
+       ROUND(b.ratio,v_Precision) AS mix2,
+       ROUND(b.ratio - a.ratio,v_Precision) AS diff
+FROM (SELECT get_essential_fat_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
+     (SELECT get_essential_fat_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
+--
+OPEN result;
+--
+END;
+/
+
+CREATE PROCEDURE get_electrolyte_ratio_difference (
+--
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
+IN v_Precision INTEGER
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT 'Ratio K/Na' AS nutrient,
+       ROUND(a.ratio,v_Precision) AS mix1,
+       ROUND(b.ratio,v_Precision) AS mix2,
+       ROUND(b.ratio - a.ratio,v_Precision) AS diff
+FROM (SELECT get_electrolyte_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
+     (SELECT get_electrolyte_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
+--
+OPEN result;
+--
+END;
+/
+
+CREATE PROCEDURE get_monoufat_ratio_difference (
+--
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
+IN v_Precision INTEGER
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT 'Ratio MUFA/SFA' AS nutrient,
+       ROUND(a.ratio,v_Precision) AS mix1,
+       ROUND(b.ratio,v_Precision) AS mix2,
+       ROUND(b.ratio - a.ratio,v_Precision) AS diff
+FROM (SELECT get_monoufat_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
+     (SELECT get_monoufat_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
+--
+OPEN result;
+--
+END;
+/
+
+CREATE PROCEDURE get_polyufat_ratio_difference (
+--
+IN v_MixId_1 LONGVARCHAR,
+IN v_MixId_2 LONGVARCHAR,
+IN v_Precision INTEGER
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT 'Ratio PUFA/SFA' AS nutrient,
+       ROUND(a.ratio,v_Precision) AS mix1,
+       ROUND(b.ratio,v_Precision) AS mix2,
+       ROUND(b.ratio - a.ratio,v_Precision) AS diff
+FROM (SELECT get_polyufat_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
+     (SELECT get_polyufat_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
+--
+OPEN result;
+--
+END;
+/
+
+CREATE TRIGGER FoodFact_RowLevelAfterUpdate_Trigger AFTER UPDATE OF q ON FoodFact REFERENCING NEW ROW AS newrow OLD AS oldrow
+--
+FOR EACH ROW
+BEGIN ATOMIC
+--
+DECLARE v_c DOUBLE;
+--
+IF newrow.NutrientId = '10000' THEN
+--
+FOR SELECT nutrientid FROM nutrient DO
+--
+SET v_c = getFoodCoefficient(newrow.FoodId,nutrientid);
+--
+call FoodFactCoefficient_Merge(newrow.FoodId,nutrientid,v_c);
+--
+END FOR;
+--
+ELSE
+--
+SET v_c = getFoodCoefficient(newrow.FoodId,newrow.NutrientId);
+--
+CALL FoodFactCoefficient_Merge(newrow.FoodId,newrow.NutrientId, v_c);
+--
+END IF;
+--
+END;
+/
+
+
+CREATE TRIGGER FoodFact_RowLevelAfterInsert_Trigger AFTER INSERT ON FoodFact
+REFERENCING NEW ROW AS newrow
+FOR EACH ROW
+BEGIN ATOMIC
+--
+DECLARE v_c DOUBLE;
+--
+SET v_c = getFoodCoefficient(newrow.FoodId,newrow.NutrientId);
+CALL FoodFactCoefficient_Merge(newrow.FoodId,newrow.NutrientId,v_c);
+--
+END;
 /
 
 

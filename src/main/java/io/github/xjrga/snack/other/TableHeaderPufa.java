@@ -10,8 +10,8 @@ public class TableHeaderPufa
             "Food Name",
             "Weight (g)",
             "Polyunsaturated Fat (g)",
-            "Linoleic Acid, 18:2n-6 (g)",
-            "Alpha-Linolenic Acid, 18:3n−3 (g)",
+            "Linoleic Acid, 18:2n-6 (g). It is an essential fat.",
+            "Alpha-Linolenic Acid, 18:3n−3 (g) It is an essential fat.",
             "Eicosapentaenoic Acid, 20:5n−3 (g)",
             "Docosahexaenoic Acid,  22:6n−3 (g)"
         } );

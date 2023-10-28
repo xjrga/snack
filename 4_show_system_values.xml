@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2021 Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<project default="run">
+    <xmlproperty file="pom.xml" prefix="pom" />
+    <tstamp>
+        <format property="tstamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+    <target name="show">
+        <echo message="This is the user home: ${user.home}"/>
+        <echo message="This is the user directory: ${user.dir}"/>
+        <echo message="This is the base directory: ${basedir}"/>
+        <echo message="This is the java home: ${java.home}"/>
+        <echo message="This is the java class path: ${java.class.path}"/>
+        <echo message="This is the timestamp: ${tstamp}"/>
+        <echo>The maven project name is ${pom.project.name}</echo>
+        <echo>The maven project group id is ${pom.project.groupId}</echo>
+        <echo>The maven project artifact id is ${pom.project.artifactId}</echo>
+        <echo>The maven project version is ${pom.project.version}</echo>
+    </target>
+    <target name="run" depends="show"/>
+</project>

@@ -34,8 +34,8 @@ public class TableModelElectrolytes
         columns.add( "Name" );
         columns.add( "Weight" );
         columns.add( "Water" );
-        columns.add( "Na" );
         columns.add( "K" );
+        columns.add( "Na" );
         this.setDataVector( loader.get_electrolytes_table(), columns );
     }
     @Override

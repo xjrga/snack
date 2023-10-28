@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
-import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,16 +31,13 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelGlycemic
         extends DefaultTableModel
         implements Round_up, Reload_mixid {
-
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelGlycemic( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "Name" );
@@ -53,7 +50,6 @@ public class TableModelGlycemic
         columns.add( "Meal GI" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -64,19 +60,17 @@ public class TableModelGlycemic
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload( String mixid ) {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetMealGi( mixid, precision );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String Name = ( String ) rowm.get( "name" );
                 Double Weight = ( Double ) rowm.get( "weight" );
                 Double DigestibleCarbohydrate = ( Double ) rowm.get( "carbs" );
@@ -84,11 +78,11 @@ public class TableModelGlycemic
                 Double GlycemicIndex = ( Double ) rowm.get( "gi" );
                 Double GlycemicLoad = ( Double ) rowm.get( "gl" );
                 Double MealGI = ( Double ) rowm.get( "mealgi" );
-                Double EnergyCarbohydrate = DigestibleCarbohydrate * 4;
+                Double ecarbs = ( Double ) rowm.get( "ecarbs" );
                 Vector row = new Vector();
                 row.add( Name );
                 row.add( Weight );
-                row.add( EnergyCarbohydrate );
+                row.add( ecarbs );
                 row.add( DigestibleCarbohydrate );
                 row.add( Pct );
                 row.add( GlycemicIndex );
@@ -98,10 +92,8 @@ public class TableModelGlycemic
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;

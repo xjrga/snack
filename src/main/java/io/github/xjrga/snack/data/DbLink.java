@@ -946,6 +946,7 @@ public class DbLink {
             row.put( Nutrient.MYRISTIC.getLabel(), rs.getObject( 54 ) );
             row.put( Nutrient.PALMITIC.getLabel(), rs.getObject( 55 ) );
             row.put( Nutrient.STEARIC.getLabel(), rs.getObject( 56 ) );
+            row.put( Nutrient.HCSFA.getLabel(), rs.getObject( 57 ) );
             //
             list.add( row );
         }
@@ -1012,10 +1013,11 @@ public class DbLink {
             row.put( Nutrient.MYRISTIC.getLabel(), rs.getObject( 49 ) );
             row.put( Nutrient.PALMITIC.getLabel(), rs.getObject( 50 ) );
             row.put( Nutrient.STEARIC.getLabel(), rs.getObject( 51 ) );
-            row.put( Nutrient.GLYCEMICLOAD.getLabel(), rs.getObject( 52 ) );
-            row.put( Nutrient.WATER.getLabel(), rs.getObject( 53 ) );
-            row.put( Nutrient.COST.getLabel(), rs.getObject( 54 ) );
-            row.put( "FoodId", rs.getObject( 55 ) );
+            row.put( Nutrient.HCSFA.getLabel(), rs.getObject( 52 ) );
+            row.put( Nutrient.GLYCEMICLOAD.getLabel(), rs.getObject( 53 ) );
+            row.put( Nutrient.WATER.getLabel(), rs.getObject( 54 ) );
+            row.put( Nutrient.COST.getLabel(), rs.getObject( 55 ) );
+            row.put( "FoodId", rs.getObject( 56 ) );
             list.add( row );
         }
         proc.close();
@@ -1110,14 +1112,48 @@ public class DbLink {
         while ( rs.next() ) {
             Map<String, Object> row = new HashMap<>();
             row.put( "CALORIES", rs.getObject( 1 ) );
-            row.put( "FAT", rs.getObject( 2 ) );
-            row.put( "CARBS", rs.getObject( 3 ) );
-            row.put( "PROTEIN", rs.getObject( 4 ) );
-            row.put( "ALCOHOL", rs.getObject( 5 ) );
+            row.put( "FATPCT", rs.getObject( 2 ) );
+            row.put( "CARBPCT", rs.getObject( 3 ) );
+            row.put( "PROTEINPCT", rs.getObject( 4 ) );
+            row.put( "ALCOHOLPCT", rs.getObject( 5 ) );
             row.put( "FQ", rs.getObject( 6 ) );
-            row.put( "SATFAT", rs.getObject( 7 ) );
-            row.put( "MONOUFAT", rs.getObject( 8 ) );
-            row.put( "POLYUFAT", rs.getObject( 9 ) );
+            row.put( "SATFATPCT", rs.getObject( 7 ) );
+            row.put( "MONOUFATPCT", rs.getObject( 8 ) );
+            row.put( "POLYUFATPCT", rs.getObject( 9 ) );
+            row.put( "ESSENTIALFATRATIO", rs.getObject( 10 ) );
+            row.put( "ELECTROLYTERATIO", rs.getObject( 11 ) );
+            row.put( "LAPCT", rs.getObject( 12 ) );
+            row.put( "ALAPCT", rs.getObject( 13 ) );
+            row.put( "PSRATIO", rs.getObject( 14 ) );
+            row.put( "MSRATIO", rs.getObject( 15 ) );
+            list.add( row );
+        }
+        proc.close();
+        return list;
+    }
+    public List<Map<String, Object>> get_food_statistics( String foodid )
+            throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.get_food_statistics( ? )}" );
+        proc.setString( 1, foodid );
+        ResultSet rs = proc.executeQuery();
+        while ( rs.next() ) {
+            Map<String, Object> row = new HashMap<>();
+            row.put( "FATPCT", rs.getObject( 1 ) );
+            row.put( "CARBPCT", rs.getObject( 2 ) );
+            row.put( "PROTEINPCT", rs.getObject( 3 ) );
+            row.put( "ALCOHOLPCT", rs.getObject( 4 ) );
+            row.put( "SATFATPCT", rs.getObject( 5 ) );
+            row.put( "POLYUFATPCT", rs.getObject( 6 ) );
+            row.put( "MONOUFATPCT", rs.getObject( 7 ) );
+            row.put( "LAPCT", rs.getObject( 8 ) );
+            row.put( "ALAPCT", rs.getObject( 9 ) );
+            row.put( "PSRATIO", rs.getObject( 10 ) );
+            row.put( "MSRATIO", rs.getObject( 11 ) );
+            row.put( "ESSENTIALFATRATIO", rs.getObject( 12 ) );
+            row.put( "ELECTROLYTERATIO", rs.getObject( 13 ) );
+            row.put( "FQ", rs.getObject( 14 ) );
             list.add( row );
         }
         proc.close();
@@ -1231,6 +1267,86 @@ public class DbLink {
         LinkedList<Map<String, Object>> list = new LinkedList<>();
         CallableStatement proc;
         proc = connection.prepareCall( "{CALL public.Mix_getMealGIDiff( ?, ?, ? )}" );
+        proc.setString( 1, MixId1 );
+        proc.setString( 2, MixId2 );
+        proc.setInt( 3, Precision );
+        ResultSet rs = proc.executeQuery();
+        while ( rs.next() ) {
+            Map<String, Object> row = new HashMap<>();
+            row.put( "NUTRIENT", rs.getObject( 1 ) );
+            row.put( "MIX1", rs.getObject( 2 ) );
+            row.put( "MIX2", rs.getObject( 3 ) );
+            row.put( "DIFF", rs.getObject( 4 ) );
+            list.add( row );
+        }
+        proc.close();
+        return list;
+    }
+    public List<Map<String, Object>> Mix_get_essential_fat_ratio_diff( String MixId1, String MixId2, Integer Precision )
+            throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.get_essential_fat_ratio_difference( ?, ?, ? )}" );
+        proc.setString( 1, MixId1 );
+        proc.setString( 2, MixId2 );
+        proc.setInt( 3, Precision );
+        ResultSet rs = proc.executeQuery();
+        while ( rs.next() ) {
+            Map<String, Object> row = new HashMap<>();
+            row.put( "NUTRIENT", rs.getObject( 1 ) );
+            row.put( "MIX1", rs.getObject( 2 ) );
+            row.put( "MIX2", rs.getObject( 3 ) );
+            row.put( "DIFF", rs.getObject( 4 ) );
+            list.add( row );
+        }
+        proc.close();
+        return list;
+    }
+    public List<Map<String, Object>> Mix_get_electrolyte_ratio_diff( String MixId1, String MixId2, Integer Precision )
+            throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.get_electrolyte_ratio_difference( ?, ?, ? )}" );
+        proc.setString( 1, MixId1 );
+        proc.setString( 2, MixId2 );
+        proc.setInt( 3, Precision );
+        ResultSet rs = proc.executeQuery();
+        while ( rs.next() ) {
+            Map<String, Object> row = new HashMap<>();
+            row.put( "NUTRIENT", rs.getObject( 1 ) );
+            row.put( "MIX1", rs.getObject( 2 ) );
+            row.put( "MIX2", rs.getObject( 3 ) );
+            row.put( "DIFF", rs.getObject( 4 ) );
+            list.add( row );
+        }
+        proc.close();
+        return list;
+    }
+    public List<Map<String, Object>> Mix_get_polyufat_ratio_diff( String MixId1, String MixId2, Integer Precision )
+            throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.get_polyufat_ratio_difference( ?, ?, ? )}" );
+        proc.setString( 1, MixId1 );
+        proc.setString( 2, MixId2 );
+        proc.setInt( 3, Precision );
+        ResultSet rs = proc.executeQuery();
+        while ( rs.next() ) {
+            Map<String, Object> row = new HashMap<>();
+            row.put( "NUTRIENT", rs.getObject( 1 ) );
+            row.put( "MIX1", rs.getObject( 2 ) );
+            row.put( "MIX2", rs.getObject( 3 ) );
+            row.put( "DIFF", rs.getObject( 4 ) );
+            list.add( row );
+        }
+        proc.close();
+        return list;
+    }
+    public List<Map<String, Object>> Mix_get_monoufat_ratio_diff( String MixId1, String MixId2, Integer Precision )
+            throws SQLException {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
+        CallableStatement proc;
+        proc = connection.prepareCall( "{CALL public.get_monoufat_ratio_difference( ?, ?, ? )}" );
         proc.setString( 1, MixId1 );
         proc.setString( 2, MixId2 );
         proc.setInt( 3, Precision );
@@ -1518,6 +1634,7 @@ public class DbLink {
             Double gl = rs.getDouble( 5 );
             Double gi = rs.getDouble( 6 );
             Double mealgi = rs.getDouble( 7 );
+            Double ecarbs = rs.getDouble( 8 );
             row.put( "name", name );
             row.put( "weight", weight );
             row.put( "carbs", carbs );
@@ -1525,6 +1642,7 @@ public class DbLink {
             row.put( "gl", gl );
             row.put( "gi", gi );
             row.put( "mealgi", mealgi );
+            row.put( "ecarbs", ecarbs );
             list.add( row );
         }
         proc.close();
@@ -1698,10 +1816,22 @@ public class DbLink {
         proc.setString( 1, MixId );
         proc.execute();
     }
-    public void apportion( String MixId )
+    public void allocate( String MixId )
             throws SQLException {
-        CallableStatement proc = connection.prepareCall( "{CALL public.apportion( ? )}" );
+        CallableStatement proc = connection.prepareCall( "{CALL public.allocate( ? )}" );
         proc.setString( 1, MixId );
         proc.execute();
+    }
+    public Double get_food_fq( String foodid )
+            throws SQLException {
+        Double out;
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.get_food_fq( ? )}" ) ) {
+            proc.setString( 1, foodid );
+            proc.execute();
+            ResultSet resultSet = proc.getResultSet();
+            resultSet.next();
+            out = resultSet.getDouble( 1 );
+        }
+        return out;
     }
 }

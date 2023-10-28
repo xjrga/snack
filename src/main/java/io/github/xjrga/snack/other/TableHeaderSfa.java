@@ -10,6 +10,7 @@ public class TableHeaderSfa
             "Food Name",
             "Weight (g)",
             "Saturated Fat (g)",
+            "Hypercholesterolemic Fat, Lauric + Myristic + Palmitic (g)",
             "Lauric Acid, 12:0 (g)",
             "Myristic Acid, 14:0 (g)",
             "Palmitic Acid, 16:0 (g)",

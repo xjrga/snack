@@ -82,6 +82,7 @@ public class TableModelFoodList
         columns.add( "B9" );
         columns.add( "CHOL" );
         columns.add( "SFA" );
+        columns.add( "HCSFA" );
         columns.add( "DHA" );
         columns.add( "EPA" );
         columns.add( "MUFA" );
@@ -178,6 +179,7 @@ public class TableModelFoodList
                 Double Myristic = ( Double ) rowm.get( Nutrient.MYRISTIC.getLabel() );
                 Double Palmitic = ( Double ) rowm.get( Nutrient.PALMITIC.getLabel() );
                 Double Stearic = ( Double ) rowm.get( Nutrient.STEARIC.getLabel() );
+                Double Hcsfa = ( Double ) rowm.get( Nutrient.HCSFA.getLabel() );
                 //Glycemic
                 Double GlycemicLoad = ( Double ) rowm.get( Nutrient.GLYCEMICLOAD.getLabel() );
                 //Other
@@ -227,6 +229,7 @@ public class TableModelFoodList
                 row.add( Folate );
                 row.add( Cholesterol );
                 row.add( Saturated );
+                row.add( Hcsfa );
                 row.add( DHA );
                 row.add( EPA );
                 row.add( Monounsaturated );

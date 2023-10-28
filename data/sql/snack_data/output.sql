@@ -14,15 +14,15 @@ call NutrientCategory_Insert('7','Energy');
 /
 
 
-call Nutrient_Insert('203','Protein, Total (g)','1','protein-total');
+call Nutrient_Insert('203','Protein, Total Protein (g)','1','protein-total');
 /
-call Nutrient_Insert('204','Fats, Total (g)','2','fats-total');
+call Nutrient_Insert('204','Fats, Total Fat (g)','2','fats-total');
 /
 call Nutrient_Insert('205','Carbohydrates, By Difference (g)','3','carbohydrates-carbs_by_diff');
 /
 call Nutrient_Insert('208','Energy, Gross (kcal)','7','energy-gross');
 /
-call Nutrient_Insert('221','Other, Alcohol, Ethyl (g)','6','other-alcohol');
+call Nutrient_Insert('221','Other, Alcohol (g)','6','other-alcohol');
 /
 call Nutrient_Insert('255','Other, Water (g)','6','other-water');
 /
@@ -50,11 +50,11 @@ call Nutrient_Insert('317','Minerals, Selenium (µg)','5','minerals-selenium');
 /
 call Nutrient_Insert('320','Vitamins, A, RAE (µg)','4','vitamins-vitamin_a');
 /
-call Nutrient_Insert('323','Vitamins, E, Alpha-Tocopherol (mg)','4','vitamins-vitamin_e');
+call Nutrient_Insert('323','Vitamins, E (mg)','4','vitamins-vitamin_e');
 /
-call Nutrient_Insert('328','Vitamins, D, D2 + D3 (µg)','4','vitamins-vitamin_d');
+call Nutrient_Insert('328','Vitamins, D (µg)','4','vitamins-vitamin_d');
 /
-call Nutrient_Insert('401','Vitamins, C, Ascorbic Acid (mg)','4','vitamins-vitamin_c');
+call Nutrient_Insert('401','Vitamins, C (mg)','4','vitamins-vitamin_c');
 /
 call Nutrient_Insert('404','Vitamins, Thiamin (mg)','4','vitamins-thiamin');
 /
@@ -70,40 +70,40 @@ call Nutrient_Insert('418','Vitamins, B12 (µg)','4','vitamins-vitamin_b12');
 /
 call Nutrient_Insert('421','Vitamins, Choline (mg)','4','vitamins-choline');
 /
-call Nutrient_Insert('430','Vitamins, K, Phylloquinone (µg)','4','vitamins-vitamin_k');
+call Nutrient_Insert('430','Vitamins, K (µg)','4','vitamins-vitamin_k');
 /
 call Nutrient_Insert('435','Vitamins, Folate, DFE (µg)','4','vitamins-folate');
 /
 call Nutrient_Insert('601','Fats, Cholesterol (mg)','2','fats-cholesterol');
 /
-call Nutrient_Insert('606','Fats, Saturated Fatty Acids (g)','2','fats-saturated');
+call Nutrient_Insert('606','Fats, Saturated Fat, SFA (g)','2','fats-saturated');
 /
-call Nutrient_Insert('611','Fats, 12:0, Lauric Acid (g)','2','fats-lauric');
+call Nutrient_Insert('611','Fats, Lauric Acid, 12:0 (g)','2','fats-lauric');
 /
-call Nutrient_Insert('612','Fats, 14:0, Myristic Acid (g)','2','fats-myristic');
+call Nutrient_Insert('612','Fats, Myristic Acid, 14:0 (g)','2','fats-myristic');
 /
-call Nutrient_Insert('613','Fats, 16:0, Palmitic Acid (g)','2','fats-palmitic');
+call Nutrient_Insert('613','Fats, Palmitic Acid, 16:0 (g)','2','fats-palmitic');
 /
-call Nutrient_Insert('614','Fats, 18:0, Stearic Acid (g)','2','fats-stearic');
+call Nutrient_Insert('614','Fats, Stearic Acid, 18:0 (g)','2','fats-stearic');
 /
-call Nutrient_Insert('618','Fats, 18:2 n-6, Linoleic Acid (g)','2','fats-linoleic');
+call Nutrient_Insert('618','Fats, Linoleic Acid, LA, 18:2 n-6 (g)','2','fats-linoleic');
 /
-call Nutrient_Insert('619','Fats, 18:3 n-3, Linolenic Acid (g)','2','fats-linolenic');
+call Nutrient_Insert('619','Fats, α-Linolenic Acid, ALA, 18:3 n-3 (g)','2','fats-linolenic');
 /
-call Nutrient_Insert('629','Fats, 20:5 n-3, EPA (g)','2','fats-epa');
+call Nutrient_Insert('629','Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g)','2','fats-epa');
 /
-call Nutrient_Insert('621','Fats, 22:6 n-3, DHA (g)','2','fats-dha');
+call Nutrient_Insert('621','Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g)','2','fats-dha');
 /
-call Nutrient_Insert('645','Fats, Monounsaturated Fatty Acids (g)','2','fats-monounsaturated');
+call Nutrient_Insert('645','Fats, Monounsaturated Fat, MUFA (g)','2','fats-monounsaturated');
 /
-call Nutrient_Insert('646','Fats, Polyunsaturated Fatty Acids (g)','2','fats-polyunsaturated');
+call Nutrient_Insert('646','Fats, Polyunsaturated Fat, PUFA (g)','2','fats-polyunsaturated');
 /
 
 
 
 call Nutrient_Insert('10000','Other, Weight (g)','6','other-weight');
 /
-call Nutrient_Insert('10001','Protein, Complete (g)','1','protein-complete');
+call Nutrient_Insert('10001','Protein, Complete Protein (g)','1','protein-complete');
 /
 call Nutrient_Insert('10003','Carbohydrates, Digestible (g)','3','carbohydrates-digestible');
 /
@@ -122,6 +122,8 @@ call Nutrient_Insert('10012','Energy, Protein (kcal)','7','energy-protein');
 call Nutrient_Insert('10013','Energy, Fat (kcal)','7','energy-fat');
 /
 call Nutrient_Insert('10014','Energy, Alcohol (kcal)','7','energy-alcohol');
+/
+call Nutrient_Insert('10015','Fats, Hypercholesterolemic Fat (g)','2','fats-hcsfa');
 /
 
 
@@ -186,6 +188,14 @@ call Foodcategory_Insert('9000','Protein Powders');
 /
 call Foodcategory_Insert('10000','Glycemic Index Test Set');
 /
+
+call relationship_insert(1,'≥');
+/
+call relationship_insert(2,'≤');
+/
+call relationship_insert(3,'=');
+/
+
 
 call Food_Insert('01001','Butter, salted');
 /
@@ -39663,21 +39673,6 @@ call Rda_Insert_q('619',21,1.3);
 call Rda_Insert_q('10001',21,71);
 /
 
-call FoodFact_DigestibleCarbohydrate ();
-/
-call FoodFact_EnergyFat();
-/
-call FoodFact_EnergyCarbohydrate();
-/
-call FoodFact_EnergyProtein();
-/
-call FoodFact_EnergyAlcohol();
-/
-call FoodFact_EnergyDigestible ();
-/
-call FoodFact_EnergyNoProtein ();
-/
-
 --FOOD ITEM: Generic Multivitamin
 --
 --Insert food item
@@ -39769,8 +39764,6 @@ call CategoryLink_Insert('123456790','9000');
 --Zero out food item food fact
 call FoodFact_ZeroOut_FoodId('123456790');
 /
---Update food item food fact with whatever available values there are
---
 --Weight (g)
 call FoodFact_Merge('123456790','10000',100);
 /
@@ -39819,21 +39812,7 @@ call FoodFact_Merge('123456790','646',0.7);
 --Water (g)
 call FoodFact_Merge('123456790','255',5);
 /
---Energy, digestible (kcal)
-call FoodFact_Merge('123456790','10009',394);
-/
---Energy, carbohydrate (kcal)
-call FoodFact_Merge('123456790','10011',20);
-/
---Energy, protein (kcal)
-call FoodFact_Merge('123456790','10012',320);
-/
---Energy, fat (kcal)
-call FoodFact_Merge('123456790','10013',54);
-/
---Energy, alcohol (kcal)
-call FoodFact_Merge('123456790','10014',0);
-/
+
 
 --FOOD ITEM: Water
 --
@@ -39846,8 +39825,6 @@ call CategoryLink_Insert('123456753','1400');
 --Zero out food item food fact
 call FoodFact_ZeroOut_FoodId('123456753');
 /
---Update food item food fact with whatever available values there are
---
 --Weight (g)
 call FoodFact_Merge('123456753','10000',1);
 /
@@ -39866,8 +39843,6 @@ call CategoryLink_Insert('123456754','6000');
 --Zero out food item food fact
 call FoodFact_ZeroOut_FoodId('123456754');
 /
---Update food item food fact with whatever available values there are
---
 --'10000','Weight (g)'
 call FoodFact_Merge('123456754','10000',100);
 /
@@ -39988,24 +39963,27 @@ call FoodFact_Merge('123456754','255',0);
 --'10005','Cost (g)'
 call FoodFact_Merge('123456754','10005',0);
 /
---'10006','Glycemic Load'
-call FoodFact_Merge('123456754','10006',100);
-/
---Energy, digestible (kcal)
-call FoodFact_Merge('123456754','10009',400);
-/
---Energy, carbohydrate (kcal)
-call FoodFact_Merge('123456754','10011',400);
-/
---Energy, protein (kcal)
-call FoodFact_Merge('123456754','10012',0);
-/
---Energy, fat (kcal)
-call FoodFact_Merge('123456754','10013',0);
-/
 --Energy, alcohol (kcal)
 call FoodFact_Merge('123456754','10014',0);
 /
 CALL CategoryLink_Insert('123456754','10000');
 /
+
+call FoodFact_DigestibleCarbohydrate ();
+/
+call FoodFact_EnergyFat();
+/
+call FoodFact_EnergyCarbohydrate();
+/
+call FoodFact_EnergyProtein();
+/
+call FoodFact_EnergyAlcohol();
+/
+call FoodFact_EnergyDigestible ();
+/
+call FoodFact_EnergyFatCarbs ();
+/
+call FoodFact_HCSFA();
+/
+
 

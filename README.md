@@ -14,42 +14,47 @@
     Download: https://xjrga.github.io/main/#snack-learning-software-for-nutrition
 
     Features:
-        - minimize calories or cost
-        - quantify food intake
-        - track any nutrient or compound that has an impact on health
-        - find food items that provide a specific nutrient
-        - keep a food journal and track progress
-        - compare two foods or meals to see difference in nutritional value
-        - compare meals against Required Daily Allowance (RDA) values
-        - compare meals against Upper Limit (UL) values
-        - create nutritional reports in spreadsheet
-        - quantify any popular diet for comparison and research purposes
-        - calculate basal metabolic rate (BMR)
-        - calculate glycemic index (GI) and glycemic load (GL) of a meal
-        - check glycemic index range
-        - calculate food quotient (FQ)
-        - convert percent daily value (%DV) to grams
-        - exchange mix and food data easily
-        - easily create and export meal plans
-        - facilitate learning/teaching anyone with interest in nutrition
-        - provides many additional food items to experiment with
-        - is free and open source
+        - Minimize calories or cost
+        - Quantify food intake
+        - Track any nutrient or compound that has an impact on health
+        - Find food items that provide a specific nutrient
+        - Keep a food journal and track progress
+        - Compare two foods or meals to see difference in nutritional value
+        - Compare meals against Required Daily Allowance (RDA) values
+        - Compare meals against Upper Limit (UL) values
+        - Create nutritional reports in spreadsheet
+        - Quantify any popular diet for comparison and research purposes
+        - Calculate basal metabolic rate (BMR)
+        - Calculate glycemic index (GI) and glycemic load (GL) of a meal
+        - Check glycemic index range
+        - Calculate macronutrient energy percentages
+        - Calculate essential fat ratio
+        - Calculate electrolyte ratio
+        - Calculate polyunsaturate/saturate ratio
+        - Calculate monunsaturate/saturate ratio
+        - Calculate food quotient (FQ)
+        - Convert percent daily value (%DV) to grams
+        - Exchange mix, food and meal plan data easily through simple text document (xml)
+        - Easily create and export meal plans to spreadsheet
+        - Facilitate learning/teaching anyone with interest in nutrition
+        - Provides many additional food items to experiment with
+        - Is free and open source
 
     Requirements:
        - Java 11
 
 Installing
 
-    1. Download snack-1280-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
-    2. unzip snack-1280-app.zip
-    3. cd snack-1280
-    4. java -jar snack-1280.jar (if you are on windows double click on jar file)
+    1. Download snack-1300-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    2. unzip snack-1300-app.zip
+    3. cd snack-1300
+    4. java -jar snack-1300.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1280
+    1300
 
 Authors
 
@@ -64,7 +69,7 @@ Acknowledgments
 Snack uses the following libraries:
 
     commons-math3-3.6.1.jar
-    hsqldb-2.7.1.jar
+    hsqldb-2.7.2.jar
     jgoodies-common-1.8.1.jar
     jgoodies-forms-1.9.0.jar
     poi-4.1.1.jar

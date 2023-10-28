@@ -106,7 +106,82 @@ public class TableModelMixComparison
                 double diff = ( double ) rowm.get( "DIFF" );
                 Vector row = new Vector();
                 row.add( "Carbohydrates" );
-                row.add( nutrient );
+                row.add( "Carbohydrates, " + nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
+            } );
+            list = ( LinkedList ) dbLink.Mix_get_essential_fat_ratio_diff( mixid_a, mixid_b, 2 );
+            list.forEach( rowm
+                    -> {
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
+                Vector row = new Vector();
+                row.add( "Fats" );
+                row.add( "Fats, " + nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
+            } );
+            list = ( LinkedList ) dbLink.Mix_get_electrolyte_ratio_diff( mixid_a, mixid_b, 2 );
+            list.forEach( rowm
+                    -> {
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
+                Vector row = new Vector();
+                row.add( "Minerals" );
+                row.add( "Minerals, " + nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
+            } );
+            list = ( LinkedList ) dbLink.Mix_get_polyufat_ratio_diff( mixid_a, mixid_b, 2 );
+            list.forEach( rowm
+                    -> {
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
+                Vector row = new Vector();
+                row.add( "Fats" );
+                row.add( "Fats, " + nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
+            } );
+            list = ( LinkedList ) dbLink.Mix_get_monoufat_ratio_diff( mixid_a, mixid_b, 2 );
+            list.forEach( rowm
+                    -> {
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
+                Vector row = new Vector();
+                row.add( "Fats" );
+                row.add( "Fats, " + nutrient );
+                row.add( mix1 );
+                row.add( mix2 );
+                row.add( diff );
+                table.add( row );
+            } );
+            list = ( LinkedList ) dbLink.Mix_GetFQDiff( mixid_a, mixid_b );
+            list.forEach( rowm
+                    -> {
+                String nutrient = ( String ) rowm.get( "NUTRIENT" );
+                double mix1 = ( double ) rowm.get( "MIX1" );
+                double mix2 = ( double ) rowm.get( "MIX2" );
+                double diff = ( double ) rowm.get( "DIFF" );
+                Vector row = new Vector();
+                row.add( "Energy" );
+                row.add( "Energy, " + nutrient + ", FQ" );
                 row.add( mix1 );
                 row.add( mix2 );
                 row.add( diff );

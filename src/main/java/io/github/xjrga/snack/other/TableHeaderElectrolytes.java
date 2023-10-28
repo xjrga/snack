@@ -10,8 +10,8 @@ public class TableHeaderElectrolytes
             "Food Name",
             "Weight (g)",
             "Water (g)",
-            "Sodium, Na (mg)",
-            "Potassium, K (mg)"
+            "Potassium, K (mg)",
+            "Sodium, Na (mg)"
         } );
     }
     @Override

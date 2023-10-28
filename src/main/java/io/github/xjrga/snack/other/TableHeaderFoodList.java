@@ -48,6 +48,7 @@ public class TableHeaderFoodList
             "Folate, Vitamin B9 (mcg)",
             "Cholesterol (mg)",
             "Saturated Fat (g)",
+            "Saturated Fat (Hypercholesterolemic) (g)",
             "Docosahexaenoic Acid (g)",
             "Eicosapentaenoic Acid (g)",
             "Monounsaturated Fat (g)",
