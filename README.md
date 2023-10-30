@@ -45,16 +45,16 @@
 
 Installing
 
-    1. Download snack-1300-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
-    2. unzip snack-1300-app.zip
-    3. cd snack-1300
-    4. java -jar snack-1300.jar (if you are on windows double click on jar file)
+    1. Download snack-1301-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    2. unzip snack-1301-app.zip
+    3. cd snack-1301
+    4. java -jar snack-1301.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1300
+    1301
 
 Authors
 

@@ -4710,7 +4710,7 @@ public class Main {
                 sbAll.append( "\n*/" );
                 sbAll.append( "\n\n" );
                 Log.Log1.append( sbAll.toString() );
-                Utilities.write_to_new_file( lpfile, sbAll.toString() );
+                //Utilities.write_to_new_file( lpfile, sbAll.toString() );
                 dbLink.Mix_Update_Time( mixid );
                 dbLink.Mix_Update_Other( mixid, sbAll.toString() );
             }

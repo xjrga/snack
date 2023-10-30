@@ -407,3 +407,7 @@ RELEASE NOTES
       Update protein energy factor from 4 to 4.7 kcal/g
       Calculate mix statistics by selecting menu item under mix menu
       Calculate food statistics by right clicking on food list item
+
+1301
+
+      Fix log output so that only feasible models are saved to log
