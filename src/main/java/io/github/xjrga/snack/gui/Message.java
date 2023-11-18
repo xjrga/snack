@@ -5,26 +5,21 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 public class Message {
-
     private static final BufferedImage logo = ImageUtilities.readImage( "resources/images/logo.png" );
-
     public Message() {
     }
-
     public static void showMessage( String message ) {
         JOptionPane optionPane = new JOptionPane( message, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
         JDialog dialog = optionPane.createDialog( "Snack" );
         dialog.setIconImage( logo );
         dialog.setVisible( true );
     }
-
     public static void showMessage( String title, String message ) {
         JOptionPane optionPane = new JOptionPane( message, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
         JDialog dialog = optionPane.createDialog( title );
         dialog.setIconImage( logo );
         dialog.setVisible( true );
     }
-
     public static int showOptionDialog( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
         JDialog dialog = optionPane.createDialog( title );
@@ -40,7 +35,6 @@ public class Message {
         }
         return value;
     }
-
     public static int showOptionDialogYesNo( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_OPTION );
         JDialog dialog = optionPane.createDialog( title );
@@ -56,7 +50,6 @@ public class Message {
         }
         return value;
     }
-
     public static int showOptionDialogOkCancel( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
         JDialog dialog = optionPane.createDialog( title );
@@ -72,7 +65,6 @@ public class Message {
         }
         return value;
     }
-
     public static void showMessage( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
         JDialog dialog = optionPane.createDialog( title );

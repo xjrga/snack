@@ -36,6 +36,8 @@
         - Convert percent daily value (%DV) to grams
         - Exchange mix, food and meal plan data easily through simple text document (xml)
         - Easily create and export meal plans to spreadsheet
+        - Generate linear programming model files for lpsolve solver
+        - Generate linear programming model files for glpk solver
         - Facilitate learning/teaching anyone with interest in nutrition
         - Provides many additional food items to experiment with
         - Is free and open source
@@ -45,16 +47,16 @@
 
 Installing
 
-    1. Download snack-1301-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
-    2. unzip snack-1301-app.zip
-    3. cd snack-1301
-    4. java -jar snack-1301.jar (if you are on windows double click on jar file)
+    1. Download snack-1320-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    2. unzip snack-1320-app.zip
+    3. cd snack-1320
+    4. java -jar snack-1320.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1301
+    1320
 
 Authors
 

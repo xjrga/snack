@@ -15,7 +15,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 public class ExportMealPlan {
-
     private final DbLink dbLink;
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -35,13 +34,11 @@ public class ExportMealPlan {
     private StringBuilder filepath;
     private StringBuilder sb;
     private Workbook wb;
-
     public ExportMealPlan( DbLink dbLink ) {
         this.dbLink = dbLink;
         initializeVariables();
         initializeMethods();
     }
-
     private void initializeVariables() {
         wb = new HSSFWorkbook();
         cell = null;
@@ -61,7 +58,6 @@ public class ExportMealPlan {
         sb = new StringBuilder();
         sheetname = "Meal Plan";
     }
-
     private void initializeMethods() {
         fontBold.setBold( true );
         sb.append( "meal_plan_" );
@@ -71,14 +67,12 @@ public class ExportMealPlan {
         filepath.append( sb.toString() );
         wb.setSheetName( 0, sheetname );
     }
-
     private CellStyle getCellStyleMixValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][<=0]0;0" ) );
         cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
-
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
@@ -86,7 +80,6 @@ public class ExportMealPlan {
         cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
-
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFillPattern( FillPatternType.SPARSE_DOTS );
@@ -94,7 +87,6 @@ public class ExportMealPlan {
         cellStyleMixName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleMixName;
     }
-
     public void print( MixDataObject mixDataObject ) {
         row = s.createRow( rownum++ );
         cell = row.createCell( 0 );
@@ -119,8 +111,8 @@ public class ExportMealPlan {
         cell.setCellStyle( cellStyleColumnName );
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixDataObject.getMixId(), 5 );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String mixid = ( String ) rowm.get( "MIXID" );
                 Integer mealid = ( Integer ) rowm.get( "MEALID" );
                 String foodid = ( String ) rowm.get( "FOODID" );
@@ -155,7 +147,6 @@ public class ExportMealPlan {
             };
             Message.showOptionDialog( inputs, "Export Meal Plan" );
         } catch ( SQLException e ) {
-
 //
         }
     }

@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
+import io.github.xjrga.snack.model.iface.Reload;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,27 +30,23 @@ import javax.swing.*;
 public class ComboBoxModelNutrientsAll
         extends DefaultComboBoxModel
         implements Reload {
-
     private final DbLink dbLink;
-
     public ComboBoxModelNutrientsAll( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     @Override
     public void reload() {
         this.removeAllElements();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Select_All();
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 String nutrientid = ( String ) row.get( "NUTRIENTID" );
                 String name = ( String ) row.get( "NAME" );
                 NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, name, null );
                 this.addElement( nutrientDataObject );
             } );
         } catch ( SQLException ex ) {
-
         }
     }
 }

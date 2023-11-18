@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderProtein
         extends MyTableHeader {
-
     public TableHeaderProtein( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
@@ -15,7 +14,6 @@ public class TableHeaderProtein
             "Complete Protein (g)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
-import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,16 +31,13 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelPortions
         extends DefaultTableModel
         implements Round_up, Reload_mixid {
-
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelPortions( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "MixId" );
@@ -53,7 +50,6 @@ public class TableModelPortions
         columns.add( "Actual" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -85,19 +81,17 @@ public class TableModelPortions
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload( String mixid ) {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixid, precision );
-            list.forEach( map ->
-            {
+            list.forEach( map
+                    -> {
                 Vector row = new Vector();
                 row.add( ( String ) map.get( "MIXID" ) );
                 row.add( ( Integer ) map.get( "MEALID" ) );
@@ -111,10 +105,8 @@ public class TableModelPortions
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;

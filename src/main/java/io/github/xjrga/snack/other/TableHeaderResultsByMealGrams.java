@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderResultsByMealGrams
         extends MyTableHeader {
-
     public TableHeaderResultsByMealGrams( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Meal",
@@ -20,7 +19,6 @@ public class TableHeaderResultsByMealGrams
             "Potassium, K (mg)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

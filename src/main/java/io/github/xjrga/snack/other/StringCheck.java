@@ -6,16 +6,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringCheck {
-
     List<String> names = new LinkedList();
-
     public StringCheck() {
     }
-
     public void addUncheckedList( String s ) {
         names.add( s );
     }
-
     public boolean pass() {
         boolean pass = false;
         if ( checkNames() ) {
@@ -23,7 +19,6 @@ public class StringCheck {
         }
         return pass;
     }
-
     private boolean checkNames() {
         boolean pass = true;
         for ( String s : names ) {
@@ -39,7 +34,6 @@ public class StringCheck {
         }
         return pass;
     }
-
     private boolean checkStringIsValid( String s ) {
         boolean pass = false;
         //String patternStr = "[A-Za-z0-9 .,'%()/&_-]+";

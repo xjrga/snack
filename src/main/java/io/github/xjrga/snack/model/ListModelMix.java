@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.MixDataObject;
+import io.github.xjrga.snack.model.iface.Reload;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,20 +30,17 @@ import javax.swing.*;
 public class ListModelMix
         extends DefaultListModel
         implements Reload {
-
     private final DbLink dbLink;
-
     public ListModelMix( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     @Override
     public void reload() {
         this.clear();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_Select_All();
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 String mixid = ( String ) row.get( "MIXID" );
                 String name = ( String ) row.get( "NAME" );
                 Integer status = ( Integer ) row.get( "STATUS" );
@@ -58,10 +55,8 @@ public class ListModelMix
                 this.addElement( mixDataObject );
             } );
         } catch ( SQLException e ) {
-
         }
     }
-
     public int find_by_mixid( String mixid ) {
         int index = 0;
         int size = this.getSize();

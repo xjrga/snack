@@ -20,35 +20,27 @@
 package io.github.xjrga.snack.dataobject;
 
 public class FoodDataObject {
-
     private String foodid;
     private String foodname;
-
     public FoodDataObject() {
     }
-
     public FoodDataObject( String foodid, String foodname ) {
         this.setFoodId( foodid );
         this.setFoodName( foodname );
     }
-
     public String getFoodId() {
         return foodid;
     }
-
     public void setFoodId( String foodid ) {
         this.foodid = foodid;
     }
-
     @Override
     public String toString() {
         return getFoodName();
     }
-
     public String getFoodName() {
         return foodname;
     }
-
     public void setFoodName( String foodname ) {
         this.foodname = foodname;
     }

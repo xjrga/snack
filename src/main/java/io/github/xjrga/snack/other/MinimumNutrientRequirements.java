@@ -1,18 +1,14 @@
 package io.github.xjrga.snack.other;
 
 public class MinimumNutrientRequirements {
-
     private final Double weightinlbs;
-
     public MinimumNutrientRequirements( Double weightinlbs ) {
         this.weightinlbs = weightinlbs;
     }
-
     public double getProtein() {
         /*Complete Protein Required For Nitrogen Balance Under A No Carbohydrate Regimen*/
         return 1.3D * ( double ) weightinlbs.intValue() / 2.20462262185D;
     }
-
     public double getCarbohydrateLow() {
         /*Amount of Carbohydrate Needed to Appreciably Reduce Ketosis*/
  /*
@@ -20,7 +16,6 @@ public class MinimumNutrientRequirements {
          */
         return 50.0D;
     }
-
     public double getCarbohydrateMedium() {
         /*Amount of Carbohydrate Needed to Appreciably Reduce Ketosis*/
  /*
@@ -32,7 +27,6 @@ public class MinimumNutrientRequirements {
          */
         return 100.0D;
     }
-
     public double getCarbohydrateHigh() {
         /*Amount of Carbohydrate Needed to Inhibit Ketosis*/
  /*

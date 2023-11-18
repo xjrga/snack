@@ -3,24 +3,19 @@ package io.github.xjrga.snack.other;
 import java.math.BigDecimal;
 
 public class Alpha_linolenic_acid_required {
-
     private final BigDecimal energy;
-
     public Alpha_linolenic_acid_required( Double energy ) {
         BigDecimal q = new BigDecimal( energy );
         //.setScale(scale, RoundingMode.HALF_UP)
         this.energy = q;
     }
-
     public BigDecimal get_low_in_grams() {
         return energy.multiply( new BigDecimal( .006 / 9.0 ) );
     }
-
     public BigDecimal get_high_in_grams() {
         return energy.multiply( new BigDecimal( .012 / 9.0 ) );
     }
 }
-
 //-
 //Stark, A.H., Crawford, M.A. and Reifen, R., 2008. Update on alpha-linolenic acid. Nutrition reviews, 66(6), pp.326-332.
 //-

@@ -26,10 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelCost
         extends DefaultTableModel
         implements Reload {
-
     private final Vector columns;
     private final Result_loader loader;
-
     public TableModelCost( Result_loader loader ) {
         this.loader = loader;
         columns = new Vector();
@@ -38,7 +36,6 @@ public class TableModelCost
         columns.add( "Cost" );
         this.setDataVector( loader.get_cost_table(), columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -49,12 +46,10 @@ public class TableModelCost
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload() {
         this.setDataVector( loader.get_cost_table(), columns );

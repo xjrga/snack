@@ -19,43 +19,33 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Food_legend_generator
-        implements Reload_mixid {
-
+public class Food_legend_generator {
     private final DbLink dbLink;
-    private ArrayList list;
-
+    private ArrayList<FoodDataObject> list;
     public Food_legend_generator( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
-    @Override
-    public void reload( String mixId ) {
+    public Iterator getFoodDataObjectIterator( String mixId ) {
         try {
             list = new ArrayList();
             LinkedList<HashMap> all = ( LinkedList ) dbLink.MixFood_Select_All_By_Foodid( mixId );
-            all.forEach( row ->
-            {
+            all.forEach( row
+                    -> {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
                 list.add( foodDataObject );
             } );
         } catch ( SQLException e ) {
-
         }
+        return list.iterator();
     }
-
-    public Object[] toArray() {
-        return list.toArray();
-    }
-
 }

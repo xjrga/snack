@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderVitamins
         extends MyTableHeader {
-
     public TableHeaderVitamins( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
@@ -25,7 +24,6 @@ public class TableHeaderVitamins
             "Choline, Vitamin B4 (mg)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

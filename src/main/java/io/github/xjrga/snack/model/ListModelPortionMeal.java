@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.O_Meal;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,21 +30,18 @@ import javax.swing.*;
 public class ListModelPortionMeal
         extends DefaultListModel
         implements Reload_mixid {
-
     private final DbLink dbLink;
-
     public ListModelPortionMeal( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     @Override
     public void reload( String mixid ) {
         this.removeAllElements();
         LinkedList<HashMap> list = null;
         try {
             list = ( LinkedList ) dbLink.Meal_Select_All( mixid );
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 String mixid2 = ( String ) row.get( "MIXID" );
                 Integer mealid = ( Integer ) row.get( "MEALID" );
                 String name = ( String ) row.get( "NAME" );
@@ -57,10 +54,8 @@ public class ListModelPortionMeal
                 this.addElement( meal );
             } );
         } catch ( SQLException e ) {
-
         }
     }
-
     public int find_by_mealid( Integer mealid ) {
         int index = 0;
         int size = this.getSize();

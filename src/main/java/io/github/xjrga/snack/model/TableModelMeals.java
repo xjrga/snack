@@ -19,8 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload_mixid;
 import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.model.iface.Reload_mixid;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,15 +30,12 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelMeals
         extends DefaultTableModel
         implements Reload_mixid {
-
     private final DbLink dbLink;
     private Vector columns;
-
     public TableModelMeals( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "MixId" );
@@ -47,7 +44,6 @@ public class TableModelMeals
         columns.add( "Order" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -67,19 +63,17 @@ public class TableModelMeals
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload( String mixid ) {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Meal_Select_All( mixid );
-            list.forEach( map ->
-            {
+            list.forEach( map
+                    -> {
                 Vector row = new Vector();
                 row.add( ( String ) map.get( "MIXID" ) );
                 row.add( ( Integer ) map.get( "MEALID" ) );
@@ -89,7 +83,6 @@ public class TableModelMeals
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
 }

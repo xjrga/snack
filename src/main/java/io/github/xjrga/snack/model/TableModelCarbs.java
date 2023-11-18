@@ -26,10 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelCarbs
         extends DefaultTableModel
         implements Reload {
-
     private final Vector columns;
     private final Result_loader loader;
-
     public TableModelCarbs( Result_loader loader ) {
         this.loader = loader;
         columns = new Vector();
@@ -41,7 +39,6 @@ public class TableModelCarbs
         columns.add( "Carbs" );
         this.setDataVector( loader.get_carbs_table(), columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -52,15 +49,12 @@ public class TableModelCarbs
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload() {
         this.setDataVector( loader.get_carbs_table(), columns );
     }
-
 }

@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 public class Spacer_panel
         extends JPanel {
-
     public Spacer_panel( JComponent panel ) {
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout(

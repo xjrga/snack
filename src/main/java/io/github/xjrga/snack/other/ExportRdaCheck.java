@@ -16,7 +16,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 public class ExportRdaCheck {
-
     private final DbLink dbLink;
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -38,13 +37,11 @@ public class ExportRdaCheck {
     private StringBuilder filepath;
     private StringBuilder sb;
     private Workbook wb;
-
     public ExportRdaCheck( DbLink dbLink ) {
         this.dbLink = dbLink;
         initializeVariables();
         initializeMethods();
     }
-
     private void initializeVariables() {
         wb = new HSSFWorkbook();
         cell = null;
@@ -66,7 +63,6 @@ public class ExportRdaCheck {
         sb = new StringBuilder();
         sheetname = "RDA Check";
     }
-
     private void initializeMethods() {
         fontBold.setBold( true );
         sb.append( "rda_check_" );
@@ -76,28 +72,24 @@ public class ExportRdaCheck {
         filepath.append( sb.toString() );
         wb.setSheetName( 0, sheetname );
     }
-
     private CellStyle getCellStyleMixValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][<=0]0;0" ) );
         cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
-
     private CellStyle getCellStylePctRdaValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][<100]0;0" ) );
         cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
-
     private CellStyle getCellStylePctULValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "[RED][>100]0;0" ) );
         cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
-
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
@@ -105,7 +97,6 @@ public class ExportRdaCheck {
         cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
-
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFillPattern( FillPatternType.SPARSE_DOTS );
@@ -113,7 +104,6 @@ public class ExportRdaCheck {
         cellStyleMixName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleMixName;
     }
-
     public void print( MixDataObject mixDataObject, RdaLifeStageDataObject obj ) {
         int lifeStageId = obj.getLifeStageId();
         row = s.createRow( rownum++ );
@@ -146,8 +136,8 @@ public class ExportRdaCheck {
         cell.setCellStyle( cellStyleColumnName );
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetRdaDiff( mixDataObject.getMixId(), lifeStageId, 2 );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String nutrient = ( String ) rowm.get( "NAME" );
                 Double mix = ( Double ) rowm.get( "MIX" );
                 Double rda = ( Double ) rowm.get( "RDA" );
@@ -183,7 +173,6 @@ public class ExportRdaCheck {
             };
             Message.showOptionDialog( inputs, "Export RDA Check" );
         } catch ( SQLException e ) {
-
 //
         }
     }

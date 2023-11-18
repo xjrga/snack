@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
+import io.github.xjrga.snack.model.iface.Reload;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,31 +29,26 @@ import java.util.LinkedList;
 
 public class Nutrient_loader
         implements Reload {
-
     private final DbLink dbLink;
     private ArrayList<NutrientDataObject> nutrient_list;
-
     public Nutrient_loader( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     @Override
     public void reload() {
         nutrient_list = new ArrayList();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Select_All_Visible();
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 String nutrientid = ( String ) row.get( "NUTRIENTID" );
                 String name = ( String ) row.get( "NAME" );
                 NutrientDataObject nutrientDataObject = new NutrientDataObject( nutrientid, name, null );
                 nutrient_list.add( nutrientDataObject );
             } );
         } catch ( SQLException e ) {
-
         }
     }
-
     public ArrayList<NutrientDataObject> get_nutrient_list() {
         return nutrient_list;
     }

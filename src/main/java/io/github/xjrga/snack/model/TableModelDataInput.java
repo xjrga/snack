@@ -19,10 +19,10 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
-import io.github.xjrga.snack.model.iface.Reload_foodid;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodFactSelectForDataInputDataObject;
+import io.github.xjrga.snack.model.iface.Reload_foodid;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -31,16 +31,13 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelDataInput
         extends DefaultTableModel
         implements Round_up, Reload_foodid {
-
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelDataInput( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "NutrientId" );
@@ -49,7 +46,6 @@ public class TableModelDataInput
         columns.add( "Weight" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -60,21 +56,19 @@ public class TableModelDataInput
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int j ) {
         Boolean returnValue = false;
         returnValue = j >= 3;
         return returnValue;
     }
-
     @Override
     public void reload( String FoodId ) {
         Vector table = new Vector();
         try {
             LinkedList<FoodFactSelectForDataInputDataObject> list = ( LinkedList<FoodFactSelectForDataInputDataObject> ) dbLink.FoodFact_Select_ForDataInput( FoodId, precision );
-            list.forEach( foodFactSelectForDataInputDataObject ->
-            {
+            list.forEach( foodFactSelectForDataInputDataObject
+                    -> {
                 Vector row = new Vector();
                 row.add( foodFactSelectForDataInputDataObject.getNutrientId() );
                 row.add( foodFactSelectForDataInputDataObject.getCategory() );
@@ -84,15 +78,12 @@ public class TableModelDataInput
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;
     }
-
     public Integer find( String NutrientId ) {
         int index = 0;
         int rowNo = this.getRowCount();

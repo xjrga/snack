@@ -15,7 +15,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 public class ExportNutrientLookup {
-
     private final DbLink dbLink;
     private Cell cell;
     private CellStyle cellStyleColumnName;
@@ -36,13 +35,11 @@ public class ExportNutrientLookup {
     private StringBuilder filepath;
     private StringBuilder sb;
     private Workbook wb;
-
     public ExportNutrientLookup( DbLink dbLink ) {
         this.dbLink = dbLink;
         initializeVariables();
         initializeMethods();
     }
-
     private void initializeVariables() {
         wb = new HSSFWorkbook();
         cellFormat = wb.createDataFormat();
@@ -63,7 +60,6 @@ public class ExportNutrientLookup {
         s = wb.createSheet();
         rownum = 0;
     }
-
     private void initializeMethods() {
         fontBold.setBold( true );
         fontItalic.setItalic( true );
@@ -74,14 +70,12 @@ public class ExportNutrientLookup {
         filepath.append( sb.toString() );
         wb.setSheetName( 0, sheetname );
     }
-
     private CellStyle getCellStyleValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "0;[RED]-0" ) );
         cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
-
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
@@ -89,14 +83,12 @@ public class ExportNutrientLookup {
         cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
-
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFont( fontItalic );
         cellStyleMixName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleMixName;
     }
-
     public void print( JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient ) {
         NutrientDataObject nutrientDataObject = ( NutrientDataObject ) comboBoxNutrientLookupListNutrient.getSelectedItem();
         row = s.createRow( rownum++ );
@@ -120,8 +112,8 @@ public class ExportNutrientLookup {
         cell.setCellStyle( cellStyleColumnName );
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Lookup_List( nutrientDataObject.getNutr_no(), Double.valueOf( textFieldNutrientLookup.getText() ), 5 );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String foodname = ( String ) rowm.get( "NAME" );
                 Double calories = ( Double ) rowm.get( "CALORIES" );
                 Double weight = ( Double ) rowm.get( "WEIGHT" );
@@ -137,14 +129,12 @@ public class ExportNutrientLookup {
                 cell.setCellStyle( cellStyleValue );
             } );
         } catch ( SQLException e ) {
-
         }
         try {
             out = new FileOutputStream( filepath.toString() );
             wb.write( out );
             out.close();
         } catch ( IOException e ) {
-
         }
         JComponent[] inputs = new JComponent[] {
             new JLabel( "Spreadsheet is ready" )

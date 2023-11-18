@@ -9,21 +9,15 @@ import org.apache.commons.math3.stat.StatUtils;
 
 public class String_display_component
         extends JComponent {
-
     private String text = "";
-
     public String_display_component() {
-
     }
-
     public String getText() {
         return text;
     }
-
     public void setText( String text ) {
         this.text = text;
     }
-
     @Override
     protected void paintComponent( Graphics g ) {
         super.paintComponent( g );
@@ -45,7 +39,6 @@ public class String_display_component
             }
         }
     }
-
     private ArrayList<String> get_list( String txt, Dimension d, double factor ) {
         ArrayList<String> list = new ArrayList();
         int limit = ( int ) Math.round( d.width / factor );
@@ -60,7 +53,6 @@ public class String_display_component
         }
         return list;
     }
-
     private double get_character_advance_width_factor_max( String txt, Graphics2D g ) {
         StringBuilder sb = new StringBuilder();
         FontMetrics m = g.getFontMetrics( getFont() );
@@ -74,7 +66,6 @@ public class String_display_component
         }
         return max;
     }
-
     private double get_character_advance_width_factor_avg( String txt, Graphics2D g ) {
         FontMetrics m = g.getFontMetrics( getFont() );
         double subwidth = m.stringWidth( txt );
@@ -82,20 +73,16 @@ public class String_display_component
         double factor = subwidth / length;
         return factor;
     }
-
     private double get_character_advance_width_max( Graphics2D g ) {
         FontMetrics m = g.getFontMetrics( getFont() );
         return StatUtils.max( Utilities.convert_to_double_array( m.getWidths() ) );
     }
-
     private double get_character_advance_width_avg( Graphics2D g ) {
         FontMetrics m = g.getFontMetrics( getFont() );
         return StatUtils.mean( Utilities.convert_to_double_array( m.getWidths() ) );
     }
-
     private double get_character_advance_width_mode( Graphics2D g ) {
         FontMetrics m = g.getFontMetrics( getFont() );
         return StatUtils.mode( Utilities.convert_to_double_array( m.getWidths() ) )[ 0 ];
     }
-
 }

@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
+import io.github.xjrga.snack.model.iface.Reload;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,28 +30,24 @@ import javax.swing.*;
 public class ComboBoxModelLifeStage
         extends DefaultComboBoxModel
         implements Reload {
-
     private final DbLink dbLink;
-
     public ComboBoxModelLifeStage( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     @Override
     public void reload() {
         this.removeAllElements();
         LinkedList<HashMap> list = null;
         try {
             list = ( LinkedList ) dbLink.RdaLifeStage_Select_All();
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 Integer lifestageid = ( Integer ) row.get( "LIFESTAGEID" );
                 String label = ( String ) row.get( "LABEL" );
                 RdaLifeStageDataObject rdaLifeStageDataObject = new RdaLifeStageDataObject( lifestageid, label );
                 this.addElement( rdaLifeStageDataObject );
             } );
         } catch ( SQLException e ) {
-
         }
     }
 }

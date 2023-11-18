@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderGlycemic
         extends MyTableHeader {
-
     public TableHeaderGlycemic( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
@@ -18,7 +17,6 @@ public class TableHeaderGlycemic
             "Contribution to Glycemic Index of Meal"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

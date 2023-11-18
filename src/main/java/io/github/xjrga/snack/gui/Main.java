@@ -11,7 +11,8 @@ import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import io.github.xjrga.snack.dataobject.O_Meal;
 import io.github.xjrga.snack.dataobject.RdaLifeStageDataObject;
 import io.github.xjrga.snack.dataobject.RelationshipDataObject;
-import io.github.xjrga.snack.lp.LpModel;
+import io.github.xjrga.snack.lp.LinearProgram;
+import io.github.xjrga.snack.lp.PrintOutSelector;
 import io.github.xjrga.snack.model.ComboBoxModelLifeStage;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsAll;
 import io.github.xjrga.snack.model.ComboBoxModelNutrientsConvert;
@@ -74,7 +75,6 @@ import io.github.xjrga.snack.other.GlycemicLoad;
 import io.github.xjrga.snack.other.GoldenRatio;
 import io.github.xjrga.snack.other.ImageUtilities;
 import io.github.xjrga.snack.other.KatchMcArdleFormula;
-import io.github.xjrga.snack.other.Log;
 import io.github.xjrga.snack.other.MinimumNutrientRequirements;
 import io.github.xjrga.snack.other.NumberCheck;
 import io.github.xjrga.snack.other.Spacer_panel;
@@ -113,8 +113,6 @@ import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -217,6 +215,8 @@ public class Main {
     private final JCheckBox checkBoxPotassium = new JCheckBox();
     private final JCheckBox checkBoxProtein = new JCheckBox();
     private final JCheckBox checkBoxResultRoundUp = new JCheckBox();
+    private final JCheckBox checkBoxLpsolve = new JCheckBox();
+    private final JCheckBox checkBoxCplex = new JCheckBox();
     private final JCheckBox checkBoxRiboflavin = new JCheckBox();
     private final JCheckBox checkBoxSaturated = new JCheckBox();
     private final JCheckBox checkBoxSelenium = new JCheckBox();
@@ -304,12 +304,12 @@ public class Main {
     private final JMenuItem mnui_add_mix_to_foodlist = new JMenuItem();
     private final JMenuItem mnui_pin_mix = new JMenuItem( "Pin" );
     private final JMenu menuData = new JMenu();
-    private final JMenu mnu_mix_exchange = new JMenu();
-    private final JMenu mnu_food_exchange = new JMenu();
+    private final JMenu mnuiMixImpexp = new JMenu();
+    private final JMenu mnuiFoodImpexp = new JMenu();
     private final JMenu menuHelp = new JMenu();
     private final JMenu menuProgram = new JMenu();
     private final JMenu menuSettings = new JMenu();
-    private final JMenu mnu_spreadsheet = new JMenu();
+    private final JMenu mnuiMixResult = new JMenu();
     private final JMenu menuTools = new JMenu();
     private final JMenu menu_mix = new JMenu();
     private int precision = 0;
@@ -438,22 +438,22 @@ public class Main {
         main_tabbed_pane.add( get_nutrient_lookup() );
         main_tabbed_pane.add( get_food_categories() );
         main_tabbed_pane.setTitleAt( 0, "Editor" );
-        main_tabbed_pane.setToolTipTextAt( 0, "Create, edit and solve your mix problem here" );
+        main_tabbed_pane.setToolTipTextAt( 0, "Create, edit and solve your diet here" );
         main_tabbed_pane.setTitleAt( 1, "Food List" );
         main_tabbed_pane.setToolTipTextAt( 1, "This is your list of favorite food items" );
         main_tabbed_pane.setTitleAt( 2, "Food Comparison" );
         main_tabbed_pane.setToolTipTextAt( 2, "This is where you compare two food items (100g)" );
         main_tabbed_pane.setTitleAt( 3, "Mix Comparison" );
         main_tabbed_pane.setToolTipTextAt( 3, "This is where you compare two mixes" );
-        main_tabbed_pane.setTitleAt( 4, "Nutrient Lookup" );
-        main_tabbed_pane.setToolTipTextAt( 4, "This is where you find food items that provide a specific nutrient" );
+        main_tabbed_pane.setTitleAt( 4, "Nutrient Content" );
+        main_tabbed_pane.setToolTipTextAt( 4, "This is where you get a list of foods that contain the nutrient" );
         main_tabbed_pane.setTitleAt( 5, "Food Category" );
-        main_tabbed_pane.setToolTipTextAt( 5, "This is where you categorize food items" );
+        main_tabbed_pane.setToolTipTextAt( 5, "This is where you put food items into categories" );
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView( main_tabbed_pane );
         frame.add( scrollPane );
         frame.setDefaultCloseOperation( 3 );
-        Dimension size = new Dimension( 1355, 870 );
+        Dimension size = new Dimension( 1340, 870 );
         frame.setSize( size );
         frame.setVisible( true );
         frame.setTitle( "Snack" );
@@ -607,7 +607,8 @@ public class Main {
     }
     public static void main( String[] args ) {
         try {
-            Font font = new Font( Font.DIALOG, Font.PLAIN, 12 );
+            The_font the_font = new The_font( "resources/fonts/Inconsolata.ttf" );
+            Font font = the_font.get_font();
             MetalLookAndFeel.setCurrentTheme( new io.github.xjrga.looks.themes.Dawn_150( font ) );
             UIManager.setLookAndFeel( "javax.swing.plaf.metal.MetalLookAndFeel" );
         } catch ( ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e ) {
@@ -615,7 +616,7 @@ public class Main {
         try {
             Main main = new Main();
         } catch ( Exception e ) {
-            Log.Log2.append( e.getMessage() );
+            e.printStackTrace();
         }
     }
     private void show_food_statistics( String foodid ) {
@@ -809,32 +810,6 @@ public class Main {
             }
         }
     }
-    private void process_evt_mnui_error_log() {
-        JTextArea txa_log = new JTextArea();
-        txa_log.setLineWrap( true );
-        txa_log.setEditable( false );
-        JScrollPane scr_log = new JScrollPane( txa_log );
-        txa_log.setText( Log.Log2.get_text() );
-        scr_log.setPreferredSize( new Dimension( 754, 575 ) );
-        JComponent[] inputs = new JComponent[ 1 ];
-        inputs[ 0 ] = scr_log;
-        txa_log.addKeyListener( new KeyListener() {
-            @Override
-            public void keyPressed( KeyEvent e ) {
-                if ( e.getKeyCode() == KeyEvent.VK_DELETE ) {
-                    txa_log.setText( "" );
-                    Log.Log2.clear();
-                }
-            }
-            @Override
-            public void keyTyped( KeyEvent e ) {
-            }
-            @Override
-            public void keyReleased( KeyEvent e ) {
-            }
-        } );
-        Message.showOptionDialog( inputs, "Log (For Developers)" );
-    }
     private void process_evt_tbl_food_list() {
         mnui_export_food.setEnabled( true );
     }
@@ -952,11 +927,14 @@ public class Main {
         panel.setLayout( layout );
         tabs.setTabPlacement( JTabbedPane.RIGHT );
         tabs.add( "Portion", new Spacer_panel( get_meal_portion() ) );
-        tabs.add( "Energy", new Spacer_panel( get_meal_calories() ) );
-        tabs.add( "Mass", new Spacer_panel( get_meal_grams() ) );
-        tabs.add( "Meal", new Spacer_panel( get_meal() ) );
+        tabs.add( "Energy ", new Spacer_panel( get_meal_calories() ) );
+        tabs.add( "Mass   ", new Spacer_panel( get_meal_grams() ) );
+        tabs.add( "Meal   ", new Spacer_panel( get_meal() ) );
         tabs.setSelectedIndex( 0 );
         tabs.setToolTipTextAt( 0, "Allocate food amount by specifying a percentage, selecting a food item, one or more meals and pressing '+'" );
+        tabs.setToolTipTextAt( 1, "Calories per meal" );
+        tabs.setToolTipTextAt( 2, "Grams per meal" );
+        tabs.setToolTipTextAt( 3, "Meals in your diet" );
         panel.add( tabs, cc.xy( 1, 1 ) );
         return panel;
     }
@@ -1036,25 +1014,26 @@ public class Main {
         menuTools.add( menuItemGlycemicLoad );
         menuTools.add( menuItemGlycemicIndexRange );
         menuTools.add( mnui_alpha_linolenic_acid_required );
-        menuData.add( mnu_spreadsheet );
-        menuData.add( mnu_mix_exchange );
-        menuData.add( mnu_food_exchange );
-        mnu_spreadsheet.add( menuItemExportFoodList );
-        mnu_spreadsheet.add( menuItemExportFoodComparison );
-        mnu_spreadsheet.add( mnui_export_rda );
-        mnu_spreadsheet.add( mnui_export_mixcomparison );
-        mnu_spreadsheet.add( menuItemExportNutrientLookup );
-        mnu_spreadsheet.add( mnui_export_mealplan );
-        mnu_mix_exchange.add( mnui_import_model );
-        mnu_mix_exchange.add( mnui_export_model );
-        mnu_food_exchange.add( mnui_import_food );
-        mnu_food_exchange.add( mnui_export_food );
+        menuData.add( mnuiFoodImpexp );
+        menuData.add( mnuiMixImpexp );
+        menuData.add( mnuiMixResult );
+        mnuiMixResult.add( menuItemExportFoodList );
+        mnuiMixResult.add( menuItemExportFoodComparison );
+        mnuiMixResult.add( mnui_export_rda );
+        mnuiMixResult.add( mnui_export_mixcomparison );
+        mnuiMixResult.add( menuItemExportNutrientLookup );
+        mnuiMixResult.add( mnui_export_mealplan );
+        mnuiMixImpexp.add( mnui_import_model );
+        mnuiMixImpexp.add( mnui_export_model );
+        mnuiFoodImpexp.add( mnui_import_food );
+        mnuiFoodImpexp.add( mnui_export_food );
         menuHelp.add( mnui_project );
         menuHelp.add( mnui_credits );
         menuHelp.add( mnui_about );
         menuHelp.add( mnui_author );
-        menuHelp.add( mnui_error_log );
         menuSettings.add( checkBoxResultRoundUp );
+        menuSettings.add( checkBoxLpsolve );
+        menuSettings.add( checkBoxCplex );
         menuSettings.add( menuItemConstraintsShownInList );
         menu_mix.add( mnui_create_mix );
         menu_mix.add( mnui_delete_mix );
@@ -1072,32 +1051,33 @@ public class Main {
         menuHelp.setText( "Help" );
         menuSettings.setText( "Settings" );
         menuItemExit.setText( "Exit" );
-        menuItemMicronutrientConversion.setText( "Daily Value (%DV) to Grams" );
-        menuItemBmr.setText( "Basal Metabolic Rate Of An Individual" );
-        menuItemNitrogenBalance.setText( "Complete Protein Required In A No Fat, No Carbs Regimen" );
-        menuItemKetosis.setText( "Carbohydrate Required To Inhibit Ketosis" );
-        menuItemDigestibleCarbs.setText( "Digestible Carbohydrate Of A Food Item" );
-        menuItemGlycemicLoad.setText( "Glycemic Load Of A Food Item" );
-        mnui_alpha_linolenic_acid_required.setText( "α-Linolenic Acid Required" );
-        menuItemGlycemicIndexRange.setText( "Glycemic Index Range Of A Food Item" );
-        mnu_spreadsheet.setText( "Spreadsheet" );
-        mnu_mix_exchange.setText( "Mix" );
-        mnu_food_exchange.setText( "Food" );
-        menuItemExportFoodList.setText( "Food List" );
-        menuItemExportFoodComparison.setText( "Food Comparison" );
-        mnui_export_rda.setText( "Mix Rda" );
-        mnui_export_mixcomparison.setText( "Mix Comparison" );
-        menuItemExportNutrientLookup.setText( "Nutrient Lookup" );
-        mnui_export_mealplan.setText( "Meal Plan " );
-        mnui_import_model.setText( "Import" );
-        mnui_export_model.setText( "Export" );
-        mnui_import_food.setText( "Import" );
-        mnui_export_food.setText( "Export" );
-        checkBoxResultRoundUp.setText( "Round Up" );
-        menuItemConstraintsShownInList.setText( "Nutrients, Energies and Cost Shown As Constraints" );
+        menuItemMicronutrientConversion.setText( "Convert daily value (%DV) required to grams" );
+        menuItemBmr.setText( "Calculate basal metabolic rate of an individual" );
+        menuItemNitrogenBalance.setText( "Calculate complete protein required in a no fat, no carbohydrate regimen" );
+        menuItemKetosis.setText( "Show carbohydrate required to inhibit ketosis" );
+        menuItemDigestibleCarbs.setText( "Calculate digestible carbohydrate of a food item" );
+        menuItemGlycemicLoad.setText( "Calculate glycemic load of a food ttem" );
+        mnui_alpha_linolenic_acid_required.setText( "Calculate alpha-linolenic acid required" );
+        menuItemGlycemicIndexRange.setText( "Show glycemic index range of a food item" );
+        mnuiMixResult.setText( "Results" );
+        mnuiMixImpexp.setText( "Mix" );
+        mnuiFoodImpexp.setText( "Food" );
+        menuItemExportFoodList.setText( "Export food list to spreadsheet" );
+        menuItemExportFoodComparison.setText( "Export food comparison results to spreadsheet" );
+        mnui_export_rda.setText( "Export mix rda results to spreadsheet" );
+        mnui_export_mixcomparison.setText( "Export mix comparison results to spreadsheet" );
+        menuItemExportNutrientLookup.setText( "Export nutrient content results to spreadsheet" );
+        mnui_export_mealplan.setText( "Export meal plan to spreadsheet" );
+        mnui_import_model.setText( "Import mix using xml document" );
+        mnui_export_model.setText( "Export mix as xml document" );
+        mnui_import_food.setText( "Import food item using xml document" );
+        mnui_export_food.setText( "Export food item as xml document" );
+        checkBoxResultRoundUp.setText( "Round up result values" );
+        checkBoxLpsolve.setText( "Write model to file in lpsolve format" );
+        checkBoxCplex.setText( "Write model to file in cplex format" );
+        menuItemConstraintsShownInList.setText( "Show constraints selected" );
         mnui_project.setText( "Project" );
         mnui_credits.setText( "Credits" );
-        mnui_error_log.setText( "Log" );
         mnui_about.setText( "About" );
         mnui_author.setText( "Author" );
         mnui_create_mix.setText( "Create mix" );
@@ -1206,10 +1186,6 @@ public class Main {
         mnui_credits.addActionListener( ( ActionEvent e )
                 -> {
             process_evt_mnui_credits();
-        } );
-        mnui_error_log.addActionListener( ( ActionEvent e )
-                -> {
-            process_evt_mnui_error_log();
         } );
         mnui_about.addActionListener( ( ActionEvent e )
                 -> {
@@ -1503,18 +1479,18 @@ public class Main {
         JTabbedPane constraints_tab_pane = new JTabbedPane();
         constraints_tab_pane.setBorder( new TitledBorder( "Mix Definition" ) );
         constraints_tab_pane.setTabPlacement( JTabbedPane.RIGHT );
-        constraints_tab_pane.add( "Food List", get_mix_food() );
-        constraints_tab_pane.add( "Nutrient", new Spacer_panel( get_nutrient_constraint() ) );
-        constraints_tab_pane.add( "Nutrient Ratio", new Spacer_panel( get_nutrient_ratio_constraint() ) );
-        constraints_tab_pane.add( "Food Nutrient", new Spacer_panel( get_food_nutrient_constraint() ) );
-        constraints_tab_pane.add( "Food Nutrient Ratio", new Spacer_panel( get_food_nutrient_ratio_constraint() ) );
-        constraints_tab_pane.add( "Food Nutrient Pct", new Spacer_panel( get_food_nutrient_percent_constraint() ) );
+        constraints_tab_pane.add( "Food List        ", get_mix_food() );
+        constraints_tab_pane.add( "Nutrient Quantity", new Spacer_panel( get_nutrient_constraint() ) );
+        constraints_tab_pane.add( "Nutrient Ratio   ", new Spacer_panel( get_nutrient_ratio_constraint() ) );
+        constraints_tab_pane.add( "Food Quantity    ", new Spacer_panel( get_food_nutrient_constraint() ) );
+        constraints_tab_pane.add( "Food Percent     ", new Spacer_panel( get_food_nutrient_percent_constraint() ) );
+        constraints_tab_pane.add( "Food Ratio       ", new Spacer_panel( get_food_nutrient_ratio_constraint() ) );
         constraints_tab_pane.setToolTipTextAt( 0, "Add food items to this list" );
-        constraints_tab_pane.setToolTipTextAt( 1, "Specify nutrient limit" );
-        constraints_tab_pane.setToolTipTextAt( 2, "Specify proportion between nutrients" );
-        constraints_tab_pane.setToolTipTextAt( 3, "Specify food limit" );
-        constraints_tab_pane.setToolTipTextAt( 4, "Specify proportion between foods" );
-        constraints_tab_pane.setToolTipTextAt( 5, "Specify food limit using a percentage" );
+        constraints_tab_pane.setToolTipTextAt( 1, "Limit a nutrient" );
+        constraints_tab_pane.setToolTipTextAt( 2, "Specify a relationship between two nutrients" );
+        constraints_tab_pane.setToolTipTextAt( 3, "Limit a food item" );
+        constraints_tab_pane.setToolTipTextAt( 4, "Limit a food item (pct)" );
+        constraints_tab_pane.setToolTipTextAt( 5, "Specify a relationship between two food items" );
         return constraints_tab_pane;
     }
     private JTabbedPane get_editor_solution() {
@@ -1522,8 +1498,8 @@ public class Main {
         pane.setTabPlacement( JTabbedPane.BOTTOM );
         pane.add( "Model", get_editor_results() );
         pane.add( "Meal Plan", get_editor_meal_plan() );
-        pane.setToolTipTextAt( 0, "This is your mix problem definition" );
-        pane.setToolTipTextAt( 1, "This is where you allocate solved food quantities to meals" );
+        pane.setToolTipTextAt( 0, "This is where you create your diet" );
+        pane.setToolTipTextAt( 1, "This is where you create your meals" );
         return pane;
     }
     private JPanel get_editor() {
@@ -1566,7 +1542,7 @@ public class Main {
     }
     private JPanel get_editor_mixes() {
         JPanel pnl_mix_list = new JPanel();
-        FormLayout pnl_mix_list_lyo = new FormLayout( "min:grow,min", //columns
+        FormLayout pnl_mix_list_lyo = new FormLayout( "1172px,min", //columns
                                                       "fill:min:grow" //rows
         );
         pnl_mix_list.setLayout( pnl_mix_list_lyo );
@@ -1576,8 +1552,8 @@ public class Main {
                                                      "min" //rows
         );
         pnl_buttons.setLayout( pnl_buttons_lyo );
-        btn_solve.setToolTipText( "Find food combination" );
-        btn_undo.setToolTipText( "Undo model definition changes" );
+        btn_solve.setToolTipText( "Find lowest calorie diet" );
+        btn_undo.setToolTipText( "Undo diet changes that are unsolved" );
         pnl_buttons.add( btn_solve, cc.xy( 1, 1 ) );
         pnl_buttons.add( btn_undo, cc.xy( 2, 1 ) );
         pnl_mix_list.add( cmb_mix, cc.xy( 1, 1 ) );
@@ -3244,7 +3220,7 @@ public class Main {
         value_label.setHorizontalAlignment( JLabel.RIGHT );
         JTextField search_field = new JTextField();
         search_label.setHorizontalAlignment( JLabel.RIGHT );
-        tableNutrientLookup.setToolTipText( "These food items contain the specific nutrient" );
+        tableNutrientLookup.setToolTipText( "These food items contain the nutrient" );
         tableNutrientLookup.setTableHeader( new TableHeaderNutrientLookup( tableNutrientLookup.getColumnModel() ) );
         tableNutrientLookup.setModel( modelTableNutrientLookup );
         tableNutrientLookup.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -3253,7 +3229,7 @@ public class Main {
         tableNutrientLookup.setRowSorter( srttbl_nutrientlookup );
         comboBoxNutrientLookupListNutrient.setModel( modelComboBox_NutrientLookupListNutrient );
         JScrollPane scrollPaneNutrientLookup = new JScrollPane( tableNutrientLookup );
-        scrollPaneNutrientLookup.setBorder( new TitledBorder( "Nutrient Lookup" ) );
+        scrollPaneNutrientLookup.setBorder( new TitledBorder( "Nutrient Content" ) );
         panel_01.add( search_label, cc.xy( 5, 2 ) );
         panel_01.add( search_field, cc.xy( 6, 2 ) );
         panel_01.add( nutrient_label, cc.xy( 2, 4 ) );
@@ -3396,7 +3372,7 @@ public class Main {
         );
         //
         panel00.setLayout( panel00Layout );
-        panel00.setPreferredSize( new Dimension( 1050, 250 ) );
+        panel00.setPreferredSize( new Dimension( 1100, 250 ) );
         panel00.add( panel01, cc.xy( 2, 2 ) );
         panel01.setLayout( panel01Layout );
         Object[] it = mapConstraintCheckboxes.entrySet().toArray();
@@ -3497,7 +3473,7 @@ public class Main {
             ExportNutrientLookup exportNutrientLookup = new ExportNutrientLookup( dbLink );
             exportNutrientLookup.print( textFieldNutrientLookup, comboBoxNutrientLookupListNutrient );
         } else {
-            Message.showMessage( "Go to nutrient lookup and enter nutrient amount" );
+            Message.showMessage( "Go to nutrient content and enter nutrient amount" );
         }
     }
     private void process_evt_mnui_project() {
@@ -3645,21 +3621,21 @@ public class Main {
         results_tabbed_pane.add( get_editor_glycemic() );
         results_tabbed_pane.add( get_editor_rda() );
         results_tabbed_pane.add( get_editor_model() );
-        results_tabbed_pane.setTitleAt( 0, "Energy" );
-        results_tabbed_pane.setTitleAt( 1, "Mass" );
-        results_tabbed_pane.setTitleAt( 2, "Protein" );
-        results_tabbed_pane.setTitleAt( 3, "Fats" );
-        results_tabbed_pane.setTitleAt( 4, "Saturated Fat" );
-        results_tabbed_pane.setTitleAt( 5, "Polyunsaturated Fat" );
-        results_tabbed_pane.setTitleAt( 6, "Carbohydrates" );
-        //results_tabbed_pane.setTitleAt( 7, "Sugars" ); // Will add glucose, fructose, sucrose, lactose
-        results_tabbed_pane.setTitleAt( 7, "Vitamins" );
-        results_tabbed_pane.setTitleAt( 8, "Minerals" );
-        results_tabbed_pane.setTitleAt( 9, "Electrolytes" );
-        results_tabbed_pane.setTitleAt( 10, "Cost" );
-        results_tabbed_pane.setTitleAt( 11, "Glycemic" );
-        results_tabbed_pane.setTitleAt( 12, "Rda" );
-        results_tabbed_pane.setTitleAt( 13, "Model" );
+        results_tabbed_pane.setTitleAt( 0, "Energy         " );
+        results_tabbed_pane.setTitleAt( 1, "Mass           " );
+        results_tabbed_pane.setTitleAt( 2, "Protein        " );
+        results_tabbed_pane.setTitleAt( 3, "Fats           " );
+        results_tabbed_pane.setTitleAt( 4, "Saturated      " );
+        results_tabbed_pane.setTitleAt( 5, "Polyunsaturated" );
+        results_tabbed_pane.setTitleAt( 6, "Carbohydrates  " );
+        //results_tabbed_pane.setTitleAt( 7, "         Sugars" ); // Will add glucose, fructose, sucrose, lactose
+        results_tabbed_pane.setTitleAt( 7, "Vitamins       " );
+        results_tabbed_pane.setTitleAt( 8, "Minerals       " );
+        results_tabbed_pane.setTitleAt( 9, "Electrolytes   " );
+        results_tabbed_pane.setTitleAt( 10, "Cost           " );
+        results_tabbed_pane.setTitleAt( 11, "Glycemic       " );
+        results_tabbed_pane.setTitleAt( 12, "Rda            " );
+        results_tabbed_pane.setTitleAt( 13, "Model          " );
         pnl_objective.add( lbl_min );
         pnl_right.add( pnl_constraint_count, cc.xy( 1, 1 ) );
         pnl_right.add( pnl_objective, cc.xy( 1, 2 ) );
@@ -4208,7 +4184,8 @@ public class Main {
                 "fill:pref:grow" //rows
         );
         panel.setLayout( layout );
-        Font font = new Font( Font.MONOSPACED, Font.PLAIN, 12 );
+        The_font the_font = new The_font( "resources/fonts/Inconsolata.ttf" );
+        Font font = the_font.get_font();
         txta_editor_model.setFont( font );
         txta_editor_model.setLineWrap( false );
         JScrollPane scrollPane = new JScrollPane( txta_editor_model );
@@ -4223,7 +4200,6 @@ public class Main {
         mixobjective = mixdataobject.getNutrientid();
         String model = mixdataobject.getModel();
         modelList_selected_food.reload( mixid );
-        legend_generator.reload( mixid );
         reload_tblmdl_editor_results();
         reload_tblmdl_editor_rda_check();
         reload_cbmdl_food( mixid );
@@ -4500,7 +4476,6 @@ public class Main {
             try {
                 dbLink.MixFood_Insert( mixid, food.getFoodId() );
                 modelList_selected_food.reload( mixid );
-                legend_generator.reload( mixid );
                 reload_cbmdl_food( mixid );
                 set_selected_index_cmb_food();
             } catch ( SQLException e ) {
@@ -4513,7 +4488,6 @@ public class Main {
                 FoodDataObject foodDataObject = ( FoodDataObject ) lst_selected_food.getSelectedValue();
                 dbLink.MixFood_Delete( mixid, foodDataObject.getFoodId() );
                 modelList_selected_food.reload( mixid );
-                legend_generator.reload( mixid );
                 reload_cbmdl_food( mixid );
                 set_selected_index_cmb_food();
                 reload_tblmdl_constraints( mixid );
@@ -4554,14 +4528,16 @@ public class Main {
     private void process_evt_btn_solve() {
         try {
             txta_editor_model.setText( "" );
-            LpModel lpModel = new LpModel();
+            LinearProgram lpModel = new LinearProgram();
+            PrintOutSelector modelSelector = new PrintOutSelector( lpModel );
+            modelSelector.selectLpsolve();
+            modelSelector.selectCplex();
             lpModel.setComponent( get_no_feasible_solution_panel() );
             //Add objective
-            lpModel.addObjective( dbLink.objective_lhs( mixid ) );
+            lpModel.addObjectiveFunction( dbLink.objective_lhs( mixid ) );
+            modelSelector.addObjectiveFunction( dbLink.objective_lhs( mixid ) );
             //Add nutrient constraint
             LinkedList<HashMap> nutrient_constraints = ( LinkedList ) dbLink.nutrient_rhs( mixid );
-            long currentTimeMillis = System.currentTimeMillis();
-            String lpfile = "log/snack_" + String.valueOf( currentTimeMillis ) + ".lp";
             nutrient_constraints.forEach( row
                     -> {
                 String nutrientid = ( String ) row.get( "NUTRIENTID" );
@@ -4569,6 +4545,7 @@ public class Main {
                 Double b = ( Double ) row.get( "B" );
                 try {
                     lpModel.addConstraint( dbLink.nutrient_lhs( mixid, nutrientid, relationshipid ), relationshipid, b );
+                    modelSelector.addConstraint( dbLink.nutrient_lhs( mixid, nutrientid, relationshipid ), relationshipid, b );
                 } catch ( SQLException ex ) {
                 }
             } );
@@ -4582,6 +4559,7 @@ public class Main {
                 Double b = ( double ) row.get( "B" );
                 try {
                     lpModel.addConstraint( dbLink.foodnutrient_lhs( mixid, foodid, nutrientid, relationshipid ), relationshipid, b );
+                    modelSelector.addConstraint( dbLink.foodnutrient_lhs( mixid, foodid, nutrientid, relationshipid ), relationshipid, b );
                 } catch ( SQLException ex ) {
                 }
             } );
@@ -4597,6 +4575,7 @@ public class Main {
                 Double b = ( Double ) row.get( "B" );
                 try {
                     lpModel.addConstraint( dbLink.foodnutrientratio_lhs( mixid, foodid1, nutrientid1, foodid2, nutrientid2, relationshipid ), relationshipid, b );
+                    modelSelector.addConstraint( dbLink.foodnutrientratio_lhs( mixid, foodid1, nutrientid1, foodid2, nutrientid2, relationshipid ), relationshipid, b );
                 } catch ( SQLException ex ) {
                 }
             } );
@@ -4610,6 +4589,7 @@ public class Main {
                 Double b = ( Double ) row.get( "B" );
                 try {
                     lpModel.addConstraint( dbLink.nutrientratio_lhs( mixid, nutrientid1, nutrientid2, relationshipid ), relationshipid, b );
+                    modelSelector.addConstraint( dbLink.nutrientratio_lhs( mixid, nutrientid1, nutrientid2, relationshipid ), relationshipid, b );
                 } catch ( SQLException ex ) {
                 }
             } );
@@ -4623,35 +4603,21 @@ public class Main {
                 Double b = ( double ) row.get( "B" );
                 try {
                     lpModel.addConstraint( dbLink.percentnutrient_lhs( mixid, foodid, nutrientid, b ), relationshipid, 0 );
+                    modelSelector.addConstraint( dbLink.percentnutrient_lhs( mixid, foodid, nutrientid, b ), relationshipid, 0 );
                 } catch ( SQLException ex ) {
                 }
             } );
-            String pattern = "yyyy-MMMMM-dd'_at_'HH-mm-ss";
-            SimpleDateFormat dateFormat = new SimpleDateFormat( pattern );
-            Date date = new Date();
-            String stringDate = dateFormat.format( date );
-            lpModel.setTitle( mixname );
-            lpModel.setDate( stringDate );
-            lpModel.setVariables( get_food_legend( mixid ) );
-            StringBuilder sbResults = new StringBuilder();
-            StringBuilder sbAll = new StringBuilder();
+            modelSelector.saveModel();
+            modelSelector.setTitle( mixname );
+            modelSelector.setDate( Utilities.formatDate( new Date() ) );
+            modelSelector.setVariables( legend_generator.getFoodDataObjectIterator( mixid ) );
             if ( lpModel.solve() ) {
                 double objective_function_value = lpModel.getCost();
                 double[] point = lpModel.getPoint();
-                DecimalFormat formatter = new DecimalFormat( "####.###" );
-                mdl_lst_high_score.addElement( formatter.format( objective_function_value ) );
+                mdl_lst_high_score.addElement( Utilities.formatDecimal( objective_function_value ) );
                 lst_high_score.ensureIndexIsVisible( mdl_lst_high_score.getSize() - 1 );
                 lst_high_score.setSelectedIndex( lst_high_score.getLastVisibleIndex() );
-                sbResults.append( "Value of objective function" ).append( ": " ).append( formatter.format( objective_function_value ) );
-                lpModel.set_value_of_objective_function( sbResults.toString() );
-                sbResults.setLength( 0 );
-                sbResults.append( "Actual values of the variables:" );
-                sbResults.append( "\n" );
-                for ( int i = 0; i < point.length; i++ ) {
-                    sbResults.append( String.format( "X%1$02d %2$ 35.17f", i, point[ i ] ) );
-                    sbResults.append( "\n" );
-                }
-                sbResults.setLength( sbResults.length() - 1 );
+                modelSelector.setActualValueOfTheObjectiveFunction( objective_function_value );
                 LinkedList<HashMap> mixfoodlist = ( LinkedList ) dbLink.MixFood_Select( mixid );
                 for ( int i = 0; i < mixfoodlist.size(); i++ ) {
                     HashMap row = mixfoodlist.get( i );
@@ -4662,29 +4628,12 @@ public class Main {
                 dbLink.fill_mixresult( mixid );
                 dbLink.delete_mixresultdn( mixid );
                 dbLink.fill_mixresultdn( mixid );
-                lpModel.set_actual_values_of_the_variables( sbResults.toString() );
-                sbAll.append( "/*\n" );
-                sbAll.append( lpModel.get_description() );
-                sbAll.append( "\n*/" );
-                sbAll.append( "\n\n" );
-                sbAll.append( lpModel.get_model() );
-                sbAll.append( "\n\n" );
-                sbAll.append( "/*\n" );
-                sbAll.append( lpModel.value_of_objective_function() );
-                sbAll.append( "\n\n" );
-                sbAll.append( lpModel.get_actual_values_of_the_variables() );
-                sbAll.append( "\n\n" );
-                sbAll.append( lpModel.get_actual_values_of_the_constraints() );
-                sbAll.append( "*/" );
-                sbAll.append( "\n\n" );
-                sbAll.append( "/*\n" );
-                sbAll.append( lpModel.get_feasible_message() );
-                sbAll.append( "\n*/" );
-                Log.Log1.append( sbAll.toString() );
-                Utilities.write_to_new_file( lpfile, sbAll.toString() );
                 dbLink.Mix_Update_Time( mixid );
-                dbLink.Mix_Update_Other( mixid, sbAll.toString() );
-                mixdataobject.setModel( sbAll.toString() );
+                String feasibleModel = modelSelector.getFeasibleModel();
+                dbLink.Mix_Update_Other( mixid, feasibleModel );
+                mixdataobject.setModel( feasibleModel );
+                txta_editor_model.setText( feasibleModel );
+                printModel( modelSelector );
                 reload_tblmdl_editor_results();
                 reload_tblmdl_editor_rda_check();
                 reload_tblmdl_food_comparison();
@@ -4699,40 +4648,23 @@ public class Main {
                 resize_col_tbl_results_by_meal_calories();
                 resize_col_tbl_results_by_meal_grams();
             } else {
-                sbAll.append( "/*\n" );
-                sbAll.append( lpModel.get_description() );
-                sbAll.append( "\n*/" );
-                sbAll.append( "\n\n" );
-                sbAll.append( lpModel.get_model() );
-                sbAll.append( "\n\n" );
-                sbAll.append( "/*\n" );
-                sbAll.append( lpModel.get_infeasible_message() );
-                sbAll.append( "\n*/" );
-                sbAll.append( "\n\n" );
-                Log.Log1.append( sbAll.toString() );
-                //Utilities.write_to_new_file( lpfile, sbAll.toString() );
                 dbLink.Mix_Update_Time( mixid );
-                dbLink.Mix_Update_Other( mixid, sbAll.toString() );
+                dbLink.Mix_Update_Other( mixid, modelSelector.getInfeasibleModel() );
+                txta_editor_model.setText( modelSelector.getInfeasibleModel() );
             }
-            txta_editor_model.setText( sbAll.toString() );
             set_constraint_counts();
         } catch ( SQLException e ) {
         }
     }
-    private String get_food_legend( String mixid )
-            throws SQLException {
-        StringBuilder sb = new StringBuilder();
-        Object[] objects = legend_generator.toArray();
-        int size = objects.length;
-        for ( int i = 0; i < size; i++ ) {
-            FoodDataObject food = ( FoodDataObject ) objects[ i ];
-            sb.append( String.format( "X%1$02d %2$s", i, food.getFoodName() ) );
-            sb.append( "\n" );
+    private void printModel( PrintOutSelector pos ) {
+        if ( checkBoxLpsolve.isSelected() ) {
+            String lpsolvefile = "log/snack_lpsolve_" + Utilities.getCurrentTimeMillisTxt() + ".lp";
+            Utilities.write_to_new_file( lpsolvefile, pos.getLpsolveFeasibleModel() );
         }
-        if ( sb.length() > 0 ) {
-            sb.setLength( sb.length() - 1 );
+        if ( checkBoxCplex.isSelected() ) {
+            String cplexfile = "log/snack_glpk_" + Utilities.getCurrentTimeMillisTxt() + ".lp";
+            Utilities.write_to_new_file( cplexfile, pos.getCplexFeasibleModel() );
         }
-        return sb.toString();
     }
     private void process_evt_btn_nutrient_constraint_add() {
         if ( is_it_ready_to_add_nutrient_constraint() ) {
@@ -5335,7 +5267,7 @@ public class Main {
         JComponent[] inputs = new JComponent[] {
             input_panel
         };
-        int optionValue = Message.showOptionDialogOkCancel( inputs, "α-Linolenic Acid, ALA, 18:3 n-3" );
+        int optionValue = Message.showOptionDialogOkCancel( inputs, "Alpha-linolenic Acid, ALA, 18:3 n-3" );
         if ( optionValue == 0 ) {
             String s = input.getText();
             if ( s != null && s.length() > 0 ) {
@@ -5347,7 +5279,7 @@ public class Main {
                     final Alpha_linolenic_acid_required n3_fatty_acid_recommendation = new Alpha_linolenic_acid_required( energy_in_kcal );
                     BigDecimal ala_low = n3_fatty_acid_recommendation.get_low_in_grams();
                     BigDecimal ala_high = n3_fatty_acid_recommendation.get_high_in_grams();
-                    sb.append( "α-Linolenic Acid required is between " );
+                    sb.append( "Alpha-linolenic Acid required is between " );
                     sb.append( ala_low.setScale( 1, RoundingMode.HALF_UP ) );
                     sb.append( " and " );
                     sb.append( ala_high.setScale( 1, RoundingMode.HALF_UP ) );
@@ -5357,7 +5289,7 @@ public class Main {
                     component.setPreferredSize( new Dimension( 415, 40 ) );
                     inputs = new JComponent[ 1 ];
                     inputs[ 0 ] = component;
-                    Message.showOptionDialog( inputs, "α-Linolenic Acid, ALA, 18:3 n-3" );
+                    Message.showOptionDialog( inputs, "Alpha-linolenic Acid, ALA, 18:3 n-3" );
                 } else {
                     Message.showMessage( "Numbers only" );
                 }
@@ -5546,22 +5478,22 @@ public class Main {
         for ( int i = 0; i < 8; i++ ) {
             sb.append( "\n" );
         }
-        for ( int i = 0; i < 83; i++ ) {
+        for ( int i = 0; i < 48; i++ ) {
             sb.append( " " );
         }
         sb.append( "No Feasible Solution" );
         sb.append( "\n\n" );
-        for ( int i = 0; i < 83; i++ ) {
+        for ( int i = 0; i < 48; i++ ) {
             sb.append( " " );
         }
         sb.append( "Things you can try:" );
         sb.append( "\n\n" );
-        for ( int i = 0; i < 83; i++ ) {
+        for ( int i = 0; i < 48; i++ ) {
             sb.append( " " );
         }
         sb.append( "1. Delete a constraint" );
         sb.append( "\n\n" );
-        for ( int i = 0; i < 83; i++ ) {
+        for ( int i = 0; i < 48; i++ ) {
             sb.append( " " );
         }
         sb.append( "2. Add a food item" );
@@ -5679,7 +5611,6 @@ public class Main {
             File file = fileChooser.getSelectedFile();
             String path = file.getAbsolutePath();
             fileChooser.setCurrentDirectory( new File( path ) );
-            //todo - create Xml_food_receive class
             Xml_food_receive receive = new Xml_food_receive( dbLink );
             receive.import_snack_data( path );
             modelListCategory.reload();

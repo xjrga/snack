@@ -19,9 +19,9 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Reload;
 import io.github.xjrga.snack.data.DbLink;
 import io.github.xjrga.snack.dataobject.FoodDataObject;
+import io.github.xjrga.snack.model.iface.Reload;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,17 +31,14 @@ import javax.swing.tree.DefaultTreeModel;
 public class TreeModelFood
         extends DefaultTreeModel
         implements Reload {
-
     private final DbLink dbLink;
     private DefaultMutableTreeNode node;
-
     public TreeModelFood( DbLink dblink ) {
         super( null );
         this.dbLink = dblink;
         node = new DefaultMutableTreeNode( "Food" );
         this.setRoot( node );
     }
-
     @Override
     public void reload() {
         HashMap hm = new HashMap();
@@ -49,8 +46,8 @@ public class TreeModelFood
         try {
             list = ( LinkedList ) dbLink.Food_Select_All();
             node = new DefaultMutableTreeNode( "Food" );
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 String categoryName = ( String ) row.get( "CATEGORY" );
                 String foodid = ( String ) row.get( "FOODID" );
                 String foodName = ( String ) row.get( "FOOD" );
@@ -68,7 +65,6 @@ public class TreeModelFood
             } );
             this.setRoot( node );
         } catch ( SQLException e ) {
-
         }
     }
 }

@@ -26,10 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelVitamins
         extends DefaultTableModel
         implements Reload {
-
     private final Vector columns;
     private final Result_loader loader;
-
     public TableModelVitamins( Result_loader loader ) {
         this.loader = loader;
         columns = new Vector();
@@ -50,7 +48,6 @@ public class TableModelVitamins
         columns.add( "B4" );
         this.setDataVector( loader.get_vitamins_table(), columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -61,12 +58,10 @@ public class TableModelVitamins
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload() {
         this.setDataVector( loader.get_vitamins_table(), columns );

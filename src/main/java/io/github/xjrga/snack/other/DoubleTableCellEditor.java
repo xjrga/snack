@@ -19,10 +19,8 @@ import javax.swing.table.TableCellEditor;
 public class DoubleTableCellEditor
         extends AbstractCellEditor
         implements TableCellEditor {
-
     JComponent component = new JTextField();
     JTextField textfield = ( JTextField ) component;
-
     @Override
     public Component getTableCellEditorComponent( JTable table, Object value,
                                                   boolean isSelected, int rowIndex, int vColIndex ) {
@@ -34,7 +32,6 @@ public class DoubleTableCellEditor
         }
         return component;
     }
-
     @Override
     public Object getCellEditorValue() {
         NumberCheck checkNumber = new NumberCheck();

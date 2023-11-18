@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderEnergy
         extends MyTableHeader {
-
     public TableHeaderEnergy( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
@@ -19,7 +18,6 @@ public class TableHeaderEnergy
             "Energy Alcohol (Kcal)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

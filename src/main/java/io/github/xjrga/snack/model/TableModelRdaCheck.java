@@ -19,8 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
 import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,16 +30,13 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelRdaCheck
         extends DefaultTableModel
         implements Round_up {
-
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelRdaCheck( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "NutrientId" );
@@ -51,7 +48,6 @@ public class TableModelRdaCheck
         columns.add( "% UL" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -62,18 +58,16 @@ public class TableModelRdaCheck
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     public void reload( String MixId, Integer LifeStageId ) {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_GetRdaDiff( MixId, LifeStageId, precision );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String nutrientid = ( String ) rowm.get( "NUTRIENTID" );
                 String nutrient = ( String ) rowm.get( "NAME" );
                 Double mix = ( Double ) rowm.get( "MIX" );
@@ -93,10 +87,8 @@ public class TableModelRdaCheck
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;

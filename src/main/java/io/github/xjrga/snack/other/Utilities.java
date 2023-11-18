@@ -13,6 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +24,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.util.Precision;
 import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -67,6 +73,7 @@ public class Utilities {
         return sb.toString();
     }
     public static String format_xml_doc( String xml ) {
+        String str = "";
         try {
             final InputSource src = new InputSource( new StringReader( xml ) );
             final Node document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse( src ).getDocumentElement();
@@ -76,10 +83,12 @@ public class Utilities {
             final LSSerializer writer = impl.createLSSerializer();
             writer.getDomConfig().setParameter( "format-pretty-print", Boolean.TRUE );
             writer.getDomConfig().setParameter( "xml-declaration", keepDeclaration );
-            return writer.writeToString( document );
+            str = writer.writeToString( document );
+            return str;
         } catch ( Exception e ) {
-            throw new RuntimeException( e );
+            e.printStackTrace();
         }
+        return str;
     }
     public static boolean validate_xml_doc( String schema_path, String xmldoc_path ) {
         boolean result = false;
@@ -90,6 +99,7 @@ public class Utilities {
             Schema xmlSchema = schemaFactory.newSchema( new File( schema_path ) );
             validator = xmlSchema.newValidator();
         } catch ( SAXException e ) {
+            e.printStackTrace();
             Log.Log2.append( "Xml doc validation error: " );
             Log.Log2.append( e.getLocalizedMessage() );
             Log.Log2.append( "\n" );
@@ -98,6 +108,7 @@ public class Utilities {
                 validator.validate( xmlDoc );
                 result = true;
             } catch ( SAXException | IOException e ) {
+                e.printStackTrace();
                 Log.Log2.append( "Xml doc validation error: " );
                 Log.Log2.append( e.getLocalizedMessage() );
                 Log.Log2.append( "\n" );
@@ -155,5 +166,35 @@ public class Utilities {
             Desktop.getDesktop().browse( new URL( url ).toURI() );
         } catch ( IOException | URISyntaxException e ) {
         }
+    }
+    public static String formatDecimal( Double x ) {
+        DecimalFormat formatter = new DecimalFormat( "####.###" );
+        return formatter.format( x );
+    }
+    public static String formatDate( Date date ) {
+        String pattern = "EEEE, MMMMM dd, yyyy' at 'HH:mm:ss";
+        SimpleDateFormat dateFormat = new SimpleDateFormat( pattern );
+        return dateFormat.format( date );
+    }
+    public static double calculateDotProduct( RealVector v, double[] point ) {
+        ArrayRealVector rvpoint = new ArrayRealVector( point );
+        return v.dotProduct( rvpoint );
+    }
+    public static boolean isDoubleEqual( double value, double dot_product ) {
+        boolean flag = false;
+        double epsilon = 0.000001d;
+        if ( Precision.equals( value, dot_product, epsilon ) ) {
+            flag = true;
+        }
+        return flag;
+    }
+    public static long getCurrentTimeMillis() {
+        return System.currentTimeMillis();
+    }
+    public static String getCurrentTimeMillisTxt() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( System.currentTimeMillis() );
+        sb.setLength( sb.length() - 3 );
+        return sb.toString();
     }
 }

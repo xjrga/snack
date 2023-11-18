@@ -26,10 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelMinerals
         extends DefaultTableModel
         implements Reload {
-
     private final Vector columns;
     private final Result_loader loader;
-
     public TableModelMinerals( Result_loader loader ) {
         this.loader = loader;
         columns = new Vector();
@@ -44,9 +42,7 @@ public class TableModelMinerals
         columns.add( "Mn" );
         columns.add( "Se" );
         this.setDataVector( loader.get_minerals_table(), columns );
-
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -57,12 +53,10 @@ public class TableModelMinerals
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     @Override
     public void reload() {
         this.setDataVector( loader.get_minerals_table(), columns );

@@ -28,26 +28,22 @@ import javax.swing.*;
 
 public class ListModelFood2
         extends DefaultListModel {
-
     private final DbLink dbLink;
-
     public ListModelFood2( DbLink dbLink ) {
         this.dbLink = dbLink;
     }
-
     public void reload( String FoodCategoryId ) {
         this.clear();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_By_Category( FoodCategoryId );
-            list.forEach( row ->
-            {
+            list.forEach( row
+                    -> {
                 String foodid = ( String ) row.get( "FOODID" );
                 String name = ( String ) row.get( "NAME" );
                 FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
                 this.addElement( foodDataObject );
             } );
         } catch ( SQLException e ) {
-
         }
     }
 }

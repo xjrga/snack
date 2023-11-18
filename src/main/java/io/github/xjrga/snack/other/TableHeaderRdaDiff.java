@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderRdaDiff
         extends MyTableHeader {
-
     public TableHeaderRdaDiff( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Nutrient",
@@ -16,7 +15,6 @@ public class TableHeaderRdaDiff
             "Percent Tolerable Upper Intake Level"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

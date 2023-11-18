@@ -12,7 +12,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 public class ExportFoodComparison {
-
     private Cell cell;
     private CellStyle cellStyleColumnName;
     private CellStyle cellStyleMixName;
@@ -31,12 +30,10 @@ public class ExportFoodComparison {
     private StringBuilder filepath;
     private StringBuilder sb;
     private Workbook wb;
-
     public ExportFoodComparison() {
         initializeVariables();
         initializeMethods();
     }
-
     private void initializeVariables() {
         wb = new HSSFWorkbook();
         cellFormat = wb.createDataFormat();
@@ -56,7 +53,6 @@ public class ExportFoodComparison {
         s = wb.createSheet();
         rownum = 0;
     }
-
     private void initializeMethods() {
         fontBold.setBold( true );
         sb.append( "food_comparison_" );
@@ -66,7 +62,6 @@ public class ExportFoodComparison {
         filepath.append( sb.toString() );
         wb.setSheetName( 0, sheetname );
     }
-
     public void print( TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB ) {
         if ( !listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty() ) {
             FoodDataObject food_a = ( FoodDataObject ) listCompareA.getSelectedValue();
@@ -115,21 +110,18 @@ public class ExportFoodComparison {
             wb.write( out );
             out.close();
         } catch ( IOException e ) {
-
         }
         JComponent[] inputs = new JComponent[] {
             new JLabel( "Spreadsheet is ready" )
         };
         Message.showOptionDialog( inputs, "Export Food Comparison" );
     }
-
     private CellStyle getCellStyleValue() {
         CellStyle cellStyleFoodItemValue = wb.createCellStyle();
         cellStyleFoodItemValue.setDataFormat( cellFormat.getFormat( "0;[RED]-0" ) );
         cellStyleFoodItemValue.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleFoodItemValue;
     }
-
     private CellStyle getCellStyleColumnName() {
         CellStyle cellStyleColumnName = wb.createCellStyle();
         cellStyleColumnName.setBorderBottom( BorderStyle.THIN );
@@ -137,7 +129,6 @@ public class ExportFoodComparison {
         cellStyleColumnName.setAlignment( HorizontalAlignment.RIGHT );
         return cellStyleColumnName;
     }
-
     private CellStyle getCellStyleMixName() {
         CellStyle cellStyleMixName = wb.createCellStyle();
         cellStyleMixName.setFillPattern( FillPatternType.SPARSE_DOTS );

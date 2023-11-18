@@ -19,8 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
 import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,17 +30,14 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelFoodComparison
         extends DefaultTableModel
         implements Round_up {
-
     public static int c = 0;
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelFoodComparison( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "Category" );
@@ -50,7 +47,6 @@ public class TableModelFoodComparison
         columns.add( "Diff" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -78,18 +74,16 @@ public class TableModelFoodComparison
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     public void reload( String foodid_a, String foodid_b ) {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.get_food_differences( foodid_a, foodid_b, precision );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String category = ( String ) rowm.get( "CATEGORY" );
                 String nutrient = ( String ) rowm.get( "NUTRIENT" );
                 double food_a = ( double ) rowm.get( "FOODA" );
@@ -105,10 +99,8 @@ public class TableModelFoodComparison
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;

@@ -5,7 +5,6 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderNutrientLookup
         extends MyTableHeader {
-
     public TableHeaderNutrientLookup( TableColumnModel columnModel ) {
         super( columnModel, new String[] {
             "Food Name",
@@ -13,7 +12,6 @@ public class TableHeaderNutrientLookup
             "Calories (Kcal)"
         } );
     }
-
     @Override
     public String getToolTipText( MouseEvent e ) {
         return super.getToolTipText( e );

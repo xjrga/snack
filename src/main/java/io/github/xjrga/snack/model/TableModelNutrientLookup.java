@@ -19,8 +19,8 @@
  */
 package io.github.xjrga.snack.model;
 
-import io.github.xjrga.snack.model.iface.Round_up;
 import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.model.iface.Round_up;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,16 +30,13 @@ import javax.swing.table.DefaultTableModel;
 public class TableModelNutrientLookup
         extends DefaultTableModel
         implements Round_up {
-
     private final DbLink dbLink;
     private Vector columns;
     private Integer precision = 0;
-
     public TableModelNutrientLookup( DbLink dbLink ) {
         this.dbLink = dbLink;
         this.setColumnIdentifiers();
     }
-
     private void setColumnIdentifiers() {
         columns = new Vector();
         columns.add( "Food" );
@@ -47,7 +44,6 @@ public class TableModelNutrientLookup
         columns.add( "Calories" );
         this.setColumnIdentifiers( columns );
     }
-
     @Override
     public Class getColumnClass( int i ) {
         Class returnValue = Object.class;
@@ -63,18 +59,16 @@ public class TableModelNutrientLookup
         }
         return returnValue;
     }
-
     @Override
     public boolean isCellEditable( int i, int i1 ) {
         return false;
     }
-
     public void reload( String NutrientId, Double Weight ) {
         Vector table = new Vector();
         try {
             LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Lookup_List( NutrientId, Weight, precision );
-            list.forEach( rowm ->
-            {
+            list.forEach( rowm
+                    -> {
                 String foodname = ( String ) rowm.get( "NAME" );
                 Double calories = ( Double ) rowm.get( "CALORIES" );
                 Double weight = ( Double ) rowm.get( "WEIGHT" );
@@ -86,10 +80,8 @@ public class TableModelNutrientLookup
             } );
             this.setDataVector( table, columns );
         } catch ( SQLException e ) {
-
         }
     }
-
     @Override
     public void set_precision( Integer precision ) {
         this.precision = precision;

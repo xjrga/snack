@@ -1,18 +1,14 @@
 package io.github.xjrga.snack.other;
 
 public class GlycemicIndexRange {
-
     private final Integer glycemicIndex;
-
     public GlycemicIndexRange( Integer glycemicIndex ) {
         this.glycemicIndex = glycemicIndex;
     }
-
     public String getGlycemicIndexRange() {
 
         /*Glycemic index scale goes from 0 to 100*/
         String range = "";
-
         if ( glycemicIndex > 100 ) {
             range = "Out of Range";
         } else {
@@ -30,8 +26,6 @@ public class GlycemicIndexRange {
                 }
             }
         }
-
         return range;
     }
-
 }
