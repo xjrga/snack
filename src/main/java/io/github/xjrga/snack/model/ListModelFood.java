@@ -27,40 +27,41 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelFood
-        extends DefaultListModel
-        implements Reload {
-    private final DbLink dbLink;
-    public ListModelFood( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class ListModelFood extends DefaultListModel implements Reload {
+  private final DbLink dbLink;
+
+  public ListModelFood(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload() {
+    this.clear();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.Food_Select_All_2();
+      list.forEach(
+          row -> {
+            String foodid = (String) row.get("FOODID");
+            String name = (String) row.get("NAME");
+            FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
+            this.addElement(foodDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload() {
-        this.clear();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_All_2();
-            list.forEach( row
-                    -> {
-                String foodid = ( String ) row.get( "FOODID" );
-                String name = ( String ) row.get( "NAME" );
-                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
-                this.addElement( foodDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
+  }
+
+  public void reload(String txt) {
+    this.clear();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.Food_Select_All_Like(txt);
+      list.forEach(
+          row -> {
+            String foodid = (String) row.get("FOODID");
+            String name = (String) row.get("NAME");
+            FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
+            this.addElement(foodDataObject);
+          });
+    } catch (SQLException e) {
     }
-    public void reload( String txt ) {
-        this.clear();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Food_Select_All_Like( txt );
-            list.forEach( row
-                    -> {
-                String foodid = ( String ) row.get( "FOODID" );
-                String name = ( String ) row.get( "NAME" );
-                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
-                this.addElement( foodDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
-    }
+  }
 }

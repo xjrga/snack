@@ -27,62 +27,65 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelMeals
-        extends DefaultTableModel
-        implements Reload_mixid {
-    private final DbLink dbLink;
-    private Vector columns;
-    public TableModelMeals( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelMeals extends DefaultTableModel implements Reload_mixid {
+  private final DbLink dbLink;
+  private Vector columns;
+
+  public TableModelMeals(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("MixId");
+    columns.add("MealId");
+    columns.add("Name");
+    columns.add("Order");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    switch (i) {
+      case 0:
+        returnValue = String.class;
+        break;
+      case 1:
+        returnValue = Integer.class;
+        break;
+      case 2:
+        returnValue = String.class;
+        break;
+      case 3:
+        returnValue = Integer.class;
+        break;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "MixId" );
-        columns.add( "MealId" );
-        columns.add( "Name" );
-        columns.add( "Order" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.Meal_Select_All(mixid);
+      list.forEach(
+          map -> {
+            Vector row = new Vector();
+            row.add((String) map.get("MIXID"));
+            row.add((Integer) map.get("MEALID"));
+            row.add((String) map.get("NAME"));
+            row.add((Integer) map.get("MEALORDER"));
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        switch ( i ) {
-            case 0:
-                returnValue = String.class;
-                break;
-            case 1:
-                returnValue = Integer.class;
-                break;
-            case 2:
-                returnValue = String.class;
-                break;
-            case 3:
-                returnValue = Integer.class;
-                break;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload( String mixid ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Meal_Select_All( mixid );
-            list.forEach( map
-                    -> {
-                Vector row = new Vector();
-                row.add( ( String ) map.get( "MIXID" ) );
-                row.add( ( Integer ) map.get( "MEALID" ) );
-                row.add( ( String ) map.get( "NAME" ) );
-                row.add( ( Integer ) map.get( "MEALORDER" ) );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
+  }
 }

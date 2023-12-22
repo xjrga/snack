@@ -27,27 +27,28 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ComboBoxModelLifeStage
-        extends DefaultComboBoxModel
-        implements Reload {
-    private final DbLink dbLink;
-    public ComboBoxModelLifeStage( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class ComboBoxModelLifeStage extends DefaultComboBoxModel implements Reload {
+  private final DbLink dbLink;
+
+  public ComboBoxModelLifeStage(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload() {
+    this.removeAllElements();
+    LinkedList<HashMap> list = null;
+    try {
+      list = (LinkedList) dbLink.RdaLifeStage_Select_All();
+      list.forEach(
+          row -> {
+            Integer lifestageid = (Integer) row.get("LIFESTAGEID");
+            String label = (String) row.get("LABEL");
+            RdaLifeStageDataObject rdaLifeStageDataObject =
+                new RdaLifeStageDataObject(lifestageid, label);
+            this.addElement(rdaLifeStageDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload() {
-        this.removeAllElements();
-        LinkedList<HashMap> list = null;
-        try {
-            list = ( LinkedList ) dbLink.RdaLifeStage_Select_All();
-            list.forEach( row
-                    -> {
-                Integer lifestageid = ( Integer ) row.get( "LIFESTAGEID" );
-                String label = ( String ) row.get( "LABEL" );
-                RdaLifeStageDataObject rdaLifeStageDataObject = new RdaLifeStageDataObject( lifestageid, label );
-                this.addElement( rdaLifeStageDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
-    }
+  }
 }

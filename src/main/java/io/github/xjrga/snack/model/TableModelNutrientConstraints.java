@@ -27,84 +27,87 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelNutrientConstraints
-        extends DefaultTableModel
-        implements Reload_mixid {
-    private final DbLink dbLink;
-    private Vector columns;
-    public TableModelNutrientConstraints( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelNutrientConstraints extends DefaultTableModel implements Reload_mixid {
+  private final DbLink dbLink;
+  private Vector columns;
+
+  public TableModelNutrientConstraints(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("MixId");
+    columns.add("NutrientId");
+    columns.add("RelationshipId");
+    columns.add("Nutrient");
+    columns.add("Eq");
+    columns.add("Q");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    switch (i) {
+      case 0:
+        // mixid
+        returnValue = Integer.class;
+        break;
+      case 1:
+        // nutrientid
+        returnValue = String.class;
+        break;
+      case 2:
+        // relationshipid
+        returnValue = Integer.class;
+        break;
+      case 3:
+        // Nutrient Name
+        returnValue = String.class;
+        break;
+      case 4:
+        // Relationship Name
+        returnValue = String.class;
+        break;
+      case 5:
+        // Value
+        returnValue = Double.class;
+        break;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "MixId" );
-        columns.add( "NutrientId" );
-        columns.add( "RelationshipId" );
-        columns.add( "Nutrient" );
-        columns.add( "Eq" );
-        columns.add( "Q" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.NutrientConstraint_Select(mixid);
+      list.forEach(
+          rowm -> {
+            String mixid2 = (String) rowm.get("MIXID");
+            String nutrientid = (String) rowm.get("NUTRIENTID");
+            Integer relationid = (Integer) rowm.get("RELATIONSHIPID");
+            String nutrient = (String) rowm.get("NUTRIENT");
+            String relationship = (String) rowm.get("RELATIONSHIP");
+            double value = (double) rowm.get("B");
+            Vector row = new Vector();
+            row.add(mixid2);
+            row.add(nutrientid);
+            row.add(relationid);
+            row.add(nutrient);
+            row.add(relationship);
+            row.add(value);
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        switch ( i ) {
-            case 0:
-                //mixid
-                returnValue = Integer.class;
-                break;
-            case 1:
-                //nutrientid
-                returnValue = String.class;
-                break;
-            case 2:
-                //relationshipid
-                returnValue = Integer.class;
-                break;
-            case 3:
-                //Nutrient Name
-                returnValue = String.class;
-                break;
-            case 4:
-                //Relationship Name
-                returnValue = String.class;
-                break;
-            case 5:
-                //Value
-                returnValue = Double.class;
-                break;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload( String mixid ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.NutrientConstraint_Select( mixid );
-            list.forEach( rowm
-                    -> {
-                String mixid2 = ( String ) rowm.get( "MIXID" );
-                String nutrientid = ( String ) rowm.get( "NUTRIENTID" );
-                Integer relationid = ( Integer ) rowm.get( "RELATIONSHIPID" );
-                String nutrient = ( String ) rowm.get( "NUTRIENT" );
-                String relationship = ( String ) rowm.get( "RELATIONSHIP" );
-                double value = ( double ) rowm.get( "B" );
-                Vector row = new Vector();
-                row.add( mixid2 );
-                row.add( nutrientid );
-                row.add( relationid );
-                row.add( nutrient );
-                row.add( relationship );
-                row.add( value );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
+  }
 }

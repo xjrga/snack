@@ -27,46 +27,47 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelMix
-        extends DefaultListModel
-        implements Reload {
-    private final DbLink dbLink;
-    public ListModelMix( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class ListModelMix extends DefaultListModel implements Reload {
+  private final DbLink dbLink;
+
+  public ListModelMix(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload() {
+    this.clear();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.Mix_Select_All();
+      list.forEach(
+          row -> {
+            String mixid = (String) row.get("MIXID");
+            String name = (String) row.get("NAME");
+            Integer status = (Integer) row.get("STATUS");
+            String nutrientid = (String) row.get("NUTRIENTID");
+            String model = (String) row.get("MODEL");
+            MixDataObject mixDataObject = new MixDataObject();
+            mixDataObject.setMixId(mixid);
+            mixDataObject.setName(name);
+            mixDataObject.setStatus(status);
+            mixDataObject.setNutrientid(nutrientid);
+            mixDataObject.setModel(model);
+            this.addElement(mixDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload() {
-        this.clear();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Mix_Select_All();
-            list.forEach( row
-                    -> {
-                String mixid = ( String ) row.get( "MIXID" );
-                String name = ( String ) row.get( "NAME" );
-                Integer status = ( Integer ) row.get( "STATUS" );
-                String nutrientid = ( String ) row.get( "NUTRIENTID" );
-                String model = ( String ) row.get( "MODEL" );
-                MixDataObject mixDataObject = new MixDataObject();
-                mixDataObject.setMixId( mixid );
-                mixDataObject.setName( name );
-                mixDataObject.setStatus( status );
-                mixDataObject.setNutrientid( nutrientid );
-                mixDataObject.setModel( model );
-                this.addElement( mixDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
+  }
+
+  public int find_by_mixid(String mixid) {
+    int index = 0;
+    int size = this.getSize();
+    for (int i = 0; i < size; i++) {
+      MixDataObject elementAt = (MixDataObject) this.getElementAt(i);
+      if (elementAt.getMixId().equals(mixid)) {
+        index = i;
+        break;
+      }
     }
-    public int find_by_mixid( String mixid ) {
-        int index = 0;
-        int size = this.getSize();
-        for ( int i = 0; i < size; i++ ) {
-            MixDataObject elementAt = ( MixDataObject ) this.getElementAt( i );
-            if ( elementAt.getMixId().equals( mixid ) ) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
+    return index;
+  }
 }

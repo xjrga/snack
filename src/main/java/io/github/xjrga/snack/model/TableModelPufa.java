@@ -23,39 +23,41 @@ import io.github.xjrga.snack.model.iface.Reload;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelPufa
-        extends DefaultTableModel
-        implements Reload {
-    private final Vector columns;
-    private final Result_loader loader;
-    public TableModelPufa( Result_loader loader ) {
-        this.loader = loader;
-        columns = new Vector();
-        columns.add( "Name" ); //0
-        columns.add( "Weight" );
-        columns.add( "PUFA" );
-        columns.add( "LA" );
-        columns.add( "ALA" );
-        columns.add( "EPA" );
-        columns.add( "DHA" );
-        this.setDataVector( loader.get_pufa_table(), columns );
+public class TableModelPufa extends DefaultTableModel implements Reload {
+  private final Vector columns;
+  private final Result_loader loader;
+
+  public TableModelPufa(Result_loader loader) {
+    this.loader = loader;
+    columns = new Vector();
+    columns.add("Name"); // 0
+    columns.add("Weight");
+    columns.add("PUFA");
+    columns.add("LA");
+    columns.add("ALA");
+    columns.add("EPA");
+    columns.add("DHA");
+    this.setDataVector(loader.get_pufa_table(), columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    if (i == 0) {
+      returnValue = String.class;
+    } else {
+      returnValue = Double.class;
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        if ( i == 0 ) {
-            returnValue = String.class;
-        } else {
-            returnValue = Double.class;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload() {
-        this.setDataVector( loader.get_pufa_table(), columns );
-    }
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload() {
+    this.setDataVector(loader.get_pufa_table(), columns);
+  }
 }

@@ -25,28 +25,54 @@ import io.github.xjrga.snack.model.iface.Reload_mixid;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import javax.swing.*;
+import javax.swing.DefaultListModel;
 
-public class ListModelSelectedFood
-        extends DefaultListModel
-        implements Reload_mixid {
-    private final DbLink dbLink;
-    public ListModelSelectedFood( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class ListModelSelectedFood extends DefaultListModel implements Reload_mixid {
+  private final DbLink dbLink;
+
+  public ListModelSelectedFood(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload(String mixId) {
+    this.clear();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.MixFood_Select_All_By_Name(mixId);
+      list.forEach(
+          row -> {
+            String foodid = (String) row.get("FOODID");
+            String name = (String) row.get("NAME");
+            FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
+            this.addElement(foodDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload( String mixId ) {
-        this.clear();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.MixFood_Select_All_By_Name( mixId );
-            list.forEach( row
-                    -> {
-                String foodid = ( String ) row.get( "FOODID" );
-                String name = ( String ) row.get( "NAME" );
-                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
-                this.addElement( foodDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
+  }
+
+  public Integer findPosition(String FoodId) {
+    int index = 0;
+    int size = this.getSize();
+    for (int i = 0; i < size; i++) {
+      FoodDataObject foodDataObject = (FoodDataObject) this.elementAt(i);
+      if (FoodId.equals(foodDataObject.getFoodId())) {
+        index = i;
+        break;
+      }
     }
+    return index + 1;
+  }
+
+  public String findName(String FoodId) {
+    String name = "";
+    int size = this.getSize();
+    for (int i = 0; i < size; i++) {
+      FoodDataObject foodDataObject = (FoodDataObject) this.elementAt(i);
+      if (FoodId.equals(foodDataObject.getFoodId())) {
+        name = foodDataObject.getFoodName();
+        break;
+      }
+    }
+    return name;
+  }
 }

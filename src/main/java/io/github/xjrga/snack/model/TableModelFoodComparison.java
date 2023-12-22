@@ -27,82 +27,87 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelFoodComparison
-        extends DefaultTableModel
-        implements Round_up {
-    public static int c = 0;
-    private final DbLink dbLink;
-    private Vector columns;
-    private Integer precision = 0;
-    public TableModelFoodComparison( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelFoodComparison extends DefaultTableModel implements Round_up {
+  public static int c = 0;
+  private final DbLink dbLink;
+  private Vector columns;
+  private Integer precision = 0;
+
+  public TableModelFoodComparison(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("Category");
+    columns.add("Nutrient");
+    columns.add("Food A");
+    columns.add("Food B");
+    columns.add("Diff");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    switch (i) {
+      case 0:
+        // Category
+        returnValue = String.class;
+        break;
+      case 1:
+        // Nutrient
+        returnValue = String.class;
+        break;
+      case 2:
+        // Food A Value
+        returnValue = Double.class;
+        break;
+      case 3:
+        // Food B Value
+        returnValue = Double.class;
+        break;
+      case 4:
+        // Difference
+        returnValue = Double.class;
+        break;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "Category" );
-        columns.add( "Nutrient" );
-        columns.add( "Food A" );
-        columns.add( "Food B" );
-        columns.add( "Diff" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  public void reload(String foodid_a, String foodid_b) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list =
+          (LinkedList) dbLink.get_food_differences(foodid_a, foodid_b, precision);
+      list.forEach(
+          rowm -> {
+            String category = (String) rowm.get("CATEGORY");
+            String nutrient = (String) rowm.get("NUTRIENT");
+            double food_a = (double) rowm.get("FOODA");
+            double food_b = (double) rowm.get("FOODB");
+            double diff = (double) rowm.get("DIFF");
+            Vector row = new Vector();
+            row.add(category);
+            row.add(nutrient);
+            row.add(food_a);
+            row.add(food_b);
+            row.add(diff);
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        switch ( i ) {
-            case 0:
-                //Category
-                returnValue = String.class;
-                break;
-            case 1:
-                //Nutrient
-                returnValue = String.class;
-                break;
-            case 2:
-                //Food A Value
-                returnValue = Double.class;
-                break;
-            case 3:
-                //Food B Value
-                returnValue = Double.class;
-                break;
-            case 4:
-                //Difference
-                returnValue = Double.class;
-                break;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    public void reload( String foodid_a, String foodid_b ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.get_food_differences( foodid_a, foodid_b, precision );
-            list.forEach( rowm
-                    -> {
-                String category = ( String ) rowm.get( "CATEGORY" );
-                String nutrient = ( String ) rowm.get( "NUTRIENT" );
-                double food_a = ( double ) rowm.get( "FOODA" );
-                double food_b = ( double ) rowm.get( "FOODB" );
-                double diff = ( double ) rowm.get( "DIFF" );
-                Vector row = new Vector();
-                row.add( category );
-                row.add( nutrient );
-                row.add( food_a );
-                row.add( food_b );
-                row.add( diff );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
-    @Override
-    public void set_precision( Integer precision ) {
-        this.precision = precision;
-    }
+  }
+
+  @Override
+  public void set_precision(Integer precision) {
+    this.precision = precision;
+  }
 }

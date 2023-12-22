@@ -27,28 +27,28 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelCategory
-        extends DefaultListModel
-        implements Reload {
-    private final DbLink dbLink;
-    public ListModelCategory( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class ListModelCategory extends DefaultListModel implements Reload {
+  private final DbLink dbLink;
+
+  public ListModelCategory(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload() {
+    this.clear();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.FoodCategory_Select_All();
+      list.forEach(
+          row -> {
+            String foodcategoryid = (String) row.get("FOODCATEGORYID");
+            String name = (String) row.get("NAME");
+            FoodCategoryDataObject foodCategoryDataObject = new FoodCategoryDataObject();
+            foodCategoryDataObject.setFoodCategoryId(foodcategoryid);
+            foodCategoryDataObject.setName(name);
+            this.addElement(foodCategoryDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload() {
-        this.clear();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.FoodCategory_Select_All();
-            list.forEach( row
-                    -> {
-                String foodcategoryid = ( String ) row.get( "FOODCATEGORYID" );
-                String name = ( String ) row.get( "NAME" );
-                FoodCategoryDataObject foodCategoryDataObject = new FoodCategoryDataObject();
-                foodCategoryDataObject.setFoodCategoryId( foodcategoryid );
-                foodCategoryDataObject.setName( name );
-                this.addElement( foodCategoryDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
-    }
+  }
 }

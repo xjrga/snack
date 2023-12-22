@@ -27,29 +27,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Food_loader
-        implements Reload_mixid {
-    private final DbLink dbLink;
-    private ArrayList<FoodDataObject> food_list;
-    public Food_loader( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class Food_loader implements Reload_mixid {
+  private final DbLink dbLink;
+  private ArrayList<FoodDataObject> food_list;
+
+  public Food_loader(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    food_list = new ArrayList();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.MixFood_Select_All_By_Name(mixid);
+      list.forEach(
+          row -> {
+            String foodid = (String) row.get("FOODID");
+            String name = (String) row.get("NAME");
+            FoodDataObject foodDataObject = new FoodDataObject(foodid, name);
+            food_list.add(foodDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload( String mixid ) {
-        food_list = new ArrayList();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.MixFood_Select_All_By_Name( mixid );
-            list.forEach( row
-                    -> {
-                String foodid = ( String ) row.get( "FOODID" );
-                String name = ( String ) row.get( "NAME" );
-                FoodDataObject foodDataObject = new FoodDataObject( foodid, name );
-                food_list.add( foodDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
-    }
-    public ArrayList<FoodDataObject> get_food_list() {
-        return food_list;
-    }
+  }
+
+  public ArrayList<FoodDataObject> get_food_list() {
+    return food_list;
+  }
 }

@@ -28,43 +28,43 @@ import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-public class TreeModelFood
-        extends DefaultTreeModel
-        implements Reload {
-    private final DbLink dbLink;
-    private DefaultMutableTreeNode node;
-    public TreeModelFood( DbLink dblink ) {
-        super( null );
-        this.dbLink = dblink;
-        node = new DefaultMutableTreeNode( "Food" );
-        this.setRoot( node );
+public class TreeModelFood extends DefaultTreeModel implements Reload {
+  private final DbLink dbLink;
+  private DefaultMutableTreeNode node;
+
+  public TreeModelFood(DbLink dblink) {
+    super(null);
+    this.dbLink = dblink;
+    node = new DefaultMutableTreeNode("Food");
+    this.setRoot(node);
+  }
+
+  @Override
+  public void reload() {
+    HashMap hm = new HashMap();
+    LinkedList<HashMap> list = null;
+    try {
+      list = (LinkedList) dbLink.Food_Select_All();
+      node = new DefaultMutableTreeNode("Food");
+      list.forEach(
+          row -> {
+            String categoryName = (String) row.get("CATEGORY");
+            String foodid = (String) row.get("FOODID");
+            String foodName = (String) row.get("FOOD");
+            DefaultMutableTreeNode category = new DefaultMutableTreeNode(categoryName);
+            FoodDataObject foodobject = new FoodDataObject(foodid, foodName);
+            DefaultMutableTreeNode food = new DefaultMutableTreeNode(foodobject);
+            if (hm.containsKey(categoryName)) {
+              category = (DefaultMutableTreeNode) hm.get(categoryName);
+              category.add(food);
+            } else {
+              hm.put(categoryName, category);
+              node.add(category);
+              category.add(food);
+            }
+          });
+      this.setRoot(node);
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload() {
-        HashMap hm = new HashMap();
-        LinkedList<HashMap> list = null;
-        try {
-            list = ( LinkedList ) dbLink.Food_Select_All();
-            node = new DefaultMutableTreeNode( "Food" );
-            list.forEach( row
-                    -> {
-                String categoryName = ( String ) row.get( "CATEGORY" );
-                String foodid = ( String ) row.get( "FOODID" );
-                String foodName = ( String ) row.get( "FOOD" );
-                DefaultMutableTreeNode category = new DefaultMutableTreeNode( categoryName );
-                FoodDataObject foodobject = new FoodDataObject( foodid, foodName );
-                DefaultMutableTreeNode food = new DefaultMutableTreeNode( foodobject );
-                if ( hm.containsKey( categoryName ) ) {
-                    category = ( DefaultMutableTreeNode ) hm.get( categoryName );
-                    category.add( food );
-                } else {
-                    hm.put( categoryName, category );
-                    node.add( category );
-                    category.add( food );
-                }
-            } );
-            this.setRoot( node );
-        } catch ( SQLException e ) {
-        }
-    }
+  }
 }

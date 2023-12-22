@@ -28,70 +28,75 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelResultsByMealNutrient
-        extends DefaultTableModel
-        implements Round_up, Reload_mixid {
-    private final DbLink dbLink;
-    private Vector columns;
-    private Integer precision = 0;
-    public TableModelResultsByMealNutrient( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelResultsByMealNutrient extends DefaultTableModel
+    implements Round_up, Reload_mixid {
+  private final DbLink dbLink;
+  private Vector columns;
+  private Integer precision = 0;
+
+  public TableModelResultsByMealNutrient(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("Meal");
+    columns.add("Weight");
+    columns.add("Fat");
+    columns.add("Carbs");
+    columns.add("Fiber");
+    columns.add("Protein");
+    columns.add("Complete");
+    columns.add("Alcohol");
+    columns.add("Sodium");
+    columns.add("Potassium");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    if (i == 0) {
+      returnValue = String.class;
+    } else {
+      returnValue = Double.class;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "Meal" );
-        columns.add( "Weight" );
-        columns.add( "Fat" );
-        columns.add( "Carbs" );
-        columns.add( "Fiber" );
-        columns.add( "Protein" );
-        columns.add( "Complete" );
-        columns.add( "Alcohol" );
-        columns.add( "Sodium" );
-        columns.add( "Potassium" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.results_by_meal_select(mixid, precision);
+      list.forEach(
+          map -> {
+            Vector row = new Vector();
+            row.add((String) map.get("NAME"));
+            row.add((Double) map.get("WEIGHT"));
+            row.add((Double) map.get("FAT"));
+            row.add((Double) map.get("CARBS"));
+            row.add((Double) map.get("FIBER"));
+            row.add((Double) map.get("PROTEIN"));
+            row.add((Double) map.get("COMPLETE"));
+            row.add((Double) map.get("ALCOHOL"));
+            row.add((Double) map.get("SODIUM"));
+            row.add((Double) map.get("POTASSIUM"));
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        if ( i == 0 ) {
-            returnValue = String.class;
-        } else {
-            returnValue = Double.class;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload( String mixid ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.results_by_meal_select( mixid, precision );
-            list.forEach( map
-                    -> {
-                Vector row = new Vector();
-                row.add( ( String ) map.get( "NAME" ) );
-                row.add( ( Double ) map.get( "WEIGHT" ) );
-                row.add( ( Double ) map.get( "FAT" ) );
-                row.add( ( Double ) map.get( "CARBS" ) );
-                row.add( ( Double ) map.get( "FIBER" ) );
-                row.add( ( Double ) map.get( "PROTEIN" ) );
-                row.add( ( Double ) map.get( "COMPLETE" ) );
-                row.add( ( Double ) map.get( "ALCOHOL" ) );
-                row.add( ( Double ) map.get( "SODIUM" ) );
-                row.add( ( Double ) map.get( "POTASSIUM" ) );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
-    @Override
-    public void set_precision( Integer precision ) {
-        this.precision = precision;
-    }
+  }
+
+  @Override
+  public void set_precision(Integer precision) {
+    this.precision = precision;
+  }
 }

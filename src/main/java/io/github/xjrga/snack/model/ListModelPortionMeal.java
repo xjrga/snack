@@ -27,45 +27,46 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class ListModelPortionMeal
-        extends DefaultListModel
-        implements Reload_mixid {
-    private final DbLink dbLink;
-    public ListModelPortionMeal( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class ListModelPortionMeal extends DefaultListModel implements Reload_mixid {
+  private final DbLink dbLink;
+
+  public ListModelPortionMeal(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    this.removeAllElements();
+    LinkedList<HashMap> list = null;
+    try {
+      list = (LinkedList) dbLink.Meal_Select_All(mixid);
+      list.forEach(
+          row -> {
+            String mixid2 = (String) row.get("MIXID");
+            Integer mealid = (Integer) row.get("MEALID");
+            String name = (String) row.get("NAME");
+            Integer order = (Integer) row.get("MEALORDER");
+            O_Meal meal = new O_Meal();
+            meal.setMixid(mixid2);
+            meal.setMealid(mealid);
+            meal.setName(name);
+            meal.setMealOrder(order);
+            this.addElement(meal);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload( String mixid ) {
-        this.removeAllElements();
-        LinkedList<HashMap> list = null;
-        try {
-            list = ( LinkedList ) dbLink.Meal_Select_All( mixid );
-            list.forEach( row
-                    -> {
-                String mixid2 = ( String ) row.get( "MIXID" );
-                Integer mealid = ( Integer ) row.get( "MEALID" );
-                String name = ( String ) row.get( "NAME" );
-                Integer order = ( Integer ) row.get( "MEALORDER" );
-                O_Meal meal = new O_Meal();
-                meal.setMixid( mixid2 );
-                meal.setMealid( mealid );
-                meal.setName( name );
-                meal.setMealOrder( order );
-                this.addElement( meal );
-            } );
-        } catch ( SQLException e ) {
-        }
+  }
+
+  public int find_by_mealid(Integer mealid) {
+    int index = 0;
+    int size = this.getSize();
+    for (int i = 0; i < size; i++) {
+      O_Meal elementAt = (O_Meal) this.getElementAt(i);
+      if (elementAt.getMealid().equals(mealid)) {
+        index = i;
+        break;
+      }
     }
-    public int find_by_mealid( Integer mealid ) {
-        int index = 0;
-        int size = this.getSize();
-        for ( int i = 0; i < size; i++ ) {
-            O_Meal elementAt = ( O_Meal ) this.getElementAt( i );
-            if ( elementAt.getMealid().equals( mealid ) ) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
+    return index;
+  }
 }

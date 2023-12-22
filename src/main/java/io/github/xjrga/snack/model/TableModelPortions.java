@@ -28,87 +28,91 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelPortions
-        extends DefaultTableModel
-        implements Round_up, Reload_mixid {
-    private final DbLink dbLink;
-    private Vector columns;
-    private Integer precision = 0;
-    public TableModelPortions( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelPortions extends DefaultTableModel implements Round_up, Reload_mixid {
+  private final DbLink dbLink;
+  private Vector columns;
+  private Integer precision = 0;
+
+  public TableModelPortions(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("MixId");
+    columns.add("MealId");
+    columns.add("FoodId");
+    columns.add("Meal");
+    columns.add("Food");
+    columns.add("Pct");
+    columns.add("Expected");
+    columns.add("Actual");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    switch (i) {
+      case 0:
+        returnValue = String.class;
+        break;
+      case 1:
+        returnValue = Integer.class;
+        break;
+      case 2:
+        returnValue = String.class;
+        break;
+      case 3:
+        returnValue = String.class;
+        break;
+      case 4:
+        returnValue = String.class;
+        break;
+      case 5:
+        returnValue = Double.class;
+        break;
+      case 6:
+        returnValue = Double.class;
+        break;
+      case 7:
+        returnValue = Double.class;
+        break;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "MixId" );
-        columns.add( "MealId" );
-        columns.add( "FoodId" );
-        columns.add( "Meal" );
-        columns.add( "Food" );
-        columns.add( "Pct" );
-        columns.add( "Expected" );
-        columns.add( "Actual" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.MealFoodPortion_select_all(mixid, precision);
+      list.forEach(
+          map -> {
+            Vector row = new Vector();
+            row.add((String) map.get("MIXID"));
+            row.add((Integer) map.get("MEALID"));
+            row.add((String) map.get("FOODID"));
+            row.add((String) map.get("MEAL"));
+            row.add((String) map.get("FOOD"));
+            row.add((Double) map.get("PCT"));
+            row.add((Double) map.get("EXPECTEDWT"));
+            row.add((Double) map.get("ACTUALWT"));
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        switch ( i ) {
-            case 0:
-                returnValue = String.class;
-                break;
-            case 1:
-                returnValue = Integer.class;
-                break;
-            case 2:
-                returnValue = String.class;
-                break;
-            case 3:
-                returnValue = String.class;
-                break;
-            case 4:
-                returnValue = String.class;
-                break;
-            case 5:
-                returnValue = Double.class;
-                break;
-            case 6:
-                returnValue = Double.class;
-                break;
-            case 7:
-                returnValue = Double.class;
-                break;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload( String mixid ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.MealFoodPortion_select_all( mixid, precision );
-            list.forEach( map
-                    -> {
-                Vector row = new Vector();
-                row.add( ( String ) map.get( "MIXID" ) );
-                row.add( ( Integer ) map.get( "MEALID" ) );
-                row.add( ( String ) map.get( "FOODID" ) );
-                row.add( ( String ) map.get( "MEAL" ) );
-                row.add( ( String ) map.get( "FOOD" ) );
-                row.add( ( Double ) map.get( "PCT" ) );
-                row.add( ( Double ) map.get( "EXPECTEDWT" ) );
-                row.add( ( Double ) map.get( "ACTUALWT" ) );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
-    @Override
-    public void set_precision( Integer precision ) {
-        this.precision = precision;
-    }
+  }
+
+  @Override
+  public void set_precision(Integer precision) {
+    this.precision = precision;
+  }
 }

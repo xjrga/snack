@@ -27,63 +27,68 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelNutrientLookup
-        extends DefaultTableModel
-        implements Round_up {
-    private final DbLink dbLink;
-    private Vector columns;
-    private Integer precision = 0;
-    public TableModelNutrientLookup( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelNutrientLookup extends DefaultTableModel implements Round_up {
+  private final DbLink dbLink;
+  private Vector columns;
+  private Integer precision = 0;
+
+  public TableModelNutrientLookup(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("Food");
+    columns.add("Weight");
+    columns.add("Calories");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    switch (i) {
+      case 0:
+        returnValue = String.class;
+        break;
+      case 1:
+      case 2:
+        // Value
+        returnValue = Double.class;
+        break;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "Food" );
-        columns.add( "Weight" );
-        columns.add( "Calories" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  public void reload(String NutrientId, Double Weight) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list =
+          (LinkedList) dbLink.Nutrient_Lookup_List(NutrientId, Weight, precision);
+      list.forEach(
+          rowm -> {
+            String foodname = (String) rowm.get("NAME");
+            Double calories = (Double) rowm.get("CALORIES");
+            Double weight = (Double) rowm.get("WEIGHT");
+            Vector row = new Vector();
+            row.add(foodname);
+            row.add(weight);
+            row.add(calories);
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        switch ( i ) {
-            case 0:
-                returnValue = String.class;
-                break;
-            case 1:
-            case 2:
-                //Value
-                returnValue = Double.class;
-                break;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    public void reload( String NutrientId, Double Weight ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Nutrient_Lookup_List( NutrientId, Weight, precision );
-            list.forEach( rowm
-                    -> {
-                String foodname = ( String ) rowm.get( "NAME" );
-                Double calories = ( Double ) rowm.get( "CALORIES" );
-                Double weight = ( Double ) rowm.get( "WEIGHT" );
-                Vector row = new Vector();
-                row.add( foodname );
-                row.add( weight );
-                row.add( calories );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
-    @Override
-    public void set_precision( Integer precision ) {
-        this.precision = precision;
-    }
+  }
+
+  @Override
+  public void set_precision(Integer precision) {
+    this.precision = precision;
+  }
 }

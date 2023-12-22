@@ -27,29 +27,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Relationship_loader
-        implements Reload {
-    private final DbLink dbLink;
-    private ArrayList<RelationshipDataObject> relationship_list;
-    public Relationship_loader( DbLink dbLink ) {
-        this.dbLink = dbLink;
+public class Relationship_loader implements Reload {
+  private final DbLink dbLink;
+  private ArrayList<RelationshipDataObject> relationship_list;
+
+  public Relationship_loader(DbLink dbLink) {
+    this.dbLink = dbLink;
+  }
+
+  @Override
+  public void reload() {
+    relationship_list = new ArrayList();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.Relationship_Select_All();
+      list.forEach(
+          row -> {
+            int relationshipid = (int) row.get("RELATIONSHIPID");
+            String name = (String) row.get("NAME");
+            RelationshipDataObject relationshipDataObject =
+                new RelationshipDataObject(relationshipid, name);
+            relationship_list.add(relationshipDataObject);
+          });
+    } catch (SQLException e) {
     }
-    @Override
-    public void reload() {
-        relationship_list = new ArrayList();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.Relationship_Select_All();
-            list.forEach( row
-                    -> {
-                int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
-                String name = ( String ) row.get( "NAME" );
-                RelationshipDataObject relationshipDataObject = new RelationshipDataObject( relationshipid, name );
-                relationship_list.add( relationshipDataObject );
-            } );
-        } catch ( SQLException e ) {
-        }
-    }
-    public ArrayList<RelationshipDataObject> get_relationship_list() {
-        return relationship_list;
-    }
+  }
+
+  public ArrayList<RelationshipDataObject> get_relationship_list() {
+    return relationship_list;
+  }
 }

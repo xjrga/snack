@@ -72,7 +72,7 @@ call Nutrient_Insert('614','Fats, Stearic Acid, 18:0 (g)','2','fats-stearic');
 /
 call Nutrient_Insert('618','Fats, Linoleic Acid, LA, 18:2 n-6 (g)','2','fats-linoleic');
 /
-call Nutrient_Insert('619','Fats, α-Linolenic Acid, ALA, 18:3 n-3 (g)','2','fats-linolenic');
+call Nutrient_Insert('619','Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g)','2','fats-linolenic');
 /
 call Nutrient_Insert('629','Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g)','2','fats-epa');
 /

@@ -23,40 +23,42 @@ import io.github.xjrga.snack.model.iface.Reload;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelSfa
-        extends DefaultTableModel
-        implements Reload {
-    private final Vector columns;
-    private final Result_loader loader;
-    public TableModelSfa( Result_loader loader ) {
-        this.loader = loader;
-        columns = new Vector();
-        columns.add( "Name" ); //0
-        columns.add( "Weight" );
-        columns.add( "SFA" );
-        columns.add( "HCSFA" );
-        columns.add( "Lauric" );
-        columns.add( "Myristic" );
-        columns.add( "Palmitic" );
-        columns.add( "Stearic" );
-        this.setDataVector( loader.get_sfa_table(), columns );
+public class TableModelSfa extends DefaultTableModel implements Reload {
+  private final Vector columns;
+  private final Result_loader loader;
+
+  public TableModelSfa(Result_loader loader) {
+    this.loader = loader;
+    columns = new Vector();
+    columns.add("Name"); // 0
+    columns.add("Weight");
+    columns.add("SFA");
+    columns.add("HCSFA");
+    columns.add("Lauric");
+    columns.add("Myristic");
+    columns.add("Palmitic");
+    columns.add("Stearic");
+    this.setDataVector(loader.get_sfa_table(), columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    if (i == 0) {
+      returnValue = String.class;
+    } else {
+      returnValue = Double.class;
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        if ( i == 0 ) {
-            returnValue = String.class;
-        } else {
-            returnValue = Double.class;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload() {
-        this.setDataVector( loader.get_sfa_table(), columns );
-    }
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload() {
+    this.setDataVector(loader.get_sfa_table(), columns);
+  }
 }

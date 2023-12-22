@@ -20,51 +20,63 @@
 package io.github.xjrga.snack.dataobject;
 
 public class MixDataObject {
-    private String MixId;
-    private String Name;
-    private Integer status;
-    private String nutrientid;
-    private String model;
-    public MixDataObject() {
-    }
-    public MixDataObject( String MixId, String Name ) {
-        this.MixId = MixId;
-        this.Name = Name;
-    }
-    public String getMixId() {
-        return MixId;
-    }
-    public void setMixId( String MixId ) {
-        this.MixId = MixId;
-    }
-    public String getName() {
-        return Name;
-    }
-    public void setName( String Name ) {
-        this.Name = Name;
-    }
-    public Integer getStatus() {
-        return status;
-    }
-    public void setStatus( Integer status ) {
-        this.status = status;
-    }
-    public String getNutrientid() {
-        return nutrientid;
-    }
-    public void setNutrientid( String nutrientid ) {
-        this.nutrientid = nutrientid;
-    }
-    public String getModel() {
-        return model;
-    }
-    public void setModel( String model ) {
-        this.model = model;
-    }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append( Name );
-        return sb.toString();
-    }
+  private String MixId;
+  private String Name;
+  private Integer status;
+  private String nutrientid;
+  private String model;
+
+  public MixDataObject() {}
+
+  public MixDataObject(String MixId, String Name) {
+    this.MixId = MixId;
+    this.Name = Name;
+  }
+
+  public String getMixId() {
+    return MixId;
+  }
+
+  public void setMixId(String MixId) {
+    this.MixId = MixId;
+  }
+
+  public String getName() {
+    return Name;
+  }
+
+  public void setName(String Name) {
+    this.Name = Name;
+  }
+
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
+
+  public String getNutrientid() {
+    return nutrientid;
+  }
+
+  public void setNutrientid(String nutrientid) {
+    this.nutrientid = nutrientid;
+  }
+
+  public String getModel() {
+    return model;
+  }
+
+  public void setModel(String model) {
+    this.model = model;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(Name);
+    return sb.toString();
+  }
 }

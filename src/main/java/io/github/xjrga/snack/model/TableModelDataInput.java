@@ -28,73 +28,80 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelDataInput
-        extends DefaultTableModel
-        implements Round_up, Reload_foodid {
-    private final DbLink dbLink;
-    private Vector columns;
-    private Integer precision = 0;
-    public TableModelDataInput( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelDataInput extends DefaultTableModel implements Round_up, Reload_foodid {
+  private final DbLink dbLink;
+  private Vector columns;
+  private Integer precision = 0;
+
+  public TableModelDataInput(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("NutrientId");
+    columns.add("Category");
+    columns.add("Nutrient");
+    columns.add("Weight");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    if (i < 3) {
+      returnValue = String.class;
+    } else {
+      returnValue = Double.class;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "NutrientId" );
-        columns.add( "Category" );
-        columns.add( "Nutrient" );
-        columns.add( "Weight" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int j) {
+    Boolean returnValue = false;
+    returnValue = j >= 3;
+    return returnValue;
+  }
+
+  @Override
+  public void reload(String FoodId) {
+    Vector table = new Vector();
+    try {
+      LinkedList<FoodFactSelectForDataInputDataObject> list =
+          (LinkedList<FoodFactSelectForDataInputDataObject>)
+              dbLink.FoodFact_Select_ForDataInput(FoodId, precision);
+      list.forEach(
+          foodFactSelectForDataInputDataObject -> {
+            Vector row = new Vector();
+            row.add(foodFactSelectForDataInputDataObject.getNutrientId());
+            row.add(foodFactSelectForDataInputDataObject.getCategory());
+            row.add(foodFactSelectForDataInputDataObject.getNutrient());
+            row.add(foodFactSelectForDataInputDataObject.getQ());
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        if ( i < 3 ) {
-            returnValue = String.class;
-        } else {
-            returnValue = Double.class;
+  }
+
+  @Override
+  public void set_precision(Integer precision) {
+    this.precision = precision;
+  }
+
+  public Integer find(String NutrientId) {
+    int index = 0;
+    int rowNo = this.getRowCount();
+    int colNo = this.getColumnCount();
+    for (int j = 0; j < rowNo; j++) {
+      for (int i = 0; i < colNo; i++) {
+        if (NutrientId.equals(this.getValueAt(j, 0))) {
+          index = j;
         }
-        return returnValue;
+      }
     }
-    @Override
-    public boolean isCellEditable( int i, int j ) {
-        Boolean returnValue = false;
-        returnValue = j >= 3;
-        return returnValue;
-    }
-    @Override
-    public void reload( String FoodId ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<FoodFactSelectForDataInputDataObject> list = ( LinkedList<FoodFactSelectForDataInputDataObject> ) dbLink.FoodFact_Select_ForDataInput( FoodId, precision );
-            list.forEach( foodFactSelectForDataInputDataObject
-                    -> {
-                Vector row = new Vector();
-                row.add( foodFactSelectForDataInputDataObject.getNutrientId() );
-                row.add( foodFactSelectForDataInputDataObject.getCategory() );
-                row.add( foodFactSelectForDataInputDataObject.getNutrient() );
-                row.add( foodFactSelectForDataInputDataObject.getQ() );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
-    @Override
-    public void set_precision( Integer precision ) {
-        this.precision = precision;
-    }
-    public Integer find( String NutrientId ) {
-        int index = 0;
-        int rowNo = this.getRowCount();
-        int colNo = this.getColumnCount();
-        for ( int j = 0; j < rowNo; j++ ) {
-            for ( int i = 0; i < colNo; i++ ) {
-                if ( NutrientId.equals( this.getValueAt( j, 0 ) ) ) {
-                    index = j;
-                }
-            }
-        }
-        return index;
-    }
+    return index;
+  }
 }

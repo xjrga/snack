@@ -23,47 +23,49 @@ import io.github.xjrga.snack.model.iface.Reload;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelVitamins
-        extends DefaultTableModel
-        implements Reload {
-    private final Vector columns;
-    private final Result_loader loader;
-    public TableModelVitamins( Result_loader loader ) {
-        this.loader = loader;
-        columns = new Vector();
-        columns.add( "Name" );
-        columns.add( "Weight" );
-        columns.add( "A" );
-        columns.add( "D" );
-        columns.add( "E" );
-        columns.add( "C" );
-        columns.add( "B1" );
-        columns.add( "B2" );
-        columns.add( "B3" );
-        columns.add( "B6" );
-        columns.add( "B9" );
-        columns.add( "B12" );
-        columns.add( "K" );
-        columns.add( "B5" );
-        columns.add( "B4" );
-        this.setDataVector( loader.get_vitamins_table(), columns );
+public class TableModelVitamins extends DefaultTableModel implements Reload {
+  private final Vector columns;
+  private final Result_loader loader;
+
+  public TableModelVitamins(Result_loader loader) {
+    this.loader = loader;
+    columns = new Vector();
+    columns.add("Name");
+    columns.add("Weight");
+    columns.add("A");
+    columns.add("D");
+    columns.add("E");
+    columns.add("C");
+    columns.add("B1");
+    columns.add("B2");
+    columns.add("B3");
+    columns.add("B6");
+    columns.add("B9");
+    columns.add("B12");
+    columns.add("K");
+    columns.add("B5");
+    columns.add("B4");
+    this.setDataVector(loader.get_vitamins_table(), columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    if (i == 0) {
+      returnValue = String.class;
+    } else {
+      returnValue = Double.class;
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        if ( i == 0 ) {
-            returnValue = String.class;
-        } else {
-            returnValue = Double.class;
-        }
-        return returnValue;
-    }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    @Override
-    public void reload() {
-        this.setDataVector( loader.get_vitamins_table(), columns );
-    }
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload() {
+    this.setDataVector(loader.get_vitamins_table(), columns);
+  }
 }

@@ -27,132 +27,146 @@ import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class TableModelFoodNutrientRatioConstraints
-        extends DefaultTableModel
-        implements Reload_mixid {
-    private final DbLink dbLink;
-    private Vector columns;
-    public TableModelFoodNutrientRatioConstraints( DbLink dbLink ) {
-        this.dbLink = dbLink;
-        this.setColumnIdentifiers();
+public class TableModelFoodNutrientRatioConstraints extends DefaultTableModel
+    implements Reload_mixid {
+  private final DbLink dbLink;
+  private Vector columns;
+  private int rowCount;
+
+  public TableModelFoodNutrientRatioConstraints(DbLink dbLink) {
+    this.dbLink = dbLink;
+    this.setColumnIdentifiers();
+    rowCount = 0;
+  }
+
+  private void setColumnIdentifiers() {
+    columns = new Vector();
+    columns.add("MixId");
+    columns.add("FoodIdA");
+    columns.add("NutrientIdA");
+    columns.add("FoodIdB");
+    columns.add("NutrientIdB");
+    columns.add("RelationshipId");
+    columns.add("FoodA");
+    columns.add("NutrientA");
+    columns.add("A");
+    columns.add("Eq");
+    columns.add("FoodB");
+    columns.add("NutrientB");
+    columns.add("B");
+    this.setColumnIdentifiers(columns);
+  }
+
+  @Override
+  public Class getColumnClass(int i) {
+    Class returnValue = Object.class;
+    switch (i) {
+      case 0:
+        // mixid
+        returnValue = Integer.class;
+        break;
+      case 1:
+        // foodid A
+        returnValue = String.class;
+        break;
+      case 2:
+        // nutrientid A
+        returnValue = String.class;
+        break;
+      case 3:
+        // foodid B
+        returnValue = String.class;
+        break;
+      case 4:
+        // nutrientid B
+        returnValue = String.class;
+        break;
+      case 5:
+        // relationshipid
+        returnValue = Integer.class;
+        break;
+      case 6:
+        // Food Name A
+        returnValue = String.class;
+        break;
+      case 7:
+        // Nutrient Name A
+        returnValue = String.class;
+        break;
+      case 8:
+        // A
+        returnValue = Double.class;
+        break;
+      case 9:
+        // Relationship
+        returnValue = String.class;
+        break;
+      case 10:
+        // Food Name B
+        returnValue = String.class;
+        break;
+      case 11:
+        // Nutrient Name B
+        returnValue = String.class;
+        break;
+      case 12:
+        // B
+        returnValue = Double.class;
+        break;
     }
-    private void setColumnIdentifiers() {
-        columns = new Vector();
-        columns.add( "MixId" );
-        columns.add( "FoodIdA" );
-        columns.add( "NutrientIdA" );
-        columns.add( "FoodIdB" );
-        columns.add( "NutrientIdB" );
-        columns.add( "RelationshipId" );
-        columns.add( "FoodA" );
-        columns.add( "NutrientA" );
-        columns.add( "FoodB" );
-        columns.add( "NutrientB" );
-        columns.add( "A" );
-        columns.add( "Eq" );
-        columns.add( "B" );
-        this.setColumnIdentifiers( columns );
+    return returnValue;
+  }
+
+  @Override
+  public boolean isCellEditable(int i, int i1) {
+    return false;
+  }
+
+  @Override
+  public void reload(String mixid) {
+    Vector table = new Vector();
+    try {
+      LinkedList<HashMap> list = (LinkedList) dbLink.FoodNutrientRatio_Select(mixid);
+      list.forEach(
+          rowm -> {
+            String mixid2 = (String) rowm.get("MIXID");
+            String foodidA = (String) rowm.get("FOOD_ID_1");
+            String nutrientidA = (String) rowm.get("NUTRIENT_ID_1");
+            String foodidB = (String) rowm.get("FOOD_ID_2");
+            String nutrientidB = (String) rowm.get("NUTRIENT_ID_2");
+            Integer relationshipid = (Integer) rowm.get("RELATIONSHIPID");
+            String foodA = (String) rowm.get("FOODA");
+            String nutrientA = (String) rowm.get("NUTRIENTA");
+            String foodB = (String) rowm.get("FOODB");
+            String nutrientB = (String) rowm.get("NUTRIENTB");
+            Double a = (Double) rowm.get("A");
+            Double b = (Double) rowm.get("B");
+            String relationship = (String) rowm.get("RELATIONSHIP");
+            Vector row = new Vector();
+            row.add(mixid2);
+            row.add(foodidA);
+            row.add(nutrientidA);
+            row.add(foodidB);
+            row.add(nutrientidB);
+            row.add(relationshipid);
+            row.add(foodA);
+            row.add(nutrientA);
+            row.add(a);
+            row.add(relationship);
+            row.add(foodB);
+            row.add(nutrientB);
+            row.add(b);
+            table.add(row);
+          });
+      this.setDataVector(table, columns);
+    } catch (SQLException e) {
     }
-    @Override
-    public Class getColumnClass( int i ) {
-        Class returnValue = Object.class;
-        switch ( i ) {
-            case 0:
-                //mixid
-                returnValue = Integer.class;
-                break;
-            case 1:
-                //foodid A
-                returnValue = String.class;
-                break;
-            case 2:
-                //nutrientid A
-                returnValue = String.class;
-                break;
-            case 3:
-                //foodid B
-                returnValue = String.class;
-                break;
-            case 4:
-                //nutrientid B
-                returnValue = String.class;
-                break;
-            case 5:
-                //relationshipid
-                returnValue = Integer.class;
-                break;
-            case 6:
-                //Food Name A
-                returnValue = String.class;
-                break;
-            case 7:
-                //Nutrient Name A
-                returnValue = String.class;
-                break;
-            case 8:
-                //Food Name B
-                returnValue = String.class;
-                break;
-            case 9:
-                //Nutrient Name B
-                returnValue = String.class;
-                break;
-            case 10:
-                //A
-                returnValue = Double.class;
-                break;
-            case 11:
-                //Relationship
-                returnValue = String.class;
-                break;
-            case 12:
-                //B
-                returnValue = Double.class;
-                break;
-        }
-        return returnValue;
+  }
+
+  public Double getNextA() {
+    if (rowCount >= getRowCount()) {
+      return Double.NEGATIVE_INFINITY;
     }
-    @Override
-    public boolean isCellEditable( int i, int i1 ) {
-        return false;
-    }
-    public void reload( String mixid ) {
-        Vector table = new Vector();
-        try {
-            LinkedList<HashMap> list = ( LinkedList ) dbLink.FoodNutrientRatio_Select( mixid );
-            list.forEach( rowm
-                    -> {
-                String mixid2 = ( String ) rowm.get( "MIXID" );
-                String foodidA = ( String ) rowm.get( "FOOD_ID_1" );
-                String nutrientidA = ( String ) rowm.get( "NUTRIENT_ID_1" );
-                String foodidB = ( String ) rowm.get( "FOOD_ID_2" );
-                String nutrientidB = ( String ) rowm.get( "NUTRIENT_ID_2" );
-                Integer relationshipid = ( Integer ) rowm.get( "RELATIONSHIPID" );
-                String foodA = ( String ) rowm.get( "FOODA" );
-                String nutrientA = ( String ) rowm.get( "NUTRIENTA" );
-                String foodB = ( String ) rowm.get( "FOODB" );
-                String nutrientB = ( String ) rowm.get( "NUTRIENTB" );
-                Double a = ( Double ) rowm.get( "A" );
-                Double b = ( Double ) rowm.get( "B" );
-                String relationship = ( String ) rowm.get( "RELATIONSHIP" );
-                Vector row = new Vector();
-                row.add( mixid2 );
-                row.add( foodidA );
-                row.add( nutrientidA );
-                row.add( foodidB );
-                row.add( nutrientidB );
-                row.add( relationshipid );
-                row.add( foodA );
-                row.add( nutrientA );
-                row.add( foodB );
-                row.add( nutrientB );
-                row.add( a );
-                row.add( relationship );
-                row.add( b );
-                table.add( row );
-            } );
-            this.setDataVector( table, columns );
-        } catch ( SQLException e ) {
-        }
-    }
+    return (Double) getValueAt(rowCount++, 10);
+  }
 }
