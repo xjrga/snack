@@ -416,4 +416,8 @@ RELEASE NOTES
 1320
 
       Update graphical user interface
-      Add linear programming model file generation for glpk solver
+      Add linear programming model CPLEX LP format file generation
+
+1330
+
+      Add linear programming model GNU MathProg modeling language file generation

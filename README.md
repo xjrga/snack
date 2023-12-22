@@ -47,16 +47,16 @@
 
 Installing
 
-    1. Download snack-1320-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
-    2. unzip snack-1320-app.zip
-    3. cd snack-1320
-    4. java -jar snack-1320.jar (if you are on windows double click on jar file)
+    1. Download snack-1330-app.zip from https://xjrga.github.io/main/#snack-learning-software-for-nutrition
+    2. unzip snack-1330-app.zip
+    3. cd snack-1330
+    4. java -jar snack-1330.jar (if you are on windows double click on jar file)
 
 [User Guide](https://github.com/xjrga/snack/wiki "Snack: Learning Software for Nutrition")
 
 Build
 
-    1320
+    1330
 
 Authors
 
