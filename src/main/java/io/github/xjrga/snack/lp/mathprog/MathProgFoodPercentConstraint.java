@@ -7,13 +7,9 @@ public class MathProgFoodPercentConstraint implements MathProgConstraint {
   private final StringBuilder sb;
   private final Double constraintRhsValue;
 
-  public MathProgFoodPercentConstraint(
-      Integer overallConstraintCount,
-      Integer constraintRelationship,
-      Double constraintRhsValue,
-      String constraintName,
-      MathProgPoint mathprogPoint,
-      Double pct) {
+  public MathProgFoodPercentConstraint(Integer overallConstraintCount,
+      Integer constraintRelationship, Double constraintRhsValue, String constraintName,
+      MathProgPoint mathprogPoint, Double pct) {
     sb = new StringBuilder();
     sb.append("/* ");
     sb.append(constraintName);
@@ -21,7 +17,7 @@ public class MathProgFoodPercentConstraint implements MathProgConstraint {
     sb.append("\n");
     sb.append("s.t. req");
     sb.append(String.format("%1$02d", overallConstraintCount));
-    sb.append(": a[");
+    sb.append(": c[");
     sb.append(mathprogPoint.getFoodPosition());
     sb.append(",");
     sb.append(mathprogPoint.getNutrientPosition());
@@ -34,15 +30,15 @@ public class MathProgFoodPercentConstraint implements MathProgConstraint {
     sb.append(pct / 100);
     sb.append(" * ");
     sb.append("sum{j in 1..FOODS} ");
-    sb.append("a[j,");
+    sb.append("c[j,");
     sb.append(mathprogPoint.getNutrientPosition());
     sb.append("])");
     sb.append(" * ");
     sb.append("x[j] ");
     sb.append(LpUtilities.getRelationship(constraintRelationship));
-    sb.append(" b[");
-    sb.append(overallConstraintCount);
-    sb.append("];");
+    sb.append(" ");
+    sb.append(0);
+    sb.append(";");
     this.constraintRhsValue = constraintRhsValue;
   }
 
@@ -52,7 +48,7 @@ public class MathProgFoodPercentConstraint implements MathProgConstraint {
   }
 
   @Override
-  public Double getRhs() {
-    return constraintRhsValue;
+  public String getRhs() {
+    return String.valueOf(constraintRhsValue);
   }
 }

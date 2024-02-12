@@ -146,32 +146,31 @@ public class ExportRdaCheck {
     try {
       LinkedList<HashMap> list =
           (LinkedList) dbLink.Mix_GetRdaDiff(mixDataObject.getMixId(), lifeStageId, 2);
-      list.forEach(
-          rowm -> {
-            String nutrient = (String) rowm.get("NAME");
-            Double mix = (Double) rowm.get("MIX");
-            Double rda = (Double) rowm.get("RDA");
-            Double pctrda = (Double) rowm.get("PCTRDA");
-            Double ul = (Double) rowm.get("UL");
-            Double pctul = (Double) rowm.get("PCTUL");
-            row = s.createRow(rownum++);
-            cell = row.createCell(0);
-            cell.setCellValue(nutrient);
-            cell = row.createCell(1);
-            cell.setCellValue(mix);
-            cell.setCellStyle(cellStyleMixValue);
-            cell = row.createCell(2);
-            cell.setCellValue(rda);
-            cell.setCellStyle(cellStyleMixValue);
-            cell = row.createCell(3);
-            cell.setCellValue(pctrda);
-            cell.setCellStyle(cellStylePctRdaValue);
-            cell = row.createCell(4);
-            cell.setCellValue(ul);
-            cell = row.createCell(5);
-            cell.setCellValue(pctul);
-            cell.setCellStyle(cellStylePctULValue);
-          });
+      list.forEach(rowm -> {
+        String nutrient = (String) rowm.get("NAME");
+        Double mix = (Double) rowm.get("MIX");
+        Double rda = (Double) rowm.get("RDA");
+        Double pctrda = (Double) rowm.get("PCTRDA");
+        Double ul = (Double) rowm.get("UL");
+        Double pctul = (Double) rowm.get("PCTUL");
+        row = s.createRow(rownum++);
+        cell = row.createCell(0);
+        cell.setCellValue(nutrient);
+        cell = row.createCell(1);
+        cell.setCellValue(mix);
+        cell.setCellStyle(cellStyleMixValue);
+        cell = row.createCell(2);
+        cell.setCellValue(rda);
+        cell.setCellStyle(cellStyleMixValue);
+        cell = row.createCell(3);
+        cell.setCellValue(pctrda);
+        cell.setCellStyle(cellStylePctRdaValue);
+        cell = row.createCell(4);
+        cell.setCellValue(ul);
+        cell = row.createCell(5);
+        cell.setCellValue(pctul);
+        cell.setCellStyle(cellStylePctULValue);
+      });
       try {
         out = new FileOutputStream(filepath.toString());
         wb.write(out);

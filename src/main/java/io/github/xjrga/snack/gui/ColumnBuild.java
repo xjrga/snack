@@ -2,21 +2,15 @@ package io.github.xjrga.snack.gui;
 
 public class ColumnBuild {
   enum columnAlignment {
-    LEFT,
-    CENTER,
-    RIGHT,
-    FILL;
+    LEFT, CENTER, RIGHT, FILL;
   }
 
   enum resizeBehavior {
-    NONE,
-    GROW;
+    NONE, GROW;
   }
 
   enum componentSize {
-    MIN,
-    PREF,
-    DEFAULT;
+    MIN, PREF, DEFAULT;
   }
 
   private final StringBuilder columns;
@@ -29,6 +23,7 @@ public class ColumnBuild {
     columns.append(columnSpec);
     columns.append(",");
   }
+
   // Using component size
   public void add(columnAlignment alignment, componentSize size) {
     columns.append(alignment.name());
@@ -52,6 +47,7 @@ public class ColumnBuild {
     columns.append(behavior.name());
     columns.append(",");
   }
+
   // Using constant size
   public void add(Integer pixels) {
     columns.append(pixels);

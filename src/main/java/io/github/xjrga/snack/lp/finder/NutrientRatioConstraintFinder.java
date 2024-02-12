@@ -39,10 +39,8 @@ public class NutrientRatioConstraintFinder {
     nutrientid_a = (String) model.getValueAt(specificConstraintCount, 1);
     mixid = (String) model.getValueAt(specificConstraintCount, 0);
     StringBuilder sbName = new StringBuilder();
-    sbName.append(
-        overallConstraintCount > 9
-            ? overallConstraintCount
-            : String.format("%1$ 2d", overallConstraintCount));
+    sbName.append(overallConstraintCount > 9 ? overallConstraintCount
+        : String.format("%1$ 2d", overallConstraintCount));
     sbName.append(") ");
     sbName.append(a);
     sbName.append(" ");

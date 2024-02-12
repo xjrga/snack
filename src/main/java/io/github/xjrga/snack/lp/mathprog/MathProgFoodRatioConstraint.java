@@ -7,12 +7,8 @@ public class MathProgFoodRatioConstraint implements MathProgConstraint {
   private final StringBuilder sb;
   private final Double constraintRhsValue;
 
-  public MathProgFoodRatioConstraint(
-      Integer overallConstraintCount,
-      Integer constraintRelationship,
-      Double constraintRhsValue,
-      String constraintName,
-      MathProgPointPair mathprogPair) {
+  public MathProgFoodRatioConstraint(Integer overallConstraintCount, Integer constraintRelationship,
+      Double constraintRhsValue, String constraintName, MathProgPointPair mathprogPair) {
     sb = new StringBuilder();
     sb.append("/* ");
     sb.append(constraintName);
@@ -23,7 +19,7 @@ public class MathProgFoodRatioConstraint implements MathProgConstraint {
     sb.append(": ");
     sb.append(mathprogPair.getA());
     sb.append(" * ");
-    sb.append("a[");
+    sb.append("c[");
     sb.append(mathprogPair.getFirstFoodPosition());
     sb.append(",");
     sb.append(mathprogPair.getFirstNutrientPosition());
@@ -35,7 +31,7 @@ public class MathProgFoodRatioConstraint implements MathProgConstraint {
     sb.append(" - ");
     sb.append(mathprogPair.getB());
     sb.append(" * ");
-    sb.append("a[");
+    sb.append("c[");
     sb.append(mathprogPair.getSecondFoodPosition());
     sb.append(",");
     sb.append(mathprogPair.getSecondNutrientPosition());
@@ -45,9 +41,9 @@ public class MathProgFoodRatioConstraint implements MathProgConstraint {
     sb.append(mathprogPair.getSecondFoodPosition());
     sb.append("] ");
     sb.append(LpUtilities.getRelationship(constraintRelationship));
-    sb.append(" b[");
-    sb.append(overallConstraintCount);
-    sb.append("];");
+    sb.append(" ");
+    sb.append(constraintRhsValue);
+    sb.append(";");
     this.constraintRhsValue = constraintRhsValue;
   }
 
@@ -57,7 +53,7 @@ public class MathProgFoodRatioConstraint implements MathProgConstraint {
   }
 
   @Override
-  public Double getRhs() {
-    return constraintRhsValue;
+  public String getRhs() {
+    return String.valueOf(constraintRhsValue);
   }
 }

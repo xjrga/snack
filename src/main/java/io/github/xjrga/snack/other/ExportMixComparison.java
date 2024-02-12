@@ -66,8 +66,8 @@ public class ExportMixComparison {
     wb.setSheetName(0, sheetname);
   }
 
-  public void print(
-      TableModelMixComparison modelTableMixDiff, JList listCompareA, JList listCompareB) {
+  public void print(TableModelMixComparison modelTableMixDiff, JList listCompareA,
+      JList listCompareB) {
     if (!listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty()) {
       MixDataObject mix1 = (MixDataObject) listCompareA.getSelectedValue();
       MixDataObject mix2 = (MixDataObject) listCompareB.getSelectedValue();

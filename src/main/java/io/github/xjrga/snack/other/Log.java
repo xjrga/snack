@@ -1,8 +1,8 @@
 package io.github.xjrga.snack.other;
 
 public enum Log {
-  Log1,
-  Log2;
+  Log1, Log2;
+
   private final StringBuilder error_log_builder;
 
   private Log() {

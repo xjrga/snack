@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package io.github.xjrga.snack.other;
 
@@ -20,8 +19,8 @@ public class DoubleTableCellEditor extends AbstractCellEditor implements TableCe
   JTextField textfield = (JTextField) component;
 
   @Override
-  public Component getTableCellEditorComponent(
-      JTable table, Object value, boolean isSelected, int rowIndex, int vColIndex) {
+  public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
+      int rowIndex, int vColIndex) {
     // if editing
     textfield.selectAll();
     textfield.setText("");

@@ -45,15 +45,7 @@ public class MathProgPointPair {
 
   @Override
   public String toString() {
-    return "MathProgPointPair{"
-        + "A="
-        + A
-        + ", first="
-        + first
-        + ", B="
-        + B
-        + ", second="
-        + second
+    return "MathProgPointPair{" + "A=" + A + ", first=" + first + ", B=" + B + ", second=" + second
         + '}';
   }
 }

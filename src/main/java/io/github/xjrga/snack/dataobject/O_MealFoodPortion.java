@@ -60,18 +60,7 @@ public class O_MealFoodPortion {
 
   @Override
   public String toString() {
-    return "O_MealFoodAllocation{MixId="
-        + MixId
-        + ", MealId="
-        + MealId
-        + ", FoodId="
-        + FoodId
-        + ", Pct="
-        + Pct
-        + ", ExpectedWt="
-        + ExpectedWt
-        + ", ActualWt="
-        + ActualWt
-        + "}";
+    return "O_MealFoodAllocation{MixId=" + MixId + ", MealId=" + MealId + ", FoodId=" + FoodId
+        + ", Pct=" + Pct + ", ExpectedWt=" + ExpectedWt + ", ActualWt=" + ActualWt + "}";
   }
 }

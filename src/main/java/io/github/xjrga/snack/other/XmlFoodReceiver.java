@@ -1,19 +1,17 @@
 /*
  * Copyright (C) 2021 Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 package io.github.xjrga.snack.other;
 
@@ -46,6 +44,7 @@ public class XmlFoodReceiver {
   private String end_event;
   private String main_event;
   private final DbLink dbLink;
+
   /** Constructs Xml_receive class */
   public XmlFoodReceiver(DbLink dbLink) {
     inputFactory = XMLInputFactory.newInstance();
@@ -93,7 +92,7 @@ public class XmlFoodReceiver {
                           break;
                       }
                       break;
-                      // food
+                    // food
                     case "other-alcohol":
                       food.setAlcohol(Double.valueOf(data));
                       break;
@@ -244,124 +243,115 @@ public class XmlFoodReceiver {
                     try {
                       dbLink.snack_food_insertfood(food.getFoodid(), food.getName());
                       //
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.ALCOHOL.getNumber(), food.getAlcohol());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.CALCIUM.getNumber(), food.getCalcium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ALCOHOL.getNumber(),
+                          food.getAlcohol());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.CALCIUM.getNumber(),
+                          food.getCalcium());
+                      dbLink.FoodFact_Merge(food.getFoodid(),
                           Nutrient.CARBOHYDRATEBYDIFFERENCE.getNumber(),
                           food.getCarbohydrate_by_difference());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.CHOLESTEROL.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.CHOLESTEROL.getNumber(),
                           food.getCholesterol());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.CHOLINE.getNumber(), food.getCholine());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.COMPLETEPROTEIN.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.CHOLINE.getNumber(),
+                          food.getCholine());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.COMPLETEPROTEIN.getNumber(),
                           food.getComplete_protein());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.COPPER.getNumber(), food.getCopper());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.COST.getNumber(), food.getCost());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.DHA.getNumber(), food.getDha());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.ENERGYGROSS.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.COPPER.getNumber(),
+                          food.getCopper());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.COST.getNumber(),
+                          food.getCost());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.DHA.getNumber(),
+                          food.getDha());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYGROSS.getNumber(),
                           food.getEnergy_gross());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.EPA.getNumber(), food.getEpa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.FAT.getNumber(), food.getFat());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.FIBER.getNumber(), food.getFiber());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.FOLATE.getNumber(), food.getFolate());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.IRON.getNumber(), food.getIron());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.LINOLEIC.getNumber(), food.getLinoleic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.LINOLENIC.getNumber(), food.getLinolenic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MAGNESIUM.getNumber(), food.getMagnesium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MANGANESE.getNumber(), food.getManganese());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MUFA.getNumber(), food.getMufa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.NIACIN.getNumber(), food.getNiacin());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.PANTOTHENICACID.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.EPA.getNumber(),
+                          food.getEpa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FAT.getNumber(),
+                          food.getFat());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FIBER.getNumber(),
+                          food.getFiber());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FOLATE.getNumber(),
+                          food.getFolate());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.IRON.getNumber(),
+                          food.getIron());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.LINOLEIC.getNumber(),
+                          food.getLinoleic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.LINOLENIC.getNumber(),
+                          food.getLinolenic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MAGNESIUM.getNumber(),
+                          food.getMagnesium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MANGANESE.getNumber(),
+                          food.getManganese());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MUFA.getNumber(),
+                          food.getMufa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.NIACIN.getNumber(),
+                          food.getNiacin());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PANTOTHENICACID.getNumber(),
                           food.getPantothenic_acid());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PHOSPHORUS.getNumber(), food.getPhosphorus());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.POTASSIUM.getNumber(), food.getPotassium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PROTEIN.getNumber(), food.getProtein());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PUFA.getNumber(), food.getPufa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.RIBOFLAVIN.getNumber(), food.getRiboflavin());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.SELENIUM.getNumber(), food.getSelenium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.SFA.getNumber(), food.getSfa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.SODIUM.getNumber(), food.getSodium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.THIAMIN.getNumber(), food.getThiamin());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINA.getNumber(), food.getVitamin_a());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINB12.getNumber(), food.getVitamin_b12());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINB6.getNumber(), food.getVitamin_b6());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINC.getNumber(), food.getVitamin_c());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMIND.getNumber(), food.getVitamin_d());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINE.getNumber(), food.getVitamin_e());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINK.getNumber(), food.getVitamin_k());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.WATER.getNumber(), food.getWater());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.WEIGHT.getNumber(), food.getWeight());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.ZINC.getNumber(), food.getZinc());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.LAURIC.getNumber(), food.getLauric());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MYRISTIC.getNumber(), food.getMyristic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PALMITIC.getNumber(), food.getPalmitic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.STEARIC.getNumber(), food.getStearic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PHOSPHORUS.getNumber(),
+                          food.getPhosphorus());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.POTASSIUM.getNumber(),
+                          food.getPotassium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PROTEIN.getNumber(),
+                          food.getProtein());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PUFA.getNumber(),
+                          food.getPufa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.RIBOFLAVIN.getNumber(),
+                          food.getRiboflavin());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.SELENIUM.getNumber(),
+                          food.getSelenium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.SFA.getNumber(),
+                          food.getSfa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.SODIUM.getNumber(),
+                          food.getSodium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.THIAMIN.getNumber(),
+                          food.getThiamin());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINA.getNumber(),
+                          food.getVitamin_a());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINB12.getNumber(),
+                          food.getVitamin_b12());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINB6.getNumber(),
+                          food.getVitamin_b6());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINC.getNumber(),
+                          food.getVitamin_c());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMIND.getNumber(),
+                          food.getVitamin_d());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINE.getNumber(),
+                          food.getVitamin_e());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINK.getNumber(),
+                          food.getVitamin_k());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.WATER.getNumber(),
+                          food.getWater());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.WEIGHT.getNumber(),
+                          food.getWeight());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ZINC.getNumber(),
+                          food.getZinc());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.LAURIC.getNumber(),
+                          food.getLauric());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MYRISTIC.getNumber(),
+                          food.getMyristic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PALMITIC.getNumber(),
+                          food.getPalmitic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.STEARIC.getNumber(),
+                          food.getStearic());
                       dbLink.GlycemicIndex_Merge(food.getFoodid(), food.getGlycemicindex());
                       dbLink.foodfact_calculated_quantities_update(food.getFoodid());
                       //
                       dbLink.CategoryLink_Insert("5000", food.getFoodid());
                       //
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + food.getFoodid()
-                      //                                            + " " + food.getName()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // + " " + food.getFoodid()
+                      // + " " + food.getName()
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + food.getFoodid()
-                      //                                                + " " + food.getName() );
-                      //                                        Log.Log2.append( "\n" );
+                      // + " " + food.getFoodid()
+                      // + " " + food.getName() );
+                      // Log.Log2.append( "\n" );
                       integrity_constraint_violation_exists = true;
                       Message.showMessage("Food item already exists.");
                     }

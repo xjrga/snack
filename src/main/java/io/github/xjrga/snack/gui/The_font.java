@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public final class The_font {
   private Font font;
   private float size = 13f;
+
   /**
    * TheFont constructor
    *
@@ -25,6 +26,7 @@ public final class The_font {
   public The_font(String path) {
     set_font_file_path(path);
   }
+
   /**
    * @param path Path to truetype font
    */
@@ -35,6 +37,7 @@ public final class The_font {
       Logger.getLogger(The_font.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
+
   /**
    * @param fontStream InputStream
    */
@@ -45,6 +48,7 @@ public final class The_font {
       Logger.getLogger(The_font.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
+
   /**
    * @return A Font object
    * @see java.awt.Font
@@ -52,6 +56,7 @@ public final class The_font {
   public Font get_font() {
     return font;
   }
+
   /**
    * @param size Font size
    */

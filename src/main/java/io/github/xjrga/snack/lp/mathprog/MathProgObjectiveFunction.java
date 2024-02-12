@@ -12,7 +12,7 @@ public class MathProgObjectiveFunction implements MathProgConstraint {
     sb.append(name);
     sb.append(" */");
     sb.append("\n");
-    sb.append("minimize z: sum{j in 1..FOODS} a[j,");
+    sb.append("minimize z: sum{j in 1..FOODS} c[j,");
     sb.append(mpoint.getNutrientPosition());
     sb.append("] * x[j];");
   }
@@ -23,7 +23,7 @@ public class MathProgObjectiveFunction implements MathProgConstraint {
   }
 
   @Override
-  public Double getRhs() {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public String getRhs() {
+    return "";
   }
 }

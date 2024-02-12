@@ -1,19 +1,17 @@
 /*
  * Copyright (C) 2021 Jorge R Garcia de Alba &lt;jorge.r.garciadealba@gmail.com&gt;
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
 package io.github.xjrga.snack.other;
 
@@ -56,6 +54,7 @@ public class XmlMixReceiver {
   private String end_event;
   private String main_event;
   private final DbLink dbLink;
+
   /** Constructs Xml_receive class */
   public XmlMixReceiver(DbLink dbLink) {
     inputFactory = XMLInputFactory.newInstance();
@@ -148,7 +147,7 @@ public class XmlMixReceiver {
                 String data = event.asCharacters().getData().strip();
                 if (!data.isBlank()) {
                   switch (start_event) {
-                      // meal
+                    // meal
                     case "mealid":
                       switch (main_event) {
                         case "meal":
@@ -170,7 +169,7 @@ public class XmlMixReceiver {
                     case "mealorder":
                       meal.setMealOrder(Integer.valueOf(data));
                       break;
-                      // mix
+                    // mix
                     case "mixid":
                       switch (main_event) {
                         case "mix":
@@ -312,7 +311,7 @@ public class XmlMixReceiver {
                           break;
                       }
                       break;
-                      // food
+                    // food
                     case "food-id":
                       food.setFoodid(data);
                       break;
@@ -467,21 +466,15 @@ public class XmlMixReceiver {
                     // System.out.println( "End mix" );
                     // System.out.println( mix.toString() );
                     try {
-                      dbLink.snack_mix_insertmix(
-                          mix.get_mixid(), mix.get_name(), 1, mix.get_nutrientid(), "");
+                      dbLink.snack_mix_insertmix(mix.get_mixid(), mix.get_name(), 1,
+                          mix.get_nutrientid(), "");
                     } catch (SQLException ex) {
-                      String message =
-                          ex.getMessage().substring(0, 1).toUpperCase()
-                              + ex.getMessage().substring(1)
-                              + " "
-                              + mix.get_mixid()
-                              + " "
-                              + mix.get_name()
-                              + " "
-                              + mix.get_nutrientid();
-                      //                                    System.out.println( message );
-                      //                                        Log.Log2.append( message );
-                      //                                        Log.Log2.append( "\n" );
+                      String message = ex.getMessage().substring(0, 1).toUpperCase()
+                          + ex.getMessage().substring(1) + " " + mix.get_mixid() + " "
+                          + mix.get_name() + " " + mix.get_nutrientid();
+                      // System.out.println( message );
+                      // Log.Log2.append( message );
+                      // Log.Log2.append( "\n" );
                       integrity_constraint_violation_exists = true;
                       Message.showMessage("Mix already exists.");
                     }
@@ -491,259 +484,246 @@ public class XmlMixReceiver {
                     // System.out.println( food.toString() );
                     try {
                       dbLink.snack_food_insertfood(food.getFoodid(), food.getName());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.ALCOHOL.getNumber(), food.getAlcohol());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.CALCIUM.getNumber(), food.getCalcium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ALCOHOL.getNumber(),
+                          food.getAlcohol());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.CALCIUM.getNumber(),
+                          food.getCalcium());
+                      dbLink.FoodFact_Merge(food.getFoodid(),
                           Nutrient.CARBOHYDRATEBYDIFFERENCE.getNumber(),
                           food.getCarbohydrate_by_difference());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.CHOLESTEROL.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.CHOLESTEROL.getNumber(),
                           food.getCholesterol());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.CHOLINE.getNumber(), food.getCholine());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.COMPLETEPROTEIN.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.CHOLINE.getNumber(),
+                          food.getCholine());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.COMPLETEPROTEIN.getNumber(),
                           food.getComplete_protein());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.COPPER.getNumber(), food.getCopper());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.COST.getNumber(), food.getCost());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.DHA.getNumber(), food.getDha());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.ENERGYGROSS.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.COPPER.getNumber(),
+                          food.getCopper());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.COST.getNumber(),
+                          food.getCost());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.DHA.getNumber(),
+                          food.getDha());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ENERGYGROSS.getNumber(),
                           food.getEnergy_gross());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.EPA.getNumber(), food.getEpa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.FAT.getNumber(), food.getFat());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.FIBER.getNumber(), food.getFiber());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.FOLATE.getNumber(), food.getFolate());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.IRON.getNumber(), food.getIron());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.LINOLEIC.getNumber(), food.getLinoleic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.LINOLENIC.getNumber(), food.getLinolenic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MAGNESIUM.getNumber(), food.getMagnesium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MANGANESE.getNumber(), food.getManganese());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MUFA.getNumber(), food.getMufa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.NIACIN.getNumber(), food.getNiacin());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(),
-                          Nutrient.PANTOTHENICACID.getNumber(),
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.EPA.getNumber(),
+                          food.getEpa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FAT.getNumber(),
+                          food.getFat());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FIBER.getNumber(),
+                          food.getFiber());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.FOLATE.getNumber(),
+                          food.getFolate());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.IRON.getNumber(),
+                          food.getIron());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.LINOLEIC.getNumber(),
+                          food.getLinoleic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.LINOLENIC.getNumber(),
+                          food.getLinolenic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MAGNESIUM.getNumber(),
+                          food.getMagnesium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MANGANESE.getNumber(),
+                          food.getManganese());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MUFA.getNumber(),
+                          food.getMufa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.NIACIN.getNumber(),
+                          food.getNiacin());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PANTOTHENICACID.getNumber(),
                           food.getPantothenic_acid());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PHOSPHORUS.getNumber(), food.getPhosphorus());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.POTASSIUM.getNumber(), food.getPotassium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PROTEIN.getNumber(), food.getProtein());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PUFA.getNumber(), food.getPufa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.RIBOFLAVIN.getNumber(), food.getRiboflavin());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.SELENIUM.getNumber(), food.getSelenium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.SFA.getNumber(), food.getSfa());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.SODIUM.getNumber(), food.getSodium());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.THIAMIN.getNumber(), food.getThiamin());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINA.getNumber(), food.getVitamin_a());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINB12.getNumber(), food.getVitamin_b12());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINB6.getNumber(), food.getVitamin_b6());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINC.getNumber(), food.getVitamin_c());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMIND.getNumber(), food.getVitamin_d());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINE.getNumber(), food.getVitamin_e());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.VITAMINK.getNumber(), food.getVitamin_k());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.WATER.getNumber(), food.getWater());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.WEIGHT.getNumber(), food.getWeight());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.ZINC.getNumber(), food.getZinc());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.LAURIC.getNumber(), food.getLauric());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.MYRISTIC.getNumber(), food.getMyristic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.PALMITIC.getNumber(), food.getPalmitic());
-                      dbLink.FoodFact_Merge(
-                          food.getFoodid(), Nutrient.STEARIC.getNumber(), food.getStearic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PHOSPHORUS.getNumber(),
+                          food.getPhosphorus());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.POTASSIUM.getNumber(),
+                          food.getPotassium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PROTEIN.getNumber(),
+                          food.getProtein());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PUFA.getNumber(),
+                          food.getPufa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.RIBOFLAVIN.getNumber(),
+                          food.getRiboflavin());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.SELENIUM.getNumber(),
+                          food.getSelenium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.SFA.getNumber(),
+                          food.getSfa());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.SODIUM.getNumber(),
+                          food.getSodium());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.THIAMIN.getNumber(),
+                          food.getThiamin());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINA.getNumber(),
+                          food.getVitamin_a());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINB12.getNumber(),
+                          food.getVitamin_b12());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINB6.getNumber(),
+                          food.getVitamin_b6());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINC.getNumber(),
+                          food.getVitamin_c());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMIND.getNumber(),
+                          food.getVitamin_d());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINE.getNumber(),
+                          food.getVitamin_e());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.VITAMINK.getNumber(),
+                          food.getVitamin_k());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.WATER.getNumber(),
+                          food.getWater());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.WEIGHT.getNumber(),
+                          food.getWeight());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.ZINC.getNumber(),
+                          food.getZinc());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.LAURIC.getNumber(),
+                          food.getLauric());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.MYRISTIC.getNumber(),
+                          food.getMyristic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.PALMITIC.getNumber(),
+                          food.getPalmitic());
+                      dbLink.FoodFact_Merge(food.getFoodid(), Nutrient.STEARIC.getNumber(),
+                          food.getStearic());
                       dbLink.GlycemicIndex_Merge(food.getFoodid(), food.getGlycemicindex());
                       dbLink.foodfact_calculated_quantities_update(food.getFoodid());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + food.getFoodid()
-                      //                                            + " " + food.getName()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // + " " + food.getFoodid()
+                      // + " " + food.getName()
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + food.getFoodid()
-                      //                                                + " " + food.getName() );
-                      //                                        Log.Log2.append( "\n" );
+                      // + " " + food.getFoodid()
+                      // + " " + food.getName() );
+                      // Log.Log2.append( "\n" );
                     }
                     try {
                       dbLink.MixFood_Insert(mix.get_mixid(), food.getFoodid());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + mix.get_mixid()
-                      //                                            + " " + food.getFoodid()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // + " " + mix.get_mixid()
+                      // + " " + food.getFoodid()
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + mix.get_mixid()
-                      //                                                + " " + food.getFoodid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // + " " + mix.get_mixid()
+                      // + " " + food.getFoodid() );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "category":
                     // System.out.println( "End category" );
                     // System.out.println( category.toString() );
                     try {
-                      dbLink.FoodCategory_Insert(
-                          category.get_categoryid(), category.get_categoryname());
+                      dbLink.FoodCategory_Insert(category.get_categoryid(),
+                          category.get_categoryname());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " +
+                      // + " " +
                       // category.get_categoryid()
-                      //                                            + " " +
+                      // + " " +
                       // category.get_categoryname()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " +
+                      // + " " +
                       // category.get_categoryid()
-                      //                                                + " " +
+                      // + " " +
                       // category.get_categoryname() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "category_link":
                     // System.out.println( "End category_link" );
                     // System.out.println( category_link.toString() );
                     try {
-                      dbLink.CategoryLink_Insert(
-                          category_link.get_categoryid(), category_link.get_foodid());
+                      dbLink.CategoryLink_Insert(category_link.get_categoryid(),
+                          category_link.get_foodid());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " +
+                      // + " " +
                       // category_link.get_categoryid()
-                      //                                            + " " +
+                      // + " " +
                       // category_link.get_foodid()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " +
+                      // + " " +
                       // category_link.get_categoryid()
-                      //                                                + " " +
+                      // + " " +
                       // category_link.get_foodid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "nutrient_constraint":
                     // System.out.println( "End nutrient_constraint" );
                     // System.out.println( nutrient_constraint.toString() );
                     try {
-                      dbLink.NutrientConstraint_Merge(
-                          mix.get_mixid(),
+                      dbLink.NutrientConstraint_Merge(mix.get_mixid(),
                           nutrient_constraint.getNutrientid(),
-                          nutrient_constraint.getRelationshipid(),
-                          nutrient_constraint.getB());
+                          nutrient_constraint.getRelationshipid(), nutrient_constraint.getB());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + mix.get_mixid()
-                      //                                            + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // nutrient_constraint.getNutrientid()
-                      //                                            + " " +
+                      // + " " +
                       // nutrient_constraint.getRelationshipid()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + mix.get_mixid()
-                      //                                                + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // nutrient_constraint.getNutrientid()
-                      //                                                + " " +
+                      // + " " +
                       // nutrient_constraint.getRelationshipid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "food_nutrient_constraint":
                     // System.out.println( "End food_nutrient_constraint" );
                     // System.out.println( food_nutrient_constraint.toString() );
                     try {
-                      dbLink.FoodNutrientConstraint_Merge(
-                          mix.get_mixid(),
+                      dbLink.FoodNutrientConstraint_Merge(mix.get_mixid(),
                           food_nutrient_constraint.getFoodid(),
                           food_nutrient_constraint.getNutrientid(),
                           food_nutrient_constraint.getRelationshipid(),
                           food_nutrient_constraint.getB());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + mix.get_mixid()
-                      //                                            + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // food_nutrient_constraint.getFoodid()
-                      //                                            + " " +
+                      // + " " +
                       // food_nutrient_constraint.getNutrientid()
-                      //                                            + " " +
+                      // + " " +
                       // food_nutrient_constraint.getRelationshipid() );
-                      //                                        Log.Log2.append(
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + mix.get_mixid()
-                      //                                                + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // food_nutrient_constraint.getFoodid()
-                      //                                                + " " +
+                      // + " " +
                       // food_nutrient_constraint.getNutrientid()
-                      //                                                + " " +
+                      // + " " +
                       // food_nutrient_constraint.getRelationshipid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "food_nutrient_ratio_constraint":
                     // System.out.println( "End food_nutrient_ratio_constraint" );
                     // System.out.println( food_nutrient_ratio_constraint.toString() );
                     try {
-                      dbLink.FoodNutrientRatio_Merge(
-                          mix.get_mixid(),
+                      dbLink.FoodNutrientRatio_Merge(mix.get_mixid(),
                           food_nutrient_ratio_constraint.getFoodid_a(),
                           food_nutrient_ratio_constraint.getNutrientid_a(),
                           food_nutrient_ratio_constraint.getFoodid_b(),
@@ -752,169 +732,162 @@ public class XmlMixReceiver {
                           food_nutrient_ratio_constraint.getA(),
                           food_nutrient_ratio_constraint.getB());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + mix.get_mixid()
-                      //                                            + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // food_nutrient_ratio_constraint.getFoodid_a()
-                      //                                            + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getNutrientid_a()
-                      //                                            + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getFoodid_b()
-                      //                                            + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getNutrientid_b()
-                      //                                            + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getRelationshipid()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + mix.get_mixid()
-                      //                                                + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // food_nutrient_ratio_constraint.getFoodid_a()
-                      //                                                + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getNutrientid_a()
-                      //                                                + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getFoodid_b()
-                      //                                                + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getNutrientid_b()
-                      //                                                + " " +
+                      // + " " +
                       // food_nutrient_ratio_constraint.getRelationshipid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "nutrient_ratio_constraint":
                     // System.out.println( "End nutrient_ratio_constraint" );
                     // System.out.println( nutrient_ratio_constraint.toString() );
                     try {
-                      dbLink.NutrientRatio_Merge(
-                          mix.get_mixid(),
+                      dbLink.NutrientRatio_Merge(mix.get_mixid(),
                           nutrient_ratio_constraint.getNutrientid_a(),
                           nutrient_ratio_constraint.getNutrientid_b(),
                           nutrient_ratio_constraint.getRelationshipid(),
-                          nutrient_ratio_constraint.getA(),
-                          nutrient_ratio_constraint.getB());
+                          nutrient_ratio_constraint.getA(), nutrient_ratio_constraint.getB());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + mix.get_mixid()
-                      //                                            + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // nutrient_ratio_constraint.getNutrientid_a()
-                      //                                            + " " +
+                      // + " " +
                       // nutrient_ratio_constraint.getNutrientid_b()
-                      //                                            + " " +
+                      // + " " +
                       // nutrient_ratio_constraint.getRelationshipid()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + mix.get_mixid()
-                      //                                                + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // nutrient_ratio_constraint.getNutrientid_a()
-                      //                                                + " " +
+                      // + " " +
                       // nutrient_ratio_constraint.getNutrientid_b()
-                      //                                                + " " +
+                      // + " " +
                       // nutrient_ratio_constraint.getRelationshipid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "nutrient_percent_constraint":
                     // System.out.println( "End nutrient_percent_constraint" );
                     // System.out.println( nutrient_percent_constraint.toString() );
                     try {
-                      dbLink.NutrientPercentConstraint_Merge(
-                          mix.get_mixid(),
+                      dbLink.NutrientPercentConstraint_Merge(mix.get_mixid(),
                           nutrient_percent_constraint.getFoodid(),
                           nutrient_percent_constraint.getNutrientid(),
                           nutrient_percent_constraint.getRelationshipid(),
                           nutrient_percent_constraint.getB());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + mix.get_mixid()
-                      //                                            + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // nutrient_percent_constraint.getFoodid()
-                      //                                            + " " +
+                      // + " " +
                       // nutrient_percent_constraint.getNutrientid()
-                      //                                            + " " +
+                      // + " " +
                       // nutrient_percent_constraint.getRelationshipid()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + mix.get_mixid()
-                      //                                                + " " +
+                      // + " " + mix.get_mixid()
+                      // + " " +
                       // nutrient_percent_constraint.getFoodid()
-                      //                                                + " " +
+                      // + " " +
                       // nutrient_percent_constraint.getNutrientid()
-                      //                                                + " " +
+                      // + " " +
                       // nutrient_percent_constraint.getRelationshipid() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "meal":
                     // System.out.println( "End meal" );
                     // System.out.println( meal );
                     try {
-                      dbLink.Meal_insert_02(
-                          meal.getMixid(), meal.getMealid(), meal.getName(), meal.getMealOrder());
+                      dbLink.Meal_insert_02(meal.getMixid(), meal.getMealid(), meal.getName(),
+                          meal.getMealOrder());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + meal.getMixid()
-                      //                                            + " " + meal.getMealid()
-                      //                                            + " " + meal.getName()
-                      //                                            + " " + meal.getMealOrder()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // + " " + meal.getMixid()
+                      // + " " + meal.getMealid()
+                      // + " " + meal.getName()
+                      // + " " + meal.getMealOrder()
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + meal.getMixid()
-                      //                                                + " " + meal.getMealid()
-                      //                                                + " " + meal.getName()
-                      //                                                + " " + meal.getMealOrder()
+                      // + " " + meal.getMixid()
+                      // + " " + meal.getMealid()
+                      // + " " + meal.getName()
+                      // + " " + meal.getMealOrder()
                       // );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                   case "meal_food_portion":
                     // System.out.println( "End meal_food_portion" );
                     // System.out.println( portion );
                     try {
-                      dbLink.MealFoodPortion_insert(
-                          portion.getMixid(),
-                          portion.getMealid(),
-                          portion.getFoodid(),
-                          portion.getPct(),
-                          portion.getExpectedwt(),
+                      dbLink.MealFoodPortion_insert(portion.getMixid(), portion.getMealid(),
+                          portion.getFoodid(), portion.getPct(), portion.getExpectedwt(),
                           portion.getActualwt());
                     } catch (SQLException ex) {
-                      //                                    System.out.println(
+                      // System.out.println(
                       // ex.getMessage().substring(0, 1).toUpperCase() +
                       // ex.getMessage().substring(1)
-                      //                                            + " " + portion.getMixid()
-                      //                                            + " " + portion.getMealid()
-                      //                                            + " " + portion.getFoodid()
-                      //                                            + " " + portion.getPct()
-                      //                                            + " " + portion.getExpectedwt()
-                      //                                            + " " + portion.getActualwt()
-                      //                                    );
-                      //                                        Log.Log2.append(
+                      // + " " + portion.getMixid()
+                      // + " " + portion.getMealid()
+                      // + " " + portion.getFoodid()
+                      // + " " + portion.getPct()
+                      // + " " + portion.getExpectedwt()
+                      // + " " + portion.getActualwt()
+                      // );
+                      // Log.Log2.append(
                       // ex.getMessage().substring( 0, 1 ).toUpperCase() +
                       // ex.getMessage().substring( 1 )
-                      //                                                + " " + portion.getMixid()
-                      //                                                + " " + portion.getMealid()
-                      //                                                + " " + portion.getFoodid()
-                      //                                                + " " + portion.getPct()
-                      //                                                + " " +
+                      // + " " + portion.getMixid()
+                      // + " " + portion.getMealid()
+                      // + " " + portion.getFoodid()
+                      // + " " + portion.getPct()
+                      // + " " +
                       // portion.getExpectedwt()
-                      //                                                + " " +
+                      // + " " +
                       // portion.getActualwt() );
-                      //                                        Log.Log2.append( "\n" );
+                      // Log.Log2.append( "\n" );
                     }
                     break;
                 }

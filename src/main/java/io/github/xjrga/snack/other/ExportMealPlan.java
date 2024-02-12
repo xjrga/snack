@@ -119,31 +119,30 @@ public class ExportMealPlan {
     try {
       LinkedList<HashMap> list =
           (LinkedList) dbLink.MealFoodPortion_select_all(mixDataObject.getMixId(), 5);
-      list.forEach(
-          rowm -> {
-            String mixid = (String) rowm.get("MIXID");
-            Integer mealid = (Integer) rowm.get("MEALID");
-            String foodid = (String) rowm.get("FOODID");
-            String meal = (String) rowm.get("MEAL");
-            String food = (String) rowm.get("FOOD");
-            Double pct = (Double) rowm.get("PCT");
-            Double expectedwt = (Double) rowm.get("EXPECTEDWT");
-            Double actualwt = (Double) rowm.get("ACTUALWT");
-            row = s.createRow(rownum++);
-            cell = row.createCell(0);
-            cell.setCellValue(meal);
-            cell = row.createCell(1);
-            cell.setCellValue(food);
-            cell.setCellStyle(cellStyleMixValue);
-            cell = row.createCell(2);
-            cell.setCellValue(pct);
-            cell.setCellStyle(cellStyleMixValue);
-            cell = row.createCell(3);
-            cell.setCellValue(expectedwt);
-            cell.setCellStyle(cellStyleMixValue);
-            cell = row.createCell(4);
-            cell.setCellValue(actualwt);
-          });
+      list.forEach(rowm -> {
+        String mixid = (String) rowm.get("MIXID");
+        Integer mealid = (Integer) rowm.get("MEALID");
+        String foodid = (String) rowm.get("FOODID");
+        String meal = (String) rowm.get("MEAL");
+        String food = (String) rowm.get("FOOD");
+        Double pct = (Double) rowm.get("PCT");
+        Double expectedwt = (Double) rowm.get("EXPECTEDWT");
+        Double actualwt = (Double) rowm.get("ACTUALWT");
+        row = s.createRow(rownum++);
+        cell = row.createCell(0);
+        cell.setCellValue(meal);
+        cell = row.createCell(1);
+        cell.setCellValue(food);
+        cell.setCellStyle(cellStyleMixValue);
+        cell = row.createCell(2);
+        cell.setCellValue(pct);
+        cell.setCellStyle(cellStyleMixValue);
+        cell = row.createCell(3);
+        cell.setCellValue(expectedwt);
+        cell.setCellStyle(cellStyleMixValue);
+        cell = row.createCell(4);
+        cell.setCellValue(actualwt);
+      });
       try {
         out = new FileOutputStream(filepath.toString());
         wb.write(out);

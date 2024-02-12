@@ -7,11 +7,8 @@ public class MathProgNutrientRatioConstraint implements MathProgConstraint {
   private final StringBuilder sb;
   private final Double constraintRhsValue;
 
-  public MathProgNutrientRatioConstraint(
-      Integer overallConstraintCount,
-      Integer constraintRelationship,
-      Double constraintRhsValue,
-      String constraintName,
+  public MathProgNutrientRatioConstraint(Integer overallConstraintCount,
+      Integer constraintRelationship, Double constraintRhsValue, String constraintName,
       MathProgPointPair mathprogPair) {
     sb = new StringBuilder();
     sb.append("/* ");
@@ -23,21 +20,21 @@ public class MathProgNutrientRatioConstraint implements MathProgConstraint {
     sb.append(": sum{j in 1..FOODS} (");
     sb.append(mathprogPair.getB());
     sb.append(" * ");
-    sb.append("a[j,");
+    sb.append("c[j,");
     sb.append(mathprogPair.getFirstNutrientPosition());
     sb.append("]");
     sb.append(" - ");
     sb.append(mathprogPair.getA());
     sb.append(" * ");
-    sb.append("a[j,");
+    sb.append("c[j,");
     sb.append(mathprogPair.getSecondNutrientPosition());
     sb.append("])");
     sb.append(" * ");
     sb.append("x[j] ");
     sb.append(LpUtilities.getRelationship(constraintRelationship));
-    sb.append(" b[");
-    sb.append(overallConstraintCount);
-    sb.append("];");
+    sb.append(" ");
+    sb.append(constraintRhsValue);
+    sb.append(";");
     this.constraintRhsValue = constraintRhsValue;
   }
 
@@ -47,7 +44,7 @@ public class MathProgNutrientRatioConstraint implements MathProgConstraint {
   }
 
   @Override
-  public Double getRhs() {
-    return constraintRhsValue;
+  public String getRhs() {
+    return String.valueOf(constraintRhsValue);
   }
 }

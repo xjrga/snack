@@ -444,103 +444,21 @@ public class Xml_food {
 
   @Override
   public String toString() {
-    return "Xml_food{"
-        + "foodid="
-        + foodid
-        + ", name="
-        + name
-        + ", alcohol="
-        + alcohol
-        + ", calcium="
-        + calcium
-        + ", carbohydrate_by_difference="
-        + carbohydrate_by_difference
-        + ", cholesterol="
-        + cholesterol
-        + ", choline="
-        + choline
-        + ", complete_protein="
-        + complete_protein
-        + ", copper="
-        + copper
-        + ", cost="
-        + cost
-        + ", dha="
-        + dha
-        + ", energy_gross="
-        + energy_gross
-        + ", epa="
-        + epa
-        + ", fat="
-        + fat
-        + ", fiber="
-        + fiber
-        + ", folate="
-        + folate
-        + ", iron="
-        + iron
-        + ", linoleic="
-        + linoleic
-        + ", linolenic="
-        + linolenic
-        + ", magnesium="
-        + magnesium
-        + ", manganese="
-        + manganese
-        + ", mufa="
-        + mufa
-        + ", niacin="
-        + niacin
-        + ", pantothenic_acid="
-        + pantothenic_acid
-        + ", phosphorus="
-        + phosphorus
-        + ", potassium="
-        + potassium
-        + ", protein="
-        + protein
-        + ", pufa="
-        + pufa
-        + ", riboflavin="
-        + riboflavin
-        + ", selenium="
-        + selenium
-        + ", sfa="
-        + sfa
-        + ", sodium="
-        + sodium
-        + ", thiamin="
-        + thiamin
-        + ", vitamin_a="
-        + vitamin_a
-        + ", vitamin_b12="
-        + vitamin_b12
-        + ", vitamin_b6="
-        + vitamin_b6
-        + ", vitamin_c="
-        + vitamin_c
-        + ", vitamin_d="
-        + vitamin_d
-        + ", vitamin_e="
-        + vitamin_e
-        + ", vitamin_k="
-        + vitamin_k
-        + ", water="
-        + water
-        + ", weight="
-        + weight
-        + ", zinc="
-        + zinc
-        + ", glycemicindex="
-        + glycemicindex
-        + ", lauric="
-        + lauric
-        + ", myristic="
-        + myristic
-        + ", palmitic="
-        + palmitic
-        + ", stearic="
-        + stearic
+    return "Xml_food{" + "foodid=" + foodid + ", name=" + name + ", alcohol=" + alcohol
+        + ", calcium=" + calcium + ", carbohydrate_by_difference=" + carbohydrate_by_difference
+        + ", cholesterol=" + cholesterol + ", choline=" + choline + ", complete_protein="
+        + complete_protein + ", copper=" + copper + ", cost=" + cost + ", dha=" + dha
+        + ", energy_gross=" + energy_gross + ", epa=" + epa + ", fat=" + fat + ", fiber=" + fiber
+        + ", folate=" + folate + ", iron=" + iron + ", linoleic=" + linoleic + ", linolenic="
+        + linolenic + ", magnesium=" + magnesium + ", manganese=" + manganese + ", mufa=" + mufa
+        + ", niacin=" + niacin + ", pantothenic_acid=" + pantothenic_acid + ", phosphorus="
+        + phosphorus + ", potassium=" + potassium + ", protein=" + protein + ", pufa=" + pufa
+        + ", riboflavin=" + riboflavin + ", selenium=" + selenium + ", sfa=" + sfa + ", sodium="
+        + sodium + ", thiamin=" + thiamin + ", vitamin_a=" + vitamin_a + ", vitamin_b12="
+        + vitamin_b12 + ", vitamin_b6=" + vitamin_b6 + ", vitamin_c=" + vitamin_c + ", vitamin_d="
+        + vitamin_d + ", vitamin_e=" + vitamin_e + ", vitamin_k=" + vitamin_k + ", water=" + water
+        + ", weight=" + weight + ", zinc=" + zinc + ", glycemicindex=" + glycemicindex + ", lauric="
+        + lauric + ", myristic=" + myristic + ", palmitic=" + palmitic + ", stearic=" + stearic
         + '}';
   }
 }

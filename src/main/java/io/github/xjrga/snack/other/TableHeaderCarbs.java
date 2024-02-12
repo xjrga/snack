@@ -5,12 +5,8 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderCarbs extends MyTableHeader {
   public TableHeaderCarbs(TableColumnModel columnModel) {
-    super(
-        columnModel,
-        new String[] {
-          "Food Name", "Weight (g)", "Energy Carbohydrate (Kcal)",
-          "Carbohydrate By Difference (g)", "Fiber, Total (g)", "Digestible Carbohydrate (g)"
-        });
+    super(columnModel, new String[] {"Food Name", "Weight (g)", "Energy Carbohydrate (Kcal)",
+        "Carbohydrate By Difference (g)", "Fiber, Total (g)", "Digestible Carbohydrate (g)"});
   }
 
   @Override

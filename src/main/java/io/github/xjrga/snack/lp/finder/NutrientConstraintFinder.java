@@ -23,10 +23,8 @@ public class NutrientConstraintFinder {
     String relationship = (String) model.getValueAt(specificConstraintCount, 4);
     Double quantity = (Double) model.getValueAt(specificConstraintCount, 5);
     StringBuilder name = new StringBuilder();
-    name.append(
-        overallConstraintCount > 9
-            ? overallConstraintCount
-            : String.format("%1$ 2d", overallConstraintCount));
+    name.append(overallConstraintCount > 9 ? overallConstraintCount
+        : String.format("%1$ 2d", overallConstraintCount));
     name.append(") ");
     name.append(nutrient);
     name.append(" ");
@@ -51,12 +49,7 @@ public class NutrientConstraintFinder {
 
   @Override
   public String toString() {
-    return "NutrientConstraintFinder [name="
-        + this.getNextName()
-        + ", overallConstraintCount="
-        + this.overallConstraintCount
-        + ", nutrientidPosition="
-        + this.nutrientidPosition
-        + "]";
+    return "NutrientConstraintFinder [name=" + this.getNextName() + ", overallConstraintCount="
+        + this.overallConstraintCount + ", nutrientidPosition=" + this.nutrientidPosition + "]";
   }
 }

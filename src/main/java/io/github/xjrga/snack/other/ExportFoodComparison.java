@@ -66,8 +66,8 @@ public class ExportFoodComparison {
     wb.setSheetName(0, sheetname);
   }
 
-  public void print(
-      TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB) {
+  public void print(TableModelFoodComparison modelTableFoodDiff, JList listCompareA,
+      JList listCompareB) {
     if (!listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty()) {
       FoodDataObject food_a = (FoodDataObject) listCompareA.getSelectedValue();
       FoodDataObject food_b = (FoodDataObject) listCompareB.getSelectedValue();

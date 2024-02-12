@@ -12,8 +12,8 @@ public class MixNutrientSelectAllId {
 
   public List<String> apply(String mixid) {
     ArrayList<String> list = new ArrayList<>();
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.getMixNutrientsAll( ? )}"); ) {
+    try (
+        CallableStatement proc = connection.prepareCall("{CALL public.getMixNutrientsAll( ? )}");) {
       proc.setString(1, mixid);
       ResultSet rs = proc.executeQuery();
       while (rs.next()) {

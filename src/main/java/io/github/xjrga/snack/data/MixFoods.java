@@ -21,13 +21,12 @@ public class MixFoods {
     map = new HashMap<>();
     try {
       List<Map<String, String>> all = dbLink.MixFood_Select_All_By_Foodid(mixId);
-      all.forEach(
-          row -> {
-            String foodid = row.get("FOODID");
-            String name = row.get("NAME");
-            map.put(counter, new FoodDataObject(foodid, name));
-            counter++;
-          });
+      all.forEach(row -> {
+        String foodid = row.get("FOODID");
+        String name = row.get("NAME");
+        map.put(counter, new FoodDataObject(foodid, name));
+        counter++;
+      });
       counter = 1;
     } catch (SQLException e) {
     }
@@ -35,14 +34,12 @@ public class MixFoods {
   }
 
   public Integer findPosition(String foodid) {
-    map.entrySet()
-        .forEach(
-            entry -> {
-              FoodDataObject value = entry.getValue();
-              if (foodid.equals(value.getFoodId())) {
-                position = entry.getKey();
-              }
-            });
+    map.entrySet().forEach(entry -> {
+      FoodDataObject value = entry.getValue();
+      if (foodid.equals(value.getFoodId())) {
+        position = entry.getKey();
+      }
+    });
     return position;
   }
 }

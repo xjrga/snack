@@ -43,10 +43,8 @@ public class FoodRatioConstraintFinder {
     nutrient_b = (String) model.getValueAt(specificConstraintCount, 11);
     b = (Double) model.getValueAt(specificConstraintCount, 12);
     StringBuilder sbName = new StringBuilder();
-    sbName.append(
-        overallConstraintCount > 9
-            ? overallConstraintCount
-            : String.format("%1$ 2d", overallConstraintCount));
+    sbName.append(overallConstraintCount > 9 ? overallConstraintCount
+        : String.format("%1$ 2d", overallConstraintCount));
     sbName.append(") ");
     sbName.append(a);
     sbName.append(" ");

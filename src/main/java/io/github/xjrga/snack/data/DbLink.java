@@ -222,8 +222,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void MealFoodPortion_update_actualwt(
-      String mixid, Integer mealid, String foodid, Double actualwt) throws SQLException {
+  public void MealFoodPortion_update_actualwt(String mixid, Integer mealid, String foodid,
+      Double actualwt) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.MealFoodPortion_update_actualwt( ?, ?, ?, ? )}");
     proc.setString(1, mixid);
@@ -243,8 +243,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void MealFoodPortion_insert_and_calculate(
-      String mixid, Integer mealid, String foodid, Double pct) throws SQLException {
+  public void MealFoodPortion_insert_and_calculate(String mixid, Integer mealid, String foodid,
+      Double pct) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.MealFoodPortion_insert_and_calculate( ?, ?, ?, ? )}");
     proc.setString(1, mixid);
@@ -254,9 +254,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void MealFoodPortion_insert(
-      String mixid, Integer mealid, String foodid, Double pct, Double expectedwt, Double actualwt)
-      throws SQLException {
+  public void MealFoodPortion_insert(String mixid, Integer mealid, String foodid, Double pct,
+      Double expectedwt, Double actualwt) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.MealFoodPortion_insert( ?, ?, ?, ?, ?, ? )}");
     proc.setString(1, mixid);
@@ -371,9 +370,8 @@ public class DbLink {
     return ident;
   }
 
-  public void snack_mix_insertmix(
-      String mixid, String name, Integer status, String nutrientid, String model)
-      throws SQLException {
+  public void snack_mix_insertmix(String mixid, String name, Integer status, String nutrientid,
+      String model) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.snack_mix_insertmix( ?, ?, ?, ?, ?)}");
     proc.setString(1, mixid);
@@ -436,8 +434,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void NutrientConstraint_Merge(
-      String MixId, String NutrientId, Integer RelationshipId, Double b) throws SQLException {
+  public void NutrientConstraint_Merge(String MixId, String NutrientId, Integer RelationshipId,
+      Double b) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.NutrientConstraint_Merge( ?, ?, ?, ? )}");
     proc.setString(1, MixId);
@@ -507,9 +505,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void FoodNutrientConstraint_Merge(
-      String MixId, String FoodId, String NutrientId, Integer RelationshipId, Double b)
-      throws SQLException {
+  public void FoodNutrientConstraint_Merge(String MixId, String FoodId, String NutrientId,
+      Integer RelationshipId, Double b) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.FoodNutrientConstraint_Merge( ?, ?, ?, ?, ? )}");
     proc.setString(1, MixId);
@@ -577,8 +574,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void FoodNutrientConstraint_Delete(
-      String MixId, String FoodId, String NutrientId, Integer RelationshipId) throws SQLException {
+  public void FoodNutrientConstraint_Delete(String MixId, String FoodId, String NutrientId,
+      Integer RelationshipId) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.FoodNutrientConstraint_Delete( ?, ?, ?, ? )}");
     proc.setString(1, MixId);
@@ -611,14 +608,8 @@ public class DbLink {
     return list;
   }
 
-  public void NutrientRatio_Merge(
-      String MixId,
-      String Nutrient_Id_1,
-      String Nutrient_Id_2,
-      Integer RelationshipId,
-      Double A,
-      Double B)
-      throws SQLException {
+  public void NutrientRatio_Merge(String MixId, String Nutrient_Id_1, String Nutrient_Id_2,
+      Integer RelationshipId, Double A, Double B) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.NutrientRatio_Merge( ?, ?, ?, ?, ?, ? )}");
     proc.setString(1, MixId);
@@ -630,9 +621,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void NutrientRatio_Delete(
-      String MixId, String Nutrient_Id_1, String Nutrient_Id_2, Integer RelationshipId)
-      throws SQLException {
+  public void NutrientRatio_Delete(String MixId, String Nutrient_Id_1, String Nutrient_Id_2,
+      Integer RelationshipId) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.NutrientRatio_Delete( ?, ?, ?, ? )}");
     proc.setString(1, MixId);
@@ -642,15 +632,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void FoodNutrientRatio_Merge(
-      String MixId,
-      String Food_Id_1,
-      String Nutrient_Id_1,
-      String Food_Id_2,
-      String Nutrient_Id_2,
-      Integer RelationshipId,
-      Double A,
-      Double B)
+  public void FoodNutrientRatio_Merge(String MixId, String Food_Id_1, String Nutrient_Id_1,
+      String Food_Id_2, String Nutrient_Id_2, Integer RelationshipId, Double A, Double B)
       throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.FoodNutrientRatio_Merge( ?, ?, ?, ?, ?, ?, ?, ? )}");
@@ -692,14 +675,8 @@ public class DbLink {
     return list;
   }
 
-  public void FoodNutrientRatio_Delete(
-      String MixId,
-      String Food_Id_1,
-      String Nutrient_Id_1,
-      String Food_Id_2,
-      String Nutrient_Id_2,
-      Integer RelationshipId)
-      throws SQLException {
+  public void FoodNutrientRatio_Delete(String MixId, String Food_Id_1, String Nutrient_Id_1,
+      String Food_Id_2, String Nutrient_Id_2, Integer RelationshipId) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.FoodNutrientRatio_Delete( ?, ?, ?, ?, ?, ? )}");
     proc.setString(1, MixId);
@@ -794,8 +771,8 @@ public class DbLink {
     return list;
   }
 
-  public double[] foodnutrient_lhs(
-      String mixid, String foodid, String nutrientid, Integer relationshipid) throws SQLException {
+  public double[] foodnutrient_lhs(String mixid, String foodid, String nutrientid,
+      Integer relationshipid) throws SQLException {
     CallableStatement proc = connection.prepareCall("{CALL public.foodnutrient_lhs( ?, ?, ?, ? )}");
     proc.setString(1, mixid);
     proc.setString(2, foodid);
@@ -843,14 +820,8 @@ public class DbLink {
     return list;
   }
 
-  public double[] foodnutrientratio_lhs(
-      String mixid,
-      String foodid1,
-      String nutrientid1,
-      String foodid2,
-      String nutrientid2,
-      Integer relationshipid)
-      throws SQLException {
+  public double[] foodnutrientratio_lhs(String mixid, String foodid1, String nutrientid1,
+      String foodid2, String nutrientid2, Integer relationshipid) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.foodnutrientratio_lhs( ?, ?, ?, ?, ?, ? )}");
     proc.setString(1, mixid);
@@ -897,9 +868,8 @@ public class DbLink {
     return list;
   }
 
-  public double[] nutrientratio_lhs(
-      String mixid, String nutrientid1, String nutrientid2, Integer relationshipid)
-      throws SQLException {
+  public double[] nutrientratio_lhs(String mixid, String nutrientid1, String nutrientid2,
+      Integer relationshipid) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.nutrientratio_lhs( ?, ?, ?, ? )}");
     proc.setString(1, mixid);
@@ -1270,8 +1240,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public List<Map<String, Object>> get_food_differences(
-      String food_id_a, String food_id_b, Integer precision) throws SQLException {
+  public List<Map<String, Object>> get_food_differences(String food_id_a, String food_id_b,
+      Integer precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.food_differences_procedure( ?, ?, ? )}");
@@ -1314,8 +1284,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Mix_GetRdaDiff(
-      String MixId, Integer LifeStage, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Mix_GetRdaDiff(String MixId, Integer LifeStage,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.Mix_getRdaDiff( ?, ?, ? )}");
@@ -1357,8 +1327,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Mix_GetMealGIDiff(
-      String MixId1, String MixId2, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Mix_GetMealGIDiff(String MixId1, String MixId2,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.Mix_getMealGIDiff( ?, ?, ? )}");
@@ -1378,8 +1348,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Mix_get_essential_fat_ratio_diff(
-      String MixId1, String MixId2, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Mix_get_essential_fat_ratio_diff(String MixId1, String MixId2,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.get_essential_fat_ratio_difference( ?, ?, ? )}");
@@ -1399,8 +1369,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Mix_get_electrolyte_ratio_diff(
-      String MixId1, String MixId2, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Mix_get_electrolyte_ratio_diff(String MixId1, String MixId2,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.get_electrolyte_ratio_difference( ?, ?, ? )}");
@@ -1420,8 +1390,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Mix_get_polyufat_ratio_diff(
-      String MixId1, String MixId2, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Mix_get_polyufat_ratio_diff(String MixId1, String MixId2,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.get_polyufat_ratio_difference( ?, ?, ? )}");
@@ -1441,8 +1411,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Mix_get_monoufat_ratio_diff(
-      String MixId1, String MixId2, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Mix_get_monoufat_ratio_diff(String MixId1, String MixId2,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.get_monoufat_ratio_difference( ?, ?, ? )}");
@@ -1462,8 +1432,8 @@ public class DbLink {
     return list;
   }
 
-  public List<Map<String, Object>> Nutrient_Lookup_List(
-      String NutrientId, Double value, Integer Precision) throws SQLException {
+  public List<Map<String, Object>> Nutrient_Lookup_List(String NutrientId, Double value,
+      Integer Precision) throws SQLException {
     LinkedList<Map<String, Object>> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.Nutrient_Lookup_List( ?, ?, ? )}");
@@ -1528,9 +1498,8 @@ public class DbLink {
     }
   }
 
-  public void NutrientPercentConstraint_Merge(
-      String mixId, String foodid, String nutr_no, Integer relationshipId, Double b)
-      throws SQLException {
+  public void NutrientPercentConstraint_Merge(String mixId, String foodid, String nutr_no,
+      Integer relationshipId, Double b) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.PercentNutrientConstraint_Merge( ?, ?, ?, ?, ? )}");
     proc.setString(1, mixId);
@@ -1541,8 +1510,8 @@ public class DbLink {
     proc.execute();
   }
 
-  public void PercentNutrientConstraint_Delete(
-      String mixid, String foodid, String nutrientid, Integer relationshipid) throws SQLException {
+  public void PercentNutrientConstraint_Delete(String mixid, String foodid, String nutrientid,
+      Integer relationshipid) throws SQLException {
     CallableStatement proc =
         connection.prepareCall("{CALL public.PercentNutrientConstraint_Delete( ?, ?, ?, ? )}");
     proc.setString(1, mixid);
@@ -1674,8 +1643,8 @@ public class DbLink {
     return list;
   }
 
-  public List<FoodFactSelectForDataInputDataObject> FoodFact_Select_ForDataInput(
-      String FoodId, Integer Precision) throws SQLException {
+  public List<FoodFactSelectForDataInputDataObject> FoodFact_Select_ForDataInput(String FoodId,
+      Integer Precision) throws SQLException {
     LinkedList<FoodFactSelectForDataInputDataObject> list = new LinkedList<>();
     CallableStatement proc;
     proc = connection.prepareCall("{CALL public.FoodFact_Select_ForDataInput( ?, ? )}");

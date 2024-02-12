@@ -8,15 +8,13 @@ import java.sql.SQLException;
 import java.util.List;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-public class MixFoodFactCoefficientsSelectMod {
+public class DriSelect {
   private final Connection connection = Connect.getInstance().getConnection();
 
-  public List<CoefficientMod> apply(String mixid) {
+  public List<CoefficientMod> apply() {
     List<CoefficientMod> list = null;
     BeanListHandler<CoefficientMod> beanListHandler = new BeanListHandler<>(CoefficientMod.class);
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.getMixCoefficientsMod( ? )}"); ) {
-      proc.setString(1, mixid);
+    try (CallableStatement proc = connection.prepareCall("{CALL public.getDri()}");) {
       ResultSet rs = proc.executeQuery();
       list = beanListHandler.handle(rs);
     } catch (SQLException ex) {

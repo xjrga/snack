@@ -12,7 +12,7 @@ public class MixFoodSelect {
 
   public List<String> apply(String mixid) {
     List<String> list = new ArrayList<>();
-    try (CallableStatement proc = connection.prepareCall("{CALL public.getMixFoods( ? )}"); ) {
+    try (CallableStatement proc = connection.prepareCall("{CALL public.getMixFoods( ? )}");) {
       proc.setString(1, mixid);
       ResultSet rs = proc.executeQuery();
       while (rs.next()) {

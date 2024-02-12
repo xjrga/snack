@@ -1,21 +1,18 @@
 /*
- * Snack: Learning Software for Nutrition
- * Copyright (C) 2018 Jorge R Garcia de Alba
- * License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
+ * Snack: Learning Software for Nutrition Copyright (C) 2018 Jorge R Garcia de Alba License:
+ * http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
  */
 package io.github.xjrga.snack.model;
 
@@ -119,138 +116,136 @@ public class TableModelFoodList extends DefaultTableModel implements Round_up, R
     Vector table = new Vector();
     try {
       LinkedList<HashMap> list = (LinkedList) dbLink.Food_Select_Details(precision);
-      list.forEach(
-          rowm -> {
-            // Name
-            String Name = (String) rowm.get("Name");
-            // Mass
-            Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
-            // Energy
-            Double EnergyGross = (Double) rowm.get(Nutrient.ENERGYGROSS.getLabel());
-            Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());
-            Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
-            Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
-            Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
-            Double EnergyAlcohol = (Double) rowm.get(Nutrient.ENERGYALCOHOL.getLabel());
-            Double EnergyFatCarbohydrate =
-                (Double) rowm.get(Nutrient.ENERGYFATCARBOHYDRATE.getLabel());
-            // Macronutrient
-            Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
-            Double DigestibleCarbohydrate =
-                (Double) rowm.get(Nutrient.DIGESTIBLECARBOHYDRATE.getLabel());
-            Double Protein = (Double) rowm.get(Nutrient.PROTEIN.getLabel());
-            Double Alcohol = (Double) rowm.get(Nutrient.ALCOHOL.getLabel());
-            // Electrolytes
-            Double Sodium = (Double) rowm.get(Nutrient.SODIUM.getLabel());
-            Double Potassium = (Double) rowm.get(Nutrient.POTASSIUM.getLabel());
-            // Complete Protein
-            Double CompleteProtein = (Double) rowm.get(Nutrient.COMPLETEPROTEIN.getLabel());
-            // Carbohydrate
-            Double CarbsByDiff = (Double) rowm.get(Nutrient.CARBOHYDRATEBYDIFFERENCE.getLabel());
-            Double Fiber = (Double) rowm.get(Nutrient.FIBER.getLabel());
-            // Minerals
-            Double Calcium = (Double) rowm.get(Nutrient.CALCIUM.getLabel());
-            Double Iron = (Double) rowm.get(Nutrient.IRON.getLabel());
-            Double Magnesium = (Double) rowm.get(Nutrient.MAGNESIUM.getLabel());
-            Double Phosphorus = (Double) rowm.get(Nutrient.PHOSPHORUS.getLabel());
-            Double Zinc = (Double) rowm.get(Nutrient.ZINC.getLabel());
-            Double Copper = (Double) rowm.get(Nutrient.COPPER.getLabel());
-            Double Manganese = (Double) rowm.get(Nutrient.MANGANESE.getLabel());
-            Double Selenium = (Double) rowm.get(Nutrient.SELENIUM.getLabel());
-            // Vitamins
-            Double VitaminA = (Double) rowm.get(Nutrient.VITAMINA.getLabel());
-            Double VitaminE = (Double) rowm.get(Nutrient.VITAMINE.getLabel());
-            Double VitaminD = (Double) rowm.get(Nutrient.VITAMIND.getLabel());
-            Double VitaminC = (Double) rowm.get(Nutrient.VITAMINC.getLabel());
-            Double Thiamin = (Double) rowm.get(Nutrient.THIAMIN.getLabel());
-            Double Riboflavin = (Double) rowm.get(Nutrient.RIBOFLAVIN.getLabel());
-            Double Niacin = (Double) rowm.get(Nutrient.NIACIN.getLabel());
-            Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENICACID.getLabel());
-            Double VitaminB6 = (Double) rowm.get(Nutrient.VITAMINB6.getLabel());
-            Double VitaminB12 = (Double) rowm.get(Nutrient.VITAMINB12.getLabel());
-            Double Choline = (Double) rowm.get(Nutrient.CHOLINE.getLabel());
-            Double VitaminK = (Double) rowm.get(Nutrient.VITAMINK.getLabel());
-            Double Folate = (Double) rowm.get(Nutrient.FOLATE.getLabel());
-            // Fatty Acids
-            Double Cholesterol = (Double) rowm.get(Nutrient.CHOLESTEROL.getLabel());
-            Double Saturated = (Double) rowm.get(Nutrient.SFA.getLabel());
-            Double DHA = (Double) rowm.get(Nutrient.DHA.getLabel());
-            Double EPA = (Double) rowm.get(Nutrient.EPA.getLabel());
-            Double Monounsaturated = (Double) rowm.get(Nutrient.MUFA.getLabel());
-            Double Polyunsaturated = (Double) rowm.get(Nutrient.PUFA.getLabel());
-            Double Linoleic = (Double) rowm.get(Nutrient.LINOLEIC.getLabel());
-            Double Linolenic = (Double) rowm.get(Nutrient.LINOLENIC.getLabel());
-            Double Lauric = (Double) rowm.get(Nutrient.LAURIC.getLabel());
-            Double Myristic = (Double) rowm.get(Nutrient.MYRISTIC.getLabel());
-            Double Palmitic = (Double) rowm.get(Nutrient.PALMITIC.getLabel());
-            Double Stearic = (Double) rowm.get(Nutrient.STEARIC.getLabel());
-            Double Hcsfa = (Double) rowm.get(Nutrient.HCSFA.getLabel());
-            // Glycemic
-            Double GlycemicLoad = (Double) rowm.get(Nutrient.GLYCEMICLOAD.getLabel());
-            // Other
-            Double Water = (Double) rowm.get(Nutrient.WATER.getLabel());
-            Double Cost = (Double) rowm.get(Nutrient.COST.getLabel());
-            // Ids
-            String FoodId = (String) rowm.get("FoodId");
-            Vector row = new Vector();
-            row.add(FoodId);
-            row.add(Name);
-            row.add(Weight);
-            row.add(EnergyGross);
-            row.add(EnergyDigestible);
-            row.add(EnergyFat);
-            row.add(EnergyCarbohydrate);
-            row.add(EnergyProtein);
-            row.add(EnergyAlcohol);
-            row.add(Fat);
-            row.add(DigestibleCarbohydrate);
-            row.add(Protein);
-            row.add(Alcohol);
-            row.add(Sodium);
-            row.add(Potassium);
-            row.add(CompleteProtein);
-            row.add(CarbsByDiff);
-            row.add(Fiber);
-            row.add(Calcium);
-            row.add(Phosphorus);
-            row.add(Magnesium);
-            row.add(Iron);
-            row.add(Zinc);
-            row.add(Copper);
-            row.add(Manganese);
-            row.add(Selenium);
-            row.add(VitaminA);
-            row.add(VitaminD);
-            row.add(VitaminE);
-            row.add(VitaminC);
-            row.add(Thiamin);
-            row.add(Riboflavin);
-            row.add(Niacin);
-            row.add(Pantothenic);
-            row.add(VitaminB6);
-            row.add(VitaminB12);
-            row.add(Choline);
-            row.add(VitaminK);
-            row.add(Folate);
-            row.add(Cholesterol);
-            row.add(Saturated);
-            row.add(Hcsfa);
-            row.add(DHA);
-            row.add(EPA);
-            row.add(Monounsaturated);
-            row.add(Polyunsaturated);
-            row.add(Linoleic);
-            row.add(Linolenic);
-            row.add(Lauric);
-            row.add(Myristic);
-            row.add(Palmitic);
-            row.add(Stearic);
-            row.add(GlycemicLoad);
-            row.add(Water);
-            row.add(Cost);
-            // row.add(CategoryId);
-            table.add(row);
-          });
+      list.forEach(rowm -> {
+        // Name
+        String Name = (String) rowm.get("Name");
+        // Mass
+        Double Weight = (Double) rowm.get(Nutrient.WEIGHT.getLabel());
+        // Energy
+        Double EnergyGross = (Double) rowm.get(Nutrient.ENERGYGROSS.getLabel());
+        Double EnergyDigestible = (Double) rowm.get(Nutrient.ENERGYDIGESTIBLE.getLabel());
+        Double EnergyCarbohydrate = (Double) rowm.get(Nutrient.ENERGYCARBOHYDRATE.getLabel());
+        Double EnergyProtein = (Double) rowm.get(Nutrient.ENERGYPROTEIN.getLabel());
+        Double EnergyFat = (Double) rowm.get(Nutrient.ENERGYFAT.getLabel());
+        Double EnergyAlcohol = (Double) rowm.get(Nutrient.ENERGYALCOHOL.getLabel());
+        Double EnergyFatCarbohydrate = (Double) rowm.get(Nutrient.ENERGYFATCARBOHYDRATE.getLabel());
+        // Macronutrient
+        Double Fat = (Double) rowm.get(Nutrient.FAT.getLabel());
+        Double DigestibleCarbohydrate =
+            (Double) rowm.get(Nutrient.DIGESTIBLECARBOHYDRATE.getLabel());
+        Double Protein = (Double) rowm.get(Nutrient.PROTEIN.getLabel());
+        Double Alcohol = (Double) rowm.get(Nutrient.ALCOHOL.getLabel());
+        // Electrolytes
+        Double Sodium = (Double) rowm.get(Nutrient.SODIUM.getLabel());
+        Double Potassium = (Double) rowm.get(Nutrient.POTASSIUM.getLabel());
+        // Complete Protein
+        Double CompleteProtein = (Double) rowm.get(Nutrient.COMPLETEPROTEIN.getLabel());
+        // Carbohydrate
+        Double CarbsByDiff = (Double) rowm.get(Nutrient.CARBOHYDRATEBYDIFFERENCE.getLabel());
+        Double Fiber = (Double) rowm.get(Nutrient.FIBER.getLabel());
+        // Minerals
+        Double Calcium = (Double) rowm.get(Nutrient.CALCIUM.getLabel());
+        Double Iron = (Double) rowm.get(Nutrient.IRON.getLabel());
+        Double Magnesium = (Double) rowm.get(Nutrient.MAGNESIUM.getLabel());
+        Double Phosphorus = (Double) rowm.get(Nutrient.PHOSPHORUS.getLabel());
+        Double Zinc = (Double) rowm.get(Nutrient.ZINC.getLabel());
+        Double Copper = (Double) rowm.get(Nutrient.COPPER.getLabel());
+        Double Manganese = (Double) rowm.get(Nutrient.MANGANESE.getLabel());
+        Double Selenium = (Double) rowm.get(Nutrient.SELENIUM.getLabel());
+        // Vitamins
+        Double VitaminA = (Double) rowm.get(Nutrient.VITAMINA.getLabel());
+        Double VitaminE = (Double) rowm.get(Nutrient.VITAMINE.getLabel());
+        Double VitaminD = (Double) rowm.get(Nutrient.VITAMIND.getLabel());
+        Double VitaminC = (Double) rowm.get(Nutrient.VITAMINC.getLabel());
+        Double Thiamin = (Double) rowm.get(Nutrient.THIAMIN.getLabel());
+        Double Riboflavin = (Double) rowm.get(Nutrient.RIBOFLAVIN.getLabel());
+        Double Niacin = (Double) rowm.get(Nutrient.NIACIN.getLabel());
+        Double Pantothenic = (Double) rowm.get(Nutrient.PANTOTHENICACID.getLabel());
+        Double VitaminB6 = (Double) rowm.get(Nutrient.VITAMINB6.getLabel());
+        Double VitaminB12 = (Double) rowm.get(Nutrient.VITAMINB12.getLabel());
+        Double Choline = (Double) rowm.get(Nutrient.CHOLINE.getLabel());
+        Double VitaminK = (Double) rowm.get(Nutrient.VITAMINK.getLabel());
+        Double Folate = (Double) rowm.get(Nutrient.FOLATE.getLabel());
+        // Fatty Acids
+        Double Cholesterol = (Double) rowm.get(Nutrient.CHOLESTEROL.getLabel());
+        Double Saturated = (Double) rowm.get(Nutrient.SFA.getLabel());
+        Double DHA = (Double) rowm.get(Nutrient.DHA.getLabel());
+        Double EPA = (Double) rowm.get(Nutrient.EPA.getLabel());
+        Double Monounsaturated = (Double) rowm.get(Nutrient.MUFA.getLabel());
+        Double Polyunsaturated = (Double) rowm.get(Nutrient.PUFA.getLabel());
+        Double Linoleic = (Double) rowm.get(Nutrient.LINOLEIC.getLabel());
+        Double Linolenic = (Double) rowm.get(Nutrient.LINOLENIC.getLabel());
+        Double Lauric = (Double) rowm.get(Nutrient.LAURIC.getLabel());
+        Double Myristic = (Double) rowm.get(Nutrient.MYRISTIC.getLabel());
+        Double Palmitic = (Double) rowm.get(Nutrient.PALMITIC.getLabel());
+        Double Stearic = (Double) rowm.get(Nutrient.STEARIC.getLabel());
+        Double Hcsfa = (Double) rowm.get(Nutrient.HCSFA.getLabel());
+        // Glycemic
+        Double GlycemicLoad = (Double) rowm.get(Nutrient.GLYCEMICLOAD.getLabel());
+        // Other
+        Double Water = (Double) rowm.get(Nutrient.WATER.getLabel());
+        Double Cost = (Double) rowm.get(Nutrient.COST.getLabel());
+        // Ids
+        String FoodId = (String) rowm.get("FoodId");
+        Vector row = new Vector();
+        row.add(FoodId);
+        row.add(Name);
+        row.add(Weight);
+        row.add(EnergyGross);
+        row.add(EnergyDigestible);
+        row.add(EnergyFat);
+        row.add(EnergyCarbohydrate);
+        row.add(EnergyProtein);
+        row.add(EnergyAlcohol);
+        row.add(Fat);
+        row.add(DigestibleCarbohydrate);
+        row.add(Protein);
+        row.add(Alcohol);
+        row.add(Sodium);
+        row.add(Potassium);
+        row.add(CompleteProtein);
+        row.add(CarbsByDiff);
+        row.add(Fiber);
+        row.add(Calcium);
+        row.add(Phosphorus);
+        row.add(Magnesium);
+        row.add(Iron);
+        row.add(Zinc);
+        row.add(Copper);
+        row.add(Manganese);
+        row.add(Selenium);
+        row.add(VitaminA);
+        row.add(VitaminD);
+        row.add(VitaminE);
+        row.add(VitaminC);
+        row.add(Thiamin);
+        row.add(Riboflavin);
+        row.add(Niacin);
+        row.add(Pantothenic);
+        row.add(VitaminB6);
+        row.add(VitaminB12);
+        row.add(Choline);
+        row.add(VitaminK);
+        row.add(Folate);
+        row.add(Cholesterol);
+        row.add(Saturated);
+        row.add(Hcsfa);
+        row.add(DHA);
+        row.add(EPA);
+        row.add(Monounsaturated);
+        row.add(Polyunsaturated);
+        row.add(Linoleic);
+        row.add(Linolenic);
+        row.add(Lauric);
+        row.add(Myristic);
+        row.add(Palmitic);
+        row.add(Stearic);
+        row.add(GlycemicLoad);
+        row.add(Water);
+        row.add(Cost);
+        // row.add(CategoryId);
+        table.add(row);
+      });
       this.setDataVector(table, columns);
     } catch (SQLException e) {
     }

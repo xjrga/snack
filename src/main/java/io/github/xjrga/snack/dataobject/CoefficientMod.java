@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.dataobject;
 
-public class CoefficientMod {
+public class CoefficientMod implements Comparable {
   private Integer row;
   // other-weight
   private Double n10000;
@@ -615,59 +615,72 @@ public class CoefficientMod {
     sb.append('}');
     return sb.toString();
   }
+
+  @Override
+  public int compareTo(Object obj) {
+    CoefficientMod other = (CoefficientMod) obj;
+    int test = 0;
+    if (this.getRow() < other.getRow()) {
+      test = -1;
+    }
+    if (this.getRow() > other.getRow()) {
+      test = 1;
+    }
+    return test;
+  }
 }
-// NUTRIENTID	LABEL
-// 10000	other-weight
-// 10001	protein-complete
-// 10003	carbohydrates-digestible
-// 10005	other-cost
-// 10006	carbohydrates-glycemic_load
-// 10009	energy-digestible
-// 10010	energy-fat_and_carbohydrate
-// 10011	energy-carbohydrate
-// 10012	energy-protein
-// 10013	energy-fat
-// 10014	energy-alcohol
-// 10015	fats-hcsfa
-// 203	protein-total
-// 204	fats-total
-// 205	carbohydrates-carbs_by_diff
-// 208	energy-gross
-// 221	other-alcohol
-// 255	other-water
-// 291	carbohydrates-fiber
-// 301	minerals-calcium
-// 303	minerals-iron
-// 304	minerals-magnesium
-// 305	minerals-phosphorus
-// 306	minerals-potassium
-// 307	minerals-sodium
-// 309	minerals-zinc
-// 312	minerals-copper
-// 315	minerals-manganese
-// 317	minerals-selenium
-// 320	vitamins-vitamin_a
-// 323	vitamins-vitamin_e
-// 328	vitamins-vitamin_d
-// 401	vitamins-vitamin_c
-// 404	vitamins-thiamin
-// 405	vitamins-riboflavin
-// 406	vitamins-niacin
-// 410	vitamins-pantothenic_acid
-// 415	vitamins-vitamin_b6
-// 418	vitamins-vitamin_b12
-// 421	vitamins-choline
-// 430	vitamins-vitamin_k
-// 435	vitamins-folate
-// 601	fats-cholesterol
-// 606	fats-saturated
-// 611	fats-lauric
-// 612	fats-myristic
-// 613	fats-palmitic
-// 614	fats-stearic
-// 618	fats-linoleic
-// 619	fats-linolenic
-// 621	fats-dha
-// 629	fats-epa
-// 645	fats-monounsaturated
-// 646	fats-polyunsaturated
+// NUTRIENTID LABEL
+// 10000 other-weight
+// 10001 protein-complete
+// 10003 carbohydrates-digestible
+// 10005 other-cost
+// 10006 carbohydrates-glycemic_load
+// 10009 energy-digestible
+// 10010 energy-fat_and_carbohydrate
+// 10011 energy-carbohydrate
+// 10012 energy-protein
+// 10013 energy-fat
+// 10014 energy-alcohol
+// 10015 fats-hcsfa
+// 203 protein-total
+// 204 fats-total
+// 205 carbohydrates-carbs_by_diff
+// 208 energy-gross
+// 221 other-alcohol
+// 255 other-water
+// 291 carbohydrates-fiber
+// 301 minerals-calcium
+// 303 minerals-iron
+// 304 minerals-magnesium
+// 305 minerals-phosphorus
+// 306 minerals-potassium
+// 307 minerals-sodium
+// 309 minerals-zinc
+// 312 minerals-copper
+// 315 minerals-manganese
+// 317 minerals-selenium
+// 320 vitamins-vitamin_a
+// 323 vitamins-vitamin_e
+// 328 vitamins-vitamin_d
+// 401 vitamins-vitamin_c
+// 404 vitamins-thiamin
+// 405 vitamins-riboflavin
+// 406 vitamins-niacin
+// 410 vitamins-pantothenic_acid
+// 415 vitamins-vitamin_b6
+// 418 vitamins-vitamin_b12
+// 421 vitamins-choline
+// 430 vitamins-vitamin_k
+// 435 vitamins-folate
+// 601 fats-cholesterol
+// 606 fats-saturated
+// 611 fats-lauric
+// 612 fats-myristic
+// 613 fats-palmitic
+// 614 fats-stearic
+// 618 fats-linoleic
+// 619 fats-linolenic
+// 621 fats-dha
+// 629 fats-epa
+// 645 fats-monounsaturated
+// 646 fats-polyunsaturated

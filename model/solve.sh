@@ -30,11 +30,11 @@ fi
 
 fi
 
-count=`ls -1 snack_glpk_*.lp 2>/dev/null | wc -l`
+count=`ls -1 snack_cplex_*.lp 2>/dev/null | wc -l`
 if [ $count != 0 ]
 then
 
-for model in `ls snack_glpk_*.lp`; do
+for model in `ls snack_cplex_*.lp`; do
 if !(glpsol --name $model --lp $model -o $model.sol 1>>temp2.txt 2>&1)
 then
 	echo "-----------------------------------------------------------------" >> errors.txt

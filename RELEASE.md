@@ -420,4 +420,8 @@ RELEASE NOTES
 
 1330
 
-      Add linear programming model GNU MathProg modeling language file generation
+      Add GNU MathProg modeling language linear programming model file generation
+      
+1340
+
+      Add GNU MathProg modeling language linear programming expanded model file generation    

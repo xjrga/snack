@@ -31,8 +31,8 @@ public class CplexPrintOut {
       if (c < 0) {
         objectiveFunctionCoefficients.append(String.format(" - %1$ 35.17f X%2$02d", c, i + 1));
       } else {
-        objectiveFunctionCoefficients.append(
-            String.format(" + %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
+        objectiveFunctionCoefficients
+            .append(String.format(" + %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
       }
     }
   }
