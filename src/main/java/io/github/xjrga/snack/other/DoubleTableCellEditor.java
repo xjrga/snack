@@ -19,8 +19,8 @@ public class DoubleTableCellEditor extends AbstractCellEditor implements TableCe
   JTextField textfield = (JTextField) component;
 
   @Override
-  public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
-      int rowIndex, int vColIndex) {
+  public Component getTableCellEditorComponent(
+      JTable table, Object value, boolean isSelected, int rowIndex, int vColIndex) {
     // if editing
     textfield.selectAll();
     textfield.setText("");

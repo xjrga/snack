@@ -29,10 +29,11 @@ public class CplexPrintOut {
     for (int i = 0; i < coefficients.length; i++) {
       double c = coefficients[i];
       if (c < 0) {
-        objectiveFunctionCoefficients.append(String.format(" - %1$ 35.17f X%2$02d", c, i + 1));
+        objectiveFunctionCoefficients.append(
+            String.format(" - %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
       } else {
-        objectiveFunctionCoefficients
-            .append(String.format(" + %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
+        objectiveFunctionCoefficients.append(
+            String.format(" + %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
       }
     }
   }
@@ -52,7 +53,7 @@ public class CplexPrintOut {
       if (c < 0) {
         constraintCoefficients.append(String.format(" - %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
       } else {
-        constraintCoefficients.append(String.format(" + %1$ 35.17f X%2$02d", c, i + 1));
+        constraintCoefficients.append(String.format(" + %1$ 35.17f X%2$02d", Math.abs(c), i + 1));
       }
     }
     constraintCoefficients.append(" ");

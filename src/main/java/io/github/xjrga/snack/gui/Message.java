@@ -1,6 +1,7 @@
 package io.github.xjrga.snack.gui;
 
 import io.github.xjrga.snack.other.ImageUtilities;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
@@ -82,5 +83,23 @@ public class Message {
     JDialog dialog = optionPane.createDialog(title);
     dialog.setIconImage(logo);
     dialog.setVisible(true);
+  }
+
+  public static void showMessagePad(Integer width, Integer height, String title, String text) {
+    JTextArea pad = new JTextArea();
+    pad.setLineWrap(true);
+    pad.setText(text);
+    JScrollPane sp = new JScrollPane(pad);
+    sp.setPreferredSize(new Dimension(width, height));
+    JComponent[] inputs = new JComponent[] {sp};
+    showOptionDialog(inputs, title);
+  }
+
+  public static void showMessagePadW510H150(String title, String text) {
+    showMessagePad(510, 150, title, text);
+  }
+
+  public static void showMessagePadW510(Integer height, String title, String text) {
+    showMessagePad(510, height, title, text);
   }
 }

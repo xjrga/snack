@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp.finder;
 
-import io.github.xjrga.snack.model.TableModelFoodNutrientConstraints;
+import io.github.xjrga.snack.datamodel.TableModelFoodNutrientConstraints;
 
 public class FoodConstraintFinder {
   private TableModelFoodNutrientConstraints model;
@@ -24,8 +24,10 @@ public class FoodConstraintFinder {
     String relationship = (String) model.getValueAt(specificConstraintCount, 6);
     Double quantity = (Double) model.getValueAt(specificConstraintCount, 7);
     StringBuilder name = new StringBuilder();
-    name.append(overallConstraintCount > 9 ? overallConstraintCount
-        : String.format("%1$ 2d", overallConstraintCount));
+    name.append(
+        overallConstraintCount > 9
+            ? overallConstraintCount
+            : String.format("%1$ 2d", overallConstraintCount));
     name.append(") ");
     name.append(food);
     name.append(" ");

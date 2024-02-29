@@ -5,8 +5,11 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderElectrolytes extends MyTableHeader {
   public TableHeaderElectrolytes(TableColumnModel columnModel) {
-    super(columnModel, new String[] {"Food Name", "Weight (g)", "Water (g)", "Potassium, K (mg)",
-        "Sodium, Na (mg)"});
+    super(
+        columnModel,
+        new String[] {
+          "Food Name", "Weight (g)", "Water (g)", "Potassium, K (mg)", "Sodium, Na (mg)"
+        });
   }
 
   @Override

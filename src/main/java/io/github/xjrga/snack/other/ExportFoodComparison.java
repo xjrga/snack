@@ -2,7 +2,7 @@ package io.github.xjrga.snack.other;
 
 import io.github.xjrga.snack.dataobject.FoodDataObject;
 import io.github.xjrga.snack.gui.Message;
-import io.github.xjrga.snack.model.TableModelFoodComparison;
+import io.github.xjrga.snack.datamodel.TableModelFoodComparison;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -66,8 +66,8 @@ public class ExportFoodComparison {
     wb.setSheetName(0, sheetname);
   }
 
-  public void print(TableModelFoodComparison modelTableFoodDiff, JList listCompareA,
-      JList listCompareB) {
+  public void print(
+      TableModelFoodComparison modelTableFoodDiff, JList listCompareA, JList listCompareB) {
     if (!listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty()) {
       FoodDataObject food_a = (FoodDataObject) listCompareA.getSelectedValue();
       FoodDataObject food_b = (FoodDataObject) listCompareB.getSelectedValue();

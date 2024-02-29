@@ -5,8 +5,11 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderProtein extends MyTableHeader {
   public TableHeaderProtein(TableColumnModel columnModel) {
-    super(columnModel, new String[] {"Food Name", "Weight (g)", "Energy Protein (Kcal)",
-        "Protein (g)", "Complete Protein (g)"});
+    super(
+        columnModel,
+        new String[] {
+          "Food Name", "Weight (g)", "Energy Protein (Kcal)", "Protein (g)", "Complete Protein (g)"
+        });
   }
 
   @Override

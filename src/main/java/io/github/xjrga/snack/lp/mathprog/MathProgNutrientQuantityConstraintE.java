@@ -1,14 +1,16 @@
 package io.github.xjrga.snack.lp.mathprog;
 
-import io.github.xjrga.snack.data.MathProgPoint;
 import io.github.xjrga.snack.lp.LpUtilities;
 
 public class MathProgNutrientQuantityConstraintE implements MathProgConstraint {
   private final StringBuilder sb;
   private final Double constraintRhsValue;
 
-  public MathProgNutrientQuantityConstraintE(Integer overallConstraintCount,
-      Integer constraintRelationship, Double constraintRhsValue, String constraintName,
+  public MathProgNutrientQuantityConstraintE(
+      Integer overallConstraintCount,
+      Integer constraintRelationship,
+      Double constraintRhsValue,
+      String constraintName,
       MathProgPoint mathprogPoint) {
     sb = new StringBuilder();
     sb.append("/* ");

@@ -5,11 +5,17 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderPufa extends MyTableHeader {
   public TableHeaderPufa(TableColumnModel columnModel) {
-    super(columnModel,
-        new String[] {"Food Name", "Weight (g)", "Polyunsaturated Fat (g)",
-            "Linoleic Acid, 18:2n-6 (g). It is an essential fat.",
-            "Alpha-Linolenic Acid, 18:3n−3 (g) It is an essential fat.",
-            "Eicosapentaenoic Acid, 20:5n−3 (g)", "Docosahexaenoic Acid,  22:6n−3 (g)"});
+    super(
+        columnModel,
+        new String[] {
+          "Food Name",
+          "Weight (g)",
+          "Polyunsaturated Fat (g)",
+          "Linoleic Acid, 18:2n-6 (g). It is an essential fat.",
+          "Alpha-Linolenic Acid, 18:3n−3 (g) It is an essential fat.",
+          "Eicosapentaenoic Acid, 20:5n−3 (g)",
+          "Docosahexaenoic Acid,  22:6n−3 (g)"
+        });
   }
 
   @Override

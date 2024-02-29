@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp.finder;
 
-import io.github.xjrga.snack.model.TableModelPercentNutrientConstraints;
+import io.github.xjrga.snack.datamodel.TableModelPercentNutrientConstraints;
 
 public class FoodPercentConstraintFinder {
   private TableModelPercentNutrientConstraints model;
@@ -25,8 +25,10 @@ public class FoodPercentConstraintFinder {
     String relationship = (String) model.getValueAt(specificConstraintCount, 6);
     percent = (Double) model.getValueAt(specificConstraintCount, 7);
     StringBuilder name = new StringBuilder();
-    name.append(overallConstraintCount > 9 ? overallConstraintCount
-        : String.format("%1$ 2d", overallConstraintCount));
+    name.append(
+        overallConstraintCount > 9
+            ? overallConstraintCount
+            : String.format("%1$ 2d", overallConstraintCount));
     name.append(") ");
     name.append(food);
     name.append(" ");

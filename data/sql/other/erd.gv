@@ -53,9 +53,6 @@ digraph example_1 {
             <tr><td bgcolor="yellow">Mix</td></tr>
             <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
             <tr><td align="left">Name: LONGVARCHAR</td></tr>
-            <tr><td align="left">ADate: DATE</td></tr>
-            <tr><td align="left">ATime: TIME</td></tr>
-            <tr><td align="left">Status: INTEGER</td></tr>
             <tr><td align="left">NutrientId: LONGVARCHAR</td></tr>
             <tr><td align="left">Model: LONGVARCHAR</td></tr>
         </table>
@@ -221,6 +218,14 @@ digraph example_1 {
             <tr><td align="left">....</td></tr>
         </table>
     >]
+    MixCost [shape=Mrecord, label=<
+        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="yellow">MixCost</td></tr>
+            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
+            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+            <tr><td align="left">cost: DOUBLE</td></tr>
+        </table>
+    >]
 
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "FoodCategory" -> "CategoryLink" [dir=forward,weight=1];
@@ -298,5 +303,6 @@ digraph example_1 {
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "MixFood" -> "Zfc" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    
+    "MixFood" -> "MixCost" [dir=forward,weight=1];
+    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 }

@@ -2,15 +2,21 @@ package io.github.xjrga.snack.gui;
 
 public class RowBuild {
   enum rowAlignment {
-    TOP, CENTER, BOTTOM, FILL;
+    TOP,
+    CENTER,
+    BOTTOM,
+    FILL;
   }
 
   enum resizeBehavior {
-    NONE, GROW;
+    NONE,
+    GROW;
   }
 
   enum componentSize {
-    MIN, PREF, DEFAULT;
+    MIN,
+    PREF,
+    DEFAULT;
   }
 
   private final StringBuilder columns;

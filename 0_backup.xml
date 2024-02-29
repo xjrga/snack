@@ -27,11 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	<!-- make project backup -->
 	<target name="backup" depends="clean">
 		<echo>
-			Backup files to
-			../backups/${pom.project.name}_${pom.project.version}_${timestamp}.tgz</echo>
+			Backup files to ${pom.project.name}_${pom.project.version}_${timestamp}.tgz</echo>
 		<exec executable="tar">
 			<arg line="czfv" />
-			<arg line="../backups/'${pom.project.name}'_'${pom.project.version}'_'${timestamp}'.tgz" />
+			<arg line="../../backups/backups_snack/'${pom.project.name}'_'${pom.project.version}'_'${timestamp}'.tgz" />
 			<arg line="." />
 		</exec>
 	</target>

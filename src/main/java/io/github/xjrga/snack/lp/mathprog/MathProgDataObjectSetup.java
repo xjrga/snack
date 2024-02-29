@@ -1,8 +1,5 @@
 package io.github.xjrga.snack.lp.mathprog;
 
-import io.github.xjrga.snack.data.ZfcSave;
-import io.github.xjrga.snack.data.ZffSave;
-
 public class MathProgDataObjectSetup {
 
   private String paramC;
@@ -10,8 +7,6 @@ public class MathProgDataObjectSetup {
   private String paramD;
 
   public MathProgDataObjectSetup(String mixid) {
-    (new ZffSave()).apply(mixid);
-    (new ZfcSave()).apply(mixid);
     MathProgParamC mathProgParamC = new MathProgParamC(mixid);
     MathProgParamF mathProgParamF = new MathProgParamF(mixid);
     MathProgParamD mathProgParamD = new MathProgParamD();

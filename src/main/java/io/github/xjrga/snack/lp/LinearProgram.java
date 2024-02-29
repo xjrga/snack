@@ -79,8 +79,10 @@ public class LinearProgram {
       if (!linearConstraintSet.getConstraints().isEmpty()) {
         GoalType minimize = GoalType.MINIMIZE;
         NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint(true);
-        PointValuePair solution = (new SimplexSolver()).optimize(linearObjectiveFunction,
-            linearConstraintSet, minimize, nonNegativeConstraint);
+        PointValuePair solution =
+            (new SimplexSolver())
+                .optimize(
+                    linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint);
         point = solution.getPoint();
         cost = solution.getSecond();
         flag = true;

@@ -19,7 +19,6 @@ package io.github.xjrga.snack.dataobject;
 public class MixDataObject {
   private String MixId;
   private String Name;
-  private Integer status;
   private String nutrientid;
   private String model;
 
@@ -44,14 +43,6 @@ public class MixDataObject {
 
   public void setName(String Name) {
     this.Name = Name;
-  }
-
-  public Integer getStatus() {
-    return status;
-  }
-
-  public void setStatus(Integer status) {
-    this.status = status;
   }
 
   public String getNutrientid() {

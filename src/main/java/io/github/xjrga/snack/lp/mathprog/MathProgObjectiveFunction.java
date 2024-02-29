@@ -1,7 +1,5 @@
 package io.github.xjrga.snack.lp.mathprog;
 
-import io.github.xjrga.snack.data.MathProgPoint;
-
 public class MathProgObjectiveFunction implements MathProgConstraint {
   private final StringBuilder sb;
 

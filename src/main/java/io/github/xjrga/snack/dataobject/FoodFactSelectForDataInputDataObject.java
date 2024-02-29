@@ -42,7 +42,15 @@ public class FoodFactSelectForDataInputDataObject {
 
   @Override
   public String toString() {
-    return "FoodFactSelectForDataInputDataObject{" + "Category=" + Category + ", Nutrient="
-        + Nutrient + ", q=" + q + ", NutrientId=" + NutrientId + '}';
+    return "FoodFactSelectForDataInputDataObject{"
+        + "Category="
+        + Category
+        + ", Nutrient="
+        + Nutrient
+        + ", q="
+        + q
+        + ", NutrientId="
+        + NutrientId
+        + '}';
   }
 }

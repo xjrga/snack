@@ -1,7 +1,6 @@
 package io.github.xjrga.snack.other;
 
-import io.github.xjrga.snack.data.DbLink;
-import io.github.xjrga.snack.data.Nutrient;
+import io.github.xjrga.snack.database.DbLink;
 import io.github.xjrga.snack.gui.Message;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -81,17 +80,18 @@ public class ExportFoodList {
         fillRowCellWithColumnName(number, nutrient.getName());
       }
       LinkedList<HashMap> list = (LinkedList) dbLink.Food_Select_Details(5);
-      list.forEach(rowm -> {
-        String Name = (String) rowm.get("Name");
-        createNewRow();
-        fillRowCellWithFoodValue(Name, 0);
-        // Rest of values
-        for (Nutrient nutrient : Nutrient.values()) {
-          Double value = (Double) rowm.get(nutrient.getLabel());
-          int number = nutrient.ordinal() + 1;
-          fillRowCellWithFoodValue(value, number);
-        }
-      });
+      list.forEach(
+          rowm -> {
+            String Name = (String) rowm.get("Name");
+            createNewRow();
+            fillRowCellWithFoodValue(Name, 0);
+            // Rest of values
+            for (Nutrient nutrient : Nutrient.values()) {
+              Double value = (Double) rowm.get(nutrient.getLabel());
+              int number = nutrient.ordinal() + 1;
+              fillRowCellWithFoodValue(value, number);
+            }
+          });
       try {
         out = new FileOutputStream(filepath.toString());
         wb.write(out);

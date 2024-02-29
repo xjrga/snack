@@ -1,14 +1,17 @@
 package io.github.xjrga.snack.lp.mathprog;
 
-import io.github.xjrga.snack.data.MathProgPointPair;
 import io.github.xjrga.snack.lp.LpUtilities;
 
 public class MathProgFoodRatioConstraint implements MathProgConstraint {
   private final StringBuilder sb;
   private final Double constraintRhsValue;
 
-  public MathProgFoodRatioConstraint(Integer overallConstraintCount, Integer constraintRelationship,
-      Double constraintRhsValue, String constraintName, MathProgPointPair mathprogPair) {
+  public MathProgFoodRatioConstraint(
+      Integer overallConstraintCount,
+      Integer constraintRelationship,
+      Double constraintRhsValue,
+      String constraintName,
+      MathProgPointPair mathprogPair) {
     sb = new StringBuilder();
     sb.append("/* ");
     sb.append(constraintName);

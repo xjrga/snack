@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.other;
 
-import io.github.xjrga.snack.data.DbLink;
+import io.github.xjrga.snack.database.DbLink;
 import io.github.xjrga.snack.dataobject.NutrientDataObject;
 import io.github.xjrga.snack.gui.Message;
 import java.io.FileOutputStream;
@@ -96,8 +96,8 @@ public class ExportNutrientLookup {
     return cellStyleMixName;
   }
 
-  public void print(JTextField textFieldNutrientLookup,
-      JComboBox comboBoxNutrientLookupListNutrient) {
+  public void print(
+      JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient) {
     NutrientDataObject nutrientDataObject =
         (NutrientDataObject) comboBoxNutrientLookupListNutrient.getSelectedItem();
     row = s.createRow(rownum++);
@@ -121,23 +121,27 @@ public class ExportNutrientLookup {
     cell.setCellStyle(cellStyleColumnName);
     try {
       LinkedList<HashMap> list =
-          (LinkedList) dbLink.Nutrient_Lookup_List(nutrientDataObject.getNutr_no(),
-              Double.valueOf(textFieldNutrientLookup.getText()), 5);
-      list.forEach(rowm -> {
-        String foodname = (String) rowm.get("NAME");
-        Double calories = (Double) rowm.get("CALORIES");
-        Double weight = (Double) rowm.get("WEIGHT");
-        row = s.createRow(rownum++);
-        cell = row.createCell(0);
-        cell.setCellStyle(cellStyleValue);
-        cell.setCellValue(foodname);
-        cell = row.createCell(1);
-        cell.setCellValue(weight);
-        cell.setCellStyle(cellStyleValue);
-        cell = row.createCell(2);
-        cell.setCellValue(calories);
-        cell.setCellStyle(cellStyleValue);
-      });
+          (LinkedList)
+              dbLink.Nutrient_Lookup_List(
+                  nutrientDataObject.getNutr_no(),
+                  Double.valueOf(textFieldNutrientLookup.getText()),
+                  5);
+      list.forEach(
+          rowm -> {
+            String foodname = (String) rowm.get("NAME");
+            Double calories = (Double) rowm.get("CALORIES");
+            Double weight = (Double) rowm.get("WEIGHT");
+            row = s.createRow(rownum++);
+            cell = row.createCell(0);
+            cell.setCellStyle(cellStyleValue);
+            cell.setCellValue(foodname);
+            cell = row.createCell(1);
+            cell.setCellValue(weight);
+            cell.setCellStyle(cellStyleValue);
+            cell = row.createCell(2);
+            cell.setCellValue(calories);
+            cell.setCellStyle(cellStyleValue);
+          });
     } catch (SQLException e) {
     }
     try {

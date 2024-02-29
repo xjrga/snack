@@ -5,8 +5,16 @@ import javax.swing.table.TableColumnModel;
 
 public class TableHeaderMacroNutrient extends MyTableHeader {
   public TableHeaderMacroNutrient(TableColumnModel columnModel) {
-    super(columnModel, new String[] {"Food Name", "Weight (g)", "Fat (g)",
-        "Digestible Carbohydrate (g)", "Protein (g)", "Alcohol (g)"});
+    super(
+        columnModel,
+        new String[] {
+          "Food Name",
+          "Weight (g)",
+          "Fat (g)",
+          "Digestible Carbohydrate (g)",
+          "Protein (g)",
+          "Alcohol (g)"
+        });
   }
 
   @Override

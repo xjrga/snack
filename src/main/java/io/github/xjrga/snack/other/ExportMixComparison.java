@@ -2,7 +2,7 @@ package io.github.xjrga.snack.other;
 
 import io.github.xjrga.snack.dataobject.MixDataObject;
 import io.github.xjrga.snack.gui.Message;
-import io.github.xjrga.snack.model.TableModelMixComparison;
+import io.github.xjrga.snack.datamodel.TableModelMixComparison;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -66,8 +66,8 @@ public class ExportMixComparison {
     wb.setSheetName(0, sheetname);
   }
 
-  public void print(TableModelMixComparison modelTableMixDiff, JList listCompareA,
-      JList listCompareB) {
+  public void print(
+      TableModelMixComparison modelTableMixDiff, JList listCompareA, JList listCompareB) {
     if (!listCompareA.isSelectionEmpty() && !listCompareB.isSelectionEmpty()) {
       MixDataObject mix1 = (MixDataObject) listCompareA.getSelectedValue();
       MixDataObject mix2 = (MixDataObject) listCompareB.getSelectedValue();

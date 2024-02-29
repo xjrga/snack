@@ -89,9 +89,6 @@ CREATE TABLE Mix
 (
         MixId LONGVARCHAR,
         Name LONGVARCHAR,
-        ADate DATE,
-        ATime TIME,
-        Status INTEGER,
         NutrientId LONGVARCHAR,
         Model LONGVARCHAR,
         CONSTRAINT Mix_primary_key PRIMARY KEY (MixId)
@@ -305,7 +302,8 @@ CREATE TABLE ZFC
    N621    DOUBLE,
    N629    DOUBLE,
    N645    DOUBLE,
-   N646    DOUBLE
+   N646    DOUBLE,
+   CONSTRAINT zfc_primary_key PRIMARY KEY (mixid,foodid)
 );
 /
 CREATE TABLE ZFF
@@ -366,7 +364,15 @@ CREATE TABLE ZFF
    N621    DOUBLE,
    N629    DOUBLE,
    N645    DOUBLE,
-   N646    DOUBLE
+   N646    DOUBLE,
+   CONSTRAINT zff_primary_key PRIMARY KEY (mixid,foodid)
+);
+/
+CREATE TABLE MixCost
+(
+        mixid LONGVARCHAR,
+        mixcost DOUBLE,
+        CONSTRAINT mixcost_primary_key PRIMARY KEY (mixid)
 );
 /
 ALTER TABLE Nutrient ADD CONSTRAINT R0_NutrientCategory_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
@@ -445,5 +451,6 @@ ALTER TABLE zff ADD CONSTRAINT R36_MixFood_Zff FOREIGN KEY (mixid, foodid) REFER
 /
 ALTER TABLE zfc ADD CONSTRAINT R37_MixFood_Zfc FOREIGN KEY (mixid, foodid) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
-
+ALTER TABLE MixCost ADD CONSTRAINT R38_Mix_MixCost FOREIGN KEY (mixid) REFERENCES Mix (MixId) ON DELETE CASCADE;
+/
 

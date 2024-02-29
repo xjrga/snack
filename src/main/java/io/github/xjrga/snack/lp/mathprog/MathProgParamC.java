@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp.mathprog;
 
-import io.github.xjrga.snack.data.FoodFactData;
+import io.github.xjrga.snack.sql.FoodFactData;
 import io.github.xjrga.snack.dataobject.CoefficientMod;
 import java.util.List;
 
@@ -8,17 +8,18 @@ public class MathProgParamC {
   private final String paramA;
 
   public MathProgParamC(String mixid) {
-    List<CoefficientMod> coefficients = (new FoodFactData()).apply(mixid);
+    List<CoefficientMod> coefficients = (new FoodFactData()).execute(mixid);
     StringBuilder strb = new StringBuilder();
-    coefficients.forEach(o -> {
-      if (o.getRow() == 0) {
-        strb.append(printFirstRow(o));
-        strb.append("\n");
-      } else {
-        strb.append(printRow(o));
-        strb.append("\n");
-      }
-    });
+    coefficients.forEach(
+        o -> {
+          if (o.getRow() == 0) {
+            strb.append(printFirstRow(o));
+            strb.append("\n");
+          } else {
+            strb.append(printRow(o));
+            strb.append("\n");
+          }
+        });
     strb.setLength(strb.length() - 1);
     strb.append(";");
     paramA = strb.toString();
@@ -85,15 +86,63 @@ public class MathProgParamC {
     pattern.append("%53$ 27.0f ");
     pattern.append("%54$ 27.0f ");
     pattern.append("%55$ 27.0f:=");
-    return String.format(pattern.toString(), "param c:", o.getN10000(), o.getN10001(),
-        o.getN10003(), o.getN10005(), o.getN10006(), o.getN10009(), o.getN10010(), o.getN10011(),
-        o.getN10012(), o.getN10013(), o.getN10014(), o.getN10015(), o.getN203(), o.getN204(),
-        o.getN205(), o.getN208(), o.getN221(), o.getN255(), o.getN291(), o.getN301(), o.getN303(),
-        o.getN304(), o.getN305(), o.getN306(), o.getN307(), o.getN309(), o.getN312(), o.getN315(),
-        o.getN317(), o.getN320(), o.getN323(), o.getN328(), o.getN401(), o.getN404(), o.getN405(),
-        o.getN406(), o.getN410(), o.getN415(), o.getN418(), o.getN421(), o.getN430(), o.getN435(),
-        o.getN601(), o.getN606(), o.getN611(), o.getN612(), o.getN613(), o.getN614(), o.getN618(),
-        o.getN619(), o.getN621(), o.getN629(), o.getN645(), o.getN646());
+    return String.format(
+        pattern.toString(),
+        "param c:",
+        o.getN10000(),
+        o.getN10001(),
+        o.getN10003(),
+        o.getN10005(),
+        o.getN10006(),
+        o.getN10009(),
+        o.getN10010(),
+        o.getN10011(),
+        o.getN10012(),
+        o.getN10013(),
+        o.getN10014(),
+        o.getN10015(),
+        o.getN203(),
+        o.getN204(),
+        o.getN205(),
+        o.getN208(),
+        o.getN221(),
+        o.getN255(),
+        o.getN291(),
+        o.getN301(),
+        o.getN303(),
+        o.getN304(),
+        o.getN305(),
+        o.getN306(),
+        o.getN307(),
+        o.getN309(),
+        o.getN312(),
+        o.getN315(),
+        o.getN317(),
+        o.getN320(),
+        o.getN323(),
+        o.getN328(),
+        o.getN401(),
+        o.getN404(),
+        o.getN405(),
+        o.getN406(),
+        o.getN410(),
+        o.getN415(),
+        o.getN418(),
+        o.getN421(),
+        o.getN430(),
+        o.getN435(),
+        o.getN601(),
+        o.getN606(),
+        o.getN611(),
+        o.getN612(),
+        o.getN613(),
+        o.getN614(),
+        o.getN618(),
+        o.getN619(),
+        o.getN621(),
+        o.getN629(),
+        o.getN645(),
+        o.getN646());
   }
 
   private String printRow(CoefficientMod o) {
@@ -154,14 +203,62 @@ public class MathProgParamC {
     pattern.append("%53$ 27.17f ");
     pattern.append("%54$ 27.17f ");
     pattern.append("%55$ 27.17f");
-    return String.format(pattern.toString(), o.getRow(), o.getN10000(), o.getN10001(),
-        o.getN10003(), o.getN10005(), o.getN10006(), o.getN10009(), o.getN10010(), o.getN10011(),
-        o.getN10012(), o.getN10013(), o.getN10014(), o.getN10015(), o.getN203(), o.getN204(),
-        o.getN205(), o.getN208(), o.getN221(), o.getN255(), o.getN291(), o.getN301(), o.getN303(),
-        o.getN304(), o.getN305(), o.getN306(), o.getN307(), o.getN309(), o.getN312(), o.getN315(),
-        o.getN317(), o.getN320(), o.getN323(), o.getN328(), o.getN401(), o.getN404(), o.getN405(),
-        o.getN406(), o.getN410(), o.getN415(), o.getN418(), o.getN421(), o.getN430(), o.getN435(),
-        o.getN601(), o.getN606(), o.getN611(), o.getN612(), o.getN613(), o.getN614(), o.getN618(),
-        o.getN619(), o.getN621(), o.getN629(), o.getN645(), o.getN646());
+    return String.format(
+        pattern.toString(),
+        o.getRow(),
+        o.getN10000(),
+        o.getN10001(),
+        o.getN10003(),
+        o.getN10005(),
+        o.getN10006(),
+        o.getN10009(),
+        o.getN10010(),
+        o.getN10011(),
+        o.getN10012(),
+        o.getN10013(),
+        o.getN10014(),
+        o.getN10015(),
+        o.getN203(),
+        o.getN204(),
+        o.getN205(),
+        o.getN208(),
+        o.getN221(),
+        o.getN255(),
+        o.getN291(),
+        o.getN301(),
+        o.getN303(),
+        o.getN304(),
+        o.getN305(),
+        o.getN306(),
+        o.getN307(),
+        o.getN309(),
+        o.getN312(),
+        o.getN315(),
+        o.getN317(),
+        o.getN320(),
+        o.getN323(),
+        o.getN328(),
+        o.getN401(),
+        o.getN404(),
+        o.getN405(),
+        o.getN406(),
+        o.getN410(),
+        o.getN415(),
+        o.getN418(),
+        o.getN421(),
+        o.getN430(),
+        o.getN435(),
+        o.getN601(),
+        o.getN606(),
+        o.getN611(),
+        o.getN612(),
+        o.getN613(),
+        o.getN614(),
+        o.getN618(),
+        o.getN619(),
+        o.getN621(),
+        o.getN629(),
+        o.getN645(),
+        o.getN646());
   }
 }
