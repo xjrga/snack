@@ -14,6 +14,7 @@ public class PercentNutrientRhs implements SqlCallMixid<Map<String, Object>> {
 
   private final Connection connection;
 
+  // TODO - delete
   public PercentNutrientRhs() {
     connection = Connect.getInstance().getConnection();
   }

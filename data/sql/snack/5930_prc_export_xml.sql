@@ -43,10 +43,6 @@ call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
-call Select_nutrient_percent_constraint_list_as_xml (doc,v_MixId);
---
-SET doc2 = doc2  + doc;
---
 call Select_meal_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;

@@ -148,16 +148,6 @@ CREATE TABLE NutrientRatio
         CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (MixId,Nutrient_Id_1,Nutrient_Id_2,RelationshipId)
 );
 /
-CREATE TABLE PercentConstraint
-(
-        MixId LONGVARCHAR,
-        Foodid LONGVARCHAR,
-        NutrientId LONGVARCHAR,
-        RelationshipId INTEGER,
-        b DOUBLE,
-        CONSTRAINT PercentConstraint_primary_key PRIMARY KEY (MixId,Foodid,NutrientId,RelationshipId)
-);
-/
 CREATE TABLE Rda
 (
         NutrientId LONGVARCHAR,
@@ -387,8 +377,6 @@ ALTER TABLE NutrientConstraint ADD CONSTRAINT R4_Nutrient_NutrientConstraint FOR
 /
 ALTER TABLE Mix ADD CONSTRAINT R5_Nutrient_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
 /
-ALTER TABLE PercentConstraint ADD CONSTRAINT R6_Nutrient_PercentConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
-/
 ALTER TABLE Rda ADD CONSTRAINT R7_Nutrient_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R8_Nutrient_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
@@ -405,8 +393,6 @@ ALTER TABLE NutrientRatio ADD CONSTRAINT R13_Relationship_NutrientRatio FOREIGN 
 /
 ALTER TABLE NutrientConstraint ADD CONSTRAINT R14_Relationship_NutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE PercentConstraint ADD CONSTRAINT R15_Relationship_PercentConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
-/
 ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R16_Relationship_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R17_Relationship_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
@@ -420,8 +406,6 @@ ALTER TABLE NutrientConstraint ADD CONSTRAINT R20_Mix_NutrientConstraint FOREIGN
 ALTER TABLE MixFood ADD CONSTRAINT R21_Mix_MixFood FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
 ALTER TABLE MealFoodPortion ADD CONSTRAINT R22_MixFood_MealFoodPortion FOREIGN KEY (MixId, FoodId) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
-/
-ALTER TABLE PercentConstraint ADD CONSTRAINT R23_MixFood_PercentConstraint FOREIGN KEY (MixId, Foodid) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R24_MixFood_FoodNutrientRatio FOREIGN KEY (MixId, Food_Id_1) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /

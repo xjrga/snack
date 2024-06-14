@@ -25,7 +25,6 @@ import io.github.xjrga.snack.dataobject.Xml_food_nutrient_constraint;
 import io.github.xjrga.snack.dataobject.Xml_food_nutrient_ratio_constraint;
 import io.github.xjrga.snack.dataobject.Xml_mix;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_constraint;
-import io.github.xjrga.snack.dataobject.Xml_nutrient_percent_constraint;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_ratio_constraint;
 import io.github.xjrga.snack.gui.Message;
 import java.io.BufferedReader;
@@ -82,7 +81,6 @@ public class XmlMixReceiver {
       Xml_food_nutrient_constraint food_nutrient_constraint = null;
       Xml_food_nutrient_ratio_constraint food_nutrient_ratio_constraint = null;
       Xml_nutrient_ratio_constraint nutrient_ratio_constraint = null;
-      Xml_nutrient_percent_constraint nutrient_percent_constraint = null;
       Xml_category category = null;
       Xml_category_link category_link = null;
       O_Meal meal = null;
@@ -123,10 +121,6 @@ public class XmlMixReceiver {
                 break;
               case "nutrient_ratio_constraint":
                 nutrient_ratio_constraint = new Xml_nutrient_ratio_constraint();
-                main_event = start_event;
-                break;
-              case "nutrient_percent_constraint":
-                nutrient_percent_constraint = new Xml_nutrient_percent_constraint();
                 main_event = start_event;
                 break;
               case "meal":
@@ -210,9 +204,6 @@ public class XmlMixReceiver {
                     case "food_nutrient_constraint":
                       food_nutrient_constraint.setFoodid(data);
                       break;
-                    case "nutrient_percent_constraint":
-                      nutrient_percent_constraint.setFoodid(data);
-                      break;
                     case "meal_food_portion":
                       portion.setFoodid(data);
                       break;
@@ -234,9 +225,6 @@ public class XmlMixReceiver {
                       break;
                     case "food_nutrient_constraint":
                       food_nutrient_constraint.setNutrientid(data);
-                      break;
-                    case "nutrient_percent_constraint":
-                      nutrient_percent_constraint.setNutrientid(data);
                       break;
                   }
                   break;
@@ -274,9 +262,6 @@ public class XmlMixReceiver {
                     case "nutrient_ratio_constraint":
                       nutrient_ratio_constraint.setRelationshipid(Integer.valueOf(data));
                       break;
-                    case "nutrient_percent_constraint":
-                      nutrient_percent_constraint.setRelationshipid(Integer.valueOf(data));
-                      break;
                   }
                   break;
                 case "a":
@@ -301,9 +286,6 @@ public class XmlMixReceiver {
                       break;
                     case "nutrient_ratio_constraint":
                       nutrient_ratio_constraint.setB(Double.valueOf(data));
-                      break;
-                    case "nutrient_percent_constraint":
-                      nutrient_percent_constraint.setB(Double.valueOf(data));
                       break;
                   }
                   break;
@@ -639,16 +621,6 @@ public class XmlMixReceiver {
                       nutrient_ratio_constraint.getRelationshipid(),
                       nutrient_ratio_constraint.getA(),
                       nutrient_ratio_constraint.getB());
-                }
-                break;
-              case "nutrient_percent_constraint":
-                if (was_mix_inserted) {
-                  dbLink.PercentNutrientConstraint_Merge(
-                      mix.get_mixid(),
-                      nutrient_percent_constraint.getFoodid(),
-                      nutrient_percent_constraint.getNutrientid(),
-                      nutrient_percent_constraint.getRelationshipid(),
-                      nutrient_percent_constraint.getB());
                 }
                 break;
               case "meal":

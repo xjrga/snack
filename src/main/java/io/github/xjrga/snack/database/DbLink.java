@@ -97,11 +97,6 @@ import io.github.xjrga.snack.sql.NutrientSelectAllVisible;
 import io.github.xjrga.snack.sql.NutrientToPctSelect;
 import io.github.xjrga.snack.sql.NutrientUpdate;
 import io.github.xjrga.snack.sql.ObjectiveLhs;
-import io.github.xjrga.snack.sql.PercentNutrientConstraintDelete;
-import io.github.xjrga.snack.sql.PercentNutrientConstraintMerge;
-import io.github.xjrga.snack.sql.PercentNutrientConstraintSelect;
-import io.github.xjrga.snack.sql.PercentNutrientLhs;
-import io.github.xjrga.snack.sql.PercentNutrientRhs;
 import io.github.xjrga.snack.sql.PinMix;
 import io.github.xjrga.snack.sql.PufaRatioDifference;
 import io.github.xjrga.snack.sql.RdaDifferences;
@@ -522,30 +517,6 @@ public class DbLink {
 
   public List<Map<String, Object>> Food_Select_All_Like(String txt) throws SQLException {
     return (new FoodSelectAllLike()).execute(txt);
-  }
-
-  public void PercentNutrientConstraint_Merge(
-      String mixId, String foodid, String nutrno, Integer relationshipid, Double b) {
-    (new PercentNutrientConstraintMerge()).execute(mixId, foodid, nutrno, relationshipid, b);
-  }
-
-  public void PercentNutrientConstraint_Delete(
-      String mixid, String foodid, String nutrientid, Integer relationshipid) throws SQLException {
-    (new PercentNutrientConstraintDelete()).execute(mixid, foodid, nutrientid, relationshipid);
-  }
-
-  public List<Map<String, Object>> PercentNutrientConstraint_Select(String mixid)
-      throws SQLException {
-    return (new PercentNutrientConstraintSelect()).execute(mixid);
-  }
-
-  public List percentnutrient_rhs(String mixid) throws SQLException {
-    return (new PercentNutrientRhs()).execute(mixid);
-  }
-
-  public double[] percentnutrient_lhs(String mixid, String foodid, String nutrientid, Double b)
-      throws SQLException {
-    return (new PercentNutrientLhs()).execute(mixid, foodid, nutrientid, b);
   }
 
   public void Nutrient_Update(String nutrientid, Integer visible) throws SQLException {

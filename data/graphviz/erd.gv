@@ -132,16 +132,6 @@ digraph example_1 {
             <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
         </table>
     >]
-    PercentConstraint [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">PercentConstraint</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
-            <tr><td align="left">b: DOUBLE</td></tr>
-        </table>
-    >]
     Rda [shape=Mrecord, label=<
         <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="yellow">Rda</td></tr>
@@ -244,9 +234,7 @@ digraph example_1 {
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "Relationship" -> "NutrientConstraint" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Relationship" -> "FoodNutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Relationship" -> "PercentConstraint" [dir=forward,weight=1];
+    "Relationship" -> "FoodNutrientConstraint" [dir=forward,weight=1];    
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "Mix" -> "MixFood" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
@@ -270,8 +258,6 @@ digraph example_1 {
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "Nutrient" -> "FoodNutrientConstraint" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "PercentConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "Nutrient" -> "Rda" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
     "NutrientCategory" -> "Nutrient" [dir=forward,weight=1];
@@ -281,8 +267,6 @@ digraph example_1 {
     "MixFood" -> "FoodNutrientRatio" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "MixFood" -> "FoodNutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "PercentConstraint" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
     "RdaLifeStage" -> "Rda" [dir=forward,weight=1];
     edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]

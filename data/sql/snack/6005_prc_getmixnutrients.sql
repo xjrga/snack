@@ -26,10 +26,6 @@ FROM (SELECT nutrientid
       FROM foodnutrientconstraint
       WHERE mixid = v_mixid
       UNION
-      SELECT nutrientid
-      FROM percentconstraint
-      WHERE mixid = v_mixid
-      UNION
       SELECT nutrient_id_1
       FROM foodnutrientratio
       WHERE mixid = v_mixid

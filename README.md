@@ -11,7 +11,7 @@
     interest in nutrition.
 
 #### Features:
-        
+
   * Minimize calories or cost
   * Quantify food intake
   * Track any nutrient or compound that has an impact on health
@@ -42,7 +42,7 @@
 
 #### Build
 
-1350
+1360
 
 #### User Guide
 

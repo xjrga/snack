@@ -378,3 +378,7 @@
   * Fixed mix combobox selection behavior after mix import
   * Fixed mix/food import exception reporting
 
+### 1360
+
+  * Removed food percent ratio
+  * Fix gui - categories tab

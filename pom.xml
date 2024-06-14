@@ -7,7 +7,7 @@
 
     <groupId>io.github.xjrga</groupId>
     <artifactId>snack</artifactId>
-    <version>1350</version>
+    <version>1360</version>
 
     <name>snack</name>
     <url>https://xjrga.github.io/snack</url>
@@ -36,14 +36,14 @@
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.7.2</version>
+            <version>2.7.3</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hsqldb/sqltool -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>sqltool</artifactId>
-            <version>2.7.2</version>
+            <version>2.7.3</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-common -->
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.32</version>
+            <version>2.3.33</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->

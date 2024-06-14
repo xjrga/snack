@@ -11,6 +11,7 @@ public class PercentNutrientLhs {
 
   private final Connection connection;
 
+  // TODO - delete
   public PercentNutrientLhs() {
     connection = Connect.getInstance().getConnection();
   }

@@ -151,16 +151,6 @@ CREATE TABLE NutrientRatio
         CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (MixId,Nutrient_Id_1,Nutrient_Id_2,RelationshipId)
 );
 /
-CREATE TABLE PercentConstraint
-(
-        MixId LONGVARCHAR,
-        Foodid LONGVARCHAR,
-        NutrientId LONGVARCHAR,
-        RelationshipId INTEGER,
-        b DOUBLE,
-        CONSTRAINT PercentConstraint_primary_key PRIMARY KEY (MixId,Foodid,NutrientId,RelationshipId)
-);
-/
 CREATE TABLE Rda
 (
         NutrientId LONGVARCHAR,
@@ -390,8 +380,6 @@ ALTER TABLE NutrientConstraint ADD CONSTRAINT R4_Nutrient_NutrientConstraint FOR
 /
 ALTER TABLE Mix ADD CONSTRAINT R5_Nutrient_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
 /
-ALTER TABLE PercentConstraint ADD CONSTRAINT R6_Nutrient_PercentConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
-/
 ALTER TABLE Rda ADD CONSTRAINT R7_Nutrient_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R8_Nutrient_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
@@ -408,8 +396,6 @@ ALTER TABLE NutrientRatio ADD CONSTRAINT R13_Relationship_NutrientRatio FOREIGN 
 /
 ALTER TABLE NutrientConstraint ADD CONSTRAINT R14_Relationship_NutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE PercentConstraint ADD CONSTRAINT R15_Relationship_PercentConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
-/
 ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R16_Relationship_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R17_Relationship_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
@@ -423,8 +409,6 @@ ALTER TABLE NutrientConstraint ADD CONSTRAINT R20_Mix_NutrientConstraint FOREIGN
 ALTER TABLE MixFood ADD CONSTRAINT R21_Mix_MixFood FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
 ALTER TABLE MealFoodPortion ADD CONSTRAINT R22_MixFood_MealFoodPortion FOREIGN KEY (MixId, FoodId) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
-/
-ALTER TABLE PercentConstraint ADD CONSTRAINT R23_MixFood_PercentConstraint FOREIGN KEY (MixId, Foodid) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R24_MixFood_FoodNutrientRatio FOREIGN KEY (MixId, Food_Id_1) REFERENCES MixFood (MixId, FoodId) ON DELETE CASCADE;
 /
@@ -3383,37 +3367,6 @@ WHERE mixid = v_MixId_Old;
 END;
 /
 
-
-CREATE PROCEDURE NutrientPercent_Copy (
---
-IN v_MixId_Old LONGVARCHAR,
---
-IN v_MixId_New LONGVARCHAR
---
-)
---
-modifies sql data BEGIN atomic
---
-INSERT INTO PercentConstraint
-(
-  mixid,
-  foodid,
-  nutrientid,  
-  relationshipid,  
-  b
-)
-SELECT v_MixId_New,
-       foodid,
-       nutrientid,
-       relationshipid,       
-       b
-FROM PercentConstraint
-WHERE mixid = v_MixId_Old;
-
---
-END;
-/
-
 CREATE PROCEDURE NutrientRatio_Delete (
 IN v_MixId LONGVARCHAR,
 IN v_Nutrient_Id_1 LONGVARCHAR,
@@ -3801,40 +3754,6 @@ OPEN result;
 END;
 /
 
-CREATE PROCEDURE PercentNutrientConstraint_Merge (
-IN v_MixId LONGVARCHAR,
-IN v_FoodId LONGVARCHAR,
-IN v_NutrientId LONGVARCHAR,
-IN v_RelationshipId INTEGER,
-IN v_b DOUBLE
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO PercentConstraint USING ( VALUES (
-v_MixId,
-v_FoodId,
-v_NutrientId,
-v_RelationshipId,
-v_b
-) ) ON (
-MixId = v_MixId
-AND
-FoodId = v_FoodId
-AND
-NutrientId = v_NutrientId
-AND
-RelationshipId = v_RelationshipId
-)
-WHEN MATCHED THEN UPDATE SET
-b = v_b
-WHEN NOT MATCHED THEN INSERT VALUES
-v_MixId,
-v_FoodId,
-v_NutrientId,
-v_RelationshipId,
-v_b;
-END;
-/
-
 CREATE PROCEDURE FoodFactCoefficient_Merge (
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
@@ -3857,120 +3776,6 @@ v_FoodId,
 v_NutrientId,
 v_c;
 END;
-/
-
-CREATE PROCEDURE PercentNutrientConstraint_Select (
-IN v_MixId LONGVARCHAR
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
-DECLARE result CURSOR
-FOR
-SELECT
-a.MixId,
-a.FoodId,
-a.NutrientId,
-d.RelationshipId,
-b.Name as Food,
-c.Name as Nutrient,
-a.b,
-d.Name as Relationship
-FROM
-PercentConstraint a, Food b, Nutrient c, Relationship d
-WHERE
-a.MixId = v_MixId
-AND
-a.FoodId = b.FoodId
-AND
-a.NutrientId = c.NutrientId
-AND
-a.RelationshipId = d.relationshipid
-ORDER BY
-a.NutrientId,a.FoodId;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE PercentNutrientConstraint_Delete (
-IN v_MixId LONGVARCHAR,
-IN v_FoodId LONGVARCHAR,
-IN v_NutrientId LONGVARCHAR,
-IN v_RelationshipId INTEGER
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-DELETE FROM
-PercentConstraint
-WHERE
-MixId = v_MixId
-AND
-FoodId = v_FoodId
-AND
-NutrientId = v_NutrientId
-AND
-RelationshipId = v_RelationshipId;
-END;
-/
-
-
-CREATE PROCEDURE percentnutrient_rhs (
---
-IN v_MixId LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT mixid,
-       foodid,
-       nutrientid,
-       relationshipid,
-       b
-FROM percentconstraint
-WHERE mixid = v_mixid
-ORDER BY foodid;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE percentnutrient_lhs (
---
-IN v_MixId LONGVARCHAR,
---
-IN v_foodid LONGVARCHAR,
---
-IN v_nutrientid LONGVARCHAR,
---
-IN v_b DOUBLE
-
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT --a.mixid,
-       a.foodid,
-       --b.nutrientid,
-       CASE
-         WHEN a.foodid = v_foodid THEN b.c*(1.0-(v_b/100.0))
-         ELSE -1.0*b.c*(v_b/100.0)
-       END AS c
-FROM mixfood a,
-     foodfactcoefficient b
-WHERE a.foodid = b.foodid
-AND b.nutrientid = v_nutrientid
-AND   a.mixid = v_mixid
-ORDER BY a.foodid;
-         ---b.nutrientid;
---	    
-OPEN result;
---
-END
 /
 
 CREATE PROCEDURE Mix_getFQDiff (
@@ -4506,48 +4311,6 @@ SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid_01>' +
 END FOR;
 --
 SET doc = doc + '</nutrient_ratio_constraint_list>';
---
-END IF;
---
-SET v_doc = doc;
---
-END
-/
-
-
-CREATE PROCEDURE Select_nutrient_percent_constraint_list_as_xml (
---
-OUT v_doc LONGVARCHAR,
---
-IN v_mixid LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1
---
-BEGIN ATOMIC 
---
-DECLARE doc LONGVARCHAR;
---
-DECLARE counter INTEGER;
---
-SET doc = '';
---
-SET counter = 0;
---
-SELECT count(foodid, nutrientid, relationshipid, b) INTO counter FROM percentconstraint WHERE mixid = v_mixid;
---
-IF counter > 0 THEN
---
-SET doc = doc + '<nutrient_percent_constraint_list>' + CHAR (10);
---
-FOR select foodid, nutrientid, relationshipid, b from percentconstraint WHERE mixid = v_mixid DO
---
-SET doc = doc + '<nutrient_percent_constraint>' + CHAR (10)  + '<foodid>' + foodid + '</foodid>' + CHAR (10)  + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</nutrient_percent_constraint>' + CHAR (10);
---
-END FOR;
---
-SET doc = doc + '</nutrient_percent_constraint_list>';
 --
 END IF;
 --
@@ -5319,10 +5082,9 @@ MODIFIES SQL DATA  BEGIN ATOMIC
 --
 DELETE FROM NUTRIENTCONSTRAINT WHERE MixId = v_mixid;
 DELETE FROM FOODNUTRIENTCONSTRAINT WHERE MixId = v_mixid;
-DELETE FROM PERCENTCONSTRAINT WHERE MixId = v_mixid;
 DELETE FROM FOODNUTRIENTRATIO WHERE MixId = v_mixid;
 DELETE FROM NUTRIENTRATIO WHERE MixId = v_mixid;
-INSERT INTO FOODNUTRIENTCONSTRAINT 
+INSERT INTO FOODNUTRIENTCONSTRAINT
 SELECT mixid,foodid,'10000' as nutrientid,3 as relationshipid,x as b
 FROM mixfood
 WHERE mixid = v_mixid;
@@ -5709,10 +5471,6 @@ call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
-call Select_nutrient_percent_constraint_list_as_xml (doc,v_MixId);
---
-SET doc2 = doc2  + doc;
---
 call Select_meal_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
@@ -5846,8 +5604,6 @@ CALL NutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 CALL FoodNutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
---
-CALL NutrientPercent_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
 --
@@ -6596,10 +6352,6 @@ FROM mixfood a,
             FROM foodnutrientconstraint
             WHERE mixid =mixid
             UNION
-            SELECT nutrientid
-            FROM percentconstraint
-            WHERE mixid =mixid
-            UNION
             SELECT nutrient_id_1
             FROM foodnutrientratio
             WHERE mixid =mixid
@@ -6644,10 +6396,6 @@ FROM (SELECT nutrientid
       UNION
       SELECT nutrientid
       FROM foodnutrientconstraint
-      WHERE mixid = v_mixid
-      UNION
-      SELECT nutrientid
-      FROM percentconstraint
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_1
