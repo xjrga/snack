@@ -189,12 +189,12 @@
 ### 840
   * Add calories field to nutrient lookup tab
 
-### 850
+### 850 - June 08, 2022
   * Add category field to mix comparison results
   * Add food comparison feature
   * Fix food input wizard
 
-### 860
+### 860 - July 29, 2022
   * Add minimize cost option
   * Update snack.xsd schema
   * Add cost calculator assistant in "Add New Food Item" wizard
@@ -214,136 +214,136 @@
   * Add 'Duplicate mix and edit in 'Solve' area' button to journal area
   * Improve 'Tools' options for better user interaction
 
-### 861
+### 861 - July 30, 2022
 
   * Update poi-4.0.1.jar to poi-4.1.1.jar
 
-### 870
+### 870 - August 08, 2022
 
   * Add "Energy, fat and carbohydrate" metric
   * Delete fluoride nutrient tracking
 
-### 880
+### 880 - August 22, 2022
 
   * Removed notes
   * Fixed archive function behavior
 
-### 890
+### 890 - September 12, 2022
 
   * Fix food "Energy, fat and carbohydrate" import value bug
   * Fix "Pin" option bug
 
-### 900
+### 900 - October 09, 2022
 
   * Add "Undo model definition changes" functionality
 
-### 1000
+### 1000 - November 12, 2022
 
   * Add "create meal plan" feature
   * Add "export meal plan" feature
 
-### 1001
+### 1001 - November 14, 2022
 
   * Fix bug
 
-### 1010
+### 1010 - November 16, 2022
 
   * Update database schema "erd"
   * Update snack.xsd schema "xml"
   * Add xml import and export of meals and meal food allocations
 
-### 1020
+### 1020 - November 19, 2022
 
   * Add multiple meal food portion addition
 
-### 1030
+### 1030 - November 22, 2022
 
   * Add results per meal view
 
-### 1040
+### 1040 - November 23, 2022
 
   * Add multiple meal food portion deletion
 
-### 1050
+### 1050 - November 29, 2022
 
   * Modified graphical user interface
   * Simplified data exchange document
 
-### 1060
+### 1060 - December 03, 2022
 
   * Improve constraint creation user process
 
-### 1070
+### 1070 - December 05, 2022
 
   * Fix rda check right click popup
 
-### 1080
+### 1080 - December 07, 2022
 
   * Add filechooser to data document export process
   * Fix gui bloopers
 
-### 1090
+### 1090 - December 08, 2022
 
   * Fix referential integrity bug
   * Fix gui bloopers
   * Add constraint count display
 
-### 1100
+### 1100 - December 18, 2022
 
   * Redesign gui
   * Unify editor and journal mix lists
 
-### 1200
+### 1200 - December 23, 2022
 
   * Add "Assign portion to meal" action
   * Fix "pin mix" action
   * Fix gui bloopers
 
-### 1210
+### 1210 - January 05, 2023
 
   * Fix disable menu item when empty mix combo box
   * Fix automatic select mix when creating mix
 
-### 1220
+### 1220 - January 14, 2023
 
   * Fix round up on meal plan
   * Add log display area
 
-### 1230
+### 1230 - February 26, 2023
 
   * Fix add food to category bug
   * Fix mix import logic
   * Fix meal portion reload on mix food delete
 
-### 1240
+### 1240 - March 29, 2023
 
   * Fix meal portion reload on solve
 
-### 1250
+### 1250 - April 26, 2023
 
   * Add xml import and export of individual food items
   * Moved mix combo box to top
   * Add key delete erases log
   * Add food item xml schema
 
-### 1260
+### 1260 - April 30, 2023
 
   * Fix glycemic value on food import
   * Fix selected food list for mix on food list delete event
   * Fix import and export ampersand (&) bug
 
-### 1270
+### 1270 - May 27, 2023
 
   * Add actual value of constraints and bind status to model results
 
-### 1280
+### 1280 - September 21, 2023
 
   * Add tracking for most potent cholesterol raising saturated fatty acids (12:0, 14:0, 16:0)
   * Update mix definition xml schema
   * Update food definition xml schema
   * Update mix nutritional value result tabs and help menu items
 
-### 1300
+### 1300 - October 28, 2023
 
   * Add cholesterol raising saturated fatty acids (12:0, 14:0, 16:0) total result
   * Add essential fat ratio (la/ala)
@@ -355,30 +355,35 @@
   * Calculate food statistics by right clicking on food list item
   * Add linear programming model file generation for lpsolve solver
 
-### 1301
+### 1301 - October 30, 2023
 
   * Fix log output so that only feasible models are saved to log
 
-### 1320
+### 1320 - November 18, 2023
 
   * Update graphical user interface
   * Add linear programming model CPLEX LP format file generation
 
-### 1330
+### 1330 - December 22, 2024
 
   * Add GNU MathProg modeling language linear programming model file generation
 
-### 1340
+### 1340 - February 12, 2024
 
   * Add GNU MathProg modeling language linear programming expanded model file generation
 
-### 1350
+### 1350 - March 01, 2024
 
   * Fixed mix import bug
   * Fixed mix combobox selection behavior after mix import
   * Fixed mix/food import exception reporting
 
-### 1360
+### 1360 - June 14, 2024
 
   * Removed food percent ratio
   * Fix gui - categories tab
+
+### 1370 - November 06, 2024
+
+  * Modified directory structure
+  * Model build process script
