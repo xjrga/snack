@@ -2,7 +2,7 @@
 <project name="Snack Build" basedir="." default="info">
     <property name="mainclass" value="io.github.xjrga.snack.gui.Main"/>
     <property name="creator" value="Jorge R. Garcia de Alba"/>
-    <property name="package-name" value="snack-1370"/>
+    <property name="package-name" value="snack-1380"/>
     <property name="file-name" value="snack"/>
     <tstamp>
         <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>

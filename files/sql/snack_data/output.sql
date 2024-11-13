@@ -39987,3 +39987,11 @@ call FoodFact_HCSFA();
 /
 
 
+call Units_insert(1,'Oz',0.03527396195);
+/
+call Units_insert(2,'Lb',0.002204622622);
+/
+call Units_insert(3,'Kg',0.001);
+/
+
+

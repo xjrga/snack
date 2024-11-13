@@ -1,292 +1,497 @@
-/* courtesy Jorge Garcia de Alba */
+digraph erd {
 
-digraph example_1 {
     labelloc = "t";
-    label = "Snack Entity-Relationship Diagram";
+    label = "Snack Entity Relationship Diagram";
     fontsize = 20;
-    fontname = "Liberation Mono"
+    fontname = "Liberation Mono Bold"
     size = "100,100";
     nodesep = 0.25;
     ranksep = 1.5;
     /*layout=neato*/
-    node [color = lightgray, style = filled,fontname = "Liberation Mono"];
-    /*Tables*/
-    FoodFactCoefficient [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">FoodFoodFactCoefficient</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">c: DOUBLE</td></tr>
+
+node [color = "#000000", style = solid,fontname = "Liberation Mono"];
+CategoryLink [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>CategoryLink</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodCategoryId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
         </table>
     >]
-    FoodCategory [shape=record, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">FoodCategory</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodCategoryId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+Food [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Food</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
-    Food [shape=record, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Food</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+FoodCategory [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodCategory</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodCategoryId: LONGVARCHAR </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
-    FoodFact [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">FoodFact</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">q: DOUBLE</td></tr>
+FoodFact [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodFact</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
         </table>
     >]
-    Relationship [shape=record, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Relationship</td></tr>
-            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+FoodFactCoefficient [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodFactCoefficient</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">c: DOUBLE</td></tr>
         </table>
     >]
-    Mix [shape=record, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Mix</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
-            <tr><td align="left">NutrientId: LONGVARCHAR</td></tr>
-            <tr><td align="left">Model: LONGVARCHAR</td></tr>
+FoodNutrientConstraint [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodNutrientConstraint</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">b: DOUBLE</td></tr>
         </table>
     >]
-    NutrientCategory [shape=record, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">NutrientCategory</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientCategoryId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
+FoodNutrientRatio [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodNutrientRatio</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Food_Id_1: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Food_Id_2: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">A: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">B: DOUBLE</td></tr>
         </table>
     >]
-    Nutrient [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Nutrient</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
-            <tr><td align="left">Visible: INTEGER</td></tr>
-            <tr><td align="left">NutrientCategoryId: LONGVARCHAR</td></tr>
-            <tr><td align="left">Label: LONGVARCHAR</td></tr>           
+GlycemicIndex [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>GlycemicIndex</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
         </table>
     >]
-    MixFood [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">MixFood</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">x: DOUBLE</td></tr>
+Meal [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Meal</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MealId: INTEGER </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MealOrder: INTEGER</td></tr>
         </table>
     >]
-    FoodNutrientRatio [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">FoodNutrientRatio</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">Food_Id_1: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_1: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">Food_Id_2: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_2: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
-            <tr><td align="left">A: DOUBLE</td></tr>
-            <tr><td align="left">B: DOUBLE</td></tr>
+MealFoodPortion [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>MealFoodPortion</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MealId: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Pct: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">ExpectedWt: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">ActualWt: DOUBLE</td></tr>
         </table>
     >]
-    NutrientRatio [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">NutrientRatio</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_1: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">Nutrient_Id_2: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
-            <tr><td align="left">A: DOUBLE</td></tr>
-            <tr><td align="left">B: DOUBLE</td></tr>
+Mix [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Mix</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Model: LONGVARCHAR</td></tr>
         </table>
     >]
-    NutrientConstraint [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">NutrientConstraint</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">RelationshipId: INTEGER (PK)</td></tr>
-            <tr><td align="left">b: DOUBLE</td></tr>
+MixCost [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>MixCost</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">mixcost: DOUBLE</td></tr>
         </table>
     >]
-    FoodNutrientConstraint [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">FoodNutrientConstraint</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">RelationshipId: INTEGER (PK)</td></tr>
-            <tr><td align="left">b: DOUBLE</td></tr>
+MixFood [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>MixFood</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">x: DOUBLE</td></tr>
         </table>
     >]
-    CategoryLink [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">CategoryLink</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodCategoryId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
+MixInventory [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>MixInventory</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Days: DOUBLE</td></tr>
         </table>
     >]
-    Rda [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Rda</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">LifeStageId: INTEGER (PK)</td></tr>
-            <tr><td align="left">q: DOUBLE</td></tr>
-            <tr><td align="left">UL: DOUBLE</td></tr>
+MixResult [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>MixResult</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
         </table>
     >]
-    RdaLifeStage [shape=record, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">RdaLifeStage</td></tr>
-            <tr><td bgcolor="lightblue" align="left">LifeStageId: INTEGER (PK)</td></tr>
-            <tr><td align="left">Label: LONGVARCHAR</td></tr>
+Nutrient [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Nutrient</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Visible: INTEGER</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientCategoryId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Label: LONGVARCHAR</td></tr>
         </table>
     >]
-    MixResult [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">MixResult</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">NutrientId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">q: DOUBLE</td></tr>
+NutrientCategory [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>NutrientCategory</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientCategoryId: LONGVARCHAR </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
-    MixResultDn [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">MixResultDn</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">....</td></tr>
+NutrientConstraint [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>NutrientConstraint</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">b: DOUBLE</td></tr>
         </table>
     >]
-    Meal [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Meal</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MealId: INTEGER (PK)</td></tr>
-            <tr><td align="left">Name: LONGVARCHAR</td></tr>
-            <tr><td align="left">Order: INTEGER</td></tr>
+NutrientRatio [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>NutrientRatio</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">A: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">B: DOUBLE</td></tr>
         </table>
     >]
-    MealFoodAllocation [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">MealFoodAllocation</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MealId: INTEGER (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">Pct: DOUBLE</td></tr>    
-            <tr><td align="left">ExpectedWt: DOUBLE</td></tr>
-            <tr><td align="left">ActualWt: DOUBLE</td></tr>
+Rda [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Rda</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">UL: DOUBLE</td></tr>
         </table>
     >]
-   GlycemicIndex [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">GlycemicIndex</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">q: DOUBLE</td></tr>
+RdaLifeStage [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>RdaLifeStage</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Label: LONGVARCHAR</td></tr>
         </table>
     >]
-    Zff [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Zff</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">....</td></tr>
+Relationship [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Relationship</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
-    Zfc [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">Zfc</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">....</td></tr>
+Units [shape=record, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>Units</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">UnitId: INTEGER </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Factor: DOUBLE</td></tr>
         </table>
     >]
-    MixCost [shape=Mrecord, label=<
-        <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="yellow">MixCost</td></tr>
-            <tr><td bgcolor="lightblue" align="left">MixId: LONGVARCHAR (PK)</td></tr>
-            <tr><td bgcolor="lightblue" align="left">FoodId: LONGVARCHAR (PK)</td></tr>
-            <tr><td align="left">cost: DOUBLE</td></tr>
+ZFC [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>ZFC</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">foodid: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">ROW: INTEGER</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10000: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10001: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10003: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10005: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10006: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10009: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10010: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10011: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10012: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10013: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10014: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10015: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N203: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N204: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N205: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N208: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N221: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N255: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N291: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N301: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N303: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N304: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N305: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N306: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N307: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N309: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N312: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N315: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N317: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N320: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N323: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N328: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N401: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N404: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N405: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N406: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N410: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N415: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N418: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N421: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N430: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N435: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N601: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N606: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N611: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N612: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N613: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N614: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N618: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N619: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N621: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N629: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N645: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N646: DOUBLE</td></tr>
+        </table>
+    >]
+ZFF [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>ZFF</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">foodid: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">ROW: INTEGER</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10000: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10001: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10003: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10005: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10006: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10009: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10010: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10011: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10012: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10013: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10014: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N10015: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N203: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N204: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N205: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N208: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N221: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N255: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N291: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N301: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N303: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N304: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N305: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N306: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N307: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N309: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N312: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N315: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N317: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N320: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N323: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N328: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N401: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N404: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N405: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N406: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N410: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N415: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N418: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N421: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N430: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N435: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N601: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N606: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N611: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N612: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N613: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N614: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N618: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N619: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N621: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N629: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N645: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">N646: DOUBLE</td></tr>
+        </table>
+    >]
+mixresultdn [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>mixresultdn</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">foodid: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">weight: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">completeprotein: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">digestiblecarbohydrate: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">cost: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">protein: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fat: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbsbydiff: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energygross: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">alcohol: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">water: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fiber: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">calcium: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">iron: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">magnesium: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phosphorus: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">potassium: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">sodium: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">zinc: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">copper: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fluoride: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">manganese: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">selenium: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamina: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamine: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamind: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitaminc: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">thiamin: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">riboflavin: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">niacin: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">pantothenicacid: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitaminb6: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitaminb12: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">choline: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamink: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">folate: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">cholesterol: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">sfa: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">dha: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">epa: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mufa: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">pufa: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">linoleicacid: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">alphalinolenicacid: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">glycemicload: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energydigestible: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energycarbohydrate: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energyprotein: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energyfat: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energyalcohol: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energyfatcarbohydrate: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">lauric: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">myristic: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">palmitic: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">stearic: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">hcsfa: DOUBLE</td></tr>
         </table>
     >]
 
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "FoodCategory" -> "CategoryLink" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Food" -> "FoodFact" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Food" -> "MixFood" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Food" -> "CategoryLink" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "FoodFact" -> "FoodFactCoefficient" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Relationship" -> "FoodNutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Relationship" -> "NutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Relationship" -> "NutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Relationship" -> "FoodNutrientConstraint" [dir=forward,weight=1];    
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Mix" -> "MixFood" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Mix" -> "NutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Mix" -> "NutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "FoodFact" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "FoodNutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "FoodNutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
-    "Nutrient" -> "Mix" [dir=forward,weight=1];        
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "NutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "NutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "NutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "FoodNutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Nutrient" -> "Rda" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
-    "NutrientCategory" -> "Nutrient" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "FoodNutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "FoodNutrientRatio" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "FoodNutrientConstraint" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "RdaLifeStage" -> "Rda" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "MixResult" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "FoodFactCoefficient" -> "MixResult" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "MixResultDn" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Mix" -> "Meal" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Meal" -> "MealFoodAllocation" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "MealFoodAllocation" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "Food" -> "GlycemicIndex" [dir=forward,weight=1];
-    "MixFood" -> "Zff" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "Zfc" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-    "MixFood" -> "MixCost" [dir=forward,weight=1];
-    edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Food -> CategoryLink [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+FoodCategory -> CategoryLink [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Food -> FoodFact [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodFact [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+FoodFact -> FoodFactCoefficient [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> FoodNutrientConstraint [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodNutrientConstraint [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> FoodNutrientConstraint [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> FoodNutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> FoodNutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodNutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodNutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> FoodNutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Food -> GlycemicIndex [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> Meal [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Meal -> MealFoodPortion [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> MealFoodPortion [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
+Nutrient -> Mix [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> MixCost [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Food -> MixFood [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> MixFood [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> MixInventory [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+FoodFactCoefficient -> MixResult [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> MixResult [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
+NutrientCategory -> Nutrient [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> NutrientConstraint [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> NutrientConstraint [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> NutrientConstraint [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> NutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> NutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> NutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> NutrientRatio [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> Rda [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+RdaLifeStage -> Rda [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> ZFC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> ZFF [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> mixresultdn [dir=forward,weight=1];
+
 }

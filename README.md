@@ -38,11 +38,12 @@
   * Generate linear programming model files for glpk solver
   * Facilitate learning/teaching anyone with interest in nutrition
   * Provides many additional food items to experiment with
+  * Calculate food demand forecasts
   * Is free and open source
 
 #### Build
 
-1370
+1380
 
 #### User Guide
 

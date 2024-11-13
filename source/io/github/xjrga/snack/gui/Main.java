@@ -9,6 +9,12 @@ import io.github.xjrga.snack.datamodel.ComboBoxModelNutrientsConvert;
 import io.github.xjrga.snack.datamodel.ComboBoxPortionFood;
 import io.github.xjrga.snack.datamodel.Food_loader;
 import io.github.xjrga.snack.datamodel.Food_stats;
+import io.github.xjrga.snack.datamodel.InventoryDays_del;
+import io.github.xjrga.snack.datamodel.InventoryDays_ins;
+import io.github.xjrga.snack.datamodel.InventoryDays_pop;
+import io.github.xjrga.snack.datamodel.InventoryDays_sel;
+import io.github.xjrga.snack.datamodel.InventorySum_pop;
+import io.github.xjrga.snack.datamodel.InventorySum_sel;
 import io.github.xjrga.snack.datamodel.ListModelCategory;
 import io.github.xjrga.snack.datamodel.ListModelFood;
 import io.github.xjrga.snack.datamodel.ListModelFood2;
@@ -362,6 +368,7 @@ public class Main {
   private final JList lst_high_score = new JList();
   private final JList lst_mix_compare_a = new JList();
   private final JList lst_mix_compare_b = new JList();
+  private final JList lst_mix_inventory = new JList();
   private final JComboBox cmb_mix = new JComboBox();
   private final JList lst_selected_food = new JList();
   private final JMenuItem mnui_export_model = new JMenuItem();
@@ -369,7 +376,6 @@ public class Main {
   private final JMenuItem mnui_export_food = new JMenuItem();
   private final JMenuItem mnui_import_food = new JMenuItem();
   private final JMenuItem mnui_show_mix_stats = new JMenuItem();
-  private final JMenuItem mnui_error_log = new JMenuItem();
   private final JMenuItem mnui_about = new JMenuItem();
   private final JMenuItem mnui_author = new JMenuItem();
   private final JMenuItem mnui_alpha_linolenic_acid_required = new JMenuItem();
@@ -458,6 +464,7 @@ public class Main {
   private final ListModelFood modelListFood = new ListModelFood(dbLink);
   private final ListModelMix modelList_A_MixDiff = new ListModelMix(dbLink);
   private final ListModelMix modelList_B_MixDiff = new ListModelMix(dbLink);
+  private final ListModelMix modelList_Inventory = new ListModelMix(dbLink);
   private final ListModelSelectedFood modelList_selected_food = new ListModelSelectedFood(dbLink);
   private final Nutrient_loader nutrient_loader = new Nutrient_loader(dbLink);
   private final Relationship_loader relationship_loader = new Relationship_loader(dbLink);
@@ -532,6 +539,8 @@ public class Main {
   private String mixid;
   private String mixname;
   private String mixobjective;
+  private final JTable tbl_inventory_days = new JTable();
+  private final JTable tbl_inventory_sum = new JTable();
 
   public Main() {
     fileChooser = new JFileChooser();
@@ -546,6 +555,7 @@ public class Main {
     main_tabbed_pane.add(get_mix_comparison());
     main_tabbed_pane.add(get_nutrient_lookup());
     main_tabbed_pane.add(get_food_categories());
+    main_tabbed_pane.add(get_inventory());
     main_tabbed_pane.setTitleAt(0, "Editor");
     main_tabbed_pane.setToolTipTextAt(0, "Create, edit and solve your diet here");
     main_tabbed_pane.setTitleAt(1, "Food List");
@@ -559,6 +569,9 @@ public class Main {
         4, "This is where you get a list of foods that contain the nutrient");
     main_tabbed_pane.setTitleAt(5, "Food Category");
     main_tabbed_pane.setToolTipTextAt(5, "This is where you put food items into categories");
+    main_tabbed_pane.setTitleAt(6, "Food Forecast");
+    main_tabbed_pane.setToolTipTextAt(
+        6, "This is where you find out how much food you need to buy");
     JScrollPane scrollPane = new JScrollPane();
     scrollPane.setViewportView(main_tabbed_pane);
     frame.add(scrollPane);
@@ -1747,6 +1760,7 @@ public class Main {
     mdl_cmb_mix.reload();
     modelList_A_MixDiff.reload();
     modelList_B_MixDiff.reload();
+    modelList_Inventory.reload();
     // Model reload selects first item by default, which triggers selection event
     // and therefore mixid changes
   }
@@ -1930,6 +1944,7 @@ public class Main {
         if (cmb_mix.getModel().getSize() > 0) {
           cmb_mix.setSelectedIndex(0);
         }
+        setup_tbl_inventory();
       } catch (SQLException e) {
       }
     } else {
@@ -1994,6 +2009,7 @@ public class Main {
         } else {
           Message.showMessage("These characters are not allowed: < & > ' \"");
         }
+        setup_tbl_inventory();
       } catch (SQLException e) {
       }
     }
@@ -2154,12 +2170,14 @@ public class Main {
             });
     lst_mix_compare_a.setModel(modelList_A_MixDiff);
     lst_mix_compare_b.setModel(modelList_B_MixDiff);
+    lst_mix_inventory.setModel(modelList_Inventory);
     tbl_mix_comparison.setModel(modelTableMixDifference);
     tbl_mix_comparison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     tbl_mix_comparison.setFillsViewportHeight(true);
     tbl_mix_comparison.setRowSorter(srttbl_mix_comparison);
     modelList_A_MixDiff.reload();
     modelList_B_MixDiff.reload();
+    modelList_Inventory.reload();
     resize_col_tbl_mix_comparison();
     return panel;
   }
@@ -6085,5 +6103,147 @@ public class Main {
         }
       }
     }
+  }
+
+  private JPanel get_inventory() {
+    JPanel panel = new JPanel();
+    FormLayout panelLayout =
+        new FormLayout(
+            "p:grow", // columns
+            "fill:min:grow" // rows
+            );
+    panel.setLayout(panelLayout);
+    JSplitPane split00 = new JSplitPane();
+    JSplitPane split01 = new JSplitPane();
+    split00.setLeftComponent(get_mixinventorylist());
+    split00.setRightComponent(get_mixinventorydays());
+    split01.setLeftComponent(split00);
+    split01.setRightComponent(get_mixinventorysum());
+    panel.add(split01, cc.xy(1, 1));
+    setup_tbl_inventory();
+    return panel;
+  }
+
+  private JPanel get_mixinventorylist() {
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder("Mix"));
+    FormLayout panelLayout =
+        new FormLayout(
+            "p:grow", // columns
+            "fill:min:grow" // rows
+            );
+    panel.setLayout(panelLayout);
+    panel.add(new JScrollPane(lst_mix_inventory), cc.xy(1, 1));
+    return panel;
+  }
+
+  private JPanel get_mixinventorydays() {
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder("Meal Plan Usage"));
+    FormLayout panelLayout =
+        new FormLayout(
+            "p:grow", // columns
+            "fill:min:grow,min" // rows
+            );
+    panel.setLayout(panelLayout);
+    panel.add(new JScrollPane(tbl_inventory_days), cc.xy(1, 1));
+    panel.add(get_mixinventorydays_buttons(), cc.xy(1, 2));
+    return panel;
+  }
+
+  private JPanel get_mixinventorysum() {
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder("Food Forecast"));
+    FormLayout panelLayout =
+        new FormLayout(
+            "p:grow", // columns
+            "fill:min:grow,min" // rows
+            );
+    panel.setLayout(panelLayout);
+    panel.add(new JScrollPane(tbl_inventory_sum), cc.xy(1, 1));
+    panel.add(new JButton(), cc.xy(1, 1));
+    return panel;
+  }
+
+  private JPanel get_mixinventorydays_buttons() {
+    JPanel panel = new JPanel();
+    JButton btn_add = new JButton("+");
+    JButton btn_delete = new JButton("-");
+    btn_add.setToolTipText("Add meal plan to food forecast");
+    btn_delete.setToolTipText("Delete meal plan from food forecast");
+    panel.add(btn_add);
+    panel.add(btn_delete);
+    btn_add.addActionListener(
+        (ActionEvent e) -> {
+          event_action_performed_mixinventory_btn_add();
+          setup_tbl_inventory();
+        });
+    btn_delete.addActionListener(
+        (ActionEvent e) -> {
+          event_action_performed_mixinventory_btn_delete();
+          setup_tbl_inventory();
+        });
+    return panel;
+  }
+
+  private void event_action_performed_mixinventory_btn_delete() {
+    Integer selectedRow = tbl_inventory_days.getSelectedRow();
+    if (tbl_inventory_days.getSelectedRow() == -1) {
+      return;
+    }
+    String mixid = (String) tbl_inventory_days.getValueAt(selectedRow, 0);
+    new InventoryDays_del().apply(mixid);
+  }
+
+  private void event_action_performed_mixinventory_btn_add() {
+    if (lst_mix_inventory.isSelectionEmpty()) {
+      return;
+    }
+    MixDataObject mix = (MixDataObject) lst_mix_inventory.getSelectedValue();
+    Double days = get_mixinventory_input();
+    if (days == Double.NaN) {
+      return;
+    }
+    new InventoryDays_ins().apply(mix, days);
+  }
+
+  private Double get_mixinventory_input() {
+    Double days = 1.0;
+    JTextField input = new JTextField();
+    JPanel input_panel = new JPanel();
+    input.setPreferredSize(new Dimension(50, 25));
+    input_panel.add(new JLabel("How many days will you be using this meal plan?"));
+    input_panel.add(input);
+    JComponent[] inputs = new JComponent[] {input_panel};
+    int optionValue = Message.showOptionDialogOkCancel(inputs, "Meal Plan Usage");
+    if (optionValue == 0) {
+      String s = input.getText();
+      if (s != null && s.length() > 0) {
+        NumberCheck checkNumber = new NumberCheck();
+        checkNumber.addToUncheckedList(s);
+        if (checkNumber.pass()) {
+          days = Double.valueOf(s);
+        }
+      }
+    }
+    return days;
+  }
+
+  private void setup_tbl_inventory() {
+    tbl_inventory_days.setModel(new InventoryDays_pop().apply(new InventoryDays_sel().apply()));
+    tbl_inventory_sum.setModel(new InventorySum_pop().apply(new InventorySum_sel().apply()));
+    tbl_inventory_days.getColumnModel().getColumn(0).setMinWidth(0);
+    tbl_inventory_days.getColumnModel().getColumn(0).setMaxWidth(0);
+    tbl_inventory_days.getColumnModel().getColumn(2).setMinWidth(40);
+    tbl_inventory_days.getColumnModel().getColumn(2).setMaxWidth(40);
+    tbl_inventory_days.setAutoCreateRowSorter(true);
+    tbl_inventory_days.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tbl_inventory_days.setFillsViewportHeight(true);
+    tbl_inventory_sum.getColumnModel().getColumn(0).setMinWidth(0);
+    tbl_inventory_sum.getColumnModel().getColumn(0).setMaxWidth(0);
+    tbl_inventory_sum.setAutoCreateRowSorter(true);
+    tbl_inventory_sum.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tbl_inventory_sum.setFillsViewportHeight(true);
+    tbl_inventory_sum.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
   }
 }
