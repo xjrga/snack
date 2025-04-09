@@ -1,26 +1,26 @@
-CREATE PROCEDURE results_by_meal_select (IN v_MixId LONGVARCHAR,IN v_Precision INTEGER) 
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 
-BEGIN ATOMIC 
+CREATE PROCEDURE results_by_meal_select (IN v_MixId LONGVARCHAR)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 --
 SELECT a.name,
-       ROUND(a.amt,v_Precision) AS weight,
-       ROUND(b.amt,v_Precision) AS egross,
-       ROUND(c.amt,v_Precision) AS edigest,
-       ROUND(d.amt,v_Precision) AS efat,
-       ROUND(e.amt,v_Precision) AS ecarbs,
-       ROUND(m.amt,v_Precision) AS efatcarbs,
-       ROUND(f.amt,v_Precision) AS eprotein,
-       ROUND(g.amt,v_Precision) AS ealcohol,
-       ROUND(h.amt,v_Precision) AS fat,
-       ROUND(i.amt,v_Precision) AS carbs,
-       ROUND(j.amt,v_Precision) AS protein,
-       ROUND(k.amt,v_Precision) AS complete,
-       ROUND(l.amt,v_Precision) AS alcohol,
-       ROUND(n.amt,v_Precision) AS fiber,
-       ROUND(o.amt,v_Precision) AS sodium,
-       ROUND(p.amt,v_Precision) AS potassium
+       a.amt AS weight,
+       b.amt AS egross,
+       c.amt AS edigest,
+       d.amt AS efat,
+       e.amt AS ecarbs,
+       m.amt AS efatcarbs,
+       f.amt AS eprotein,
+       g.amt AS ealcohol,
+       h.amt AS fat,
+       i.amt AS carbs,
+       j.amt AS protein,
+       k.amt AS complete,
+       l.amt AS alcohol,
+       n.amt AS fiber,
+       o.amt AS sodium,
+       p.amt AS potassium
 FROM
 --
 (SELECT a.name,
@@ -53,7 +53,7 @@ FROM
           a.MealOrder,
           c.nutrientid
  ORDER BY a.MealOrder) B,
-     --     
+     --
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
@@ -68,7 +68,7 @@ FROM
           a.MealOrder,
           c.nutrientid
  ORDER BY a.MealOrder) C,
-     --               
+     --
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
@@ -283,22 +283,22 @@ AND   a.mealorder = p.mealorder
 UNION
 --
 SELECT 'Total' AS name,
-       ROUND(a.amt,v_Precision) AS weight,
-       ROUND(b.amt,v_Precision) AS egross,
-       ROUND(c.amt,v_Precision) AS edigest,
-       ROUND(d.amt,v_Precision) AS efat,
-       ROUND(e.amt,v_Precision) AS ecarbs,
-       ROUND(m.amt,v_Precision) AS efatcarbs,
-       ROUND(f.amt,v_Precision) AS eprotein,
-       ROUND(g.amt,v_Precision) AS ealcohol,
-       ROUND(h.amt,v_Precision) AS fat,
-       ROUND(i.amt,v_Precision) AS carbs,
-       ROUND(j.amt,v_Precision) AS protein,
-       ROUND(k.amt,v_Precision) AS complete,
-       ROUND(l.amt,v_Precision) AS alcohol,
-       ROUND(n.amt,v_Precision) AS fiber,
-       ROUND(o.amt,v_Precision) AS sodium,
-       ROUND(p.amt,v_Precision) AS potassium
+       a.amt AS weight,
+       b.amt AS egross,
+       c.amt AS edigest,
+       d.amt AS efat,
+       e.amt AS ecarbs,
+       m.amt AS efatcarbs,
+       f.amt AS eprotein,
+       g.amt AS ealcohol,
+       h.amt AS fat,
+       i.amt AS carbs,
+       j.amt AS protein,
+       k.amt AS complete,
+       l.amt AS alcohol,
+       n.amt AS fiber,
+       o.amt AS sodium,
+       p.amt AS potassium
 FROM
 --
 (SELECT SUM(b.expectedwt*c.c) AS amt
@@ -320,7 +320,7 @@ FROM
  AND   a.mixid = v_MixId
  AND   b.foodid = c.foodid
  AND   c.nutrientid = '208') B,
-     --     
+     --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
       mealfoodportion b,
@@ -330,7 +330,7 @@ FROM
  AND   a.mixid = v_MixId
  AND   b.foodid = c.foodid
  AND   c.nutrientid = '10009') C,
-     --               
+     --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
       mealfoodportion b,

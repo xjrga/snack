@@ -1,10 +1,10 @@
 ### Hsqldb
-* __hsqldb__ (v.2.7.3)
+* __hsqldb__ (v.2.7.4)
     - Copyright (c) 2001-2024, The HSQL Development Group
     - http://hsqldb.org/
     - BSD-like license
     - http://hsqldb.org/web/hsqlLicense.html
-* __sqltool__ (v.2.7.3)
+* __sqltool__ (v.2.7.4)
     - Copyright (c) 2001-2024, The HSQL Development Group
     - http://hsqldb.org/
     - BSD-like license
@@ -30,11 +30,7 @@
     - https://openfontlicense.org/
 ---
 ### Apache Software Foundation
-* __Apache POI__(v.4.1.2)
-    - Copyright © 2002-2024, The Apache Software Foundation
-    - https://poi.apache.org
-    - https://www.apache.org/licenses/LICENSE-2.0
-* __Apache FreeMarker__(v.2.3.33)
+* __Apache FreeMarker__(v.2.3.34)
     - Copyright © 2002-2024, The Apache Software Foundation
     - https://freemarker.apache.org
     - https://www.apache.org/licenses/LICENSE-2.0
@@ -46,6 +42,19 @@
     - Copyright (c) 2001-2024, The Apache Software Foundation
     - http://commons.apache.org/proper/commons-math/
     - http://www.apache.org/licenses/LICENSE-2.0
+* __Apache Commons Codec__(v.1.17.2)
+    - Copyright (c) 2002-2024, The Apache Software Foundation
+    - https://commons.apache.org/proper/commons-codec/
+    - http://www.apache.org/licenses/LICENSE-2.0
+* __Apache Commons Csv__(v.1.13.0)
+    - Copyright (c) 2005-2025, The Apache Software Foundation
+    - https://commons.apache.org/proper/commons-csv/
+    - http://www.apache.org/licenses/LICENSE-2.0
+* __Apache Commons Io__(v.1.13.0)
+    - Copyright (c) 2002-2025, The Apache Software Foundation
+    - https://commons.apache.org/proper/commons-io/
+    - http://www.apache.org/licenses/LICENSE-2.0
+
 ---
 ### Looks
 * __Looks__(v.02)

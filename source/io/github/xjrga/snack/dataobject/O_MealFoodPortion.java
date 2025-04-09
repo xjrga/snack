@@ -1,61 +1,64 @@
 package io.github.xjrga.snack.dataobject;
 
+import java.math.BigDecimal;
+
 public class O_MealFoodPortion {
-  private String MixId;
-  private Integer MealId;
+
+  private BigDecimal ActualWt;
+  private BigDecimal ExpectedWt;
   private String FoodId;
-  private Double Pct;
-  private Double ExpectedWt;
-  private Double ActualWt;
+  private Integer MealId;
+  private String MixId;
+  private BigDecimal Pct;
 
   public O_MealFoodPortion() {}
 
-  public void setMixid(String MixId) {
-    this.MixId = MixId;
+  public BigDecimal getActualwt() {
+    return ActualWt;
   }
 
-  public String getMixid() {
-    return MixId;
-  }
-
-  public void setMealid(Integer MealId) {
-    this.MealId = MealId;
-  }
-
-  public Integer getMealid() {
-    return MealId;
-  }
-
-  public void setFoodid(String FoodId) {
-    this.FoodId = FoodId;
+  public BigDecimal getExpectedwt() {
+    return ExpectedWt;
   }
 
   public String getFoodid() {
     return FoodId;
   }
 
-  public void setPct(Double Pct) {
-    this.Pct = Pct;
+  public Integer getMealid() {
+    return MealId;
   }
 
-  public Double getPct() {
+  public String getMixid() {
+    return MixId;
+  }
+
+  public BigDecimal getPct() {
     return Pct;
   }
 
-  public void setExpectedwt(Double ExpectedWt) {
-    this.ExpectedWt = ExpectedWt;
-  }
-
-  public Double getExpectedwt() {
-    return ExpectedWt;
-  }
-
-  public void setActualwt(Double ActualWt) {
+  public void setActualwt(BigDecimal ActualWt) {
     this.ActualWt = ActualWt;
   }
 
-  public Double getActualwt() {
-    return ActualWt;
+  public void setExpectedwt(BigDecimal ExpectedWt) {
+    this.ExpectedWt = ExpectedWt;
+  }
+
+  public void setFoodid(String FoodId) {
+    this.FoodId = FoodId;
+  }
+
+  public void setMealid(Integer MealId) {
+    this.MealId = MealId;
+  }
+
+  public void setMixid(String MixId) {
+    this.MixId = MixId;
+  }
+
+  public void setPct(BigDecimal Pct) {
+    this.Pct = Pct;
   }
 
   @Override

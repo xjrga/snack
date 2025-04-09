@@ -4,25 +4,14 @@ package io.github.xjrga.snack.dataobject;
  * @author jr
  */
 public class Xml_mix {
-  private StringBuilder sb;
+
   private String mixid = "";
   private String name = "";
   private String nutrientid = "";
+  private final StringBuilder sb;
 
   public Xml_mix() {
     sb = new StringBuilder();
-  }
-
-  public void set_mixid(String mixid) {
-    this.mixid = mixid;
-  }
-
-  public void set_name(String name) {
-    this.name = name;
-  }
-
-  public void set_nutrientid(String nutrientid) {
-    this.nutrientid = nutrientid;
   }
 
   public String get_mixid() {
@@ -35,6 +24,18 @@ public class Xml_mix {
 
   public String get_nutrientid() {
     return nutrientid;
+  }
+
+  public void set_mixid(String mixid) {
+    this.mixid = mixid;
+  }
+
+  public void set_name(String name) {
+    this.name = name;
+  }
+
+  public void set_nutrientid(String nutrientid) {
+    this.nutrientid = nutrientid;
   }
 
   @Override

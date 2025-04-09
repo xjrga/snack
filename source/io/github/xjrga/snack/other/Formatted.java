@@ -4,6 +4,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class Formatted {
+
   private String fx = null;
 
   public Formatted(double x, int precision) {

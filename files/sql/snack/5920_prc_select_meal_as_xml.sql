@@ -16,7 +16,7 @@ SET doc = CHAR(10) + '<meal_list>' + CHAR(10);
 --
 FOR SELECT mixid, mealid, name, mealorder FROM meal WHERE mixid = v_MixId ORDER BY mealorder DO
 --
-SET doc = doc +  '<meal>' + CHAR(10) + '<mixid>' + mixid + '</mixid>' + CHAR(10)  + '<mealid>' + mealid + '</mealid>' + CHAR(10) + '<name>' + escape_xml_element_data(name) + '</name>' + CHAR(10)  + '<mealorder>'  + mealorder + '</mealorder>' + CHAR(10) + '</meal>' + CHAR (10);
+SET doc = doc +  '<meal>' + CHAR(10) + '<mix-id>' + mixid + '</mix-id>' + CHAR(10)  + '<meal-id>' + mealid + '</meal-id>' + CHAR(10) + '<meal-name>' + escape_xml_element_data(name) + '</meal-name>' + CHAR(10)  + '<meal-order>'  + mealorder + '</meal-order>' + CHAR(10) + '</meal>' + CHAR (10);
 --
 END FOR;
 --

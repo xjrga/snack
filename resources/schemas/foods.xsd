@@ -1,0 +1,974 @@
+<xsd:schema version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="foods" type="foods">
+        <xsd:annotation>
+            <xsd:documentation>
+                Data Exchange Document Schema For Snack Software Food List
+                Snack: Learning Software For Nutrition
+                Author: Jorge Rolando Garcia de Alba
+                Version: 01
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="foods">
+        <xsd:sequence>
+            <xsd:element name="food" type="food" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="food">
+        <!-- Food Facts -->
+        <xsd:all>
+            <xsd:element name="food-id" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="food-name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, By Difference, g, 205, carbohydrates-carbs_by_diff -->
+            <xsd:element name="carbohydrates-carbs_by_diff" type="carbohydrates-carbs_by_diff" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Fiber, g, 291, carbohydrates-fiber -->
+            <xsd:element name="carbohydrates-fiber" type="carbohydrates-fiber" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Fiber, Insoluble, g, 10018, carbohydrates-fiber_insoluble -->
+            <xsd:element name="carbohydrates-fiber_insoluble" type="carbohydrates-fiber_insoluble" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Fiber, Soluble, g, 10017, carbohydrates-fiber_soluble -->
+            <xsd:element name="carbohydrates-fiber_soluble" type="carbohydrates-fiber_soluble" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Fructose, g, 212, carbohydrates-fructose -->
+            <xsd:element name="carbohydrates-fructose" type="carbohydrates-fructose" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Glucose, g, 211, carbohydrates-glucose -->
+            <xsd:element name="carbohydrates-glucose" type="carbohydrates-glucose" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Glycemic Load, g, 10006, carbohydrates-glycemic_load -->
+            <xsd:element name="carbohydrates-glycemic_load" type="carbohydrates-glycemic_load" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Lactose, g, 213, carbohydrates-lactose -->
+            <xsd:element name="carbohydrates-lactose" type="carbohydrates-lactose" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Starch, g, 209, carbohydrates-starch -->
+            <xsd:element name="carbohydrates-starch" type="carbohydrates-starch" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Sucrose, g, 210, carbohydrates-sucrose -->
+            <xsd:element name="carbohydrates-sucrose" type="carbohydrates-sucrose" minOccurs="1" maxOccurs="1" />
+            <!-- Carbohydrates, Sugars, g, 269, carbohydrates-sugars -->
+            <xsd:element name="carbohydrates-sugars" type="carbohydrates-sugars" minOccurs="1" maxOccurs="1" />
+            <!-- Energy, Gross, kcal, 208, energy-gross -->
+            <xsd:element name="energy-gross" type="energy-gross" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Alpha-linolenic Acid, ALA, 18:3 n-3, g, 619, fats-linolenic -->
+            <xsd:element name="fats-linoleic" type="fats-linoleic" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Cholesterol, mg, 601, fats-cholesterol -->
+            <xsd:element name="fats-cholesterol" type="fats-cholesterol" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Docosahexaenoic Acid, DHA, 22:6 n-3, g, 621, fats-dha -->
+            <xsd:element name="fats-dha" type="fats-dha" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3, g, 629, fats-epa -->
+            <xsd:element name="fats-epa" type="fats-epa" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Lauric Acid, 12:0, g, 611, fats-lauric -->
+            <xsd:element name="fats-lauric" type="fats-lauric" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Linoleic Acid, LA, 18:2 n-6, g, 618, fats-linoleic -->
+            <xsd:element name="fats-linolenic" type="fats-linolenic" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Monounsaturated Fat, MUFA, g, 645, fats-monounsaturated -->
+            <xsd:element name="fats-monounsaturated" type="fats-monounsaturated" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Myristic Acid, 14:0, g, 612, fats-myristic -->
+            <xsd:element name="fats-myristic" type="fats-myristic" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Palmitic Acid, 16:0, g, 613, fats-palmitic -->
+            <xsd:element name="fats-palmitic" type="fats-palmitic" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Polyunsaturated Fat, PUFA, g, 646, fats-polyunsaturated -->
+            <xsd:element name="fats-polyunsaturated" type="fats-polyunsaturated" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Saturated Fat, SFA, g, 606, fats-saturated -->
+            <xsd:element name="fats-saturated" type="fats-saturated" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Stearic Acid, 18:0, g, 614, fats-stearic -->
+            <xsd:element name="fats-stearic" type="fats-stearic" minOccurs="1" maxOccurs="1" />
+            <!-- Fats, Total Fat, g, 204, fats-total -->
+            <xsd:element name="fats-total" type="fats-total" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Calcium, mg, 301, minerals-calcium -->
+            <xsd:element name="minerals-calcium" type="minerals-calcium" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Copper, mg, 312, minerals-copper -->
+            <xsd:element name="minerals-copper" type="minerals-copper" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Iron, mg, 303, minerals-iron -->
+            <xsd:element name="minerals-iron" type="minerals-iron" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Magnesium, mg, 304, minerals-magnesium -->
+            <xsd:element name="minerals-magnesium" type="minerals-magnesium" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Manganese, mg, 315, minerals-manganese -->
+            <xsd:element name="minerals-manganese" type="minerals-manganese" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Phosphorus, mg, 305, minerals-phosphorus -->
+            <xsd:element name="minerals-phosphorus" type="minerals-phosphorus" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Potassium, mg, 306, minerals-potassium -->
+            <xsd:element name="minerals-potassium" type="minerals-potassium" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Selenium, mcg, 317, minerals-selenium -->
+            <xsd:element name="minerals-selenium" type="minerals-selenium" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Sodium, mg, 307, minerals-sodium -->
+            <xsd:element name="minerals-sodium" type="minerals-sodium" minOccurs="1" maxOccurs="1" />
+            <!-- Minerals, Zinc, mg, 309, minerals-zinc -->
+            <xsd:element name="minerals-zinc" type="minerals-zinc" minOccurs="1" maxOccurs="1" />
+            <!-- Other, Alcohol, g, 221, other-alcohol -->
+            <xsd:element name="other-alcohol" type="other-alcohol" minOccurs="1" maxOccurs="1" />
+            <!-- Other, Cost, $, 10005, other-cost -->
+            <xsd:element name="other-cost" type="other-cost" minOccurs="1" maxOccurs="1" />
+            <!-- Other, Water, g, 255, other-water -->
+            <xsd:element name="other-water" type="other-water" minOccurs="1" maxOccurs="1" />
+            <!-- Other, Weight, g, 10000, other-weight -->
+            <xsd:element name="other-weight" type="other-weight" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Anthocyanins, mg, 10024, phytonutrients-anthocyanins -->
+            <xsd:element name="phytonutrients-anthocyanins" type="phytonutrients-anthocyanins" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Caffeine, mg, 262, phytonutrients-caffeine -->
+            <xsd:element name="phytonutrients-caffeine" type="phytonutrients-caffeine" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Carotene, beta, mcg, 321, phytonutrients-beta_carotene -->
+            <xsd:element name="phytonutrients-beta_carotene" type="phytonutrients-beta_carotene" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Carotenoids, mcg, 10019, phytonutrients-carotenoids -->
+            <xsd:element name="phytonutrients-carotenoids" type="phytonutrients-carotenoids" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Flavanols, mg, 10022, phytonutrients-flavanols -->
+            <xsd:element name="phytonutrients-flavanols" type="phytonutrients-flavanols" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Flavanones, mg, 10023, phytonutrients-flavanones -->
+            <xsd:element name="phytonutrients-flavanones" type="phytonutrients-flavanones" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Flavones, mg, 10021, phytonutrients-flavones -->
+            <xsd:element name="phytonutrients-flavones" type="phytonutrients-flavones" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Flavonoids, mg, 10026, phytonutrients-flavonoids -->
+            <xsd:element name="phytonutrients-flavonoids" type="phytonutrients-flavonoids" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Flavonols, mg, 10020, phytonutrients-flavonols -->
+            <xsd:element name="phytonutrients-flavonols" type="phytonutrients-flavonols" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Isoflavones, mg, 10025, phytonutrients-isoflavones -->
+            <xsd:element name="phytonutrients-isoflavones" type="phytonutrients-isoflavones" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Lutein + zeaxanthin, mcg, 338, phytonutrients-lutein_zeaxanthin -->
+            <xsd:element name="phytonutrients-lutein_zeaxanthin" type="phytonutrients-lutein_zeaxanthin" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Lycopene, mcg, 337, phytonutrients-lycopene -->
+            <xsd:element name="phytonutrients-lycopene" type="phytonutrients-lycopene" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Phytosterols, mg, 636, phytonutrients-phytosterols -->
+            <xsd:element name="phytonutrients-phytosterols" type="phytonutrients-phytosterols" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Theobromine, mg, 263, phytonutrients-theobromine -->
+            <xsd:element name="phytonutrients-theobromine" type="phytonutrients-theobromine" minOccurs="1" maxOccurs="1" />
+            <!-- Protein, Complete Protein, g, 10001, protein-complete -->
+            <xsd:element name="protein-complete" type="protein-complete" minOccurs="1" maxOccurs="1" />
+            <!-- Protein, Total Protein, g, 203, protein-total -->
+            <xsd:element name="protein-total" type="protein-total" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, A, RAE, mcg, 320, vitamins-vitamin_a -->
+            <xsd:element name="vitamins-vitamin_a" type="vitamins-vitamin_a" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, B12, mcg, 418, vitamins-vitamin_b12 -->
+            <xsd:element name="vitamins-vitamin_b12" type="vitamins-vitamin_b12" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, B6, mg, 415, vitamins-vitamin_b6 -->
+            <xsd:element name="vitamins-vitamin_b6" type="vitamins-vitamin_b6" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, C, mg, 401, vitamins-vitamin_c -->
+            <xsd:element name="vitamins-vitamin_c" type="vitamins-vitamin_c" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, Choline, mg, 421, vitamins-choline -->
+            <xsd:element name="vitamins-choline" type="vitamins-choline" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, D, mcg, 328, vitamins-vitamin_d -->
+            <xsd:element name="vitamins-vitamin_d" type="vitamins-vitamin_d" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, E, mg, 323, vitamins-vitamin_e -->
+            <xsd:element name="vitamins-vitamin_e" type="vitamins-vitamin_e" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, Folate, DFE, mcg, 435, vitamins-folate -->
+            <xsd:element name="vitamins-folate" type="vitamins-folate" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, K, mcg, 430, vitamins-vitamin_k -->
+            <xsd:element name="vitamins-vitamin_k" type="vitamins-vitamin_k" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, Niacin, mg, 406, vitamins-niacin -->
+            <xsd:element name="vitamins-niacin" type="vitamins-niacin" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, Pantothenic Acid, mg, 410, vitamins-pantothenic -->
+            <xsd:element name="vitamins-pantothenic_acid" type="vitamins-pantothenic_acid" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, Riboflavin, mg, 405, vitamins-riboflavin -->
+            <xsd:element name="vitamins-riboflavin" type="vitamins-riboflavin" minOccurs="1" maxOccurs="1" />
+            <!-- Vitamins, Thiamin, mg, 404, vitamins-thiamin -->
+            <xsd:element name="vitamins-thiamin" type="vitamins-thiamin" minOccurs="1" maxOccurs="1" />
+            <!-- Food Categories -->
+            <xsd:element name="category-list" type="category-list" minOccurs="0" maxOccurs="1"/>
+            <!-- References -->
+            <xsd:element name="reference-list" type="reference-list" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+    </xsd:complexType>
+    <!-- Carbohydrates, By Difference, g, 205, carbohydrates-carbs_by_diff -->
+    <xsd:complexType name="carbohydrates-carbs_by_diff">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="205" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Fiber, Insoluble, g, 10018, carbohydrates-fiber_insoluble -->
+    <xsd:complexType name="carbohydrates-fiber_insoluble">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10018" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Fiber, Soluble, g, 10017, carbohydrates-fiber_soluble -->
+    <xsd:complexType name="carbohydrates-fiber_soluble">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10017" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Fiber, g, 291, carbohydrates-fiber -->
+    <xsd:complexType name="carbohydrates-fiber">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="291" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Fructose, g, 212, carbohydrates-fructose -->
+    <xsd:complexType name="carbohydrates-fructose">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="212" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Glucose, g, 211, carbohydrates-glucose -->
+    <xsd:complexType name="carbohydrates-glucose">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="211" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Glycemic Load, g, 10006, carbohydrates-glycemic_load -->
+    <xsd:complexType name="carbohydrates-glycemic_load">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10006" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Lactose, g, 213, carbohydrates-lactose -->
+    <xsd:complexType name="carbohydrates-lactose">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="213" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Starch, g, 209, carbohydrates-starch -->
+    <xsd:complexType name="carbohydrates-starch">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="209" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Sucrose, g, 210, carbohydrates-sucrose -->
+    <xsd:complexType name="carbohydrates-sucrose">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="210" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Carbohydrates, Sugars, g, 269, carbohydrates-sugars -->
+    <xsd:complexType name="carbohydrates-sugars">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="269" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Energy, Gross, kcal, 208, energy-gross -->
+    <xsd:complexType name="energy-gross">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="Kcal" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="208" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Alpha-linolenic Acid, ALA, 18:3 n-3, g, 619, fats-linolenic -->
+    <xsd:complexType name="fats-linolenic">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="619" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Cholesterol, mg, 601, fats-cholesterol -->
+    <xsd:complexType name="fats-cholesterol">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="601" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Docosahexaenoic Acid, DHA, 22:6 n-3, g, 621, fats-dha -->
+    <xsd:complexType name="fats-dha">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="621" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3, g, 629, fats-epa -->
+    <xsd:complexType name="fats-epa">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="629" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Lauric Acid, 12:0, g, 611, fats-lauric -->
+    <xsd:complexType name="fats-lauric">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="611" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Linoleic Acid, LA, 18:2 n-6, g, 618, fats-linoleic -->
+    <xsd:complexType name="fats-linoleic">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="618" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Monounsaturated Fat, MUFA, g, 645, fats-monounsaturated -->
+    <xsd:complexType name="fats-monounsaturated">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="645" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Myristic Acid, 14:0, g, 612, fats-myristic -->
+    <xsd:complexType name="fats-myristic">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="612" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Palmitic Acid, 16:0, g, 613, fats-palmitic -->
+    <xsd:complexType name="fats-palmitic">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="613" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Polyunsaturated Fat, PUFA, g, 646, fats-polyunsaturated -->
+    <xsd:complexType name="fats-polyunsaturated">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="646" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Saturated Fat, SFA, g, 606, fats-saturated -->
+    <xsd:complexType name="fats-saturated">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="606" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Stearic Acid, 18:0, g, 614, fats-stearic -->
+    <xsd:complexType name="fats-stearic">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="614" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Fats, Total Fat, g, 204, fats-total -->
+    <xsd:complexType name="fats-total">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="204" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Calcium, mg, 301, minerals-calcium -->
+    <xsd:complexType name="minerals-calcium">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="301" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Copper, mg, 312, minerals-copper -->
+    <xsd:complexType name="minerals-copper">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="312" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Iron, mg, 303, minerals-iron -->
+    <xsd:complexType name="minerals-iron">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="303" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Magnesium, mg, 304, minerals-magnesium -->
+    <xsd:complexType name="minerals-magnesium">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="304" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Manganese, mg, 315, minerals-manganese -->
+    <xsd:complexType name="minerals-manganese">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="315" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Phosphorus, mg, 305, minerals-phosphorus -->
+    <xsd:complexType name="minerals-phosphorus">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="305" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Potassium, mg, 306, minerals-potassium -->
+    <xsd:complexType name="minerals-potassium">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="306" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Selenium, mcg, 317, minerals-selenium -->
+    <xsd:complexType name="minerals-selenium">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="317" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Sodium, mg, 307, minerals-sodium -->
+    <xsd:complexType name="minerals-sodium">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="307" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Minerals, Zinc, mg, 309, minerals-zinc -->
+    <xsd:complexType name="minerals-zinc">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="309" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Other, Alcohol, g, 221, other-alcohol -->
+    <xsd:complexType name="other-alcohol">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="221" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Other, Cost, $, 10005, other-cost -->
+    <xsd:complexType name="other-cost">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="$" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10005" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Other, Water, g, 255, other-water -->
+    <xsd:complexType name="other-water">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="255" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Other, Weight, g, 10000, other-weight -->
+    <xsd:complexType name="other-weight">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10000" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Anthocyanins, mg, 10024, phytonutrients-anthocyanins -->
+    <xsd:complexType name="phytonutrients-anthocyanins">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10024" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Caffeine, mg, 262, phytonutrients-caffeine -->
+    <xsd:complexType name="phytonutrients-caffeine">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="262" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Carotene, beta, mcg, 321, phytonutrients-beta_carotene -->
+    <xsd:complexType name="phytonutrients-beta_carotene">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="321" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Carotenoids, mcg, 10019, phytonutrients-carotenoids -->
+    <xsd:complexType name="phytonutrients-carotenoids">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10019" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Flavanols, mg, 10022, phytonutrients-flavanols -->
+    <xsd:complexType name="phytonutrients-flavanols">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10022" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Flavanones, mg, 10023, phytonutrients-flavanones -->
+    <xsd:complexType name="phytonutrients-flavanones">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10023" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Flavones, mg, 10021, phytonutrients-flavones -->
+    <xsd:complexType name="phytonutrients-flavones">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10021" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Flavonoids, mg, 10026, phytonutrients-flavonoids -->
+    <xsd:complexType name="phytonutrients-flavonoids">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10026" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Flavonols, mg, 10020, phytonutrients-flavonols -->
+    <xsd:complexType name="phytonutrients-flavonols">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10020" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Isoflavones, mg, 10025, phytonutrients-isoflavones -->
+    <xsd:complexType name="phytonutrients-isoflavones">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10025" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Lutein + zeaxanthin, mcg, 338, phytonutrients-lutein_zeaxanthin -->
+    <xsd:complexType name="phytonutrients-lutein_zeaxanthin">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="338" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Lycopene, mcg, 337, phytonutrients-lycopene -->
+    <xsd:complexType name="phytonutrients-lycopene">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="337" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Phytosterols, mg, 636, phytonutrients-phytosterols -->
+    <xsd:complexType name="phytonutrients-phytosterols">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="636" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Phytonutrients, Theobromine, mg, 263, phytonutrients-theobromine -->
+    <xsd:complexType name="phytonutrients-theobromine">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="263" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Protein, Complete Protein, g, 10001, protein-complete -->
+    <xsd:complexType name="protein-complete">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="10001" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Protein, Total Protein, g, 203, protein-total -->
+    <xsd:complexType name="protein-total">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="g" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="203" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, A, RAE, mcg, 320, vitamins-vitamin_a -->
+    <xsd:complexType name="vitamins-vitamin_a">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="320" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, B12, mcg, 418, vitamins-vitamin_b12 -->
+    <xsd:complexType name="vitamins-vitamin_b12">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="418" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, B6, mg, 415, vitamins-vitamin_b6 -->
+    <xsd:complexType name="vitamins-vitamin_b6">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="415" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, C, mg, 401, vitamins-vitamin_c -->
+    <xsd:complexType name="vitamins-vitamin_c">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="401" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, Choline, mg, 421, vitamins-choline -->
+    <xsd:complexType name="vitamins-choline">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="421" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, D, mcg, 328, vitamins-vitamin_d -->
+    <xsd:complexType name="vitamins-vitamin_d">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="328" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, E, mg, 323, vitamins-vitamin_e -->
+    <xsd:complexType name="vitamins-vitamin_e">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="323" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, Folate, DFE, mcg, 435, vitamins-folate -->
+    <xsd:complexType name="vitamins-folate">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="435" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, K, mcg, 430, vitamins-vitamin_k -->
+    <xsd:complexType name="vitamins-vitamin_k">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mcg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="430" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, Niacin, mg, 406, vitamins-niacin -->
+    <xsd:complexType name="vitamins-niacin">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="406" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, Pantothenic Acid, mg, 410, vitamins-pantothenic -->
+    <xsd:complexType name="vitamins-pantothenic_acid">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="410" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, Riboflavin, mg, 405, vitamins-riboflavin -->
+    <xsd:complexType name="vitamins-riboflavin">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="405" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- Vitamins, Thiamin, mg, 404, vitamins-thiamin -->
+    <xsd:complexType name="vitamins-thiamin">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="404" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <!-- category List -->
+    <xsd:complexType name="category-list">
+        <xsd:sequence>
+            <xsd:element name="category" type="category" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- Food Category -->
+    <xsd:complexType name="category">
+        <xsd:sequence>
+            <xsd:element name="category-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="category-name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- Reference List -->
+    <xsd:complexType name="reference-list">
+        <xsd:sequence>
+            <xsd:element name="reference" type="reference" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- References -->
+    <xsd:complexType name="reference">
+        <xsd:sequence>
+            <xsd:element name="reference-no" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="reference-name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- Constraint Metric -->
+    <xsd:simpleType name="constraint-metric">
+        <xsd:union memberTypes="food-metric derived-metric"></xsd:union>
+    </xsd:simpleType>
+    <!-- Food Metric Metric -->
+    <xsd:simpleType name="food-metric">
+        <xsd:restriction base="xsd:nonNegativeInteger">
+            <!-- Carbohydrates, By Difference (g), 205, carbohydrates-carbs_by_diff -->
+            <xsd:enumeration value = "205"/>
+            <!-- Carbohydrates, Fiber, Insoluble (g), 10018, carbohydrates-fiber_insoluble -->
+            <xsd:enumeration value = "10018"/>
+            <!-- Carbohydrates, Fiber, Soluble (g), 10017, carbohydrates-fiber_soluble -->
+            <xsd:enumeration value = "10017"/>
+            <!-- Carbohydrates, Fiber (g), 291, carbohydrates-fiber -->
+            <xsd:enumeration value = "291"/>
+            <!-- Carbohydrates, Fructose (g), 212, carbohydrates-fructose -->
+            <xsd:enumeration value = "212"/>
+            <!-- Carbohydrates, Glucose (g), 211, carbohydrates-glucose -->
+            <xsd:enumeration value = "211"/>
+            <!-- Carbohydrates, Glycemic Load (g), 10006, carbohydrates-glycemic_load -->
+            <xsd:enumeration value = "10006"/>
+            <!-- Carbohydrates, Lactose (g), 213, carbohydrates-lactose -->
+            <xsd:enumeration value = "213"/>
+            <!-- Carbohydrates, Starch (g), 209, carbohydrates-starch -->
+            <xsd:enumeration value = "209"/>
+            <!-- Carbohydrates, Sucrose (g), 210, carbohydrates-sucrose -->
+            <xsd:enumeration value = "210"/>
+            <!-- Carbohydrates, Sugars (g), 269, carbohydrates-sugars -->
+            <xsd:enumeration value = "269"/>
+            <!-- Energy, Gross (kcal), 208, energy-gross -->
+            <xsd:enumeration value = "208"/>
+            <!-- Fats, Cholesterol (mg), 601, fats-cholesterol -->
+            <xsd:enumeration value = "601"/>
+            <!-- Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g), 621, fats-dha -->
+            <xsd:enumeration value = "621"/>
+            <!-- Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g), 629, fats-epa -->
+            <xsd:enumeration value = "629"/>
+            <!-- Fats, Lauric Acid, 12:0 (g), 611, fats-lauric -->
+            <xsd:enumeration value = "611"/>
+            <!-- Fats, Linoleic Acid, LA, 18:2 n-6 c,c (g), 675, fats-linoleic -->
+            <xsd:enumeration value = "675"/>
+            <!-- Fats, Linoleic Acid, LA, 18:2 n-6 (g), 618, fats-linoleic -->
+            <xsd:enumeration value = "618"/>
+            <!-- Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 c,c,c (g), 851, fats-alpha_linolenic -->
+            <xsd:enumeration value = "851"/>
+            <!-- Fats, Linolenic Acid, ALA, 18:3 n-3 (g), 619, fats-linolenic -->
+            <xsd:enumeration value = "619"/>
+            <!-- Fats, Monounsaturated Fat, MUFA (g), 645, fats-monounsaturated -->
+            <xsd:enumeration value = "645"/>
+            <!-- Fats, Myristic Acid, 14:0 (g), 612, fats-myristic -->
+            <xsd:enumeration value = "612"/>
+            <!-- Fats, Palmitic Acid, 16:0 (g), 613, fats-palmitic -->
+            <xsd:enumeration value = "613"/>
+            <!-- Fats, Polyunsaturated Fat, PUFA (g), 646, fats-polyunsaturated -->
+            <xsd:enumeration value = "646"/>
+            <!-- Fats, Saturated Fat, SFA (g), 606, fats-saturated -->
+            <xsd:enumeration value = "606"/>
+            <!-- Fats, Stearic Acid, 18:0 (g), 614, fats-stearic -->
+            <xsd:enumeration value = "614"/>
+            <!-- Fats, Total Fat (g), 204, fats-total -->
+            <xsd:enumeration value = "204"/>
+            <!-- Minerals, Calcium (mg), 301, minerals-calcium -->
+            <xsd:enumeration value = "301"/>
+            <!-- Minerals, Copper (mg), 312, minerals-copper -->
+            <xsd:enumeration value = "312"/>
+            <!-- Minerals, Iron (mg), 303, minerals-iron -->
+            <xsd:enumeration value = "303"/>
+            <!-- Minerals, Magnesium (mg), 304, minerals-magnesium -->
+            <xsd:enumeration value = "304"/>
+            <!-- Minerals, Manganese (mg), 315, minerals-manganese -->
+            <xsd:enumeration value = "315"/>
+            <!-- Minerals, Phosphorus (mg), 305, minerals-phosphorus -->
+            <xsd:enumeration value = "305"/>
+            <!-- Minerals, Potassium (mg), 306, minerals-potassium -->
+            <xsd:enumeration value = "306"/>
+            <!-- Minerals, Selenium (mcg), 317, minerals-selenium -->
+            <xsd:enumeration value = "317"/>
+            <!-- Minerals, Sodium (mg), 307, minerals-sodium -->
+            <xsd:enumeration value = "307"/>
+            <!-- Minerals, Zinc (mg), 309, minerals-zinc -->
+            <xsd:enumeration value = "309"/>
+            <!-- Other, Alcohol (g), 221, other-alcohol -->
+            <xsd:enumeration value = "221"/>
+            <!-- Other, Cost ($), 10005, other-cost -->
+            <xsd:enumeration value = "10005"/>
+            <!-- Other, Water (g), 255, other-water -->
+            <xsd:enumeration value = "255"/>
+            <!-- Other, Weight (g), 10000, other-weight -->
+            <xsd:enumeration value = "10000"/>
+            <!-- Phytonutrients, Anthocyanins (mg), 10024, phytonutrients-anthocyanins -->
+            <xsd:enumeration value = "10024"/>
+            <!-- Phytonutrients, Caffeine (mg), 262, phytonutrients-caffeine -->
+            <xsd:enumeration value = "262"/>
+            <!-- Phytonutrients, Carotene, beta (mcg), 321, phytonutrients-beta_carotene -->
+            <xsd:enumeration value = "321"/>
+            <!-- Phytonutrients, Carotenoids (mg), 10019, phytonutrients-carotenoids -->
+            <xsd:enumeration value = "10019"/>
+            <!-- Phytonutrients, Flavanols (mg), 10022, phytonutrients-flavanols -->
+            <xsd:enumeration value = "10022"/>
+            <!-- Phytonutrients, Flavanones (mg), 10023, phytonutrients-flavanones -->
+            <xsd:enumeration value = "10023"/>
+            <!-- Phytonutrients, Flavones (mg), 10021, phytonutrients-flavones -->
+            <xsd:enumeration value = "10021"/>
+            <!-- Phytonutrients, Flavonoids (mg), 10026, phytonutrients-flavonoids -->
+            <xsd:enumeration value = "10026"/>
+            <!-- Phytonutrients, Flavonols (mg), 10020, phytonutrients-flavonols -->
+            <xsd:enumeration value = "10020"/>
+            <!-- Phytonutrients, Isoflavones (mg), 10025, phytonutrients-isoflavones -->
+            <xsd:enumeration value = "10025"/>
+            <!-- Phytonutrients, Lutein + zeaxanthin (mcg), 338, phytonutrients-lutein_zeaxanthin -->
+            <xsd:enumeration value = "338"/>
+            <!-- Phytonutrients, Lycopene (mcg), 337, phytonutrients-lycopene -->
+            <xsd:enumeration value = "337"/>
+            <!-- Phytonutrients, Phytosterols (mg), 636, phytonutrients-phytosterols -->
+            <xsd:enumeration value = "636"/>
+            <!-- Phytonutrients, Theobromine (mg), 263, phytonutrients-theobromine -->
+            <xsd:enumeration value = "263"/>
+            <!-- Protein, Complete Protein (g), 10001, protein-complete -->
+            <xsd:enumeration value = "10001"/>
+            <!-- Protein, Total Protein (g), 203, protein-total -->
+            <xsd:enumeration value = "203"/>
+            <!-- Vitamins, A, RAE (mcg), 320, vitamins-vitamin_a -->
+            <xsd:enumeration value = "320"/>
+            <!-- Vitamins, B12 (mcg), 418, vitamins-vitamin_b12 -->
+            <xsd:enumeration value = "418"/>
+            <!-- Vitamins, B6 (mg), 415, vitamins-vitamin_b6 -->
+            <xsd:enumeration value = "415"/>
+            <!-- Vitamins, C (mg), 401, vitamins-vitamin_c -->
+            <xsd:enumeration value = "401"/>
+            <!-- Vitamins, Choline (mg), 421, vitamins-choline -->
+            <xsd:enumeration value = "421"/>
+            <!-- Vitamins, D (mcg), 328, vitamins-vitamin_d -->
+            <xsd:enumeration value = "328"/>
+            <!-- Vitamins, E (mg), 323, vitamins-vitamin_e -->
+            <xsd:enumeration value = "323"/>
+            <!-- Vitamins, Folate, DFE (mcg), 435, vitamins-folate -->
+            <xsd:enumeration value = "435"/>
+            <!-- Vitamins, K (mcg), 430, vitamins-vitamin_k -->
+            <xsd:enumeration value = "430"/>
+            <!-- Vitamins, Niacin (mg), 406, vitamins-niacin -->
+            <xsd:enumeration value = "406"/>
+            <!-- Vitamins, Pantothenic Acid (mg), 410, vitamins-pantothenic_acid -->
+            <xsd:enumeration value = "410"/>
+            <!-- Vitamins, Riboflavin (mg), 405, vitamins-riboflavin -->
+            <xsd:enumeration value = "405"/>
+            <!-- Vitamins, Thiamin (mg), 404, vitamins-thiamin -->
+            <xsd:enumeration value = "404"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- Derived Metric Metric -->
+    <xsd:simpleType name="derived-metric">
+        <xsd:restriction base="xsd:nonNegativeInteger">
+            <!-- Carbohydrates, digestible (g), 10003, carbohydrates-digestible -->
+            <xsd:enumeration value = "10003"/>
+            <!-- Energy, Carbohydrate (kcal), 10011, energy-carbohydrate -->
+            <xsd:enumeration value = "10011"/>
+            <!-- Energy, Fat (kcal), 10013, energy-fat -->
+            <xsd:enumeration value = "10013"/>
+            <!-- Energy, Fat and Carbohydrate (kcal), 10010, energy-fat_and_carbohydrate -->
+            <xsd:enumeration value = "10010"/>
+            <!-- Energy, Protein (kcal), 10012, energy-protein -->
+            <xsd:enumeration value = "10012"/>
+            <!-- Energy, alcohol (kcal), 10014, energy-alcohol -->
+            <xsd:enumeration value = "10014"/>
+            <!-- Energy, digestible (kcal), 10009, energy-digestible -->
+            <xsd:enumeration value = "10009"/>
+            <!-- Fats, Hypercholesterolemic Fat (g), 10015, fats-hcsfa -->
+            <xsd:enumeration value = "10015"/>
+            <!-- Fats, Long Chain n-3 PUFA (g), 10016, fats-lcn3pufa -->
+            <xsd:enumeration value = "10016"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

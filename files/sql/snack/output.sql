@@ -11,6 +11,180 @@ CREATE TABLE CategoryLink
         )
 );
 /
+CREATE TABLE DnFoodFact
+(
+        food_id LONGVARCHAR,
+        food_name LONGVARCHAR,
+        carbohydrates_carbs_by_diff DECIMAL(11,5),
+        carbohydrates_fiber_insoluble DECIMAL(11,5),
+        carbohydrates_fiber_soluble DECIMAL(11,5),
+        carbohydrates_fiber DECIMAL(11,5),
+        carbohydrates_fructose DECIMAL(11,5),
+        carbohydrates_glucose DECIMAL(11,5),
+        carbohydrates_glycemic_load DECIMAL(11,5),
+        carbohydrates_lactose DECIMAL(11,5),
+        carbohydrates_starch DECIMAL(11,5),
+        carbohydrates_sucrose DECIMAL(11,5),
+        carbohydrates_sugars DECIMAL(11,5),
+        energy_gross DECIMAL(11,5),
+        fats_cholesterol DECIMAL(11,5),
+        fats_dha DECIMAL(11,5),
+        fats_epa DECIMAL(11,5),
+        fats_lauric DECIMAL(11,5),
+        fats_linoleic DECIMAL(11,5),
+        fats_linolenic DECIMAL(11,5),
+        fats_monounsaturated DECIMAL(11,5),
+        fats_myristic DECIMAL(11,5),
+        fats_palmitic DECIMAL(11,5),
+        fats_polyunsaturated DECIMAL(11,5),
+        fats_saturated DECIMAL(11,5),
+        fats_stearic DECIMAL(11,5),
+        fats_total DECIMAL(11,5),
+        minerals_calcium DECIMAL(11,5),
+        minerals_copper DECIMAL(11,5),
+        minerals_iron DECIMAL(11,5),
+        minerals_magnesium DECIMAL(11,5),
+        minerals_manganese DECIMAL(11,5),
+        minerals_phosphorus DECIMAL(11,5),
+        minerals_potassium DECIMAL(11,5),
+        minerals_selenium DECIMAL(11,5),
+        minerals_sodium DECIMAL(11,5),
+        minerals_zinc DECIMAL(11,5),
+        other_alcohol DECIMAL(11,5),
+        other_cost DECIMAL(11,5),
+        other_water DECIMAL(11,5),
+        other_weight DECIMAL(11,5),
+        phytonutrients_anthocyanins DECIMAL(11,5),
+        phytonutrients_caffeine DECIMAL(11,5),
+        phytonutrients_beta_carotene DECIMAL(11,5),
+        phytonutrients_carotenoids DECIMAL(11,5),
+        phytonutrients_flavanols DECIMAL(11,5),
+        phytonutrients_flavanones DECIMAL(11,5),
+        phytonutrients_flavones DECIMAL(11,5),
+        phytonutrients_flavonoids DECIMAL(11,5),
+        phytonutrients_flavonols DECIMAL(11,5),
+        phytonutrients_isoflavones DECIMAL(11,5),
+        phytonutrients_lutein_zeaxanthin DECIMAL(11,5),
+        phytonutrients_lycopene DECIMAL(11,5),
+        phytonutrients_phytosterols DECIMAL(11,5),
+        phytonutrients_theobromine DECIMAL(11,5),
+        protein_complete DECIMAL(11,5),
+        protein_total DECIMAL(11,5),
+        vitamins_vitamin_a DECIMAL(11,5),
+        vitamins_vitamin_b12 DECIMAL(11,5),
+        vitamins_vitamin_b6 DECIMAL(11,5),
+        vitamins_vitamin_c DECIMAL(11,5),
+        vitamins_choline DECIMAL(11,5),
+        vitamins_vitamin_d DECIMAL(11,5),
+        vitamins_vitamin_e DECIMAL(11,5),
+        vitamins_folate DECIMAL(11,5),
+        vitamins_vitamin_k DECIMAL(11,5),
+        vitamins_niacin DECIMAL(11,5),
+        vitamins_pantothenic_acid DECIMAL(11,5),
+        vitamins_riboflavin DECIMAL(11,5),
+        vitamins_thiamin DECIMAL(11,5),
+        carbohydrates_digestible DECIMAL(11,5),
+        energy_carbohydrate DECIMAL(11,5),
+        energy_fat DECIMAL(11,5),
+        energy_fat_and_carbohydrate DECIMAL(11,5),
+        energy_protein DECIMAL(11,5),
+        energy_alcohol DECIMAL(11,5),
+        energy_digestible DECIMAL(11,5),
+        fats_hcsfa DECIMAL(11,5),
+        fats_lcn3pufa DECIMAL(11,5),
+        CONSTRAINT DnFoodFact_primary_key PRIMARY KEY (
+        food_id
+        )
+);
+/
+CREATE TABLE DnMixResult
+(
+        mix_id LONGVARCHAR,
+        food_id LONGVARCHAR,
+        food_name LONGVARCHAR,
+        carbohydrates_carbs_by_diff DECIMAL(11,5),
+        carbohydrates_fiber_insoluble DECIMAL(11,5),
+        carbohydrates_fiber_soluble DECIMAL(11,5),
+        carbohydrates_fiber DECIMAL(11,5),
+        carbohydrates_fructose DECIMAL(11,5),
+        carbohydrates_glucose DECIMAL(11,5),
+        carbohydrates_glycemic_load DECIMAL(11,5),
+        carbohydrates_lactose DECIMAL(11,5),
+        carbohydrates_starch DECIMAL(11,5),
+        carbohydrates_sucrose DECIMAL(11,5),
+        carbohydrates_sugars DECIMAL(11,5),
+        energy_gross DECIMAL(11,5),
+        fats_cholesterol DECIMAL(11,5),
+        fats_dha DECIMAL(11,5),
+        fats_epa DECIMAL(11,5),
+        fats_lauric DECIMAL(11,5),
+        fats_linoleic DECIMAL(11,5),
+        fats_linolenic DECIMAL(11,5),
+        fats_monounsaturated DECIMAL(11,5),
+        fats_myristic DECIMAL(11,5),
+        fats_palmitic DECIMAL(11,5),
+        fats_polyunsaturated DECIMAL(11,5),
+        fats_saturated DECIMAL(11,5),
+        fats_stearic DECIMAL(11,5),
+        fats_total DECIMAL(11,5),
+        minerals_calcium DECIMAL(11,5),
+        minerals_copper DECIMAL(11,5),
+        minerals_iron DECIMAL(11,5),
+        minerals_magnesium DECIMAL(11,5),
+        minerals_manganese DECIMAL(11,5),
+        minerals_phosphorus DECIMAL(11,5),
+        minerals_potassium DECIMAL(11,5),
+        minerals_selenium DECIMAL(11,5),
+        minerals_sodium DECIMAL(11,5),
+        minerals_zinc DECIMAL(11,5),
+        other_alcohol DECIMAL(11,5),
+        other_cost DECIMAL(11,5),
+        other_water DECIMAL(11,5),
+        other_weight DECIMAL(11,5),
+        phytonutrients_anthocyanins DECIMAL(11,5),
+        phytonutrients_caffeine DECIMAL(11,5),
+        phytonutrients_beta_carotene DECIMAL(11,5),
+        phytonutrients_carotenoids DECIMAL(11,5),
+        phytonutrients_flavanols DECIMAL(11,5),
+        phytonutrients_flavanones DECIMAL(11,5),
+        phytonutrients_flavones DECIMAL(11,5),
+        phytonutrients_flavonoids DECIMAL(11,5),
+        phytonutrients_flavonols DECIMAL(11,5),
+        phytonutrients_isoflavones DECIMAL(11,5),
+        phytonutrients_lutein_zeaxanthin DECIMAL(11,5),
+        phytonutrients_lycopene DECIMAL(11,5),
+        phytonutrients_phytosterols DECIMAL(11,5),
+        phytonutrients_theobromine DECIMAL(11,5),
+        protein_complete DECIMAL(11,5),
+        protein_total DECIMAL(11,5),
+        vitamins_vitamin_a DECIMAL(11,5),
+        vitamins_vitamin_b12 DECIMAL(11,5),
+        vitamins_vitamin_b6 DECIMAL(11,5),
+        vitamins_vitamin_c DECIMAL(11,5),
+        vitamins_choline DECIMAL(11,5),
+        vitamins_vitamin_d DECIMAL(11,5),
+        vitamins_vitamin_e DECIMAL(11,5),
+        vitamins_folate DECIMAL(11,5),
+        vitamins_vitamin_k DECIMAL(11,5),
+        vitamins_niacin DECIMAL(11,5),
+        vitamins_pantothenic_acid DECIMAL(11,5),
+        vitamins_riboflavin DECIMAL(11,5),
+        vitamins_thiamin DECIMAL(11,5),
+        carbohydrates_digestible DECIMAL(11,5),
+        energy_carbohydrate DECIMAL(11,5),
+        energy_fat DECIMAL(11,5),
+        energy_fat_and_carbohydrate DECIMAL(11,5),
+        energy_protein DECIMAL(11,5),
+        energy_alcohol DECIMAL(11,5),
+        energy_digestible DECIMAL(11,5),
+        fats_hcsfa DECIMAL(11,5),
+        fats_lcn3pufa DECIMAL(11,5),
+        CONSTRAINT DnMixResult_primary_key PRIMARY KEY (
+        mix_id,
+        food_id
+        )
+);
+/
 CREATE TABLE Food
 (
         FoodId LONGVARCHAR,
@@ -33,7 +207,7 @@ CREATE TABLE FoodFact
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DOUBLE DEFAULT CAST(0 AS DOUBLE),
+        q DECIMAL(11,5),
         CONSTRAINT FoodFact_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -44,7 +218,7 @@ CREATE TABLE FoodFactCoefficient
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        c DOUBLE,
+        c DECIMAL(11,5),
         CONSTRAINT FoodFactCoefficient_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -57,7 +231,7 @@ CREATE TABLE FoodNutrientConstraint
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DOUBLE,
+        b DECIMAL(11,5),
         CONSTRAINT FoodNutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -74,8 +248,8 @@ CREATE TABLE FoodNutrientRatio
         Food_Id_2 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DOUBLE,
-        B DOUBLE,
+        A DECIMAL(11,5),
+        B DECIMAL(11,5),
         CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Food_Id_1,
@@ -83,15 +257,6 @@ CREATE TABLE FoodNutrientRatio
         Food_Id_2,
         Nutrient_Id_2,
         RelationshipId
-        )
-);
-/
-CREATE TABLE GlycemicIndex
-(
-        FoodId LONGVARCHAR,
-        q DOUBLE,
-        CONSTRAINT GlycemicIndex_primary_key PRIMARY KEY (
-        FoodId
         )
 );
 /
@@ -112,9 +277,9 @@ CREATE TABLE MealFoodPortion
         MixId LONGVARCHAR,
         MealId INTEGER,
         FoodId LONGVARCHAR,
-        Pct DOUBLE,
-        ExpectedWt DOUBLE,
-        ActualWt DOUBLE,
+        Pct DECIMAL(11,5),
+        ExpectedWt DECIMAL(11,5),
+        ActualWt DECIMAL(11,5),
         CONSTRAINT MealFoodPortion_primary_key PRIMARY KEY (
         MixId,
         MealId,
@@ -128,17 +293,9 @@ CREATE TABLE Mix
         Name LONGVARCHAR,
         NutrientId LONGVARCHAR,
         Model LONGVARCHAR,
+        MixCost DECIMAL(11,5),
         CONSTRAINT Mix_primary_key PRIMARY KEY (
         MixId
-        )
-);
-/
-CREATE TABLE MixCost
-(
-        mixid LONGVARCHAR,
-        mixcost DOUBLE,
-        CONSTRAINT MixCost_primary_key PRIMARY KEY (
-        mixid
         )
 );
 /
@@ -146,7 +303,7 @@ CREATE TABLE MixFood
 (
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
-        x DOUBLE,
+        x DECIMAL(11,5),
         CONSTRAINT MixFood_primary_key PRIMARY KEY (
         MixId,
         FoodId
@@ -156,7 +313,7 @@ CREATE TABLE MixFood
 CREATE TABLE MixInventory
 (
         MixId LONGVARCHAR,
-        Days DOUBLE,
+        Days DECIMAL(11,5),
         CONSTRAINT MixInventory_primary_key PRIMARY KEY (
         MixId
         )
@@ -167,7 +324,7 @@ CREATE TABLE MixResult
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DOUBLE,
+        q DECIMAL(11,5),
         CONSTRAINT MixResult_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -182,6 +339,8 @@ CREATE TABLE Nutrient
         Visible INTEGER DEFAULT 1,
         NutrientCategoryId LONGVARCHAR,
         Label LONGVARCHAR,
+        Units LONGVARCHAR,
+        Dri INTEGER,
         CONSTRAINT Nutrient_primary_key PRIMARY KEY (
         NutrientId
         )
@@ -201,7 +360,7 @@ CREATE TABLE NutrientConstraint
         MixId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DOUBLE,
+        b DECIMAL(11,5),
         CONSTRAINT NutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         NutrientId,
@@ -215,8 +374,8 @@ CREATE TABLE NutrientRatio
         Nutrient_Id_1 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DOUBLE,
-        B DOUBLE,
+        A DECIMAL(11,5),
+        B DECIMAL(11,5),
         CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Nutrient_Id_1,
@@ -229,8 +388,8 @@ CREATE TABLE Rda
 (
         NutrientId LONGVARCHAR,
         LifeStageId INTEGER,
-        q DOUBLE DEFAULT CAST(0 AS DOUBLE),
-        UL DOUBLE DEFAULT CAST(0 AS DOUBLE),
+        q DECIMAL(11,5) DEFAULT 0.0,
+        UL DECIMAL(11,5) DEFAULT 0.0,
         CONSTRAINT Rda_primary_key PRIMARY KEY (
         NutrientId,
         LifeStageId
@@ -259,205 +418,9 @@ CREATE TABLE Units
 (
         UnitId INTEGER,
         Name LONGVARCHAR,
-        Factor DOUBLE,
+        Factor DECIMAL(11,5),
         CONSTRAINT Units_primary_key PRIMARY KEY (
         UnitId
-        )
-);
-/
-CREATE TABLE ZFC
-(
-        mixid LONGVARCHAR,
-        foodid LONGVARCHAR,
-        ROW INTEGER,
-        N10000 DOUBLE,
-        N10001 DOUBLE,
-        N10003 DOUBLE,
-        N10005 DOUBLE,
-        N10006 DOUBLE,
-        N10009 DOUBLE,
-        N10010 DOUBLE,
-        N10011 DOUBLE,
-        N10012 DOUBLE,
-        N10013 DOUBLE,
-        N10014 DOUBLE,
-        N10015 DOUBLE,
-        N203 DOUBLE,
-        N204 DOUBLE,
-        N205 DOUBLE,
-        N208 DOUBLE,
-        N221 DOUBLE,
-        N255 DOUBLE,
-        N291 DOUBLE,
-        N301 DOUBLE,
-        N303 DOUBLE,
-        N304 DOUBLE,
-        N305 DOUBLE,
-        N306 DOUBLE,
-        N307 DOUBLE,
-        N309 DOUBLE,
-        N312 DOUBLE,
-        N315 DOUBLE,
-        N317 DOUBLE,
-        N320 DOUBLE,
-        N323 DOUBLE,
-        N328 DOUBLE,
-        N401 DOUBLE,
-        N404 DOUBLE,
-        N405 DOUBLE,
-        N406 DOUBLE,
-        N410 DOUBLE,
-        N415 DOUBLE,
-        N418 DOUBLE,
-        N421 DOUBLE,
-        N430 DOUBLE,
-        N435 DOUBLE,
-        N601 DOUBLE,
-        N606 DOUBLE,
-        N611 DOUBLE,
-        N612 DOUBLE,
-        N613 DOUBLE,
-        N614 DOUBLE,
-        N618 DOUBLE,
-        N619 DOUBLE,
-        N621 DOUBLE,
-        N629 DOUBLE,
-        N645 DOUBLE,
-        N646 DOUBLE,
-        CONSTRAINT ZFC_primary_key PRIMARY KEY (
-        mixid,
-        foodid
-        )
-);
-/
-CREATE TABLE ZFF
-(
-        mixid LONGVARCHAR,
-        foodid LONGVARCHAR,
-        ROW INTEGER,
-        N10000 DOUBLE,
-        N10001 DOUBLE,
-        N10003 DOUBLE,
-        N10005 DOUBLE,
-        N10006 DOUBLE,
-        N10009 DOUBLE,
-        N10010 DOUBLE,
-        N10011 DOUBLE,
-        N10012 DOUBLE,
-        N10013 DOUBLE,
-        N10014 DOUBLE,
-        N10015 DOUBLE,
-        N203 DOUBLE,
-        N204 DOUBLE,
-        N205 DOUBLE,
-        N208 DOUBLE,
-        N221 DOUBLE,
-        N255 DOUBLE,
-        N291 DOUBLE,
-        N301 DOUBLE,
-        N303 DOUBLE,
-        N304 DOUBLE,
-        N305 DOUBLE,
-        N306 DOUBLE,
-        N307 DOUBLE,
-        N309 DOUBLE,
-        N312 DOUBLE,
-        N315 DOUBLE,
-        N317 DOUBLE,
-        N320 DOUBLE,
-        N323 DOUBLE,
-        N328 DOUBLE,
-        N401 DOUBLE,
-        N404 DOUBLE,
-        N405 DOUBLE,
-        N406 DOUBLE,
-        N410 DOUBLE,
-        N415 DOUBLE,
-        N418 DOUBLE,
-        N421 DOUBLE,
-        N430 DOUBLE,
-        N435 DOUBLE,
-        N601 DOUBLE,
-        N606 DOUBLE,
-        N611 DOUBLE,
-        N612 DOUBLE,
-        N613 DOUBLE,
-        N614 DOUBLE,
-        N618 DOUBLE,
-        N619 DOUBLE,
-        N621 DOUBLE,
-        N629 DOUBLE,
-        N645 DOUBLE,
-        N646 DOUBLE,
-        CONSTRAINT ZFF_primary_key PRIMARY KEY (
-        mixid,
-        foodid
-        )
-);
-/
-CREATE TABLE mixresultdn
-(
-        mixid LONGVARCHAR,
-        foodid LONGVARCHAR,
-        name LONGVARCHAR,
-        weight DOUBLE,
-        completeprotein DOUBLE,
-        digestiblecarbohydrate DOUBLE,
-        cost DOUBLE,
-        protein DOUBLE,
-        fat DOUBLE,
-        carbsbydiff DOUBLE,
-        energygross DOUBLE,
-        alcohol DOUBLE,
-        water DOUBLE,
-        fiber DOUBLE,
-        calcium DOUBLE,
-        iron DOUBLE,
-        magnesium DOUBLE,
-        phosphorus DOUBLE,
-        potassium DOUBLE,
-        sodium DOUBLE,
-        zinc DOUBLE,
-        copper DOUBLE,
-        fluoride DOUBLE,
-        manganese DOUBLE,
-        selenium DOUBLE,
-        vitamina DOUBLE,
-        vitamine DOUBLE,
-        vitamind DOUBLE,
-        vitaminc DOUBLE,
-        thiamin DOUBLE,
-        riboflavin DOUBLE,
-        niacin DOUBLE,
-        pantothenicacid DOUBLE,
-        vitaminb6 DOUBLE,
-        vitaminb12 DOUBLE,
-        choline DOUBLE,
-        vitamink DOUBLE,
-        folate DOUBLE,
-        cholesterol DOUBLE,
-        sfa DOUBLE,
-        dha DOUBLE,
-        epa DOUBLE,
-        mufa DOUBLE,
-        pufa DOUBLE,
-        linoleicacid DOUBLE,
-        alphalinolenicacid DOUBLE,
-        glycemicload DOUBLE,
-        energydigestible DOUBLE,
-        energycarbohydrate DOUBLE,
-        energyprotein DOUBLE,
-        energyfat DOUBLE,
-        energyalcohol DOUBLE,
-        energyfatcarbohydrate DOUBLE,
-        lauric DOUBLE,
-        myristic DOUBLE,
-        palmitic DOUBLE,
-        stearic DOUBLE,
-        hcsfa DOUBLE,
-        CONSTRAINT mixresultdn_primary_key PRIMARY KEY (
-        mixid,
-        foodid
         )
 );
 /
@@ -465,39 +428,39 @@ ALTER TABLE CategoryLink ADD CONSTRAINT R0_CategoryLink FOREIGN KEY (FoodId) REF
 /
 ALTER TABLE CategoryLink ADD CONSTRAINT R1_CategoryLink FOREIGN KEY (FoodCategoryId) REFERENCES FoodCategory (FoodCategoryId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodFact ADD CONSTRAINT R2_FoodFact FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE DnFoodFact ADD CONSTRAINT R2_DnFoodFact FOREIGN KEY (food_id) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodFact ADD CONSTRAINT R3_FoodFact FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE DnMixResult ADD CONSTRAINT R3_DnMixResult FOREIGN KEY (food_id,mix_id) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R4_FoodFactCoefficient FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFact (FoodId,NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodFact ADD CONSTRAINT R4_FoodFact FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R5_FoodNutrientConstraint FOREIGN KEY (MixId,FoodId) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodFact ADD CONSTRAINT R5_FoodFact FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R6_FoodNutrientConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R6_FoodFactCoefficient FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFact (FoodId,NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R7_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R7_FoodNutrientConstraint FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R8_FoodNutrientRatio FOREIGN KEY (MixId,Food_Id_1) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R8_FoodNutrientConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R9_FoodNutrientRatio FOREIGN KEY (MixId,Food_Id_2) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R9_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R10_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R10_FoodNutrientRatio FOREIGN KEY (Food_Id_1,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R11_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R11_FoodNutrientRatio FOREIGN KEY (Food_Id_2,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R12_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R12_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE GlycemicIndex ADD CONSTRAINT R13_GlycemicIndex FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R13_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE Meal ADD CONSTRAINT R14_Meal FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R14_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodPortion ADD CONSTRAINT R15_MealFoodPortion FOREIGN KEY (MixId,MealId) REFERENCES Meal (MixId,MealId) ON DELETE CASCADE;
+ALTER TABLE Meal ADD CONSTRAINT R15_Meal FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodPortion ADD CONSTRAINT R16_MealFoodPortion FOREIGN KEY (MixId,FoodId) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R16_MealFoodPortion FOREIGN KEY (MealId,MixId) REFERENCES Meal (MealId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE Mix ADD CONSTRAINT R17_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R17_MealFoodPortion FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MixCost ADD CONSTRAINT R18_MixCost FOREIGN KEY (mixid) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE Mix ADD CONSTRAINT R18_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
 /
 ALTER TABLE MixFood ADD CONSTRAINT R19_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
@@ -507,7 +470,7 @@ ALTER TABLE MixInventory ADD CONSTRAINT R21_MixInventory FOREIGN KEY (MixId) REF
 /
 ALTER TABLE MixResult ADD CONSTRAINT R22_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MixResult ADD CONSTRAINT R23_MixResult FOREIGN KEY (MixId,FoodId) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE MixResult ADD CONSTRAINT R23_MixResult FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
 ALTER TABLE Nutrient ADD CONSTRAINT R24_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
 /
@@ -519,9 +482,9 @@ ALTER TABLE NutrientConstraint ADD CONSTRAINT R27_NutrientConstraint FOREIGN KEY
 /
 ALTER TABLE NutrientRatio ADD CONSTRAINT R28_NutrientRatio FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R29_NutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatio ADD CONSTRAINT R29_NutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R30_NutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatio ADD CONSTRAINT R30_NutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
 ALTER TABLE NutrientRatio ADD CONSTRAINT R31_NutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
@@ -529,24 +492,18 @@ ALTER TABLE Rda ADD CONSTRAINT R32_Rda FOREIGN KEY (NutrientId) REFERENCES Nutri
 /
 ALTER TABLE Rda ADD CONSTRAINT R33_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE CASCADE;
 /
-ALTER TABLE ZFC ADD CONSTRAINT R34_ZFC FOREIGN KEY (mixid,foodid) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
-/
-ALTER TABLE ZFF ADD CONSTRAINT R35_ZFF FOREIGN KEY (mixid,foodid) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
-/
-ALTER TABLE mixresultdn ADD CONSTRAINT R36_mixresultdn FOREIGN KEY (mixid,foodid) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
-/
 
 
 CREATE FUNCTION getFoodQuotient(
 IN v_MixId LONGVARCHAR
-) RETURNS DOUBLE
+) RETURNS DECIMAL(10,5)
 READS SQL DATA BEGIN ATOMIC
-DECLARE fq DOUBLE;
+DECLARE fq DECIMAL(10,5);
 SELECT --Food quotient (FQ) calculated using the equation of Black et al
        --FQ for alcohol is 0.667
-       CASE WHEN SUM(energydigestible) <= 0 OR SUM(energydigestible) IS NULL THEN 0 ELSE SUM(energycarbohydrate) /SUM(energydigestible)*1.00 +SUM(energyfat) /SUM(energydigestible)*0.71 +SUM(energyprotein) /SUM(energydigestible)*0.81 +SUM(energyalcohol) /SUM(energydigestible)*0.667 END into fq
-FROM mixresultdn
-WHERE mixid = v_MixId;
+       CASE WHEN SUM(energy_digestible) <= 0 OR SUM(energy_digestible) IS NULL THEN 0 ELSE SUM(energy_carbohydrate) /SUM(energy_digestible)*1.00 +SUM(energy_fat) /SUM(energy_digestible)*0.71 +SUM(energy_protein) /SUM(energy_digestible)*0.81 +SUM(energy_alcohol) /SUM(energy_digestible)*0.667 END into fq
+FROM DnMixResult
+WHERE mix_id = v_MixId;
 RETURN fq;
 END;
 /
@@ -557,9 +514,9 @@ CREATE FUNCTION get_essential_fat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DOUBLE;
+DECLARE ratio DECIMAL(10,5);
 --
-SELECT CASEWHEN(sum(alphalinolenicacid) <= 0,0,sum(linoleicacid)/sum(alphalinolenicacid)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+SELECT CASEWHEN(sum(fats_linolenic) <= 0,0,sum(fats_linoleic)/sum(fats_linolenic)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --
@@ -572,9 +529,9 @@ CREATE FUNCTION get_electrolyte_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DOUBLE;
+DECLARE ratio DECIMAL(10,5);
 --
-SELECT CASEWHEN(sum(sodium) <= 0,0,sum(potassium)/sum(sodium)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+SELECT CASEWHEN(sum(minerals_sodium) <= 0,0,sum(minerals_potassium)/sum(minerals_sodium)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --
@@ -587,9 +544,9 @@ CREATE FUNCTION get_polyufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DOUBLE;
+DECLARE ratio DECIMAL(10,5);
 --
-SELECT CASEWHEN (SUM(sfa) <= 0,0,SUM(pufa) / SUM(sfa)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_polyunsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --
@@ -602,9 +559,9 @@ CREATE FUNCTION get_monoufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DOUBLE;
+DECLARE ratio DECIMAL(10,5);
 --
-SELECT CASEWHEN (SUM(sfa) <= 0,0,SUM(mufa) / SUM(sfa)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_monounsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --
@@ -638,27 +595,27 @@ RETURN v_gi;
 END;
 /
 
-CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DECIMAL(10,5)
 --
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE mealGI DOUBLE;
+DECLARE mealGI DECIMAL(10,5);
 --
 SET mealGI = 0;
 --
-SELECT SUM(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END * getGIFromGL (foodid)) INTO mealGI
-FROM (SELECT mixid,
-             foodid,
-             weight,
-             digestiblecarbohydrate AS carbs,
-             (SELECT SUM(digestiblecarbohydrate)
-              FROM mixresultdn
-              WHERE mixid = v_MixId) AS tcarbs,
-             glycemicload AS gl
-      FROM mixresultdn
-      WHERE mixid = v_MixId)
-GROUP BY mixid;
+SELECT SUM(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END * getGIFromGL (food_id)) INTO mealGI
+FROM (SELECT mix_id,
+             food_id,
+             other_weight,
+             carbohydrates_digestible AS carbs,
+             (SELECT SUM(carbohydrates_digestible)
+              FROM DnMixResult
+              WHERE mix_id = v_MixId) AS tcarbs,
+             carbohydrates_glycemic_load AS gl
+      FROM DnMixResult
+      WHERE mix_id = v_MixId)
+GROUP BY mix_id;
 --
 RETURN mealGI;
 --
@@ -703,6 +660,27 @@ RETURN v_count;
 END;
 /
 
+CREATE FUNCTION countCategories (
+--
+IN v_FoodId LONGVARCHAR
+--
+) RETURNS INTEGER
+--
+READS SQL DATA BEGIN ATOMIC
+--
+DECLARE v_count INTEGER;
+
+--
+SELECT COUNT(*) INTO v_count
+FROM CategoryLink
+WHERE FoodId = v_FoodId;
+--
+RETURN v_count;
+
+--
+END;
+/
+
 CREATE FUNCTION escape_xml_element_data (IN v_text LONGVARCHAR) RETURNS LONGVARCHAR
 --
 READS SQL DATA BEGIN ATOMIC
@@ -720,31 +698,19 @@ END;
 /
 
 
-CREATE FUNCTION pick_food_gi(
-IN v_foodid LONGVARCHAR
-) RETURNS DOUBLE
-READS SQL DATA BEGIN ATOMIC
-DECLARE v_gi DOUBLE;
-SET v_gi = 0;
-SELECT CASE WHEN q IS NULL THEN 0 ELSE q END INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
-RETURN v_gi;
-END;
-/
-
-
 CREATE FUNCTION calculate_remaining_percentage (
 IN v_MixId LONGVARCHAR,
-IN v_FoodId LONGVARCHAR,
-IN v_Precision INTEGER) RETURNS DOUBLE
+IN v_FoodId LONGVARCHAR
+) RETURNS DECIMAL(11,5)
 --
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE v_c DOUBLE;
+DECLARE v_c DECIMAL(11,5);
 --
 SELECT SUM(pct) INTO v_c FROM MealFoodPortion WHERE MixId = v_MixId AND FoodId = v_FoodId;
 --
-RETURN ROUND(v_c * 100,v_Precision);
+RETURN IFNULL(v_c,0.0) * 100;
 --
 END;
 /
@@ -788,7 +754,7 @@ END;
 
 CREATE FUNCTION getFoodCoefficient(IN v_FoodId LONGVARCHAR,IN v_NutrientId LONGVARCHAR ) RETURNS DOUBLE
 READS SQL DATA BEGIN ATOMIC
-DECLARE v_c DOUBLE;
+DECLARE v_c DECIMAL(11,5);
 SELECT CASE WHEN a.q > 0 THEN b.q / a.q ELSE 0 END INTO v_c
 FROM (SELECT foodid,
              q
@@ -906,6 +872,27 @@ END;
 /
 
 
+CREATE FUNCTION getCategoryId (
+--
+IN v_foodid LONGVARCHAR
+--
+) RETURNS LONGVARCHAR
+--
+READS SQL DATA BEGIN ATOMIC 
+--
+DECLARE v_categoryid LONGVARCHAR;
+--
+SELECT a.foodcategoryid INTO v_categoryid
+FROM foodcategory a,
+     categorylink b
+WHERE a.foodcategoryid = b.foodcategoryid
+AND b.foodid = v_foodid;
+--
+RETURN v_categoryid;
+--
+END;
+/
+
 CREATE PROCEDURE get_food_statistics (
 --
 IN v_foodid LONGVARCHAR
@@ -987,10 +974,31 @@ v_FoodId
 END;
 /
 
+CREATE FUNCTION countFood(
+--
+IN v_FoodId LONGVARCHAR
+--
+) RETURNS INTEGER
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE v_count INTEGER;
+--
+SELECT COUNT(1) INTO v_count
+FROM food
+WHERE foodid = v_FoodId;
+--
+RETURN v_count;
+--
+END;
+/
+
+
 CREATE PROCEDURE FoodFact_Merge (
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
-IN v_q DOUBLE
+IN v_q DECIMAL(11,5)
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 MERGE INTO FoodFact USING ( VALUES (
@@ -1012,6 +1020,54 @@ END;
 /
 
 
+CREATE PROCEDURE FoodFact_insert (
+--
+IN v_FoodId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
+IN v_q DECIMAL(11,5)
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+INSERT INTO FoodFact (
+FoodId,
+NutrientId,
+q
+) VALUES (
+v_FoodId,
+v_NutrientId,
+v_q
+);
+--
+END;
+/
+
+
+CREATE PROCEDURE FoodFact_Update (
+--
+IN v_FoodId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
+IN v_q DOUBLE
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+UPDATE
+FoodFact
+SET
+q = v_q
+WHERE
+FoodId = v_FoodId AND
+NutrientId = v_NutrientId;
+END;
+--
+/
+
+
 CREATE PROCEDURE Food_Insert (
 IN v_FoodId LONGVARCHAR,
 IN v_Name LONGVARCHAR
@@ -1028,125 +1084,53 @@ END;
 /
 
 
-CREATE PROCEDURE FoodFact_ZeroOut_FoodId (
---
-IN v_FoodId LONGVARCHAR
---
-)
---
-modifies sql data BEGIN atomic
---
-FOR SELECT nutrientid FROM nutrient DO
---
-call FoodFact_Merge (v_FoodId,nutrientid,0);
---
-END FOR;
---
-END;
-/
-
-CREATE PROCEDURE Food_Insert_Temp (OUT v_OutFoodId LONGVARCHAR,IN v_FoodNom LONGVARCHAR)
---
-modifies sql data BEGIN atomic
---
-DECLARE v_FoodId LONGVARCHAR;
---
-SET v_FoodId = generateId();
-SET v_OutFoodId = v_FoodId;
---
-call Food_Insert(v_FoodId,v_FoodNom);
-call CategoryLink_Insert(v_FoodId,'5000');
-call FoodFact_ZeroOut_FoodId(v_FoodId);
---
-END;
-/
-
-CREATE PROCEDURE snack_food_insertfood (IN v_foodid LONGVARCHAR,IN v_foodnom LONGVARCHAR)
---
-modifies sql data BEGIN atomic
---
-call food_insert(v_foodid,v_foodnom);
-call FoodFact_ZeroOut_FoodId(v_foodid);
---
-END;
-/
-
-
-CREATE PROCEDURE FoodFact_ZeroOut ()
---
-modifies sql data BEGIN atomic
---
-FOR SELECT foodid FROM food DO
---
-call FoodFact_ZeroOut_FoodId(foodid);
---
-END FOR;
---
-END;
-/
-
-CREATE PROCEDURE Food_Select (
+CREATE PROCEDURE getFoodFactsForDerivedItem(
 IN v_FoodId LONGVARCHAR
 )
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
-DECLARE result CURSOR
-FOR
-SELECT
-FoodId,
-Name
-FROM
-Food
-WHERE
-FoodId = v_FoodId;
-OPEN result;
-END;
-/
-
-CREATE PROCEDURE FoodFact_Select_ForDataInput (
-IN v_FoodId LONGVARCHAR,
-IN v_Precision INTEGER
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
 DECLARE result CURSOR
 FOR
 SELECT b.NutrientId,
-       a.Name,
-       b.Name,
-       Round(c.q,v_Precision)
+       a.Name AS Category,
+       b.Name AS Nutrient,
+       c.q
 FROM NutrientCategory a,
      Nutrient b,
      FoodFact c
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
 AND   b.NutrientId = c.NutrientId
 AND c.FoodId = v_FoodId
-AND (b.NutrientId != '10003' AND b.NutrientId != '10006' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014' AND b.NutrientId != '10015')
+AND (b.NutrientId != '10003' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014' AND b.NutrientId != '10015' AND b.NutrientId != '10016')
 ORDER BY a.Name,b.Name;
 OPEN result;
 END;
 /
 
-CREATE PROCEDURE FoodFact_Select_ForCheckCoefficient (
-IN v_FoodId LONGVARCHAR,
-IN v_Precision INTEGER
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+CREATE PROCEDURE getFoodFactsForNewItem()
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
 DECLARE result CURSOR
 FOR
 SELECT b.NutrientId,
-       a.Name,
-       b.Name,
-       Round(c.q,v_Precision) as Fact,
-       Round(d.c,v_Precision) as Coefficient
+       a.Name AS Category,
+       b.Name AS Nutrient,
+       CAST(0.0 AS DECIMAL(11,5)) AS q
 FROM NutrientCategory a,
-     Nutrient b,
-     FoodFact c,
-     FoodFactCoefficient d
+     Nutrient b
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
-AND   b.NutrientId = c.NutrientId
-AND   b.NutrientId = d.NutrientId
-AND   c.FoodId = d.FoodId
-AND c.FoodId = v_FoodId;
+AND   (b.NutrientId != '10003' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014' AND b.NutrientId != '10015' AND b.NutrientId != '10016')
+ORDER BY a.Name,
+         b.Name;
+--
 OPEN result;
+--
 END;
 /
 
@@ -1183,9 +1167,15 @@ SELECT mixid,
        foodid,
        nutrientid,
        relationshipid,
-       b
-FROM foodnutrientconstraint
+       b,
+       b.name as food,
+       c.name as nutrient,
+       d.name as eq
+FROM foodnutrientconstraint a, food b, nutrient c, relationship d
 WHERE mixid = v_mixid
+AND a.foodid = b.foodid
+AND a.nutrientid = c.nutrientid
+AND a.relationshipid = d.relationshipid
 ORDER BY foodid;
 --
 OPEN result;
@@ -1194,25 +1184,647 @@ END;
 /
 
 
-CREATE PROCEDURE DuplicateFoodItem (IN v_FoodId LONGVARCHAR)
+CREATE PROCEDURE CopyFoodFactsToDenormalizedTable (
 --
-MODIFIES SQL DATA BEGIN ATOMIC
+IN v_foodId LONGVARCHAR
 --
-DECLARE v_FoodIdNew LONGVARCHAR;
-DECLARE v_FoodNom LONGVARCHAR;
-DECLARE v_CategoryId LONGVARCHAR;
+)
 --
-SET v_FoodNom = getFoodName(v_FoodId);
-SET v_FoodIdNew = generateId();
--- Other category is 5000
-SET v_CategoryId = '5000';
+MODIFIES SQL DATA
+BEGIN ATOMIC
 --
-call Food_Insert(v_FoodIdNew,v_FoodNom||'_duplicate');
-call CategoryLink_Insert(v_FoodIdNew,v_CategoryId);
-call DuplicateFoodFact(v_FoodId,v_FoodIdNew);
+DELETE FROM DnFoodFact
+WHERE food_id = v_FoodId;
+--
+INSERT INTO DnFoodFact (
+food_id,
+food_name,
+carbohydrates_carbs_by_diff,
+carbohydrates_fiber_insoluble,
+carbohydrates_fiber_soluble,
+carbohydrates_fiber,
+carbohydrates_fructose,
+carbohydrates_glucose,
+carbohydrates_glycemic_load,
+carbohydrates_lactose,
+carbohydrates_starch,
+carbohydrates_sucrose,
+carbohydrates_sugars,
+energy_gross,
+fats_cholesterol,
+fats_dha,
+fats_epa,
+fats_lauric,
+fats_linoleic,
+fats_linolenic,
+fats_monounsaturated,
+fats_myristic,
+fats_palmitic,
+fats_polyunsaturated,
+fats_saturated,
+fats_stearic,
+fats_total,
+minerals_calcium,
+minerals_copper,
+minerals_iron,
+minerals_magnesium,
+minerals_manganese,
+minerals_phosphorus,
+minerals_potassium,
+minerals_selenium,
+minerals_sodium,
+minerals_zinc,
+other_alcohol,
+other_cost,
+other_water,
+other_weight,
+phytonutrients_anthocyanins,
+phytonutrients_caffeine,
+phytonutrients_beta_carotene,
+phytonutrients_carotenoids,
+phytonutrients_flavanols,
+phytonutrients_flavanones,
+phytonutrients_flavones,
+phytonutrients_flavonoids,
+phytonutrients_flavonols,
+phytonutrients_isoflavones,
+phytonutrients_lutein_zeaxanthin,
+phytonutrients_lycopene,
+phytonutrients_phytosterols,
+phytonutrients_theobromine,
+protein_complete,
+protein_total,
+vitamins_vitamin_a,
+vitamins_vitamin_b12,
+vitamins_vitamin_b6,
+vitamins_vitamin_c,
+vitamins_choline,
+vitamins_vitamin_d,
+vitamins_vitamin_e,
+vitamins_folate,
+vitamins_vitamin_k,
+vitamins_niacin,
+vitamins_pantothenic_acid,
+vitamins_riboflavin,
+vitamins_thiamin,
+carbohydrates_digestible,
+energy_carbohydrate,
+energy_fat,
+energy_fat_and_carbohydrate,
+energy_protein,
+energy_alcohol,
+energy_digestible,
+fats_hcsfa,
+fats_lcn3pufa
+)
+SELECT x0.foodid,
+       x0.name,
+       x205.q AS carbohydrates_carbs_by_diff,
+       x10018.q AS carbohydrates_fiber_insoluble,
+       x10017.q AS carbohydrates_fiber_soluble,
+       x291.q AS carbohydrates_fiber,
+       x212.q AS carbohydrates_fructose,
+       x211.q AS carbohydrates_glucose,
+       x10006.q AS carbohydrates_glycemic_load,
+       x213.q AS carbohydrates_lactose,
+       x209.q AS carbohydrates_starch,
+       x210.q AS carbohydrates_sucrose,
+       x269.q AS carbohydrates_sugars,
+       x208.q AS energy_gross,
+       x601.q AS fats_cholesterol,
+       x621.q AS fats_dha,
+       x629.q AS fats_epa,
+       x611.q AS fats_lauric,
+       x618.q AS fats_linoleic,
+       x619.q AS fats_linolenic,
+       x645.q AS fats_monounsaturated,
+       x612.q AS fats_myristic,
+       x613.q AS fats_palmitic,
+       x646.q AS fats_polyunsaturated,
+       x606.q AS fats_saturated,
+       x614.q AS fats_stearic,
+       x204.q AS fats_total,
+       x301.q AS minerals_calcium,
+       x312.q AS minerals_copper,
+       x303.q AS minerals_iron,
+       x304.q AS minerals_magnesium,
+       x315.q AS minerals_manganese,
+       x305.q AS minerals_phosphorus,
+       x306.q AS minerals_potassium,
+       x317.q AS minerals_selenium,
+       x307.q AS minerals_sodium,
+       x309.q AS minerals_zinc,
+       x221.q AS other_alcohol,
+       x10005.q AS other_cost,
+       x255.q AS other_water,
+       x10000.q AS other_weight,
+       x10024.q AS phytonutrients_anthocyanins,
+       x262.q AS phytonutrients_caffeine,
+       x321.q AS phytonutrients_beta_carotene,
+       x10019.q AS phytonutrients_carotenoids,
+       x10022.q AS phytonutrients_flavanols,
+       x10023.q AS phytonutrients_flavanones,
+       x10021.q AS phytonutrients_flavones,
+       x10026.q AS phytonutrients_flavonoids,
+       x10020.q AS phytonutrients_flavonols,
+       x10025.q AS phytonutrients_isoflavones,
+       x338.q AS phytonutrients_lutein_zeaxanthin,
+       x337.q AS phytonutrients_lycopene,
+       x636.q AS phytonutrients_phytosterols,
+       x263.q AS phytonutrients_theobromine,
+       x10001.q AS protein_complete,
+       x203.q AS protein_total,
+       x320.q AS vitamins_vitamin_a,
+       x418.q AS vitamins_vitamin_b12,
+       x415.q AS vitamins_vitamin_b6,
+       x401.q AS vitamins_vitamin_c,
+       x421.q AS vitamins_choline,
+       x328.q AS vitamins_vitamin_d,
+       x323.q AS vitamins_vitamin_e,
+       x435.q AS vitamins_folate,
+       x430.q AS vitamins_vitamin_k,
+       x406.q AS vitamins_niacin,
+       x410.q AS vitamins_pantothenic_acid,
+       x405.q AS vitamins_riboflavin,
+       x404.q AS vitamins_thiamin,
+       x10003.q AS carbohydrates_digestible,
+       x10011.q AS energy_carbohydrate,
+       x10013.q AS energy_fat,
+       x10010.q AS energy_fat_and_carbohydrate,
+       x10012.q AS energy_protein,
+       x10014.q AS energy_alcohol,
+       x10009.q AS energy_digestible,
+       x10015.q AS fats_hcsfa,
+       x10016.q AS fats_lcn3pufa
+FROM
+--foodid , name
+(SELECT foodid, name FROM food WHERE foodid = v_foodId) x0,
+     --205, carbohydrates-carbs_by_diff
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '205'
+ AND   foodid = v_foodId) x205,
+     --10018, carbohydrates-fiber_insoluble
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10018'
+ AND   foodid = v_foodId) x10018,
+     --10017, carbohydrates-fiber_soluble
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10017'
+ AND   foodid = v_foodId) x10017,
+     --291, carbohydrates-fiber
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '291'
+ AND   foodid = v_foodId) x291,
+     --212, carbohydrates-fructose
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '212'
+ AND   foodid = v_foodId) x212,
+     --211, carbohydrates-glucose
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '211'
+ AND   foodid = v_foodId) x211,
+     --10006, carbohydrates-glycemic_load
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10006'
+ AND   foodid = v_foodId) x10006,
+     --213, carbohydrates-lactose
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '213'
+ AND   foodid = v_foodId) x213,
+     --209, carbohydrates-starch
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '209'
+ AND   foodid = v_foodId) x209,
+     --210, carbohydrates-sucrose
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '210'
+ AND   foodid = v_foodId) x210,
+     --269, carbohydrates-sugars
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '269'
+ AND   foodid = v_foodId) x269,
+     --208, energy-gross
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '208'
+ AND   foodid = v_foodId) x208,
+     --601, fats-cholesterol
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '601'
+ AND   foodid = v_foodId) x601,
+     --621, fats-dha
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '621'
+ AND   foodid = v_foodId) x621,
+     --629, fats-epa
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '629'
+ AND   foodid = v_foodId) x629,
+     --611, fats-lauric
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '611'
+ AND   foodid = v_foodId) x611,
+     --618, fats-linoleic
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '618'
+ AND   foodid = v_foodId) x618,
+     --619, fats-linolenic
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '619'
+ AND   foodid = v_foodId) x619,
+     --645, fats-monounsaturated
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '645'
+ AND   foodid = v_foodId) x645,
+     --612, fats-myristic
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '612'
+ AND   foodid = v_foodId) x612,
+     --613, fats-palmitic
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '613'
+ AND   foodid = v_foodId) x613,
+     --646, fats-polyunsaturated
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '646'
+ AND   foodid = v_foodId) x646,
+     --606, fats-saturated
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '606'
+ AND   foodid = v_foodId) x606,
+     --614, fats-stearic
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '614'
+ AND   foodid = v_foodId) x614,
+     --204, fats-total
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '204'
+ AND   foodid = v_foodId) x204,
+     --301, minerals-calcium
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '301'
+ AND   foodid = v_foodId) x301,
+     --312, minerals-copper
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '312'
+ AND   foodid = v_foodId) x312,
+     --303, minerals-iron
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '303'
+ AND   foodid = v_foodId) x303,
+     --304, minerals-magnesium
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '304'
+ AND   foodid = v_foodId) x304,
+     --315, minerals-manganese
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '315'
+ AND   foodid = v_foodId) x315,
+     --305, minerals-phosphorus
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '305'
+ AND   foodid = v_foodId) x305,
+     --306, minerals-potassium
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '306'
+ AND   foodid = v_foodId) x306,
+     --317, minerals-selenium
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '317'
+ AND   foodid = v_foodId) x317,
+     --307, minerals-sodium
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '307'
+ AND   foodid = v_foodId) x307,
+     --309, minerals-zinc
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '309'
+ AND   foodid = v_foodId) x309,
+     --221, other-alcohol
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '221'
+ AND   foodid = v_foodId) x221,
+     --10005, other-cost
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10005'
+ AND   foodid = v_foodId) x10005,
+     --255, other-water
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '255'
+ AND   foodid = v_foodId) x255,
+     --10000, other-weight
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10000'
+ AND   foodid = v_foodId) x10000,
+     --10024, phytonutrients-anthocyanins
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10024'
+ AND   foodid = v_foodId) x10024,
+     --262, phytonutrients-caffeine
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '262'
+ AND   foodid = v_foodId) x262,
+     --321, phytonutrients-beta_carotene
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '321'
+ AND   foodid = v_foodId) x321,
+     --10019, phytonutrients-carotenoids
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10019'
+ AND   foodid = v_foodId) x10019,
+     --10022, phytonutrients-flavanols
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10022'
+ AND   foodid = v_foodId) x10022,
+     --10023, phytonutrients-flavanones
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10023'
+ AND   foodid = v_foodId) x10023,
+     --10021, phytonutrients-flavones
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10021'
+ AND   foodid = v_foodId) x10021,
+     --10026, phytonutrients-flavonoids
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10026'
+ AND   foodid = v_foodId) x10026,
+     --10020, phytonutrients-flavonols
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10020'
+ AND   foodid = v_foodId) x10020,
+     --10025, phytonutrients-isoflavones
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10025'
+ AND   foodid = v_foodId) x10025,
+     --338, phytonutrients-lutein_zeaxanthin
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '338'
+ AND   foodid = v_foodId) x338,
+     --337, phytonutrients-lycopene
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '337'
+ AND   foodid = v_foodId) x337,
+     --636, phytonutrients-phytosterols
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '636'
+ AND   foodid = v_foodId) x636,
+     --263, phytonutrients-theobromine
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '263'
+ AND   foodid = v_foodId) x263,
+     --10001, protein-complete
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10001'
+ AND   foodid = v_foodId) x10001,
+     --203, protein-total
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '203'
+ AND   foodid = v_foodId) x203,
+     --320, vitamins-vitamin_a
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '320'
+ AND   foodid = v_foodId) x320,
+     --418, vitamins-vitamin_b12
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '418'
+ AND   foodid = v_foodId) x418,
+     --415, vitamins-vitamin_b6
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '415'
+ AND   foodid = v_foodId) x415,
+     --401, vitamins-vitamin_c
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '401'
+ AND   foodid = v_foodId) x401,
+     --421, vitamins-choline
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '421'
+ AND   foodid = v_foodId) x421,
+     --328, vitamins-vitamin_d
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '328'
+ AND   foodid = v_foodId) x328,
+     --323, vitamins-vitamin_e
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '323'
+ AND   foodid = v_foodId) x323,
+     --435, vitamins-folate
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '435'
+ AND   foodid = v_foodId) x435,
+     --430, vitamins-vitamin_k
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '430'
+ AND   foodid = v_foodId) x430,
+     --406, vitamins-niacin
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '406'
+ AND   foodid = v_foodId) x406,
+     --410, vitamins-pantothenic_acid
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '410'
+ AND   foodid = v_foodId) x410,
+     --405, vitamins-riboflavin
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '405'
+ AND   foodid = v_foodId) x405,
+     --404, vitamins-thiamin
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '404'
+ AND   foodid = v_foodId) x404,
+     --10003, carbohydrates-digestible
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10003'
+ AND   foodid = v_foodId) x10003,
+     --10011, energy-carbohydrate
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10011'
+ AND   foodid = v_foodId) x10011,
+     --10013, energy-fat
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10013'
+ AND   foodid = v_foodId) x10013,
+     --10010, energy-fat_and_carbohydrate
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10010'
+ AND   foodid = v_foodId) x10010,
+     --10012, energy-protein
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10012'
+ AND   foodid = v_foodId) x10012,
+     --10014, energy-alcohol
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10014'
+ AND   foodid = v_foodId) x10014,
+     --10009, energy-digestible
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10009'
+ AND   foodid = v_foodId) x10009,
+     --10015, fats-hcsfa
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10015'
+ AND   foodid = v_foodId) x10015,
+     --10016, fats-lcn3pufa
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10016'
+ AND   foodid = v_foodId) x10016;
 --
 END;
 /
+
 
 CREATE PROCEDURE MixResult_Merge (
 IN v_MixId LONGVARCHAR,
@@ -1261,116 +1873,6 @@ END FOR;
 END;
 /
 
-
-CREATE PROCEDURE Mix_getMealGi (
---
-IN v_MixId LONGVARCHAR,
-IN v_Precision INTEGER
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT CASE WHEN b.name IS NULL THEN 'Total' ELSE b.name END as name,
-       ROUND(a.weight, v_Precision) AS weight,
-       ROUND(a.carbs, v_Precision) AS carbs,
-       ROUND(a.pct*100, v_Precision) AS pct,
-       ROUND(a.gl, v_Precision) AS gl,
-       ROUND(a.gi, v_Precision) AS gi,
-       ROUND(a.mealgi, v_Precision) AS mealgi,
-       ROUND(a.energycarbohydrate, v_Precision) as ecarbs
-FROM
-(
-SELECT mixid,
-       foodid,
-       weight,
-       carbs,
-       CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END AS Pct,
-       gl,
-       getGIFromGL(foodid) as gi,
-       CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid) AS MealGI,
-       energycarbohydrate
-FROM (
-SELECT mixid,
-       foodid,
-       weight,
-       digestiblecarbohydrate AS carbs,
-       (SELECT SUM(digestiblecarbohydrate) FROM mixresultdn WHERE mixid = v_MixId) AS tcarbs,
-       glycemicload AS gl,
-       energycarbohydrate
-FROM mixresultdn
-WHERE mixid = v_MixId
-)
---
-UNION
---
-SELECT mixid,
-       'Total',
-       sum(weight),
-       sum(carbs),
-       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END),
-       sum(gl),
-       -1,
-       sum(CASE WHEN tcarbs <= 0 OR tcarbs IS NULL THEN 0 ELSE carbs / tcarbs END *getGIFromGL(foodid)),
-       sum(energycarbohydrate)
-FROM
-(
-SELECT mixid,
-       foodid,
-       weight,
-       digestiblecarbohydrate AS carbs,
-       (SELECT SUM(digestiblecarbohydrate) FROM mixresultdn WHERE mixid = v_MixId) AS tcarbs,
-       glycemicload AS gl,
-       energycarbohydrate
-FROM mixresultdn
-WHERE mixid = v_MixId
-)
-GROUP BY mixid
-) a
---
-LEFT JOIN
---
-(
-SELECT foodid,
-       name
-       FROM food
-) b
-ON a.foodid = b.foodid
-ORDER BY weight,name;
---
-OPEN result;
---
-END;
-/
-
-
-CREATE PROCEDURE Mix_getMealGIDiff (
---
-IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
---
-)
---
-MODIFIES SQL DATA
-DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT 'MealGI' AS nutrient,
-       ROUND(a.mealgi,v_Precision) AS mix1,
-       ROUND(b.mealgi,v_Precision) AS mix2,
-       ROUND(a.mealgi - b.mealgi,v_Precision) AS diff       
-FROM (SELECT getMealGI(v_MixId_1) AS mealgi FROM ( VALUES (0))) a,
-     (SELECT getMealGI(v_MixId_2) AS mealgi FROM ( VALUES (0))) b;
---
-OPEN result;
---
-END;
-/
 
 CREATE PROCEDURE FoodFact_EnergyFat ()
 --
@@ -1736,7 +2238,8 @@ DECLARE result CURSOR
 FOR
 SELECT c.name AS category,
        a.foodid,
-       b.name AS food
+       b.name AS food,
+       c.foodcategoryid
 FROM categorylink a,
      food b,
      foodcategory c
@@ -1782,23 +2285,6 @@ OPEN result;
 END;
 /
 
-
-CREATE PROCEDURE Food_Select_All_2 ()
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT foodid,
-       name
-FROM Food
-ORDER BY name;
---
-OPEN result;
-
---
-END;
-/
 
 CREATE PROCEDURE FoodNutrientRatio_Copy (
 --
@@ -1950,253 +2436,197 @@ END;
 /
 
 
-CREATE PROCEDURE Food_Select_Details (
-IN v_Precision INTEGER
-)
+CREATE PROCEDURE Food_Select_Details ()
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
 --
-SELECT
-       --Name
-       a.name AS "Name",
-       --Mass
-       ROUND(x0.q,v_Precision) AS "Weight",
-       --Energy
-       ROUND(x8.q,v_Precision) AS "EnergyGross",
-       ROUND(x53.q,v_Precision) AS "EnergyDigestible",
-       ROUND(x55.q,v_Precision) AS "EnergyCarbohydrate",
-       ROUND(x56.q,v_Precision) AS "EnergyProtein",
-       ROUND(x57.q,v_Precision) AS "EnergyFat",
-       ROUND(x58.q,v_Precision) AS "EnergyAlcohol",
-       ROUND(x59.q,v_Precision) AS "EnergyFatCarbohydrate",
-       --Macronutrient
-       ROUND(x6.q,v_Precision) AS "Fat",
-       ROUND(x3.q,v_Precision) AS "DigestibleCarbs",
-       ROUND(x5.q,v_Precision) AS "Protein",
-       ROUND(x12.q,v_Precision) AS "Alcohol",
-       --Protein
-       ROUND(x1.q,v_Precision) AS "CompleteProtein",
-       --Fiber
-       ROUND(x7.q,v_Precision) AS "CarbsByDiff",
-       ROUND(x16.q,v_Precision) AS "Fiber",
-       --Minerals
-       ROUND(x17.q,v_Precision) AS "Calcium",
-       ROUND(x18.q,v_Precision) AS "Iron",
-       ROUND(x19.q,v_Precision) AS "Magnesium",
-       ROUND(x20.q,v_Precision) AS "Phosphorus",
-       ROUND(x21.q,v_Precision) AS "Potassium",
-       ROUND(x22.q,v_Precision) AS "Sodium",
-       ROUND(x23.q,v_Precision) AS "Zinc",
-       ROUND(x24.q,v_Precision) AS "Copper",
-       ROUND(x26.q,v_Precision) AS "Manganese",
-       ROUND(x27.q,v_Precision) AS "Selenium",
-       --Vitamins
-       ROUND(x28.q,v_Precision) AS "VitaminA",
-       ROUND(x29.q,v_Precision) AS "VitaminE",
-       ROUND(x30.q,v_Precision) AS "VitaminD",
-       ROUND(x33.q,v_Precision) AS "VitaminC",
-       ROUND(x34.q,v_Precision) AS "Thiamin",
-       ROUND(x35.q,v_Precision) AS "Riboflavin",
-       ROUND(x36.q,v_Precision) AS "Niacin",
-       ROUND(x37.q,v_Precision) AS "Pantothenic",
-       ROUND(x38.q,v_Precision) AS "VitaminB6",
-       ROUND(x39.q,v_Precision) AS "VitaminB12",
-       ROUND(x14.q,v_Precision) AS "Choline",
-       ROUND(x40.q,v_Precision) AS "VitaminK",
-       ROUND(x41.q,v_Precision) AS "Folate",
-       --Fatty Acids
-       ROUND(x42.q,v_Precision) AS "Cholesterol",
-       ROUND(x43.q,v_Precision) AS "Saturated",
-       ROUND(x44.q,v_Precision) AS "DHA",
-       ROUND(x45.q,v_Precision) AS "EPA",
-       ROUND(x46.q,v_Precision) AS "Monounsaturated",
-       ROUND(x47.q,v_Precision) AS "Polyunsaturated",
-       ROUND(x48.q,v_Precision) AS "Linoleic",
-       ROUND(x49.q,v_Precision) AS "AlphaLinolenic",
-       ROUND(x60.q,v_Precision) AS "Lauric",
-       ROUND(x61.q,v_Precision) AS "Myristic",
-       ROUND(x62.q,v_Precision) AS "Palmitic",
-       ROUND(x63.q,v_Precision) AS "Stearic",
-       ROUND(x64.q,v_Precision) AS "SaturatedHC",
-       --Glycemic
-       ROUND(x50.q,v_Precision) AS "GlycemicLoad",
-       --Other
-       ROUND(x13.q,v_Precision) AS "Water",
-       ROUND(x4.q,v_Precision) AS "Cost",
-       --Ids
-       a.foodid AS "FoodId"
-FROM food a,
-     foodfact x0,
-     foodfact x1,
-     foodfact x3,
-     foodfact x4,
-     foodfact x5,
-     foodfact x6,
-     foodfact x7,
-     foodfact x8,
-     foodfact x12,
-     foodfact x13,
-     foodfact x16,
-     foodfact x17,
-     foodfact x18,
-     foodfact x19,
-     foodfact x20,
-     foodfact x21,
-     foodfact x22,
-     foodfact x23,
-     foodfact x24,
-     foodfact x26,
-     foodfact x27,
-     foodfact x28,
-     foodfact x29,
-     foodfact x30,
-     foodfact x33,
-     foodfact x34,
-     foodfact x35,
-     foodfact x36,
-     foodfact x37,
-     foodfact x38,
-     foodfact x39,
-     foodfact x14,
-     foodfact x40,
-     foodfact x41,
-     foodfact x42,
-     foodfact x43,
-     foodfact x44,
-     foodfact x45,
-     foodfact x46,
-     foodfact x47,
-     foodfact x48,
-     foodfact x49,
-     foodfact x50,
-     foodfact x53,
-     foodfact x55,
-     foodfact x56,
-     foodfact x57,
-     foodfact x58,
-     foodfact x59,
-     foodfact x60,
-     foodfact x61,
-     foodfact x62,
-     foodfact x63,
-     foodfact x64
-WHERE
-(
-     a.foodid = x0.foodid AND
-     a.foodid = x1.foodid AND
-     a.foodid = x3.foodid AND
-     a.foodid = x4.foodid AND
-     a.foodid = x5.foodid AND
-     a.foodid = x6.foodid AND
-     a.foodid = x7.foodid AND
-     a.foodid = x8.foodid AND
-     a.foodid = x12.foodid AND
-     a.foodid = x13.foodid AND
-     a.foodid = x16.foodid AND
-     a.foodid = x17.foodid AND
-     a.foodid = x18.foodid AND
-     a.foodid = x19.foodid AND
-     a.foodid = x20.foodid AND
-     a.foodid = x21.foodid AND
-     a.foodid = x22.foodid AND
-     a.foodid = x23.foodid AND
-     a.foodid = x24.foodid AND
-     a.foodid = x26.foodid AND
-     a.foodid = x27.foodid AND
-     a.foodid = x28.foodid AND
-     a.foodid = x29.foodid AND
-     a.foodid = x30.foodid AND
-     a.foodid = x33.foodid AND
-     a.foodid = x34.foodid AND
-     a.foodid = x35.foodid AND
-     a.foodid = x36.foodid AND
-     a.foodid = x37.foodid AND
-     a.foodid = x38.foodid AND
-     a.foodid = x39.foodid AND
-     a.foodid = x14.foodid AND
-     a.foodid = x40.foodid AND
-     a.foodid = x41.foodid AND
-     a.foodid = x42.foodid AND
-     a.foodid = x43.foodid AND
-     a.foodid = x44.foodid AND
-     a.foodid = x45.foodid AND
-     a.foodid = x46.foodid AND
-     a.foodid = x47.foodid AND
-     a.foodid = x48.foodid AND
-     a.foodid = x49.foodid AND
-     a.foodid = x50.foodid AND
-     a.foodid = x53.foodid AND
-     a.foodid = x55.foodid AND
-     a.foodid = x56.foodid AND
-     a.foodid = x57.foodid AND
-     a.foodid = x58.foodid AND
-     a.foodid = x59.foodid AND
-     a.foodid = x60.foodid AND
-     a.foodid = x61.foodid AND
-     a.foodid = x62.foodid AND
-     a.foodid = x63.foodid AND
-     a.foodid = x64.foodid
+SELECT food_id,
+       food_name,
+       carbohydrates_carbs_by_diff,
+       carbohydrates_fiber_insoluble,
+       carbohydrates_fiber_soluble,
+       carbohydrates_fiber,
+       carbohydrates_fructose,
+       carbohydrates_glucose,
+       carbohydrates_glycemic_load,
+       carbohydrates_lactose,
+       carbohydrates_starch,
+       carbohydrates_sucrose,
+       carbohydrates_sugars,
+       energy_gross,
+       fats_cholesterol,
+       fats_dha,
+       fats_epa,
+       fats_lauric,
+       fats_linoleic,
+       fats_linolenic,
+       fats_monounsaturated,
+       fats_myristic,
+       fats_palmitic,
+       fats_polyunsaturated,
+       fats_saturated,
+       fats_stearic,
+       fats_total,
+       minerals_calcium,
+       minerals_copper,
+       minerals_iron,
+       minerals_magnesium,
+       minerals_manganese,
+       minerals_phosphorus,
+       minerals_potassium,
+       minerals_selenium,
+       minerals_sodium,
+       minerals_zinc,
+       other_alcohol,
+       other_cost,
+       other_water,
+       other_weight,
+       phytonutrients_anthocyanins,
+       phytonutrients_caffeine,
+       phytonutrients_beta_carotene,
+       phytonutrients_carotenoids,
+       phytonutrients_flavanols,
+       phytonutrients_flavanones,
+       phytonutrients_flavones,
+       phytonutrients_flavonoids,
+       phytonutrients_flavonols,
+       phytonutrients_isoflavones,
+       phytonutrients_lutein_zeaxanthin,
+       phytonutrients_lycopene,
+       phytonutrients_phytosterols,
+       phytonutrients_theobromine,
+       protein_complete,
+       protein_total,
+       vitamins_vitamin_a,
+       vitamins_vitamin_b12,
+       vitamins_vitamin_b6,
+       vitamins_vitamin_c,
+       vitamins_choline,
+       vitamins_vitamin_d,
+       vitamins_vitamin_e,
+       vitamins_folate,
+       vitamins_vitamin_k,
+       vitamins_niacin,
+       vitamins_pantothenic_acid,
+       vitamins_riboflavin,
+       vitamins_thiamin,
+       carbohydrates_digestible,
+       energy_carbohydrate,
+       energy_fat,
+       energy_fat_and_carbohydrate,
+       energy_protein,
+       energy_alcohol,
+       energy_digestible,
+       fats_hcsfa,
+       fats_lcn3pufa
+FROM DnFoodFact;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE Food_Select_Details (
+--
+IN v_txt LONGVARCHAR
+--
 )
-AND
-(
-     x0.nutrientid = '10000' AND
-     x1.nutrientid = '10001' AND
-     x3.nutrientid = '10003' AND
-     x4.nutrientid = '10005' AND
-     x5.nutrientid = '203' AND
-     x6.nutrientid = '204' AND
-     x7.nutrientid = '205' AND
-     x8.nutrientid = '208' AND
-     x12.nutrientid = '221' AND
-     x13.nutrientid = '255' AND
-     x16.nutrientid = '291' AND
-     x17.nutrientid = '301' AND
-     x18.nutrientid = '303' AND
-     x19.nutrientid = '304' AND
-     x20.nutrientid = '305' AND
-     x21.nutrientid = '306' AND
-     x22.nutrientid = '307' AND
-     x23.nutrientid = '309' AND
-     x24.nutrientid = '312' AND
-     x26.nutrientid = '315' AND
-     x27.nutrientid = '317' AND
-     x28.nutrientid = '320' AND
-     x29.nutrientid = '323' AND
-     x30.nutrientid = '328' AND
-     x33.nutrientid = '401' AND
-     x34.nutrientid = '404' AND
-     x35.nutrientid = '405' AND
-     x36.nutrientid = '406' AND
-     x37.nutrientid = '410' AND
-     x38.nutrientid = '415' AND
-     x39.nutrientid = '418' AND
-     x14.nutrientid = '421' AND
-     x40.nutrientid = '430' AND
-     x41.nutrientid = '435' AND
-     x42.nutrientid = '601' AND
-     x43.nutrientid = '606' AND
-     x44.nutrientid = '621' AND
-     x45.nutrientid = '629' AND
-     x46.nutrientid = '645' AND
-     x47.nutrientid = '646' AND
-     x48.nutrientid = '618' AND
-     x49.nutrientid = '619' AND
-     x50.nutrientid = '10006' AND
-     x53.nutrientid = '10009' AND
-     x55.nutrientid = '10011' AND
-     x56.nutrientid = '10012' AND
-     x57.nutrientid = '10013' AND
-     x58.nutrientid = '10014' AND
-     x59.nutrientid = '10010' AND
-     x60.nutrientid = '611' AND
-     x61.nutrientid = '612' AND
-     x62.nutrientid = '613' AND
-     x63.nutrientid = '614' AND
-     x64.nutrientid = '10015'
-);
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT food_id,
+       food_name,
+       carbohydrates_carbs_by_diff,
+       carbohydrates_fiber_insoluble,
+       carbohydrates_fiber_soluble,
+       carbohydrates_fiber,
+       carbohydrates_fructose,
+       carbohydrates_glucose,
+       carbohydrates_glycemic_load,
+       carbohydrates_lactose,
+       carbohydrates_starch,
+       carbohydrates_sucrose,
+       carbohydrates_sugars,
+       energy_gross,
+       fats_cholesterol,
+       fats_dha,
+       fats_epa,
+       fats_lauric,
+       fats_linoleic,
+       fats_linolenic,
+       fats_monounsaturated,
+       fats_myristic,
+       fats_palmitic,
+       fats_polyunsaturated,
+       fats_saturated,
+       fats_stearic,
+       fats_total,
+       minerals_calcium,
+       minerals_copper,
+       minerals_iron,
+       minerals_magnesium,
+       minerals_manganese,
+       minerals_phosphorus,
+       minerals_potassium,
+       minerals_selenium,
+       minerals_sodium,
+       minerals_zinc,
+       other_alcohol,
+       other_cost,
+       other_water,
+       other_weight,
+       phytonutrients_anthocyanins,
+       phytonutrients_caffeine,
+       phytonutrients_beta_carotene,
+       phytonutrients_carotenoids,
+       phytonutrients_flavanols,
+       phytonutrients_flavanones,
+       phytonutrients_flavones,
+       phytonutrients_flavonoids,
+       phytonutrients_flavonols,
+       phytonutrients_isoflavones,
+       phytonutrients_lutein_zeaxanthin,
+       phytonutrients_lycopene,
+       phytonutrients_phytosterols,
+       phytonutrients_theobromine,
+       protein_complete,
+       protein_total,
+       vitamins_vitamin_a,
+       vitamins_vitamin_b12,
+       vitamins_vitamin_b6,
+       vitamins_vitamin_c,
+       vitamins_choline,
+       vitamins_vitamin_d,
+       vitamins_vitamin_e,
+       vitamins_folate,
+       vitamins_vitamin_k,
+       vitamins_niacin,
+       vitamins_pantothenic_acid,
+       vitamins_riboflavin,
+       vitamins_thiamin,
+       carbohydrates_digestible,
+       energy_carbohydrate,
+       energy_fat,
+       energy_fat_and_carbohydrate,
+       energy_protein,
+       energy_alcohol,
+       energy_digestible,
+       fats_hcsfa,
+       fats_lcn3pufa
+FROM DnFoodFact
+--WHERE food_name LIKE CONCAT('%',v_txt,'%');
+WHERE food_name LIKE v_txt;
+--WHERE REGEXP_MATCHES(food_name,CONCAT('.*',v_txt,'.*')) = TRUE;
+--WHERE REGEXP_MATCHES(food_name,v_txt) = TRUE;
 --
 OPEN result;
 --
@@ -2299,11 +2729,20 @@ SELECT mixid,
        food_id_2,
        nutrient_id_2,
        relationshipid,
-       0 AS b
-       --foodratio_b1,
-       --foodratio_b2
-       FROM foodnutrientratio
+       a,
+       b,
+       b.name as food1,
+       c.name as nutrient1,
+       d.name as food2,
+       e.name as nutrient2,
+       f.name as eq
+FROM foodnutrientratio a, food b, nutrient c, food d, nutrient e, relationship f
 WHERE mixid = v_mixid
+AND a.food_id_1 = b.foodid
+AND a.nutrient_id_1 = c.nutrientid
+AND a.food_id_2 = d.foodid
+AND a.nutrient_id_2 = e.nutrientid
+AND a.relationshipid = f.relationshipid
 ORDER BY mixid,
          food_id_1,
          nutrient_id_1,
@@ -2539,11 +2978,31 @@ END;
 /
 
 
-CREATE PROCEDURE Mix_getDiff (
+CREATE PROCEDURE deleteAllMixes()
+MODIFIES SQL DATA BEGIN ATOMIC
+DELETE FROM Mix;
+END;
+/
+
+
+CREATE PROCEDURE deleteAllFoods()
+MODIFIES SQL DATA BEGIN ATOMIC
+DELETE FROM Food;
+END;
+/
+
+
+CREATE PROCEDURE deleteAllFoodCategories()
+MODIFIES SQL DATA BEGIN ATOMIC
+DELETE FROM FoodCategory;
+END;
+/
+
+
+CREATE PROCEDURE compareMixes (
 --
 IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
+IN v_MixId_2 LONGVARCHAR
 --
 )
 --
@@ -2561,13 +3020,13 @@ SELECT
        b.nutrientcategoryid,
        b.nutrientid,
        b.name,
-       round(a.mix1,v_Precision) as mixa,
-       round(a.mix2,v_Precision) as mixb,
-       round(a.diff,v_Precision) as diff
+       a.mix1 as mixa,
+       a.mix2 as mixb,
+       a.diff as diff
 FROM (SELECT a.nutrientid,
              a.value AS mix1,
              b.value AS mix2,
-             b.value - a.value AS diff
+             a.value - b.value AS diff
       FROM (SELECT nutrientid,
                    SUM(q) AS value
             FROM mixresult
@@ -2653,9 +3112,10 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 SELECT MixId,
-       Name,       
+       Name,
        NutrientId,
-       Model
+       Model,
+       MixCost
 FROM Mix
 ORDER BY Name;
 --
@@ -2876,7 +3336,7 @@ WHERE mixid = v_MixId_Old;
 END;
 /
 
-CREATE PROCEDURE mixresultdn_copy (
+CREATE PROCEDURE DnMixResult_copy (
 --
 IN v_MixId_Old LONGVARCHAR,
 --
@@ -2887,263 +3347,357 @@ IN v_MixId_New LONGVARCHAR
 MODIFIES SQL DATA
 BEGIN ATOMIC
 --
-INSERT INTO mixresultdn
+INSERT INTO DnMixResult
 (
-    mixid,
-    foodid,
-    name,
-    weight,
-    completeprotein,
-    digestiblecarbohydrate,
-    cost,
-    protein,
-    fat,
-    carbsbydiff,
-    energygross,
-    alcohol,
-    water,
-    fiber,
-    calcium,
-    iron,
-    magnesium,
-    phosphorus,
-    potassium,
-    sodium,
-    zinc,
-    copper,
-    manganese,
-    selenium,
-    vitamina,
-    vitamine,
-    vitamind,
-    vitaminc,
-    thiamin,
-    riboflavin,
-    niacin,
-    pantothenicacid,
-    vitaminb6,
-    vitaminb12,
-    choline,
-    vitamink,
-    folate,
-    cholesterol,
-    sfa,
-    dha,
-    epa,
-    mufa,
-    pufa,
-    linoleicacid,
-    alphalinolenicacid,
-    glycemicload,
-    energydigestible,
-    energycarbohydrate,
-    energyprotein,
-    energyfat,
-    energyalcohol,
-    energyfatcarbohydrate,
-    lauric,
-    myristic,
-    palmitic,
-    stearic,
-    hcsfa
+mix_id,
+food_id,
+food_name,
+carbohydrates_carbs_by_diff,
+carbohydrates_fiber_insoluble,
+carbohydrates_fiber_soluble,
+carbohydrates_fiber,
+carbohydrates_fructose,
+carbohydrates_glucose,
+carbohydrates_glycemic_load,
+carbohydrates_lactose,
+carbohydrates_starch,
+carbohydrates_sucrose,
+carbohydrates_sugars,
+energy_gross,
+fats_cholesterol,
+fats_dha,
+fats_epa,
+fats_lauric,
+fats_linoleic,
+fats_linolenic,
+fats_monounsaturated,
+fats_myristic,
+fats_palmitic,
+fats_polyunsaturated,
+fats_saturated,
+fats_stearic,
+fats_total,
+minerals_calcium,
+minerals_copper,
+minerals_iron,
+minerals_magnesium,
+minerals_manganese,
+minerals_phosphorus,
+minerals_potassium,
+minerals_selenium,
+minerals_sodium,
+minerals_zinc,
+other_alcohol,
+other_cost,
+other_water,
+other_weight,
+phytonutrients_anthocyanins,
+phytonutrients_caffeine,
+phytonutrients_beta_carotene,
+phytonutrients_carotenoids,
+phytonutrients_flavanols,
+phytonutrients_flavanones,
+phytonutrients_flavones,
+phytonutrients_flavonoids,
+phytonutrients_flavonols,
+phytonutrients_isoflavones,
+phytonutrients_lutein_zeaxanthin,
+phytonutrients_lycopene,
+phytonutrients_phytosterols,
+phytonutrients_theobromine,
+protein_complete,
+protein_total,
+vitamins_vitamin_a,
+vitamins_vitamin_b12,
+vitamins_vitamin_b6,
+vitamins_vitamin_c,
+vitamins_choline,
+vitamins_vitamin_d,
+vitamins_vitamin_e,
+vitamins_folate,
+vitamins_vitamin_k,
+vitamins_niacin,
+vitamins_pantothenic_acid,
+vitamins_riboflavin,
+vitamins_thiamin,
+carbohydrates_digestible,
+energy_carbohydrate,
+energy_fat,
+energy_fat_and_carbohydrate,
+energy_protein,
+energy_alcohol,
+energy_digestible,
+fats_hcsfa,
+fats_lcn3pufa
 )
-SELECT  v_MixId_New,
-        foodid,
-        name,
-        weight,
-        completeprotein,
-        digestiblecarbohydrate,
-        cost,
-        protein,
-        fat,
-        carbsbydiff,
-        energygross,
-        alcohol,
-        water,
-        fiber,
-        calcium,
-        iron,
-        magnesium,
-        phosphorus,
-        potassium,
-        sodium,
-        zinc,
-        copper,
-        manganese,
-        selenium,
-        vitamina,
-        vitamine,
-        vitamind,
-        vitaminc,
-        thiamin,
-        riboflavin,
-        niacin,
-        pantothenicacid,
-        vitaminb6,
-        vitaminb12,
-        choline,
-        vitamink,
-        folate,
-        cholesterol,
-        sfa,
-        dha,
-        epa,
-        mufa,
-        pufa,
-        linoleicacid,
-        alphalinolenicacid,
-        glycemicload,
-        energydigestible,
-        energycarbohydrate,
-        energyprotein,
-        energyfat,
-        energyalcohol,
-        energyfatcarbohydrate,
-        lauric,
-        myristic,
-        palmitic,
-        stearic,
-        hcsfa
-FROM mixresultdn
-WHERE mixid = v_MixId_Old;
+SELECT
+v_MixId_New,        
+food_id,
+food_name,
+carbohydrates_carbs_by_diff,
+carbohydrates_fiber_insoluble,
+carbohydrates_fiber_soluble,
+carbohydrates_fiber,
+carbohydrates_fructose,
+carbohydrates_glucose,
+carbohydrates_glycemic_load,
+carbohydrates_lactose,
+carbohydrates_starch,
+carbohydrates_sucrose,
+carbohydrates_sugars,
+energy_gross,
+fats_cholesterol,
+fats_dha,
+fats_epa,
+fats_lauric,
+fats_linoleic,
+fats_linolenic,
+fats_monounsaturated,
+fats_myristic,
+fats_palmitic,
+fats_polyunsaturated,
+fats_saturated,
+fats_stearic,
+fats_total,
+minerals_calcium,
+minerals_copper,
+minerals_iron,
+minerals_magnesium,
+minerals_manganese,
+minerals_phosphorus,
+minerals_potassium,
+minerals_selenium,
+minerals_sodium,
+minerals_zinc,
+other_alcohol,
+other_cost,
+other_water,
+other_weight,
+phytonutrients_anthocyanins,
+phytonutrients_caffeine,
+phytonutrients_beta_carotene,
+phytonutrients_carotenoids,
+phytonutrients_flavanols,
+phytonutrients_flavanones,
+phytonutrients_flavones,
+phytonutrients_flavonoids,
+phytonutrients_flavonols,
+phytonutrients_isoflavones,
+phytonutrients_lutein_zeaxanthin,
+phytonutrients_lycopene,
+phytonutrients_phytosterols,
+phytonutrients_theobromine,
+protein_complete,
+protein_total,
+vitamins_vitamin_a,
+vitamins_vitamin_b12,
+vitamins_vitamin_b6,
+vitamins_vitamin_c,
+vitamins_choline,
+vitamins_vitamin_d,
+vitamins_vitamin_e,
+vitamins_folate,
+vitamins_vitamin_k,
+vitamins_niacin,
+vitamins_pantothenic_acid,
+vitamins_riboflavin,
+vitamins_thiamin,
+carbohydrates_digestible,
+energy_carbohydrate,
+energy_fat,
+energy_fat_and_carbohydrate,
+energy_protein,
+energy_alcohol,
+energy_digestible,
+fats_hcsfa,
+fats_lcn3pufa
+FROM DnMixResult
+WHERE mix_id = v_MixId_Old;
 --
 END;
 /
 
 CREATE PROCEDURE MixResult_Select (
-IN v_MixId LONGVARCHAR,
-IN v_Precision INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
-SELECT a.MixId,
-       a.FoodId,
-       b.Name,
-       ROUND(a.Weight,v_Precision) AS Weight,
-       ROUND(CompleteProtein,v_Precision) AS CompleteProtein,
-       ROUND(DigestibleCarbohydrate,v_Precision) AS DigestibleCarbohydrate,
-       ROUND(Cost,v_Precision) AS Cost,
-       ROUND(Protein,v_Precision) AS Protein,
-       ROUND(Fat,v_Precision) AS Fat,
-       ROUND(CarbsByDiff,v_Precision) AS CarbsByDiff,
-       ROUND(energygross,v_Precision) AS EnergyGross,
-       ROUND(Alcohol,v_Precision) AS Alcohol,
-       ROUND(Water,v_Precision) AS Water,
-       ROUND(Fiber,v_Precision) AS Fiber,
-       ROUND(Calcium,v_Precision) AS Calcium,
-       ROUND(Iron,v_Precision) AS Iron,
-       ROUND(Magnesium,v_Precision) AS Magnesium,
-       ROUND(Phosphorus,v_Precision) AS Phosphorus,
-       ROUND(Potassium,v_Precision) AS Potassium,
-       ROUND(Sodium,v_Precision) AS Sodium,
-       ROUND(Zinc,v_Precision) AS Zinc,
-       ROUND(Copper,v_Precision) AS Copper,
-       ROUND(Manganese,v_Precision) AS Manganese,
-       ROUND(Selenium,v_Precision) AS Selenium,
-       ROUND(VitaminA,v_Precision) AS VitaminA,
-       ROUND(VitaminE,v_Precision) AS VitaminE,
-       ROUND(VitaminD,v_Precision) AS VitaminD,
-       ROUND(VitaminC,v_Precision) AS VitaminC,
-       ROUND(Thiamin,v_Precision) AS Thiamin,
-       ROUND(Riboflavin,v_Precision) AS Riboflavin,
-       ROUND(Niacin,v_Precision) AS Niacin,
-       ROUND(pantothenicacid,v_Precision) AS Pantothenic,
-       ROUND(VitaminB6,v_Precision) AS VitaminB6,
-       ROUND(VitaminB12,v_Precision) AS VitaminB12,
-       ROUND(Choline,v_Precision) AS Choline,
-       ROUND(VitaminK,v_Precision) AS VitaminK,
-       ROUND(Folate,v_Precision) AS Folate,
-       ROUND(Cholesterol,v_Precision) AS Cholesterol,
-       ROUND(sfa,v_Precision) AS Saturated,
-       ROUND(DHA,v_Precision) AS DHA,
-       ROUND(EPA,v_Precision) AS EPA,
-       ROUND(mufa,v_Precision) AS Monounsaturated,
-       ROUND(pufa,v_Precision) AS Polyunsaturated,
-       ROUND(linoleicacid,v_Precision) AS Linoleic,
-       ROUND(alphalinolenicacid,v_Precision) AS AlphaLinolenic,
-       ROUND(GlycemicLoad,v_Precision) AS GlycemicLoad,
-       ROUND(EnergyDigestible,v_Precision) AS EnergyDigestible,
-       ROUND(EnergyCarbohydrate,v_Precision) AS EnergyCarbohydrate,
-       ROUND(EnergyProtein,v_Precision) AS EnergyProtein,
-       ROUND(EnergyFat,v_Precision) AS EnergyFat,
-       ROUND(EnergyAlcohol,v_Precision) AS EnergyAlcohol,
-       ROUND(EnergyFatCarbohydrate,v_Precision) AS EnergyFatCarbohydrate,
-       ROUND(Lauric,v_Precision) AS Lauric,
-       ROUND(Myristic,v_Precision) AS Myristic,
-       ROUND(Palmitic,v_Precision) AS Palmitic,
-       ROUND(Stearic,v_Precision) AS Stearic,
-       ROUND(Hcsfa,v_Precision) AS Hcsfa
-FROM mixresultdn a,
+SELECT 
+a.mix_id,
+a.food_id,
+b.name,
+carbohydrates_carbs_by_diff,
+carbohydrates_fiber_insoluble,
+carbohydrates_fiber_soluble,
+carbohydrates_fiber,
+carbohydrates_fructose,
+carbohydrates_glucose,
+carbohydrates_glycemic_load,
+carbohydrates_lactose,
+carbohydrates_starch,
+carbohydrates_sucrose,
+carbohydrates_sugars,
+energy_gross,
+fats_cholesterol,
+fats_dha,
+fats_epa,
+fats_lauric,
+fats_linoleic,
+fats_linolenic,
+fats_monounsaturated,
+fats_myristic,
+fats_palmitic,
+fats_polyunsaturated,
+fats_saturated,
+fats_stearic,
+fats_total,
+minerals_calcium,
+minerals_copper,
+minerals_iron,
+minerals_magnesium,
+minerals_manganese,
+minerals_phosphorus,
+minerals_potassium,
+minerals_selenium,
+minerals_sodium,
+minerals_zinc,
+other_alcohol,
+other_cost,
+other_water,
+other_weight,
+phytonutrients_anthocyanins,
+phytonutrients_caffeine,
+phytonutrients_beta_carotene,
+phytonutrients_carotenoids,
+phytonutrients_flavanols,
+phytonutrients_flavanones,
+phytonutrients_flavones,
+phytonutrients_flavonoids,
+phytonutrients_flavonols,
+phytonutrients_isoflavones,
+phytonutrients_lutein_zeaxanthin,
+phytonutrients_lycopene,
+phytonutrients_phytosterols,
+phytonutrients_theobromine,
+protein_complete,
+protein_total,
+vitamins_vitamin_a,
+vitamins_vitamin_b12,
+vitamins_vitamin_b6,
+vitamins_vitamin_c,
+vitamins_choline,
+vitamins_vitamin_d,
+vitamins_vitamin_e,
+vitamins_folate,
+vitamins_vitamin_k,
+vitamins_niacin,
+vitamins_pantothenic_acid,
+vitamins_riboflavin,
+vitamins_thiamin,
+carbohydrates_digestible,
+energy_carbohydrate,
+energy_fat,
+energy_fat_and_carbohydrate,
+energy_protein,
+energy_alcohol,
+energy_digestible,
+fats_hcsfa,
+fats_lcn3pufa
+FROM DnMixResult a,
      food b
-WHERE a.mixid = v_mixid
-AND   a.foodid = b.foodid
+WHERE a.mix_id = v_mixid
+AND   a.food_id = b.foodid
 --
 union
 --
-select a.MixId,
-       '',
-       'Total',
-       Round(sum(a.Weight),v_Precision),
-       Round(sum(CompleteProtein),v_Precision),
-       Round(sum(DigestibleCarbohydrate),v_Precision),
-       Round(sum(Cost),v_Precision),
-       Round(sum(Protein),v_Precision),
-       Round(sum(Fat),v_Precision),
-       Round(sum(CarbsByDiff),v_Precision),
-       Round(sum(energygross),v_Precision),
-       Round(sum(Alcohol),v_Precision),
-       Round(sum(Water),v_Precision),
-       Round(sum(Fiber),v_Precision),
-       Round(sum(Calcium),v_Precision),
-       Round(sum(Iron),v_Precision),
-       Round(sum(Magnesium),v_Precision),
-       Round(sum(Phosphorus),v_Precision),
-       Round(sum(Potassium),v_Precision),
-       Round(sum(Sodium),v_Precision),
-       Round(sum(Zinc),v_Precision),
-       Round(sum(Copper),v_Precision),
-       Round(sum(Manganese),v_Precision),
-       Round(sum(Selenium),v_Precision),
-       Round(sum(VitaminA),v_Precision),
-       Round(sum(VitaminE),v_Precision),
-       Round(sum(VitaminD),v_Precision),
-       Round(sum(VitaminC),v_Precision),
-       Round(sum(Thiamin),v_Precision),
-       Round(sum(Riboflavin),v_Precision),
-       Round(sum(Niacin),v_Precision),
-       Round(sum(pantothenicacid),v_Precision),
-       Round(sum(VitaminB6),v_Precision),
-       Round(sum(VitaminB12),v_Precision),
-       Round(sum(Choline),v_Precision),
-       Round(sum(VitaminK),v_Precision),
-       Round(sum(Folate),v_Precision),
-       Round(sum(Cholesterol),v_Precision),
-       Round(sum(sfa),v_Precision),
-       Round(sum(DHA),v_Precision),
-       Round(sum(EPA),v_Precision),
-       Round(sum(mufa),v_Precision),
-       Round(sum(pufa),v_Precision),
-       Round(sum(linoleicacid),v_Precision),
-       Round(sum(alphalinolenicacid),v_Precision),
-       Round(sum(GlycemicLoad),v_Precision),
-       Round(sum(EnergyDigestible),v_Precision),
-       Round(sum(EnergyCarbohydrate),v_Precision),
-       Round(sum(EnergyProtein),v_Precision),
-       Round(sum(EnergyFat),v_Precision),
-       Round(sum(EnergyAlcohol),v_Precision),
-       ROUND(sum(EnergyFatCarbohydrate),v_Precision),
-       ROUND(sum(Lauric),v_Precision) AS Lauric,
-       ROUND(sum(Myristic),v_Precision) AS Myristic,
-       ROUND(sum(Palmitic),v_Precision) AS Palmitic,
-       ROUND(sum(Stearic),v_Precision) AS Stearic,
-       ROUND(sum(Hcsfa),v_Precision)
-FROM mixresultdn a,
-     food b
-WHERE a.mixid = v_mixid
-AND   a.foodid = b.foodid
-group by a.MixId
-order by a.EnergyDigestible,a.Weight,b.Name;
+select
+a.mix_id,
+'',
+'Total',
+sum(carbohydrates_carbs_by_diff),
+sum(carbohydrates_fiber_insoluble),
+sum(carbohydrates_fiber_soluble),
+sum(carbohydrates_fiber),
+sum(carbohydrates_fructose),
+sum(carbohydrates_glucose),
+sum(carbohydrates_glycemic_load),
+sum(carbohydrates_lactose),
+sum(carbohydrates_starch),
+sum(carbohydrates_sucrose),
+sum(carbohydrates_sugars),
+sum(energy_gross),
+sum(fats_cholesterol),
+sum(fats_dha),
+sum(fats_epa),
+sum(fats_lauric),
+sum(fats_linoleic),
+sum(fats_linolenic),
+sum(fats_monounsaturated),
+sum(fats_myristic),
+sum(fats_palmitic),
+sum(fats_polyunsaturated),
+sum(fats_saturated),
+sum(fats_stearic),
+sum(fats_total),
+sum(minerals_calcium),
+sum(minerals_copper),
+sum(minerals_iron),
+sum(minerals_magnesium),
+sum(minerals_manganese),
+sum(minerals_phosphorus),
+sum(minerals_potassium),
+sum(minerals_selenium),
+sum(minerals_sodium),
+sum(minerals_zinc),
+sum(other_alcohol),
+sum(other_cost),
+sum(other_water),
+sum(other_weight),
+sum(phytonutrients_anthocyanins),
+sum(phytonutrients_caffeine),
+sum(phytonutrients_beta_carotene),
+sum(phytonutrients_carotenoids),
+sum(phytonutrients_flavanols),
+sum(phytonutrients_flavanones),
+sum(phytonutrients_flavones),
+sum(phytonutrients_flavonoids),
+sum(phytonutrients_flavonols),
+sum(phytonutrients_isoflavones),
+sum(phytonutrients_lutein_zeaxanthin),
+sum(phytonutrients_lycopene),
+sum(phytonutrients_phytosterols),
+sum(phytonutrients_theobromine),
+sum(protein_complete),
+sum(protein_total),
+sum(vitamins_vitamin_a),
+sum(vitamins_vitamin_b12),
+sum(vitamins_vitamin_b6),
+sum(vitamins_vitamin_c),
+sum(vitamins_choline),
+sum(vitamins_vitamin_d),
+sum(vitamins_vitamin_e),
+sum(vitamins_folate),
+sum(vitamins_vitamin_k),
+sum(vitamins_niacin),
+sum(vitamins_pantothenic_acid),
+sum(vitamins_riboflavin),
+sum(vitamins_thiamin),
+sum(carbohydrates_digestible),
+sum(energy_carbohydrate),
+sum(energy_fat),
+sum(energy_fat_and_carbohydrate),
+sum(energy_protein),
+sum(energy_alcohol),
+sum(energy_digestible),
+sum(fats_hcsfa),
+sum(fats_lcn3pufa)
+FROM DnMixResult a,
+food b
+WHERE a.mix_id = v_mixid
+AND   a.food_id = b.foodid
+group by a.mix_id
+order by a.energy_digestible,a.other_weight,b.name;
 --
 OPEN result;
 END;
@@ -3151,8 +3705,7 @@ END;
 
 CREATE PROCEDURE MixResult_Select_Pct (
 --
-IN v_MixId LONGVARCHAR,
-IN v_Precision INTEGER
+IN v_MixId LONGVARCHAR
 --
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
@@ -3161,23 +3714,23 @@ DECLARE result CURSOR
 FOR
 --
 SELECT
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energydigestible)),v_Precision) AS calories,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energyfat) / SUM(energydigestible)*100),v_Precision) AS fatpct,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energycarbohydrate) / SUM(energydigestible)*100),v_Precision) AS carbpct,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energyprotein) / SUM(energydigestible)*100),v_Precision) AS proteinpct,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(energyalcohol) / SUM(energydigestible)*100),v_Precision) AS alcoholpct,
-       ROUND(getFoodQuotient (v_MixId),3) AS fq,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(sfa*9) / SUM(energydigestible)*100),v_Precision) AS satfatpct,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(mufa*9) / SUM(energydigestible)*100),v_Precision) AS monoufatpct,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(pufa*9) / SUM(energydigestible)*100),v_Precision) AS polyufatpct,
-       ROUND(get_essential_fat_ratio(v_MixId),v_Precision) AS essentialfatratio,
-       ROUND(get_electrolyte_ratio(v_MixId),v_Precision) AS electrolyteratio,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(linoleicacid*9) / SUM(energydigestible)*100),v_Precision) AS linoleicacidpct,
-       ROUND(CASEWHEN (SUM(energydigestible) <= 0,0,SUM(alphalinolenicacid*9) / SUM(energydigestible)*100),v_Precision) AS alphalinolenicacidpct,
-       ROUND(get_polyufat_ratio(v_MixId),v_Precision) AS psratio,
-       ROUND(get_monoufat_ratio(v_MixId),v_Precision) AS msratio
-FROM mixresultdn
-WHERE mixid = v_MixId;
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_digestible)) AS calories,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100) AS fatpct,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100) AS carbpct,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100) AS proteinpct,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100) AS alcoholpct,
+       getFoodQuotient (v_MixId) AS fq,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_saturated*9) / SUM(energy_digestible)*100) AS satfatpct,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_monounsaturated*9) / SUM(energy_digestible)*100) AS monoufatpct,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_polyunsaturated*9) / SUM(energy_digestible)*100) AS polyufatpct,
+       get_essential_fat_ratio(v_MixId) AS essentialfatratio,
+       get_electrolyte_ratio(v_MixId) AS electrolyteratio,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_linoleic*9) / SUM(energy_digestible)*100) AS linoleicacidpct,
+       CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_linolenic*9) / SUM(energy_digestible)*100) AS alphalinolenicacidpct,
+       get_polyufat_ratio(v_MixId) AS psratio,
+       get_monoufat_ratio(v_MixId) AS msratio
+FROM DnMixResult
+WHERE mix_id = v_MixId;
 --
 OPEN result;
 --
@@ -3186,23 +3739,35 @@ END;
 
 
 CREATE PROCEDURE Nutrient_Insert (
+--
 IN v_NutrientId LONGVARCHAR,
 IN v_Name LONGVARCHAR,
 IN v_NutrientCategoryId LONGVARCHAR,
-IN v_Label LONGVARCHAR
+IN v_Label LONGVARCHAR,
+IN v_Units LONGVARCHAR,
+IN v_Dri INTEGER
+--
 )
-MODIFIES SQL DATA BEGIN ATOMIC
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
 INSERT INTO Nutrient (
 NutrientId,
 Name,
 NutrientCategoryId,
-Label
+Label,
+Units,
+Dri
 ) VALUES (
 v_NutrientId,
 v_Name,
 v_NutrientCategoryId,
-v_Label
+v_Label,
+v_Units,
+v_Dri
 );
+--
 END;
 /
 
@@ -3261,9 +3826,13 @@ FOR
 SELECT mixid,
        nutrientid,
        relationshipid,
-       b
-FROM nutrientconstraint
-WHERE mixid = v_mixid
+       b,
+       b.name as nutrient,
+       c.name as eq
+FROM nutrientconstraint a, nutrient b, relationship c
+WHERE mixid = v_MixId
+AND a.nutrientid = b.nutrientid
+AND a.relationshipid = c.relationshipid
 ORDER BY nutrientid;
 --
 OPEN result;
@@ -3272,7 +3841,7 @@ END;
 /
 
 
-CREATE PROCEDURE Nutrient_To_Pct_Select ()
+CREATE PROCEDURE selectDriNutrients()
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
@@ -3280,22 +3849,67 @@ DECLARE result CURSOR
 FOR
 SELECT
 NutrientId,
-Name,
-q
+Name
 FROM
-Nutrient a, Rda b
+Nutrient a
 WHERE
-a.NutrientId = b.NutrientId AND
-b.LifeStageId = 22 AND
-a.NutrientId != '204' AND
-a.NutrientId != '255' AND
-a.NutrientId != '291' AND
-a.NutrientId != '313' AND
-a.NutrientId != '618' AND
-a.NutrientId != '619' AND
-a.NutrientId != '10001' AND
-a.NutrientId != '10003'
+a.NutrientId = '301' OR
+a.NutrientId = '303' OR
+a.NutrientId = '304' OR
+a.NutrientId = '305' OR
+a.NutrientId = '306' OR
+a.NutrientId = '307' OR
+a.NutrientId = '309' OR
+a.NutrientId = '312' OR
+a.NutrientId = '315' OR
+a.NutrientId = '317' OR
+a.NutrientId = '320' OR
+a.NutrientId = '323' OR
+a.NutrientId = '328' OR
+a.NutrientId = '401' OR
+a.NutrientId = '404' OR
+a.NutrientId = '405' OR
+a.NutrientId = '406' OR
+a.NutrientId = '410' OR
+a.NutrientId = '415' OR
+a.NutrientId = '418' OR
+a.NutrientId = '421' OR
+a.NutrientId = '430' OR
+a.NutrientId = '435'
 ORDER BY Name;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE getDri(
+--
+IN vNutrientid LONGVARCHAR,
+--
+IN vLifestageid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT a.nutrientid,
+       a.name,
+       a.units,
+       b.lifestageid,
+       c.label,
+       b.q
+FROM nutrient a,
+     rda b,
+     rdalifestage c
+WHERE a.nutrientid = b.nutrientid
+AND b.lifestageid = c.lifestageid
+AND   c.lifestageid = vLifestageid
+AND a.nutrientid = vNutrientid;
 --
 OPEN result;
 --
@@ -3629,9 +4243,16 @@ SELECT mixid,
        nutrient_id_1,
        nutrient_id_2,
        relationshipid,
-       0 AS b
-       FROM nutrientratio
+       a,
+       b,       
+       b.name as nutrient1,
+       c.name as nutrient2,
+       d.name as eq
+FROM nutrientratio a, nutrient b, nutrient c, relationship d
 WHERE mixid = v_mixid
+AND a.nutrient_id_1 = b.nutrientid
+AND a.nutrient_id_2 = c.nutrientid
+AND a.relationshipid = d.relationshipid
 ORDER BY mixid,
          nutrient_id_1,
          nutrient_id_2,
@@ -3735,118 +4356,34 @@ END;
 CREATE PROCEDURE Nutrient_Lookup_List (
 --
 IN v_nutrientid LONGVARCHAR,
-IN v_q DOUBLE,
-IN v_Precision INTEGER
+IN v_q DECIMAL(10,5)
 --
 )
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
 DECLARE result CURSOR FOR
-SELECT a.name,
-       ROUND(a.weight*b.c,v_Precision) AS calories,
-       ROUND(a.weight,v_Precision) AS weight
-FROM (SELECT a.name,
-             a.foodid,
-             v_q / b.c AS weight
-      FROM food a,
-           foodfactcoefficient b
-      WHERE a.foodid = b.foodid
-      AND   b.nutrientid = v_nutrientid
-      AND   b.c > 0) a,
+SELECT getFoodName(a.foodid) as food,
+       a.weight,
+       a.weight*b.c AS calories
+FROM (SELECT foodid,
+             CASEWHEN(c <= 0.0,0.0,v_q / c) AS weight
+      FROM foodfactcoefficient
+      WHERE nutrientid = v_nutrientid) a,
      (SELECT foodid,
              c
       FROM foodfactcoefficient
       WHERE nutrientid = '10009'
       AND   c >= 0) b
 WHERE a.foodid = b.foodid
-ORDER BY calories,weight;
+AND a.weight > 0
+ORDER BY calories ASC;
 --
 OPEN result;
 --
 END
 /
 
-
-CREATE PROCEDURE GlycemicIndex_merge (
-IN v_FoodId LONGVARCHAR,
-IN v_q DOUBLE
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO GlycemicIndex USING ( VALUES (
-v_FoodId,
-v_q
-) ) ON (
-FoodId = v_FoodId
-)
-WHEN MATCHED THEN UPDATE SET
-q = v_q
-WHEN NOT MATCHED THEN INSERT VALUES
-v_FoodId,
-v_q;
-END;
-/
-
-CREATE PROCEDURE Food_Put (
---
-IN v_MixId LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA BEGIN ATOMIC
---
-DECLARE v_FoodId LONGVARCHAR;
-DECLARE v_FoodName LONGVARCHAR;
-DECLARE v_gi DOUBLE;
---
-SET v_gi = 0;
---
-SELECT Name INTO v_FoodName
-FROM Mix
-WHERE MixId = v_MixId;
-SET v_FoodId = generateId();
---
-CALL Food_Insert (v_FoodId,v_FoodName);
---
-FOR
-SELECT mixid,
-       nutrientid,
-       SUM(q) AS q
-FROM mixresult
-WHERE mixid = v_MixId
-GROUP BY mixid,nutrientid DO
-CALL FoodFact_Merge(v_FoodId,nutrientid,q);
-END FOR;
---
-SELECT getMealGI(v_MixId) INTO v_gi FROM (VALUES(0));
-CALL GlycemicIndex_merge(v_FoodId,v_gi);
---
-CALL CategoryLink_Insert (v_FoodId,'5000');
---
-END;
-/
-
-
-CREATE PROCEDURE Food_Select_All_Like (
---
-IN v_txt LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT foodid,
-       name
-FROM Food
-WHERE LCASE(Name) LIKE LCASE(CONCAT(CONCAT('%',v_txt),'%'))
-ORDER BY Name;
---
-OPEN result;
---
-END;
-/
 
 CREATE PROCEDURE FoodFactCoefficient_Merge (
 IN v_FoodId LONGVARCHAR,
@@ -3869,30 +4406,6 @@ WHEN NOT MATCHED THEN INSERT VALUES
 v_FoodId,
 v_NutrientId,
 v_c;
-END;
-/
-
-CREATE PROCEDURE Mix_getFQDiff (
---
-IN v_MixId_1 LONGVARCHAR,
---
-IN v_MixId_2 LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT 'Food Quotient' AS nutrient,
-       a.fq AS mix1,
-       b.fq AS mix2,
-       b.fq - a.fq AS diff
-FROM (SELECT getFoodQuotient(v_MixId_1) AS fq FROM ( VALUES (0))) a,
-     (SELECT getFoodQuotient(v_MixId_2) AS fq FROM ( VALUES (0))) b;
---
-OPEN result;
---
 END;
 /
 
@@ -3950,6 +4463,36 @@ END;
 /
 
 
+CREATE PROCEDURE getNutrients()
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT a.foodid,
+       a.nutrientid,
+       c.name AS food,
+       b.name AS nutrient,
+       a.q,
+       b.units,
+       b.dri
+FROM foodfact a,
+     nutrient b,
+     food c
+WHERE a.nutrientid = b.nutrientid
+AND   a.foodid = c.foodid
+ORDER BY a.foodid,
+         b.dri DESC,
+         b.name;
+--
+OPEN result;
+--
+END;
+/
+
+
 CREATE PROCEDURE Rda_Insert_q (
 IN v_NutrientId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
@@ -3970,11 +4513,10 @@ DEFAULT
 END;
 /
 
-CREATE PROCEDURE Mix_getRdaDiff (
+CREATE PROCEDURE Mix_getDriDiff (
 --
 IN v_MixId LONGVARCHAR,
-IN v_LifeStageId INTEGER,
-IN v_Precision INTEGER
+IN v_LifeStageId INTEGER
 --
 )
 --
@@ -3984,11 +4526,11 @@ DECLARE result CURSOR
 FOR
 SELECT a.nutrientid,
        b.name,
-       ROUND(a.mix,v_Precision) AS Mix,
-       ROUND(a.rda,v_Precision) AS Rda,
-       ROUND(CASE WHEN a.rda <= 0 THEN 0 ELSE (a.mix / a.rda)*100 END,v_Precision) AS PctRda,
-       ROUND(a.ul,v_Precision) AS UL,
-       ROUND(CASE WHEN a.ul <= 0 THEN 0 ELSE (a.mix / a.ul)*100 END,v_Precision) AS PctUL
+       a.mix AS Mix,
+       a.rda AS Dri,
+       CASE WHEN a.rda <= 0 THEN 0 ELSE (a.mix / a.rda)*100 END AS PctDri,
+       a.ul AS UL,
+       CASE WHEN a.ul <= 0 THEN 0 ELSE (a.mix / a.ul)*100 END AS PctUL
 FROM (SELECT a.nutrientid,
              a.mix,
              b.rda,
@@ -4119,7 +4661,7 @@ DECLARE doc LONGVARCHAR;
 --
 SET doc = '';
 --
-SELECT  '<mix>' +CHAR(10) + '<mixid>' + mixid + '</mixid>' +CHAR(10) + '<name>' + escape_xml_element_data(Name) + '</name>' + CHAR(10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+SELECT  '<mix>' +CHAR(10) + '<mix-id>' + mixid + '</mix-id>' +CHAR(10) + '<mix-name>' + escape_xml_element_data(Name) + '</mix-name>' + CHAR(10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
 --
 SET v_doc = doc + CHAR (10);
 --
@@ -4152,13 +4694,25 @@ SET doc = '<food>' +CHAR(10)+'<food-id>'+id +'</food-id>' +CHAR (10) + '<food-na
 --
 SET doc2 = doc2 + doc;
 --
-FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014' AND Y.NUTRIENTID != '10015') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(id) FROM (VALUES(0)) ) ORDER BY LABEL DO
+FOR SELECT * FROM (SELECT NUTRIENTID, LABEL, UNITS, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014' AND Y.NUTRIENTID != '10015' AND Y.NUTRIENTID != '10016')) ORDER BY LABEL DO
 --
-SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' + CHAR (10);
+SET doc = '<'+label +' '+'units="'+units+'" '+'nutr_no="'+nutrientid+'" '+'>'+ q +'</'+label +'>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
 END FOR;
+--
+SET doc2 = doc2 + '<category-list>'+ CHAR (10);
+--
+FOR SELECT c.foodcategoryid as categoryid, b.name as categoryname FROM mixfood a, foodcategory b, categorylink c WHERE a.mixid = v_MixId AND a.foodid = id AND b.foodcategoryid = c.foodcategoryid AND a.foodid = c.foodid DO
+--
+SET doc = '<category>'+ CHAR (10) + '<category-id>' + categoryid + '</category-id>' + CHAR (10) + '<category-name>' + categoryname + '</category-name>' + CHAR (10) + '</category>' + CHAR (10);
+--
+SET doc2 = doc2 + doc;
+--
+END FOR;
+--
+SET doc2 = doc2 + '</category-list>'+ CHAR (10);
 --
 SET doc2 = doc2 + '</food>' + CHAR (10);
 --
@@ -4196,7 +4750,7 @@ SET doc = '';
 --
 FOR SELECT DISTINCT c.foodcategoryid as id, c.name as name FROM mixfood a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND   b.foodcategoryid = c.foodcategoryid AND a.mixid = v_MixId  DO
 --
-SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + escape_xml_element_data(name) + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
+SET doc = '<category>' + CHAR(10) + '<category-id>' + id + '</category-id>' + CHAR(10) + '<categoryname>' + escape_xml_element_data(name) + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
@@ -4236,7 +4790,7 @@ SET doc = '';
 --
 FOR select a.foodid as foodid, a.foodcategoryid as categoryid from categorylink a, mixfood b where a.foodid = b.foodid and b.mixid = v_MixId  DO 
 --
-SET doc =  '<category_link>' + CHAR(10) + '<foodid>' + foodid + '</foodid>' + CHAR(10) + '<categoryid>' + categoryid + '</categoryid>'  + CHAR(10) + '</category_link>'  + CHAR(10) ;
+SET doc =  '<category_link>' + CHAR(10) + '<food-id>' + foodid + '</food-id>' + CHAR(10) + '<category-id>' + categoryid + '</category-id>'  + CHAR(10) + '</category_link>'  + CHAR(10) ;
 --
 SET doc2 = doc2 + doc;
 --
@@ -4272,15 +4826,15 @@ SELECT count(nutrientid, relationshipid, b) INTO counter FROM nutrientconstraint
 --
 IF counter > 0 THEN
 --
-SET doc = doc + '<nutrient_constraint_list>' + CHAR (10);
+SET doc = doc + '<nutrient_quantity_list>' + CHAR (10);
 --
 FOR select nutrientid, relationshipid, b from nutrientconstraint  WHERE mixid = v_mixid DO
 --
-SET doc = doc + '<nutrient_constraint>' + CHAR (10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</nutrient_constraint>' + CHAR (10);
+SET doc = doc + '<nutrient_quantity>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</nutrient_quantity>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = doc + '</nutrient_constraint_list>';
+SET doc = doc + '</nutrient_quantity_list>';
 --
 END IF;
 --
@@ -4313,15 +4867,15 @@ SELECT count(foodid , nutrientid, relationshipid, b) INTO counter FROM foodnutri
 --
 IF counter > 0 THEN
 --
-SET doc = doc + '<food_nutrient_constraint_list>' + CHAR (10);
+SET doc = doc + '<food_quantity_list>' + CHAR (10);
 --
 FOR select foodid , nutrientid, relationshipid, b from foodnutrientconstraint a WHERE a.mixid = v_mixid DO
 --
-SET doc = doc + '<food_nutrient_constraint>' + CHAR (10) + '<foodid>' + foodid + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</food_nutrient_constraint>' + CHAR (10);
+SET doc = doc + '<food_quantity>' + CHAR (10) + '<food-id>' + foodid + '</food-id>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</food_quantity>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = doc + '</food_nutrient_constraint_list>';
+SET doc = doc + '</food_quantity_list>';
 --
 END IF;
 --
@@ -4354,15 +4908,15 @@ SELECT count(food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a
 --
 IF counter > 0 THEN
 --
-SET doc = doc + '<food_nutrient_ratio_constraint_list>' + CHAR (10);
+SET doc = doc + '<food_ratio_list>' + CHAR (10);
 --
 FOR select food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b from foodnutrientratio WHERE mixid = v_mixid DO
 --
-SET doc = doc + '<food_nutrient_ratio_constraint>' + CHAR (10) + '<foodid_01>' + food_id_1 + '</foodid_01>' + CHAR (10) + '<nutrientid_01>' + nutrient_id_1 + '</nutrientid_01>' + CHAR (10) + '<foodid_02>' + food_id_2 + '</foodid_02>' + CHAR (10) + '<nutrientid_02>' + nutrient_id_2 + '</nutrientid_02>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</food_nutrient_ratio_constraint>' + CHAR (10);
+SET doc = doc + '<food_ratio>' + CHAR (10) + '<food-id_a>' + food_id_1 + '</food-id_a>' + CHAR (10) + '<nutrient-id_a>' + nutrient_id_1 + '</nutrient-id_a>' + CHAR (10) + '<food-id_b>' + food_id_2 + '</food-id_b>' + CHAR (10) + '<nutrient-id_b>' + nutrient_id_2 + '</nutrient-id_b>' + CHAR (10) + '<relationship-id>' + relationshipid  + '</relationship-id>' + CHAR (10) + '<a>' + a  + '</a>' +CHAR (10) + '<b>'+ b  + '</b>' +CHAR (10) + '</food_ratio>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = doc + '</food_nutrient_ratio_constraint_list>';
+SET doc = doc + '</food_ratio_list>';
 --
 END IF;
 --
@@ -4396,15 +4950,15 @@ SELECT count(nutrient_id_1, nutrient_id_2, relationshipid, a, b) INTO counter FR
 --
 IF counter > 0 THEN
 --
-SET doc = doc + '<nutrient_ratio_constraint_list>' + CHAR (10);
+SET doc = doc + '<nutrient_ratio_list>' + CHAR (10);
 --
 FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from nutrientratio WHERE mixid = v_mixid DO
 --
-SET doc = doc + '<nutrient_ratio_constraint>' + CHAR (10)  + '<nutrientid_01>' + nutrient_id_1 + '</nutrientid_01>' + CHAR (10)  + '<nutrientid_02>' + nutrient_id_2 + '</nutrientid_02>' + CHAR (10) + '<relationshipid>' + relationshipid  + '</relationshipid>' + CHAR (10) + '<a>' + cast(a as decimal(128,32))  + '</a>' +CHAR (10) + '<b>'+ cast(b as decimal(128,32))  + '</b>' +CHAR (10) + '</nutrient_ratio_constraint>' + CHAR (10);
+SET doc = doc + '<nutrient_ratio>' + CHAR (10)  + '<nutrient-id_a>' + nutrient_id_1 + '</nutrient-id_a>' + CHAR (10)  + '<nutrient-id_b>' + nutrient_id_2 + '</nutrient-id_b>' + CHAR (10) + '<relationship-id>' + relationshipid  + '</relationship-id>' + CHAR (10) + '<a>' + a  + '</a>' +CHAR (10) + '<b>'+ b  + '</b>' +CHAR (10) + '</nutrient_ratio>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = doc + '</nutrient_ratio_constraint_list>';
+SET doc = doc + '</nutrient_ratio_list>';
 --
 END IF;
 --
@@ -4414,7 +4968,7 @@ END
 /
 
 
-CREATE PROCEDURE fill_mixresultdn (
+CREATE PROCEDURE fill_DnMixResult (
 --
 IN v_MixId LONGVARCHAR
 --
@@ -4424,684 +4978,956 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
 BEGIN ATOMIC
 --
-INSERT INTO mixresultdn
+INSERT INTO DnMixResult
 (
-mixid,
-foodid,
-name,
-weight,
-completeprotein,
-digestiblecarbohydrate,
-cost,
-protein,
-fat,
-carbsbydiff,
-energygross,
-alcohol,
-water,
-fiber,
-calcium,
-iron,
-magnesium,
-phosphorus,
-potassium,
-sodium,
-zinc,
-copper,
-manganese,
-selenium,
-vitamina,
-vitamine,
-vitamind,
-vitaminc,
-thiamin,
-riboflavin,
-niacin,
-pantothenicacid,
-vitaminb6,
-vitaminb12,
-choline,
-vitamink,
-folate,
-cholesterol,
-sfa,
-dha,
-epa,
-mufa,
-pufa,
-linoleicacid,
-alphalinolenicacid,
-glycemicload,
-energydigestible,
-energycarbohydrate,
-energyprotein,
-energyfat,
-energyalcohol,
-energyfatcarbohydrate,
-lauric,
-myristic,
-palmitic,
-stearic,
-hcsfa
+mix_id,
+food_id,
+food_name,
+carbohydrates_carbs_by_diff,
+carbohydrates_fiber_insoluble,
+carbohydrates_fiber_soluble,
+carbohydrates_fiber,
+carbohydrates_fructose,
+carbohydrates_glucose,
+carbohydrates_glycemic_load,
+carbohydrates_lactose,
+carbohydrates_starch,
+carbohydrates_sucrose,
+carbohydrates_sugars,
+energy_gross,
+fats_cholesterol,
+fats_dha,
+fats_epa,
+fats_lauric,
+fats_linoleic,
+fats_linolenic,
+fats_monounsaturated,
+fats_myristic,
+fats_palmitic,
+fats_polyunsaturated,
+fats_saturated,
+fats_stearic,
+fats_total,
+minerals_calcium,
+minerals_copper,
+minerals_iron,
+minerals_magnesium,
+minerals_manganese,
+minerals_phosphorus,
+minerals_potassium,
+minerals_selenium,
+minerals_sodium,
+minerals_zinc,
+other_alcohol,
+other_cost,
+other_water,
+other_weight,
+phytonutrients_anthocyanins,
+phytonutrients_caffeine,
+phytonutrients_beta_carotene,
+phytonutrients_carotenoids,
+phytonutrients_flavanols,
+phytonutrients_flavanones,
+phytonutrients_flavones,
+phytonutrients_flavonoids,
+phytonutrients_flavonols,
+phytonutrients_isoflavones,
+phytonutrients_lutein_zeaxanthin,
+phytonutrients_lycopene,
+phytonutrients_phytosterols,
+phytonutrients_theobromine,
+protein_complete,
+protein_total,
+vitamins_vitamin_a,
+vitamins_vitamin_b12,
+vitamins_vitamin_b6,
+vitamins_vitamin_c,
+vitamins_choline,
+vitamins_vitamin_d,
+vitamins_vitamin_e,
+vitamins_folate,
+vitamins_vitamin_k,
+vitamins_niacin,
+vitamins_pantothenic_acid,
+vitamins_riboflavin,
+vitamins_thiamin,
+carbohydrates_digestible,
+energy_carbohydrate,
+energy_fat,
+energy_fat_and_carbohydrate,
+energy_protein,
+energy_alcohol,
+energy_digestible,
+fats_hcsfa,
+fats_lcn3pufa
 )
-SELECT a.MixId,
-       a.FoodId,
-       b.Name,
-       a.Weight,
-       CompleteProtein,
-       DigestibleCarbohydrate,
-       Cost,
-       Protein,
-       Fat,
-       CarbsByDiff,
-       Energy,
-       Alcohol,
-       Water,
-       Fiber,
-       Calcium,
-       Iron,
-       Magnesium,
-       Phosphorus,
-       Potassium,
-       Sodium,
-       Zinc,
-       Copper,
-       Manganese,
-       Selenium,
-       VitaminA,
-       VitaminE,
-       VitaminD,
-       VitaminC,
-       Thiamin,
-       Riboflavin,
-       Niacin,
-       Pantothenic,
-       VitaminB6,
-       VitaminB12,
-       Choline,
-       VitaminK,
-       Folate,
-       Cholesterol,
-       Saturated,
-       DHA,
-       EPA,
-       Monounsaturated,
-       Polyunsaturated,
-       Linoleic,
-       AlphaLinolenic,
-       GlycemicLoad,
-       EnergyDigestible,
-       EnergyCarbohydrate,
-       EnergyProtein,
-       EnergyFat,
-       EnergyAlcohol,
-       EnergyFatCarbohydrate,
-       Lauric,
-       Myristic,
-       Palmitic,
-       Stearic,
-       HCSFA
-FROM (SELECT x0.Mixid,
-             x0.Foodid,
-             x1.Weight,
-             x2.CompleteProtein,
-             x4.DigestibleCarbohydrate,
-             x5.Cost,
-             x6.Protein,
-             x7.Fat,
-             x8.CarbsByDiff,
-             x9.Energy,
-             x13.Alcohol,
-             x14.Water,
-             x15.Fiber,
-             x16.Calcium,
-             x17.Iron,
-             x18.Magnesium,
-             x19.Phosphorus,
-             x20.Potassium,
-             x21.Sodium,
-             x22.Zinc,
-             x23.Copper,
-             x25.Manganese,
-             x26.Selenium,
-             x27.VitaminA,
-             x28.VitaminE,
-             x29.VitaminD,
-             x30.VitaminC,
-             x31.Thiamin,
-             x32.Riboflavin,
-             x33.Niacin,
-             x34.Pantothenic,
-             x35.VitaminB6,
-             x36.VitaminB12,
-             x37.Choline,
-             x38.VitaminK,
-             x39.Folate,
-             x40.Cholesterol,
-             x41.Saturated,
-             x42.DHA,
-             x43.EPA,
-             x44.Monounsaturated,
-             x45.Polyunsaturated,
-             x46.Linoleic,
-             x47.AlphaLinolenic,
-             x50.GlycemicLoad,
-             x51.EnergyDigestible,
-             x53.EnergyCarbohydrate,
-             x54.EnergyProtein,
-             x55.EnergyFat,
-             x56.EnergyAlcohol,
-             x57.EnergyFatCarbohydrate,
-             x58.Lauric,
-             x59.Myristic,
-             x60.Palmitic,
-             x61.Stearic,
-             x62.HCSFA
+SELECT 
+a.mixid,
+a.foodid,
+b.food_name,
+carbohydrates_carbs_by_diff,
+carbohydrates_fiber_insoluble,
+carbohydrates_fiber_soluble,
+carbohydrates_fiber,
+carbohydrates_fructose,
+carbohydrates_glucose,
+carbohydrates_glycemic_load,
+carbohydrates_lactose,
+carbohydrates_starch,
+carbohydrates_sucrose,
+carbohydrates_sugars,
+energy_gross,
+fats_cholesterol,
+fats_dha,
+fats_epa,
+fats_lauric,
+fats_linoleic,
+fats_linolenic,
+fats_monounsaturated,
+fats_myristic,
+fats_palmitic,
+fats_polyunsaturated,
+fats_saturated,
+fats_stearic,
+fats_total,
+minerals_calcium,
+minerals_copper,
+minerals_iron,
+minerals_magnesium,
+minerals_manganese,
+minerals_phosphorus,
+minerals_potassium,
+minerals_selenium,
+minerals_sodium,
+minerals_zinc,
+other_alcohol,
+other_cost,
+other_water,
+other_weight,
+phytonutrients_anthocyanins,
+phytonutrients_caffeine,
+phytonutrients_beta_carotene,
+phytonutrients_carotenoids,
+phytonutrients_flavanols,
+phytonutrients_flavanones,
+phytonutrients_flavones,
+phytonutrients_flavonoids,
+phytonutrients_flavonols,
+phytonutrients_isoflavones,
+phytonutrients_lutein_zeaxanthin,
+phytonutrients_lycopene,
+phytonutrients_phytosterols,
+phytonutrients_theobromine,
+protein_complete,
+protein_total,
+vitamins_vitamin_a,
+vitamins_vitamin_b12,
+vitamins_vitamin_b6,
+vitamins_vitamin_c,
+vitamins_choline,
+vitamins_vitamin_d,
+vitamins_vitamin_e,
+vitamins_folate,
+vitamins_vitamin_k,
+vitamins_niacin,
+vitamins_pantothenic_acid,
+vitamins_riboflavin,
+vitamins_thiamin,
+carbohydrates_digestible,
+energy_carbohydrate,
+energy_fat,
+energy_fat_and_carbohydrate,
+energy_protein,
+energy_alcohol,
+energy_digestible,
+fats_hcsfa,
+fats_lcn3pufa
+FROM (SELECT 
+x0.Mixid,
+x0.Foodid,
+x205.q AS carbohydrates_carbs_by_diff,
+x10018.q AS carbohydrates_fiber_insoluble,
+x10017.q AS carbohydrates_fiber_soluble,
+x291.q AS carbohydrates_fiber,
+x212.q AS carbohydrates_fructose,
+x211.q AS carbohydrates_glucose,
+x10006.q AS carbohydrates_glycemic_load,
+x213.q AS carbohydrates_lactose,
+x209.q AS carbohydrates_starch,
+x210.q AS carbohydrates_sucrose,
+x269.q AS carbohydrates_sugars,
+x208.q AS energy_gross,
+x601.q AS fats_cholesterol,
+x621.q AS fats_dha,
+x629.q AS fats_epa,
+x611.q AS fats_lauric,
+x618.q AS fats_linoleic,
+x619.q AS fats_linolenic,
+x645.q AS fats_monounsaturated,
+x612.q AS fats_myristic,
+x613.q AS fats_palmitic,
+x646.q AS fats_polyunsaturated,
+x606.q AS fats_saturated,
+x614.q AS fats_stearic,
+x204.q AS fats_total,
+x301.q AS minerals_calcium,
+x312.q AS minerals_copper,
+x303.q AS minerals_iron,
+x304.q AS minerals_magnesium,
+x315.q AS minerals_manganese,
+x305.q AS minerals_phosphorus,
+x306.q AS minerals_potassium,
+x317.q AS minerals_selenium,
+x307.q AS minerals_sodium,
+x309.q AS minerals_zinc,
+x221.q AS other_alcohol,
+x10005.q AS other_cost,
+x255.q AS other_water,
+x10000.q AS other_weight,
+x10024.q AS phytonutrients_anthocyanins,
+x262.q AS phytonutrients_caffeine,
+x321.q AS phytonutrients_beta_carotene,
+x10019.q AS phytonutrients_carotenoids,
+x10022.q AS phytonutrients_flavanols,
+x10023.q AS phytonutrients_flavanones,
+x10021.q AS phytonutrients_flavones,
+x10026.q AS phytonutrients_flavonoids,
+x10020.q AS phytonutrients_flavonols,
+x10025.q AS phytonutrients_isoflavones,
+x338.q AS phytonutrients_lutein_zeaxanthin,
+x337.q AS phytonutrients_lycopene,
+x636.q AS phytonutrients_phytosterols,
+x263.q AS phytonutrients_theobromine,
+x10001.q AS protein_complete,
+x203.q AS protein_total,
+x320.q AS vitamins_vitamin_a,
+x418.q AS vitamins_vitamin_b12,
+x415.q AS vitamins_vitamin_b6,
+x401.q AS vitamins_vitamin_c,
+x421.q AS vitamins_choline,
+x328.q AS vitamins_vitamin_d,
+x323.q AS vitamins_vitamin_e,
+x435.q AS vitamins_folate,
+x430.q AS vitamins_vitamin_k,
+x406.q AS vitamins_niacin,
+x410.q AS vitamins_pantothenic_acid,
+x405.q AS vitamins_riboflavin,
+x404.q AS vitamins_thiamin,
+x10003.q AS carbohydrates_digestible,
+x10011.q AS energy_carbohydrate,
+x10013.q AS energy_fat,
+x10010.q AS energy_fat_and_carbohydrate,
+x10012.q AS energy_protein,
+x10014.q AS energy_alcohol,
+x10009.q AS energy_digestible,
+x10015.q AS fats_hcsfa,
+x10016.q AS fats_lcn3pufa
       FROM
       --
-      (SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
-           --
-      --10000	Weight (g)
-      (SELECT mixid,
-              foodid,
-              q AS Weight
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10000') x1,
-           --
-      --10001	Complete Protein (g)
-      (SELECT mixid,
-              foodid,
-              q AS CompleteProtein
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10001') x2,
-           --
-      --10003	Digestible Carbohydrate (g)
-      (SELECT mixid,
-              foodid,
-              q AS DigestibleCarbohydrate
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10003') x4,
-           --
-      --10005	Cost (g)
-      (SELECT mixid,
-              foodid,
-              q AS Cost
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10005') x5,
-           --
-      --203	Protein (g)
-      (SELECT mixid,
-              foodid,
-              q AS Protein
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '203') x6,
-           --
-      --204	Total lipid (Fat) (g)
-      (SELECT mixid,
-              foodid,
-              q AS Fat
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '204') x7,
-           --205	Carbohydrate, by difference (g)
-      (SELECT mixid,
-              foodid,
-              q AS Carbsbydiff
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '205') x8,
-           --
-      --208	Energy (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS Energy
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '208') x9,
-           --221	Alcohol, ethyl (g)
-      (SELECT mixid,
-              foodid,
-              q AS Alcohol
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '221') x13,
-           --255	Water (g)
-      (SELECT mixid,
-              foodid,
-              q AS Water
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '255') x14,
-           --291	Fiber, total dietary (g)
-      (SELECT mixid,
-              foodid,
-              q AS Fiber
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '291') x15,
-           --301	Calcium, Ca (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Calcium
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '301') x16,
-           --303	Iron, Fe (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Iron
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '303') x17,
-           --304	Magnesium, Mg (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Magnesium
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '304') x18,
-           --305	Phosphorus, P (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Phosphorus
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '305') x19,
-           --306	Potassium, K (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Potassium
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '306') x20,
-           --307	Sodium, Na (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Sodium
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '307') x21,
-           --309	Zinc, Zn (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Zinc
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '309') x22,
-           --312	Copper, Cu (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Copper
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '312') x23,
-           --315	Manganese, Mn (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Manganese
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '315') x25,
-           --317	Selenium, Se (µg)
-      (SELECT mixid,
-              foodid,
-              q AS Selenium
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '317') x26,
-           --320	Vitamin A, RAE (µg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminA
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '320') x27,
-           --323	Vitamin E (Alpha-Tocopherol) (mg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminE
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '323') x28,
-           --328	Vitamin D (D2 + D3) (µg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminD
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '328') x29,
-           --401	Vitamin C, total (Ascorbic Acid) (mg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminC
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '401') x30,
-           --404	Thiamin (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Thiamin
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '404') x31,
-           --405	Riboflavin (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Riboflavin
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '405') x32,
-           --406	Niacin (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Niacin
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '406') x33,
-           --410	Pantothenic acid (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Pantothenic
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '410') x34,
-           --415	Vitamin B-6 (mg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminB6
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '415') x35,
-           --418	Vitamin B-12 (µg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminB12
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '418') x36,
-           --421	Choline, total (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Choline
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '421') x37,
-           --430	Vitamin K (Phylloquinone) (µg)
-      (SELECT mixid,
-              foodid,
-              q AS VitaminK
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '430') x38,
-           --435	Folate, DFE (µg)
-      (SELECT mixid,
-              foodid,
-              q AS Folate
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '435') x39,
-           --601	Cholesterol (mg)
-      (SELECT mixid,
-              foodid,
-              q AS Cholesterol
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '601') x40,
-           --606	Fatty acids, total saturated (g)
-      (SELECT mixid,
-              foodid,
-              q AS Saturated
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '606') x41,
-           --621	22:6 n-3 (DHA) (g)
-      (SELECT mixid,
-              foodid,
-              q AS DHA
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '621') x42,
-           --629	20:5 n-3 (EPA) (g)
-      (SELECT mixid,
-              foodid,
-              q AS EPA
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '629') x43,
-           --645	Fatty acids, total monounsaturated (g)
-      (SELECT mixid,
-              foodid,
-              q AS Monounsaturated
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '645') x44,
-           --646	Fatty acids, total polyunsaturated (g)
-      (SELECT mixid,
-              foodid,
-              q AS Polyunsaturated
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '646') x45,
-           --618	18:2 undifferentiated (Linoleic) (g)
-      (SELECT mixid,
-              foodid,
-              q AS Linoleic
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '618') x46,
-           --619	18:3 undifferentiated (Linolenic) (g)
-      (SELECT mixid,
-              foodid,
-              q AS AlphaLinolenic
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '619') x47,
-           --10006	Glycemic Load
-      (SELECT mixid,
-              foodid,
-              q AS GlycemicLoad
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10006') x50,
-           --10009	Energy, digestible (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS EnergyDigestible
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10009') x51,
-           --10011	Energy, carbohydrate (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS EnergyCarbohydrate
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10011') x53,
-           --10012	Energy, protein (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS EnergyProtein
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10012') x54,
-           --10013	Energy, fat (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS EnergyFat
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10013') x55,
-           --10014	Energy, no alcohol (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS EnergyAlcohol
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10014') x56,
-            --10010	Energy, fat and carbohydrate (kcal)
-      (SELECT mixid,
-              foodid,
-              q AS EnergyFatCarbohydrate
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10010') x57,
-           --611, Lauric, 12:0 (g)
-      (SELECT mixid,
-              foodid,
-              q AS Lauric
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '611') x58,
-           --612, Myristic, 14:0 (g)
-      (SELECT mixid,
-              foodid,
-              q AS Myristic
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '612') x59,
-           --613, Palmitic, 16:0 (g)
-      (SELECT mixid,
-              foodid,
-              q AS Palmitic
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '613') x60,
-           --614, Stearic, 18:0 (g)
-      (SELECT mixid,
-              foodid,
-              q AS Stearic
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '614') x61,
-         --10015, Fats, Saturated Fatty Acids, HC (g)
-      (SELECT mixid,
-              foodid,
-              q AS HCSFA
-       FROM mixresult
-       WHERE mixid = v_MixId
-       AND   nutrientid = '10015') x62
-      --
-      WHERE x0.mixid = x1.mixid
-      AND   x0.foodid = x1.foodid
-      AND   x0.mixid = x2.mixid
-      AND   x0.foodid = x2.foodid
-      AND   x0.mixid = x4.mixid
-      AND   x0.foodid = x4.foodid
-      AND   x0.mixid = x5.mixid
-      AND   x0.foodid = x5.foodid
-      AND   x0.mixid = x6.mixid
-      AND   x0.foodid = x6.foodid
-      AND   x0.mixid = x7.mixid
-      AND   x0.foodid = x7.foodid
-      AND   x0.mixid = x8.mixid
-      AND   x0.foodid = x8.foodid
-      AND   x0.mixid = x9.mixid
-      AND   x0.foodid = x9.foodid
-      AND   x0.mixid = x13.mixid
-      AND   x0.foodid = x13.foodid
-      AND   x0.mixid = x14.mixid
-      AND   x0.foodid = x14.foodid
-      AND   x0.mixid = x15.mixid
-      AND   x0.foodid = x15.foodid
-      AND   x0.mixid = x16.mixid
-      AND   x0.foodid = x16.foodid
-      AND   x0.mixid = x17.mixid
-      AND   x0.foodid = x17.foodid
-      AND   x0.mixid = x18.mixid
-      AND   x0.foodid = x18.foodid
-      AND   x0.mixid = x19.mixid
-      AND   x0.foodid = x19.foodid
-      AND   x0.mixid = x20.mixid
-      AND   x0.foodid = x20.foodid
-      AND   x0.mixid = x21.mixid
-      AND   x0.foodid = x21.foodid
-      AND   x0.mixid = x22.mixid
-      AND   x0.foodid = x22.foodid
-      AND   x0.mixid = x23.mixid
-      AND   x0.foodid = x23.foodid
-      AND   x0.mixid = x25.mixid
-      AND   x0.foodid = x25.foodid
-      AND   x0.mixid = x26.mixid
-      AND   x0.foodid = x26.foodid
-      AND   x0.mixid = x27.mixid
-      AND   x0.foodid = x27.foodid
-      AND   x0.mixid = x28.mixid
-      AND   x0.foodid = x28.foodid
-      AND   x0.mixid = x29.mixid
-      AND   x0.foodid = x29.foodid
-      AND   x0.mixid = x30.mixid
-      AND   x0.foodid = x30.foodid
-      AND   x0.mixid = x31.mixid
-      AND   x0.foodid = x31.foodid
-      AND   x0.mixid = x32.mixid
-      AND   x0.foodid = x32.foodid
-      AND   x0.mixid = x33.mixid
-      AND   x0.foodid = x33.foodid
-      AND   x0.mixid = x34.mixid
-      AND   x0.foodid = x34.foodid
-      AND   x0.mixid = x35.mixid
-      AND   x0.foodid = x35.foodid
-      AND   x0.mixid = x36.mixid
-      AND   x0.foodid = x36.foodid
-      AND   x0.mixid = x37.mixid
-      AND   x0.foodid = x37.foodid
-      AND   x0.mixid = x38.mixid
-      AND   x0.foodid = x38.foodid
-      AND   x0.mixid = x39.mixid
-      AND   x0.foodid = x39.foodid
-      AND   x0.mixid = x40.mixid
-      AND   x0.foodid = x40.foodid
-      AND   x0.mixid = x41.mixid
-      AND   x0.foodid = x41.foodid
-      AND   x0.mixid = x42.mixid
-      AND   x0.foodid = x42.foodid
-      AND   x0.mixid = x43.mixid
-      AND   x0.foodid = x43.foodid
-      AND   x0.mixid = x44.mixid
-      AND   x0.foodid = x44.foodid
-      AND   x0.mixid = x45.mixid
-      AND   x0.foodid = x45.foodid
-      AND   x0.mixid = x46.mixid
-      AND   x0.foodid = x46.foodid
-      AND   x0.mixid = x47.mixid
-      AND   x0.foodid = x47.foodid
-      AND   x0.mixid = x50.mixid
-      AND   x0.foodid = x50.foodid
-      AND   x0.mixid = x51.mixid
-      AND   x0.foodid = x51.foodid
-      AND   x0.mixid = x53.mixid
-      AND   x0.foodid = x53.foodid
-      AND   x0.mixid = x54.mixid
-      AND   x0.foodid = x54.foodid
-      AND   x0.mixid = x55.mixid
-      AND   x0.foodid = x55.foodid
-      AND   x0.mixid = x56.mixid
-      AND   x0.foodid = x56.foodid
-      AND   x0.mixid = x57.mixid
-      AND   x0.foodid = x57.foodid
-      AND   x0.mixid = x58.mixid
-      AND   x0.foodid = x58.foodid
-      AND   x0.mixid = x59.mixid
-      AND   x0.foodid = x59.foodid
-      AND   x0.mixid = x60.mixid
-      AND   x0.foodid = x60.foodid
-      AND   x0.mixid = x61.mixid
-      AND   x0.foodid = x61.foodid
-      AND   x0.mixid = x62.mixid
-      AND   x0.foodid = x62.foodid) a,
-     (SELECT foodid, name FROM food) b
+(SELECT mixid, foodid FROM mixfood WHERE mixid = v_MixId) x0,
+           --      
+--205, carbohydrates-carbs_by_diff
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '205') x205,
+--10018, carbohydrates-fiber_insoluble
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10018') x10018,
+--10017, carbohydrates-fiber_soluble
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10017') x10017,
+--291, carbohydrates-fiber
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '291') x291,
+--212, carbohydrates-fructose
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '212') x212,
+--211, carbohydrates-glucose
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '211') x211,
+--10006, carbohydrates-glycemic_load
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10006') x10006,
+--213, carbohydrates-lactose
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '213') x213,
+--209, carbohydrates-starch
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '209') x209,
+--210, carbohydrates-sucrose
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '210') x210,
+--269, carbohydrates-sugars
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '269') x269,
+--208, energy-gross
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '208') x208,
+--601, fats-cholesterol
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '601') x601,
+--621, fats-dha
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '621') x621,
+--629, fats-epa
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '629') x629,
+--611, fats-lauric
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '611') x611,
+--618, fats-linoleic
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '618') x618,
+--619, fats-linolenic
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '619') x619,
+--645, fats-monounsaturated
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '645') x645,
+--612, fats-myristic
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '612') x612,
+--613, fats-palmitic
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '613') x613,
+--646, fats-polyunsaturated
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '646') x646,
+--606, fats-saturated
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '606') x606,
+--614, fats-stearic
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '614') x614,
+--204, fats-total
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '204') x204,
+--301, minerals-calcium
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '301') x301,
+--312, minerals-copper
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '312') x312,
+--303, minerals-iron
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '303') x303,
+--304, minerals-magnesium
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '304') x304,
+--315, minerals-manganese
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '315') x315,
+--305, minerals-phosphorus
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '305') x305,
+--306, minerals-potassium
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '306') x306,
+--317, minerals-selenium
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '317') x317,
+--307, minerals-sodium
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '307') x307,
+--309, minerals-zinc
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '309') x309,
+--221, other-alcohol
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '221') x221,
+--10005, other-cost
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10005') x10005,
+--255, other-water
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '255') x255,
+--10000, other-weight
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10000') x10000,
+--10024, phytonutrients-anthocyanins
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10024') x10024,
+--262, phytonutrients-caffeine
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '262') x262,
+--321, phytonutrients-beta_carotene
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '321') x321,
+--10019, phytonutrients-carotenoids
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10019') x10019,
+--10022, phytonutrients-flavanols
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10022') x10022,
+--10023, phytonutrients-flavanones
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10023') x10023,
+--10021, phytonutrients-flavones
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10021') x10021,
+--10026, phytonutrients-flavonoids
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10026') x10026,
+--10020, phytonutrients-flavonols
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10020') x10020,
+--10025, phytonutrients-isoflavones
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10025') x10025,
+--338, phytonutrients-lutein_zeaxanthin
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '338') x338,
+--337, phytonutrients-lycopene
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '337') x337,
+--636, phytonutrients-phytosterols
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '636') x636,
+--263, phytonutrients-theobromine
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '263') x263,
+--10001, protein-complete
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10001') x10001,
+--203, protein-total
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '203') x203,
+--320, vitamins-vitamin_a
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '320') x320,
+--418, vitamins-vitamin_b12
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '418') x418,
+--415, vitamins-vitamin_b6
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '415') x415,
+--401, vitamins-vitamin_c
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '401') x401,
+--421, vitamins-choline
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '421') x421,
+--328, vitamins-vitamin_d
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '328') x328,
+--323, vitamins-vitamin_e
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '323') x323,
+--435, vitamins-folate
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '435') x435,
+--430, vitamins-vitamin_k
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '430') x430,
+--406, vitamins-niacin
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '406') x406,
+--410, vitamins-pantothenic_acid
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '410') x410,
+--405, vitamins-riboflavin
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '405') x405,
+--404, vitamins-thiamin
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '404') x404,
+--10003, carbohydrates-digestible
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10003') x10003,
+--10011, energy-carbohydrate
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10011') x10011,
+--10013, energy-fat
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10013') x10013,
+--10010, energy-fat_and_carbohydrate
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10010') x10010,
+--10012, energy-protein
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10012') x10012,
+--10014, energy-alcohol
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10014') x10014,
+--10009, energy-digestible
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10009') x10009,
+--10015, fats-hcsfa
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10015') x10015,
+--10016, fats-lcn3pufa
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '10016') x10016
+      --      
+WHERE x0.mixid = x205.mixid
+AND x0.foodid = x205.foodid
+AND x0.mixid = x10018.mixid
+AND x0.foodid = x10018.foodid
+AND x0.mixid = x10017.mixid
+AND x0.foodid = x10017.foodid
+AND x0.mixid = x291.mixid
+AND x0.foodid = x291.foodid
+AND x0.mixid = x212.mixid
+AND x0.foodid = x212.foodid
+AND x0.mixid = x211.mixid
+AND x0.foodid = x211.foodid
+AND x0.mixid = x10006.mixid
+AND x0.foodid = x10006.foodid
+AND x0.mixid = x213.mixid
+AND x0.foodid = x213.foodid
+AND x0.mixid = x209.mixid
+AND x0.foodid = x209.foodid
+AND x0.mixid = x210.mixid
+AND x0.foodid = x210.foodid
+AND x0.mixid = x269.mixid
+AND x0.foodid = x269.foodid
+AND x0.mixid = x208.mixid
+AND x0.foodid = x208.foodid
+AND x0.mixid = x601.mixid
+AND x0.foodid = x601.foodid
+AND x0.mixid = x621.mixid
+AND x0.foodid = x621.foodid
+AND x0.mixid = x629.mixid
+AND x0.foodid = x629.foodid
+AND x0.mixid = x611.mixid
+AND x0.foodid = x611.foodid
+AND x0.mixid = x618.mixid
+AND x0.foodid = x618.foodid
+AND x0.mixid = x619.mixid
+AND x0.foodid = x619.foodid
+AND x0.mixid = x645.mixid
+AND x0.foodid = x645.foodid
+AND x0.mixid = x612.mixid
+AND x0.foodid = x612.foodid
+AND x0.mixid = x613.mixid
+AND x0.foodid = x613.foodid
+AND x0.mixid = x646.mixid
+AND x0.foodid = x646.foodid
+AND x0.mixid = x606.mixid
+AND x0.foodid = x606.foodid
+AND x0.mixid = x614.mixid
+AND x0.foodid = x614.foodid
+AND x0.mixid = x204.mixid
+AND x0.foodid = x204.foodid
+AND x0.mixid = x301.mixid
+AND x0.foodid = x301.foodid
+AND x0.mixid = x312.mixid
+AND x0.foodid = x312.foodid
+AND x0.mixid = x303.mixid
+AND x0.foodid = x303.foodid
+AND x0.mixid = x304.mixid
+AND x0.foodid = x304.foodid
+AND x0.mixid = x315.mixid
+AND x0.foodid = x315.foodid
+AND x0.mixid = x305.mixid
+AND x0.foodid = x305.foodid
+AND x0.mixid = x306.mixid
+AND x0.foodid = x306.foodid
+AND x0.mixid = x317.mixid
+AND x0.foodid = x317.foodid
+AND x0.mixid = x307.mixid
+AND x0.foodid = x307.foodid
+AND x0.mixid = x309.mixid
+AND x0.foodid = x309.foodid
+AND x0.mixid = x221.mixid
+AND x0.foodid = x221.foodid
+AND x0.mixid = x10005.mixid
+AND x0.foodid = x10005.foodid
+AND x0.mixid = x255.mixid
+AND x0.foodid = x255.foodid
+AND x0.mixid = x10000.mixid
+AND x0.foodid = x10000.foodid
+AND x0.mixid = x10024.mixid
+AND x0.foodid = x10024.foodid
+AND x0.mixid = x262.mixid
+AND x0.foodid = x262.foodid
+AND x0.mixid = x321.mixid
+AND x0.foodid = x321.foodid
+AND x0.mixid = x10019.mixid
+AND x0.foodid = x10019.foodid
+AND x0.mixid = x10022.mixid
+AND x0.foodid = x10022.foodid
+AND x0.mixid = x10023.mixid
+AND x0.foodid = x10023.foodid
+AND x0.mixid = x10021.mixid
+AND x0.foodid = x10021.foodid
+AND x0.mixid = x10026.mixid
+AND x0.foodid = x10026.foodid
+AND x0.mixid = x10020.mixid
+AND x0.foodid = x10020.foodid
+AND x0.mixid = x10025.mixid
+AND x0.foodid = x10025.foodid
+AND x0.mixid = x338.mixid
+AND x0.foodid = x338.foodid
+AND x0.mixid = x337.mixid
+AND x0.foodid = x337.foodid
+AND x0.mixid = x636.mixid
+AND x0.foodid = x636.foodid
+AND x0.mixid = x263.mixid
+AND x0.foodid = x263.foodid
+AND x0.mixid = x10001.mixid
+AND x0.foodid = x10001.foodid
+AND x0.mixid = x203.mixid
+AND x0.foodid = x203.foodid
+AND x0.mixid = x320.mixid
+AND x0.foodid = x320.foodid
+AND x0.mixid = x418.mixid
+AND x0.foodid = x418.foodid
+AND x0.mixid = x415.mixid
+AND x0.foodid = x415.foodid
+AND x0.mixid = x401.mixid
+AND x0.foodid = x401.foodid
+AND x0.mixid = x421.mixid
+AND x0.foodid = x421.foodid
+AND x0.mixid = x328.mixid
+AND x0.foodid = x328.foodid
+AND x0.mixid = x323.mixid
+AND x0.foodid = x323.foodid
+AND x0.mixid = x435.mixid
+AND x0.foodid = x435.foodid
+AND x0.mixid = x430.mixid
+AND x0.foodid = x430.foodid
+AND x0.mixid = x406.mixid
+AND x0.foodid = x406.foodid
+AND x0.mixid = x410.mixid
+AND x0.foodid = x410.foodid
+AND x0.mixid = x405.mixid
+AND x0.foodid = x405.foodid
+AND x0.mixid = x404.mixid
+AND x0.foodid = x404.foodid
+AND x0.mixid = x10003.mixid
+AND x0.foodid = x10003.foodid
+AND x0.mixid = x10011.mixid
+AND x0.foodid = x10011.foodid
+AND x0.mixid = x10013.mixid
+AND x0.foodid = x10013.foodid
+AND x0.mixid = x10010.mixid
+AND x0.foodid = x10010.foodid
+AND x0.mixid = x10012.mixid
+AND x0.foodid = x10012.foodid
+AND x0.mixid = x10014.mixid
+AND x0.foodid = x10014.foodid
+AND x0.mixid = x10009.mixid
+AND x0.foodid = x10009.foodid
+AND x0.mixid = x10015.mixid
+AND x0.foodid = x10015.foodid
+AND x0.mixid = x10016.mixid
+AND x0.foodid = x10016.foodid) a,
+(SELECT foodid, name as food_name FROM food) b
 WHERE a.foodid = b.foodid;
 --
 END;
 /
 
 
-CREATE PROCEDURE mixresultdn_delete (
+CREATE PROCEDURE DnMixResult_delete (
 --
 IN v_MixId LONGVARCHAR
 --
@@ -5109,17 +5935,16 @@ IN v_MixId LONGVARCHAR
 --
 MODIFIES SQL DATA BEGIN ATOMIC
 --
-delete from mixresultdn where mixid = v_MixId;
+delete from DnMixResult where mix_id = v_MixId;
 --
 END;
 /
 
 
-CREATE PROCEDURE food_differences_procedure (
+CREATE PROCEDURE compareFoodItems (
 --
 IN v_food_a LONGVARCHAR,
-IN v_food_b LONGVARCHAR,
-IN v_precision INTEGER
+IN v_food_b LONGVARCHAR
 --
 )
 --
@@ -5137,13 +5962,13 @@ SELECT
        b.nutrientcategoryid,
        b.nutrientid,
        b.name,
-       round(a.food_a,5) as food_a,
-       round(a.food_b,5) as food_b,
-       round(a.diff,5) as diff
+       a.food_a as food_a,
+       a.food_b as food_b,
+       a.diff as diff
 FROM (SELECT a.nutrientid,
              a.value AS food_a,
              b.value AS food_b,
-             b.value - a.value AS diff
+             a.value - b.value AS diff
       FROM (SELECT nutrientid,
                    c * 100 AS value
             FROM foodfactcoefficient
@@ -5189,6 +6014,7 @@ END;
 
 
 CREATE PROCEDURE Meal_insert (
+OUT NEWID INTEGER,
 IN v_MixId LONGVARCHAR,
 IN v_Name LONGVARCHAR,
 IN v_MealOrder INTEGER
@@ -5196,13 +6022,16 @@ IN v_MealOrder INTEGER
 MODIFIES SQL DATA BEGIN ATOMIC
 INSERT INTO Meal (
 MixId,
+MealId,
 Name,
 MealOrder
 ) VALUES (
 v_MixId,
+DEFAULT,
 v_Name,
 v_MealOrder
 );
+SET NEWID=IDENTITY();
 END;
 /
 
@@ -5232,6 +6061,7 @@ v_ActualWt
 );
 END;
 /
+
 
 CREATE PROCEDURE MealFoodPortion_merge_01 (
 IN v_MixId LONGVARCHAR,
@@ -5342,8 +6172,7 @@ END;
 /
 
 CREATE PROCEDURE MealFoodPortion_select_all (
-IN v_MixId LONGVARCHAR,
-IN v_Precision INTEGER
+IN v_MixId LONGVARCHAR
 )
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
@@ -5353,9 +6182,9 @@ SELECT MixId,
        b.FoodId,
        c.Name,
        b.Name,
-       ROUND(a.Pct * 100,v_Precision),
-       ROUND(a.ExpectedWt,v_Precision),
-       ROUND(a.ActualWt,v_Precision),
+       a.Pct * 100,
+       a.ExpectedWt,
+       a.ActualWt,
        c.MealOrder
 FROM MealFoodPortion a,
      Food b, Meal c
@@ -5365,23 +6194,6 @@ AND a.mixid = c.mixid
 AND   a.MixId = v_MixId
 ORDER BY c.MealOrder,b.Name;
 OPEN result;
-END;
-/
-
-CREATE PROCEDURE MealFoodPortion_update_pct (
-IN v_MixId LONGVARCHAR,
-IN v_MealId INTEGER,
-IN v_FoodId LONGVARCHAR,
-IN v_Pct DOUBLE
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-UPDATE MealFoodPortion
-SET
-Pct = v_Pct
-WHERE
-MixId = v_MixId AND
-MealId = v_MealId AND
-FoodId = v_FoodId;
 END;
 /
 
@@ -5399,19 +6211,6 @@ CALL MealFoodPortion_update_expectedwt(v_MixId,v_MealId,v_FoodId);
 END;
 /
 
-CREATE PROCEDURE MealFoodPortion_insert_and_calculate_01 (
-IN v_MixId LONGVARCHAR,
-IN v_MealId INTEGER,
-IN v_FoodId LONGVARCHAR,
-IN v_Pct DOUBLE
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-DECLARE v_Pct_d DOUBLE;
-SET v_Pct_d = v_Pct/100;
-CALL MealFoodPortion_update_pct(v_MixId,v_MealId,v_FoodId,v_Pct_d);
-CALL MealFoodPortion_update_expectedwt(v_MixId,v_MealId,v_FoodId);
-END;
-/
 
 CREATE PROCEDURE MealFoodPortion_delete (
 IN v_MixId LONGVARCHAR,
@@ -5479,7 +6278,7 @@ SET doc = CHAR(10) + '<meal_list>' + CHAR(10);
 --
 FOR SELECT mixid, mealid, name, mealorder FROM meal WHERE mixid = v_MixId ORDER BY mealorder DO
 --
-SET doc = doc +  '<meal>' + CHAR(10) + '<mixid>' + mixid + '</mixid>' + CHAR(10)  + '<mealid>' + mealid + '</mealid>' + CHAR(10) + '<name>' + escape_xml_element_data(name) + '</name>' + CHAR(10)  + '<mealorder>'  + mealorder + '</mealorder>' + CHAR(10) + '</meal>' + CHAR (10);
+SET doc = doc +  '<meal>' + CHAR(10) + '<mix-id>' + mixid + '</mix-id>' + CHAR(10)  + '<meal-id>' + mealid + '</meal-id>' + CHAR(10) + '<meal-name>' + escape_xml_element_data(name) + '</meal-name>' + CHAR(10)  + '<meal-order>'  + mealorder + '</meal-order>' + CHAR(10) + '</meal>' + CHAR (10);
 --
 END FOR;
 --
@@ -5509,7 +6308,7 @@ SET doc = CHAR(10) + '<meal_food_portion_list>' + CHAR(10) ;
 --
 FOR SELECT mixid, mealid, foodid, pct, expectedwt, actualwt FROM mealfoodportion WHERE mixid = v_MixId ORDER BY mealid, foodid DO
 --
-SET doc = doc +  '<meal_food_portion>' + CHAR (10) + '<mixid>' + mixid + '</mixid>' + CHAR (10) + '<mealid>' + mealid + '</mealid>' + CHAR (10) + '<foodid>' + foodid + '</foodid>' + CHAR (10) + '<pct>' + pct + '</pct>' + CHAR (10) + '<expectedwt>' + expectedwt + '</expectedwt>' + CHAR (10) + '<actualwt>' + actualwt + '</actualwt>'  + CHAR (10) + '</meal_food_portion>' + CHAR (10);
+SET doc = doc +  '<meal_food_portion>' + CHAR (10) + '<mix-id>' + mixid + '</mix-id>' + CHAR (10) + '<meal-id>' + mealid + '</meal-id>' + CHAR (10) + '<food-id>' + foodid + '</food-id>' + CHAR (10) + '<pct>' + pct + '</pct>' + CHAR (10) + '<expected-wt>' + expectedwt + '</expected-wt>' + CHAR (10) + '<actual-wt>' + actualwt + '</actual-wt>'  + CHAR (10) + '</meal_food_portion>' + CHAR (10);
 --
 END FOR;
 --
@@ -5520,7 +6319,7 @@ SET v_doc = doc;
 END
 /
 
-CREATE PROCEDURE Export_xml (IN v_MixId LONGVARCHAR)
+CREATE PROCEDURE exportMixModel (IN v_MixId LONGVARCHAR)
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1
 --
@@ -5531,7 +6330,8 @@ DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
 --
 SET doc = '';
-SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack_v8.xsd''>' + CHAR (10);
+--SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack_v8.xsd''>' + CHAR (10);
+SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + '>';
 --
 call Select_mix_as_xml (doc,v_MixId);
 --
@@ -5541,27 +6341,19 @@ call Select_mixfood_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
-call Select_category_list_as_xml (doc,v_MixId);
---
-SET doc2 = doc2 + doc;
---
-call Select_category_link_list_as_xml (doc,v_MixId);
---
-SET doc2 = doc2 + doc;
---
 call Select_nutrient_constraint_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
-call Select_foodnutrient_constraint_list_as_xml (doc,v_MixId);
+call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --
-call Select_foodnutrient_ratio_constraint_list_as_xml (doc,v_MixId);
+call Select_foodnutrient_constraint_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
-call Select_nutrient_ratio_constraint_list_as_xml (doc,v_MixId);
+call Select_foodnutrient_ratio_constraint_list_as_xml (doc,v_MixId);
 --
 SET doc2 = doc2 + doc;
 --
@@ -5594,6 +6386,7 @@ END
 
 CREATE PROCEDURE Meal_insert_02 (
 IN v_MixId LONGVARCHAR,
+--TODO - Fix, should be integer
 IN v_MealId LONGVARCHAR,
 IN v_Name LONGVARCHAR,
 IN v_MealOrder INTEGER
@@ -5677,6 +6470,8 @@ END;
 
 CREATE PROCEDURE Mix_Duplicate (
 --
+OUT newid LONGVARCHAR,
+--
 IN v_MixId_Old LONGVARCHAR
 --
 )
@@ -5699,38 +6494,40 @@ CALL FoodNutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 --
-CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
+CALL DnMixResult_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_food_portion_copy(v_MixId_Old,v_MixId_New);
 --
+SET newid = v_MixId_New;
+--
 END;
 /
 
-CREATE PROCEDURE results_by_meal_select (IN v_MixId LONGVARCHAR,IN v_Precision INTEGER) 
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 
-BEGIN ATOMIC 
+CREATE PROCEDURE results_by_meal_select (IN v_MixId LONGVARCHAR)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 --
 SELECT a.name,
-       ROUND(a.amt,v_Precision) AS weight,
-       ROUND(b.amt,v_Precision) AS egross,
-       ROUND(c.amt,v_Precision) AS edigest,
-       ROUND(d.amt,v_Precision) AS efat,
-       ROUND(e.amt,v_Precision) AS ecarbs,
-       ROUND(m.amt,v_Precision) AS efatcarbs,
-       ROUND(f.amt,v_Precision) AS eprotein,
-       ROUND(g.amt,v_Precision) AS ealcohol,
-       ROUND(h.amt,v_Precision) AS fat,
-       ROUND(i.amt,v_Precision) AS carbs,
-       ROUND(j.amt,v_Precision) AS protein,
-       ROUND(k.amt,v_Precision) AS complete,
-       ROUND(l.amt,v_Precision) AS alcohol,
-       ROUND(n.amt,v_Precision) AS fiber,
-       ROUND(o.amt,v_Precision) AS sodium,
-       ROUND(p.amt,v_Precision) AS potassium
+       a.amt AS weight,
+       b.amt AS egross,
+       c.amt AS edigest,
+       d.amt AS efat,
+       e.amt AS ecarbs,
+       m.amt AS efatcarbs,
+       f.amt AS eprotein,
+       g.amt AS ealcohol,
+       h.amt AS fat,
+       i.amt AS carbs,
+       j.amt AS protein,
+       k.amt AS complete,
+       l.amt AS alcohol,
+       n.amt AS fiber,
+       o.amt AS sodium,
+       p.amt AS potassium
 FROM
 --
 (SELECT a.name,
@@ -5763,7 +6560,7 @@ FROM
           a.MealOrder,
           c.nutrientid
  ORDER BY a.MealOrder) B,
-     --     
+     --
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
@@ -5778,7 +6575,7 @@ FROM
           a.MealOrder,
           c.nutrientid
  ORDER BY a.MealOrder) C,
-     --               
+     --
 (SELECT a.mealorder,
         SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
@@ -5993,22 +6790,22 @@ AND   a.mealorder = p.mealorder
 UNION
 --
 SELECT 'Total' AS name,
-       ROUND(a.amt,v_Precision) AS weight,
-       ROUND(b.amt,v_Precision) AS egross,
-       ROUND(c.amt,v_Precision) AS edigest,
-       ROUND(d.amt,v_Precision) AS efat,
-       ROUND(e.amt,v_Precision) AS ecarbs,
-       ROUND(m.amt,v_Precision) AS efatcarbs,
-       ROUND(f.amt,v_Precision) AS eprotein,
-       ROUND(g.amt,v_Precision) AS ealcohol,
-       ROUND(h.amt,v_Precision) AS fat,
-       ROUND(i.amt,v_Precision) AS carbs,
-       ROUND(j.amt,v_Precision) AS protein,
-       ROUND(k.amt,v_Precision) AS complete,
-       ROUND(l.amt,v_Precision) AS alcohol,
-       ROUND(n.amt,v_Precision) AS fiber,
-       ROUND(o.amt,v_Precision) AS sodium,
-       ROUND(p.amt,v_Precision) AS potassium
+       a.amt AS weight,
+       b.amt AS egross,
+       c.amt AS edigest,
+       d.amt AS efat,
+       e.amt AS ecarbs,
+       m.amt AS efatcarbs,
+       f.amt AS eprotein,
+       g.amt AS ealcohol,
+       h.amt AS fat,
+       i.amt AS carbs,
+       j.amt AS protein,
+       k.amt AS complete,
+       l.amt AS alcohol,
+       n.amt AS fiber,
+       o.amt AS sodium,
+       p.amt AS potassium
 FROM
 --
 (SELECT SUM(b.expectedwt*c.c) AS amt
@@ -6030,7 +6827,7 @@ FROM
  AND   a.mixid = v_MixId
  AND   b.foodid = c.foodid
  AND   c.nutrientid = '208') B,
-     --     
+     --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
       mealfoodportion b,
@@ -6040,7 +6837,7 @@ FROM
  AND   a.mixid = v_MixId
  AND   b.foodid = c.foodid
  AND   c.nutrientid = '10009') C,
-     --               
+     --
 (SELECT SUM(b.expectedwt*c.c) AS amt
  FROM meal a,
       mealfoodportion b,
@@ -6183,18 +6980,21 @@ IN v_foodid LONGVARCHAR
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
-DECLARE v_carbsbydiff DOUBLE;
-DECLARE v_fiber DOUBLE;
-DECLARE v_digestible_carbohydrate DOUBLE;
-DECLARE v_energy_alcohol DOUBLE;
-DECLARE v_energy_carbohydrate DOUBLE;
-DECLARE v_energy_fat DOUBLE;
-DECLARE v_energy_protein DOUBLE;
-DECLARE v_gi DOUBLE;
-DECLARE v_lauric DOUBLE;
-DECLARE v_myristic DOUBLE;
-DECLARE v_palmitic DOUBLE;
-DECLARE v_hcsfa DOUBLE;
+DECLARE v_carbsbydiff DECIMAL(11,5);
+DECLARE v_fiber DECIMAL(11,5);
+DECLARE v_digestible_carbohydrate DECIMAL(11,5);
+DECLARE v_energy_alcohol DECIMAL(11,5);
+DECLARE v_energy_carbohydrate DECIMAL(11,5);
+DECLARE v_energy_fat DECIMAL(11,5);
+DECLARE v_energy_protein DECIMAL(11,5);
+DECLARE v_gi DECIMAL(11,5);
+DECLARE v_lauric DECIMAL(11,5);
+DECLARE v_myristic DECIMAL(11,5);
+DECLARE v_palmitic DECIMAL(11,5);
+DECLARE v_hcsfa DECIMAL(11,5);
+DECLARE v_dha DECIMAL(11,5);
+DECLARE v_epa DECIMAL(11,5);
+DECLARE v_lcn3pufa DECIMAL(11,5);
 --
 --digestible_carbohydrate
 SELECT q INTO v_carbsbydiff FROM foodfact WHERE nutrientid = '205' AND foodid = v_foodid;
@@ -6224,10 +7024,6 @@ CALL foodfact_merge (v_foodid,'10010',v_energy_carbohydrate+v_energy_fat);
 -- energy_digestible
 CALL foodfact_merge (v_foodid,'10009',v_energy_carbohydrate+v_energy_fat+v_energy_protein+v_energy_alcohol);
 --
--- glycemic_load
-SELECT q  INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
-CALL foodfact_merge (v_foodid,'10006',v_digestible_carbohydrate*v_gi/100);
---
 --hcsfa
 SELECT q INTO v_lauric FROM foodfact WHERE nutrientid = '611' AND foodid = v_foodid;
 SELECT q INTO v_myristic FROM foodfact  WHERE nutrientid = '612' AND foodid = v_foodid;
@@ -6235,30 +7031,19 @@ SELECT q INTO v_palmitic FROM foodfact  WHERE nutrientid = '613' AND foodid = v_
 SET v_hcsfa = v_lauric + v_myristic + v_palmitic;
 CALL foodfact_merge (v_foodid,'10015',v_hcsfa);
 --
+--lcn3pufa
+SELECT q INTO v_dha FROM foodfact WHERE nutrientid = '621' AND foodid = v_foodid;
+SELECT q INTO v_epa FROM foodfact  WHERE nutrientid = '629' AND foodid = v_foodid;
+SET v_lcn3pufa = v_dha + v_epa;
+CALL foodfact_merge (v_foodid,'10016',v_lcn3pufa);
+--
 --
 END;
 /
 
-CREATE PROCEDURE GlycemicIndex_select (
-IN v_FoodId LONGVARCHAR
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
-DECLARE result CURSOR
-FOR
-SELECT
-FoodId,
-q
-FROM
-GlycemicIndex
-WHERE
-FoodId = v_FoodId;
-OPEN result;
-END;
-/
-
-CREATE PROCEDURE Select_food_as_xml (
+CREATE PROCEDURE exportCategoryToXml(
 --
-IN v_FoodId LONGVARCHAR
+IN vFoodCategoryId LONGVARCHAR
 --
 )
 --
@@ -6269,28 +7054,39 @@ BEGIN ATOMIC
 DECLARE TABLE temp ( txt LONGVARCHAR);
 DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
-DECLARE v_gi DOUBLE;
 --
 SET doc = '';
-SET doc2 = '<food' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/food_v2.xsd''>' + CHAR (10);
+SET doc2 = '';
 --
-FOR SELECT foodid as id ,name FROM food WHERE  foodid  = v_FoodId DO
+SET doc2 = '<foods xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''>' + CHAR(10);
+------------------------------------------------------------
+FOR SELECT a.foodid AS id, a.name, c.foodcategoryid as categoryid, c.name as categoryname FROM food a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND b.foodcategoryid = c.foodcategoryid AND c.foodcategoryid = vFoodCategoryId DO
 --
-SET doc = '<food-id>'+id +'</food-id>' + CHAR (10) + '<food-name>'+ escape_xml_element_data(name) +'</food-name>' + CHAR (10);
+SET doc = '<food>' +CHAR(10)+'<food-id>'+id +'</food-id>' +CHAR (10) + '<food-name>'+ escape_xml_element_data(name) +'</food-name>' +CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
-FOR SELECT * FROM (SELECT LABEL, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = v_FoodId AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10006' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014' AND Y.NUTRIENTID != '10015') UNION SELECT 'carbohydrates-glycemicindex' AS LABEL, pick_food_gi(v_FoodId) FROM (VALUES(0)) ) ORDER BY LABEL DO
+FOR SELECT * FROM (SELECT NUTRIENTID, LABEL, UNITS, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND   Y.NUTRIENTID = Z.NUTRIENTID AND   (Y.NUTRIENTID != '10003' AND Y.NUTRIENTID != '10009' AND Y.NUTRIENTID != '10010' AND Y.NUTRIENTID != '10011' AND Y.NUTRIENTID != '10012' AND Y.NUTRIENTID != '10013' AND Y.NUTRIENTID != '10014' AND Y.NUTRIENTID != '10015' AND Y.NUTRIENTID != '10016')) ORDER BY LABEL DO
 --
-SET doc = '<'+label +'>'+cast(q as decimal(128,32)) +'</'+label +'>' + CHAR (10);
+SET doc = '<'+label +' '+'units="'+units+'" '+'nutr_no="'+nutrientid+'" '+'>'+ q +'</'+label +'>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --
 END FOR;
+--
+SET doc2 = doc2 + '<category-list>'+ CHAR (10);
+--
+SET doc = '<category>'+ CHAR (10) + '<category-id>' + categoryid + '</category-id>' + CHAR (10) + '<category-name>' + categoryname + '</category-name>' + CHAR (10) + '</category>' + CHAR (10);
+--
+SET doc2 = doc2 + doc;
+--
+SET doc2 = doc2 + '</category-list>'+ CHAR (10);
 --
 SET doc2 = doc2 + '</food>' + CHAR (10);
 --
 END FOR;
+--
+SET doc2 = doc2 + '</foods>';
 --
 INSERT INTO temp (txt) VALUES (doc2);
 --
@@ -6306,161 +7102,6 @@ OPEN result;
 END;
 --
 END
-/
-
-
-CREATE PROCEDURE get_essential_fat_ratio_difference (
---
-IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
---
-)
---
-MODIFIES SQL DATA
-DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT 'Ratio LA/ALA' AS nutrient,
-       ROUND(a.ratio,v_Precision) AS mix1,
-       ROUND(b.ratio,v_Precision) AS mix2,
-       ROUND(b.ratio - a.ratio,v_Precision) AS diff
-FROM (SELECT get_essential_fat_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
-     (SELECT get_essential_fat_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE get_electrolyte_ratio_difference (
---
-IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
---
-)
---
-MODIFIES SQL DATA
-DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT 'Ratio K/Na' AS nutrient,
-       ROUND(a.ratio,v_Precision) AS mix1,
-       ROUND(b.ratio,v_Precision) AS mix2,
-       ROUND(b.ratio - a.ratio,v_Precision) AS diff
-FROM (SELECT get_electrolyte_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
-     (SELECT get_electrolyte_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE get_monoufat_ratio_difference (
---
-IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
---
-)
---
-MODIFIES SQL DATA
-DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT 'Ratio MUFA/SFA' AS nutrient,
-       ROUND(a.ratio,v_Precision) AS mix1,
-       ROUND(b.ratio,v_Precision) AS mix2,
-       ROUND(b.ratio - a.ratio,v_Precision) AS diff
-FROM (SELECT get_monoufat_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
-     (SELECT get_monoufat_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE get_polyufat_ratio_difference (
---
-IN v_MixId_1 LONGVARCHAR,
-IN v_MixId_2 LONGVARCHAR,
-IN v_Precision INTEGER
---
-)
---
-MODIFIES SQL DATA
-DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT 'Ratio PUFA/SFA' AS nutrient,
-       ROUND(a.ratio,v_Precision) AS mix1,
-       ROUND(b.ratio,v_Precision) AS mix2,
-       ROUND(b.ratio - a.ratio,v_Precision) AS diff
-FROM (SELECT get_polyufat_ratio(v_MixId_1) AS ratio FROM ( VALUES (0))) a,
-     (SELECT get_polyufat_ratio(v_MixId_2) AS ratio FROM ( VALUES (0))) b;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE getMixCoefficients (
---
-IN v_mixid LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
---
-SELECT b.foodid,
-       b.nutrientid,
-       getfoodcoefficient(b.foodid,b.nutrientid) as c
-FROM mixfood a,
-     foodfactcoefficient b,
-     (SELECT nutrientid
-      FROM (SELECT nutrientid
-            FROM nutrientconstraint
-            WHERE mixid =mixid
-            UNION
-            SELECT nutrient_id_1
-            FROM nutrientratio
-            WHERE mixid =mixid
-            UNION
-            SELECT nutrient_id_2
-            FROM nutrientratio
-            WHERE mixid =mixid
-            UNION
-            SELECT nutrientid
-            FROM foodnutrientconstraint
-            WHERE mixid =mixid
-            UNION
-            SELECT nutrient_id_1
-            FROM foodnutrientratio
-            WHERE mixid =mixid
-            UNION
-            SELECT nutrient_id_2
-            FROM foodnutrientratio
-            WHERE mixid =mixid)) c
-WHERE a.foodid = b.foodid
-AND   b.nutrientid = c.nutrientid
-AND   a.mixid =mixid
-ORDER BY b.foodid,b.nutrientid;
---
-OPEN result;
---
-END;
 /
 
 
@@ -6580,7 +7221,8 @@ END;
 /
 
 
-CREATE PROCEDURE getDri()
+--TODO - fix - nutrients are missing
+CREATE PROCEDURE getDriDn()
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
@@ -6600,48 +7242,49 @@ SELECT -1 AS row,
        10 AS n10013,
        11 AS n10014,
        12 AS n10015,
-       13 AS n203,
-       14 AS n204,
-       15 AS n205,
-       16 AS n208,
-       17 AS n221,
-       18 AS n255,
-       19 AS n291,
-       20 AS n301,
-       21 AS n303,
-       22 AS n304,
-       23 AS n305,
-       24 AS n306,
-       25 AS n307,
-       26 AS n309,
-       27 AS n312,
-       28 AS n315,
-       29 AS n317,
-       30 AS n320,
-       31 AS n323,
-       32 AS n328,
-       33 AS n401,
-       34 AS n404,
-       35 AS n405,
-       36 AS n406,
-       37 AS n410,
-       38 AS n415,
-       39 AS n418,
-       40 AS n421,
-       41 AS n430,
-       42 AS n435,
-       43 AS n601,
-       44 AS n606,
-       45 AS n611,
-       46 AS n612,
-       47 AS n613,
-       48 AS n614,
-       49 AS n618,
-       50 AS n619,
-       51 AS n621,
-       52 AS n629,
-       53 AS n645,
-       54 AS n646
+       13 AS n10016,
+       14 AS n203,
+       15 AS n204,
+       16 AS n205,
+       17 AS n208,
+       18 AS n221,
+       19 AS n255,
+       20 AS n291,
+       21 AS n301,
+       22 AS n303,
+       23 AS n304,
+       24 AS n305,
+       25 AS n306,
+       26 AS n307,
+       27 AS n309,
+       28 AS n312,
+       29 AS n315,
+       30 AS n317,
+       31 AS n320,
+       32 AS n323,
+       33 AS n328,
+       34 AS n401,
+       35 AS n404,
+       36 AS n405,
+       37 AS n406,
+       38 AS n410,
+       39 AS n415,
+       40 AS n418,
+       41 AS n421,
+       42 AS n430,
+       43 AS n435,
+       44 AS n601,
+       45 AS n606,
+       46 AS n611,
+       47 AS n612,
+       48 AS n613,
+       49 AS n614,
+       50 AS n618,
+       51 AS n619,
+       52 AS n621,
+       53 AS n629,
+       54 AS n645,
+       55 AS n646
 FROM (
      VALUES (0))
 UNION
@@ -6658,6 +7301,7 @@ SELECT a.lifestageid+1,
        0.0 AS "n10013",
        0.0 AS "n10014",
        0.0 AS "n10015",
+       0.0 AS "n10016",
        0.0 AS "n203",
        c.q AS "n204",
        0.0 AS "n205",
@@ -6767,1865 +7411,51 @@ END;
 /
 
 
-CREATE PROCEDURE populate_zff (IN v_mixid LONGVARCHAR) MODIFIES SQL DATA BEGIN ATOMIC
+CREATE PROCEDURE MixCost_update (
 --
-INSERT INTO zff
-(
-  row,
-  mixid,
-  foodid,
-  n10000,
-  n10001,
-  n10003,
-  n10005,
-  n10006,
-  n10009,
-  n10010,
-  n10011,
-  n10012,
-  n10013,
-  n10014,
-  n10015,
-  n203,
-  n204,
-  n205,
-  n208,
-  n221,
-  n255,
-  n291,
-  n301,
-  n303,
-  n304,
-  n305,
-  n306,
-  n307,
-  n309,
-  n312,
-  n315,
-  n317,
-  n320,
-  n323,
-  n328,
-  n401,
-  n404,
-  n405,
-  n406,
-  n410,
-  n415,
-  n418,
-  n421,
-  n430,
-  n435,
-  n601,
-  n606,
-  n611,
-  n612,
-  n613,
-  n614,
-  n618,
-  n619,
-  n621,
-  n629,
-  n645,
-  n646
-)
-SELECT ROWNUM(),
-       a.*
-FROM (SELECT a1.mixid AS mixid,
-             a1.foodid AS foodid,
-             a1.q AS n10000,
-             a2.q AS n10001,
-             a3.q AS n10003,
-             a4.q AS n10005,
-             a5.q AS n10006,
-             a6.q AS n10009,
-             a7.q AS n10010,
-             a8.q AS n10011,
-             a9.q AS n10012,
-             a10.q AS n10013,
-             a11.q AS n10014,
-             a12.q AS n10015,
-             a13.q AS n203,
-             a14.q AS n204,
-             a15.q AS n205,
-             a16.q AS n208,
-             a17.q AS n221,
-             a18.q AS n255,
-             a19.q AS n291,
-             a20.q AS n301,
-             a21.q AS n303,
-             a22.q AS n304,
-             a23.q AS n305,
-             a24.q AS n306,
-             a25.q AS n307,
-             a26.q AS n309,
-             a27.q AS n312,
-             a28.q AS n315,
-             a29.q AS n317,
-             a30.q AS n320,
-             a31.q AS n323,
-             a32.q AS n328,
-             a33.q AS n401,
-             a34.q AS n404,
-             a35.q AS n405,
-             a36.q AS n406,
-             a37.q AS n410,
-             a38.q AS n415,
-             a39.q AS n418,
-             a40.q AS n421,
-             a41.q AS n430,
-             a42.q AS n435,
-             a43.q AS n601,
-             a44.q AS n606,
-             a45.q AS n611,
-             a46.q AS n612,
-             a47.q AS n613,
-             a48.q AS n614,
-             a49.q AS n618,
-             a50.q AS n619,
-             a51.q AS n621,
-             a52.q AS n629,
-             a53.q AS n645,
-             a54.q AS n646
-      FROM (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10000'
-            AND   a.mixid = v_mixid) a1,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10001'
-            AND   a.mixid = v_mixid) a2,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10003'
-            AND   a.mixid = v_mixid) a3,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10005'
-            AND   a.mixid = v_mixid) a4,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10006'
-            AND   a.mixid = v_mixid) a5,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10009'
-            AND   a.mixid = v_mixid) a6,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10010'
-            AND   a.mixid = v_mixid) a7,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10011'
-            AND   a.mixid = v_mixid) a8,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10012'
-            AND   a.mixid = v_mixid) a9,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10013'
-            AND   a.mixid = v_mixid) a10,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10014'
-            AND   a.mixid = v_mixid) a11,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10015'
-            AND   a.mixid = v_mixid) a12,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '203'
-            AND   a.mixid = v_mixid) a13,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '204'
-            AND   a.mixid = v_mixid) a14,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '205'
-            AND   a.mixid = v_mixid) a15,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '208'
-            AND   a.mixid = v_mixid) a16,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '221'
-            AND   a.mixid = v_mixid) a17,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '255'
-            AND   a.mixid = v_mixid) a18,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '291'
-            AND   a.mixid = v_mixid) a19,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '301'
-            AND   a.mixid = v_mixid) a20,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '303'
-            AND   a.mixid = v_mixid) a21,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '304'
-            AND   a.mixid = v_mixid) a22,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '305'
-            AND   a.mixid = v_mixid) a23,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '306'
-            AND   a.mixid = v_mixid) a24,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '307'
-            AND   a.mixid = v_mixid) a25,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '309'
-            AND   a.mixid = v_mixid) a26,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '312'
-            AND   a.mixid = v_mixid) a27,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '315'
-            AND   a.mixid = v_mixid) a28,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '317'
-            AND   a.mixid = v_mixid) a29,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '320'
-            AND   a.mixid = v_mixid) a30,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '323'
-            AND   a.mixid = v_mixid) a31,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '328'
-            AND   a.mixid = v_mixid) a32,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '401'
-            AND   a.mixid = v_mixid) a33,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '404'
-            AND   a.mixid = v_mixid) a34,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '405'
-            AND   a.mixid = v_mixid) a35,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '406'
-            AND   a.mixid = v_mixid) a36,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '410'
-            AND   a.mixid = v_mixid) a37,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '415'
-            AND   a.mixid = v_mixid) a38,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '418'
-            AND   a.mixid = v_mixid) a39,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '421'
-            AND   a.mixid = v_mixid) a40,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '430'
-            AND   a.mixid = v_mixid) a41,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '435'
-            AND   a.mixid = v_mixid) a42,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '601'
-            AND   a.mixid = v_mixid) a43,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '606'
-            AND   a.mixid = v_mixid) a44,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '611'
-            AND   a.mixid = v_mixid) a45,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '612'
-            AND   a.mixid = v_mixid) a46,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '613'
-            AND   a.mixid = v_mixid) a47,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '614'
-            AND   a.mixid = v_mixid) a48,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '618'
-            AND   a.mixid = v_mixid) a49,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '619'
-            AND   a.mixid = v_mixid) a50,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '621'
-            AND   a.mixid = v_mixid) a51,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '629'
-            AND   a.mixid = v_mixid) a52,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '645'
-            AND   a.mixid = v_mixid) a53,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.q
-            FROM mixfood a,
-                 foodfact b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '646'
-            AND   a.mixid = v_mixid) a54
-      WHERE a1.mixid = a2.mixid
-      AND   a1.foodid = a2.foodid
-      AND   a1.mixid = a3.mixid
-      AND   a1.foodid = a3.foodid
-      AND   a1.mixid = a4.mixid
-      AND   a1.foodid = a4.foodid
-      AND   a1.mixid = a5.mixid
-      AND   a1.foodid = a5.foodid
-      AND   a1.mixid = a6.mixid
-      AND   a1.foodid = a6.foodid
-      AND   a1.mixid = a7.mixid
-      AND   a1.foodid = a7.foodid
-      AND   a1.mixid = a8.mixid
-      AND   a1.foodid = a8.foodid
-      AND   a1.mixid = a9.mixid
-      AND   a1.foodid = a9.foodid
-      AND   a1.mixid = a10.mixid
-      AND   a1.foodid = a10.foodid
-      AND   a1.mixid = a11.mixid
-      AND   a1.foodid = a11.foodid
-      AND   a1.mixid = a12.mixid
-      AND   a1.foodid = a12.foodid
-      AND   a1.mixid = a13.mixid
-      AND   a1.foodid = a13.foodid
-      AND   a1.mixid = a14.mixid
-      AND   a1.foodid = a14.foodid
-      AND   a1.mixid = a15.mixid
-      AND   a1.foodid = a15.foodid
-      AND   a1.mixid = a16.mixid
-      AND   a1.foodid = a16.foodid
-      AND   a1.mixid = a17.mixid
-      AND   a1.foodid = a17.foodid
-      AND   a1.mixid = a18.mixid
-      AND   a1.foodid = a18.foodid
-      AND   a1.mixid = a19.mixid
-      AND   a1.foodid = a19.foodid
-      AND   a1.mixid = a20.mixid
-      AND   a1.foodid = a20.foodid
-      AND   a1.mixid = a21.mixid
-      AND   a1.foodid = a21.foodid
-      AND   a1.mixid = a22.mixid
-      AND   a1.foodid = a22.foodid
-      AND   a1.mixid = a23.mixid
-      AND   a1.foodid = a23.foodid
-      AND   a1.mixid = a24.mixid
-      AND   a1.foodid = a24.foodid
-      AND   a1.mixid = a25.mixid
-      AND   a1.foodid = a25.foodid
-      AND   a1.mixid = a26.mixid
-      AND   a1.foodid = a26.foodid
-      AND   a1.mixid = a27.mixid
-      AND   a1.foodid = a27.foodid
-      AND   a1.mixid = a28.mixid
-      AND   a1.foodid = a28.foodid
-      AND   a1.mixid = a29.mixid
-      AND   a1.foodid = a29.foodid
-      AND   a1.mixid = a30.mixid
-      AND   a1.foodid = a30.foodid
-      AND   a1.mixid = a31.mixid
-      AND   a1.foodid = a31.foodid
-      AND   a1.mixid = a32.mixid
-      AND   a1.foodid = a32.foodid
-      AND   a1.mixid = a33.mixid
-      AND   a1.foodid = a33.foodid
-      AND   a1.mixid = a34.mixid
-      AND   a1.foodid = a34.foodid
-      AND   a1.mixid = a35.mixid
-      AND   a1.foodid = a35.foodid
-      AND   a1.mixid = a36.mixid
-      AND   a1.foodid = a36.foodid
-      AND   a1.mixid = a37.mixid
-      AND   a1.foodid = a37.foodid
-      AND   a1.mixid = a38.mixid
-      AND   a1.foodid = a38.foodid
-      AND   a1.mixid = a39.mixid
-      AND   a1.foodid = a39.foodid
-      AND   a1.mixid = a40.mixid
-      AND   a1.foodid = a40.foodid
-      AND   a1.mixid = a41.mixid
-      AND   a1.foodid = a41.foodid
-      AND   a1.mixid = a42.mixid
-      AND   a1.foodid = a42.foodid
-      AND   a1.mixid = a43.mixid
-      AND   a1.foodid = a43.foodid
-      AND   a1.mixid = a44.mixid
-      AND   a1.foodid = a44.foodid
-      AND   a1.mixid = a45.mixid
-      AND   a1.foodid = a45.foodid
-      AND   a1.mixid = a46.mixid
-      AND   a1.foodid = a46.foodid
-      AND   a1.mixid = a47.mixid
-      AND   a1.foodid = a47.foodid
-      AND   a1.mixid = a48.mixid
-      AND   a1.foodid = a48.foodid
-      AND   a1.mixid = a49.mixid
-      AND   a1.foodid = a49.foodid
-      AND   a1.mixid = a50.mixid
-      AND   a1.foodid = a50.foodid
-      AND   a1.mixid = a51.mixid
-      AND   a1.foodid = a51.foodid
-      AND   a1.mixid = a52.mixid
-      AND   a1.foodid = a52.foodid
-      AND   a1.mixid = a53.mixid
-      AND   a1.foodid = a53.foodid
-      AND   a1.mixid = a54.mixid
-      AND   a1.foodid = a54.foodid
-      ORDER BY a1.foodid
-      ) a
-ORDER BY a.foodid;
+IN v_MixId LONGVARCHAR,
+--IN v_Name LONGVARCHAR,
+--IN v_NutrientId LONGVARCHAR,
+--IN v_Model LONGVARCHAR,
+IN v_MixCost DECIMAL(11,5)
 --
-END;
-/
-
-
-CREATE PROCEDURE save_zff(
-IN v_mixid LONGVARCHAR
 )
+--
 MODIFIES SQL DATA
 BEGIN ATOMIC
 --
-DELETE FROM ZFF WHERE mixid = v_mixid;
---
-CALL populate_zff(v_mixid);
---
-END;
-/
-
-CREATE PROCEDURE get_zff(
-IN v_mixid LONGVARCHAR
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
-DECLARE result CURSOR
-FOR
---
-SELECT a.row,
-       a.n10000,
-       a.n10001,
-       a.n10003,
-       a.n10005,
-       a.n10006,
-       a.n10009,
-       a.n10010,
-       a.n10011,
-       a.n10012,
-       a.n10013,
-       a.n10014,
-       a.n10015,
-       a.n203,
-       a.n204,
-       a.n205,
-       a.n208,
-       a.n221,
-       a.n255,
-       a.n291,
-       a.n301,
-       a.n303,
-       a.n304,
-       a.n305,
-       a.n306,
-       a.n307,
-       a.n309,
-       a.n312,
-       a.n315,
-       a.n317,
-       a.n320,
-       a.n323,
-       a.n328,
-       a.n401,
-       a.n404,
-       a.n405,
-       a.n406,
-       a.n410,
-       a.n415,
-       a.n418,
-       a.n421,
-       a.n430,
-       a.n435,
-       a.n601,
-       a.n606,
-       a.n611,
-       a.n612,
-       a.n613,
-       a.n614,
-       a.n618,
-       a.n619,
-       a.n621,
-       a.n629,
-       a.n645,
-       a.n646
-FROM (SELECT '' AS mixid,
-             '' AS foodid,
-             0 AS ROW,
-             1 AS n10000,
-             2 AS n10001,
-             3 AS n10003,
-             4 AS n10005,
-             5 AS n10006,
-             6 AS n10009,
-             7 AS n10010,
-             8 AS n10011,
-             9 AS n10012,
-             10 AS n10013,
-             11 AS n10014,
-             12 AS n10015,
-             13 AS n203,
-             14 AS n204,
-             15 AS n205,
-             16 AS n208,
-             17 AS n221,
-             18 AS n255,
-             19 AS n291,
-             20 AS n301,
-             21 AS n303,
-             22 AS n304,
-             23 AS n305,
-             24 AS n306,
-             25 AS n307,
-             26 AS n309,
-             27 AS n312,
-             28 AS n315,
-             29 AS n317,
-             30 AS n320,
-             31 AS n323,
-             32 AS n328,
-             33 AS n401,
-             34 AS n404,
-             35 AS n405,
-             36 AS n406,
-             37 AS n410,
-             38 AS n415,
-             39 AS n418,
-             40 AS n421,
-             41 AS n430,
-             42 AS n435,
-             43 AS n601,
-             44 AS n606,
-             45 AS n611,
-             46 AS n612,
-             47 AS n613,
-             48 AS n614,
-             49 AS n618,
-             50 AS n619,
-             51 AS n621,
-             52 AS n629,
-             53 AS n645,
-             54 AS n646
-      FROM (
-           VALUES (0))
-      UNION
-      SELECT *
-      FROM zff
-      WHERE mixid = v_mixid) a
-ORDER BY a.foodid;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE populate_zfc (IN v_mixid LONGVARCHAR) MODIFIES SQL DATA BEGIN ATOMIC
---
-INSERT INTO zfc
-(
-  row,
-  mixid,
-  foodid,
-  n10000,
-  n10001,
-  n10003,
-  n10005,
-  n10006,
-  n10009,
-  n10010,
-  n10011,
-  n10012,
-  n10013,
-  n10014,
-  n10015,
-  n203,
-  n204,
-  n205,
-  n208,
-  n221,
-  n255,
-  n291,
-  n301,
-  n303,
-  n304,
-  n305,
-  n306,
-  n307,
-  n309,
-  n312,
-  n315,
-  n317,
-  n320,
-  n323,
-  n328,
-  n401,
-  n404,
-  n405,
-  n406,
-  n410,
-  n415,
-  n418,
-  n421,
-  n430,
-  n435,
-  n601,
-  n606,
-  n611,
-  n612,
-  n613,
-  n614,
-  n618,
-  n619,
-  n621,
-  n629,
-  n645,
-  n646
-)
-SELECT ROWNUM(),
-       a.*
-FROM (SELECT a1.mixid AS mixid,
-             a1.foodid AS foodid,
-             a1.c AS n10000,
-             a2.c AS n10001,
-             a3.c AS n10003,
-             a4.c AS n10005,
-             a5.c AS n10006,
-             a6.c AS n10009,
-             a7.c AS n10010,
-             a8.c AS n10011,
-             a9.c AS n10012,
-             a10.c AS n10013,
-             a11.c AS n10014,
-             a12.c AS n10015,
-             a13.c AS n203,
-             a14.c AS n204,
-             a15.c AS n205,
-             a16.c AS n208,
-             a17.c AS n221,
-             a18.c AS n255,
-             a19.c AS n291,
-             a20.c AS n301,
-             a21.c AS n303,
-             a22.c AS n304,
-             a23.c AS n305,
-             a24.c AS n306,
-             a25.c AS n307,
-             a26.c AS n309,
-             a27.c AS n312,
-             a28.c AS n315,
-             a29.c AS n317,
-             a30.c AS n320,
-             a31.c AS n323,
-             a32.c AS n328,
-             a33.c AS n401,
-             a34.c AS n404,
-             a35.c AS n405,
-             a36.c AS n406,
-             a37.c AS n410,
-             a38.c AS n415,
-             a39.c AS n418,
-             a40.c AS n421,
-             a41.c AS n430,
-             a42.c AS n435,
-             a43.c AS n601,
-             a44.c AS n606,
-             a45.c AS n611,
-             a46.c AS n612,
-             a47.c AS n613,
-             a48.c AS n614,
-             a49.c AS n618,
-             a50.c AS n619,
-             a51.c AS n621,
-             a52.c AS n629,
-             a53.c AS n645,
-             a54.c AS n646
-      FROM (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10000'
-            AND   a.mixid = v_mixid) a1,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10001'
-            AND   a.mixid = v_mixid) a2,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10003'
-            AND   a.mixid = v_mixid) a3,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10005'
-            AND   a.mixid = v_mixid) a4,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10006'
-            AND   a.mixid = v_mixid) a5,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10009'
-            AND   a.mixid = v_mixid) a6,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10010'
-            AND   a.mixid = v_mixid) a7,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10011'
-            AND   a.mixid = v_mixid) a8,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10012'
-            AND   a.mixid = v_mixid) a9,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10013'
-            AND   a.mixid = v_mixid) a10,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10014'
-            AND   a.mixid = v_mixid) a11,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '10015'
-            AND   a.mixid = v_mixid) a12,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '203'
-            AND   a.mixid = v_mixid) a13,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '204'
-            AND   a.mixid = v_mixid) a14,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '205'
-            AND   a.mixid = v_mixid) a15,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '208'
-            AND   a.mixid = v_mixid) a16,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '221'
-            AND   a.mixid = v_mixid) a17,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '255'
-            AND   a.mixid = v_mixid) a18,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '291'
-            AND   a.mixid = v_mixid) a19,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '301'
-            AND   a.mixid = v_mixid) a20,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '303'
-            AND   a.mixid = v_mixid) a21,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '304'
-            AND   a.mixid = v_mixid) a22,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '305'
-            AND   a.mixid = v_mixid) a23,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '306'
-            AND   a.mixid = v_mixid) a24,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '307'
-            AND   a.mixid = v_mixid) a25,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '309'
-            AND   a.mixid = v_mixid) a26,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '312'
-            AND   a.mixid = v_mixid) a27,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '315'
-            AND   a.mixid = v_mixid) a28,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '317'
-            AND   a.mixid = v_mixid) a29,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '320'
-            AND   a.mixid = v_mixid) a30,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '323'
-            AND   a.mixid = v_mixid) a31,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '328'
-            AND   a.mixid = v_mixid) a32,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '401'
-            AND   a.mixid = v_mixid) a33,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '404'
-            AND   a.mixid = v_mixid) a34,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '405'
-            AND   a.mixid = v_mixid) a35,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '406'
-            AND   a.mixid = v_mixid) a36,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '410'
-            AND   a.mixid = v_mixid) a37,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '415'
-            AND   a.mixid = v_mixid) a38,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '418'
-            AND   a.mixid = v_mixid) a39,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '421'
-            AND   a.mixid = v_mixid) a40,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '430'
-            AND   a.mixid = v_mixid) a41,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '435'
-            AND   a.mixid = v_mixid) a42,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '601'
-            AND   a.mixid = v_mixid) a43,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '606'
-            AND   a.mixid = v_mixid) a44,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '611'
-            AND   a.mixid = v_mixid) a45,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '612'
-            AND   a.mixid = v_mixid) a46,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '613'
-            AND   a.mixid = v_mixid) a47,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '614'
-            AND   a.mixid = v_mixid) a48,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '618'
-            AND   a.mixid = v_mixid) a49,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '619'
-            AND   a.mixid = v_mixid) a50,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '621'
-            AND   a.mixid = v_mixid) a51,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '629'
-            AND   a.mixid = v_mixid) a52,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '645'
-            AND   a.mixid = v_mixid) a53,
-           (SELECT a.mixid,
-                   b.foodid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b,
-                 nutrient c
-            WHERE a.foodid = b.foodid
-            AND   b.nutrientid = c.nutrientid
-            AND   b.nutrientid = '646'
-            AND   a.mixid = v_mixid) a54
-      WHERE a1.mixid = a2.mixid
-      AND   a1.foodid = a2.foodid
-      AND   a1.mixid = a3.mixid
-      AND   a1.foodid = a3.foodid
-      AND   a1.mixid = a4.mixid
-      AND   a1.foodid = a4.foodid
-      AND   a1.mixid = a5.mixid
-      AND   a1.foodid = a5.foodid
-      AND   a1.mixid = a6.mixid
-      AND   a1.foodid = a6.foodid
-      AND   a1.mixid = a7.mixid
-      AND   a1.foodid = a7.foodid
-      AND   a1.mixid = a8.mixid
-      AND   a1.foodid = a8.foodid
-      AND   a1.mixid = a9.mixid
-      AND   a1.foodid = a9.foodid
-      AND   a1.mixid = a10.mixid
-      AND   a1.foodid = a10.foodid
-      AND   a1.mixid = a11.mixid
-      AND   a1.foodid = a11.foodid
-      AND   a1.mixid = a12.mixid
-      AND   a1.foodid = a12.foodid
-      AND   a1.mixid = a13.mixid
-      AND   a1.foodid = a13.foodid
-      AND   a1.mixid = a14.mixid
-      AND   a1.foodid = a14.foodid
-      AND   a1.mixid = a15.mixid
-      AND   a1.foodid = a15.foodid
-      AND   a1.mixid = a16.mixid
-      AND   a1.foodid = a16.foodid
-      AND   a1.mixid = a17.mixid
-      AND   a1.foodid = a17.foodid
-      AND   a1.mixid = a18.mixid
-      AND   a1.foodid = a18.foodid
-      AND   a1.mixid = a19.mixid
-      AND   a1.foodid = a19.foodid
-      AND   a1.mixid = a20.mixid
-      AND   a1.foodid = a20.foodid
-      AND   a1.mixid = a21.mixid
-      AND   a1.foodid = a21.foodid
-      AND   a1.mixid = a22.mixid
-      AND   a1.foodid = a22.foodid
-      AND   a1.mixid = a23.mixid
-      AND   a1.foodid = a23.foodid
-      AND   a1.mixid = a24.mixid
-      AND   a1.foodid = a24.foodid
-      AND   a1.mixid = a25.mixid
-      AND   a1.foodid = a25.foodid
-      AND   a1.mixid = a26.mixid
-      AND   a1.foodid = a26.foodid
-      AND   a1.mixid = a27.mixid
-      AND   a1.foodid = a27.foodid
-      AND   a1.mixid = a28.mixid
-      AND   a1.foodid = a28.foodid
-      AND   a1.mixid = a29.mixid
-      AND   a1.foodid = a29.foodid
-      AND   a1.mixid = a30.mixid
-      AND   a1.foodid = a30.foodid
-      AND   a1.mixid = a31.mixid
-      AND   a1.foodid = a31.foodid
-      AND   a1.mixid = a32.mixid
-      AND   a1.foodid = a32.foodid
-      AND   a1.mixid = a33.mixid
-      AND   a1.foodid = a33.foodid
-      AND   a1.mixid = a34.mixid
-      AND   a1.foodid = a34.foodid
-      AND   a1.mixid = a35.mixid
-      AND   a1.foodid = a35.foodid
-      AND   a1.mixid = a36.mixid
-      AND   a1.foodid = a36.foodid
-      AND   a1.mixid = a37.mixid
-      AND   a1.foodid = a37.foodid
-      AND   a1.mixid = a38.mixid
-      AND   a1.foodid = a38.foodid
-      AND   a1.mixid = a39.mixid
-      AND   a1.foodid = a39.foodid
-      AND   a1.mixid = a40.mixid
-      AND   a1.foodid = a40.foodid
-      AND   a1.mixid = a41.mixid
-      AND   a1.foodid = a41.foodid
-      AND   a1.mixid = a42.mixid
-      AND   a1.foodid = a42.foodid
-      AND   a1.mixid = a43.mixid
-      AND   a1.foodid = a43.foodid
-      AND   a1.mixid = a44.mixid
-      AND   a1.foodid = a44.foodid
-      AND   a1.mixid = a45.mixid
-      AND   a1.foodid = a45.foodid
-      AND   a1.mixid = a46.mixid
-      AND   a1.foodid = a46.foodid
-      AND   a1.mixid = a47.mixid
-      AND   a1.foodid = a47.foodid
-      AND   a1.mixid = a48.mixid
-      AND   a1.foodid = a48.foodid
-      AND   a1.mixid = a49.mixid
-      AND   a1.foodid = a49.foodid
-      AND   a1.mixid = a50.mixid
-      AND   a1.foodid = a50.foodid
-      AND   a1.mixid = a51.mixid
-      AND   a1.foodid = a51.foodid
-      AND   a1.mixid = a52.mixid
-      AND   a1.foodid = a52.foodid
-      AND   a1.mixid = a53.mixid
-      AND   a1.foodid = a53.foodid
-      AND   a1.mixid = a54.mixid
-      AND   a1.foodid = a54.foodid
-      ORDER BY a1.foodid
-      ) a
-ORDER BY a.foodid;
---
-END;
-/
-
-
-CREATE PROCEDURE save_zfc(
-IN v_mixid LONGVARCHAR
-)
-MODIFIES SQL DATA
-BEGIN ATOMIC
---
-DELETE FROM ZFC WHERE mixid = v_mixid;
---
-CALL populate_zfc(v_mixid);
---
-END;
-/
-
-CREATE PROCEDURE get_zfc(
-IN v_mixid LONGVARCHAR
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
-DECLARE result CURSOR
-FOR
---
-SELECT a.row,
-       a.n10000,
-       a.n10001,
-       a.n10003,
-       a.n10005,
-       a.n10006,
-       a.n10009,
-       a.n10010,
-       a.n10011,
-       a.n10012,
-       a.n10013,
-       a.n10014,
-       a.n10015,
-       a.n203,
-       a.n204,
-       a.n205,
-       a.n208,
-       a.n221,
-       a.n255,
-       a.n291,
-       a.n301,
-       a.n303,
-       a.n304,
-       a.n305,
-       a.n306,
-       a.n307,
-       a.n309,
-       a.n312,
-       a.n315,
-       a.n317,
-       a.n320,
-       a.n323,
-       a.n328,
-       a.n401,
-       a.n404,
-       a.n405,
-       a.n406,
-       a.n410,
-       a.n415,
-       a.n418,
-       a.n421,
-       a.n430,
-       a.n435,
-       a.n601,
-       a.n606,
-       a.n611,
-       a.n612,
-       a.n613,
-       a.n614,
-       a.n618,
-       a.n619,
-       a.n621,
-       a.n629,
-       a.n645,
-       a.n646
-FROM (SELECT '' AS mixid,
-             '' AS foodid,
-             0 AS ROW,
-             1 AS n10000,
-             2 AS n10001,
-             3 AS n10003,
-             4 AS n10005,
-             5 AS n10006,
-             6 AS n10009,
-             7 AS n10010,
-             8 AS n10011,
-             9 AS n10012,
-             10 AS n10013,
-             11 AS n10014,
-             12 AS n10015,
-             13 AS n203,
-             14 AS n204,
-             15 AS n205,
-             16 AS n208,
-             17 AS n221,
-             18 AS n255,
-             19 AS n291,
-             20 AS n301,
-             21 AS n303,
-             22 AS n304,
-             23 AS n305,
-             24 AS n306,
-             25 AS n307,
-             26 AS n309,
-             27 AS n312,
-             28 AS n315,
-             29 AS n317,
-             30 AS n320,
-             31 AS n323,
-             32 AS n328,
-             33 AS n401,
-             34 AS n404,
-             35 AS n405,
-             36 AS n406,
-             37 AS n410,
-             38 AS n415,
-             39 AS n418,
-             40 AS n421,
-             41 AS n430,
-             42 AS n435,
-             43 AS n601,
-             44 AS n606,
-             45 AS n611,
-             46 AS n612,
-             47 AS n613,
-             48 AS n614,
-             49 AS n618,
-             50 AS n619,
-             51 AS n621,
-             52 AS n629,
-             53 AS n645,
-             54 AS n646
-      FROM (
-           VALUES (0))
-      UNION
-      SELECT *
-      FROM zfc
-      WHERE mixid = v_mixid) a
-ORDER BY a.foodid;
---
-OPEN result;
---
-END;
-/
-
-CREATE PROCEDURE MixCost_merge (
-IN v_Mixid LONGVARCHAR,
-IN v_MixCost DOUBLE
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO MixCost USING ( VALUES (
-v_Mixid,
-v_MixCost
-) ) ON (
-Mixid = v_Mixid
-)
-WHEN MATCHED THEN UPDATE SET
+UPDATE
+Mix
+SET
+--Name = v_Name,
+--NutrientId = v_NutrientId,
+--Model = v_Model,
 MixCost = v_MixCost
-WHEN NOT MATCHED THEN INSERT VALUES
-v_Mixid,
-v_MixCost;
+WHERE
+MixId = v_MixId;
 END;
+--
 /
 
+CREATE PROCEDURE UpdateObjectiveOnMix (
+--
+IN v_MixId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+UPDATE
+Mix
+SET
+NutrientId = v_NutrientId
+WHERE
+MixId = v_MixId;
+END;
+--
+/
 
 CREATE PROCEDURE Units_insert (
 --
@@ -8718,11 +7548,108 @@ FROM (SELECT b.foodid,
       GROUP BY b.foodid,
                c.name
       ORDER BY c.name) a,
-     (SELECT factor AS ouncefactor FROM units WHERE unitid = 1) b,
-     (SELECT factor AS lbfactor FROM units WHERE unitid = 2) c,
-     (SELECT factor AS kgfactor FROM units WHERE unitid = 3) d;
+     (SELECT factor AS ouncefactor FROM units WHERE unitid = 2) b,
+     (SELECT factor AS lbfactor FROM units WHERE unitid = 3) c,
+     (SELECT factor AS kgfactor FROM units WHERE unitid = 4) d;
 --
 OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE FoodFact_N3LCPUFA()
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_NutrientIdB LONGVARCHAR;
+--Fats, Long Chain n-3 PUFA (g)
+SET v_NutrientIdB = '10016';
+--
+FOR SELECT a.foodid,
+       a.epa + b.dha AS n3lcpufa
+FROM (SELECT FOODID,Q AS epa
+      FROM FOODFACT
+      WHERE NUTRIENTID = '629') a,
+     (SELECT FOODID, Q AS dha
+      FROM FOODFACT
+      WHERE NUTRIENTID = '621') b
+WHERE a.foodid = b.foodid
+--
+DO
+--
+CALL FoodFact_Merge (FOODID,v_NutrientIdB,n3lcpufa);
+--
+END FOR;
+--
+END;
+/
+
+
+CREATE PROCEDURE getFoodFactsForMixItem(
+IN v_MixId LONGVARCHAR
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT b.NutrientId,
+       a.Name AS Category,
+       b.Name AS Nutrient,
+       sum(c.q) AS q
+FROM NutrientCategory a,
+     Nutrient b,
+     MixResult c
+WHERE a.NutrientCategoryId = b.NutrientCategoryId
+AND   b.NutrientId = c.NutrientId
+AND c.MixId = v_MixId
+AND (b.NutrientId != '10003' AND b.NutrientId != '10009' AND b.NutrientId != '10010' AND b.NutrientId != '10011' AND b.NutrientId != '10012' AND b.NutrientId != '10013' AND b.NutrientId != '10014' AND b.NutrientId != '10015' AND b.NutrientId != '10016')
+GROUP BY NutrientId, Category, Nutrient
+ORDER BY Category,Nutrient;
+--
+OPEN result;
+--
+END;
+/
+
+CREATE PROCEDURE MergeFoodCoefficients(
+--
+IN v_foodid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+DECLARE v_c DECIMAL(11,5);
+--
+FOR SELECT nutrientid FROM nutrient DO
+--
+SET v_c = getFoodCoefficient(v_foodid,nutrientid);
+--
+call FoodFactCoefficient_Merge(v_foodid,nutrientid,v_c);
+--
+END FOR;
+--
+END;
+/
+
+
+CREATE PROCEDURE PrepareFoodData(
+--
+IN v_foodid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+CALL foodfact_calculated_quantities_update(v_foodid);
+CALL MergeFoodCoefficients(v_foodid);
+CALL CopyFoodFactsToDenormalizedTable(v_foodid);
 --
 END;
 /
@@ -8741,72 +7668,33 @@ ORDER BY b.name
 
 
 
-CREATE TRIGGER FoodFact_RowLevelAfterUpdate_Trigger AFTER UPDATE OF q ON FoodFact REFERENCING NEW ROW AS newrow OLD AS oldrow
---
+CREATE TRIGGER MixCost_rlau_trigger
+AFTER UPDATE ON Mix
+REFERENCING NEW AS new
 FOR EACH ROW
-BEGIN ATOMIC
---
-DECLARE v_c DOUBLE;
---
-IF newrow.NutrientId = '10000' THEN
---
-FOR SELECT nutrientid FROM nutrient DO
---
-SET v_c = getFoodCoefficient(newrow.FoodId,nutrientid);
---
-call FoodFactCoefficient_Merge(newrow.FoodId,nutrientid,v_c);
---
-END FOR;
---
-ELSE
---
-SET v_c = getFoodCoefficient(newrow.FoodId,newrow.NutrientId);
---
-CALL FoodFactCoefficient_Merge(newrow.FoodId,newrow.NutrientId, v_c);
---
-END IF;
---
-END;
-/
-
-
-CREATE TRIGGER FoodFact_RowLevelAfterInsert_Trigger AFTER INSERT ON FoodFact
-REFERENCING NEW ROW AS newrow
-FOR EACH ROW
-BEGIN ATOMIC
---
-DECLARE v_c DOUBLE;
---
-SET v_c = getFoodCoefficient(newrow.FoodId,newrow.NutrientId);
-CALL FoodFactCoefficient_Merge(newrow.FoodId,newrow.NutrientId,v_c);
---
-END;
-/
-
-
-CREATE TRIGGER MixCost_rlau_trigger AFTER UPDATE ON MixCost REFERENCING NEW AS new FOR EACH ROW
+WHEN (new.MixCost > 0.0)
 --
 BEGIN ATOMIC
 --
 CALL public.fill_mixresult(new.mixid);
-CALL public.mixresultdn_delete(new.mixid);
-CALL public.fill_mixresultdn(new.mixid);
-CALL public.save_zff (new.mixid);
-CALL public.save_zfc (new.mixid);
+CALL public.DnMixResult_delete(new.mixid);
+CALL public.fill_DnMixResult(new.mixid);
 --
 END;
 /
 
 
-CREATE TRIGGER MixCost_rlai_trigger AFTER INSERT ON MixCost REFERENCING NEW AS new FOR EACH ROW
+CREATE TRIGGER MixCost_rlai_trigger
+AFTER INSERT ON Mix
+REFERENCING NEW AS new
+FOR EACH ROW
+WHEN (new.MixCost > 0.0)
 --
 BEGIN ATOMIC
 --
 CALL public.fill_mixresult(new.mixid);
-CALL public.mixresultdn_delete(new.mixid);
-CALL public.fill_mixresultdn(new.mixid);
-CALL public.save_zff (new.mixid);
-CALL public.save_zfc (new.mixid);
+CALL public.DnMixResult_delete(new.mixid);
+CALL public.fill_DnMixResult(new.mixid);
 --
 END;
 /

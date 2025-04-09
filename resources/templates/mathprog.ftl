@@ -8,13 +8,16 @@
 param     FOODS:= ${data.foodCount};
 
 /* Nutrient Count */
-param     NUTRIENTS := 54;
+param     NUTRIENTS := 58;
+
+/* DRI Nutrients Count */
+param     DRINUTRIENTS := 55;
 
 /* Lifestage Count */
 param     LIFESTAGES := 22;
 
 /* Dietary Reference Intake (DRI), d[lifestage,nutrient] */
-param d{lifestage in 1..LIFESTAGES, nutrient in 1..NUTRIENTS};
+param d{lifestage in 1..LIFESTAGES, nutrient in 1..DRINUTRIENTS};
 
 /* Food Fact, f[food,nutrient] */
 param f{food in 1..FOODS, nutrient in 1..NUTRIENTS};
@@ -75,131 +78,134 @@ param energyAlcohol := sum{food in 1..FOODS} sum{nutrient in {11}} c[food,nutrie
 /* 12) Fats, Hypercholesterolemic Fat (g) */
 param sfaHC := sum{food in 1..FOODS} sum{nutrient in {12}} c[food,nutrient] * x[food];
 
-/* 13) Protein, Total Protein (g) */
-param protein := sum{food in 1..FOODS} sum{nutrient in {13}} c[food,nutrient] * x[food];
+/* 13) Fats, Long Chain n-3 PUFA (g) */
+param n3lcpufa := sum{food in 1..FOODS} sum{nutrient in {13}} c[food,nutrient] * x[food];
 
-/* 14) Fats, Total Fat (g) */
-param fat := sum{food in 1..FOODS} sum{nutrient in {14}} c[food,nutrient] * x[food];
+/* 14) Protein, Total Protein (g) */
+param protein := sum{food in 1..FOODS} sum{nutrient in {14}} c[food,nutrient] * x[food];
 
-/* 15) Carbohydrates, By Difference (g) */
-param carbohydratesByDiff := sum{food in 1..FOODS} sum{nutrient in {15}} c[food,nutrient] * x[food];
+/* 15) Fats, Total Fat (g) */
+param fat := sum{food in 1..FOODS} sum{nutrient in {15}} c[food,nutrient] * x[food];
 
-/* 16) Energy, Gross (kcal) */
-param energyGross := sum{food in 1..FOODS} sum{nutrient in {16}} c[food,nutrient] * x[food];
+/* 16) Carbohydrates, By Difference (g) */
+param carbohydratesByDiff := sum{food in 1..FOODS} sum{nutrient in {16}} c[food,nutrient] * x[food];
 
-/* 17) Other, Alcohol (g) */
-param alcohol := sum{food in 1..FOODS} sum{nutrient in {17}} c[food,nutrient] * x[food];
+/* 17) Energy, Gross (kcal) */
+param energyGross := sum{food in 1..FOODS} sum{nutrient in {17}} c[food,nutrient] * x[food];
 
-/* 18) Other, Water (g) */
-param water := sum{food in 1..FOODS} sum{nutrient in {18}} c[food,nutrient] * x[food];
+/* 18) Other, Alcohol (g) */
+param alcohol := sum{food in 1..FOODS} sum{nutrient in {18}} c[food,nutrient] * x[food];
 
-/* 19) Carbohydrates, Fiber (g) */
-param fiber := sum{food in 1..FOODS} sum{nutrient in {19}} c[food,nutrient] * x[food];
+/* 19) Other, Water (g) */
+param water := sum{food in 1..FOODS} sum{nutrient in {19}} c[food,nutrient] * x[food];
 
-/* 20) Minerals, Calcium (mg) */
-param calcium := sum{food in 1..FOODS} sum{nutrient in {20}} c[food,nutrient] * x[food];
+/* 20) Carbohydrates, Fiber (g) */
+param fiber := sum{food in 1..FOODS} sum{nutrient in {20}} c[food,nutrient] * x[food];
 
-/* 21) Minerals, Iron (mg) */
-param iron := sum{food in 1..FOODS} sum{nutrient in {21}} c[food,nutrient] * x[food];
+/* 21) Minerals, Calcium (mg) */
+param calcium := sum{food in 1..FOODS} sum{nutrient in {21}} c[food,nutrient] * x[food];
 
-/* 22) Minerals, Magnesium (mg) */
-param magnesium := sum{food in 1..FOODS} sum{nutrient in {22}} c[food,nutrient] * x[food];
+/* 22) Minerals, Iron (mg) */
+param iron := sum{food in 1..FOODS} sum{nutrient in {22}} c[food,nutrient] * x[food];
 
-/* 23) Minerals, Phosphorus (mg) */
-param phosphorus := sum{food in 1..FOODS} sum{nutrient in {23}} c[food,nutrient] * x[food];
+/* 23) Minerals, Magnesium (mg) */
+param magnesium := sum{food in 1..FOODS} sum{nutrient in {23}} c[food,nutrient] * x[food];
 
-/* 24) Minerals, Potassium (mg) */
-param potassium := sum{food in 1..FOODS} sum{nutrient in {24}} c[food,nutrient] * x[food];
+/* 24) Minerals, Phosphorus (mg) */
+param phosphorus := sum{food in 1..FOODS} sum{nutrient in {24}} c[food,nutrient] * x[food];
 
-/* 25) Minerals, Sodium (mg) */
-param sodium := sum{food in 1..FOODS} sum{nutrient in {25}} c[food,nutrient] * x[food];
+/* 25) Minerals, Potassium (mg) */
+param potassium := sum{food in 1..FOODS} sum{nutrient in {25}} c[food,nutrient] * x[food];
 
-/* 26) Minerals, Zinc (mg) */
-param zinc := sum{food in 1..FOODS} sum{nutrient in {26}} c[food,nutrient] * x[food];
+/* 26) Minerals, Sodium (mg) */
+param sodium := sum{food in 1..FOODS} sum{nutrient in {26}} c[food,nutrient] * x[food];
 
-/* 27) Minerals, Copper (mg) */
-param copper := sum{food in 1..FOODS} sum{nutrient in {27}} c[food,nutrient] * x[food];
+/* 27) Minerals, Zinc (mg) */
+param zinc := sum{food in 1..FOODS} sum{nutrient in {27}} c[food,nutrient] * x[food];
 
-/* 28) Minerals, Manganese (mg) */
-param manganese := sum{food in 1..FOODS} sum{nutrient in {28}} c[food,nutrient] * x[food];
+/* 28) Minerals, Copper (mg) */
+param copper := sum{food in 1..FOODS} sum{nutrient in {28}} c[food,nutrient] * x[food];
 
-/* 29) Minerals, Selenium (µg) */
-param selenium := sum{food in 1..FOODS} sum{nutrient in {29}} c[food,nutrient] * x[food];
+/* 29) Minerals, Manganese (mg) */
+param manganese := sum{food in 1..FOODS} sum{nutrient in {29}} c[food,nutrient] * x[food];
 
-/* 30) Vitamins, A, RAE (µg) */
-param vitaminA := sum{food in 1..FOODS} sum{nutrient in {30}} c[food,nutrient] * x[food];
+/* 30) Minerals, Selenium (µg) */
+param selenium := sum{food in 1..FOODS} sum{nutrient in {30}} c[food,nutrient] * x[food];
 
-/* 31) Vitamins, E (mg) */
-param vitaminE := sum{food in 1..FOODS} sum{nutrient in {31}} c[food,nutrient] * x[food];
+/* 31) Vitamins, A, RAE (µg) */
+param vitaminA := sum{food in 1..FOODS} sum{nutrient in {31}} c[food,nutrient] * x[food];
 
-/* 32) Vitamins, D (µg) */
-param vitaminD := sum{food in 1..FOODS} sum{nutrient in {32}} c[food,nutrient] * x[food];
+/* 32) Vitamins, E (mg) */
+param vitaminE := sum{food in 1..FOODS} sum{nutrient in {32}} c[food,nutrient] * x[food];
 
-/* 33) Vitamins, C (mg) */
-param vitaminC := sum{food in 1..FOODS} sum{nutrient in {33}} c[food,nutrient] * x[food];
+/* 33) Vitamins, D (µg) */
+param vitaminD := sum{food in 1..FOODS} sum{nutrient in {33}} c[food,nutrient] * x[food];
 
-/* 34) Vitamins, Thiamin (mg) */
-param thiamin := sum{food in 1..FOODS} sum{nutrient in {34}} c[food,nutrient] * x[food];
+/* 34) Vitamins, C (mg) */
+param vitaminC := sum{food in 1..FOODS} sum{nutrient in {34}} c[food,nutrient] * x[food];
 
-/* 35) Vitamins, Riboflavin (mg) */
-param riboflavin := sum{food in 1..FOODS} sum{nutrient in {35}} c[food,nutrient] * x[food];
+/* 35) Vitamins, Thiamin (mg) */
+param thiamin := sum{food in 1..FOODS} sum{nutrient in {35}} c[food,nutrient] * x[food];
 
-/* 36) Vitamins, Niacin (mg) */
-param niacin := sum{food in 1..FOODS} sum{nutrient in {36}} c[food,nutrient] * x[food];
+/* 36) Vitamins, Riboflavin (mg) */
+param riboflavin := sum{food in 1..FOODS} sum{nutrient in {36}} c[food,nutrient] * x[food];
 
-/* 37) Vitamins, Pantothenic Acid (mg) */
-param pantothenicAcid := sum{food in 1..FOODS} sum{nutrient in {37}} c[food,nutrient] * x[food];
+/* 37) Vitamins, Niacin (mg) */
+param niacin := sum{food in 1..FOODS} sum{nutrient in {37}} c[food,nutrient] * x[food];
 
-/* 38) Vitamins, B6 (mg) */
-param vitaminB6 := sum{food in 1..FOODS} sum{nutrient in {38}} c[food,nutrient] * x[food];
+/* 38) Vitamins, Pantothenic Acid (mg) */
+param pantothenicAcid := sum{food in 1..FOODS} sum{nutrient in {38}} c[food,nutrient] * x[food];
 
-/* 39) Vitamins, B12 (µg) */
-param vitaminB12 := sum{food in 1..FOODS} sum{nutrient in {39}} c[food,nutrient] * x[food];
+/* 39) Vitamins, B6 (mg) */
+param vitaminB6 := sum{food in 1..FOODS} sum{nutrient in {39}} c[food,nutrient] * x[food];
 
-/* 40) Vitamins, Choline (mg) */
-param choline := sum{food in 1..FOODS} sum{nutrient in {40}} c[food,nutrient] * x[food];
+/* 40) Vitamins, B12 (µg) */
+param vitaminB12 := sum{food in 1..FOODS} sum{nutrient in {40}} c[food,nutrient] * x[food];
 
-/* 41) Vitamins, K (µg) */
-param vitaminK := sum{food in 1..FOODS} sum{nutrient in {41}} c[food,nutrient] * x[food];
+/* 41) Vitamins, Choline (mg) */
+param choline := sum{food in 1..FOODS} sum{nutrient in {41}} c[food,nutrient] * x[food];
 
-/* 42) Vitamins, Folate, DFE (µg) */
-param folate := sum{food in 1..FOODS} sum{nutrient in {42}} c[food,nutrient] * x[food];
+/* 42) Vitamins, K (µg) */
+param vitaminK := sum{food in 1..FOODS} sum{nutrient in {42}} c[food,nutrient] * x[food];
 
-/* 43) Fats, Cholesterol (mg) */
-param cholesterol := sum{food in 1..FOODS} sum{nutrient in {43}} c[food,nutrient] * x[food];
+/* 43) Vitamins, Folate, DFE (µg) */
+param folate := sum{food in 1..FOODS} sum{nutrient in {43}} c[food,nutrient] * x[food];
 
-/* 44) Fats, Saturated Fat, SFA (g) */
-param sfa := sum{food in 1..FOODS} sum{nutrient in {44}} c[food,nutrient] * x[food];
+/* 44) Fats, Cholesterol (mg) */
+param cholesterol := sum{food in 1..FOODS} sum{nutrient in {44}} c[food,nutrient] * x[food];
 
-/* 45) Fats, Lauric Acid, 12:0 (g) */
-param lauric := sum{food in 1..FOODS} sum{nutrient in {45}} c[food,nutrient] * x[food];
+/* 45) Fats, Saturated Fat, SFA (g) */
+param sfa := sum{food in 1..FOODS} sum{nutrient in {45}} c[food,nutrient] * x[food];
 
-/* 46) Fats, Myristic Acid, 14:0 (g) */
-param myristic := sum{food in 1..FOODS} sum{nutrient in {46}} c[food,nutrient] * x[food];
+/* 46) Fats, Lauric Acid, 12:0 (g) */
+param lauric := sum{food in 1..FOODS} sum{nutrient in {46}} c[food,nutrient] * x[food];
 
-/* 47) Fats, Palmitic Acid, 16:0 (g) */
-param palmitic := sum{food in 1..FOODS} sum{nutrient in {47}} c[food,nutrient] * x[food];
+/* 47) Fats, Myristic Acid, 14:0 (g) */
+param myristic := sum{food in 1..FOODS} sum{nutrient in {47}} c[food,nutrient] * x[food];
 
-/* 48) Fats, Stearic Acid, 18:0 (g) */
-param stearic := sum{food in 1..FOODS} sum{nutrient in {48}} c[food,nutrient] * x[food];
+/* 48) Fats, Palmitic Acid, 16:0 (g) */
+param palmitic := sum{food in 1..FOODS} sum{nutrient in {48}} c[food,nutrient] * x[food];
 
-/* 49) Fats, Linoleic Acid, LA, 18:2 n-6 (g) */
-param la := sum{food in 1..FOODS} sum{nutrient in {49}} c[food,nutrient] * x[food];
+/* 49) Fats, Stearic Acid, 18:0 (g) */
+param stearic := sum{food in 1..FOODS} sum{nutrient in {49}} c[food,nutrient] * x[food];
 
-/* 50) Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g) */
-param ala := sum{food in 1..FOODS} sum{nutrient in {50}} c[food,nutrient] * x[food];
+/* 50) Fats, Linoleic Acid, LA, 18:2 n-6 (g) */
+param la := sum{food in 1..FOODS} sum{nutrient in {50}} c[food,nutrient] * x[food];
 
-/* 51) Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g) */
-param dha := sum{food in 1..FOODS} sum{nutrient in {51}} c[food,nutrient] * x[food];
+/* 51) Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g) */
+param ala := sum{food in 1..FOODS} sum{nutrient in {51}} c[food,nutrient] * x[food];
 
-/* 52) Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g) */
-param epa := sum{food in 1..FOODS} sum{nutrient in {52}} c[food,nutrient] * x[food];
+/* 52) Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g) */
+param dha := sum{food in 1..FOODS} sum{nutrient in {52}} c[food,nutrient] * x[food];
 
-/* 53) Fats, Monounsaturated Fat, MUFA (g) */
-param mufa := sum{food in 1..FOODS} sum{nutrient in {53}} c[food,nutrient] * x[food];
+/* 53) Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g) */
+param epa := sum{food in 1..FOODS} sum{nutrient in {53}} c[food,nutrient] * x[food];
 
-/* 54) Fats, Polyunsaturated Fat, PUFA (g) */
-param pufa := sum{food in 1..FOODS} sum{nutrient in {54}} c[food,nutrient] * x[food];
+/* 54) Fats, Monounsaturated Fat, MUFA (g) */
+param mufa := sum{food in 1..FOODS} sum{nutrient in {54}} c[food,nutrient] * x[food];
+
+/* 55) Fats, Polyunsaturated Fat, PUFA (g) */
+param pufa := sum{food in 1..FOODS} sum{nutrient in {55}} c[food,nutrient] * x[food];
 
 /* Other calculated values */
 param energy_sfa := 9 * sfa;
@@ -286,120 +292,120 @@ printf "\n" >> file;
 printf "%30s %10.1f %10.1f %10d", "Complete Protein (g):", proteinComplete, d[8,2], if d[8,2] <= 0 then 0 else proteinComplete / d[8,2] * 100 >> file;
 printf "\n" >> file;
 
-/* 18) Other, Water (g) */
-printf "%30s %10.1f %10.1f %10d", "Water (g):", water, d[8,18], if d[8,18] <= 0 then 0 else water / d[8,18] * 100 >> file;
+/* 19) Other, Water (g) */
+printf "%30s %10.1f %10.1f %10d", "Water (g):", water, d[8,19], if d[8,19] <= 0 then 0 else water / d[8,19] * 100 >> file;
 printf "\n" >> file;
 
 /*  3) Carbohydrates, Digestible (g) */
 printf "%30s %10.1f %10.1f %10d", "Carbohydrates (g):", carbohydrateDigestible, d[8,3], if d[8,3] <= 0 then 0 else carbohydrateDigestible / d[8,3] * 100 >> file;
 printf "\n" >> file;
 
-/* 19) Carbohydrates, Fiber (g) */
-printf "%30s %10.1f %10.1f %10d", "Fiber (g):", fiber, d[8,19], if d[8,19] <= 0 then 0 else fiber / d[8,19] * 100 >> file;
+/* 20) Carbohydrates, Fiber (g) */
+printf "%30s %10.1f %10.1f %10d", "Fiber (g):", fiber, d[8,20], if d[8,20] <= 0 then 0 else fiber / d[8,20] * 100 >> file;
 printf "\n" >> file;
 
-/* 50) Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g) */
-printf "%30s %10.1f %10.1f %10d", "Alpha-linolenic Acid (g):", ala, d[8,50], if d[8,50] <= 0 then 0 else ala / d[8,50] * 100 >> file;
+/* 51) Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g) */
+printf "%30s %10.1f %10.1f %10d", "Alpha-linolenic Acid (g):", ala, d[8,51], if d[8,51] <= 0 then 0 else ala / d[8,51] * 100 >> file;
 printf "\n" >> file;
 
-/* 49) Fats, Linoleic Acid, LA, 18:2 n-6 (g) */
-printf "%30s %10.1f %10.1f %10d", "Linoleic Acid (g):", la, d[8,49], if d[8,49] <= 0 then 0 else la / d[8,49] * 100 >> file;
+/* 50) Fats, Linoleic Acid, LA, 18:2 n-6 (g) */
+printf "%30s %10.1f %10.1f %10d", "Linoleic Acid (g):", la, d[8,50], if d[8,50] <= 0 then 0 else la / d[8,50] * 100 >> file;
 printf "\n" >> file;
 
-/* 14) Fats, Total Fat (g) */
-printf "%30s %10.1f %10.1f %10d", "Fat (g):", fat, d[8,14], if d[8,14] <= 0 then 0 else fat /  d[8,14] * 100 >> file;
+/* 15) Fats, Total Fat (g) */
+printf "%30s %10.1f %10.1f %10d", "Fat (g):", fat, d[8,15], if d[8,15] <= 0 then 0 else fat /  d[8,15] * 100 >> file;
 printf "\n\n" >> file;
 
-/* 20) Minerals, Calcium (mg) */
-printf "%30s %10.1f %10.1f %10d", "Calcium (mg):", calcium, d[8,20], if d[8,20] <= 0 then 0 else calcium / d[8,20] * 100 >> file;
+/* 21) Minerals, Calcium (mg) */
+printf "%30s %10.1f %10.1f %10d", "Calcium (mg):", calcium, d[8,21], if d[8,21] <= 0 then 0 else calcium / d[8,21] * 100 >> file;
 printf "\n" >> file;
 
-/* 27) Minerals, Copper (mg) */
-printf "%30s %10.1f %10.1f %10d", "Copper (mg):", copper, d[8,27], if d[8,27] <= 0 then 0 else copper / d[8,27] * 100 >> file;
+/* 28) Minerals, Copper (mg) */
+printf "%30s %10.1f %10.1f %10d", "Copper (mg):", copper, d[8,28], if d[8,28] <= 0 then 0 else copper / d[8,28] * 100 >> file;
 printf "\n" >> file;
 
-/* 21) Minerals, Iron (mg) */
-printf "%30s %10.1f %10.1f %10d", "Iron (mg):", iron, d[8,21], if d[8,21] <= 0 then 0 else iron / d[8,21] * 100 >> file;
+/* 22) Minerals, Iron (mg) */
+printf "%30s %10.1f %10.1f %10d", "Iron (mg):", iron, d[8,22], if d[8,22] <= 0 then 0 else iron / d[8,22] * 100 >> file;
 printf "\n" >> file;
 
-/* 22) Minerals, Magnesium (mg) */
-printf "%30s %10.1f %10.1f %10d", "Magnesium (mg):", magnesium, d[8,22], if d[8,22] <= 0 then 0 else magnesium / d[8,22] * 100 >> file;
+/* 23) Minerals, Magnesium (mg) */
+printf "%30s %10.1f %10.1f %10d", "Magnesium (mg):", magnesium, d[8,23], if d[8,23] <= 0 then 0 else magnesium / d[8,23] * 100 >> file;
 printf "\n" >> file;
 
-/* 28) Minerals, Manganese (mg) */
-printf "%30s %10.1f %10.1f %10d", "Manganese (mg):", manganese, d[8,28], if d[8,28] <= 0 then 0 else manganese / d[8,28] * 100 >> file;
+/* 29) Minerals, Manganese (mg) */
+printf "%30s %10.1f %10.1f %10d", "Manganese (mg):", manganese, d[8,29], if d[8,29] <= 0 then 0 else manganese / d[8,29] * 100 >> file;
 printf "\n" >> file;
 
-/* 23) Minerals, Phosphorus (mg) */
-printf "%30s %10.1f %10.1f %10d", "Phosphorus (mg):", phosphorus, d[8,23], if d[8,23] <= 0 then 0 else phosphorus / d[8,23] * 100 >> file;
+/* 24) Minerals, Phosphorus (mg) */
+printf "%30s %10.1f %10.1f %10d", "Phosphorus (mg):", phosphorus, d[8,24], if d[8,24] <= 0 then 0 else phosphorus / d[8,24] * 100 >> file;
 printf "\n" >> file;
 
-/* 24) Minerals, Potassium (mg) */
-printf "%30s %10.1f %10.1f %10d", "Potassium (mg):", potassium, d[8,24], if d[8,24] <= 0 then 0 else potassium / d[8,24] * 100 >> file;
+/* 25) Minerals, Potassium (mg) */
+printf "%30s %10.1f %10.1f %10d", "Potassium (mg):", potassium, d[8,25], if d[8,25] <= 0 then 0 else potassium / d[8,25] * 100 >> file;
 printf "\n" >> file;
 
-/* 29) Minerals, Selenium (µg) */
-printf "%31s %10.1f %10.1f %10d", "Selenium (µg):", selenium, d[8,29], if d[8,29] <= 0 then 0 else selenium / d[8,29] * 100 >> file;
+/* 30) Minerals, Selenium (µg) */
+printf "%31s %10.1f %10.1f %10d", "Selenium (µg):", selenium, d[8,30], if d[8,30] <= 0 then 0 else selenium / d[8,30] * 100 >> file;
 printf "\n" >> file;
 
-/* 25) Minerals, Sodium (mg) */
-printf "%30s %10.1f %10.1f %10d", "Sodium (mg):", sodium, d[8,25], if d[8,25] <= 0 then 0 else sodium / d[8,25] * 100 >> file;
+/* 26) Minerals, Sodium (mg) */
+printf "%30s %10.1f %10.1f %10d", "Sodium (mg):", sodium, d[8,26], if d[8,26] <= 0 then 0 else sodium / d[8,26] * 100 >> file;
 printf "\n" >> file;
 
-/* 26) Minerals, Zinc (mg) */
-printf "%30s %10.1f %10.1f %10d", "Zinc (mg):", zinc, d[8,26], if d[8,26] <= 0 then 0 else zinc / d[8,26] * 100 >> file;
+/* 27) Minerals, Zinc (mg) */
+printf "%30s %10.1f %10.1f %10d", "Zinc (mg):", zinc, d[8,27], if d[8,27] <= 0 then 0 else zinc / d[8,27] * 100 >> file;
 printf "\n\n" >> file;
 
-/* 30) Vitamins, A, RAE (µg) */
-printf "%31s %10.1f %10.1f %10d", "Vitamin A, RAE (µg):", vitaminA, if d[8,30] <= 0 then 0 else d[8,30], vitaminA / d[8,30] * 100 >> file;
+/* 31) Vitamins, A, RAE (µg) */
+printf "%31s %10.1f %10.1f %10d", "Vitamin A, RAE (µg):", vitaminA, if d[8,31] <= 0 then 0 else d[8,31], vitaminA / d[8,31] * 100 >> file;
 printf "\n" >> file;
 
-/* 39) Vitamins, B12 (µg) */
-printf "%31s %10.1f %10.1f %10d", "Vitamin B12 (µg):", vitaminB12, d[8,39], if d[8,39] <= 0 then 0 else vitaminB12 / d[8,39] * 100 >> file;
+/* 40) Vitamins, B12 (µg) */
+printf "%31s %10.1f %10.1f %10d", "Vitamin B12 (µg):", vitaminB12, d[8,40], if d[8,40] <= 0 then 0 else vitaminB12 / d[8,40] * 100 >> file;
 printf "\n" >> file;
 
-/* 38) Vitamins, B6 (mg) */
-printf "%30s %10.1f %10.1f %10d", "Vitamin B6 (mg):", vitaminB6, d[8,38], if d[8,38] <= 0 then 0 else vitaminB6 / d[8,38] * 100 >> file;
+/* 39) Vitamins, B6 (mg) */
+printf "%30s %10.1f %10.1f %10d", "Vitamin B6 (mg):", vitaminB6, d[8,39], if d[8,39] <= 0 then 0 else vitaminB6 / d[8,39] * 100 >> file;
 printf "\n" >> file;
 
-/* 33) Vitamins, C (mg) */
-printf "%30s %10.1f %10.1f %10d", "Vitamin C (mg):", vitaminC, d[8,33], if d[8,33] <= 0 then 0 else vitaminC / d[8,33] * 100 >> file;
+/* 34) Vitamins, C (mg) */
+printf "%30s %10.1f %10.1f %10d", "Vitamin C (mg):", vitaminC, d[8,34], if d[8,34] <= 0 then 0 else vitaminC / d[8,34] * 100 >> file;
 printf "\n" >> file;
 
-/* 40) Vitamins, Choline (mg) */
-printf "%30s %10.1f %10.1f %10d", "Choline (mg):", choline, d[8,40], if d[8,40] <= 0 then 0 else choline / d[8,40] * 100 >> file;
+/* 41) Vitamins, Choline (mg) */
+printf "%30s %10.1f %10.1f %10d", "Choline (mg):", choline, d[8,41], if d[8,41] <= 0 then 0 else choline / d[8,41] * 100 >> file;
 printf "\n" >> file;
 
-/* 32) Vitamins, D (µg) */
-printf "%31s %10.1f %10.1f %10d", "Vitamin D (µg):", vitaminD, d[8,32], if d[8,32] <= 0 then 0 else vitaminD / d[8,32] * 100 >> file;
+/* 33) Vitamins, D (µg) */
+printf "%31s %10.1f %10.1f %10d", "Vitamin D (µg):", vitaminD, d[8,33], if d[8,33] <= 0 then 0 else vitaminD / d[8,33] * 100 >> file;
 printf "\n" >> file;
 
-/* 31) Vitamins, E (mg) */
-printf "%30s %10.1f %10.1f %10d", "Vitamin E (mg):", vitaminE, d[8,31], if d[8,31] <= 0 then 0 else vitaminE / d[8,31] * 100 >> file;
+/* 32) Vitamins, E (mg) */
+printf "%30s %10.1f %10.1f %10d", "Vitamin E (mg):", vitaminE, d[8,32], if d[8,32] <= 0 then 0 else vitaminE / d[8,32] * 100 >> file;
 printf "\n" >> file;
 
-/* 42) Vitamins, Folate, DFE (µg) */
-printf "%31s %10.1f %10.1f %10d", "Folate, DFE (µg):", folate, d[8,42], if d[8,42] <= 0 then 0 else folate / d[8,42] * 100 >> file;
+/* 43) Vitamins, Folate, DFE (µg) */
+printf "%31s %10.1f %10.1f %10d", "Folate, DFE (µg):", folate, d[8,43], if d[8,43] <= 0 then 0 else folate / d[8,43] * 100 >> file;
 printf "\n" >> file;
 
-/* 41) Vitamins, K (µg) */
-printf "%31s %10.1f %10.1f %10d", "Vitamin K (µg):", vitaminK, d[8,41], if d[8,41] <= 0 then 0 else vitaminK / d[8,41] * 100 >> file;
+/* 42) Vitamins, K (µg) */
+printf "%31s %10.1f %10.1f %10d", "Vitamin K (µg):", vitaminK, d[8,42], if d[8,42] <= 0 then 0 else vitaminK / d[8,42] * 100 >> file;
 printf "\n" >> file;
 
-/* 36) Vitamins, Niacin (mg) */
-printf "%30s %10.1f %10.1f %10d", "Niacin (mg):", niacin, d[8,36], if d[8,36] <= 0 then 0 else niacin / d[8,36] * 100 >> file;
+/* 37) Vitamins, Niacin (mg) */
+printf "%30s %10.1f %10.1f %10d", "Niacin (mg):", niacin, d[8,37], if d[8,37] <= 0 then 0 else niacin / d[8,37] * 100 >> file;
 printf "\n" >> file;
 
-/* 37) Vitamins, Pantothenic Acid (mg) */
-printf "%30s %10.1f %10.1f %10d", "Pantothenic Acid (mg):", pantothenicAcid, d[8,37], if d[8,20] <= 0 then 0 else pantothenicAcid / d[8,37] * 100 >> file;
+/* 38) Vitamins, Pantothenic Acid (mg) */
+printf "%30s %10.1f %10.1f %10d", "Pantothenic Acid (mg):", pantothenicAcid, d[8,38], if d[8,38] <= 0 then 0 else pantothenicAcid / d[8,38] * 100 >> file;
 printf "\n" >> file;
 
-/* 35) Vitamins, Riboflavin (mg) */
-printf "%30s %10.1f %10.1f %10d", "Riboflavin (mg):", riboflavin, d[8,35], if d[8,35] <= 0 then 0 else riboflavin / d[8,35] * 100 >> file;
+/* 36) Vitamins, Riboflavin (mg) */
+printf "%30s %10.1f %10.1f %10d", "Riboflavin (mg):", riboflavin, d[8,36], if d[8,36] <= 0 then 0 else riboflavin / d[8,36] * 100 >> file;
 printf "\n" >> file;
 
-/* 34) Vitamins, Thiamin (mg) */
-printf "%30s %10.1f %10.1f %10d", "Thiamin (mg):", thiamin, d[8,34], if d[8,34] <= 0 then 0 else thiamin / d[8,34] * 100 >> file;
+/* 35) Vitamins, Thiamin (mg) */
+printf "%30s %10.1f %10.1f %10d", "Thiamin (mg):", thiamin, d[8,35], if d[8,35] <= 0 then 0 else thiamin / d[8,35] * 100 >> file;
 printf "\n\n\n" >> file;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -423,6 +429,7 @@ printf "%0s%22s","","eProtein (kcal)" >> file;
 printf "%0s%22s","","eFat (kcal)" >> file;
 printf "%0s%22s","","eAlcohol (kcal)" >> file;
 printf "%0s%22s","","HCSFA (g)" >> file;
+printf "%0s%22s","","n3LCPUFA (g)" >> file;
 printf "%0s%22s","","Protein (g)" >> file;
 printf "%0s%22s","","Fat (g)" >> file;
 printf "%0s%22s","","CarbsByDiff (g)" >> file;
@@ -525,48 +532,49 @@ Param C, F and D column:
  10) Energy, Fat (kcal)
  11) Energy, Alcohol (kcal)
  12) Fats, Hypercholesterolemic Fat (g)
- 13) Protein, Total Protein (g)
- 14) Fats, Total Fat (g)
- 15) Carbohydrates, By Difference (g)
- 16) Energy, Gross (kcal)
- 17) Other, Alcohol (g)
- 18) Other, Water (g)
- 19) Carbohydrates, Fiber (g)
- 20) Minerals, Calcium (mg)
- 21) Minerals, Iron (mg)
- 22) Minerals, Magnesium (mg)
- 23) Minerals, Phosphorus (mg)
- 24) Minerals, Potassium (mg)
- 25) Minerals, Sodium (mg)
- 26) Minerals, Zinc (mg)
- 27) Minerals, Copper (mg)
- 28) Minerals, Manganese (mg)
- 29) Minerals, Selenium (µg)
- 30) Vitamins, A, RAE (µg)
- 31) Vitamins, E (mg)
- 32) Vitamins, D (µg)
- 33) Vitamins, C (mg)
- 34) Vitamins, Thiamin (mg)
- 35) Vitamins, Riboflavin (mg)
- 36) Vitamins, Niacin (mg)
- 37) Vitamins, Pantothenic Acid (mg)
- 38) Vitamins, B6 (mg)
- 39) Vitamins, B12 (µg)
- 40) Vitamins, Choline (mg)
- 41) Vitamins, K (µg)
- 42) Vitamins, Folate, DFE (µg)
- 43) Fats, Cholesterol (mg)
- 44) Fats, Saturated Fat, SFA (g)
- 45) Fats, Lauric Acid, 12:0 (g)
- 46) Fats, Myristic Acid, 14:0 (g)
- 47) Fats, Palmitic Acid, 16:0 (g)
- 48) Fats, Stearic Acid, 18:0 (g)
- 49) Fats, Linoleic Acid, LA, 18:2 n-6 (g)
- 50) Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g)
- 51) Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g)
- 52) Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g)
- 53) Fats, Monounsaturated Fat, MUFA (g)
- 54) Fats, Polyunsaturated Fat, PUFA (g)
+ 13) Fats, Long Chain n-3 PUFA (g)
+ 14) Protein, Total Protein (g)
+ 15) Fats, Total Fat (g)
+ 16) Carbohydrates, By Difference (g)
+ 17) Energy, Gross (kcal)
+ 18) Other, Alcohol (g)
+ 19) Other, Water (g)
+ 20) Carbohydrates, Fiber (g)
+ 21) Minerals, Calcium (mg)
+ 22) Minerals, Iron (mg)
+ 23) Minerals, Magnesium (mg)
+ 24) Minerals, Phosphorus (mg)
+ 25) Minerals, Potassium (mg)
+ 26) Minerals, Sodium (mg)
+ 27) Minerals, Zinc (mg)
+ 28) Minerals, Copper (mg)
+ 29) Minerals, Manganese (mg)
+ 30) Minerals, Selenium (µg)
+ 31) Vitamins, A, RAE (µg)
+ 32) Vitamins, E (mg)
+ 33) Vitamins, D (µg)
+ 34) Vitamins, C (mg)
+ 35) Vitamins, Thiamin (mg)
+ 36) Vitamins, Riboflavin (mg)
+ 37) Vitamins, Niacin (mg)
+ 38) Vitamins, Pantothenic Acid (mg)
+ 39) Vitamins, B6 (mg)
+ 40) Vitamins, B12 (µg)
+ 41) Vitamins, Choline (mg)
+ 42) Vitamins, K (µg)
+ 43) Vitamins, Folate, DFE (µg)
+ 44) Fats, Cholesterol (mg)
+ 45) Fats, Saturated Fat, SFA (g)
+ 46) Fats, Lauric Acid, 12:0 (g)
+ 47) Fats, Myristic Acid, 14:0 (g)
+ 48) Fats, Palmitic Acid, 16:0 (g)
+ 49) Fats, Stearic Acid, 18:0 (g)
+ 50) Fats, Linoleic Acid, LA, 18:2 n-6 (g)
+ 51) Fats, Alpha-linolenic Acid, ALA, 18:3 n-3 (g)
+ 52) Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g)
+ 53) Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g)
+ 54) Fats, Monounsaturated Fat, MUFA (g)
+ 55) Fats, Polyunsaturated Fat, PUFA (g)
 
 Param C, F row:
 ${data.foodNameComment}

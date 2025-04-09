@@ -21,9 +21,9 @@ FROM (SELECT b.foodid,
       GROUP BY b.foodid,
                c.name
       ORDER BY c.name) a,
-     (SELECT factor AS ouncefactor FROM units WHERE unitid = 1) b,
-     (SELECT factor AS lbfactor FROM units WHERE unitid = 2) c,
-     (SELECT factor AS kgfactor FROM units WHERE unitid = 3) d;
+     (SELECT factor AS ouncefactor FROM units WHERE unitid = 2) b,
+     (SELECT factor AS lbfactor FROM units WHERE unitid = 3) c,
+     (SELECT factor AS kgfactor FROM units WHERE unitid = 4) d;
 --
 OPEN result;
 --

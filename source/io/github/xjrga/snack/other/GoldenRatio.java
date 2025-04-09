@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class GoldenRatio {
-  private static final BigDecimal goldenRatio = new BigDecimal(1.61803398875);
-  private final Boolean widthLarger = true;
 
-  private GoldenRatio() {}
+  private static final BigDecimal goldenRatio = new BigDecimal(1.61803398875);
 
   public static Integer getLongSide(Integer length) {
     BigDecimal v = new BigDecimal(length).multiply(goldenRatio);
@@ -19,4 +17,6 @@ public class GoldenRatio {
     BigDecimal v = new BigDecimal(length).divide(goldenRatio, 2, RoundingMode.HALF_UP);
     return v.intValue();
   }
+
+  private GoldenRatio() {}
 }

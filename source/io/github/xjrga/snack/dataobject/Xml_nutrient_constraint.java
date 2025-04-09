@@ -1,37 +1,40 @@
 package io.github.xjrga.snack.dataobject;
 
+import java.math.BigDecimal;
+
 public class Xml_nutrient_constraint {
-  private final StringBuilder sb;
+
+  private BigDecimal b = new BigDecimal("0.0");
   private String nutrientid = "";
   private Integer relationshipid = 0;
-  private Double b = 0.0;
+  private final StringBuilder sb;
 
   public Xml_nutrient_constraint() {
     sb = new StringBuilder();
+  }
+
+  public BigDecimal getB() {
+    return b;
   }
 
   public String getNutrientid() {
     return nutrientid;
   }
 
-  public void setNutrientid(String nutrientid) {
-    this.nutrientid = nutrientid;
-  }
-
   public Integer getRelationshipid() {
     return relationshipid;
   }
 
+  public void setB(BigDecimal b) {
+    this.b = b;
+  }
+
+  public void setNutrientid(String nutrientid) {
+    this.nutrientid = nutrientid;
+  }
+
   public void setRelationshipid(Integer relationshipid) {
     this.relationshipid = relationshipid;
-  }
-
-  public Double getB() {
-    return b;
-  }
-
-  public void setB(Double b) {
-    this.b = b;
   }
 
   @Override

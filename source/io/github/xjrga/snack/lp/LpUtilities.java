@@ -1,6 +1,7 @@
 package io.github.xjrga.snack.lp;
 
 public class LpUtilities {
+
   public static String getRelationship(int rel) {
     String relationship = "";
     switch (rel) {

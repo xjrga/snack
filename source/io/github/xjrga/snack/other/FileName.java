@@ -1,14 +1,15 @@
 package io.github.xjrga.snack.other;
 
 public class FileName {
-  private final String reportFileName;
-  private final String reportFileNameExp;
-  private final String reportDataFileName;
-  private final String reportDataFileNameExp;
+
+  private final String cplexFileName;
   private final String glpkFileName;
   private final String glpkFileNameExp;
-  private final String cplexFileName;
   private final String lpsolveFileName;
+  private final String reportDataFileName;
+  private final String reportDataFileNameExp;
+  private final String reportFileName;
+  private final String reportFileNameExp;
 
   public FileName() {
     String time = Utilities.getCurrentTimeMillisTxt();
@@ -20,10 +21,6 @@ public class FileName {
     reportFileNameExp = "snack_report_" + time + "_exp.txt";
     reportDataFileName = "snack_report_data_" + time + ".csv";
     reportDataFileNameExp = "snack_report_data_" + time + "_exp.csv";
-  }
-
-  public String getLpsolveFileName() {
-    return lpsolveFileName;
   }
 
   public String getCplexFileName() {
@@ -38,12 +35,8 @@ public class FileName {
     return glpkFileNameExp;
   }
 
-  public String getReportFileName() {
-    return reportFileName;
-  }
-
-  public String getReportFileNameExp() {
-    return reportFileNameExp;
+  public String getLpsolveFileName() {
+    return lpsolveFileName;
   }
 
   public String getReportDataFileName() {
@@ -52,5 +45,13 @@ public class FileName {
 
   public String getReportDataFileNameExp() {
     return reportDataFileNameExp;
+  }
+
+  public String getReportFileName() {
+    return reportFileName;
+  }
+
+  public String getReportFileNameExp() {
+    return reportFileNameExp;
   }
 }

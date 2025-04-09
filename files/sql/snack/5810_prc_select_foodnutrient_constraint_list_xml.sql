@@ -22,15 +22,15 @@ SELECT count(foodid , nutrientid, relationshipid, b) INTO counter FROM foodnutri
 --
 IF counter > 0 THEN
 --
-SET doc = doc + '<food_nutrient_constraint_list>' + CHAR (10);
+SET doc = doc + '<food_quantity_list>' + CHAR (10);
 --
 FOR select foodid , nutrientid, relationshipid, b from foodnutrientconstraint a WHERE a.mixid = v_mixid DO
 --
-SET doc = doc + '<food_nutrient_constraint>' + CHAR (10) + '<foodid>' + foodid + '</foodid>' + CHAR (10) + '<nutrientid>' + nutrientid + '</nutrientid>' + CHAR (10) + '<relationshipid>'+relationshipid +'</relationshipid>' + CHAR (10) + '<b>'+ cast(b as decimal(128,32)) +'</b>' + CHAR (10) + '</food_nutrient_constraint>' + CHAR (10);
+SET doc = doc + '<food_quantity>' + CHAR (10) + '<food-id>' + foodid + '</food-id>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</food_quantity>' + CHAR (10);
 --
 END FOR;
 --
-SET doc = doc + '</food_nutrient_constraint_list>';
+SET doc = doc + '</food_quantity_list>';
 --
 END IF;
 --

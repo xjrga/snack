@@ -1,7 +1,7 @@
 digraph erd {
 
     labelloc = "t";
-    label = "Snack Entity Relationship Diagram";
+    label = "snack Entity Relationship Diagram";
     fontsize = 20;
     fontname = "Liberation Mono Bold"
     size = "100,100";
@@ -16,6 +16,177 @@ CategoryLink [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodCategoryId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+        </table>
+    >]
+DnFoodFact [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>DnFoodFact</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">food_name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_carbs_by_diff: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fiber_insoluble: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fiber_soluble: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fiber: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fructose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_glucose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_glycemic_load: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_lactose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_starch: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_sucrose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_sugars: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_gross: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_cholesterol: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_dha: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_epa: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_lauric: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_linoleic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_linolenic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_monounsaturated: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_myristic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_palmitic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_polyunsaturated: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_saturated: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_stearic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_total: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_calcium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_copper: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_iron: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_magnesium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_manganese: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_phosphorus: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_potassium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_selenium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_sodium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_zinc: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_alcohol: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_cost: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_water: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_weight: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_anthocyanins: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_caffeine: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_beta_carotene: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_carotenoids: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavanols: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavanones: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavones: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavonoids: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavonols: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_isoflavones: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_lutein_zeaxanthin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_lycopene: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_phytosterols: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_theobromine: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">protein_complete: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">protein_total: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_a: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_b12: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_b6: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_c: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_choline: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_d: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_e: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_folate: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_k: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_niacin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_pantothenic_acid: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_riboflavin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_thiamin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_digestible: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_carbohydrate: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_fat: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_fat_and_carbohydrate: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_protein: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_alcohol: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_digestible: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_hcsfa: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_lcn3pufa: DECIMAL(11,5)</td></tr>
+        </table>
+    >]
+DnMixResult [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>DnMixResult</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mix_id: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">food_name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_carbs_by_diff: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fiber_insoluble: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fiber_soluble: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fiber: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_fructose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_glucose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_glycemic_load: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_lactose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_starch: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_sucrose: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_sugars: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_gross: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_cholesterol: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_dha: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_epa: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_lauric: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_linoleic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_linolenic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_monounsaturated: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_myristic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_palmitic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_polyunsaturated: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_saturated: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_stearic: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_total: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_calcium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_copper: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_iron: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_magnesium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_manganese: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_phosphorus: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_potassium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_selenium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_sodium: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">minerals_zinc: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_alcohol: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_cost: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_water: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">other_weight: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_anthocyanins: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_caffeine: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_beta_carotene: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_carotenoids: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavanols: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavanones: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavones: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavonoids: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_flavonols: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_isoflavones: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_lutein_zeaxanthin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_lycopene: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_phytosterols: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">phytonutrients_theobromine: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">protein_complete: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">protein_total: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_a: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_b12: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_b6: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_c: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_choline: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_d: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_e: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_folate: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_vitamin_k: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_niacin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_pantothenic_acid: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_riboflavin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">vitamins_thiamin: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">carbohydrates_digestible: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_carbohydrate: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_fat: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_fat_and_carbohydrate: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_protein: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_alcohol: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">energy_digestible: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_hcsfa: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">fats_lcn3pufa: DECIMAL(11,5)</td></tr>
         </table>
     >]
 Food [shape=record, label=<
@@ -40,7 +211,7 @@ FoodFact [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
         </table>
     >]
 FoodFactCoefficient [shape=Mrecord, label=<
@@ -49,7 +220,7 @@ FoodFactCoefficient [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">c: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">c: DECIMAL(11,5)</td></tr>
         </table>
     >]
 FoodNutrientConstraint [shape=Mrecord, label=<
@@ -60,7 +231,7 @@ FoodNutrientConstraint [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">b: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
 FoodNutrientRatio [shape=Mrecord, label=<
@@ -73,16 +244,8 @@ FoodNutrientRatio [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">A: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">B: DOUBLE</td></tr>
-        </table>
-    >]
-GlycemicIndex [shape=Mrecord, label=<
-        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>GlycemicIndex</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">A: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">B: DECIMAL(11,5)</td></tr>
         </table>
     >]
 Meal [shape=Mrecord, label=<
@@ -102,9 +265,9 @@ MealFoodPortion [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MealId: INTEGER (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">Pct: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">ExpectedWt: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">ActualWt: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Pct: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">ExpectedWt: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">ActualWt: DECIMAL(11,5)</td></tr>
         </table>
     >]
 Mix [shape=record, label=<
@@ -115,14 +278,7 @@ Mix [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Model: LONGVARCHAR</td></tr>
-        </table>
-    >]
-MixCost [shape=Mrecord, label=<
-        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>MixCost</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">mixcost: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixCost: DECIMAL(11,5)</td></tr>
         </table>
     >]
 MixFood [shape=Mrecord, label=<
@@ -131,7 +287,7 @@ MixFood [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">x: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">x: DECIMAL(11,5)</td></tr>
         </table>
     >]
 MixInventory [shape=Mrecord, label=<
@@ -139,7 +295,7 @@ MixInventory [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>MixInventory</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">Days: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Days: DECIMAL(11,5)</td></tr>
         </table>
     >]
 MixResult [shape=Mrecord, label=<
@@ -149,7 +305,7 @@ MixResult [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
         </table>
     >]
 Nutrient [shape=record, label=<
@@ -161,6 +317,8 @@ Nutrient [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Visible: INTEGER</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientCategoryId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Label: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Units: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Dri: INTEGER</td></tr>
         </table>
     >]
 NutrientCategory [shape=record, label=<
@@ -178,7 +336,7 @@ NutrientConstraint [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">b: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
 NutrientRatio [shape=Mrecord, label=<
@@ -189,8 +347,8 @@ NutrientRatio [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">A: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">B: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">A: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">B: DECIMAL(11,5)</td></tr>
         </table>
     >]
 Rda [shape=Mrecord, label=<
@@ -199,8 +357,8 @@ Rda [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">q: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">UL: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">UL: DECIMAL(11,5)</td></tr>
         </table>
     >]
 RdaLifeStage [shape=record, label=<
@@ -225,197 +383,7 @@ Units [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">UnitId: INTEGER </td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">Factor: DOUBLE</td></tr>
-        </table>
-    >]
-ZFC [shape=Mrecord, label=<
-        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>ZFC</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">foodid: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">ROW: INTEGER</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10000: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10001: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10003: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10005: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10006: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10009: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10010: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10011: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10012: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10013: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10014: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10015: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N203: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N204: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N205: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N208: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N221: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N255: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N291: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N301: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N303: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N304: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N305: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N306: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N307: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N309: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N312: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N315: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N317: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N320: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N323: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N328: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N401: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N404: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N405: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N406: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N410: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N415: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N418: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N421: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N430: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N435: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N601: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N606: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N611: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N612: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N613: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N614: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N618: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N619: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N621: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N629: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N645: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N646: DOUBLE</td></tr>
-        </table>
-    >]
-ZFF [shape=Mrecord, label=<
-        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>ZFF</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">foodid: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">ROW: INTEGER</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10000: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10001: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10003: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10005: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10006: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10009: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10010: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10011: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10012: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10013: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10014: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N10015: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N203: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N204: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N205: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N208: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N221: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N255: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N291: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N301: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N303: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N304: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N305: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N306: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N307: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N309: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N312: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N315: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N317: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N320: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N323: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N328: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N401: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N404: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N405: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N406: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N410: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N415: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N418: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N421: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N430: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N435: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N601: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N606: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N611: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N612: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N613: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N614: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N618: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N619: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N621: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N629: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N645: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">N646: DOUBLE</td></tr>
-        </table>
-    >]
-mixresultdn [shape=Mrecord, label=<
-        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>mixresultdn</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">mixid: LONGVARCHAR (FK)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">foodid: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
-               <tr><td bgcolor="#ECEEE9" align="left">name: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">weight: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">completeprotein: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">digestiblecarbohydrate: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">cost: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">protein: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">fat: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">carbsbydiff: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energygross: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">alcohol: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">water: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">fiber: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">calcium: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">iron: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">magnesium: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">phosphorus: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">potassium: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">sodium: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">zinc: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">copper: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">fluoride: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">manganese: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">selenium: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitamina: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitamine: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitamind: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitaminc: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">thiamin: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">riboflavin: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">niacin: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">pantothenicacid: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitaminb6: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitaminb12: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">choline: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">vitamink: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">folate: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">cholesterol: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">sfa: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">dha: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">epa: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">mufa: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">pufa: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">linoleicacid: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">alphalinolenicacid: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">glycemicload: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energydigestible: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energycarbohydrate: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energyprotein: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energyfat: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energyalcohol: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">energyfatcarbohydrate: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">lauric: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">myristic: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">palmitic: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">stearic: DOUBLE</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">hcsfa: DOUBLE</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Factor: DECIMAL(11,5)</td></tr>
         </table>
     >]
 
@@ -423,6 +391,10 @@ edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot,
 Food -> CategoryLink [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 FoodCategory -> CategoryLink [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Food -> DnFoodFact [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> DnMixResult [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Food -> FoodFact [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
@@ -446,8 +418,6 @@ Nutrient -> FoodNutrientRatio [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Relationship -> FoodNutrientRatio [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Food -> GlycemicIndex [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Mix -> Meal [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Meal -> MealFoodPortion [dir=forward,weight=1];
@@ -455,8 +425,6 @@ edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot,
 MixFood -> MealFoodPortion [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
 Nutrient -> Mix [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Mix -> MixCost [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Food -> MixFood [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
@@ -487,11 +455,5 @@ edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot,
 Nutrient -> Rda [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 RdaLifeStage -> Rda [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-MixFood -> ZFC [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-MixFood -> ZFF [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-MixFood -> mixresultdn [dir=forward,weight=1];
 
 }

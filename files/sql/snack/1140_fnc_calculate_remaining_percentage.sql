@@ -1,16 +1,16 @@
 CREATE FUNCTION calculate_remaining_percentage (
 IN v_MixId LONGVARCHAR,
-IN v_FoodId LONGVARCHAR,
-IN v_Precision INTEGER) RETURNS DOUBLE
+IN v_FoodId LONGVARCHAR
+) RETURNS DECIMAL(11,5)
 --
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE v_c DOUBLE;
+DECLARE v_c DECIMAL(11,5);
 --
 SELECT SUM(pct) INTO v_c FROM MealFoodPortion WHERE MixId = v_MixId AND FoodId = v_FoodId;
 --
-RETURN ROUND(v_c * 100,v_Precision);
+RETURN IFNULL(v_c,0.0) * 100;
 --
 END;
 /

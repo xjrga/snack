@@ -1,2 +1,0 @@
-call FoodFact_ZeroOut();
-/

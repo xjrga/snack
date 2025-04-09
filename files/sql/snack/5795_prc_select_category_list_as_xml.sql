@@ -24,7 +24,7 @@ SET doc = '';
 --
 FOR SELECT DISTINCT c.foodcategoryid as id, c.name as name FROM mixfood a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND   b.foodcategoryid = c.foodcategoryid AND a.mixid = v_MixId  DO
 --
-SET doc = '<category>' + CHAR(10) + '<categoryid>' + id + '</categoryid>' + CHAR(10) + '<categoryname>' + escape_xml_element_data(name) + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
+SET doc = '<category>' + CHAR(10) + '<category-id>' + id + '</category-id>' + CHAR(10) + '<categoryname>' + escape_xml_element_data(name) + '</categoryname>'  + CHAR(10)  + '</category>' + CHAR (10);
 --
 SET doc2 = doc2 + doc;
 --

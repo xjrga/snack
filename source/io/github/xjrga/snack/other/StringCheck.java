@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringCheck {
+
   List<String> names = new LinkedList();
 
   public StringCheck() {}
@@ -14,25 +15,12 @@ public class StringCheck {
     names.add(s);
   }
 
-  public boolean pass() {
-    boolean pass = false;
-    if (checkNames()) {
-      pass = true;
-    }
-    return pass;
-  }
-
   private boolean checkNames() {
     boolean pass = true;
     for (String s : names) {
-      if (s.isEmpty()) {
+      if (s.isEmpty() || !checkStringIsValid(s)) {
         pass = false;
         break;
-      } else {
-        if (!checkStringIsValid(s)) {
-          pass = false;
-          break;
-        }
       }
     }
     return pass;
@@ -46,6 +34,14 @@ public class StringCheck {
     Pattern pattern = Pattern.compile(patternStr);
     Matcher matcher = pattern.matcher(s);
     if (matcher.matches()) {
+      pass = true;
+    }
+    return pass;
+  }
+
+  public boolean pass() {
+    boolean pass = false;
+    if (checkNames()) {
       pass = true;
     }
     return pass;

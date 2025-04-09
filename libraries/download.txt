@@ -1,23 +1,13 @@
 #Download to libraries directory
-commons-dbutils-1.8.1.jar
-commons-math3-3.6.1.jar
-freemarker-2.3.33.jar
-hsqldb-2.7.3.jar
+hsqldb-2.7.4.jar
+sqltool-2.7.4.jar
 jgoodies-common-1.8.1.jar
 jgoodies-forms-1.9.0.jar
+freemarker-2.3.34.jar
+commons-dbutils-1.8.1.jar
+commons-math3-3.6.1.jar
+commons-codec-1.17.2.jar
+commons-csv-1.13.0.jar
+commons-io-2.18.0.jar
 junit-4.13.2.jar
 looks-02.jar
-poi-4.1.2.jar
-sqltool-2.7.3.jar
-
-#Library location
-https://dlcdn.apache.org//commons/dbutils/binaries/commons-dbutils-1.8.1-bin.zip
-https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.zip
-https://www.apache.org/dyn/closer.cgi/freemarker/engine/2.3.33/binaries/apache-freemarker-bin-2.3.33.tgz
-https://sourceforge.net/projects/hsqldb/files/latest/download
-https://www.jgoodies.com/download/libraries/common/jgoodies-common-1_8_1.zip
-https://www.jgoodies.com/download/libraries/forms/jgoodies-forms-1_8_0.zip
-https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
-https://repo1.maven.org/maven2/io/github/xjrga/looks/02/looks-02.jar
-https://archive.apache.org/dist/poi/release/bin/poi-bin-4.1.2-20200217.zip
-

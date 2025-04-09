@@ -24,7 +24,7 @@ SET doc = '';
 --
 FOR select a.foodid as foodid, a.foodcategoryid as categoryid from categorylink a, mixfood b where a.foodid = b.foodid and b.mixid = v_MixId  DO 
 --
-SET doc =  '<category_link>' + CHAR(10) + '<foodid>' + foodid + '</foodid>' + CHAR(10) + '<categoryid>' + categoryid + '</categoryid>'  + CHAR(10) + '</category_link>'  + CHAR(10) ;
+SET doc =  '<category_link>' + CHAR(10) + '<food-id>' + foodid + '</food-id>' + CHAR(10) + '<category-id>' + categoryid + '</category-id>'  + CHAR(10) + '</category_link>'  + CHAR(10) ;
 --
 SET doc2 = doc2 + doc;
 --

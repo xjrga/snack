@@ -11,9 +11,13 @@ FOR
 SELECT mixid,
        nutrientid,
        relationshipid,
-       b
-FROM nutrientconstraint
-WHERE mixid = v_mixid
+       b,
+       b.name as nutrient,
+       c.name as eq
+FROM nutrientconstraint a, nutrient b, relationship c
+WHERE mixid = v_MixId
+AND a.nutrientid = b.nutrientid
+AND a.relationshipid = c.relationshipid
 ORDER BY nutrientid;
 --
 OPEN result;

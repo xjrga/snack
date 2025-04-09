@@ -4,18 +4,21 @@ IN v_foodid LONGVARCHAR
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
-DECLARE v_carbsbydiff DOUBLE;
-DECLARE v_fiber DOUBLE;
-DECLARE v_digestible_carbohydrate DOUBLE;
-DECLARE v_energy_alcohol DOUBLE;
-DECLARE v_energy_carbohydrate DOUBLE;
-DECLARE v_energy_fat DOUBLE;
-DECLARE v_energy_protein DOUBLE;
-DECLARE v_gi DOUBLE;
-DECLARE v_lauric DOUBLE;
-DECLARE v_myristic DOUBLE;
-DECLARE v_palmitic DOUBLE;
-DECLARE v_hcsfa DOUBLE;
+DECLARE v_carbsbydiff DECIMAL(11,5);
+DECLARE v_fiber DECIMAL(11,5);
+DECLARE v_digestible_carbohydrate DECIMAL(11,5);
+DECLARE v_energy_alcohol DECIMAL(11,5);
+DECLARE v_energy_carbohydrate DECIMAL(11,5);
+DECLARE v_energy_fat DECIMAL(11,5);
+DECLARE v_energy_protein DECIMAL(11,5);
+DECLARE v_gi DECIMAL(11,5);
+DECLARE v_lauric DECIMAL(11,5);
+DECLARE v_myristic DECIMAL(11,5);
+DECLARE v_palmitic DECIMAL(11,5);
+DECLARE v_hcsfa DECIMAL(11,5);
+DECLARE v_dha DECIMAL(11,5);
+DECLARE v_epa DECIMAL(11,5);
+DECLARE v_lcn3pufa DECIMAL(11,5);
 --
 --digestible_carbohydrate
 SELECT q INTO v_carbsbydiff FROM foodfact WHERE nutrientid = '205' AND foodid = v_foodid;
@@ -45,16 +48,18 @@ CALL foodfact_merge (v_foodid,'10010',v_energy_carbohydrate+v_energy_fat);
 -- energy_digestible
 CALL foodfact_merge (v_foodid,'10009',v_energy_carbohydrate+v_energy_fat+v_energy_protein+v_energy_alcohol);
 --
--- glycemic_load
-SELECT q  INTO v_gi FROM glycemicindex WHERE foodid = v_foodid;
-CALL foodfact_merge (v_foodid,'10006',v_digestible_carbohydrate*v_gi/100);
---
 --hcsfa
 SELECT q INTO v_lauric FROM foodfact WHERE nutrientid = '611' AND foodid = v_foodid;
 SELECT q INTO v_myristic FROM foodfact  WHERE nutrientid = '612' AND foodid = v_foodid;
 SELECT q INTO v_palmitic FROM foodfact  WHERE nutrientid = '613' AND foodid = v_foodid;
 SET v_hcsfa = v_lauric + v_myristic + v_palmitic;
 CALL foodfact_merge (v_foodid,'10015',v_hcsfa);
+--
+--lcn3pufa
+SELECT q INTO v_dha FROM foodfact WHERE nutrientid = '621' AND foodid = v_foodid;
+SELECT q INTO v_epa FROM foodfact  WHERE nutrientid = '629' AND foodid = v_foodid;
+SET v_lcn3pufa = v_dha + v_epa;
+CALL foodfact_merge (v_foodid,'10016',v_lcn3pufa);
 --
 --
 END;

@@ -1,4 +1,5 @@
 CREATE PROCEDURE Meal_insert (
+OUT NEWID INTEGER,
 IN v_MixId LONGVARCHAR,
 IN v_Name LONGVARCHAR,
 IN v_MealOrder INTEGER
@@ -6,12 +7,15 @@ IN v_MealOrder INTEGER
 MODIFIES SQL DATA BEGIN ATOMIC
 INSERT INTO Meal (
 MixId,
+MealId,
 Name,
 MealOrder
 ) VALUES (
 v_MixId,
+DEFAULT,
 v_Name,
 v_MealOrder
 );
+SET NEWID=IDENTITY();
 END;
 /

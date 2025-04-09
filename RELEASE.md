@@ -390,4 +390,15 @@
 
 ### 1380 - November 14, 2024
 
-  * Add food forecasts
+  * Added food forecasts
+
+### 1500 - April 05, 2025
+
+  * Removed GNU MathProg modeling language linear programming model file generation
+  * Removed CPLEX linear programming model file generation
+  * Removed Report generation to excel format
+  * Added report generation to text (csv).
+  * Added new data exchange document definition
+  * Added new food primary key definition (calculated based all nutrient values)
+  * Added ability to export all foods in a food category
+  

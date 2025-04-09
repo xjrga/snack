@@ -6,7 +6,8 @@ DECLARE result CURSOR
 FOR
 SELECT c.name AS category,
        a.foodid,
-       b.name AS food
+       b.name AS food,
+       c.foodcategoryid
 FROM categorylink a,
      food b,
      foodcategory c

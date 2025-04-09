@@ -1,5 +1,7 @@
 CREATE PROCEDURE Mix_Duplicate (
 --
+OUT newid LONGVARCHAR,
+--
 IN v_MixId_Old LONGVARCHAR
 --
 )
@@ -22,11 +24,13 @@ CALL FoodNutrientConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL FoodNutrientRatio_Copy(v_MixId_Old,v_MixId_New);
 --
-CALL mixresultdn_copy(v_MixId_Old,v_MixId_New);
+CALL DnMixResult_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_food_portion_copy(v_MixId_Old,v_MixId_New);
+--
+SET newid = v_MixId_New;
 --
 END;
 /

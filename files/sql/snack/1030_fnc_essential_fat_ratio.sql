@@ -3,9 +3,9 @@ CREATE FUNCTION get_essential_fat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DOUBLE;
+DECLARE ratio DECIMAL(10,5);
 --
-SELECT CASEWHEN(sum(alphalinolenicacid) <= 0,0,sum(linoleicacid)/sum(alphalinolenicacid)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+SELECT CASEWHEN(sum(fats_linolenic) <= 0,0,sum(fats_linoleic)/sum(fats_linolenic)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --

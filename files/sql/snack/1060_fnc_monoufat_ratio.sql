@@ -3,9 +3,9 @@ CREATE FUNCTION get_monoufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DOUBLE;
+DECLARE ratio DECIMAL(10,5);
 --
-SELECT CASEWHEN (SUM(sfa) <= 0,0,SUM(mufa) / SUM(sfa)) INTO ratio FROM mixresultdn WHERE mixid = v_MixId;
+SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_monounsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --

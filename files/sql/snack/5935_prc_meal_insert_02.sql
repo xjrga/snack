@@ -1,5 +1,6 @@
 CREATE PROCEDURE Meal_insert_02 (
 IN v_MixId LONGVARCHAR,
+--TODO - Fix, should be integer
 IN v_MealId LONGVARCHAR,
 IN v_Name LONGVARCHAR,
 IN v_MealOrder INTEGER

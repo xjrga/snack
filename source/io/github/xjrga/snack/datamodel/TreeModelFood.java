@@ -16,46 +16,48 @@
  */
 package io.github.xjrga.snack.datamodel;
 
-import io.github.xjrga.snack.database.DbLink;
-import io.github.xjrga.snack.dataobject.FoodDataObject;
+import io.github.xjrga.snack.dataobject.MixFoodDO;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-public class TreeModelFood extends DefaultTreeModel implements Reload {
-  private final DbLink dbLink;
+public class TreeModelFood extends DefaultTreeModel {
+
   private DefaultMutableTreeNode node;
 
-  public TreeModelFood(DbLink dblink) {
+  public TreeModelFood() {
     super(null);
-    this.dbLink = dblink;
     node = new DefaultMutableTreeNode("Food");
     this.setRoot(node);
   }
 
-  @Override
-  public void reload() {
+  public void reload(List<Map<String, Object>> list) {
     HashMap hm = new HashMap();
-    LinkedList<HashMap> list = (LinkedList) dbLink.Food_Select_All();
     node = new DefaultMutableTreeNode("Food");
     list.forEach(
         row -> {
           String categoryName = (String) row.get("CATEGORY");
           String foodid = (String) row.get("FOODID");
           String foodName = (String) row.get("FOOD");
+          String foodcategoryid = (String) row.get("FOODCATEGORYID");
           DefaultMutableTreeNode category = new DefaultMutableTreeNode(categoryName);
-          FoodDataObject foodobject = new FoodDataObject(foodid, foodName);
+          MixFoodDO foodobject = new MixFoodDO(foodid, foodName);
           DefaultMutableTreeNode food = new DefaultMutableTreeNode(foodobject);
-          if (hm.containsKey(categoryName)) {
-            category = (DefaultMutableTreeNode) hm.get(categoryName);
-            category.add(food);
+          if (hm.containsKey(foodcategoryid)) {
+            category = (DefaultMutableTreeNode) hm.get(foodcategoryid);
           } else {
-            hm.put(categoryName, category);
+            hm.put(foodcategoryid, category);
             node.add(category);
-            category.add(food);
           }
+          category.add(food);
         });
+    this.setRoot(node);
+  }
+
+  public void clear() {
+    node = new DefaultMutableTreeNode("Food");
     this.setRoot(node);
   }
 }

@@ -1,22 +1,23 @@
 package io.github.xjrga.snack.gui;
 
 public class RowBuild {
-  enum rowAlignment {
-    TOP,
-    CENTER,
-    BOTTOM,
-    FILL;
+
+  enum componentSize {
+    DEFAULT,
+    MIN,
+    PREF;
   }
 
   enum resizeBehavior {
-    NONE,
-    GROW;
+    GROW,
+    NONE;
   }
 
-  enum componentSize {
-    MIN,
-    PREF,
-    DEFAULT;
+  enum rowAlignment {
+    BOTTOM,
+    CENTER,
+    FILL,
+    TOP;
   }
 
   private final StringBuilder columns;
@@ -25,10 +26,7 @@ public class RowBuild {
     columns = new StringBuilder();
   }
 
-  // Using component size
-  public void add(rowAlignment alignment, componentSize size) {
-    columns.append(alignment.name());
-    columns.append(":");
+  public void add(componentSize size) {
     columns.append(size);
     columns.append(",");
   }
@@ -37,6 +35,21 @@ public class RowBuild {
     columns.append(size);
     columns.append(":");
     columns.append(behavior.name());
+    columns.append(",");
+  }
+
+  public void add(Integer pixels, resizeBehavior behavior) {
+    columns.append(pixels);
+    columns.append(":");
+    columns.append(behavior.name());
+    columns.append(",");
+  }
+
+  // Using component size
+  public void add(rowAlignment alignment, componentSize size) {
+    columns.append(alignment.name());
+    columns.append(":");
+    columns.append(size);
     columns.append(",");
   }
 
@@ -57,13 +70,6 @@ public class RowBuild {
     columns.append(",");
   }
 
-  public void add(Integer pixels, resizeBehavior behavior) {
-    columns.append(pixels);
-    columns.append(":");
-    columns.append(behavior.name());
-    columns.append(",");
-  }
-
   public void add(rowAlignment alignment, Integer pixels, resizeBehavior behavior) {
     columns.append(alignment.name());
     columns.append(":");
@@ -71,11 +77,6 @@ public class RowBuild {
     columns.append("px");
     columns.append(":");
     columns.append(behavior.name());
-    columns.append(",");
-  }
-
-  public void add(componentSize size) {
-    columns.append(size);
     columns.append(",");
   }
 

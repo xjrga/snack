@@ -8,6 +8,180 @@ CREATE TABLE CategoryLink
         )
 );
 /
+CREATE TABLE DnFoodFact
+(
+        food_id LONGVARCHAR,
+        food_name LONGVARCHAR,
+        carbohydrates_carbs_by_diff DECIMAL(11,5),
+        carbohydrates_fiber_insoluble DECIMAL(11,5),
+        carbohydrates_fiber_soluble DECIMAL(11,5),
+        carbohydrates_fiber DECIMAL(11,5),
+        carbohydrates_fructose DECIMAL(11,5),
+        carbohydrates_glucose DECIMAL(11,5),
+        carbohydrates_glycemic_load DECIMAL(11,5),
+        carbohydrates_lactose DECIMAL(11,5),
+        carbohydrates_starch DECIMAL(11,5),
+        carbohydrates_sucrose DECIMAL(11,5),
+        carbohydrates_sugars DECIMAL(11,5),
+        energy_gross DECIMAL(11,5),
+        fats_cholesterol DECIMAL(11,5),
+        fats_dha DECIMAL(11,5),
+        fats_epa DECIMAL(11,5),
+        fats_lauric DECIMAL(11,5),
+        fats_linoleic DECIMAL(11,5),
+        fats_linolenic DECIMAL(11,5),
+        fats_monounsaturated DECIMAL(11,5),
+        fats_myristic DECIMAL(11,5),
+        fats_palmitic DECIMAL(11,5),
+        fats_polyunsaturated DECIMAL(11,5),
+        fats_saturated DECIMAL(11,5),
+        fats_stearic DECIMAL(11,5),
+        fats_total DECIMAL(11,5),
+        minerals_calcium DECIMAL(11,5),
+        minerals_copper DECIMAL(11,5),
+        minerals_iron DECIMAL(11,5),
+        minerals_magnesium DECIMAL(11,5),
+        minerals_manganese DECIMAL(11,5),
+        minerals_phosphorus DECIMAL(11,5),
+        minerals_potassium DECIMAL(11,5),
+        minerals_selenium DECIMAL(11,5),
+        minerals_sodium DECIMAL(11,5),
+        minerals_zinc DECIMAL(11,5),
+        other_alcohol DECIMAL(11,5),
+        other_cost DECIMAL(11,5),
+        other_water DECIMAL(11,5),
+        other_weight DECIMAL(11,5),
+        phytonutrients_anthocyanins DECIMAL(11,5),
+        phytonutrients_caffeine DECIMAL(11,5),
+        phytonutrients_beta_carotene DECIMAL(11,5),
+        phytonutrients_carotenoids DECIMAL(11,5),
+        phytonutrients_flavanols DECIMAL(11,5),
+        phytonutrients_flavanones DECIMAL(11,5),
+        phytonutrients_flavones DECIMAL(11,5),
+        phytonutrients_flavonoids DECIMAL(11,5),
+        phytonutrients_flavonols DECIMAL(11,5),
+        phytonutrients_isoflavones DECIMAL(11,5),
+        phytonutrients_lutein_zeaxanthin DECIMAL(11,5),
+        phytonutrients_lycopene DECIMAL(11,5),
+        phytonutrients_phytosterols DECIMAL(11,5),
+        phytonutrients_theobromine DECIMAL(11,5),
+        protein_complete DECIMAL(11,5),
+        protein_total DECIMAL(11,5),
+        vitamins_vitamin_a DECIMAL(11,5),
+        vitamins_vitamin_b12 DECIMAL(11,5),
+        vitamins_vitamin_b6 DECIMAL(11,5),
+        vitamins_vitamin_c DECIMAL(11,5),
+        vitamins_choline DECIMAL(11,5),
+        vitamins_vitamin_d DECIMAL(11,5),
+        vitamins_vitamin_e DECIMAL(11,5),
+        vitamins_folate DECIMAL(11,5),
+        vitamins_vitamin_k DECIMAL(11,5),
+        vitamins_niacin DECIMAL(11,5),
+        vitamins_pantothenic_acid DECIMAL(11,5),
+        vitamins_riboflavin DECIMAL(11,5),
+        vitamins_thiamin DECIMAL(11,5),
+        carbohydrates_digestible DECIMAL(11,5),
+        energy_carbohydrate DECIMAL(11,5),
+        energy_fat DECIMAL(11,5),
+        energy_fat_and_carbohydrate DECIMAL(11,5),
+        energy_protein DECIMAL(11,5),
+        energy_alcohol DECIMAL(11,5),
+        energy_digestible DECIMAL(11,5),
+        fats_hcsfa DECIMAL(11,5),
+        fats_lcn3pufa DECIMAL(11,5),
+        CONSTRAINT DnFoodFact_primary_key PRIMARY KEY (
+        food_id
+        )
+);
+/
+CREATE TABLE DnMixResult
+(
+        mix_id LONGVARCHAR,
+        food_id LONGVARCHAR,
+        food_name LONGVARCHAR,
+        carbohydrates_carbs_by_diff DECIMAL(11,5),
+        carbohydrates_fiber_insoluble DECIMAL(11,5),
+        carbohydrates_fiber_soluble DECIMAL(11,5),
+        carbohydrates_fiber DECIMAL(11,5),
+        carbohydrates_fructose DECIMAL(11,5),
+        carbohydrates_glucose DECIMAL(11,5),
+        carbohydrates_glycemic_load DECIMAL(11,5),
+        carbohydrates_lactose DECIMAL(11,5),
+        carbohydrates_starch DECIMAL(11,5),
+        carbohydrates_sucrose DECIMAL(11,5),
+        carbohydrates_sugars DECIMAL(11,5),
+        energy_gross DECIMAL(11,5),
+        fats_cholesterol DECIMAL(11,5),
+        fats_dha DECIMAL(11,5),
+        fats_epa DECIMAL(11,5),
+        fats_lauric DECIMAL(11,5),
+        fats_linoleic DECIMAL(11,5),
+        fats_linolenic DECIMAL(11,5),
+        fats_monounsaturated DECIMAL(11,5),
+        fats_myristic DECIMAL(11,5),
+        fats_palmitic DECIMAL(11,5),
+        fats_polyunsaturated DECIMAL(11,5),
+        fats_saturated DECIMAL(11,5),
+        fats_stearic DECIMAL(11,5),
+        fats_total DECIMAL(11,5),
+        minerals_calcium DECIMAL(11,5),
+        minerals_copper DECIMAL(11,5),
+        minerals_iron DECIMAL(11,5),
+        minerals_magnesium DECIMAL(11,5),
+        minerals_manganese DECIMAL(11,5),
+        minerals_phosphorus DECIMAL(11,5),
+        minerals_potassium DECIMAL(11,5),
+        minerals_selenium DECIMAL(11,5),
+        minerals_sodium DECIMAL(11,5),
+        minerals_zinc DECIMAL(11,5),
+        other_alcohol DECIMAL(11,5),
+        other_cost DECIMAL(11,5),
+        other_water DECIMAL(11,5),
+        other_weight DECIMAL(11,5),
+        phytonutrients_anthocyanins DECIMAL(11,5),
+        phytonutrients_caffeine DECIMAL(11,5),
+        phytonutrients_beta_carotene DECIMAL(11,5),
+        phytonutrients_carotenoids DECIMAL(11,5),
+        phytonutrients_flavanols DECIMAL(11,5),
+        phytonutrients_flavanones DECIMAL(11,5),
+        phytonutrients_flavones DECIMAL(11,5),
+        phytonutrients_flavonoids DECIMAL(11,5),
+        phytonutrients_flavonols DECIMAL(11,5),
+        phytonutrients_isoflavones DECIMAL(11,5),
+        phytonutrients_lutein_zeaxanthin DECIMAL(11,5),
+        phytonutrients_lycopene DECIMAL(11,5),
+        phytonutrients_phytosterols DECIMAL(11,5),
+        phytonutrients_theobromine DECIMAL(11,5),
+        protein_complete DECIMAL(11,5),
+        protein_total DECIMAL(11,5),
+        vitamins_vitamin_a DECIMAL(11,5),
+        vitamins_vitamin_b12 DECIMAL(11,5),
+        vitamins_vitamin_b6 DECIMAL(11,5),
+        vitamins_vitamin_c DECIMAL(11,5),
+        vitamins_choline DECIMAL(11,5),
+        vitamins_vitamin_d DECIMAL(11,5),
+        vitamins_vitamin_e DECIMAL(11,5),
+        vitamins_folate DECIMAL(11,5),
+        vitamins_vitamin_k DECIMAL(11,5),
+        vitamins_niacin DECIMAL(11,5),
+        vitamins_pantothenic_acid DECIMAL(11,5),
+        vitamins_riboflavin DECIMAL(11,5),
+        vitamins_thiamin DECIMAL(11,5),
+        carbohydrates_digestible DECIMAL(11,5),
+        energy_carbohydrate DECIMAL(11,5),
+        energy_fat DECIMAL(11,5),
+        energy_fat_and_carbohydrate DECIMAL(11,5),
+        energy_protein DECIMAL(11,5),
+        energy_alcohol DECIMAL(11,5),
+        energy_digestible DECIMAL(11,5),
+        fats_hcsfa DECIMAL(11,5),
+        fats_lcn3pufa DECIMAL(11,5),
+        CONSTRAINT DnMixResult_primary_key PRIMARY KEY (
+        mix_id,
+        food_id
+        )
+);
+/
 CREATE TABLE Food
 (
         FoodId LONGVARCHAR,
@@ -30,7 +204,7 @@ CREATE TABLE FoodFact
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DOUBLE DEFAULT CAST(0 AS DOUBLE),
+        q DECIMAL(11,5),
         CONSTRAINT FoodFact_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -41,7 +215,7 @@ CREATE TABLE FoodFactCoefficient
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        c DOUBLE,
+        c DECIMAL(11,5),
         CONSTRAINT FoodFactCoefficient_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -54,7 +228,7 @@ CREATE TABLE FoodNutrientConstraint
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DOUBLE,
+        b DECIMAL(11,5),
         CONSTRAINT FoodNutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -71,8 +245,8 @@ CREATE TABLE FoodNutrientRatio
         Food_Id_2 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DOUBLE,
-        B DOUBLE,
+        A DECIMAL(11,5),
+        B DECIMAL(11,5),
         CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Food_Id_1,
@@ -80,15 +254,6 @@ CREATE TABLE FoodNutrientRatio
         Food_Id_2,
         Nutrient_Id_2,
         RelationshipId
-        )
-);
-/
-CREATE TABLE GlycemicIndex
-(
-        FoodId LONGVARCHAR,
-        q DOUBLE,
-        CONSTRAINT GlycemicIndex_primary_key PRIMARY KEY (
-        FoodId
         )
 );
 /
@@ -109,9 +274,9 @@ CREATE TABLE MealFoodPortion
         MixId LONGVARCHAR,
         MealId INTEGER,
         FoodId LONGVARCHAR,
-        Pct DOUBLE,
-        ExpectedWt DOUBLE,
-        ActualWt DOUBLE,
+        Pct DECIMAL(11,5),
+        ExpectedWt DECIMAL(11,5),
+        ActualWt DECIMAL(11,5),
         CONSTRAINT MealFoodPortion_primary_key PRIMARY KEY (
         MixId,
         MealId,
@@ -125,17 +290,9 @@ CREATE TABLE Mix
         Name LONGVARCHAR,
         NutrientId LONGVARCHAR,
         Model LONGVARCHAR,
+        MixCost DECIMAL(11,5),
         CONSTRAINT Mix_primary_key PRIMARY KEY (
         MixId
-        )
-);
-/
-CREATE TABLE MixCost
-(
-        mixid LONGVARCHAR,
-        mixcost DOUBLE,
-        CONSTRAINT MixCost_primary_key PRIMARY KEY (
-        mixid
         )
 );
 /
@@ -143,7 +300,7 @@ CREATE TABLE MixFood
 (
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
-        x DOUBLE,
+        x DECIMAL(11,5),
         CONSTRAINT MixFood_primary_key PRIMARY KEY (
         MixId,
         FoodId
@@ -153,7 +310,7 @@ CREATE TABLE MixFood
 CREATE TABLE MixInventory
 (
         MixId LONGVARCHAR,
-        Days DOUBLE,
+        Days DECIMAL(11,5),
         CONSTRAINT MixInventory_primary_key PRIMARY KEY (
         MixId
         )
@@ -164,7 +321,7 @@ CREATE TABLE MixResult
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DOUBLE,
+        q DECIMAL(11,5),
         CONSTRAINT MixResult_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -179,6 +336,8 @@ CREATE TABLE Nutrient
         Visible INTEGER DEFAULT 1,
         NutrientCategoryId LONGVARCHAR,
         Label LONGVARCHAR,
+        Units LONGVARCHAR,
+        Dri INTEGER,
         CONSTRAINT Nutrient_primary_key PRIMARY KEY (
         NutrientId
         )
@@ -198,7 +357,7 @@ CREATE TABLE NutrientConstraint
         MixId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DOUBLE,
+        b DECIMAL(11,5),
         CONSTRAINT NutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         NutrientId,
@@ -212,8 +371,8 @@ CREATE TABLE NutrientRatio
         Nutrient_Id_1 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DOUBLE,
-        B DOUBLE,
+        A DECIMAL(11,5),
+        B DECIMAL(11,5),
         CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Nutrient_Id_1,
@@ -226,8 +385,8 @@ CREATE TABLE Rda
 (
         NutrientId LONGVARCHAR,
         LifeStageId INTEGER,
-        q DOUBLE DEFAULT CAST(0 AS DOUBLE),
-        UL DOUBLE DEFAULT CAST(0 AS DOUBLE),
+        q DECIMAL(11,5) DEFAULT 0.0,
+        UL DECIMAL(11,5) DEFAULT 0.0,
         CONSTRAINT Rda_primary_key PRIMARY KEY (
         NutrientId,
         LifeStageId
@@ -256,205 +415,9 @@ CREATE TABLE Units
 (
         UnitId INTEGER,
         Name LONGVARCHAR,
-        Factor DOUBLE,
+        Factor DECIMAL(11,5),
         CONSTRAINT Units_primary_key PRIMARY KEY (
         UnitId
-        )
-);
-/
-CREATE TABLE ZFC
-(
-        mixid LONGVARCHAR,
-        foodid LONGVARCHAR,
-        ROW INTEGER,
-        N10000 DOUBLE,
-        N10001 DOUBLE,
-        N10003 DOUBLE,
-        N10005 DOUBLE,
-        N10006 DOUBLE,
-        N10009 DOUBLE,
-        N10010 DOUBLE,
-        N10011 DOUBLE,
-        N10012 DOUBLE,
-        N10013 DOUBLE,
-        N10014 DOUBLE,
-        N10015 DOUBLE,
-        N203 DOUBLE,
-        N204 DOUBLE,
-        N205 DOUBLE,
-        N208 DOUBLE,
-        N221 DOUBLE,
-        N255 DOUBLE,
-        N291 DOUBLE,
-        N301 DOUBLE,
-        N303 DOUBLE,
-        N304 DOUBLE,
-        N305 DOUBLE,
-        N306 DOUBLE,
-        N307 DOUBLE,
-        N309 DOUBLE,
-        N312 DOUBLE,
-        N315 DOUBLE,
-        N317 DOUBLE,
-        N320 DOUBLE,
-        N323 DOUBLE,
-        N328 DOUBLE,
-        N401 DOUBLE,
-        N404 DOUBLE,
-        N405 DOUBLE,
-        N406 DOUBLE,
-        N410 DOUBLE,
-        N415 DOUBLE,
-        N418 DOUBLE,
-        N421 DOUBLE,
-        N430 DOUBLE,
-        N435 DOUBLE,
-        N601 DOUBLE,
-        N606 DOUBLE,
-        N611 DOUBLE,
-        N612 DOUBLE,
-        N613 DOUBLE,
-        N614 DOUBLE,
-        N618 DOUBLE,
-        N619 DOUBLE,
-        N621 DOUBLE,
-        N629 DOUBLE,
-        N645 DOUBLE,
-        N646 DOUBLE,
-        CONSTRAINT ZFC_primary_key PRIMARY KEY (
-        mixid,
-        foodid
-        )
-);
-/
-CREATE TABLE ZFF
-(
-        mixid LONGVARCHAR,
-        foodid LONGVARCHAR,
-        ROW INTEGER,
-        N10000 DOUBLE,
-        N10001 DOUBLE,
-        N10003 DOUBLE,
-        N10005 DOUBLE,
-        N10006 DOUBLE,
-        N10009 DOUBLE,
-        N10010 DOUBLE,
-        N10011 DOUBLE,
-        N10012 DOUBLE,
-        N10013 DOUBLE,
-        N10014 DOUBLE,
-        N10015 DOUBLE,
-        N203 DOUBLE,
-        N204 DOUBLE,
-        N205 DOUBLE,
-        N208 DOUBLE,
-        N221 DOUBLE,
-        N255 DOUBLE,
-        N291 DOUBLE,
-        N301 DOUBLE,
-        N303 DOUBLE,
-        N304 DOUBLE,
-        N305 DOUBLE,
-        N306 DOUBLE,
-        N307 DOUBLE,
-        N309 DOUBLE,
-        N312 DOUBLE,
-        N315 DOUBLE,
-        N317 DOUBLE,
-        N320 DOUBLE,
-        N323 DOUBLE,
-        N328 DOUBLE,
-        N401 DOUBLE,
-        N404 DOUBLE,
-        N405 DOUBLE,
-        N406 DOUBLE,
-        N410 DOUBLE,
-        N415 DOUBLE,
-        N418 DOUBLE,
-        N421 DOUBLE,
-        N430 DOUBLE,
-        N435 DOUBLE,
-        N601 DOUBLE,
-        N606 DOUBLE,
-        N611 DOUBLE,
-        N612 DOUBLE,
-        N613 DOUBLE,
-        N614 DOUBLE,
-        N618 DOUBLE,
-        N619 DOUBLE,
-        N621 DOUBLE,
-        N629 DOUBLE,
-        N645 DOUBLE,
-        N646 DOUBLE,
-        CONSTRAINT ZFF_primary_key PRIMARY KEY (
-        mixid,
-        foodid
-        )
-);
-/
-CREATE TABLE mixresultdn
-(
-        mixid LONGVARCHAR,
-        foodid LONGVARCHAR,
-        name LONGVARCHAR,
-        weight DOUBLE,
-        completeprotein DOUBLE,
-        digestiblecarbohydrate DOUBLE,
-        cost DOUBLE,
-        protein DOUBLE,
-        fat DOUBLE,
-        carbsbydiff DOUBLE,
-        energygross DOUBLE,
-        alcohol DOUBLE,
-        water DOUBLE,
-        fiber DOUBLE,
-        calcium DOUBLE,
-        iron DOUBLE,
-        magnesium DOUBLE,
-        phosphorus DOUBLE,
-        potassium DOUBLE,
-        sodium DOUBLE,
-        zinc DOUBLE,
-        copper DOUBLE,
-        fluoride DOUBLE,
-        manganese DOUBLE,
-        selenium DOUBLE,
-        vitamina DOUBLE,
-        vitamine DOUBLE,
-        vitamind DOUBLE,
-        vitaminc DOUBLE,
-        thiamin DOUBLE,
-        riboflavin DOUBLE,
-        niacin DOUBLE,
-        pantothenicacid DOUBLE,
-        vitaminb6 DOUBLE,
-        vitaminb12 DOUBLE,
-        choline DOUBLE,
-        vitamink DOUBLE,
-        folate DOUBLE,
-        cholesterol DOUBLE,
-        sfa DOUBLE,
-        dha DOUBLE,
-        epa DOUBLE,
-        mufa DOUBLE,
-        pufa DOUBLE,
-        linoleicacid DOUBLE,
-        alphalinolenicacid DOUBLE,
-        glycemicload DOUBLE,
-        energydigestible DOUBLE,
-        energycarbohydrate DOUBLE,
-        energyprotein DOUBLE,
-        energyfat DOUBLE,
-        energyalcohol DOUBLE,
-        energyfatcarbohydrate DOUBLE,
-        lauric DOUBLE,
-        myristic DOUBLE,
-        palmitic DOUBLE,
-        stearic DOUBLE,
-        hcsfa DOUBLE,
-        CONSTRAINT mixresultdn_primary_key PRIMARY KEY (
-        mixid,
-        foodid
         )
 );
 /
@@ -462,39 +425,39 @@ ALTER TABLE CategoryLink ADD CONSTRAINT R0_CategoryLink FOREIGN KEY (FoodId) REF
 /
 ALTER TABLE CategoryLink ADD CONSTRAINT R1_CategoryLink FOREIGN KEY (FoodCategoryId) REFERENCES FoodCategory (FoodCategoryId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodFact ADD CONSTRAINT R2_FoodFact FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE DnFoodFact ADD CONSTRAINT R2_DnFoodFact FOREIGN KEY (food_id) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodFact ADD CONSTRAINT R3_FoodFact FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE DnMixResult ADD CONSTRAINT R3_DnMixResult FOREIGN KEY (food_id,mix_id) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R4_FoodFactCoefficient FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFact (FoodId,NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodFact ADD CONSTRAINT R4_FoodFact FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R5_FoodNutrientConstraint FOREIGN KEY (MixId,FoodId) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodFact ADD CONSTRAINT R5_FoodFact FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R6_FoodNutrientConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R6_FoodFactCoefficient FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFact (FoodId,NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R7_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R7_FoodNutrientConstraint FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R8_FoodNutrientRatio FOREIGN KEY (MixId,Food_Id_1) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R8_FoodNutrientConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R9_FoodNutrientRatio FOREIGN KEY (MixId,Food_Id_2) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R9_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R10_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R10_FoodNutrientRatio FOREIGN KEY (Food_Id_1,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R11_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R11_FoodNutrientRatio FOREIGN KEY (Food_Id_2,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R12_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R12_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE GlycemicIndex ADD CONSTRAINT R13_GlycemicIndex FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R13_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE Meal ADD CONSTRAINT R14_Meal FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R14_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodPortion ADD CONSTRAINT R15_MealFoodPortion FOREIGN KEY (MixId,MealId) REFERENCES Meal (MixId,MealId) ON DELETE CASCADE;
+ALTER TABLE Meal ADD CONSTRAINT R15_Meal FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodPortion ADD CONSTRAINT R16_MealFoodPortion FOREIGN KEY (MixId,FoodId) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R16_MealFoodPortion FOREIGN KEY (MealId,MixId) REFERENCES Meal (MealId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE Mix ADD CONSTRAINT R17_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R17_MealFoodPortion FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MixCost ADD CONSTRAINT R18_MixCost FOREIGN KEY (mixid) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE Mix ADD CONSTRAINT R18_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
 /
 ALTER TABLE MixFood ADD CONSTRAINT R19_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
@@ -504,7 +467,7 @@ ALTER TABLE MixInventory ADD CONSTRAINT R21_MixInventory FOREIGN KEY (MixId) REF
 /
 ALTER TABLE MixResult ADD CONSTRAINT R22_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MixResult ADD CONSTRAINT R23_MixResult FOREIGN KEY (MixId,FoodId) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
+ALTER TABLE MixResult ADD CONSTRAINT R23_MixResult FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
 ALTER TABLE Nutrient ADD CONSTRAINT R24_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
 /
@@ -516,19 +479,13 @@ ALTER TABLE NutrientConstraint ADD CONSTRAINT R27_NutrientConstraint FOREIGN KEY
 /
 ALTER TABLE NutrientRatio ADD CONSTRAINT R28_NutrientRatio FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R29_NutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatio ADD CONSTRAINT R29_NutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R30_NutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatio ADD CONSTRAINT R30_NutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
 ALTER TABLE NutrientRatio ADD CONSTRAINT R31_NutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
 ALTER TABLE Rda ADD CONSTRAINT R32_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
 ALTER TABLE Rda ADD CONSTRAINT R33_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE CASCADE;
-/
-ALTER TABLE ZFC ADD CONSTRAINT R34_ZFC FOREIGN KEY (mixid,foodid) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
-/
-ALTER TABLE ZFF ADD CONSTRAINT R35_ZFF FOREIGN KEY (mixid,foodid) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
-/
-ALTER TABLE mixresultdn ADD CONSTRAINT R36_mixresultdn FOREIGN KEY (mixid,foodid) REFERENCES MixFood (MixId,FoodId) ON DELETE CASCADE;
 /
