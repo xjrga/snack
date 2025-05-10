@@ -66,7 +66,8 @@ import io.github.xjrga.snack.database.callable.select.LifestageDriTask;
 import io.github.xjrga.snack.database.callable.select.LifestagesTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanMealsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanPortionsTask;
-import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
+import io.github.xjrga.snack.database.callable.select.MealPlanResultsCaloriesTask;
+import io.github.xjrga.snack.database.callable.select.MealPlanResultsMacronutrientsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageResultsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageTask;
 import io.github.xjrga.snack.database.callable.select.MixDifferenceTask;
@@ -3455,9 +3456,16 @@ public class Main {
             }
             try {
               Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanResultsTask(mix.getMixId()));
+                  BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
               List<List> results = task.get();
               tblMealCalories.reload(results);
+            } catch (Exception e) {
+              LoggerImpl.INSTANCE.logProblem(e);
+            }
+            try {
+              Future<List<List>> task =
+                  BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
+              List<List> results = task.get();
               tblMealMacronutrients.reload(results);
             } catch (Exception e) {
               LoggerImpl.INSTANCE.logProblem(e);
@@ -3493,9 +3501,16 @@ public class Main {
               }
               try {
                 Future<List<List>> task2 =
-                    BackgroundExec.submit(new MealPlanResultsTask(row.getMixid()));
+                    BackgroundExec.submit(new MealPlanResultsCaloriesTask(row.getMixid()));
                 List<List> results = task2.get();
                 tblMealCalories.reload(results);
+              } catch (Exception e) {
+                LoggerImpl.INSTANCE.logProblem(e);
+              }
+              try {
+                Future<List<List>> task =
+                    BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(row.getMixid()));
+                List<List> results = task.get();
                 tblMealMacronutrients.reload(results);
               } catch (Exception e) {
                 LoggerImpl.INSTANCE.logProblem(e);
@@ -3544,9 +3559,17 @@ public class Main {
               LoggerImpl.INSTANCE.logProblem(e);
             }
             try {
-              Future<List<List>> task = BackgroundExec.submit(new MealPlanResultsTask(mixid));
+              Future<List<List>> task =
+                  BackgroundExec.submit(new MealPlanResultsCaloriesTask(mixid));
               List<List> results = task.get();
               tblMealCalories.reload(results);
+            } catch (Exception e) {
+              LoggerImpl.INSTANCE.logProblem(e);
+            }
+            try {
+              Future<List<List>> task =
+                  BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mixid));
+              List<List> results = task.get();
               tblMealMacronutrients.reload(results);
             } catch (Exception e) {
               LoggerImpl.INSTANCE.logProblem(e);
@@ -3633,9 +3656,17 @@ public class Main {
         LoggerImpl.INSTANCE.logProblem(e);
       }
       try {
-        Future<List<List>> task = BackgroundExec.submit(new MealPlanResultsTask(mix.getMixId()));
+        Future<List<List>> task =
+            BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
         List<List> results = task.get();
         tblMealCalories.reload(results);
+      } catch (Exception e) {
+        LoggerImpl.INSTANCE.logProblem(e);
+      }
+      try {
+        Future<List<List>> task =
+            BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
+        List<List> results = task.get();
         tblMealMacronutrients.reload(results);
       } catch (Exception e) {
         LoggerImpl.INSTANCE.logProblem(e);
@@ -3706,9 +3737,16 @@ public class Main {
           }
           try {
             Future<List<List>> task =
-                BackgroundExec.submit(new MealPlanResultsTask(mix.getMixId()));
+                BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
             List<List> results = task.get();
             tblMealCalories.reload(results);
+          } catch (Exception e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+          }
+          try {
+            Future<List<List>> task =
+                BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
+            List<List> results = task.get();
             tblMealMacronutrients.reload(results);
           } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);
@@ -4339,9 +4377,16 @@ public class Main {
             }
             try {
               Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanResultsTask(mix.getMixId()));
+                  BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
               List<List> results = task.get();
               tblMealCalories.reload(results);
+            } catch (Exception e) {
+              LoggerImpl.INSTANCE.logProblem(e);
+            }
+            try {
+              Future<List<List>> task =
+                  BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
+              List<List> results = task.get();
               tblMealMacronutrients.reload(results);
             } catch (Exception e) {
               LoggerImpl.INSTANCE.logProblem(e);
@@ -4800,6 +4845,7 @@ public class Main {
           LoggerImpl.INSTANCE.logProblem(e);
         }
         cmbMixes.setSelectedItem(mix);
+        clearMixResults();
       } else {
         Message.showMessage("These characters are not allowed: < & > ' \"");
       }
@@ -5393,9 +5439,17 @@ public class Main {
       LoggerImpl.INSTANCE.logProblem(e);
     }
     try {
-      Future<List<List>> task = BackgroundExec.submit(new MealPlanResultsTask(mix.getMixId()));
+      Future<List<List>> task =
+          BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
       List<List> results = task.get();
       tblMealCalories.reload(results);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
+    }
+    try {
+      Future<List<List>> task =
+          BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
+      List<List> results = task.get();
       tblMealMacronutrients.reload(results);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
@@ -5423,6 +5477,10 @@ public class Main {
     tblMealCalories.clear();
     tblMealMacronutrients.clear();
     txaLpProgram.setText("");
+    tblNutrientQuantityConstraint.clear();
+    tblNutrientRatio.clear();
+    tblFoodQuantityConstraint.clear();
+    tblFoodRatioConstraint.clear();
   }
 
   private void updateObjectiveDisplay(String nutrientid) {

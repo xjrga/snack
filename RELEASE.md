@@ -402,3 +402,7 @@
   * Added new food primary key definition (calculated based all nutrient values)
   * Added ability to export all foods in a food category
   
+### 1505 - May 10, 2025
+
+  * Fixed meal plan results macronutrients
+  * Fixed table clearing on mix create

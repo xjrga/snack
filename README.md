@@ -1,4 +1,7 @@
 #### Snack: Learning Software For Nutrition
+ 
+    Snack’s ultimate purpose is to empower its users to make better nutrition 
+    decisions that will improve their diet, nutrition, health and quality of life.
 
     Snack is software for nutrition. It is a meal design tool and calculator that
     could facilitate achieving your health goals and objectives by first helping you
@@ -42,7 +45,7 @@
 
 #### Build
 
-1500
+1505
 
 #### User Guide
 

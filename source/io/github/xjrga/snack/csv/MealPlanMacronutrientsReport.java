@@ -2,7 +2,7 @@ package io.github.xjrga.snack.csv;
 
 import io.github.xjrga.snack.other.Reloader;
 import io.github.xjrga.snack.database.callable.BackgroundExec;
-import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
+import io.github.xjrga.snack.database.callable.select.MealPlanResultsCaloriesTask;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Utilities;
@@ -50,7 +50,7 @@ public class MealPlanMacronutrientsReport {
       CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
       try {
         Future<List<List>> task =
-            BackgroundExec.submit(new MealPlanResultsTask(mixDataObject.getMixId()));
+            BackgroundExec.submit(new MealPlanResultsCaloriesTask(mixDataObject.getMixId()));
         List<List> results = task.get();
         List<List> rows = Reloader.getMealPlanMacronutrients(results);
         rows.forEach(
