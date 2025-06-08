@@ -2,7 +2,7 @@
 <project name="snack" basedir="." default="info">
     <property name="mainclass" value="io.github.xjrga.snack.gui.Main"/>
     <property name="creator" value="Jorge R. Garcia de Alba"/>
-    <property name="package-name" value="snack-1505"/>
+    <property name="package-name" value="snack-1510"/>
     <property name="file-name" value="snack"/>
     <property name="jpda.address" value="5010"/>
     <property name="backup_package" value="snack" />

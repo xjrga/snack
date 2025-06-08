@@ -5290,7 +5290,7 @@ public class Main {
     // Protein
     tblProtein.roundDown();
     // Fats
-    tblProtein.roundDown();
+    tblFats.roundDown();
     // Saturated
     tblSfa.roundDown();
     // Polyunsaturated

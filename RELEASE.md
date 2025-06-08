@@ -406,3 +406,7 @@
 
   * Fixed meal plan results macronutrients
   * Fixed table clearing on mix create
+
+### 1510 - June 08, 2025
+
+  * Fixed minor bugs
