@@ -14,10 +14,12 @@ SELECT generateId() INTO newid2 FROM (VALUES(0));
 --
 INSERT INTO Mix (
 MixId,
-Name
+Name,
+NutrientId
 ) VALUES (
 newid2,
-v_Name
+v_Name,
+'10009'
 );
 --
 SET newid = newid2;

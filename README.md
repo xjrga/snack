@@ -45,7 +45,7 @@
 
 #### Build
 
-1510
+01
 
 #### User Guide
 
@@ -55,12 +55,8 @@
 
 Jorge R Garcia de Alba
 
-
 #### License
 
-This project is licensed under the GPLV2 License.
-
----
 
 Project uses data subset from:
 

@@ -825,7 +825,7 @@ public class MixImporter {
                                 nutrient_constraint.getNutrientid(),
                                 nutrient_constraint.getRelationshipid(),
                                 nutrient_constraint.getB()));
-                    task.get();
+                    Boolean completed = task.get();
                   } catch (Exception e) {
                     LoggerImpl.INSTANCE.logProblem(e);
                   }

@@ -9,6 +9,8 @@ public class LpsolvePrintOut {
   private final StringBuilder mixLegend;
   private final StringBuilder foodLegend;
   private final StringBuilder objFunction;
+  private final StringBuilder driDevQuantity;
+  private final StringBuilder driDevSumQuantity;
   private final StringBuilder nutrientQuantity;
   private final StringBuilder nutrientRatio;
   private final StringBuilder foodQuantity;
@@ -21,6 +23,8 @@ public class LpsolvePrintOut {
     mixLegend = new StringBuilder();
     foodLegend = new StringBuilder();
     objFunction = new StringBuilder();
+    driDevQuantity = new StringBuilder();
+    driDevSumQuantity = new StringBuilder();
     nutrientQuantity = new StringBuilder();
     nutrientRatio = new StringBuilder();
     foodQuantity = new StringBuilder();
@@ -30,6 +34,12 @@ public class LpsolvePrintOut {
     objFunction.append("\n");
     objFunction.append("/* ----- OBJECTIVE FUNCTION ----- */");
     objFunction.append("\n\n");
+    driDevQuantity.append("\n");
+    driDevQuantity.append("/* ----- DRI DEVIATION QUANTITY CONSTRAINTS ----- */");
+    driDevQuantity.append("\n\n");
+    driDevSumQuantity.append("\n");
+    driDevSumQuantity.append("/* ----- DRI DEVIATION SUM QUANTITY CONSTRAINTS ----- */");
+    driDevSumQuantity.append("\n\n");
     nutrientQuantity.append("\n");
     nutrientQuantity.append("/* ----- NUTRIENT QUANTITY CONSTRAINTS ----- */");
     nutrientQuantity.append("\n\n");
@@ -67,6 +77,8 @@ public class LpsolvePrintOut {
     objFunction.append(name);
     objFunction.append(" */");
     objFunction.append("\n\n");
+    objFunction.append("min:");
+    objFunction.append("\n");
     for (int i = 0; i < coefficients.length; i++) {
       double c = coefficients[i];
       if (c < 0) {
@@ -77,6 +89,24 @@ public class LpsolvePrintOut {
     }
     objFunction.append(";");
     objFunction.append("\n");
+  }
+
+  public void addDriDevQuantityConstraint(
+      double[] coefficients, int rel, double value, String name) {
+    driDevQuantity.append("/* ");
+    driDevQuantity.append(name);
+    driDevQuantity.append(" */");
+    driDevQuantity.append("\n\n");
+    setConstraintCoefficients(driDevQuantity, coefficients, rel, value);
+  }
+
+  public void addDriDevSumQuantityConstraint(
+      double[] coefficients, int rel, double value, String name) {
+    driDevSumQuantity.append("/* ");
+    driDevSumQuantity.append(name);
+    driDevSumQuantity.append(" */");
+    driDevSumQuantity.append("\n\n");
+    setConstraintCoefficients(driDevSumQuantity, coefficients, rel, value);
   }
 
   public void addNutrientQuantityConstraint(
@@ -119,6 +149,8 @@ public class LpsolvePrintOut {
     sb.append(mixLegend);
     sb.append(foodLegend);
     sb.append(objFunction);
+    sb.append(driDevQuantity);
+    sb.append(driDevSumQuantity);
     sb.append(nutrientQuantity);
     sb.append(nutrientRatio);
     sb.append(foodQuantity);

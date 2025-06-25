@@ -1,6 +1,7 @@
 package io.github.xjrga.snack.database.callable.insert;
 
 import io.github.xjrga.snack.database.Connect;
+import io.github.xjrga.snack.logger.LoggerImpl;
 import java.lang.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -30,6 +31,7 @@ public class CreateMixTask implements Callable<String> {
       proc.execute();
       out = proc.getString(1);
     } catch (SQLException e) {
+      LoggerImpl.INSTANCE.logProblem(e);
     }
     return out;
   }

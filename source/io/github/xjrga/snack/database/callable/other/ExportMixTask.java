@@ -1,6 +1,7 @@
 package io.github.xjrga.snack.database.callable.other;
 
 import io.github.xjrga.snack.database.Connect;
+import io.github.xjrga.snack.logger.LoggerImpl;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -30,6 +31,7 @@ public class ExportMixTask implements Callable<String> {
         out = rs.getString(1);
       }
     } catch (SQLException e) {
+      LoggerImpl.INSTANCE.logProblem(e);
     }
     return out;
   }

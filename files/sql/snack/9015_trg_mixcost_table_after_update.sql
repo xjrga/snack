@@ -2,7 +2,6 @@ CREATE TRIGGER MixCost_rlau_trigger
 AFTER UPDATE ON Mix
 REFERENCING NEW AS new
 FOR EACH ROW
-WHEN (new.MixCost > 0.0)
 --
 BEGIN ATOMIC
 --

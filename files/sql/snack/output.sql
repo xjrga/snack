@@ -15,83 +15,83 @@ CREATE TABLE DnFoodFact
 (
         food_id LONGVARCHAR,
         food_name LONGVARCHAR,
-        carbohydrates_carbs_by_diff DECIMAL(11,5),
-        carbohydrates_fiber_insoluble DECIMAL(11,5),
-        carbohydrates_fiber_soluble DECIMAL(11,5),
-        carbohydrates_fiber DECIMAL(11,5),
-        carbohydrates_fructose DECIMAL(11,5),
-        carbohydrates_glucose DECIMAL(11,5),
-        carbohydrates_glycemic_load DECIMAL(11,5),
-        carbohydrates_lactose DECIMAL(11,5),
-        carbohydrates_starch DECIMAL(11,5),
-        carbohydrates_sucrose DECIMAL(11,5),
-        carbohydrates_sugars DECIMAL(11,5),
-        energy_gross DECIMAL(11,5),
-        fats_cholesterol DECIMAL(11,5),
-        fats_dha DECIMAL(11,5),
-        fats_epa DECIMAL(11,5),
-        fats_lauric DECIMAL(11,5),
-        fats_linoleic DECIMAL(11,5),
-        fats_linolenic DECIMAL(11,5),
-        fats_monounsaturated DECIMAL(11,5),
-        fats_myristic DECIMAL(11,5),
-        fats_palmitic DECIMAL(11,5),
-        fats_polyunsaturated DECIMAL(11,5),
-        fats_saturated DECIMAL(11,5),
-        fats_stearic DECIMAL(11,5),
-        fats_total DECIMAL(11,5),
-        minerals_calcium DECIMAL(11,5),
-        minerals_copper DECIMAL(11,5),
-        minerals_iron DECIMAL(11,5),
-        minerals_magnesium DECIMAL(11,5),
-        minerals_manganese DECIMAL(11,5),
-        minerals_phosphorus DECIMAL(11,5),
-        minerals_potassium DECIMAL(11,5),
-        minerals_selenium DECIMAL(11,5),
-        minerals_sodium DECIMAL(11,5),
-        minerals_zinc DECIMAL(11,5),
-        other_alcohol DECIMAL(11,5),
-        other_cost DECIMAL(11,5),
-        other_water DECIMAL(11,5),
-        other_weight DECIMAL(11,5),
-        phytonutrients_anthocyanins DECIMAL(11,5),
-        phytonutrients_caffeine DECIMAL(11,5),
-        phytonutrients_beta_carotene DECIMAL(11,5),
-        phytonutrients_carotenoids DECIMAL(11,5),
-        phytonutrients_flavanols DECIMAL(11,5),
-        phytonutrients_flavanones DECIMAL(11,5),
-        phytonutrients_flavones DECIMAL(11,5),
-        phytonutrients_flavonoids DECIMAL(11,5),
-        phytonutrients_flavonols DECIMAL(11,5),
-        phytonutrients_isoflavones DECIMAL(11,5),
-        phytonutrients_lutein_zeaxanthin DECIMAL(11,5),
-        phytonutrients_lycopene DECIMAL(11,5),
-        phytonutrients_phytosterols DECIMAL(11,5),
-        phytonutrients_theobromine DECIMAL(11,5),
-        protein_complete DECIMAL(11,5),
-        protein_total DECIMAL(11,5),
-        vitamins_vitamin_a DECIMAL(11,5),
-        vitamins_vitamin_b12 DECIMAL(11,5),
-        vitamins_vitamin_b6 DECIMAL(11,5),
-        vitamins_vitamin_c DECIMAL(11,5),
-        vitamins_choline DECIMAL(11,5),
-        vitamins_vitamin_d DECIMAL(11,5),
-        vitamins_vitamin_e DECIMAL(11,5),
-        vitamins_folate DECIMAL(11,5),
-        vitamins_vitamin_k DECIMAL(11,5),
-        vitamins_niacin DECIMAL(11,5),
-        vitamins_pantothenic_acid DECIMAL(11,5),
-        vitamins_riboflavin DECIMAL(11,5),
-        vitamins_thiamin DECIMAL(11,5),
-        carbohydrates_digestible DECIMAL(11,5),
-        energy_carbohydrate DECIMAL(11,5),
-        energy_fat DECIMAL(11,5),
-        energy_fat_and_carbohydrate DECIMAL(11,5),
-        energy_protein DECIMAL(11,5),
-        energy_alcohol DECIMAL(11,5),
-        energy_digestible DECIMAL(11,5),
-        fats_hcsfa DECIMAL(11,5),
-        fats_lcn3pufa DECIMAL(11,5),
+        carbohydrates_carbs_by_diff DECIMAL(16,10),
+        carbohydrates_fiber_insoluble DECIMAL(16,10),
+        carbohydrates_fiber_soluble DECIMAL(16,10),
+        carbohydrates_fiber DECIMAL(16,10),
+        carbohydrates_fructose DECIMAL(16,10),
+        carbohydrates_glucose DECIMAL(16,10),
+        carbohydrates_glycemic_load DECIMAL(16,10),
+        carbohydrates_lactose DECIMAL(16,10),
+        carbohydrates_starch DECIMAL(16,10),
+        carbohydrates_sucrose DECIMAL(16,10),
+        carbohydrates_sugars DECIMAL(16,10),
+        energy_gross DECIMAL(16,10),
+        fats_cholesterol DECIMAL(16,10),
+        fats_dha DECIMAL(16,10),
+        fats_epa DECIMAL(16,10),
+        fats_lauric DECIMAL(16,10),
+        fats_linoleic DECIMAL(16,10),
+        fats_linolenic DECIMAL(16,10),
+        fats_monounsaturated DECIMAL(16,10),
+        fats_myristic DECIMAL(16,10),
+        fats_palmitic DECIMAL(16,10),
+        fats_polyunsaturated DECIMAL(16,10),
+        fats_saturated DECIMAL(16,10),
+        fats_stearic DECIMAL(16,10),
+        fats_total DECIMAL(16,10),
+        minerals_calcium DECIMAL(16,10),
+        minerals_copper DECIMAL(16,10),
+        minerals_iron DECIMAL(16,10),
+        minerals_magnesium DECIMAL(16,10),
+        minerals_manganese DECIMAL(16,10),
+        minerals_phosphorus DECIMAL(16,10),
+        minerals_potassium DECIMAL(16,10),
+        minerals_selenium DECIMAL(16,10),
+        minerals_sodium DECIMAL(16,10),
+        minerals_zinc DECIMAL(16,10),
+        other_alcohol DECIMAL(16,10),
+        other_cost DECIMAL(16,10),
+        other_water DECIMAL(16,10),
+        other_weight DECIMAL(16,10),
+        phytonutrients_anthocyanins DECIMAL(16,10),
+        phytonutrients_caffeine DECIMAL(16,10),
+        phytonutrients_beta_carotene DECIMAL(16,10),
+        phytonutrients_carotenoids DECIMAL(16,10),
+        phytonutrients_flavanols DECIMAL(16,10),
+        phytonutrients_flavanones DECIMAL(16,10),
+        phytonutrients_flavones DECIMAL(16,10),
+        phytonutrients_flavonoids DECIMAL(16,10),
+        phytonutrients_flavonols DECIMAL(16,10),
+        phytonutrients_isoflavones DECIMAL(16,10),
+        phytonutrients_lutein_zeaxanthin DECIMAL(16,10),
+        phytonutrients_lycopene DECIMAL(16,10),
+        phytonutrients_phytosterols DECIMAL(16,10),
+        phytonutrients_theobromine DECIMAL(16,10),
+        protein_complete DECIMAL(16,10),
+        protein_total DECIMAL(16,10),
+        vitamins_vitamin_a DECIMAL(16,10),
+        vitamins_vitamin_b12 DECIMAL(16,10),
+        vitamins_vitamin_b6 DECIMAL(16,10),
+        vitamins_vitamin_c DECIMAL(16,10),
+        vitamins_choline DECIMAL(16,10),
+        vitamins_vitamin_d DECIMAL(16,10),
+        vitamins_vitamin_e DECIMAL(16,10),
+        vitamins_folate DECIMAL(16,10),
+        vitamins_vitamin_k DECIMAL(16,10),
+        vitamins_niacin DECIMAL(16,10),
+        vitamins_pantothenic_acid DECIMAL(16,10),
+        vitamins_riboflavin DECIMAL(16,10),
+        vitamins_thiamin DECIMAL(16,10),
+        carbohydrates_digestible DECIMAL(16,10),
+        energy_carbohydrate DECIMAL(16,10),
+        energy_fat DECIMAL(16,10),
+        energy_fat_and_carbohydrate DECIMAL(16,10),
+        energy_protein DECIMAL(16,10),
+        energy_alcohol DECIMAL(16,10),
+        energy_digestible DECIMAL(16,10),
+        fats_hcsfa DECIMAL(16,10),
+        fats_lcn3pufa DECIMAL(16,10),
         CONSTRAINT DnFoodFact_primary_key PRIMARY KEY (
         food_id
         )
@@ -102,83 +102,83 @@ CREATE TABLE DnMixResult
         mix_id LONGVARCHAR,
         food_id LONGVARCHAR,
         food_name LONGVARCHAR,
-        carbohydrates_carbs_by_diff DECIMAL(11,5),
-        carbohydrates_fiber_insoluble DECIMAL(11,5),
-        carbohydrates_fiber_soluble DECIMAL(11,5),
-        carbohydrates_fiber DECIMAL(11,5),
-        carbohydrates_fructose DECIMAL(11,5),
-        carbohydrates_glucose DECIMAL(11,5),
-        carbohydrates_glycemic_load DECIMAL(11,5),
-        carbohydrates_lactose DECIMAL(11,5),
-        carbohydrates_starch DECIMAL(11,5),
-        carbohydrates_sucrose DECIMAL(11,5),
-        carbohydrates_sugars DECIMAL(11,5),
-        energy_gross DECIMAL(11,5),
-        fats_cholesterol DECIMAL(11,5),
-        fats_dha DECIMAL(11,5),
-        fats_epa DECIMAL(11,5),
-        fats_lauric DECIMAL(11,5),
-        fats_linoleic DECIMAL(11,5),
-        fats_linolenic DECIMAL(11,5),
-        fats_monounsaturated DECIMAL(11,5),
-        fats_myristic DECIMAL(11,5),
-        fats_palmitic DECIMAL(11,5),
-        fats_polyunsaturated DECIMAL(11,5),
-        fats_saturated DECIMAL(11,5),
-        fats_stearic DECIMAL(11,5),
-        fats_total DECIMAL(11,5),
-        minerals_calcium DECIMAL(11,5),
-        minerals_copper DECIMAL(11,5),
-        minerals_iron DECIMAL(11,5),
-        minerals_magnesium DECIMAL(11,5),
-        minerals_manganese DECIMAL(11,5),
-        minerals_phosphorus DECIMAL(11,5),
-        minerals_potassium DECIMAL(11,5),
-        minerals_selenium DECIMAL(11,5),
-        minerals_sodium DECIMAL(11,5),
-        minerals_zinc DECIMAL(11,5),
-        other_alcohol DECIMAL(11,5),
-        other_cost DECIMAL(11,5),
-        other_water DECIMAL(11,5),
-        other_weight DECIMAL(11,5),
-        phytonutrients_anthocyanins DECIMAL(11,5),
-        phytonutrients_caffeine DECIMAL(11,5),
-        phytonutrients_beta_carotene DECIMAL(11,5),
-        phytonutrients_carotenoids DECIMAL(11,5),
-        phytonutrients_flavanols DECIMAL(11,5),
-        phytonutrients_flavanones DECIMAL(11,5),
-        phytonutrients_flavones DECIMAL(11,5),
-        phytonutrients_flavonoids DECIMAL(11,5),
-        phytonutrients_flavonols DECIMAL(11,5),
-        phytonutrients_isoflavones DECIMAL(11,5),
-        phytonutrients_lutein_zeaxanthin DECIMAL(11,5),
-        phytonutrients_lycopene DECIMAL(11,5),
-        phytonutrients_phytosterols DECIMAL(11,5),
-        phytonutrients_theobromine DECIMAL(11,5),
-        protein_complete DECIMAL(11,5),
-        protein_total DECIMAL(11,5),
-        vitamins_vitamin_a DECIMAL(11,5),
-        vitamins_vitamin_b12 DECIMAL(11,5),
-        vitamins_vitamin_b6 DECIMAL(11,5),
-        vitamins_vitamin_c DECIMAL(11,5),
-        vitamins_choline DECIMAL(11,5),
-        vitamins_vitamin_d DECIMAL(11,5),
-        vitamins_vitamin_e DECIMAL(11,5),
-        vitamins_folate DECIMAL(11,5),
-        vitamins_vitamin_k DECIMAL(11,5),
-        vitamins_niacin DECIMAL(11,5),
-        vitamins_pantothenic_acid DECIMAL(11,5),
-        vitamins_riboflavin DECIMAL(11,5),
-        vitamins_thiamin DECIMAL(11,5),
-        carbohydrates_digestible DECIMAL(11,5),
-        energy_carbohydrate DECIMAL(11,5),
-        energy_fat DECIMAL(11,5),
-        energy_fat_and_carbohydrate DECIMAL(11,5),
-        energy_protein DECIMAL(11,5),
-        energy_alcohol DECIMAL(11,5),
-        energy_digestible DECIMAL(11,5),
-        fats_hcsfa DECIMAL(11,5),
-        fats_lcn3pufa DECIMAL(11,5),
+        carbohydrates_carbs_by_diff DECIMAL(16,10),
+        carbohydrates_fiber_insoluble DECIMAL(16,10),
+        carbohydrates_fiber_soluble DECIMAL(16,10),
+        carbohydrates_fiber DECIMAL(16,10),
+        carbohydrates_fructose DECIMAL(16,10),
+        carbohydrates_glucose DECIMAL(16,10),
+        carbohydrates_glycemic_load DECIMAL(16,10),
+        carbohydrates_lactose DECIMAL(16,10),
+        carbohydrates_starch DECIMAL(16,10),
+        carbohydrates_sucrose DECIMAL(16,10),
+        carbohydrates_sugars DECIMAL(16,10),
+        energy_gross DECIMAL(16,10),
+        fats_cholesterol DECIMAL(16,10),
+        fats_dha DECIMAL(16,10),
+        fats_epa DECIMAL(16,10),
+        fats_lauric DECIMAL(16,10),
+        fats_linoleic DECIMAL(16,10),
+        fats_linolenic DECIMAL(16,10),
+        fats_monounsaturated DECIMAL(16,10),
+        fats_myristic DECIMAL(16,10),
+        fats_palmitic DECIMAL(16,10),
+        fats_polyunsaturated DECIMAL(16,10),
+        fats_saturated DECIMAL(16,10),
+        fats_stearic DECIMAL(16,10),
+        fats_total DECIMAL(16,10),
+        minerals_calcium DECIMAL(16,10),
+        minerals_copper DECIMAL(16,10),
+        minerals_iron DECIMAL(16,10),
+        minerals_magnesium DECIMAL(16,10),
+        minerals_manganese DECIMAL(16,10),
+        minerals_phosphorus DECIMAL(16,10),
+        minerals_potassium DECIMAL(16,10),
+        minerals_selenium DECIMAL(16,10),
+        minerals_sodium DECIMAL(16,10),
+        minerals_zinc DECIMAL(16,10),
+        other_alcohol DECIMAL(16,10),
+        other_cost DECIMAL(16,10),
+        other_water DECIMAL(16,10),
+        other_weight DECIMAL(16,10),
+        phytonutrients_anthocyanins DECIMAL(16,10),
+        phytonutrients_caffeine DECIMAL(16,10),
+        phytonutrients_beta_carotene DECIMAL(16,10),
+        phytonutrients_carotenoids DECIMAL(16,10),
+        phytonutrients_flavanols DECIMAL(16,10),
+        phytonutrients_flavanones DECIMAL(16,10),
+        phytonutrients_flavones DECIMAL(16,10),
+        phytonutrients_flavonoids DECIMAL(16,10),
+        phytonutrients_flavonols DECIMAL(16,10),
+        phytonutrients_isoflavones DECIMAL(16,10),
+        phytonutrients_lutein_zeaxanthin DECIMAL(16,10),
+        phytonutrients_lycopene DECIMAL(16,10),
+        phytonutrients_phytosterols DECIMAL(16,10),
+        phytonutrients_theobromine DECIMAL(16,10),
+        protein_complete DECIMAL(16,10),
+        protein_total DECIMAL(16,10),
+        vitamins_vitamin_a DECIMAL(16,10),
+        vitamins_vitamin_b12 DECIMAL(16,10),
+        vitamins_vitamin_b6 DECIMAL(16,10),
+        vitamins_vitamin_c DECIMAL(16,10),
+        vitamins_choline DECIMAL(16,10),
+        vitamins_vitamin_d DECIMAL(16,10),
+        vitamins_vitamin_e DECIMAL(16,10),
+        vitamins_folate DECIMAL(16,10),
+        vitamins_vitamin_k DECIMAL(16,10),
+        vitamins_niacin DECIMAL(16,10),
+        vitamins_pantothenic_acid DECIMAL(16,10),
+        vitamins_riboflavin DECIMAL(16,10),
+        vitamins_thiamin DECIMAL(16,10),
+        carbohydrates_digestible DECIMAL(16,10),
+        energy_carbohydrate DECIMAL(16,10),
+        energy_fat DECIMAL(16,10),
+        energy_fat_and_carbohydrate DECIMAL(16,10),
+        energy_protein DECIMAL(16,10),
+        energy_alcohol DECIMAL(16,10),
+        energy_digestible DECIMAL(16,10),
+        fats_hcsfa DECIMAL(16,10),
+        fats_lcn3pufa DECIMAL(16,10),
         CONSTRAINT DnMixResult_primary_key PRIMARY KEY (
         mix_id,
         food_id
@@ -207,7 +207,7 @@ CREATE TABLE FoodFact
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DECIMAL(11,5),
+        q DECIMAL(16,10),
         CONSTRAINT FoodFact_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -218,7 +218,7 @@ CREATE TABLE FoodFactCoefficient
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        c DECIMAL(11,5),
+        c DECIMAL(16,10),
         CONSTRAINT FoodFactCoefficient_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -231,7 +231,7 @@ CREATE TABLE FoodNutrientConstraint
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DECIMAL(11,5),
+        b DECIMAL(16,10),
         CONSTRAINT FoodNutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -248,8 +248,8 @@ CREATE TABLE FoodNutrientRatio
         Food_Id_2 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DECIMAL(11,5),
-        B DECIMAL(11,5),
+        A DECIMAL(16,10),
+        B DECIMAL(16,10),
         CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Food_Id_1,
@@ -277,9 +277,9 @@ CREATE TABLE MealFoodPortion
         MixId LONGVARCHAR,
         MealId INTEGER,
         FoodId LONGVARCHAR,
-        Pct DECIMAL(11,5),
-        ExpectedWt DECIMAL(11,5),
-        ActualWt DECIMAL(11,5),
+        Pct DECIMAL(16,10),
+        ExpectedWt DECIMAL(16,10),
+        ActualWt DECIMAL(16,10),
         CONSTRAINT MealFoodPortion_primary_key PRIMARY KEY (
         MixId,
         MealId,
@@ -293,7 +293,9 @@ CREATE TABLE Mix
         Name LONGVARCHAR,
         NutrientId LONGVARCHAR,
         Model LONGVARCHAR,
-        MixCost DECIMAL(11,5),
+        MixCost DECIMAL(16,10),
+        MixDeficiency DECIMAL(16,10),
+        MixExcess DECIMAL(16,10),
         CONSTRAINT Mix_primary_key PRIMARY KEY (
         MixId
         )
@@ -303,7 +305,7 @@ CREATE TABLE MixFood
 (
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
-        x DECIMAL(11,5),
+        x DECIMAL(16,10),
         CONSTRAINT MixFood_primary_key PRIMARY KEY (
         MixId,
         FoodId
@@ -313,7 +315,7 @@ CREATE TABLE MixFood
 CREATE TABLE MixInventory
 (
         MixId LONGVARCHAR,
-        Days DECIMAL(11,5),
+        Days DECIMAL(16,10),
         CONSTRAINT MixInventory_primary_key PRIMARY KEY (
         MixId
         )
@@ -324,7 +326,7 @@ CREATE TABLE MixResult
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DECIMAL(11,5),
+        q DECIMAL(16,10),
         CONSTRAINT MixResult_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -360,7 +362,7 @@ CREATE TABLE NutrientConstraint
         MixId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DECIMAL(11,5),
+        b DECIMAL(16,10),
         CONSTRAINT NutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         NutrientId,
@@ -374,8 +376,8 @@ CREATE TABLE NutrientRatio
         Nutrient_Id_1 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DECIMAL(11,5),
-        B DECIMAL(11,5),
+        A DECIMAL(16,10),
+        B DECIMAL(16,10),
         CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Nutrient_Id_1,
@@ -388,8 +390,8 @@ CREATE TABLE Rda
 (
         NutrientId LONGVARCHAR,
         LifeStageId INTEGER,
-        q DECIMAL(11,5) DEFAULT 0.0,
-        UL DECIMAL(11,5) DEFAULT 0.0,
+        q DECIMAL(16,10) DEFAULT 0.0,
+        UL DECIMAL(16,10) DEFAULT 0.0,
         CONSTRAINT Rda_primary_key PRIMARY KEY (
         NutrientId,
         LifeStageId
@@ -418,7 +420,7 @@ CREATE TABLE Units
 (
         UnitId INTEGER,
         Name LONGVARCHAR,
-        Factor DECIMAL(11,5),
+        Factor DECIMAL(16,10),
         CONSTRAINT Units_primary_key PRIMARY KEY (
         UnitId
         )
@@ -3095,10 +3097,12 @@ SELECT generateId() INTO newid2 FROM (VALUES(0));
 --
 INSERT INTO Mix (
 MixId,
-Name
+Name,
+NutrientId
 ) VALUES (
 newid2,
-v_Name
+v_Name,
+'10009'
 );
 --
 SET newid = newid2;
@@ -7423,7 +7427,9 @@ IN v_MixId LONGVARCHAR,
 --IN v_Name LONGVARCHAR,
 --IN v_NutrientId LONGVARCHAR,
 --IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(11,5)
+IN v_MixCost DECIMAL(11,5),
+IN v_MixDeficiency DECIMAL(11,5),
+IN v_MixExcess DECIMAL(11,5)
 --
 )
 --
@@ -7436,27 +7442,9 @@ SET
 --Name = v_Name,
 --NutrientId = v_NutrientId,
 --Model = v_Model,
-MixCost = v_MixCost
-WHERE
-MixId = v_MixId;
-END;
---
-/
-
-CREATE PROCEDURE UpdateObjectiveOnMix (
---
-IN v_MixId LONGVARCHAR,
-IN v_NutrientId LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA
-BEGIN ATOMIC
---
-UPDATE
-Mix
-SET
-NutrientId = v_NutrientId
+MixCost = v_MixCost,
+MixDeficiency = v_MixDeficiency,
+MixExcess = v_MixExcess
 WHERE
 MixId = v_MixId;
 END;
@@ -7661,6 +7649,655 @@ END;
 /
 
 
+CREATE VIEW tninutrients 
+(
+  nutrientid,
+  name,
+  label,
+  units
+)
+AS
+SELECT nutrientid,
+       name,
+       label,
+       units
+FROM public.nutrient
+WHERE (nutrientid = '301' OR nutrientid = '304' OR nutrientid = '306' OR nutrientid = '320' OR nutrientid = '323' OR nutrientid = '328' OR nutrientid = '401' OR nutrientid = '421');
+/
+
+
+CREATE VIEW public.rdacoefficients 
+(
+  nutrientid,
+  lifestageid,
+  cq,
+  cul
+)
+AS
+SELECT nutrientid,
+       lifestageid,
+       casewhen(q <= 0.0,0.0,1.0 / q) AS cq,
+       casewhen(ul <= 0.0,0.0,1.0 / ul) AS cul
+FROM public.rda;
+/
+
+
+CREATE PROCEDURE dridev_objective_deficiency_lhs (
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name,
+             c
+      FROM (SELECT foodid AS name,
+                   0 AS c
+            FROM mixfood
+            WHERE mixid = v_mixid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name,
+             deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name,
+             excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   0 AS excess
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             1 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             0 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_objective_lhs (
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name,
+             c
+      FROM (SELECT foodid AS name,
+                   0 AS c
+            FROM mixfood
+            WHERE mixid = v_mixid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name,
+             deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name,
+             excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   0 AS excess
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             1 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             1 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_tni_rhs (
+--
+IN v_mixid LONGVARCHAR,
+IN v_lifestageid INTEGER
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--Total Nutrient Index (Ca,Mg,K, VitA, VitE, VitD, VitC, Choline)
+SELECT v_mixid AS mixid,
+       nutrientid,
+       relationshipid,
+       d.q AS b,
+       b.name AS nutrient,
+       b.label AS nutrientlabel,
+       c.name AS eq
+FROM nutrient b,
+     relationship c,
+     rda d
+WHERE relationshipid = 3
+AND   (b.nutrientid = '301' OR b.nutrientid = '304' OR b.nutrientid = '306' OR b.nutrientid = '320' OR b.nutrientid = '323' OR b.nutrientid = '328' OR b.nutrientid = '401' OR b.nutrientid = '421')
+AND b.nutrientid = d.nutrientid
+AND d.lifestageid = v_lifestageid
+ORDER BY nutrientid;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_tni_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name, c
+      FROM (SELECT a.foodid AS name,
+                   b.c AS c
+            FROM mixfood a,
+                 foodfactcoefficient b
+            WHERE mixid = v_mixid
+            AND   b.nutrientid = v_nutrientid
+            AND   a.foodid = b.foodid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name, deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   CASEWHEN(nutrientid = v_nutrientid,1.0,0) AS deficiency
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name, excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   CASEWHEN(nutrientid = v_nutrientid,-1.0,0) AS excess
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             0 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             0 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_nutrientquantity_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name, c
+      FROM (SELECT a.foodid AS name,
+                   b.c AS c
+            FROM mixfood a,
+                 foodfactcoefficient b
+            WHERE mixid = v_mixid
+            AND   b.nutrientid = v_nutrientid
+            AND   a.foodid = b.foodid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name, deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name, excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   0 AS excess
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             0 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             0 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_nutrientratio_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_nutrientid1 LONGVARCHAR,
+--
+IN v_nutrientid2 LONGVARCHAR,
+--
+IN v_a DECIMAL,
+--
+IN v_b DECIMAL
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT a.foodid AS name,
+             a.c*v_b - b.c*v_a AS c
+      FROM (SELECT a.mixid,
+                   a.foodid,
+                   b.nutrientid,
+                   b.c
+            FROM mixfood a,
+                 foodfactcoefficient b
+            WHERE a.foodid = b.foodid) a,
+           (SELECT a.mixid,
+                   a.foodid,
+                   b.nutrientid,
+                   b.c
+            FROM mixfood a,
+                 foodfactcoefficient b
+            WHERE a.foodid = b.foodid) b
+      WHERE a.mixid = b.mixid
+      AND   a.foodid = b.foodid
+      AND   a.nutrientid = v_nutrientid1
+      AND   b.nutrientid = v_nutrientid2
+      AND   a.mixid = v_mixid
+      UNION ALL
+      SELECT name,
+             deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name,
+             excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   0 AS excess
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             0 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             0 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/           
+
+
+CREATE PROCEDURE dridev_foodquantity_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_foodid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (
+SELECT a.foodid as name, 
+       IFNULL(b.c,0) AS c
+FROM
+(SELECT foodid
+FROM mixfood
+WHERE mixid = v_mixid) a
+LEFT JOIN 
+(SELECT foodid,
+        c
+FROM foodfactcoefficient a
+WHERE nutrientid = v_nutrientid
+AND foodid = v_foodid
+ORDER BY foodid
+) b
+ON a.foodid = b.foodid
+UNION ALL
+SELECT name, 
+       deficiency
+FROM (SELECT concat('deficiency_',nutrientid) AS name,
+             0 AS deficiency
+      FROM tninutrients
+      ORDER BY nutrientid)
+UNION ALL
+SELECT name,
+       excess
+FROM (SELECT concat('excess_',nutrientid) AS name,
+             0 AS excess
+     FROM tninutrients
+     ORDER BY nutrientid)
+UNION ALL
+SELECT 'avg_deficiency',
+        0 AS avg_deficiency
+FROM (VALUES (0))
+UNION ALL
+SELECT 'avg_excess',
+        0 AS avg_excess
+FROM (VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_foodratio_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_foodid1 LONGVARCHAR,
+--
+IN v_nutrientid1 LONGVARCHAR,
+--
+IN v_a DECIMAL,
+--
+IN v_foodid2 LONGVARCHAR,
+--
+IN v_nutrientid2 LONGVARCHAR,
+--
+IN v_b DECIMAL
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT foodid AS name,
+             CASE
+               WHEN foodid = v_foodid1 THEN (SELECT c
+                                             FROM foodfactcoefficient
+                                             WHERE foodid = v_foodid1
+                                             AND   nutrientid = v_nutrientid1)
+               ELSE 0
+             END * v_b -
+             CASE
+               WHEN foodid = v_foodid2 THEN (SELECT c
+                                             FROM foodfactcoefficient
+                                             WHERE foodid = v_foodid2
+                                             AND   nutrientid = v_nutrientid2)
+               ELSE 0
+             END * v_a AS c
+      FROM mixfood
+      WHERE mixid = v_mixid
+      UNION ALL
+      SELECT name,
+             deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name,
+             excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   0 AS excess
+            FROM tninutrients
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             0 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             0 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+CREATE PROCEDURE dridev_sum_deficiency_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_lifestageid INTEGER
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name, c
+      FROM (SELECT a.foodid AS name,
+                   0 AS c
+            FROM mixfood a
+            WHERE mixid = v_mixid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name, deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) as name,
+                   b.cq AS deficiency
+            FROM tninutrients a,
+                 rdacoefficients b
+            WHERE a.nutrientid = b.nutrientid
+            AND   b.lifestageid = v_lifestageid
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name, excess
+      FROM (SELECT concat('excess_',nutrientid) as name,
+                   0 AS excess
+            FROM tninutrients a
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             -8 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             0 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE dridev_sum_excess_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_lifestageid INTEGER
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name, c
+      FROM (SELECT a.foodid AS name,
+                   0 AS c
+            FROM mixfood a
+            WHERE mixid = v_mixid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name, deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients a
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name, excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   b.cq AS excess
+            FROM tninutrients a,
+                 rdacoefficients b
+            WHERE a.nutrientid = b.nutrientid
+            AND   b.lifestageid = v_lifestageid
+            ORDER BY nutrientid            
+)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             0 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             -8 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE uldev_sum_excess_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_lifestageid INTEGER
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT rownum() AS x,
+       name,
+       c
+FROM (SELECT name, c
+      FROM (SELECT a.foodid AS name,
+                   0 AS c
+            FROM mixfood a
+            WHERE mixid = v_mixid
+            ORDER BY foodid)
+      UNION ALL
+      SELECT name, deficiency
+      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+                   0 AS deficiency
+            FROM tninutrients a
+            ORDER BY nutrientid)
+      UNION ALL
+      SELECT name, excess
+      FROM (SELECT concat('excess_',nutrientid) AS name,
+                   b.cul AS excess
+            FROM tninutrients a,
+                 rdacoefficients b
+            WHERE a.nutrientid = b.nutrientid
+            AND   b.lifestageid = v_lifestageid
+            ORDER BY nutrientid            
+)
+      UNION ALL
+      SELECT 'avg_deficiency',
+             0 AS avg_deficiency
+      FROM (
+           VALUES (0))
+      UNION ALL
+      SELECT 'avg_excess',
+             -8 AS avg_excess
+      FROM (
+           VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
 CREATE VIEW MixInventoryDays
 AS
 SELECT a.mixid,
@@ -7678,7 +8315,6 @@ CREATE TRIGGER MixCost_rlau_trigger
 AFTER UPDATE ON Mix
 REFERENCING NEW AS new
 FOR EACH ROW
-WHEN (new.MixCost > 0.0)
 --
 BEGIN ATOMIC
 --
@@ -7694,7 +8330,6 @@ CREATE TRIGGER MixCost_rlai_trigger
 AFTER INSERT ON Mix
 REFERENCING NEW AS new
 FOR EACH ROW
-WHEN (new.MixCost > 0.0)
 --
 BEGIN ATOMIC
 --
