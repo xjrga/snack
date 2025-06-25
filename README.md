@@ -8,14 +8,13 @@
     understand your food intake and second by allowing you to create new food
     combinations that meet specific requirements.
 
-    Snack is a training program designed to find lowest calorie or cost food
-    combination. It lets you experiment and get faster, better, less expensive
-    results so you can rapidly learn. Its intended audience is anyone with
-    interest in nutrition.
+    Snack is a training program designed to find food combination that maximizes Total Nutrient Index (TNI).
+    It lets you experiment and get faster, better, less expensive results so you can rapidly learn. 
+    Its intended audience is anyone with interest in nutrition.
 
 #### Features:
 
-  * Minimize calories or cost
+  * Maximize Total Nutrient Index (TNI)
   * Quantify food intake
   * Track any nutrient or compound that has an impact on health
   * Find food items that provide a specific nutrient
@@ -45,7 +44,7 @@
 
 #### Build
 
-01
+1515
 
 #### User Guide
 

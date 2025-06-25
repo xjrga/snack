@@ -412,6 +412,8 @@
 
   * Fixed minor bugs
 
-### 01
+### 1515 - June 25, 2025
+
+  * This is the Total Nutrient Index (TNI) version.
 
 
