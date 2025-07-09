@@ -55,11 +55,11 @@ import io.github.xjrga.snack.database.callable.select.DriDevSumDeficiencyLhsTask
 import io.github.xjrga.snack.database.callable.select.DriDevSumExcessLhsTask;
 import io.github.xjrga.snack.database.callable.select.DriDevTniLhsTask;
 import io.github.xjrga.snack.database.callable.select.DriDevTniRhsTask;
-import io.github.xjrga.snack.database.callable.select.DriDifferenceTask;
+import io.github.xjrga.snack.database.callable.select.DriDiffTask;
 import io.github.xjrga.snack.database.callable.select.DriNutrientsTask;
 import io.github.xjrga.snack.database.callable.select.FoodCategoriesTask;
 import io.github.xjrga.snack.database.callable.select.FoodCategoryCountTask;
-import io.github.xjrga.snack.database.callable.select.FoodDifferenceTask;
+import io.github.xjrga.snack.database.callable.select.FoodDiffTask;
 import io.github.xjrga.snack.database.callable.select.FoodFactsTask;
 import io.github.xjrga.snack.database.callable.select.FoodQuantityConstraintsTask;
 import io.github.xjrga.snack.database.callable.select.FoodQuantityLhsTask;
@@ -77,7 +77,7 @@ import io.github.xjrga.snack.database.callable.select.MealPlanResultsCaloriesTas
 import io.github.xjrga.snack.database.callable.select.MealPlanResultsMacronutrientsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageResultsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageTask;
-import io.github.xjrga.snack.database.callable.select.MixDifferenceTask;
+import io.github.xjrga.snack.database.callable.select.MixDiffTask;
 import io.github.xjrga.snack.database.callable.select.MixFoodFactsTask;
 import io.github.xjrga.snack.database.callable.select.MixFoodsTask;
 import io.github.xjrga.snack.database.callable.select.MixResultsTask;
@@ -133,6 +133,7 @@ import io.github.xjrga.snack.jcomponents.TableFoodFactInput;
 import io.github.xjrga.snack.jcomponents.TableFoodQuantityConstraint;
 import io.github.xjrga.snack.jcomponents.TableFoodRatioConstraint;
 import io.github.xjrga.snack.jcomponents.TableInventoryDays;
+import io.github.xjrga.snack.jcomponents.TableLog;
 import io.github.xjrga.snack.jcomponents.TableMass;
 import io.github.xjrga.snack.jcomponents.TableMealCalories;
 import io.github.xjrga.snack.jcomponents.TableMealGrams;
@@ -199,6 +200,8 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -245,6 +248,7 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Main {
+
   private final BufferedImage logo;
   private final CellConstraints cc;
   private final ComboBox<MixFoodDO> cmbFoodQuantityFood;
@@ -399,6 +403,7 @@ public class Main {
   private TablePufa tblPufa;
   private TableSfa tblSfa;
   private TableVitamins tblVitamins;
+  private TableLog tblLog;
   private List<List> foods;
   private List<List> categories;
   private LinkedList<HashMap> treeFoods;
@@ -583,6 +588,30 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
+    reloadFoods();
+    try {
+      Future<List<LifeStageDO>> task = BackgroundExec.submit(new LifestagesTask());
+      List<LifeStageDO> lifestages = task.get();
+      cmbLifestage.reload(lifestages);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
+    }
+    fch.setPreferredSize(new Dimension(600, 600));
+    fch.setAcceptAllFileFilterUsed(false);
+    fch.addChoosableFileFilter(new FileNameExtensionFilter("Xml Document", "xml"));
+    Action details = fch.getActionMap().get("viewTypeDetails");
+    details.actionPerformed(null);
+    cmbLifestage.setSelectedItem(new LifeStageDO(8, "Males (51-70 y)"));
+    if (!cmbMixes.isEmpty()) {
+      cmbMixes.setSelectedIndex(0);
+    }
+    setSplitPanelDivider();
+    setQuantityScale();
+    fch.setCurrentDirectory(new File("."));
+    splash.halt();
+  }
+
+  private void reloadFoods() {
     try {
       Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
       List<List> foods = task.get();
@@ -607,23 +636,6 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
-    try {
-      Future<List<LifeStageDO>> task = BackgroundExec.submit(new LifestagesTask());
-      List<LifeStageDO> lifestages = task.get();
-      cmbLifestage.reload(lifestages);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    fch.setAcceptAllFileFilterUsed(false);
-    fch.addChoosableFileFilter(new FileNameExtensionFilter("Xml Document", "xml"));
-    cmbLifestage.setSelectedItem(new LifeStageDO(8, "Males (51-70 y)"));
-    if (!cmbMixes.isEmpty()) {
-      cmbMixes.setSelectedIndex(0);
-    }
-    setSplitPanelDivider();
-    setQuantityScale();
-    fch.setCurrentDirectory(new File("."));
-    splash.halt();
   }
 
   private void clearMixesView() {
@@ -688,36 +700,10 @@ public class Main {
     try {
       Future<Boolean> task = BackgroundExec.submit(new DeleteFoodTask(foodId));
       Boolean completed = task.get();
-      if (!completed) {
-        return;
-      }
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
-    try {
-      Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
-      List<List> foods = task.get();
-      tblFoods.reload(foods);
-      tblFoodDiffA.reload(foods);
-      tblFoodDiffB.reload(foods);
-      tblCategoryAllFoods.reload(foods);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    try {
-      Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-      List<Map<String, Object>> treeFoods = task.get();
-      tremodelFoods.reload(treeFoods);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    try {
-      Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-      List<List> categories = task.get();
-      tblCategory.reload(categories);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
+    reloadFoods();
     MixDO mix = getSelectedMix();
     try {
       Future<List<List>> task =
@@ -796,10 +782,10 @@ public class Main {
             "min,fill:min:grow" // rows
             );
     pnl.setLayout(lyo);
-    pnl.add(getMixesPanel(), cc.xy(1, 1));
-    pnl.add(getSolutionPanel(), cc.xy(1, 2));
+    pnl.add(getEditorTopPanel(), cc.xy(1, 1));
+    pnl.add(getEditorBottomPanel(), cc.xy(1, 2));
     cmbMixes.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (!cmbMixes.isSelectionEmpty()) {
             loadSelectedMix();
           }
@@ -831,7 +817,7 @@ public class Main {
     return pnl;
   }
 
-  private JPanel getMixesPanel() {
+  private JPanel getEditorTopPanel() {
     cmbMixes = new ComboBox<>();
     cmbMixes.setDoubleBuffered(false);
     JPanel pnl = new JPanel();
@@ -861,18 +847,10 @@ public class Main {
           MixDO mix = new MixDO();
           mix = cmbMixes.getSelectedItem();
           solveModel(mix);
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new MixesTask());
-            List<List> lst = task.get();
-            List<MixDO> mixesList = Utilities.createMixDOList(lst);
-            cmbMixes.reload(mixesList);
-            tblMixDiffA.reload(lst);
-            tblMixDiffB.reload(lst);
-            tblMealPlanUsageMixes.reload(lst);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          cmbMixes.setSelectedItem(mix);
+          reloadResults(mix);
+          tblMixDiffA.clearSelection();
+          tblMixDiffB.clearSelection();
+          tblMealPlanUsageMixes.clearSelection();
         });
     return pnl;
   }
@@ -925,14 +903,14 @@ public class Main {
     pnl.add(scr, cc.xy(1, 4));
     scr.setBorder(new TitledBorder("DRI Check"));
     cmbLifestage.addActionListener(
-        (ActionEvent a) -> {
+        (ActionEvent evt) -> {
           if (!cmbLifestage.isSelectionEmpty()) {
             MixDO mix = getSelectedMix();
             LifeStageDO lifestage = (LifeStageDO) cmbLifestage.getSelectedItem();
             try {
               Future<List<List>> task =
                   BackgroundExec.submit(
-                      new DriDifferenceTask(mix.getMixId(), lifestage.getLifeStageId()));
+                      new DriDiffTask(mix.getMixId(), lifestage.getLifeStageId()));
               List<List> diff = task.get();
               tblDri.reload(diff);
               setQuantityScale();
@@ -945,7 +923,7 @@ public class Main {
     JMenuItem item01 = new JMenuItem("Find nutrient containing foods");
     pmn.add(item01);
     item01.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (!tblDri.isSelectionEmpty()) {
             calculateNutrientContent();
           } else {
@@ -963,7 +941,7 @@ public class Main {
     return pnl;
   }
 
-  private JSplitPane getResultsPanel() {
+  private JSplitPane getModelPanel() {
     JPanel pnlMain = new JPanel();
     JPanel pnlRight = new JPanel();
     JPanel pnlObjective = new JPanel();
@@ -1066,36 +1044,36 @@ public class Main {
     lstHighScore.addKeyListener(
         new KeyListener() {
           @Override
-          public void keyPressed(KeyEvent keyEvent) {
-            if (keyEvent.getKeyCode() == KeyEvent.VK_DELETE) {
+          public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
               clearHighscore();
             }
           }
 
           @Override
-          public void keyReleased(KeyEvent keyEvent) {}
+          public void keyReleased(KeyEvent e) {}
 
           @Override
-          public void keyTyped(KeyEvent keyEvent) {}
+          public void keyTyped(KeyEvent e) {}
         });
     Action high =
         new AbstractAction() {
           @Override
-          public void actionPerformed(ActionEvent e) {
+          public void actionPerformed(ActionEvent evt) {
             splMain.setDividerLocation(0.0);
           }
         };
     Action middle =
         new AbstractAction() {
           @Override
-          public void actionPerformed(ActionEvent e) {
+          public void actionPerformed(ActionEvent evt) {
             setSplitPanelDivider();
           }
         };
     Action low =
         new AbstractAction() {
           @Override
-          public void actionPerformed(ActionEvent e) {
+          public void actionPerformed(ActionEvent evt) {
             splMain.setDividerLocation(1.0);
           }
         };
@@ -1110,13 +1088,17 @@ public class Main {
     return splMain;
   }
 
-  private JTabbedPane getSolutionPanel() {
+  private JTabbedPane getEditorBottomPanel() {
     JTabbedPane tab = new JTabbedPane();
     tab.setTabPlacement(SwingConstants.BOTTOM);
-    tab.add("Model", getResultsPanel());
-    tab.add("Meals", getMealPlanPanel());
-    tab.setToolTipTextAt(0, "This is where you create your diet");
-    tab.setToolTipTextAt(1, "This is where you create your meals");
+    tab.add("Mix", getModelPanel());
+    tab.add("Log", getModelLogPanel());
+    tab.add("Menu", getMealPlanPanel());
+    tab.setToolTipTextAt(0, "This is where you create your food mix");
+    tab.setToolTipTextAt(1, "This is your food mix history");
+    tab.setToolTipTextAt(
+        2,
+        "This is where you create your menu, meal plan, meal schedule, diet plan, eating plan or food plan.");
     return tab;
   }
 
@@ -1225,19 +1207,19 @@ public class Main {
       LoggerImpl.INSTANCE.logProblem(e);
     }
     btnAddCategory.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addCategory();
         });
     btnRenameCategory.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           renameCategory();
         });
     btnDeleteCategory.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteCategory();
         });
     btnExportCategory.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           exportCategory();
         });
     tblCategory
@@ -1261,11 +1243,11 @@ public class Main {
               }
             });
     btnAddFood.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addFoodToCategory();
         });
     btnDeleteFood.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           removeFoodFromCategory();
         });
     return pnlMain;
@@ -1331,63 +1313,46 @@ public class Main {
     tblFoodDiffA
         .getSelectionModel()
         .addListSelectionListener(
-            (ListSelectionEvent a) -> {
-              if (a.getValueIsAdjusting()) {
-                return;
-              }
-              if (tblFoodDiffA.isSelectionEmpty()) {
-                return;
-              }
-              if (tblFoodDiffB.isSelectionEmpty()) {
-                return;
-              }
-              int selectedRowA = tblFoodDiffA.getSelectedRow();
-              int selectedRowB = tblFoodDiffB.getSelectedRow();
-              String fooddiffida = (String) tblFoodDiffA.getValueAt(selectedRowA, 0);
-              String fooddiffidb = (String) tblFoodDiffB.getValueAt(selectedRowB, 0);
-              try {
-                Future<List<List>> task =
-                    BackgroundExec.submit(new FoodDifferenceTask(fooddiffida, fooddiffidb));
-                List<List> diff = task.get();
-                tblFoodDiff.reload(diff);
-              } catch (Exception e) {
-                LoggerImpl.INSTANCE.logProblem(e);
-              }
+            (ListSelectionEvent e) -> {
+              calculateFoodDifference(e);
             });
     tblFoodDiffB
         .getSelectionModel()
         .addListSelectionListener(
-            (ListSelectionEvent a) -> {
-              if (a.getValueIsAdjusting()) {
-                return;
-              }
-              if (tblFoodDiffA.isSelectionEmpty()) {
-                return;
-              }
-              if (tblFoodDiffB.isSelectionEmpty()) {
-                return;
-              }
-              int selectedRowA = tblFoodDiffA.getSelectedRow();
-              int selectedRowB = tblFoodDiffB.getSelectedRow();
-              String fooddiffida = (String) tblFoodDiffA.getValueAt(selectedRowA, 0);
-              String fooddiffidb = (String) tblFoodDiffB.getValueAt(selectedRowB, 0);
-              try {
-                Future<List<List>> task =
-                    BackgroundExec.submit(new FoodDifferenceTask(fooddiffida, fooddiffidb));
-                List<List> diff = task.get();
-                tblFoodDiff.reload(diff);
-              } catch (Exception e) {
-                LoggerImpl.INSTANCE.logProblem(e);
-              }
+            (ListSelectionEvent e) -> {
+              calculateFoodDifference(e);
             });
     return pnl;
+  }
+
+  private void calculateFoodDifference(ListSelectionEvent e) {
+    if (e.getValueIsAdjusting()) {
+      return;
+    }
+    if (tblFoodDiffA.isSelectionEmpty()) {
+      return;
+    }
+    if (tblFoodDiffB.isSelectionEmpty()) {
+      return;
+    }
+    int selectedRowA = tblFoodDiffA.getSelectedRow();
+    int selectedRowB = tblFoodDiffB.getSelectedRow();
+    String fooddiffida = (String) tblFoodDiffA.getValueAt(selectedRowA, 0);
+    String fooddiffidb = (String) tblFoodDiffB.getValueAt(selectedRowB, 0);
+    try {
+      Future<List<List>> task = BackgroundExec.submit(new FoodDiffTask(fooddiffida, fooddiffidb));
+      List<List> diff = task.get();
+      tblFoodDiff.reload(diff);
+    } catch (Exception ex) {
+      LoggerImpl.INSTANCE.logProblem(ex);
+    }
   }
 
   private JPanel getFoodQuantityConstraint() {
     JPanel pnl = new JPanel();
     FormLayout panelLayout =
         new FormLayout(
-            "p,p,p,p:grow", // columns
+            "p,p,p:grow,p", // columns
             "p,p,fill:p:grow,min" // rows
             );
     pnl.setLayout(panelLayout);
@@ -1402,14 +1367,14 @@ public class Main {
     spTable.setPreferredSize(new Dimension(width, 0));
     JPanel buttons = new JPanel();
     txtFoodQuantityValue.setPreferredSize(Dimensions.Quantity.get());
-    pnl.add(cmbFoodQuantityFood, cc.xyw(1, 1, 4));
+    pnl.add(cmbFoodQuantityFood, cc.xyw(1, 1, 3));
+    pnl.add(btnBlock, cc.xy(4, 1));
     pnl.add(cmbFoodQuantityNutrient, cc.xy(1, 2));
     pnl.add(cmbFoodQuantityRelationship, cc.xy(2, 2));
-    pnl.add(txtFoodQuantityValue, cc.xy(3, 2));
+    pnl.add(txtFoodQuantityValue, cc.xyw(3, 2, 2));
     pnl.add(spTable, cc.xyw(1, 3, 4));
     buttons.add(btnAddFoodQuantityConstraint);
     buttons.add(btnDeleteFoodQuantityConstraint);
-    buttons.add(btnBlock);
     pnl.add(buttons, cc.xyw(1, 4, 4));
     spTable.setBorder(new TitledBorder("Food Nutrient Constraints"));
     cmbFoodQuantityNutrient.setMaximumRowCount(10);
@@ -1418,15 +1383,15 @@ public class Main {
     btnAddFoodQuantityConstraint.setToolTipText("Add Constraint");
     btnDeleteFoodQuantityConstraint.setToolTipText("Delete Constraint");
     btnAddFoodQuantityConstraint.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addFoodQuantityConstraint();
         });
     btnDeleteFoodQuantityConstraint.addActionListener(
-        (ActionEvent e) -> {
-          removeFoodQuantityConstraint();
+        (ActionEvent evt) -> {
+          deleteFoodQuantityConstraint();
         });
     btnBlock.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           blockFood();
         });
     tblFoodQuantityConstraint
@@ -1488,19 +1453,19 @@ public class Main {
     btnRenameFood.setToolTipText("Rename food item");
     btnDeleteFood.setToolTipText("Delete food item");
     btnAddFood.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addFoodToDatabase();
         });
     btnUpdateFood.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addDerivativeFoodToDatabase();
         });
     btnRenameFood.addActionListener(
-        (ActionEvent e) -> {
-          renameFoodItemInDatabase();
+        (ActionEvent evt) -> {
+          renameFood();
         });
     btnDeleteFood.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           removeFoodFromDatabase();
         });
     tblFoods
@@ -1518,7 +1483,7 @@ public class Main {
     JMenuItem mniFoodStats = new JMenuItem("Show food statistics");
     pmn.add(mniFoodStats);
     mniFoodStats.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (!tblFoods.isSelectionEmpty()) {
             TableFoodDetails.Row food = tblFoods.getSelectedValue();
             showFoodStats(food.getId());
@@ -1579,11 +1544,11 @@ public class Main {
     btnAddFoodRatioConstraint.setToolTipText("Add Constraint");
     btnDeleteFoodRatioConstraint.setToolTipText("Delete Constraint");
     btnAddFoodRatioConstraint.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addFoodRatioConstraint();
         });
     btnDeleteFoodRatioConstraint.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteFoodRatioConstraint();
         });
     tblFoodRatioConstraint
@@ -1616,6 +1581,11 @@ public class Main {
     spl01.setLeftComponent(spl00);
     spl01.setRightComponent(getMealPlanUsageResultPanel());
     pnl.add(spl01, cc.xy(1, 1));
+    exectureMealPlanUsageTasks();
+    return pnl;
+  }
+
+  private void exectureMealPlanUsageTasks() {
     try {
       Future<List<List>> task = BackgroundExec.submit(new MealPlanUsageTask());
       List<List> usage = task.get();
@@ -1630,7 +1600,6 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
-    return pnl;
   }
 
   private JPanel getMealsPanel() {
@@ -1655,15 +1624,15 @@ public class Main {
     btnDeleteMeal.setToolTipText("Delete Meal");
     btnUpdateMeal.setToolTipText("Update Meal");
     btnAddMeal.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addMeal();
         });
     btnDeleteMeal.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteMeal();
         });
     btnUpdateMeal.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           updateMeal();
         });
     return pnl;
@@ -1752,26 +1721,26 @@ public class Main {
     btnDeletePortion.setToolTipText("Delete one or more food portions");
     btnUpdatePortionWeight.setToolTipText("Update weight of food portion consumed");
     btnAddPortion.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addFoodPortion();
         });
     btnDeletePortion.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteFoodPortion();
         });
     btnUpdatePortionWeight.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           updateFoodPortionWeight();
         });
     cmbPortionFood.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateRemainingFoodAllocationPercentage();
         });
     JPopupMenu pmn = new JPopupMenu();
     JMenuItem item01 = new JMenuItem("Assign portion to meal");
     pmn.add(item01);
     item01.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           moveFoodPortion();
         });
     tblMealPortions.addMouseListener(
@@ -1892,51 +1861,51 @@ public class Main {
     mniDELETEALL.setText("DELETE ALL MIXES AND ALL FOOD ITEMS");
     chkResultRoundUp.setSelected(true);
     mniConvertDRI.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           convertMicronutrient();
         });
     mniCalculateBMR.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateBmr();
         });
     mniCalculateProteinRequired.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateProteinNeededForNitrogenBalance();
         });
     mniShowCarbohydrateRequired.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           showKetosis();
         });
     mniCalculateDigestibleCarbs.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateDigestibleCarbs();
         });
     mniCalculateGL.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateGlycemicLoad();
         });
     mniCalculateALARequired.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateN3FattyAcidRequired();
         });
     mniShowMixStats.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           showMixStats();
         });
     mniCalculateGIRange.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           calculateGlycemicIndexRange();
         });
     mniCreateAllFoodsReport1.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           createAllFoodsReport1();
         });
     mniCreateAllFoodsReport2.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           createAllFoodsReport2();
         });
     mniCreateFoodComparisonReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (tblFoodDiffA.isSelectionEmpty() || tblFoodDiffB.isSelectionEmpty()) {
             Message.showMessage("You need to select two food items to compare first.");
             return;
@@ -1945,7 +1914,7 @@ public class Main {
           Message.showMessage("Food Comparison Report created.");
         });
     mniCreateMixComparisonReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (tblMixDiffA.isSelectionEmpty() || tblMixDiffB.isSelectionEmpty()) {
             Message.showMessage("You need to select two mixes to compare first.");
             return;
@@ -1954,22 +1923,22 @@ public class Main {
           Message.showMessage("Mix Comparison Report created.");
         });
     mniCreateMixResultsReport1.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           createMixResultsReport1();
           Message.showMessage("Mix Results Report #1 created.");
         });
     mniCreateMixResultsReport2.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           createMixResultsReport2();
           Message.showMessage("Mix Results Report #2 created.");
         });
     mniCreateMixDriReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           createDriReport();
           Message.showMessage("Daily Reference Intake Report created.");
         });
     mniCreateNutrientSearchReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (txtNutrientSearchQuantity.getText().isBlank()) {
             Message.showMessage(
                 "You need to search for food items that contain the nutrient first.");
@@ -1979,7 +1948,7 @@ public class Main {
           Message.showMessage("Nutrient Search Report created.");
         });
     mniCreateMealPlanCaloriesReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (tblMealPortions.isEmpty()) {
             Message.showMessage("You need to create meal plan first.");
             return;
@@ -1988,7 +1957,7 @@ public class Main {
           Message.showMessage("Meal Plan Calories Report created.");
         });
     mniCreateMealPlanMacronutrientsReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (tblMealPortions.isEmpty()) {
             Message.showMessage("You need to create meal plan first.");
             return;
@@ -1997,7 +1966,7 @@ public class Main {
           Message.showMessage("Meal Plan Macronutrients Report created.");
         });
     mniCreateMealPlanPortionsReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (tblMealPortions.isEmpty()) {
             Message.showMessage("You need to create meal plan first.");
             return;
@@ -2006,7 +1975,7 @@ public class Main {
           Message.showMessage("Meal Plan Portions Report created.");
         });
     mniCreateMealPlanUsageReport.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           if (tblMealPlanUsage.isEmpty()) {
             Message.showMessage("You need to create meal plan usage first.");
             return;
@@ -2015,15 +1984,15 @@ public class Main {
           Message.showMessage("Meal Plan Usage Report created.");
         });
     mniDELETEMIXES.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteAllMixes();
         });
     mniDELETEALL.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteAll();
         });
     mniExportMixModel.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           exportMix();
         });
     mniImportMixModel.addActionListener(
@@ -2041,6 +2010,7 @@ public class Main {
             List<List> lst = task.get();
             List<MixDO> mixesList = Utilities.createMixDOList(lst);
             cmbMixes.reload(mixesList);
+            tblMixDiff.clear();
             tblMixDiffA.reload(lst);
             tblMixDiffB.reload(lst);
             tblMealPlanUsageMixes.reload(lst);
@@ -2048,87 +2018,64 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem(e);
           }
           cmbMixes.setSelectedItem(mix);
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
-            List<List> foods = task.get();
-            tblFoods.reload(foods);
-            tblFoodDiffA.reload(foods);
-            tblFoodDiffB.reload(foods);
-            tblCategoryAllFoods.reload(foods);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-            List<Map<String, Object>> treeFoods = task.get();
-            tremodelFoods.reload(treeFoods);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-            List<List> categories = task.get();
-            tblCategory.reload(categories);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
+          reloadFoods();
           frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
     mniImportFoods.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           importFoods();
         });
     mniProject.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           showProjectInformation();
         });
     mniCredits.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           showCredits();
         });
     mniAbout.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           showAbout();
         });
     mniAuthor.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           showAuthor();
         });
     mniSetConstraints.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           (new ConstraintChooser()).show();
           reloadCbNutrientData();
         });
     chkResultRoundUp.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           setQuantityScale();
         });
     mniExit.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           exit();
         });
     mniCreateMix.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           createMix();
         });
     mniDeleteMix.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteMix();
         });
     mniRenameMix.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           renameMix();
         });
     mniDuplicateMix.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           duplicateMix();
         });
     mniConvertMix.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           convertMixToFood();
         });
     mniPinMix.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           pinMix();
         });
     return mnuBar;
@@ -2181,30 +2128,7 @@ public class Main {
         LoggerImpl.INSTANCE.logProblem(e);
       } finally {
         if (imported) {
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
-            List<List> foods = task.get();
-            tblFoods.reload(foods);
-            tblFoodDiffA.reload(foods);
-            tblFoodDiffB.reload(foods);
-            tblCategoryAllFoods.reload(foods);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-            List<Map<String, Object>> treeFoods = task.get();
-            tremodelFoods.reload(treeFoods);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-            List<List> categories = task.get();
-            tblCategory.reload(categories);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
+          reloadFoods();
           StringBuilder sb = new StringBuilder();
           sb.append("Food items were loaded in ");
           sb.append(time.getElapsedTimeInSeconds());
@@ -2257,46 +2181,38 @@ public class Main {
     tblMixDiffA
         .getSelectionModel()
         .addListSelectionListener(
-            (ListSelectionEvent a) -> {
-              if (a.getValueIsAdjusting()) {
-                return;
-              }
-              if (tblMixDiffB.isSelectionEmpty()) {
-                return;
-              }
-              TableMix.Row mixa = tblMixDiffA.getSelectedValue();
-              TableMix.Row mixb = tblMixDiffB.getSelectedValue();
-              try {
-                Future<List<List>> task =
-                    BackgroundExec.submit(new MixDifferenceTask(mixa.getMixid(), mixb.getMixid()));
-                List<List> diff = task.get();
-                tblMixDiff.reload(diff);
-              } catch (Exception e) {
-                LoggerImpl.INSTANCE.logProblem(e);
-              }
+            (ListSelectionEvent e) -> {
+              calculateMixDifference(e);
             });
     tblMixDiffB
         .getSelectionModel()
         .addListSelectionListener(
-            (ListSelectionEvent a) -> {
-              if (a.getValueIsAdjusting()) {
-                return;
-              }
-              if (tblMixDiffA.isSelectionEmpty()) {
-                return;
-              }
-              TableMix.Row mixa = tblMixDiffA.getSelectedValue();
-              TableMix.Row mixb = tblMixDiffB.getSelectedValue();
-              try {
-                Future<List<List>> task =
-                    BackgroundExec.submit(new MixDifferenceTask(mixa.getMixid(), mixb.getMixid()));
-                List<List> diff = task.get();
-                tblMixDiff.reload(diff);
-              } catch (Exception e) {
-                LoggerImpl.INSTANCE.logProblem(e);
-              }
+            (ListSelectionEvent e) -> {
+              calculateMixDifference(e);
             });
     return pnl;
+  }
+
+  private void calculateMixDifference(ListSelectionEvent e) {
+    if (e.getValueIsAdjusting()) {
+      return;
+    }
+    if (tblMixDiffA.isSelectionEmpty()) {
+      return;
+    }
+    if (tblMixDiffB.isSelectionEmpty()) {
+      return;
+    }
+    TableMix.Row mixa = tblMixDiffA.getSelectedValue();
+    TableMix.Row mixb = tblMixDiffB.getSelectedValue();
+    try {
+      Future<List<List>> task =
+          BackgroundExec.submit(new MixDiffTask(mixa.getMixid(), mixb.getMixid()));
+      List<List> diff = task.get();
+      tblMixDiff.reload(diff);
+    } catch (Exception ex) {
+      LoggerImpl.INSTANCE.logProblem(ex);
+    }
   }
 
   private JPanel getMixFoodPanel() {
@@ -2390,38 +2306,12 @@ public class Main {
     btn_add.addActionListener(
         (ActionEvent a) -> {
           addMealPlanUsage();
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new MealPlanUsageTask());
-            List<List> usage = task.get();
-            tblMealPlanUsage.reload(usage);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new MealPlanUsageResultsTask());
-            List<List> results = task.get();
-            tblMealPlanUsageResults.reload(results);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
+          exectureMealPlanUsageTasks();
         });
     btn_delete.addActionListener(
-        (ActionEvent a) -> {
+        (ActionEvent evt) -> {
           deleteMealPlanUsage();
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new MealPlanUsageTask());
-            List<List> usage = task.get();
-            tblMealPlanUsage.reload(usage);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new MealPlanUsageResultsTask());
-            List<List> results = task.get();
-            tblMealPlanUsageResults.reload(results);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
+          exectureMealPlanUsageTasks();
         });
     return pnl;
   }
@@ -2499,11 +2389,11 @@ public class Main {
     btnAddNutrientConstraint.setToolTipText("Add Constraint");
     btnDeleteNutrientConstraint.setToolTipText("Delete Constraint");
     btnAddNutrientConstraint.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addNutrientQuantityConstraint();
         });
     btnDeleteNutrientConstraint.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteNutrientQuantityConstraint();
         });
     tblNutrientQuantityConstraint
@@ -2557,7 +2447,7 @@ public class Main {
     pnl.add(pnl01, cc.xy(2, 2));
     pnl.add(scr, cc.xy(2, 4));
     txtNutrientSearchQuantity.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           process_evt_txt_nutrient_content();
         });
     return pnl;
@@ -2599,11 +2489,11 @@ public class Main {
     btnAddNutrientRatio.setToolTipText("Add Constraint");
     btnDeleteNutrientRatio.setToolTipText("Delete Constraint");
     btnAddNutrientRatio.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           addNutrientRatioConstraint();
         });
     btnDeleteNutrientRatio.addActionListener(
-        (ActionEvent e) -> {
+        (ActionEvent evt) -> {
           deleteNutrientRatioConstraint();
         });
     tblNutrientRatio
@@ -2839,20 +2729,7 @@ public class Main {
         } catch (Exception e) {
           LoggerImpl.INSTANCE.logProblem(e);
         }
-        try {
-          Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-          List<Map<String, Object>> treeFoods = task.get();
-          tremodelFoods.reload(treeFoods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        try {
-          Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-          List<List> categories = task.get();
-          tblCategory.reload(categories);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
+        reloadFoods();
         try {
           Future<List<List>> task =
               BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mix.getMixId()));
@@ -2909,6 +2786,13 @@ public class Main {
         LoggerImpl.INSTANCE.logProblem(e);
       }
       try {
+        Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
+        List<Map<String, Object>> treeFoods = task.get();
+        tremodelFoods.reload(treeFoods);
+      } catch (Exception e) {
+        LoggerImpl.INSTANCE.logProblem(e);
+      }
+      try {
         Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
         List<List> categories = task.get();
         tblCategory.reload(categories);
@@ -2916,13 +2800,6 @@ public class Main {
         LoggerImpl.INSTANCE.logProblem(e);
       }
       tblCategoryFood.clear();
-      try {
-        Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-        List<Map<String, Object>> treeFoods = task.get();
-        tremodelFoods.reload(treeFoods);
-      } catch (Exception e) {
-        LoggerImpl.INSTANCE.logProblem(e);
-      }
     }
   }
 
@@ -3013,26 +2890,30 @@ public class Main {
             if (!task1Completed) {
               return;
             }
-            try {
-              Future<List<List>> task3 =
-                  BackgroundExec.submit(new FoodsInCategoryTask((category.getCategoryid())));
-              List<List> categoryFoods = task3.get();
-              tblCategoryFood.reload(categoryFoods);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
-            try {
-              Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-              List<Map<String, Object>> treeFoods = task.get();
-              tremodelFoods.reload(treeFoods);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
+            executeFoodsInCategoryTasks(category);
           }
         } catch (Exception e) {
           LoggerImpl.INSTANCE.logProblem(e);
         }
       }
+    }
+  }
+
+  private void executeFoodsInCategoryTasks(TableCategory.Row category) {
+    try {
+      Future<List<List>> task3 =
+          BackgroundExec.submit(new FoodsInCategoryTask((category.getCategoryid())));
+      List<List> categoryFoods = task3.get();
+      tblCategoryFood.reload(categoryFoods);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
+    }
+    try {
+      Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
+      List<Map<String, Object>> treeFoods = task.get();
+      tremodelFoods.reload(treeFoods);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
     }
   }
 
@@ -3048,21 +2929,7 @@ public class Main {
         if (!complete) {
           return;
         }
-        try {
-          Future<List<List>> task1 =
-              BackgroundExec.submit(new FoodsInCategoryTask((category.getCategoryid())));
-          List<List> categoryFoods = task1.get();
-          tblCategoryFood.reload(categoryFoods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        try {
-          Future<List<Map<String, Object>>> task2 = BackgroundExec.submit(new FoodsTask());
-          List<Map<String, Object>> treeFoods = task2.get();
-          tremodelFoods.reload(treeFoods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
+        executeFoodsInCategoryTasks(category);
       } catch (Exception e) {
         LoggerImpl.INSTANCE.logProblem(e);
       }
@@ -3089,30 +2956,7 @@ public class Main {
       Food food = pnlFoodFactsInput.getFood();
       Boolean completed = new FoodCreator(food).create();
       if (completed) {
-        try {
-          Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
-          List<List> foods = task.get();
-          tblFoods.reload(foods);
-          tblFoodDiffA.reload(foods);
-          tblFoodDiffB.reload(foods);
-          tblCategoryAllFoods.reload(foods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        try {
-          Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-          List<Map<String, Object>> treeFoods = task.get();
-          tremodelFoods.reload(treeFoods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        try {
-          Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-          List<List> categories = task.get();
-          tblCategory.reload(categories);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
+        reloadFoods();
         try {
           Future<List<List>> task =
               BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mix.getMixId()));
@@ -3150,30 +2994,7 @@ public class Main {
         Food food = foodFactsInputPanel.getFood();
         Boolean completed = new FoodCreator(food).create();
         if (completed) {
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
-            List<List> foods = task.get();
-            tblFoods.reload(foods);
-            tblFoodDiffA.reload(foods);
-            tblFoodDiffB.reload(foods);
-            tblCategoryAllFoods.reload(foods);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-            List<Map<String, Object>> treeFoods = task.get();
-            tremodelFoods.reload(treeFoods);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-            List<List> categories = task.get();
-            tblCategory.reload(categories);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
+          reloadFoods();
           setQuantityScale();
           int rowIndex = tblFoods.find(food.getFoodId());
           tblFoods.showRow(rowIndex);
@@ -3189,16 +3010,17 @@ public class Main {
     }
   }
 
-  private void renameFoodItemInDatabase() {
+  private void renameFood() {
     if (!tblFoods.isSelectionEmpty()) {
       TableFoodDetails.Row food = tblFoods.getSelectedValue();
       String foodid = food.getId();
       JTextField input = new JTextField();
       JPanel input_panel = new JPanel();
-      input.setPreferredSize(new Dimension(150, 25));
+      input.setPreferredSize(new Dimension(600, 25));
       input_panel.add(new JLabel("What is the food item name?"));
       input_panel.add(input);
       JComponent[] inputs = {input_panel};
+      input.setText(food.getName());
       int optionValue = Message.showOptionDialogOkCancel(inputs, "Rename Food Item");
       if (optionValue == 0) {
         food.setName(input.getText());
@@ -3221,31 +3043,21 @@ public class Main {
         } catch (Exception e) {
           LoggerImpl.INSTANCE.logProblem(e);
         }
-        try {
-          Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
-          List<List> foods = task.get();
-          tblFoods.reload(foods);
-          tblFoodDiffA.reload(foods);
-          tblFoodDiffB.reload(foods);
-          tblCategoryAllFoods.reload(foods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        try {
-          Future<List<Map<String, Object>>> task = BackgroundExec.submit(new FoodsTask());
-          List<Map<String, Object>> treeFoods = task.get();
-          tremodelFoods.reload(treeFoods);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        try {
-          Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-          List<List> categories = task.get();
-          tblCategory.reload(categories);
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
+        reloadFoods();
         MixDO mix = getSelectedMix();
+        String mixid = mix.getMixId();
+        reloadFoodComboBoxes(mixid);
+        reloadResults(mix);
+        try {
+          Future<List<List>> task1 = BackgroundExec.submit(new FoodQuantityConstraintsTask(mixid));
+          List<List> constraints = task1.get();
+          tblFoodQuantityConstraint.reload(constraints);
+          Future<List<List>> task2 = BackgroundExec.submit(new FoodRatioConstraintsTask(mixid));
+          List<List> constraints2 = task2.get();
+          tblFoodRatioConstraint.reload(constraints2);
+        } catch (Exception e) {
+          LoggerImpl.INSTANCE.logProblem(e);
+        }
         try {
           Future<List<List>> task =
               BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mix.getMixId()));
@@ -3271,34 +3083,64 @@ public class Main {
         RelationshipDO relationshipDO = cmbFoodQuantityRelationship.getSelectedItem();
         BigDecimal b = new BigDecimal(txtFoodQuantityValue.getText());
         MixDO mix = getSelectedMix();
-        try {
-          Future<Boolean> task0 =
-              BackgroundExec.submit(
-                  new MergeFoodQuantityConstraintTask(
-                      mix.getMixId(),
-                      foodDO.getFoodId(),
-                      nutrientDO.getNutr_no(),
-                      relationshipDO.getRelationshipid(),
-                      b));
-          Boolean completed = task0.get();
-          if (!completed) {
-            return;
-          }
-          Future<List<List>> task1 =
-              BackgroundExec.submit(new FoodQuantityConstraintsTask(mix.getMixId()));
-          List<List> constraints = task1.get();
-          tblFoodQuantityConstraint.reload(constraints);
-          setConstraintCounts();
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
+        executeMergeFoodQuantityConstraintTasks(mix, foodDO, nutrientDO, relationshipDO, b);
       } else {
         Message.showMessage("Value must be a number greater than or equal to zero");
       }
     }
   }
 
-  private void removeFoodQuantityConstraint() {
+  private void executeMergeFoodQuantityConstraintTasks(
+      MixDO mix,
+      MixFoodDO foodDO,
+      NutrientDO nutrientDO,
+      RelationshipDO relationshipDO,
+      BigDecimal b) {
+    try {
+      Future<Boolean> task0 =
+          BackgroundExec.submit(
+              new MergeFoodQuantityConstraintTask(
+                  mix.getMixId(),
+                  foodDO.getFoodId(),
+                  nutrientDO.getNutr_no(),
+                  relationshipDO.getRelationshipid(),
+                  b));
+      Boolean completed = task0.get();
+      if (!completed) {
+        return;
+      }
+      StringBuilder sb = new StringBuilder();
+      sb.append(foodDO.getFoodName());
+      sb.append(" using ");
+      sb.append(nutrientDO.getNutrdesc());
+      sb.append(" ");
+      sb.append(relationshipDO.getName());
+      sb.append(" ");
+      sb.append(b);
+      addLogEntry(
+          getSelectedMix().getName(),
+          "Add",
+          "Food Quantity Constraint",
+          sb.toString(),
+          getSelectedMix().getMixId(),
+          foodDO.getFoodId(),
+          nutrientDO.getNutr_no(),
+          "",
+          "",
+          relationshipDO.getRelationshipid(),
+          b,
+          null);
+      Future<List<List>> task1 =
+          BackgroundExec.submit(new FoodQuantityConstraintsTask(mix.getMixId()));
+      List<List> constraints = task1.get();
+      tblFoodQuantityConstraint.reload(constraints);
+      setConstraintCounts();
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
+    }
+  }
+
+  private void deleteFoodQuantityConstraint() {
     if (!tblFoodQuantityConstraint.isSelectionEmpty()) {
       TableFoodQuantityConstraint.Row row = tblFoodQuantityConstraint.getSelectedValue();
       String mixid = row.getMixid();
@@ -3313,6 +3155,27 @@ public class Main {
         if (!completed) {
           return;
         }
+        StringBuilder sb = new StringBuilder();
+        sb.append(row.getFood());
+        sb.append(" using ");
+        sb.append(row.getNutrient());
+        sb.append(" ");
+        sb.append(row.getRelationship());
+        sb.append(" ");
+        sb.append(row.getB());
+        addLogEntry(
+            getSelectedMix().getName(),
+            "Delete",
+            "Food Quantity Constraint",
+            sb.toString(),
+            getSelectedMix().getMixId(),
+            row.getFoodid(),
+            row.getNutrientid(),
+            "",
+            "",
+            row.getRelationshipid(),
+            row.getB(),
+            null);
         Future<List<List>> task1 = BackgroundExec.submit(new FoodQuantityConstraintsTask(mixid));
         List<List> constraints = task1.get();
         tblFoodQuantityConstraint.reload(constraints);
@@ -3329,27 +3192,7 @@ public class Main {
     RelationshipDO relationshipDO = new RelationshipDO(3, "=");
     BigDecimal b = new BigDecimal("0.0");
     MixDO mix = getSelectedMix();
-    try {
-      Future<Boolean> task0 =
-          BackgroundExec.submit(
-              new MergeFoodQuantityConstraintTask(
-                  mix.getMixId(),
-                  foodDO.getFoodId(),
-                  nutrientDO.getNutr_no(),
-                  relationshipDO.getRelationshipid(),
-                  b));
-      Boolean completed = task0.get();
-      if (!completed) {
-        return;
-      }
-      Future<List<List>> task1 =
-          BackgroundExec.submit(new FoodQuantityConstraintsTask(mix.getMixId()));
-      List<List> constraints = task1.get();
-      tblFoodQuantityConstraint.reload(constraints);
-      setConstraintCounts();
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
+    executeMergeFoodQuantityConstraintTasks(mix, foodDO, nutrientDO, relationshipDO, b);
   }
 
   private void addFoodRatioConstraint() {
@@ -3364,8 +3207,7 @@ public class Main {
         NutrientDO nutrientDOB = cmbFoodRatioNutrientB.getSelectedItem();
         BigDecimal a = new BigDecimal(txtFoodNutrientRatioQuantityA.getText());
         BigDecimal b = new BigDecimal(txtFoodNutrientRatioQuantityB.getText());
-        RelationshipDO relationshipDataObject =
-            (RelationshipDO) cmbFoodRatioRelationship.getSelectedItem();
+        RelationshipDO relationshipDO = (RelationshipDO) cmbFoodRatioRelationship.getSelectedItem();
         MixDO mix = getSelectedMix();
         try {
           Future<Boolean> task0 =
@@ -3376,13 +3218,40 @@ public class Main {
                       nutrientDOA.getNutr_no(),
                       foodDOB.getFoodId(),
                       nutrientDOB.getNutr_no(),
-                      relationshipDataObject.getRelationshipid(),
+                      relationshipDO.getRelationshipid(),
                       a,
                       b));
           Boolean completed = task0.get();
           if (!completed) {
             return;
           }
+          StringBuilder sb = new StringBuilder();
+          sb.append(foodDOA.getFoodName());
+          sb.append(" using ");
+          sb.append(nutrientDOA.getNutrdesc());
+          sb.append(" / ");
+          sb.append(foodDOB.getFoodName());
+          sb.append(" using ");
+          sb.append(nutrientDOB.getNutrdesc());
+          sb.append(" ");
+          sb.append(relationshipDO.getName());
+          sb.append(" ");
+          sb.append(a);
+          sb.append(" / ");
+          sb.append(b);
+          addLogEntry(
+              getSelectedMix().getName(),
+              "Add",
+              "Nutrient Ratio Constraint",
+              sb.toString(),
+              getSelectedMix().getMixId(),
+              foodDOA.getFoodId(),
+              nutrientDOA.getNutr_no(),
+              foodDOB.getFoodId(),
+              nutrientDOB.getNutr_no(),
+              relationshipDO.getRelationshipid(),
+              a,
+              b);
           Future<List<List>> task1 =
               BackgroundExec.submit(new FoodRatioConstraintsTask(mix.getMixId()));
           List<List> constraints = task1.get();
@@ -3415,6 +3284,33 @@ public class Main {
         if (!completed) {
           return;
         }
+        StringBuilder sb = new StringBuilder();
+        sb.append(row.getFooda());
+        sb.append(" using ");
+        sb.append(row.getNutrienta());
+        sb.append(" / ");
+        sb.append(row.getFoodb());
+        sb.append(" using ");
+        sb.append(row.getNutrientb());
+        sb.append(" ");
+        sb.append(row.getRelationship());
+        sb.append(" ");
+        sb.append(row.getA());
+        sb.append(" / ");
+        sb.append(row.getB());
+        addLogEntry(
+            getSelectedMix().getName(),
+            "Delete",
+            "Food Ratio Constraint",
+            sb.toString(),
+            getSelectedMix().getMixId(),
+            row.getFoodida(),
+            row.getNutrientida(),
+            row.getFoodidb(),
+            row.getNutrientidb(),
+            row.getRelationshipid(),
+            row.getA(),
+            row.getB());
         Future<List<List>> task1 = BackgroundExec.submit(new FoodRatioConstraintsTask(mixid));
         List<List> constraints = task1.get();
         tblFoodRatioConstraint.reload(constraints);
@@ -3444,30 +3340,7 @@ public class Main {
                   new InsertAndCalculateFoodPortionTask(mixid, row.getMealid(), foodid, pcti));
           Boolean complete = task0.get();
           if (complete) {
-            try {
-              Future<List<List>> task1 =
-                  BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
-              List<List> portions = task1.get();
-              tblMealPortions.reload(portions);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
-            try {
-              Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
-              List<List> results = task.get();
-              tblMealCalories.reload(results);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
-            try {
-              Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
-              List<List> results = task.get();
-              tblMealMacronutrients.reload(results);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
+            executeMealPlanPortionsTasks(mix);
           }
         } catch (Exception e) {
           LoggerImpl.INSTANCE.logProblem(e);
@@ -3475,6 +3348,32 @@ public class Main {
       }
     } else {
       Message.showMessage("Character must be number.");
+    }
+  }
+
+  private void executeMealPlanPortionsTasks(MixDO mix) {
+    try {
+      Future<List<List>> task1 = BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
+      List<List> portions = task1.get();
+      tblMealPortions.reload(portions);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
+    }
+    try {
+      Future<List<List>> task =
+          BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
+      List<List> results = task.get();
+      tblMealCalories.reload(results);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
+    }
+    try {
+      Future<List<List>> task =
+          BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
+      List<List> results = task.get();
+      tblMealMacronutrients.reload(results);
+    } catch (Exception e) {
+      LoggerImpl.INSTANCE.logProblem(e);
     }
   }
 
@@ -3646,29 +3545,7 @@ public class Main {
       } catch (Exception e) {
         LoggerImpl.INSTANCE.logProblem(e);
       }
-      try {
-        Future<List<List>> task = BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
-        List<List> portions = task.get();
-        tblMealPortions.reload(portions);
-      } catch (Exception e) {
-        LoggerImpl.INSTANCE.logProblem(e);
-      }
-      try {
-        Future<List<List>> task =
-            BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
-        List<List> results = task.get();
-        tblMealCalories.reload(results);
-      } catch (Exception e) {
-        LoggerImpl.INSTANCE.logProblem(e);
-      }
-      try {
-        Future<List<List>> task =
-            BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
-        List<List> results = task.get();
-        tblMealMacronutrients.reload(results);
-      } catch (Exception e) {
-        LoggerImpl.INSTANCE.logProblem(e);
-      }
+      executeMealPlanPortionsTasks(mix);
     }
   }
 
@@ -3725,30 +3602,7 @@ public class Main {
           } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);
           }
-          try {
-            Future<List<List>> task =
-                BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
-            List<List> portions = task.get();
-            tblMealPortions.reload(portions);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task =
-                BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
-            List<List> results = task.get();
-            tblMealCalories.reload(results);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          try {
-            Future<List<List>> task =
-                BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
-            List<List> results = task.get();
-            tblMealMacronutrients.reload(results);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
+          executeMealPlanPortionsTasks(mix);
         }
       }
     }
@@ -3769,6 +3623,19 @@ public class Main {
         if (!completed) {
           return;
         }
+        addLogEntry(
+            getSelectedMix().getName(),
+            "Add",
+            "Food",
+            food.getFoodName(),
+            getSelectedMix().getMixId(),
+            food.getFoodId(),
+            "",
+            "",
+            "",
+            null,
+            null,
+            null);
         try {
           Future<List<List>> task1 =
               BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mix.getMixId()));
@@ -3808,6 +3675,19 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
+    addLogEntry(
+        getSelectedMix().getName(),
+        "Delete",
+        "Food",
+        food.getFoodname(),
+        getSelectedMix().getMixId(),
+        food.getFoodid(),
+        "",
+        "",
+        "",
+        null,
+        null,
+        null);
     try {
       Future<List<List>> task =
           BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mix.getMixId()));
@@ -3840,17 +3720,11 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
-    try {
-      Future<List<List>> task = BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
-      List<List> portions = task.get();
-      tblMealPortions.reload(portions);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
+    executeMealPlanPortionsTasks(mix);
     LifeStageDO lifestage = (LifeStageDO) cmbLifestage.getSelectedItem();
     try {
       Future<List<List>> task =
-          BackgroundExec.submit(new DriDifferenceTask(mix.getMixId(), lifestage.getLifeStageId()));
+          BackgroundExec.submit(new DriDiffTask(mix.getMixId(), lifestage.getLifeStageId()));
       List<List> diff = task.get();
       tblDri.reload(diff);
       setQuantityScale();
@@ -3870,7 +3744,7 @@ public class Main {
       numberCheck.addToUncheckedList(txtNutrientQuantityValue.getText());
       if (numberCheck.pass()) {
         NutrientDO nutrientDO = cmbNutrientQuantityNutrient.getSelectedItem();
-        RelationshipDO relationshipDataObject =
+        RelationshipDO relationshipDO =
             (RelationshipDO) cmbNutrientQuantityRelationship.getSelectedItem();
         BigDecimal b = new BigDecimal(txtNutrientQuantityValue.getText());
         MixDO mix = getSelectedMix();
@@ -3880,12 +3754,31 @@ public class Main {
                   new MergeNutrientQuantityConstraintTask(
                       mix.getMixId(),
                       nutrientDO.getNutr_no(),
-                      relationshipDataObject.getRelationshipid(),
+                      relationshipDO.getRelationshipid(),
                       b));
           Boolean completed = task0.get();
           if (!completed) {
             return;
           }
+          StringBuilder sb = new StringBuilder();
+          sb.append(nutrientDO.getNutrdesc());
+          sb.append(" ");
+          sb.append(relationshipDO.getName());
+          sb.append(" ");
+          sb.append(b);
+          addLogEntry(
+              getSelectedMix().getName(),
+              "Add",
+              "Nutrient Quantity Constraint",
+              sb.toString(),
+              getSelectedMix().getMixId(),
+              "",
+              nutrientDO.getNutr_no(),
+              "",
+              "",
+              relationshipDO.getRelationshipid(),
+              b,
+              null);
           Future<List<List>> task1 =
               BackgroundExec.submit(new NutrientQuantityConstraintsTask(mix.getMixId()));
           List<List> constraints = task1.get();
@@ -3913,6 +3806,25 @@ public class Main {
       if (!completed) {
         return;
       }
+      StringBuilder sb = new StringBuilder();
+      sb.append(row.getNutrient());
+      sb.append(" ");
+      sb.append(row.getRelationship());
+      sb.append(" ");
+      sb.append(row.getB());
+      addLogEntry(
+          getSelectedMix().getName(),
+          "Delete",
+          "Nutrient Quantity Constraint",
+          sb.toString(),
+          getSelectedMix().getMixId(),
+          "",
+          row.getNutrientid(),
+          "",
+          "",
+          row.getRelationshipid(),
+          row.getB(),
+          null);
       Future<List<List>> task1 = BackgroundExec.submit(new NutrientQuantityConstraintsTask(mixid));
       List<List> constraints = task1.get();
       tblNutrientQuantityConstraint.reload(constraints);
@@ -3930,7 +3842,7 @@ public class Main {
       if (numberCheck.pass()) {
         NutrientDO nutrientDOA = cmbNutrientRatioNutrientA.getSelectedItem();
         NutrientDO nutrientDOB = cmbNutrientRatioNutrientB.getSelectedItem();
-        RelationshipDO relationshipDataObject =
+        RelationshipDO relationshipDO =
             (RelationshipDO) cmbNutrientRatioRelationship.getSelectedItem();
         BigDecimal A = new BigDecimal(txtNutrientRatioNutrientA.getText());
         BigDecimal B = new BigDecimal(txtNutrientRatioNutrientB.getText());
@@ -3942,13 +3854,36 @@ public class Main {
                       mix.getMixId(),
                       nutrientDOA.getNutr_no(),
                       nutrientDOB.getNutr_no(),
-                      relationshipDataObject.getRelationshipid(),
+                      relationshipDO.getRelationshipid(),
                       A,
                       B));
           Boolean completed = task0.get();
           if (!completed) {
             return;
           }
+          StringBuilder sb = new StringBuilder();
+          sb.append(nutrientDOA.getNutrdesc());
+          sb.append(" / ");
+          sb.append(nutrientDOB.getNutrdesc());
+          sb.append(" ");
+          sb.append(relationshipDO.getName());
+          sb.append(" ");
+          sb.append(A);
+          sb.append(" / ");
+          sb.append(B);
+          addLogEntry(
+              getSelectedMix().getName(),
+              "Add",
+              "Nutrient Ratio Constraint",
+              sb.toString(),
+              getSelectedMix().getMixId(),
+              "",
+              nutrientDOA.getNutr_no(),
+              "",
+              nutrientDOB.getNutr_no(),
+              relationshipDO.getRelationshipid(),
+              A,
+              B);
           Future<List<List>> task1 =
               BackgroundExec.submit(new NutrientRatioConstraintsTask(mix.getMixId()));
           List<List> constraints = task1.get();
@@ -3978,6 +3913,29 @@ public class Main {
       if (!completed) {
         return;
       }
+      StringBuilder sb = new StringBuilder();
+      sb.append(row.getNutrienta());
+      sb.append(" / ");
+      sb.append(row.getNutrientb());
+      sb.append(" ");
+      sb.append(row.getRelationship());
+      sb.append(" ");
+      sb.append(row.getA());
+      sb.append(" / ");
+      sb.append(row.getB());
+      addLogEntry(
+          getSelectedMix().getName(),
+          "Delete",
+          "Nutrient Ratio Constraint",
+          sb.toString(),
+          getSelectedMix().getMixId(),
+          "",
+          row.getNutrientaid(),
+          "",
+          row.getNutrientbid(),
+          row.getRelationshipid(),
+          row.getA(),
+          row.getB());
       Future<List<List>> task1 = BackgroundExec.submit(new NutrientRatioConstraintsTask(mixid));
       List<List> constraints = task1.get();
       tblNutrientRatio.reload(constraints);
@@ -4007,7 +3965,6 @@ public class Main {
 
       // ----- DRI DEVIATION SUM EXCESS CONSTRAINT -----
       // createDriDeviationSumExcessConstraint(mixid, 8, program, print);
-
       // ----- UL DEVIATION SUM EXCESS CONSTRAINT -----
       createULDeviationSumExcessConstraint(mixid, 8, program, print);
 
@@ -4038,6 +3995,22 @@ public class Main {
         BigDecimal cost = new BigDecimal(program.getCost(), MathContext.DECIMAL64);
         // ---- SET THE HIGH SCORE ----
         setTheHighScore("" + tni);
+        // ---- ADD LOG ENTRY ----
+        StringBuilder sb = new StringBuilder();
+        sb.append(tni);
+        addLogEntry(
+            mix.getName(),
+            "Solve",
+            "Total Nutrient Index Score",
+            sb.toString(),
+            mix.getMixId(),
+            "",
+            "",
+            "",
+            "",
+            null,
+            null,
+            null);
         // ---- PRINT TNI PCT ----
         //        System.out.println("TNI: " + tni);
         //        for (int i = 0; i < solutionPoint.length; i++) {
@@ -4391,30 +4364,7 @@ public class Main {
                           mix.getMixId(), meal.getMealid(), foodid, pcti));
               Boolean task1Complete = task1.get();
             }
-            try {
-              Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
-              List<List> portions = task.get();
-              tblMealPortions.reload(portions);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
-            try {
-              Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
-              List<List> results = task.get();
-              tblMealCalories.reload(results);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
-            try {
-              Future<List<List>> task =
-                  BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
-              List<List> results = task.get();
-              tblMealMacronutrients.reload(results);
-            } catch (Exception e) {
-              LoggerImpl.INSTANCE.logProblem(e);
-            }
+            executeMealPlanPortionsTasks(mix);
           } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);
           }
@@ -4494,6 +4444,7 @@ public class Main {
       Future<List<LifeStageDO>> task = BackgroundExec.submit(new LifestagesTask());
       List<LifeStageDO> lifestages = task.get();
       cmbLifeStage.reload(lifestages);
+      cmbLifeStage.setSelectedIndex(8);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
@@ -4504,6 +4455,7 @@ public class Main {
         return;
       }
       cmbNutrients.reload(list);
+      cmbNutrients.setSelectedIndex(13);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
@@ -4526,7 +4478,6 @@ public class Main {
                   new LifestageDriTask(
                       cmbNutrients.getSelectedItem().getNutr_no(),
                       cmbLifeStage.getSelectedItem().getLifeStageId()));
-
           List<DriDO> driDOlist = task.get();
           DriDO driDO = driDOlist.get(0);
           NutrientDO nutrientDO = cmbNutrients.getSelectedItem();
@@ -4535,12 +4486,11 @@ public class Main {
           checkNumber.addToUncheckedList(s);
           if (checkNumber.pass()) {
             double dvpct = Double.parseDouble(s);
-            sb.append("The ");
-            sb.append(driDO.getNutrientName().substring(0, driDO.getNutrientName().length() - 5));
-            sb.append(" ");
             sb.append(String.format("%.0f", dvpct));
-            sb.append("% ");
-            sb.append("DRI recommendation for ");
+            sb.append("% of ");
+            sb.append("DRI recommendation of ");
+            sb.append(driDO.getNutrientName().substring(0, driDO.getNutrientName().length() - 5));
+            sb.append(" for ");
             sb.append(driDO.getLifestageLabel());
             sb.append(" is ");
             sb.append(String.format("%.1f", dvpct * (driDO.getNutrientQ().doubleValue() / 100)));
@@ -4845,15 +4795,6 @@ public class Main {
         } catch (Exception e) {
           LoggerImpl.INSTANCE.logProblem(e);
         }
-        try {
-          Future<String> task = BackgroundExec.submit(new CreateMixTask(mixName));
-          mixId = task.get();
-        } catch (Exception e) {
-          LoggerImpl.INSTANCE.logProblem(e);
-        }
-        if (mixId.isEmpty()) {
-          return;
-        }
         MixDO mix = createMixDO(mixId);
         try {
           Future<List<List>> task = BackgroundExec.submit(new MixesTask());
@@ -4925,7 +4866,148 @@ public class Main {
       Future<Boolean> task = BackgroundExec.submit(new PinMixTask(mixId));
       Boolean completed = task.get();
       if (completed) {
+        tblNutrientQuantityConstraint
+            .getStream()
+            .forEach(
+                o -> {
+                  List row = (List) o;
+                  StringBuilder sb = new StringBuilder();
+                  sb.append(row.get(3));
+                  sb.append(" ");
+                  sb.append(row.get(4));
+                  sb.append(" ");
+                  sb.append(row.get(5));
+                  addLogEntry(
+                      getSelectedMix().getName(),
+                      "Delete",
+                      "Nutrient Quantity Constraint",
+                      sb.toString(),
+                      getSelectedMix().getMixId(),
+                      "",
+                      (String) row.get(1),
+                      "",
+                      "",
+                      (Integer) row.get(2),
+                      (BigDecimal) row.get(5),
+                      null);
+                });
+        tblNutrientRatio
+            .getStream()
+            .forEach(
+                o -> {
+                  List row = (List) o;
+                  StringBuilder sb = new StringBuilder();
+                  sb.append(row.get(4));
+                  sb.append(" / ");
+                  sb.append(row.get(7));
+                  sb.append(" ");
+                  sb.append(row.get(6));
+                  sb.append(" ");
+                  sb.append(row.get(5));
+                  sb.append(" / ");
+                  sb.append(row.get(8));
+                  addLogEntry(
+                      getSelectedMix().getName(),
+                      "Delete",
+                      "Nutrient Ratio Constraint",
+                      sb.toString(),
+                      getSelectedMix().getMixId(),
+                      "",
+                      (String) row.get(1),
+                      "",
+                      (String) row.get(2),
+                      (Integer) row.get(3),
+                      (BigDecimal) row.get(5),
+                      (BigDecimal) row.get(8));
+                });
+        tblFoodQuantityConstraint
+            .getStream()
+            .forEach(
+                o -> {
+                  List row = (List) o;
+                  StringBuilder sb = new StringBuilder();
+                  sb.append(row.get(4));
+                  sb.append(" using ");
+                  sb.append(row.get(5));
+                  sb.append(" ");
+                  sb.append(row.get(6));
+                  sb.append(" ");
+                  sb.append(row.get(7));
+                  addLogEntry(
+                      getSelectedMix().getName(),
+                      "Delete",
+                      "Food Quantity Constraint",
+                      sb.toString(),
+                      getSelectedMix().getMixId(),
+                      (String) row.get(1),
+                      (String) row.get(2),
+                      "",
+                      "",
+                      (Integer) row.get(3),
+                      (BigDecimal) row.get(7),
+                      null);
+                });
+        tblFoodRatioConstraint
+            .getStream()
+            .forEach(
+                o -> {
+                  List row = (List) o;
+                  StringBuilder sb = new StringBuilder();
+                  sb.append(row.get(6));
+                  sb.append(" using ");
+                  sb.append(row.get(7));
+                  sb.append(" / ");
+                  sb.append(row.get(10));
+                  sb.append(" using ");
+                  sb.append(row.get(11));
+                  sb.append(" ");
+                  sb.append(row.get(9));
+                  sb.append(" ");
+                  sb.append(row.get(8));
+                  sb.append(" / ");
+                  sb.append(row.get(12));
+                  addLogEntry(
+                      getSelectedMix().getName(),
+                      "Delete",
+                      "Food Ratio Constraint",
+                      sb.toString(),
+                      getSelectedMix().getMixId(),
+                      (String) row.get(1),
+                      (String) row.get(2),
+                      (String) row.get(3),
+                      (String) row.get(4),
+                      (Integer) row.get(5),
+                      (BigDecimal) row.get(8),
+                      (BigDecimal) row.get(12));
+                });
         reloadMixConstraints(mixId);
+        tblFoodQuantityConstraint
+            .getStream()
+            .forEach(
+                o -> {
+                  List row = (List) o;
+                  StringBuilder sb = new StringBuilder();
+                  sb.append(row.get(4));
+                  sb.append(" using ");
+                  sb.append(row.get(5));
+                  sb.append(" ");
+                  sb.append(row.get(6));
+                  sb.append(" ");
+                  sb.append(row.get(7));
+                  addLogEntry(
+                      getSelectedMix().getName(),
+                      "Add",
+                      "Food Quantity Constraint",
+                      sb.toString(),
+                      getSelectedMix().getMixId(),
+                      (String) row.get(1),
+                      (String) row.get(2),
+                      "",
+                      "",
+                      (Integer) row.get(3),
+                      (BigDecimal) row.get(7),
+                      null);
+                });
       }
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
@@ -5212,31 +5294,6 @@ public class Main {
     cmbFoodRatioRelationship.setSelectedIndex(0);
   }
 
-  private void reloadFoods() {
-    Future<List<List>> task0 = null;
-    try {
-      task0 = BackgroundExec.submit(new FoodFactsTask());
-      foods = task0.get();
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    } finally {
-      if (foods.isEmpty()) {
-        return;
-      }
-      tblFoods.reload(foods);
-      tblFoodDiffA.reload(foods);
-      tblFoodDiffB.reload(foods);
-      tblCategoryAllFoods.reload(foods);
-      try {
-        Future<List<Map<String, Object>>> task1 = BackgroundExec.submit(new FoodsTask());
-        List<Map<String, Object>> treeFoods = task1.get();
-        tremodelFoods.reload(treeFoods);
-      } catch (Exception e) {
-        LoggerImpl.INSTANCE.logProblem(e);
-      }
-    }
-  }
-
   private void reloadMixConstraints(String mixid) {
     try {
       Future<List<List>> task0 = BackgroundExec.submit(new NutrientQuantityConstraintsTask(mixid));
@@ -5377,9 +5434,6 @@ public class Main {
   private void loadSelectedMix() {
     MixDO mix = getSelectedMix();
     String mixid = mix.getMixId();
-    String name = mix.getName();
-    String model = mix.getModel();
-    BigDecimal cost = mix.getCost();
     String nutrientid = mix.getNutrientid();
     try {
       Future<List<List>> task = BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mixid));
@@ -5388,6 +5442,18 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
+    reloadFoodComboBoxes(mixid);
+    selectFoodComboBoxItem();
+    reloadMixConstraints(mixid);
+    mixFoodLoader.reload(mixid);
+    cmbPortionFood.reload(mixFoodLoader.get());
+    setConstraintCounts();
+    reloadResults(mix);
+  }
+
+  private void reloadResults(MixDO mix) {
+    String mixid = mix.getMixId();
+    String model = mix.getModel();
     try {
       Future<List<List>> task = BackgroundExec.submit(new MixResultsTask(mix.getMixId()));
       List<List> results = task.get();
@@ -5409,11 +5475,6 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
-    reloadFoodComboBoxes(mixid);
-    selectFoodComboBoxItem();
-    reloadMixConstraints(mixid);
-    mixFoodLoader.reload(mixid);
-    cmbPortionFood.reload(mixFoodLoader.get());
     try {
       Future<List<List>> task = BackgroundExec.submit(new MealPlanMealsTask(mixid));
       List<List> meals = task.get();
@@ -5423,39 +5484,16 @@ public class Main {
     }
     txaLpProgram.setText(model);
     txaLpProgram.setCaretPosition(0);
-    setConstraintCounts();
     LifeStageDO lifestage = (LifeStageDO) cmbLifestage.getSelectedItem();
     try {
       Future<List<List>> task =
-          BackgroundExec.submit(new DriDifferenceTask(mix.getMixId(), lifestage.getLifeStageId()));
+          BackgroundExec.submit(new DriDiffTask(mix.getMixId(), lifestage.getLifeStageId()));
       List<List> diff = task.get();
       tblDri.reload(diff);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
-    try {
-      Future<List<List>> task = BackgroundExec.submit(new MealPlanPortionsTask(mix.getMixId()));
-      List<List> portions = task.get();
-      tblMealPortions.reload(portions);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    try {
-      Future<List<List>> task =
-          BackgroundExec.submit(new MealPlanResultsCaloriesTask(mix.getMixId()));
-      List<List> results = task.get();
-      tblMealCalories.reload(results);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    try {
-      Future<List<List>> task =
-          BackgroundExec.submit(new MealPlanResultsMacronutrientsTask(mix.getMixId()));
-      List<List> results = task.get();
-      tblMealMacronutrients.reload(results);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
+    executeMealPlanPortionsTasks(mix);
     setQuantityScale();
   }
 
@@ -5779,5 +5817,71 @@ public class Main {
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
+  }
+
+  private JPanel getModelLogPanel() {
+    JPanel pnl = new JPanel();
+    FormLayout lyo =
+        new FormLayout(
+            "p,p:grow", // columns
+            "8px,fill:25px,fill:p:grow" // rows
+            );
+    pnl.setLayout(lyo);
+    tblLog = new TableLog();
+    JScrollPane scrTable = new JScrollPane(tblLog);
+    scrTable.setBorder(new TitledBorder("Log"));
+    pnl.add(new JLabel("Search: "), cc.xy(1, 2));
+    pnl.add(tblLog.getSearchField(), cc.xy(2, 2));
+    pnl.add(scrTable, cc.xyw(1, 3, 2));
+    tblLog.addKeyListener(
+        new KeyListener() {
+          @Override
+          public void keyPressed(KeyEvent keyEvent) {
+            if (keyEvent.getKeyCode() == KeyEvent.VK_DELETE) {
+              tblLog.clear();
+            }
+          }
+
+          @Override
+          public void keyReleased(KeyEvent keyEvent) {}
+
+          @Override
+          public void keyTyped(KeyEvent keyEvent) {}
+        });
+
+    return pnl;
+  }
+
+  private void addLogEntry(
+      String mix,
+      String action,
+      String type,
+      String object,
+      String mixid,
+      String foodidA,
+      String nutrientidA,
+      String foodidB,
+      String nutrientidB,
+      Integer relationshipid,
+      BigDecimal A,
+      BigDecimal B) {
+    LocalDateTime now = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    String fnow = now.format(formatter);
+    List row = new ArrayList();
+    row.add(fnow);
+    row.add(mix);
+    row.add(action);
+    row.add(type);
+    row.add(object);
+    row.add(mixid);
+    row.add(foodidA);
+    row.add(nutrientidA);
+    row.add(foodidB);
+    row.add(nutrientidB);
+    row.add(relationshipid);
+    row.add(A);
+    row.add(B);
+    tblLog.addRow(row);
   }
 }

@@ -10,23 +10,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class MixDifferenceTask implements Callable<List<List>> {
-  private final Connection connection;
-  private final String mixid1;
-  private final String mixid2;
+/**
+ * @author jr
+ */
+public class FoodDiffTask implements Callable<List<List>> {
 
-  public MixDifferenceTask(String mixdiffida, String mixdiffidb) {
+  private final Connection connection;
+  private final String foodida;
+  private final String foodidb;
+
+  public FoodDiffTask(String foodida, String foodidb) {
     connection = Connect.getInstance().getConnection();
-    this.mixid1 = mixdiffida;
-    this.mixid2 = mixdiffidb;
+    this.foodida = foodida;
+    this.foodidb = foodidb;
   }
 
   @Override
   public List<List> call() {
-    ArrayList<List> table = new ArrayList();
-    try (CallableStatement proc = connection.prepareCall("{CALL public.compareMixes( ?, ? )}")) {
-      proc.setString(1, mixid1);
-      proc.setString(2, mixid2);
+    List<List> table = new ArrayList();
+    try (CallableStatement proc =
+        connection.prepareCall("{CALL public.compareFoodItems( ?, ? )}")) {
+      proc.setString(1, foodida);
+      proc.setString(2, foodidb);
       ResultSet rs = proc.executeQuery();
       while (rs.next()) {
         ArrayList row = new ArrayList();

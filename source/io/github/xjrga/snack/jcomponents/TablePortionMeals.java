@@ -63,8 +63,7 @@ public class TablePortionMeals extends JTable {
               private void filter() {
                 RowFilter<Object, Object> rf = null;
                 try {
-                  List<RowFilter<Object, Object>> filters =
-                      new ArrayList<RowFilter<Object, Object>>(2);
+                  List<RowFilter<Object, Object>> filters = new ArrayList<>();
                   filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 2));
                   filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 3));
                   rf = RowFilter.orFilter(filters);
@@ -93,11 +92,7 @@ public class TablePortionMeals extends JTable {
 
   public boolean isSelectionEmpty() {
     int[] rows = getSelectedRows();
-    if (rows.length == 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return rows.length == 0;
   }
 
   public boolean isEmpty() {
@@ -297,6 +292,9 @@ public class TablePortionMeals extends JTable {
 
     @Override
     public Object getValueAt(int r, int c) {
+      if (data.isEmpty()) {
+        return "";
+      }
       return data.get(r).get(c);
     }
 

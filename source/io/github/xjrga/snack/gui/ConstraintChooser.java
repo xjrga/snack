@@ -64,7 +64,8 @@ public class ConstraintChooser {
     if (optionValue == -1 || optionValue == 2) {
       return;
     }
-    chkBoxes.forEach((JCheckBox o) -> {
+    chkBoxes.forEach(
+        (JCheckBox o) -> {
           if (o.isSelected()) {
             try {
               Future<Boolean> task = BackgroundExec.submit(new UpdateNutrientTask(o.getName(), 1));

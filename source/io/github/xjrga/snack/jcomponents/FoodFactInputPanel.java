@@ -348,6 +348,7 @@ public class FoodFactInputPanel {
       Future<List<LifeStageDO>> task = BackgroundExec.submit(new LifestagesTask());
       List<LifeStageDO> lifestages = task.get();
       cmbLifeStage.reload(lifestages);
+      cmbLifeStage.setSelectedIndex(8);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
@@ -358,6 +359,7 @@ public class FoodFactInputPanel {
         return;
       }
       cmbNutrients.reload(list);
+      cmbNutrients.setSelectedIndex(13);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
@@ -374,7 +376,8 @@ public class FoodFactInputPanel {
       if (s0 != null && s0.length() > 0) {
         try {
           Future<List<DriDO>> task =
-              BackgroundExec.submit(new LifestageDriTask(
+              BackgroundExec.submit(
+                  new LifestageDriTask(
                       cmbNutrients.getSelectedItem().getNutr_no(),
                       cmbLifeStage.getSelectedItem().getLifeStageId()));
 

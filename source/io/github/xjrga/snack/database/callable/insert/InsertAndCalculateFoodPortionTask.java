@@ -19,7 +19,8 @@ public class InsertAndCalculateFoodPortionTask implements Callable<Boolean> {
   private final String foodid;
   private final Double pct;
 
-  public InsertAndCalculateFoodPortionTask(String mixid, Integer mealid, String foodid, Double pct) {
+  public InsertAndCalculateFoodPortionTask(
+      String mixid, Integer mealid, String foodid, Double pct) {
     this.mixid = mixid;
     this.mealid = mealid;
     this.foodid = foodid;

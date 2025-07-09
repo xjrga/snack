@@ -68,8 +68,7 @@ public class TableFoodDiff extends JTable {
               private void filter() {
                 RowFilter<Object, Object> rf = null;
                 try {
-                  List<RowFilter<Object, Object>> filters =
-                      new ArrayList<RowFilter<Object, Object>>(1);
+                  List<RowFilter<Object, Object>> filters = new ArrayList<>();
                   filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 1));
                   rf = RowFilter.orFilter(filters);
                 } catch (java.util.regex.PatternSyntaxException e) {
@@ -82,12 +81,8 @@ public class TableFoodDiff extends JTable {
   }
 
   public boolean isSelectionEmpty() {
-    int selectedRowNo = getSelectedRow();
-    if (selectedRowNo == -1) {
-      return true;
-    } else {
-      return false;
-    }
+    int[] rows = getSelectedRows();
+    return rows.length == 0;
   }
 
   public boolean isEmpty() {
@@ -314,6 +309,9 @@ public class TableFoodDiff extends JTable {
 
     @Override
     public Object getValueAt(int r, int c) {
+      if (data.isEmpty()) {
+        return "";
+      }
       return data.get(r).get(c);
     }
 

@@ -15,7 +15,8 @@ public class FoodQuantityLhsTask implements Callable<double[]> {
   private final Integer relationshipid;
   private final Connection connection;
 
-  public FoodQuantityLhsTask(String mixid, String foodid, String nutrientid, Integer relationshipid) {
+  public FoodQuantityLhsTask(
+      String mixid, String foodid, String nutrientid, Integer relationshipid) {
     this.mixid = mixid;
     this.foodid = foodid;
     this.nutrientid = nutrientid;

@@ -18,7 +18,8 @@ a.MixId = v_MixId
 AND
 a.nutrientid = b.nutrientid
 AND
-a.relationshipid = c.relationshipid;
+a.relationshipid = c.relationshipid
+ORDER BY a.MixId,b.Name,c.Name;
 --
 OPEN result;
 --

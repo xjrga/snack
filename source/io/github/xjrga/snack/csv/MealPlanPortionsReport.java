@@ -45,7 +45,8 @@ public class MealPlanPortionsReport {
               .setHeader(Headers.class)
               .get();
       CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
-      Future<List<List>> task = BackgroundExec.submit(new MealPlanPortionsTask(mixDataObject.getMixId()));
+      Future<List<List>> task =
+          BackgroundExec.submit(new MealPlanPortionsTask(mixDataObject.getMixId()));
       List<List> portions = task.get();
       portions.forEach(
           row -> {

@@ -84,7 +84,8 @@ SELECT food_id,
        energy_digestible,
        fats_hcsfa,
        fats_lcn3pufa
-FROM DnFoodFact;
+FROM DnFoodFact
+ORDER BY food_name;
 --
 OPEN result;
 --

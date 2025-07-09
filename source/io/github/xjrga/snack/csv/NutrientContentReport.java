@@ -47,7 +47,8 @@ public class NutrientContentReport {
       try {
         String nutrientid = nutrientDO.getNutr_no();
         BigDecimal dri = new BigDecimal(textFieldNutrientLookup.getText());
-        Future<List<List>> task = BackgroundExec.submit(new NutrientContainingFoodsTask(nutrientid, dri));
+        Future<List<List>> task =
+            BackgroundExec.submit(new NutrientContainingFoodsTask(nutrientid, dri));
         List<List> results = task.get();
         results.forEach(
             row -> {

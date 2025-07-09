@@ -60,8 +60,7 @@ public class TableCategory extends JTable {
               private void filter() {
                 RowFilter<Object, Object> rf = null;
                 try {
-                  List<RowFilter<Object, Object>> filters =
-                      new ArrayList<RowFilter<Object, Object>>(2);
+                  List<RowFilter<Object, Object>> filters = new ArrayList<>();
                   filters.add(RowFilter.regexFilter("(?i)" + searchTextField.getText(), 0));
                   filters.add(RowFilter.regexFilter("(?i)" + searchTextField.getText(), 1));
                   rf = RowFilter.orFilter(filters);
@@ -90,11 +89,7 @@ public class TableCategory extends JTable {
 
   public boolean isSelectionEmpty() {
     int[] rows = getSelectedRows();
-    if (rows.length == 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return rows.length == 0;
   }
 
   public boolean isEmpty() {
@@ -236,7 +231,7 @@ public class TableCategory extends JTable {
     @Override
     public Object getValueAt(int r, int c) {
       if (data.isEmpty()) {
-        return new NullRow();
+        return "";
       }
       return data.get(r).get(c);
     }

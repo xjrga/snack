@@ -23,7 +23,8 @@ a.Nutrient_Id_1 = b.NutrientId
 AND
 a.Nutrient_Id_2 = c.NutrientId
 AND
-a.relationshipid = d.relationshipid;
+a.relationshipid = d.relationshipid
+ORDER BY a.MixId,b.Name,c.Name,d.Name;
 --
 OPEN result;
 --

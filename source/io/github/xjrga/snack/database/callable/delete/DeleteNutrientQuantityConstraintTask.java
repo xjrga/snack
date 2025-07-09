@@ -17,7 +17,8 @@ public class DeleteNutrientQuantityConstraintTask implements Callable<Boolean> {
   private final String nutrientid;
   private final Integer relationshipid;
 
-  public DeleteNutrientQuantityConstraintTask(String mixid, String nutrientid, Integer relationshipid) {
+  public DeleteNutrientQuantityConstraintTask(
+      String mixid, String nutrientid, Integer relationshipid) {
     connection = Connect.getInstance().getConnection();
     this.mixid = mixid;
     this.nutrientid = nutrientid;

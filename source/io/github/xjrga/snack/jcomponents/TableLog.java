@@ -2,14 +2,13 @@ package io.github.xjrga.snack.jcomponents;
 
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
-import io.github.xjrga.snack.renderers.RoundDownRenderer;
-import io.github.xjrga.snack.renderers.RoundUpRenderer;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -18,32 +17,38 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
 /**
  * @author jr
  */
-public class TableNutrientQuantity extends JTable {
+public class TableLog extends JTable {
 
   private TableRowSorter sorter;
   private JTextField searchField;
   private DataModel dm;
 
-  public TableNutrientQuantity() {
+  public TableLog() {
     searchField = new JTextField();
     dm = new DataModel();
+    dm.addColumn("Timestamp");
+    dm.addColumn("Mix");
+    dm.addColumn("Action");
+    dm.addColumn("Type");
+    dm.addColumn("Object");
     dm.addColumn("MixId");
-    dm.addColumn("NutrientId");
+    dm.addColumn("FoodIdA");
+    dm.addColumn("NutrientIdA");
+    dm.addColumn("FoodIdB");
+    dm.addColumn("NutrientIdB");
     dm.addColumn("RelationshipId");
-    dm.addColumn("Nutrient");
-    dm.addColumn("Eq");
+    dm.addColumn("A");
     dm.addColumn("B");
     setModel(dm);
     setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     setFillsViewportHeight(true);
-    setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
     getTableHeader().setReorderingAllowed(false);
     sorter = new TableRowSorter<>(dm);
     setRowSorter(sorter);
@@ -70,7 +75,11 @@ public class TableNutrientQuantity extends JTable {
                 RowFilter<Object, Object> rf = null;
                 try {
                   List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 0));
+                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 1));
+                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 2));
                   filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 3));
+                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 4));
                   rf = RowFilter.orFilter(filters);
                 } catch (java.util.regex.PatternSyntaxException e) {
                   LoggerImpl.INSTANCE.logProblem(e);
@@ -79,6 +88,11 @@ public class TableNutrientQuantity extends JTable {
               }
             });
     adjustColumnWidth();
+  }
+
+  @Override
+  public boolean isCellEditable(int row, int col) {
+    return true;
   }
 
   @Override
@@ -129,20 +143,40 @@ public class TableNutrientQuantity extends JTable {
   }
 
   private Row getRow(int selectedRowNo) {
-    String mixid = (String) getValueAt(selectedRowNo, 0);
-    String nutrientid = (String) getValueAt(selectedRowNo, 1);
-    Integer relationshipid = (Integer) getValueAt(selectedRowNo, 2);
-    String nutrient = (String) getValueAt(selectedRowNo, 3);
-    String relationship = (String) getValueAt(selectedRowNo, 4);
-    BigDecimal b = (BigDecimal) getValueAt(selectedRowNo, 5);
+    String fnow = (String) getValueAt(selectedRowNo, 0);
+    String mix = (String) getValueAt(selectedRowNo, 1);
+    String action = (String) getValueAt(selectedRowNo, 2);
+    String type = (String) getValueAt(selectedRowNo, 3);
+    String object = (String) getValueAt(selectedRowNo, 4);
+    String mixid = (String) getValueAt(selectedRowNo, 5);
+    String foodidA = (String) getValueAt(selectedRowNo, 6);
+    String nutrientidA = (String) getValueAt(selectedRowNo, 7);
+    String foodidB = (String) getValueAt(selectedRowNo, 8);
+    String nutrientidB = (String) getValueAt(selectedRowNo, 9);
+    Integer relationshipid = (Integer) getValueAt(selectedRowNo, 10);
+    BigDecimal A = (BigDecimal) getValueAt(selectedRowNo, 11);
+    BigDecimal B = (BigDecimal) getValueAt(selectedRowNo, 12);
     Row row = new Row();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+    LocalDateTime timestamp = LocalDateTime.parse(fnow, formatter);
+    row.setTimestamp(timestamp);
+    row.setMix(mix);
+    row.setAction(action);
+    row.setType(type);
+    row.setObject(object);
     row.setMixid(mixid);
-    row.setNutrientid(nutrientid);
+    row.setFoodidA(foodidA);
+    row.setNutrientidA(nutrientidA);
+    row.setFoodidB(foodidB);
+    row.setNutrientidB(nutrientidB);
     row.setRelationshipid(relationshipid);
-    row.setNutrient(nutrient);
-    row.setRelationship(relationship);
-    row.setB(b);
+    row.setA(A);
+    row.setB(B);
     return row;
+  }
+
+  public void addRow(List row) {
+    dm.addRow(row);
   }
 
   public JTextField getSearchField() {
@@ -150,6 +184,7 @@ public class TableNutrientQuantity extends JTable {
   }
 
   public void reload(List<List> data) {
+    dm.clear();
     dm.reload(data);
     adjustColumnWidth();
   }
@@ -159,54 +194,101 @@ public class TableNutrientQuantity extends JTable {
   }
 
   private void adjustColumnWidth() {
-    getColumnModel().getColumn(0).setMinWidth(0);
-    getColumnModel().getColumn(0).setMaxWidth(0);
-    getColumnModel().getColumn(1).setMinWidth(0);
-    getColumnModel().getColumn(1).setMaxWidth(0);
-    getColumnModel().getColumn(2).setMinWidth(0);
-    getColumnModel().getColumn(2).setMaxWidth(0);
-    getColumnModel().getColumn(3).setMinWidth(350);
-    getColumnModel().getColumn(3).setMaxWidth(350);
-    getColumnModel().getColumn(4).setMinWidth(21);
-    getColumnModel().getColumn(4).setMaxWidth(21);
-    getColumnModel().getColumn(5).setMinWidth(90);
-    getColumnModel().getColumn(5).setMaxWidth(90);
-  }
-
-  public void roundUp() {
-    roundQuantity(new RoundUpRenderer());
-  }
-
-  public void roundDown() {
-    roundQuantity(new RoundDownRenderer());
-  }
-
-  private void roundQuantity(DefaultTableCellRenderer renderer) {
-    getColumnModel().getColumn(5).setCellRenderer(renderer);
-    revalidate();
-    repaint();
-  }
-
-  public Stream getStream() {
-    return dm.getStream();
+    getColumnModel().getColumn(0).setMinWidth(140);
+    getColumnModel().getColumn(0).setMaxWidth(140);
+    // 1
+    getColumnModel().getColumn(1).setPreferredWidth(200);
+    getColumnModel().getColumn(2).setPreferredWidth(50);
+    getColumnModel().getColumn(3).setPreferredWidth(202);
+    // 4
+    getColumnModel().getColumn(5).setMinWidth(0);
+    getColumnModel().getColumn(5).setMaxWidth(0);
+    getColumnModel().getColumn(6).setMinWidth(0);
+    getColumnModel().getColumn(6).setMaxWidth(0);
+    getColumnModel().getColumn(7).setMinWidth(0);
+    getColumnModel().getColumn(7).setMaxWidth(0);
+    getColumnModel().getColumn(8).setMinWidth(0);
+    getColumnModel().getColumn(8).setMaxWidth(0);
+    getColumnModel().getColumn(9).setMinWidth(0);
+    getColumnModel().getColumn(9).setMaxWidth(0);
+    getColumnModel().getColumn(10).setMinWidth(0);
+    getColumnModel().getColumn(10).setMaxWidth(0);
+    getColumnModel().getColumn(11).setMinWidth(0);
+    getColumnModel().getColumn(11).setMaxWidth(0);
+    getColumnModel().getColumn(12).setMinWidth(0);
+    getColumnModel().getColumn(12).setMaxWidth(0);
   }
 
   public class Row {
 
+    private LocalDateTime timestamp;
+    private String mix;
+    private String action;
+    private String type;
+    private String object;
     private String mixid;
-    private String nutrientid;
+    private String foodidA;
+    private String nutrientidA;
+    private String foodidB;
+    private String nutrientidB;
     private Integer relationshipid;
-    private String nutrient;
-    private String relationship;
-    private BigDecimal b;
+    private BigDecimal A;
+    private BigDecimal B;
 
     public Row() {
-      mixid = null;
-      nutrientid = null;
-      relationshipid = null;
-      nutrient = null;
-      relationship = null;
-      b = null;
+      timestamp = LocalDateTime.now();
+      mix = "";
+      action = "";
+      type = "";
+      object = "";
+      mixid = "";
+      foodidA = "";
+      nutrientidA = "";
+      foodidB = "";
+      nutrientidB = "";
+      relationshipid = -1;
+      A = new BigDecimal("0.0");
+      B = new BigDecimal("0.0");
+    }
+
+    public LocalDateTime getTimestamp() {
+      return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+      this.timestamp = timestamp;
+    }
+
+    public String getMix() {
+      return mix;
+    }
+
+    public void setMix(String mixname) {
+      this.mix = mixname;
+    }
+
+    public String getAction() {
+      return action;
+    }
+
+    public void setAction(String action) {
+      this.action = action;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public String getObject() {
+      return object;
+    }
+
+    public void setObject(String object) {
+      this.object = object;
     }
 
     public String getMixid() {
@@ -217,12 +299,36 @@ public class TableNutrientQuantity extends JTable {
       this.mixid = mixid;
     }
 
-    public String getNutrientid() {
-      return nutrientid;
+    public String getFoodidA() {
+      return foodidA;
     }
 
-    public void setNutrientid(String nutrientid) {
-      this.nutrientid = nutrientid;
+    public void setFoodidA(String foodidA) {
+      this.foodidA = foodidA;
+    }
+
+    public String getNutrientidA() {
+      return nutrientidA;
+    }
+
+    public void setNutrientidA(String nutrientidA) {
+      this.nutrientidA = nutrientidA;
+    }
+
+    public String getFoodidB() {
+      return foodidB;
+    }
+
+    public void setFoodidB(String foodidB) {
+      this.foodidB = foodidB;
+    }
+
+    public String getNutrientidB() {
+      return nutrientidB;
+    }
+
+    public void setNutrientidB(String nutrientidB) {
+      this.nutrientidB = nutrientidB;
     }
 
     public Integer getRelationshipid() {
@@ -233,28 +339,20 @@ public class TableNutrientQuantity extends JTable {
       this.relationshipid = relationshipid;
     }
 
-    public String getNutrient() {
-      return nutrient;
+    public BigDecimal getA() {
+      return A;
     }
 
-    public void setNutrient(String nutrient) {
-      this.nutrient = nutrient;
-    }
-
-    public String getRelationship() {
-      return relationship;
-    }
-
-    public void setRelationship(String relationship) {
-      this.relationship = relationship;
+    public void setA(BigDecimal A) {
+      this.A = A;
     }
 
     public BigDecimal getB() {
-      return b;
+      return B;
     }
 
-    public void setB(BigDecimal b) {
-      this.b = b;
+    public void setB(BigDecimal B) {
+      this.B = B;
     }
 
     public boolean isNull() {
@@ -264,6 +362,7 @@ public class TableNutrientQuantity extends JTable {
 
   public class NullRow extends Row {
 
+    @Override
     public boolean isNull() {
       return true;
     }
@@ -272,12 +371,12 @@ public class TableNutrientQuantity extends JTable {
   private class DataModel extends AbstractTableModel implements Reload {
 
     private List<List> data;
-    private List<String> columns;
+    private final List<String> columns;
     private int rowcount;
 
     public DataModel() {
-      data = new ArrayList<List>();
-      columns = new ArrayList<String>();
+      data = new ArrayList<>();
+      columns = new ArrayList<>();
       setRowCount();
     }
 
@@ -292,24 +391,15 @@ public class TableNutrientQuantity extends JTable {
 
     @Override
     public Class<?> getColumnClass(int c) {
-      Class columnClass = BigDecimal.class;
+      Class columnClass = String.class;
       switch (c) {
         case 0 -> {
+          columnClass = LocalDateTime.class;
+        }
+        case 10 -> {
           columnClass = Integer.class;
         }
-        case 1 -> {
-          columnClass = String.class;
-        }
-        case 2 -> {
-          columnClass = Integer.class;
-        }
-        case 3 -> {
-          columnClass = String.class;
-        }
-        case 4 -> {
-          columnClass = String.class;
-        }
-        case 5 -> {
+        case 11, 12 -> {
           columnClass = BigDecimal.class;
         }
       }
@@ -353,9 +443,15 @@ public class TableNutrientQuantity extends JTable {
     public void setValueAt(Object o, int r, int c) {
       data.get(r).set(c, o);
       fireTableCellUpdated(r, c);
-      ;
     }
 
+    public void addRow(List row) {
+      data.add(row);
+      setRowCount();
+      fireTableDataChanged();
+    }
+
+    @Override
     public void reload(List<List> data) {
       this.data = data;
       setRowCount();
@@ -371,10 +467,6 @@ public class TableNutrientQuantity extends JTable {
 
     private void setRowCount() {
       rowcount = data.size();
-    }
-
-    public Stream getStream() {
-      return data.stream();
     }
   }
 
@@ -395,5 +487,19 @@ public class TableNutrientQuantity extends JTable {
   }
 
   protected String[] columnToolTips =
-      new String[] {"MixId", "NutrientId", "RelationshipId", "Nutrient", "Relationship", "B"};
+      new String[] {
+        "Timestamp",
+        "Mix",
+        "Action",
+        "Type",
+        "Object",
+        "MixId",
+        "FoodIdA",
+        "NutrientIdA",
+        "FoodIdB",
+        "NutrientIdB",
+        "RelationshipId",
+        "A",
+        "B"
+      };
 }

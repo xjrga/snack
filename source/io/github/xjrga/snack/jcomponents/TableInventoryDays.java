@@ -65,8 +65,7 @@ public class TableInventoryDays extends JTable {
               private void filter() {
                 RowFilter<Object, Object> rf = null;
                 try {
-                  List<RowFilter<Object, Object>> filters =
-                      new ArrayList<RowFilter<Object, Object>>(1);
+                  List<RowFilter<Object, Object>> filters = new ArrayList<>();
                   filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 1));
                   rf = RowFilter.orFilter(filters);
                 } catch (java.util.regex.PatternSyntaxException e) {
@@ -94,11 +93,7 @@ public class TableInventoryDays extends JTable {
 
   public boolean isSelectionEmpty() {
     int[] rows = getSelectedRows();
-    if (rows.length == 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return rows.length == 0;
   }
 
   public boolean isEmpty() {
@@ -272,6 +267,9 @@ public class TableInventoryDays extends JTable {
 
     @Override
     public Object getValueAt(int r, int c) {
+      if (data.isEmpty()) {
+        return "";
+      }
       return data.get(r).get(c);
     }
 
@@ -288,7 +286,8 @@ public class TableInventoryDays extends JTable {
     @Override
     public void setValueAt(Object o, int r, int c) {
       data.get(r).set(c, o);
-      fireTableRowsInserted(r, c);
+      fireTableCellUpdated(r, c);
+      ;
     }
 
     public void reload(List<List> data) {

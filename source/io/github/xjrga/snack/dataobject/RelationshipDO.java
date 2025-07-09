@@ -19,7 +19,7 @@ package io.github.xjrga.snack.dataobject;
 public class RelationshipDO {
 
   private String name;
-  private int relationshipid;
+  private Integer relationshipid;
 
   public RelationshipDO(int relationshipid, String name) {
     this.setRelationshipid(relationshipid);
@@ -30,7 +30,7 @@ public class RelationshipDO {
     return name;
   }
 
-  public int getRelationshipid() {
+  public Integer getRelationshipid() {
     return relationshipid;
   }
 
@@ -67,6 +67,6 @@ public class RelationshipDO {
       return false;
     }
     final RelationshipDO other = (RelationshipDO) obj;
-    return this.relationshipid == other.relationshipid;
+    return relationshipid.compareTo(other.relationshipid) == 0;
   }
 }

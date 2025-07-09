@@ -31,7 +31,8 @@ a.Food_Id_2 = d.FoodId
 AND
 a.Nutrient_Id_2 = e.NutrientId
 AND
-a.relationshipid = f.relationshipid;
+a.relationshipid = f.relationshipid
+ORDER BY a.MixId,b.Name,d.Name,c.Name,c.Name,e.Name,f.Name;
 --
 OPEN result;
 --

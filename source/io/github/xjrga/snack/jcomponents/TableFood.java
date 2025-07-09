@@ -60,8 +60,7 @@ public class TableFood extends JTable {
               private void filter() {
                 RowFilter<Object, Object> rf = null;
                 try {
-                  List<RowFilter<Object, Object>> filters =
-                      new ArrayList<RowFilter<Object, Object>>(1);
+                  List<RowFilter<Object, Object>> filters = new ArrayList<>();
                   filters.add(RowFilter.regexFilter("(?i)" + txtSearch.getText(), 1));
                   rf = RowFilter.orFilter(filters);
                 } catch (java.util.regex.PatternSyntaxException e) {
@@ -89,11 +88,7 @@ public class TableFood extends JTable {
 
   public boolean isSelectionEmpty() {
     int[] rows = getSelectedRows();
-    if (rows.length == 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return rows.length == 0;
   }
 
   public boolean isEmpty() {
@@ -143,6 +138,17 @@ public class TableFood extends JTable {
 
   public void clear() {
     dm.clear();
+  }
+
+  public String findName(String foodid) {
+    String name = "";
+    for (int r = 0; r < dm.getRowCount(); r++) {
+      String found = (String) dm.getValueAt(r, 0);
+      if (foodid.equals(found)) {
+        name = (String) dm.getValueAt(r, 1);
+      }
+    }
+    return name;
   }
 
   private void adjustColumnWidth() {
@@ -236,7 +242,7 @@ public class TableFood extends JTable {
     @Override
     public Object getValueAt(int r, int c) {
       if (data.isEmpty()) {
-        return new NullRow();
+        return "";
       }
       return data.get(r).get(c);
     }

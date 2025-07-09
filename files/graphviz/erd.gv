@@ -1,7 +1,7 @@
 digraph erd {
 
     labelloc = "t";
-    label = "Snack 1505 Entity Relationship Diagram";
+    label = "";
     fontsize = 20;
     fontname = "Liberation Mono Bold"
     size = "100,100";
