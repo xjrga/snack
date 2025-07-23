@@ -49,10 +49,10 @@ SELECT 'Dietary Index'
        a.mixa,
        b.mixb,
        a.mixa - b.mixb as diff
-FROM (SELECT (1 - mixdeficiency)*100.0 AS mixa
+FROM (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixa
       FROM mix
       WHERE mixid = v_MixId_1) a,
-     (SELECT (1 - mixdeficiency)*100.0 AS mixb
+     (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixb
       FROM mix
       WHERE mixid = v_MixId_2) b
 UNION      
@@ -60,7 +60,7 @@ SELECT 'Energy' AS category,
        'Energy, Food Quotient' AS name,
        getFoodQuotient(v_MixId_1) * 100.0 AS mixa,
        getFoodQuotient(v_MixId_2) * 100.0 AS mixb,
-       getFoodQuotient(v_MixId_1) - getFoodQuotient(v_MixId_2) as diff
+       (getFoodQuotient(v_MixId_1) - getFoodQuotient(v_MixId_2)) * 100 as diff
 FROM (
      VALUES (0))
 UNION
@@ -69,10 +69,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -81,10 +81,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100) AS mixb
+     (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -93,10 +93,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -105,10 +105,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -117,10 +117,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 )      

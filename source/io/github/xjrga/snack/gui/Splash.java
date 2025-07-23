@@ -43,7 +43,7 @@ public class Splash extends JFrame {
                 Thread.sleep(1000L);
               } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                LoggerImpl.INSTANCE.logProblem(e);
+                // LoggerImpl.INSTANCE.logProblem(e);
               }
             }
           }

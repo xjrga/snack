@@ -5,7 +5,7 @@ DECLARE result CURSOR
 FOR
 SELECT MixId,
        Name,
-       NutrientId,
+       LifeStageId,
        Model,
        MixCost
 FROM Mix

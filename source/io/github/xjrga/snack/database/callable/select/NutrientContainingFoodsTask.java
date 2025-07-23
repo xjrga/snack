@@ -36,8 +36,11 @@ public class NutrientContainingFoodsTask implements Callable<List<List>> {
       while (rs.next()) {
         ArrayList row = new ArrayList();
         row.add(rs.getString(1));
-        row.add(rs.getBigDecimal(2));
-        row.add(rs.getBigDecimal(3));
+        row.add(rs.getString(2));
+        row.add(rs.getString(3));
+        row.add(rs.getString(4));
+        row.add(rs.getBigDecimal(5));
+        row.add(rs.getBigDecimal(6));
         table.add(row);
       }
     } catch (Exception e) {

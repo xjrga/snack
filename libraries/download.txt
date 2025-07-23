@@ -3,8 +3,6 @@ hsqldb-2.7.4.jar
 sqltool-2.7.4.jar
 jgoodies-common-1.8.1.jar
 jgoodies-forms-1.9.0.jar
-freemarker-2.3.34.jar
-commons-dbutils-1.8.1.jar
 commons-math3-3.6.1.jar
 commons-codec-1.17.2.jar
 commons-csv-1.13.0.jar

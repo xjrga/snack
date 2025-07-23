@@ -14,7 +14,7 @@ DECLARE doc LONGVARCHAR;
 --
 SET doc = '';
 --
-SELECT  '<mix>' +CHAR(10) + '<mix-id>' + mixid + '</mix-id>' +CHAR(10) + '<mix-name>' + escape_xml_element_data(Name) + '</mix-name>' + CHAR(10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+SELECT  '<mix>' +CHAR(10) + '<mix-id>' + mixid + '</mix-id>' +CHAR(10) + '<mix-name>' + escape_xml_element_data(Name) + '</mix-name>' + CHAR(10) + '<lifestage-id>' + lifestageid + '</lifestage-id>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
 --
 SET v_doc = doc + CHAR (10);
 --

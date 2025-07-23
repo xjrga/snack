@@ -28,7 +28,7 @@ public class InsertFoodCategoryLinkTask implements Callable<Boolean> {
       proc.execute();
       completed = true;
     } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
+      // LoggerImpl.INSTANCE.logProblem(e);
     }
     return completed;
   }}

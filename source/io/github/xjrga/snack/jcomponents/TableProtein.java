@@ -365,6 +365,7 @@ public class TableProtein extends JTable {
       fireTableDataChanged();
     }
 
+    @Override
     public void reload(List<List> data) {
       this.data = data;
       setRowCount();

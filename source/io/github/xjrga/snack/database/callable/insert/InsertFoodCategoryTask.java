@@ -27,7 +27,7 @@ public class InsertFoodCategoryTask implements Callable<Boolean> {
       proc.execute();
       completed = true;
     } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
+      // LoggerImpl.INSTANCE.logProblem(e);
     }
     return completed;
   }

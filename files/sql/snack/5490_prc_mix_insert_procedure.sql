@@ -15,11 +15,12 @@ SELECT generateId() INTO newid2 FROM (VALUES(0));
 INSERT INTO Mix (
 MixId,
 Name,
-NutrientId
+LifeStageId
 ) VALUES (
 newid2,
 v_Name,
-'10009'
+--TODO - fix
+8
 );
 --
 SET newid = newid2;

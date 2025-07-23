@@ -21,7 +21,7 @@ public class RoundUpRendererNE extends DefaultTableCellRenderer {
   protected void setValue(Object value) {
     if (value != null) {
       if (value instanceof BigDecimal d) {
-        DecimalFormat df = new DecimalFormat("###0");
+        DecimalFormat df = new DecimalFormat("###0.0");
         txt = df.format(d);
         if (!Utilities.equalTo(d, new BigDecimal("0"))) {
           setForeground(Color.decode("0x00FF00"));

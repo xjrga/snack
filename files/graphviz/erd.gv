@@ -1,7 +1,7 @@
 digraph erd {
 
     labelloc = "t";
-    label = "";
+    label = "SNACK";
     fontsize = 20;
     fontname = "Liberation Mono Bold"
     size = "100,100";
@@ -16,6 +16,21 @@ CategoryLink [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodCategoryId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+        </table>
+    >]
+DnFoodFact [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>DnFoodFact</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>               
+        </table>
+    >]
+DnMixResult [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>DnMixResult</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">mix_id: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>                             
         </table>
     >]
 Food [shape=record, label=<
@@ -105,9 +120,11 @@ Mix [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Model: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixCost: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixDeficiency: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixExcess: DECIMAL(11,5)</td></tr>
         </table>
     >]
 MixFood [shape=Mrecord, label=<
@@ -254,6 +271,8 @@ edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot,
 MixFood -> MealFoodPortion [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
 Nutrient -> Mix [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
+RdaLifeStage -> Mix [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Food -> MixFood [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]

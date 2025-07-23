@@ -3,11 +3,11 @@ package io.github.xjrga.snack.jcomponents;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
 import io.github.xjrga.snack.renderers.RoundDownRenderer;
-import io.github.xjrga.snack.renderers.RoundDownRendererGT;
-import io.github.xjrga.snack.renderers.RoundDownRendererLT;
+import io.github.xjrga.snack.renderers.UpperLimitDownRenderer;
+import io.github.xjrga.snack.renderers.DriDownRenderer;
 import io.github.xjrga.snack.renderers.RoundUpRenderer;
-import io.github.xjrga.snack.renderers.RoundUpRendererGT;
-import io.github.xjrga.snack.renderers.RoundUpRendererLT;
+import io.github.xjrga.snack.renderers.UpperLimitUpRenderer;
+import io.github.xjrga.snack.renderers.DriUpRenderer;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -187,9 +187,9 @@ public class TableDri extends JTable {
     RoundUpRenderer renderer = new RoundUpRenderer();
     getColumnModel().getColumn(2).setCellRenderer(renderer);
     getColumnModel().getColumn(3).setCellRenderer(renderer);
-    getColumnModel().getColumn(4).setCellRenderer(new RoundUpRendererLT());
+    getColumnModel().getColumn(4).setCellRenderer(new DriUpRenderer());
     getColumnModel().getColumn(5).setCellRenderer(renderer);
-    getColumnModel().getColumn(6).setCellRenderer(new RoundUpRendererGT());
+    getColumnModel().getColumn(6).setCellRenderer(new UpperLimitUpRenderer());
     revalidate();
     repaint();
   }
@@ -198,9 +198,9 @@ public class TableDri extends JTable {
     RoundDownRenderer renderer = new RoundDownRenderer();
     getColumnModel().getColumn(2).setCellRenderer(renderer);
     getColumnModel().getColumn(3).setCellRenderer(renderer);
-    getColumnModel().getColumn(4).setCellRenderer(new RoundDownRendererLT());
+    getColumnModel().getColumn(4).setCellRenderer(new DriDownRenderer());
     getColumnModel().getColumn(5).setCellRenderer(renderer);
-    getColumnModel().getColumn(6).setCellRenderer(new RoundDownRendererGT());
+    getColumnModel().getColumn(6).setCellRenderer(new UpperLimitDownRenderer());
     revalidate();
     repaint();
   }

@@ -300,7 +300,7 @@ public class Utilities {
           MixDO mix = new MixDO();
           mix.setMixId((String) row.get(0));
           mix.setName((String) row.get(1));
-          mix.setNutrientid((String) row.get(2));
+          mix.setLifeStageId((Integer) row.get(2));
           mix.setModel((String) row.get(3));
           mix.setCost((BigDecimal) row.get(4));
           list.add(mix);

@@ -30,7 +30,7 @@ public class MixesTask implements Callable<List<List>> {
         ArrayList row = new ArrayList();
         row.add(rs.getString(1));
         row.add(rs.getString(2));
-        row.add(rs.getString(3));
+        row.add(rs.getInt(3));
         row.add(rs.getString(4));
         row.add(rs.getBigDecimal(5));
         lst.add(row);

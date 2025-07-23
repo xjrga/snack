@@ -1,6 +1,5 @@
 ### Release Notes
 
-<<<<<<< HEAD
 ### 0.503
   * Fix result data order
 
@@ -410,14 +409,21 @@
 
 ### 1510 - June 08, 2025
 
-  * Fixed minor bugs
+  * Bug fixes
 
 ### 1515 - June 25, 2025
 
   * This is the Total Nutrient Index (TNI) version.
 
 ### 1520 - July 09, 2025
-
-  * Bug fixes
+  
   * Added mix log
+  * Bug fixes
 
+### 1530 - August 24, 2025
+
+  * Add food category column to nutrient search use case
+  * Add life stage options
+  * Add minimization options
+  * Bug fixes
+  

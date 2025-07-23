@@ -291,7 +291,7 @@ CREATE TABLE Mix
 (
         MixId LONGVARCHAR,
         Name LONGVARCHAR,
-        NutrientId LONGVARCHAR,
+        LifeStageId INTEGER,
         Model LONGVARCHAR,
         MixCost DECIMAL(16,10),
         MixDeficiency DECIMAL(16,10),
@@ -462,7 +462,7 @@ ALTER TABLE MealFoodPortion ADD CONSTRAINT R16_MealFoodPortion FOREIGN KEY (Meal
 /
 ALTER TABLE MealFoodPortion ADD CONSTRAINT R17_MealFoodPortion FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE Mix ADD CONSTRAINT R18_Mix FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE SET NULL;
+ALTER TABLE Mix ADD CONSTRAINT R18_Mix FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE SET NULL;
 /
 ALTER TABLE MixFood ADD CONSTRAINT R19_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
@@ -2938,17 +2938,27 @@ IN v_MixId_Old LONGVARCHAR
 MODIFIES SQL DATA BEGIN ATOMIC
 --
 DECLARE v_Name_Old LONGVARCHAR;
-DECLARE v_NutrientId LONGVARCHAR;
+DECLARE v_LifeStageId INTEGER;
 DECLARE v_Model LONGVARCHAR;
+DECLARE v_MixCost LONGVARCHAR;
+DECLARE v_MixDeficiency LONGVARCHAR;
+DECLARE v_MixExcess LONGVARCHAR;
 DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
-       Nutrientid,
-       Model       
+       LifeStageId,
+       Model,
+       MixCost,
+       MixDeficiency,
+       MixExcess
 INTO
        v_Name_Old,
-       v_NutrientId,
-       v_Model       
+       v_LifeStageId,
+       v_Model,
+       v_MixCost,
+       v_MixDeficiency,
+       v_MixExcess
+       
 FROM Mix
 WHERE MixId = v_MixId_Old;
 --
@@ -2957,13 +2967,19 @@ SELECT generateId() INTO newid2 FROM (VALUES(0));
 INSERT INTO Mix (
 MixId,
 Name,
-Nutrientid,
-Model
+LifeStageId,
+Model,
+MixCost,
+MixDeficiency,
+MixExcess
 ) VALUES (
 newid2,
-v_Name_Old||'_copy',
-v_NutrientId,
-v_Model
+v_Name_Old||'_duplicate',
+v_LifeStageId,
+v_Model,
+v_MixCost,
+v_MixDeficiency,
+v_MixExcess 
 );
 --
 SET newid = newid2;
@@ -3055,10 +3071,10 @@ SELECT 'Dietary Index'
        a.mixa,
        b.mixb,
        a.mixa - b.mixb as diff
-FROM (SELECT (1 - mixdeficiency)*100.0 AS mixa
+FROM (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixa
       FROM mix
       WHERE mixid = v_MixId_1) a,
-     (SELECT (1 - mixdeficiency)*100.0 AS mixb
+     (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixb
       FROM mix
       WHERE mixid = v_MixId_2) b
 UNION      
@@ -3066,7 +3082,7 @@ SELECT 'Energy' AS category,
        'Energy, Food Quotient' AS name,
        getFoodQuotient(v_MixId_1) * 100.0 AS mixa,
        getFoodQuotient(v_MixId_2) * 100.0 AS mixb,
-       getFoodQuotient(v_MixId_1) - getFoodQuotient(v_MixId_2) as diff
+       (getFoodQuotient(v_MixId_1) - getFoodQuotient(v_MixId_2)) * 100 as diff
 FROM (
      VALUES (0))
 UNION
@@ -3075,10 +3091,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_protein) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -3087,10 +3103,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100) AS mixb
+     (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0, (SUM(energy_carbohydrate) + SUM(energy_fat)) / SUM(energy_digestible) *100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -3099,10 +3115,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_fat) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -3111,10 +3127,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_carbohydrate) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 UNION
@@ -3123,10 +3139,10 @@ SELECT 'Energy' AS category,
        a.mixa,
        b.mixb,
               a.mixa - b.mixb as diff
-FROM (SELECT CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100) AS mixa
+FROM (SELECT IFNULL(CASEWHEN(SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100),0) AS mixa
       FROM DnMixResult
       WHERE mix_id = v_MixId_1) a,
-     (SELECT CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100) AS mixb
+     (SELECT IFNULL(CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(energy_alcohol) / SUM(energy_digestible)*100),0) AS mixb
       FROM DnMixResult
       WHERE mix_id = v_MixId_2) b
 )      
@@ -3143,7 +3159,7 @@ IN v_mixid LONGVARCHAR,
 --
 IN v_name LONGVARCHAR,
 --
-IN v_nutrientid LONGVARCHAR,
+IN v_LifeStageId INTEGER,
 --
 IN v_model LONGVARCHAR
 --
@@ -3154,12 +3170,12 @@ MODIFIES SQL DATA BEGIN ATOMIC
 INSERT INTO mix (
 mixid,
 name,
-nutrientid,
+lifestageid,
 model
 ) VALUES (
 v_mixid,
 v_name,
-v_nutrientid,
+v_LifeStageId,
 v_model
 );
 --
@@ -3185,11 +3201,12 @@ SELECT generateId() INTO newid2 FROM (VALUES(0));
 INSERT INTO Mix (
 MixId,
 Name,
-NutrientId
+LifeStageId
 ) VALUES (
 newid2,
 v_Name,
-'10009'
+--TODO - fix
+8
 );
 --
 SET newid = newid2;
@@ -3204,7 +3221,7 @@ DECLARE result CURSOR
 FOR
 SELECT MixId,
        Name,
-       NutrientId,
+       LifeStageId,
        Model,
        MixCost
 FROM Mix
@@ -3231,33 +3248,32 @@ END;
 /
 
 
-CREATE PROCEDURE Mix_Update_NutrientId (
+CREATE PROCEDURE updateMix (
+--
 IN v_MixId LONGVARCHAR,
-IN v_NutrientId LONGVARCHAR
+IN v_LifeStageId INTEGER,
+IN v_Model LONGVARCHAR,
+IN v_MixCost DECIMAL(11,5),
+IN v_MixDeficiency DECIMAL(11,5),
+IN v_MixExcess DECIMAL(11,5)
+--
 )
-MODIFIES SQL DATA BEGIN ATOMIC
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
 UPDATE
 Mix
 SET
-NutrientId = v_NutrientId
+LifeStageId = v_LifeStageId,
+Model = v_Model,
+MixCost = v_MixCost,
+MixDeficiency = v_MixDeficiency,
+MixExcess = v_MixExcess
 WHERE
 MixId = v_MixId;
 END;
-/
-
-
-CREATE PROCEDURE Mix_Update_Other (
-IN v_MixId LONGVARCHAR,
-IN v_Model LONGVARCHAR
-)
-MODIFIES SQL DATA BEGIN ATOMIC
-UPDATE
-Mix
-SET
-Model = v_Model
-WHERE
-MixId = v_MixId;
-END;
+--
 /
 
 
@@ -4390,32 +4406,6 @@ END;
 /
 
 
-CREATE PROCEDURE objective_lhs (
---
-IN v_MixId LONGVARCHAR
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT foodid,
-       c
-FROM mixfood a, foodfactcoefficient b
-WHERE mixid = v_mixid
-AND
-a.foodid = b.foodid
-AND
-b.nutrientid = (SELECT a.nutrientid FROM mix a WHERE a.mixid = v_mixid)
-ORDER BY foodid;
---
-OPEN result;
---
-END;
-/
-
-
 CREATE PROCEDURE Relationship_Insert (
 IN v_RelationshipId INTEGER,
 IN v_Name LONGVARCHAR
@@ -4449,34 +4439,50 @@ END;
 CREATE PROCEDURE Nutrient_Lookup_List (
 --
 IN v_nutrientid LONGVARCHAR,
-IN v_q DECIMAL(10,5)
+IN v_q DECIMAL(16,10)
 --
 )
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
 DECLARE result CURSOR FOR
-SELECT a.name AS food,
-       b.weight,
-       b.calories
-FROM food a,
-     (SELECT a.foodid,
-             a.q AS weight,
-             b.c*a.q AS calories
-      FROM (SELECT foodid,
-                   v_q / c AS q
-            FROM (SELECT foodid,
-                         c
-                  FROM foodfactcoefficient a
-                  WHERE nutrientid = v_nutrientid
-                  AND   c > 0)) a,
-           (SELECT foodid,
-                   c
-            FROM foodfactcoefficient a
-            WHERE nutrientid = '10009') b
-      WHERE a.foodid = b.foodid) b
+SELECT a.foodcategoryid as categoryid,
+       b.foodid as foodid,
+       a.name as category,
+       b.name as food,
+       a.calories,
+       a.weight
+FROM (SELECT b.name,
+             b.foodcategoryid,
+             a.foodid,
+             a.weight,
+             a.calories
+      FROM (SELECT b.foodcategoryid,
+                   b.foodid,
+                   a.weight,
+                   a.calories
+            FROM (SELECT a.foodid,
+                         a.q AS weight,
+                         b.c*a.q AS calories
+                  FROM (SELECT foodid,
+                               v_q / c AS q
+                        FROM (SELECT foodid,
+                                     c
+                              FROM foodfactcoefficient a
+                              WHERE nutrientid = v_nutrientid
+                              AND   c > 0)) a,
+                       (SELECT foodid,
+                               c
+                        FROM foodfactcoefficient a
+                        WHERE nutrientid = '10009') b
+                  WHERE a.foodid = b.foodid) a,
+                 CategoryLink b
+            WHERE a.foodid = b.foodid) a,
+           foodcategory b
+      WHERE a.foodcategoryid = b.foodcategoryid) a,
+     food b
 WHERE a.foodid = b.foodid
-ORDER BY weight ASC;
+ORDER BY a.name, a.calories;
 --
 OPEN result;
 --
@@ -4760,7 +4766,7 @@ DECLARE doc LONGVARCHAR;
 --
 SET doc = '';
 --
-SELECT  '<mix>' +CHAR(10) + '<mix-id>' + mixid + '</mix-id>' +CHAR(10) + '<mix-name>' + escape_xml_element_data(Name) + '</mix-name>' + CHAR(10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
+SELECT  '<mix>' +CHAR(10) + '<mix-id>' + mixid + '</mix-id>' +CHAR(10) + '<mix-name>' + escape_xml_element_data(Name) + '</mix-name>' + CHAR(10) + '<lifestage-id>' + lifestageid + '</lifestage-id>' + CHAR(10)  + '</mix>'  INTO doc FROM Mix WHERE mixid = v_MixId;
 --
 SET v_doc = doc + CHAR (10);
 --
@@ -8403,7 +8409,7 @@ ORDER BY b.name
 CREATE TRIGGER MixCost_rlau_trigger
 AFTER UPDATE ON Mix
 REFERENCING NEW AS new
-FOR EACH ROW
+FOR EACH ROW WHEN (new.mixcost >= 0)
 --
 BEGIN ATOMIC
 --
@@ -8418,7 +8424,7 @@ END;
 CREATE TRIGGER MixCost_rlai_trigger
 AFTER INSERT ON Mix
 REFERENCING NEW AS new
-FOR EACH ROW
+FOR EACH ROW WHEN (new.mixcost >= 0)
 --
 BEGIN ATOMIC
 --

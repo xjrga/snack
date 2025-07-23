@@ -28,18 +28,21 @@ public class TableNutrientLookup extends JTable {
 
   private TableRowSorter sorter;
   private JTextField searchField;
-  private DataModel dm;
+  private final DataModel dm;
 
   public TableNutrientLookup() {
     searchField = new JTextField();
     dm = new DataModel();
-    dm.addColumn("Name");
-    dm.addColumn("Amount");
+    dm.addColumn("CategoryId");
+    dm.addColumn("FoodId");
+    dm.addColumn("Category");
+    dm.addColumn("Food");
     dm.addColumn("Calories");
+    dm.addColumn("Amount");
     setModel(dm);
     setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     setFillsViewportHeight(true);
-    setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     getTableHeader().setReorderingAllowed(false);
     sorter = new TableRowSorter<>(dm);
     setRowSorter(sorter);
@@ -66,7 +69,8 @@ public class TableNutrientLookup extends JTable {
                 RowFilter<Object, Object> rf = null;
                 try {
                   List<RowFilter<Object, Object>> filters = new ArrayList<>();
-                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 0));
+                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 2));
+                  filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 3));
                   rf = RowFilter.orFilter(filters);
                 } catch (java.util.regex.PatternSyntaxException e) {
                   LoggerImpl.INSTANCE.logProblem(e);
@@ -113,7 +117,7 @@ public class TableNutrientLookup extends JTable {
 
   public List<Row> getSelectedValues() {
     int[] selectedRows = getSelectedRows();
-    ArrayList<Row> rows = new ArrayList<Row>();
+    ArrayList<Row> rows = new ArrayList<>();
     if (getSelectedRowCount() == 0) {
       return rows;
     }
@@ -125,13 +129,19 @@ public class TableNutrientLookup extends JTable {
   }
 
   private Row getRow(int selectedRowNo) {
-    String name = (String) getValueAt(selectedRowNo, 0);
-    BigDecimal amount = (BigDecimal) getValueAt(selectedRowNo, 1);
-    BigDecimal calories = (BigDecimal) getValueAt(selectedRowNo, 2);
+    String categoryid = (String) getValueAt(selectedRowNo, 0);
+    String foodid = (String) getValueAt(selectedRowNo, 1);
+    String category = (String) getValueAt(selectedRowNo, 2);
+    String food = (String) getValueAt(selectedRowNo, 3);
+    BigDecimal calories = (BigDecimal) getValueAt(selectedRowNo, 4);
+    BigDecimal amount = (BigDecimal) getValueAt(selectedRowNo, 5);
     Row row = new Row();
-    row.setName(name);
-    row.setAmount(amount);
+    row.setFoodcategoryid(categoryid);
+    row.setFoodid(foodid);
+    row.setCategory(category);
+    row.setFood(food);
     row.setCalories(calories);
+    row.setAmount(amount);
     return row;
   }
 
@@ -150,7 +160,10 @@ public class TableNutrientLookup extends JTable {
   }
 
   private void adjustColumnWidth() {
-    getColumnModel().getColumn(0).setMinWidth(670);
+    getColumnModel().getColumn(0).setMinWidth(0);
+    getColumnModel().getColumn(0).setMaxWidth(0);
+    getColumnModel().getColumn(1).setMinWidth(0);
+    getColumnModel().getColumn(1).setMaxWidth(0);
   }
 
   public void roundUp() {
@@ -162,38 +175,59 @@ public class TableNutrientLookup extends JTable {
   }
 
   private void roundQuantity(DefaultTableCellRenderer renderer) {
-    getColumnModel().getColumn(1).setCellRenderer(renderer);
-    getColumnModel().getColumn(2).setCellRenderer(renderer);
+    getColumnModel().getColumn(4).setCellRenderer(renderer);
+    getColumnModel().getColumn(5).setCellRenderer(renderer);
     revalidate();
     repaint();
   }
 
   public class Row {
-
-    private String name;
-    private BigDecimal amount;
+    private String foodcategoryid;
+    private String foodid;
+    private String category;
+    private String food;
     private BigDecimal calories;
+    private BigDecimal amount;
 
     public Row() {
-      name = "";
-      amount = new BigDecimal("0.0");
+      foodcategoryid = "";
+      foodid = "";
+      category = "";
+      food = "";
       calories = new BigDecimal("0.0");
+      amount = new BigDecimal("0.0");
     }
 
-    public String getName() {
-      return name;
+    public String getFoodcategoryid() {
+      return foodcategoryid;
     }
 
-    public void setName(String name) {
-      this.name = name;
+    public void setFoodcategoryid(String foodcategoryid) {
+      this.foodcategoryid = foodcategoryid;
     }
 
-    public BigDecimal getAmount() {
-      return amount;
+    public String getFoodid() {
+      return foodid;
     }
 
-    public void setAmount(BigDecimal amount) {
-      this.amount = amount;
+    public void setFoodid(String foodid) {
+      this.foodid = foodid;
+    }
+
+    public String getCategory() {
+      return category;
+    }
+
+    public void setCategory(String category) {
+      this.category = category;
+    }
+
+    public String getFood() {
+      return food;
+    }
+
+    public void setFood(String food) {
+      this.food = food;
     }
 
     public BigDecimal getCalories() {
@@ -204,6 +238,14 @@ public class TableNutrientLookup extends JTable {
       this.calories = calories;
     }
 
+    public BigDecimal getAmount() {
+      return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+      this.amount = amount;
+    }
+
     public boolean isNull() {
       return false;
     }
@@ -211,6 +253,7 @@ public class TableNutrientLookup extends JTable {
 
   public class NullRow extends Row {
 
+    @Override
     public boolean isNull() {
       return true;
     }
@@ -219,12 +262,12 @@ public class TableNutrientLookup extends JTable {
   private class DataModel extends AbstractTableModel implements Reload {
 
     private List<List> data;
-    private List<String> columns;
+    private final List<String> columns;
     private int rowcount;
 
     public DataModel() {
-      data = new ArrayList<List>();
-      columns = new ArrayList<String>();
+      data = new ArrayList<>();
+      columns = new ArrayList<>();
       setRowCount();
     }
 
@@ -239,15 +282,9 @@ public class TableNutrientLookup extends JTable {
 
     @Override
     public Class<?> getColumnClass(int c) {
-      Class columnClass = BigDecimal.class;
+      Class columnClass = String.class;
       switch (c) {
-        case 0 -> {
-          columnClass = String.class;
-        }
-        case 1 -> {
-          columnClass = BigDecimal.class;
-        }
-        case 2 -> {
+        case 4, 5 -> {
           columnClass = BigDecimal.class;
         }
       }
@@ -291,9 +328,9 @@ public class TableNutrientLookup extends JTable {
     public void setValueAt(Object o, int r, int c) {
       data.get(r).set(c, o);
       fireTableCellUpdated(r, c);
-      ;
     }
 
+    @Override
     public void reload(List<List> data) {
       this.data = data;
       setRowCount();
@@ -329,5 +366,5 @@ public class TableNutrientLookup extends JTable {
   }
 
   protected String[] columnToolTips =
-      new String[] {"Food Name", "Food Amount (g)", "Calories In Amount Of Food (Kcal)"};
+      new String[] {"CategoryId", "FoodId", "Category", "Food", "Calories (Kcal)", "Amount (g)"};
 }

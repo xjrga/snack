@@ -41,7 +41,6 @@ import io.github.xjrga.snack.database.callable.insert.MergeFoodRatioConstraintTa
 import io.github.xjrga.snack.database.callable.insert.MergeMealPlanUsageTask;
 import io.github.xjrga.snack.database.callable.insert.MergeNutrientQuantityConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeNutrientRatioConstraintTask;
-import io.github.xjrga.snack.database.callable.other.AllocateTask;
 import io.github.xjrga.snack.database.callable.other.DenormalizeFoodFactsTask;
 import io.github.xjrga.snack.database.callable.other.DuplicateMixTask;
 import io.github.xjrga.snack.database.callable.other.ExportMixTask;
@@ -79,7 +78,6 @@ import io.github.xjrga.snack.database.callable.select.MealPlanUsageResultsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageTask;
 import io.github.xjrga.snack.database.callable.select.MixDiffTask;
 import io.github.xjrga.snack.database.callable.select.MixFoodFactsTask;
-import io.github.xjrga.snack.database.callable.select.MixFoodsTask;
 import io.github.xjrga.snack.database.callable.select.MixResultsTask;
 import io.github.xjrga.snack.database.callable.select.MixStatsTask;
 import io.github.xjrga.snack.database.callable.select.MixesTask;
@@ -95,13 +93,14 @@ import io.github.xjrga.snack.database.callable.select.NutrientRatioRhsTask;
 import io.github.xjrga.snack.database.callable.select.ULDevSumExcessLhsTask;
 import io.github.xjrga.snack.database.callable.select.UnallocatedFoodPercentageTask;
 import io.github.xjrga.snack.database.callable.update.UpdateCategoryTask;
-import io.github.xjrga.snack.database.callable.update.UpdateCostOnMixTask;
 import io.github.xjrga.snack.database.callable.update.UpdateFoodPortionActualWeightTask;
 import io.github.xjrga.snack.database.callable.update.UpdateFoodTask;
 import io.github.xjrga.snack.database.callable.update.UpdateMealTask;
-import io.github.xjrga.snack.database.callable.update.UpdateModelOnMixTask;
 import io.github.xjrga.snack.database.callable.update.UpdateNameOnMixTask;
-import io.github.xjrga.snack.database.callable.update.UpdateQuantityOnMixFoodTask;
+import io.github.xjrga.snack.database.query.AllocateAction;
+import io.github.xjrga.snack.database.query.MixFoodsQuery;
+import io.github.xjrga.snack.database.query.UpdateMixAction;
+import io.github.xjrga.snack.database.query.UpdateMixFoodAction;
 import io.github.xjrga.snack.database.runnable.CreateAllFoodsReport1Task;
 import io.github.xjrga.snack.database.runnable.CreateAllFoodsReport2Task;
 import io.github.xjrga.snack.datamodel.FoodStats;
@@ -119,6 +118,8 @@ import io.github.xjrga.snack.dataobject.NutrientDO;
 import io.github.xjrga.snack.dataobject.RelationshipDO;
 import io.github.xjrga.snack.jcomponents.ComboBox;
 import io.github.xjrga.snack.jcomponents.FoodFactInputPanel;
+import io.github.xjrga.snack.jcomponents.LifestageFinder;
+import io.github.xjrga.snack.jcomponents.Spinner;
 import io.github.xjrga.snack.jcomponents.TableCarbs;
 import io.github.xjrga.snack.jcomponents.TableCategory;
 import io.github.xjrga.snack.jcomponents.TableCost;
@@ -236,11 +237,13 @@ import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
+import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -294,7 +297,6 @@ public class Main {
   private final JFrame frm;
   private final JLabel lblFoodQuantityCount;
   private final JLabel lblFoodRatioCount;
-  private final JLabel lblMinimization;
   private final JLabel lblNutrientQuantityCount;
   private final JLabel lblNutrientRatioCount;
   private final JList lstHighScore;
@@ -310,7 +312,6 @@ public class Main {
   private final JMenu mnuSettings;
   private final JMenu mnuTools;
   private final JMenuItem mniAbout;
-  private final JMenuItem mniAuthor;
   private final JMenuItem mniCalculateALARequired;
   private final JMenuItem mniCalculateBMR;
   private final JMenuItem mniCalculateDigestibleCarbs;
@@ -332,7 +333,6 @@ public class Main {
   private final JMenuItem mniCreateMixResultsReport1;
   private final JMenuItem mniCreateMixResultsReport2;
   private final JMenuItem mniCreateNutrientSearchReport;
-  private final JMenuItem mniCredits;
   private final JMenuItem mniDELETEALL;
   private final JMenuItem mniDELETEMIXES;
   private final JMenuItem mniDeleteMix;
@@ -342,7 +342,6 @@ public class Main {
   private final JMenuItem mniImportFoods;
   private final JMenuItem mniImportMixModel;
   private final JMenuItem mniPinMix;
-  private final JMenuItem mniProject;
   private final JMenuItem mniRenameMix;
   private final JMenuItem mniSetConstraints;
   private final JMenuItem mniShowCarbohydrateRequired;
@@ -360,6 +359,7 @@ public class Main {
   private final JTextField txtNutrientRatioNutrientB;
   private final JTextField txtPortionPct;
   private final JTextField txtTotalPct;
+  private JTextArea txtMinimization;
   private final JTree treFoods;
   private final MixFoodLoader mixFoodLoader;
   private final NutrientLoader nutrientLoader;
@@ -367,6 +367,8 @@ public class Main {
   private final TableMix tblMealPlanUsageMixes;
   private final TreeModelFood tremodelFoods;
   private ComboBox<LifeStageDO> cmbLifestage;
+  private Spinner<LifeStageDO> spnLifestage;
+  private Spinner<String> spnMinimizationOption;
   private ComboBox<MixDO> cmbMixes;
   private TableCarbs tblCarbs;
   private TableCategory tblCategory;
@@ -410,6 +412,7 @@ public class Main {
   private List<List> mixDri;
   private List<List> foodDiffList;
   private final Connection connection;
+  private int minimizationOption;
 
   public Main(Splash splash) {
     LoggerImpl.INSTANCE.filter("io.github.xjrga.*");
@@ -461,8 +464,6 @@ public class Main {
     frm = new JFrame();
     lblFoodQuantityCount = new JLabel();
     lblFoodRatioCount = new JLabel();
-    lblMinimization = new JLabel();
-    lblMinimization.setText("Total Nutrient Index");
     lblNutrientQuantityCount = new JLabel();
     lblNutrientRatioCount = new JLabel();
     lstHighScore = new JList();
@@ -478,7 +479,6 @@ public class Main {
     mnuSettings = new JMenu();
     mnuTools = new JMenu();
     mniAbout = new JMenuItem();
-    mniAuthor = new JMenuItem();
     mniCalculateALARequired = new JMenuItem();
     mniCalculateBMR = new JMenuItem();
     mniCalculateDigestibleCarbs = new JMenuItem();
@@ -500,7 +500,6 @@ public class Main {
     mniCreateMixResultsReport1 = new JMenuItem();
     mniCreateMixResultsReport2 = new JMenuItem();
     mniCreateNutrientSearchReport = new JMenuItem();
-    mniCredits = new JMenuItem();
     mniDELETEALL = new JMenuItem();
     mniDELETEMIXES = new JMenuItem();
     mniDeleteMix = new JMenuItem();
@@ -510,7 +509,6 @@ public class Main {
     mniImportFoods = new JMenuItem();
     mniImportMixModel = new JMenuItem();
     mniPinMix = new JMenuItem("Pin");
-    mniProject = new JMenuItem();
     mniRenameMix = new JMenuItem();
     mniSetConstraints = new JMenuItem();
     mniShowCarbohydrateRequired = new JMenuItem();
@@ -528,12 +526,17 @@ public class Main {
     txtNutrientRatioNutrientB = new JTextField();
     txtPortionPct = new JTextField();
     txtTotalPct = new JTextField();
+    txtMinimization = new JTextArea();
     treFoods = new JTree();
     mixFoodLoader = new MixFoodLoader();
     nutrientLoader = new NutrientLoader();
     relationshipLoader = new RelationshipLoader();
     tblMealPlanUsageMixes = new TableMix();
     tremodelFoods = new TreeModelFood();
+    minimizationOption = 0;
+    txtMinimization.setText("DRI Deficiency");
+    txtMinimization.setLineWrap(true);
+    txtMinimization.setEditable(false);
     frm.setIconImage(logo);
     frm.setJMenuBar(getMenuBar());
     tabMain.setTabPlacement(SwingConstants.BOTTOM);
@@ -593,6 +596,7 @@ public class Main {
       Future<List<LifeStageDO>> task = BackgroundExec.submit(new LifestagesTask());
       List<LifeStageDO> lifestages = task.get();
       cmbLifestage.reload(lifestages);
+      spnLifestage.reload(lifestages);
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
@@ -601,7 +605,9 @@ public class Main {
     fch.addChoosableFileFilter(new FileNameExtensionFilter("Xml Document", "xml"));
     Action details = fch.getActionMap().get("viewTypeDetails");
     details.actionPerformed(null);
-    cmbLifestage.setSelectedItem(new LifeStageDO(8, "Males (51-70 y)"));
+    LifeStageDO lifestage8 = new LifeStageDO(8, "Males (51-70 y)");
+    cmbLifestage.setSelectedItem(lifestage8);
+    spnLifestage.setSelectedItem(lifestage8);
     if (!cmbMixes.isEmpty()) {
       cmbMixes.setSelectedIndex(0);
     }
@@ -787,6 +793,7 @@ public class Main {
     cmbMixes.addActionListener(
         (ActionEvent evt) -> {
           if (!cmbMixes.isSelectionEmpty()) {
+            clearMixResults();
             loadSelectedMix();
           }
         });
@@ -844,9 +851,17 @@ public class Main {
           if (cmbMixes.isSelectionEmpty()) {
             return;
           }
-          MixDO mix = new MixDO();
-          mix = cmbMixes.getSelectedItem();
-          solveModel(mix);
+          if (tblMixFood.isEmpty()) {
+            return;
+          }
+          MixDO mix = cmbMixes.getSelectedItem();
+          LifeStageDO selectedLifestage = spnLifestage.getSelectedItem();
+          Integer selectedLifestageId = selectedLifestage.getLifeStageId();
+          mix.setLifeStageId(selectedLifestageId);
+          Boolean solutionFound = solveModel(mix);
+          if (!solutionFound) {
+            return;
+          }
           reloadResults(mix);
           tblMixDiffA.clearSelection();
           tblMixDiffB.clearSelection();
@@ -878,7 +893,7 @@ public class Main {
     return pnl;
   }
 
-  private JPanel getEditorRda(TableDri tblDri) {
+  private JPanel getEditorDri(TableDri tblDri) {
     JScrollPane scr = new JScrollPane(tblDri);
     FormLayout lyo =
         new FormLayout(
@@ -954,16 +969,22 @@ public class Main {
     FormLayout lyoRightPanel =
         new FormLayout(
             "min", // columns
-            "min,fill:min,fill:min:grow" // rows
+            "min,fill:min:grow" // rows
             );
     FormLayout lyoConstraintCountPanel =
         new FormLayout(
             "p,p", // columns
             "4dlu,min,min,min,min,4dlu" // rows
             );
+    FormLayout lyoObjective =
+        new FormLayout(
+            "150px", // columns
+            "min,fill:32px,min,fill:32px,min,fill:min:grow" // rows
+            );
     pnlMain.setLayout(lyoMainPanel);
     pnlRight.setLayout(lyoRightPanel);
     pnlConstraintCount.setLayout(lyoConstraintCountPanel);
+    pnlObjective.setLayout(lyoObjective);
     JScrollPane scrHighScore = new JScrollPane(lstHighScore);
     scrHighScore.setBorder(new TitledBorder(""));
     pnlObjective.setBorder(new TitledBorder(""));
@@ -991,6 +1012,13 @@ public class Main {
     tblPhytonutrients = new TablePhytonutrients();
     tblCost = new TableCost();
     tblDri = new TableDri();
+    spnLifestage = new Spinner<>();
+    spnMinimizationOption = new Spinner<>();
+    ArrayList list = new ArrayList();
+    list.add("DRI Deficiency");
+    list.add("DRI Deficiency And UL Excess");
+    list.add("DRI Deficiency And DRI Excess");
+    spnMinimizationOption.reload(list);
     lblNutrientQuantity.setHorizontalAlignment(SwingConstants.RIGHT);
     lblFoodQuantity.setHorizontalAlignment(SwingConstants.RIGHT);
     lblNutrientRatio.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -1015,7 +1043,7 @@ public class Main {
     tabResults.add(new JScrollPane(tblElectrolytes));
     tabResults.add(new JScrollPane(tblPhytonutrients));
     tabResults.add(new JScrollPane(tblCost));
-    tabResults.add(getEditorRda(tblDri));
+    tabResults.add(getEditorDri(tblDri));
     tabResults.add(getEditorModel());
     tabResults.setTitleAt(0, "Calories       ");
     tabResults.setTitleAt(1, "Macronutrients ");
@@ -1031,10 +1059,14 @@ public class Main {
     tabResults.setTitleAt(11, "Cost           ");
     tabResults.setTitleAt(12, "Dri            ");
     tabResults.setTitleAt(13, "Model          ");
-    pnlObjective.add(lblMinimization);
+    pnlObjective.add(new JLabel("Lifestage"), cc.xy(1, 1));
+    pnlObjective.add(spnLifestage, cc.xy(1, 2));
+    pnlObjective.add(new JLabel("Minimization Option"), cc.xy(1, 3));
+    pnlObjective.add(spnMinimizationOption, cc.xy(1, 4));
+    pnlObjective.add(new JLabel("Total Nutrient Index"), cc.xy(1, 5));
+    pnlObjective.add(scrHighScore, cc.xy(1, 6));
     pnlRight.add(pnlConstraintCount, cc.xy(1, 1));
     pnlRight.add(pnlObjective, cc.xy(1, 2));
-    pnlRight.add(scrHighScore, cc.xy(1, 3));
     pnlMain.add(tabResults, cc.xy(1, 1));
     pnlMain.add(pnlRight, cc.xy(2, 1));
     splMain.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -1085,6 +1117,15 @@ public class Main {
     actionMap.put("min", low);
     actionMap.put("mid", middle);
     actionMap.put("max", high);
+    spnLifestage.addChangeListener(
+        (ChangeEvent e) -> {
+          LifeStageDO lifestage = spnLifestage.getSelectedItem();
+          cmbLifestage.setSelectedItem(lifestage);
+        });
+    spnMinimizationOption.addChangeListener(
+        (ChangeEvent e) -> {
+          minimizationOption = spnMinimizationOption.getSelectedIndex();
+        });
     return splMain;
   }
 
@@ -1792,10 +1833,7 @@ public class Main {
     mnuMixModel.add(mniImportMixModel);
     mnuMixModel.add(mniExportMixModel);
     mnuFoodsData.add(mniImportFoods);
-    mnuHelp.add(mniProject);
-    mnuHelp.add(mniCredits);
     mnuHelp.add(mniAbout);
-    mnuHelp.add(mniAuthor);
     mnuSettings.add(chkResultRoundUp);
     mnuSettings.add(chkLpsolve);
     mnuSettings.add(mniSetConstraints);
@@ -1844,11 +1882,8 @@ public class Main {
     mniImportFoods.setText("Import");
     chkResultRoundUp.setText("Round up result values");
     chkLpsolve.setText("Write model in LPSOLVE format");
-    mniSetConstraints.setText("Show visible constraints");
-    mniProject.setText("Project");
-    mniCredits.setText("Credits");
+    mniSetConstraints.setText("Choose constraints");
     mniAbout.setText("About");
-    mniAuthor.setText("Author");
     mniCreateMix.setText("Create mix");
     mniDeleteMix.setText("Delete mix");
     mniRenameMix.setText("Rename mix");
@@ -1997,49 +2032,80 @@ public class Main {
         });
     mniImportMixModel.addActionListener(
         (ActionEvent evt) -> {
-          MixDO mix = new MixDO();
           frm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-          mix = importMix();
-          if (mix.getMixId().isEmpty()) {
+          int returnVal = fch.showOpenDialog(frm);
+          if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fch.getSelectedFile();
+            fch.setCurrentDirectory(file);
+            String path = file.getAbsolutePath();
+            MixDO mix = new MixImporter().receive(path);
+            String mixid = mix.getMixId();
+            if (mixid.isEmpty()) {
+              frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+              return;
+            }
+            boolean solutionFound = solveModel(mix);
+            Integer lifeStageId = mix.getLifeStageId();
+            try {
+              Future<List<List>> task = BackgroundExec.submit(new MixesTask());
+              List<List> lst = task.get();
+              List<MixDO> mixesList = Utilities.createMixDOList(lst);
+              cmbMixes.reload(mixesList);
+              cmbMixes.setSelectedItem(mix);
+              LifeStageDO find =
+                  LifestageFinder.find(
+                      ((SpinnerListModel) spnLifestage.getModel()).getList(), lifeStageId);
+              spnLifestage.setSelectedItem(find);
+            } catch (Exception e) {
+              LoggerImpl.INSTANCE.logProblem(e);
+            }
+            reloadFoods();
             frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            return;
+            if (!solutionFound) {
+              return;
+            }
+            try {
+              Future<List<List>> task = BackgroundExec.submit(new MixesTask());
+              List<List> lst = task.get();
+              tblMixDiff.clear();
+              tblMixDiffA.reload(lst);
+              tblMixDiffB.reload(lst);
+              tblMealPlanUsageMixes.reload(lst);
+            } catch (Exception e) {
+              LoggerImpl.INSTANCE.logProblem(e);
+            }
           }
-          solveModel(mix);
-          try {
-            Future<List<List>> task = BackgroundExec.submit(new MixesTask());
-            List<List> lst = task.get();
-            List<MixDO> mixesList = Utilities.createMixDOList(lst);
-            cmbMixes.reload(mixesList);
-            tblMixDiff.clear();
-            tblMixDiffA.reload(lst);
-            tblMixDiffB.reload(lst);
-            tblMealPlanUsageMixes.reload(lst);
-          } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-          }
-          cmbMixes.setSelectedItem(mix);
-          reloadFoods();
           frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
     mniImportFoods.addActionListener(
         (ActionEvent evt) -> {
-          importFoods();
-        });
-    mniProject.addActionListener(
-        (ActionEvent evt) -> {
-          showProjectInformation();
-        });
-    mniCredits.addActionListener(
-        (ActionEvent evt) -> {
-          showCredits();
+          int returnVal = fch.showOpenDialog(frm);
+          if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fch.getSelectedFile();
+            String path = file.getAbsolutePath();
+            fch.setCurrentDirectory(new File(path));
+            frm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            String schema = "/resources/schemas/foods.xsd";
+            boolean completed = false;
+            ElapsedTime time = new ElapsedTime();
+            time.start();
+            completed = new FoodsImporter().importFoodListUsingResource(schema, path);
+            time.end();
+            if (completed) {
+              StringBuilder sb = new StringBuilder();
+              sb.append("Food items were loaded in ");
+              sb.append(time.getElapsedTimeInSeconds());
+              sb.append(" seconds. ");
+              reloadFoods();
+              setQuantityScale();
+              Message.showMessage(sb.toString());
+            }
+            frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+          }
         });
     mniAbout.addActionListener(
         (ActionEvent evt) -> {
           showAbout();
-        });
-    mniAuthor.addActionListener(
-        (ActionEvent evt) -> {
-          showAuthor();
         });
     mniSetConstraints.addActionListener(
         (ActionEvent evt) -> {
@@ -2095,52 +2161,6 @@ public class Main {
             System.exit(0);
           }
         });
-  }
-
-  private MixDO importMix() {
-    int returnVal = fch.showOpenDialog(frm);
-    MixDO mix = new MixDO();
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-      File file = fch.getSelectedFile();
-      String path = file.getAbsolutePath();
-      fch.setCurrentDirectory(new File(path));
-      mix = new MixImporter(path).receive();
-    }
-    return mix;
-  }
-
-  private void importFoods() {
-    fch.setSelectedFile(new File(""));
-    int returnVal = fch.showOpenDialog(frm);
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-      File file = fch.getSelectedFile();
-      String path = file.getAbsolutePath();
-      fch.setCurrentDirectory(new File(path));
-      frm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-      String schema = "/resources/schemas/foods.xsd";
-      Boolean imported = false;
-      ElapsedTime time = new ElapsedTime();
-      try {
-        time.start();
-        imported = new FoodsImporter().importFoodListUsingResource(schema, path);
-        time.end();
-      } catch (Exception e) {
-        LoggerImpl.INSTANCE.logProblem(e);
-      } finally {
-        if (imported) {
-          reloadFoods();
-          StringBuilder sb = new StringBuilder();
-          sb.append("Food items were loaded in ");
-          sb.append(time.getElapsedTimeInSeconds());
-          sb.append(" seconds. ");
-          Message.showMessage(sb.toString());
-        } else {
-          Message.showMessage("Food import failed. Please try again.");
-        }
-        setQuantityScale();
-        frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-      }
-    }
   }
 
   private JPanel getMixComparisonPanel() {
@@ -2446,9 +2466,11 @@ public class Main {
     pnl01.add(txtNutrientSearchQuantity, cc.xy(6, 4));
     pnl.add(pnl01, cc.xy(2, 2));
     pnl.add(scr, cc.xy(2, 4));
+    txtNutrientSearchQuantity.setToolTipText("Press enter to search for food items");
     txtNutrientSearchQuantity.addActionListener(
         (ActionEvent evt) -> {
-          process_evt_txt_nutrient_content();
+          reload_tblmdl_nutrient_lookup();
+          setQuantityScale();
         });
     return pnl;
   }
@@ -2839,16 +2861,10 @@ public class Main {
     if (tblCategory.isSelectionEmpty()) {
       return;
     }
-    StringBuilder sb = new StringBuilder();
-    sb.append(System.getProperty("user.dir"));
-    sb.append(File.separator);
-    sb.append("models");
-    sb.append(File.separator);
-    sb.append("favoritefoods.xml");
-    fch.setSelectedFile(new File(sb.toString()));
     int returnVal = fch.showSaveDialog(frm);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
       File file = fch.getSelectedFile();
+      fch.setCurrentDirectory(file);
       String path = file.getAbsolutePath();
       frm.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
       try {
@@ -3945,47 +3961,31 @@ public class Main {
     }
   }
 
-  private void solveModel(MixDO mix) {
+  private Boolean solveModel(MixDO mix) {
+    Boolean solutionFound = false;
     LpsolvePrintOut print = new LpsolvePrintOut();
     LinearProgram program = new LinearProgram();
     String mixid = mix.getMixId();
     String mixname = mix.getName();
+    Integer lifestageid = mix.getLifeStageId();
+    String lifestage = spnLifestage.getSelectedItem().getLabel();
     try {
       program.setComponent(getNoSolutionPanel());
 
-      // ----- OBJECTIVE FUNCTION -----
-      createDeficiencyObjectiveFunction(mixid, program, print);
-      // createDeficiencyAndExcessObjectiveFunction(mixid, program, print);
-
-      // ----- DRI DEVIATION TNI CONSTRAINTS -----
-      createDriDeviationTniConstraint(mixid, program, print);
-
-      // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
-      createDriDeviationSumDeficiencyConstraint(mixid, 8, program, print);
-
-      // ----- DRI DEVIATION SUM EXCESS CONSTRAINT -----
-      // createDriDeviationSumExcessConstraint(mixid, 8, program, print);
-      // ----- UL DEVIATION SUM EXCESS CONSTRAINT -----
-      createULDeviationSumExcessConstraint(mixid, 8, program, print);
-
-      // ----- NUTRIENT QUANTITY CONSTRAINTS -----
-      createNutrientQuantityConstraints(mixid, program, print);
-
-      // ----- NUTRIENT RATIO CONSTRAINTS -----
-      createNutrientRatioConstraint(mixid, program, print);
-
-      // ----- FOOD QUANTITY CONSTRAINTS -----
-      createFoodQuantityConstraint(mixid, program, print);
-
-      // ----- FOOD RATIO CONSTRAINTS -----
-      createFoodRatioConstraint(mixid, program, print);
+      // ----- MINIMIZATION OPTION -----
+      switch (minimizationOption) {
+        case 0 -> minimizeDRIDeficiency(mixid, program, print, lifestageid);
+        case 1 -> minimizeDRIDeficiencyAndULExcess(mixid, program, print, lifestageid);
+        case 2 -> minimizeDRIDeficiencyAndDRIExcess(mixid, program, print, lifestageid);
+        default -> minimizeDRIDeficiency(mixid, program, print, lifestageid);
+      }
 
       // ----- LEGENDS -----
       print.addMixLegend(mixname);
       print.addFoodLegend(createFoodLegend(mixid));
-
+      solutionFound = program.solve();
       // ----- SOLVE MODEL -----
-      if (program.solve()) {
+      if (solutionFound) {
         double[] solutionPoint = program.getPoint();
         Double avgDeficiency = solutionPoint[solutionPoint.length - 2];
         double tni = (1 - avgDeficiency) * 100.0;
@@ -3994,56 +3994,30 @@ public class Main {
         BigDecimal excess = new BigDecimal(avgExcess, MathContext.DECIMAL64);
         BigDecimal cost = new BigDecimal(program.getCost(), MathContext.DECIMAL64);
         // ---- SET THE HIGH SCORE ----
-        setTheHighScore("" + tni);
-        // ---- ADD LOG ENTRY ----
-        StringBuilder sb = new StringBuilder();
-        sb.append(tni);
-        addLogEntry(
-            mix.getName(),
-            "Solve",
-            "Total Nutrient Index Score",
-            sb.toString(),
-            mix.getMixId(),
-            "",
-            "",
-            "",
-            "",
-            null,
-            null,
-            null);
-        // ---- PRINT TNI PCT ----
-        //        System.out.println("TNI: " + tni);
-        //        for (int i = 0; i < solutionPoint.length; i++) {
-        //          double pct = solutionPoint[i];
-        //          System.out.println("" + i + ": " + pct);
-        //        }
-        // ---- UPDATE DATABASE -----
-        Future<List<Map>> task0 = BackgroundExec.submit(new MixFoodsTask(mixid));
-        List<Map> mixfoodlist = task0.get();
-        for (int i = 0; i < mixfoodlist.size(); i++) {
-          Map row = mixfoodlist.get(i);
-          String foodid = (String) row.get("FOODID");
-          BigDecimal x = new BigDecimal(solutionPoint[i], MathContext.DECIMAL64);
-          Future<Boolean> task1 =
-              BackgroundExec.submit(new UpdateQuantityOnMixFoodTask(mixid, foodid, x));
-          task1.get();
-        }
-        Future<Boolean> task2 =
-            BackgroundExec.submit(new UpdateCostOnMixTask(mixid, cost, deficiency, excess));
-        task2.get();
-        Future<Boolean> task3 = BackgroundExec.submit(new AllocateTask(mixid));
-        task3.get();
+        setTheHighScore(tni);
+        // ---- ADD LOG ENTRIES ----
+        addLogEntries(mix, lifestage, tni);
         // ----- CREATE LPSOLVE MODEL AND SET -----
         print.feasible();
         String model = print.toString();
-        // ----- UPDATE DATABASE  -----
-        Future<Boolean> task4 = BackgroundExec.submit(new UpdateModelOnMixTask(mixid, model));
-        task4.get();
+        // ---- UPDATE DATABASE -----
+        Runnable tasks =
+            () -> {
+              MixFoodsQuery q = new MixFoodsQuery(mixid);
+              List<Map> mixfoodlist = q.get();
+              for (int i = 0; i < mixfoodlist.size(); i++) {
+                Map row = mixfoodlist.get(i);
+                String foodid = (String) row.get("FOODID");
+                BigDecimal x = new BigDecimal(solutionPoint[i], MathContext.DECIMAL64);
+                (new UpdateMixFoodAction(mixid, foodid, x)).execute();
+              }
+              (new AllocateAction(mixid)).execute();
+              (new UpdateMixAction(mixid, lifestageid, model, cost, deficiency, excess)).execute();
+            };
+        BackgroundExec.execute(tasks);
         //
         mix.setModel(model);
         mix.setCost(cost);
-        // TODO - double check use
-        mix.setNutrientid("10009");
         FileName fileName = new FileName();
         if (chkLpsolve.isSelected()) {
           Utilities.write(fileName.getLpsolveFileName(), model);
@@ -4053,17 +4027,154 @@ public class Main {
         print.unfeasible();
         String model = print.toString();
         // ----- UPDATE DATABASE  -----
-        Future<Boolean> task5 = BackgroundExec.submit(new UpdateModelOnMixTask(mixid, model));
-        task5.get();
+        Runnable tasks =
+            () -> {
+              (new UpdateMixAction(
+                      mixid,
+                      lifestageid,
+                      model,
+                      new BigDecimal("-1.0"),
+                      new BigDecimal("-1.0"),
+                      new BigDecimal("-1.0")))
+                  .execute();
+            };
+        BackgroundExec.execute(tasks);
+        //
+        mix.setModel(model);
+        mix.setCost(new BigDecimal("-1.0"));
       }
       setConstraintCounts();
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
     }
+    return solutionFound;
   }
 
-  private void setTheHighScore(String cost) {
-    listModelHighScore.addElement(cost);
+  private void addLogEntries(MixDO mix, String lifestage, Double score) {
+    addLogEntry(
+        mix.getName(),
+        "Add",
+        "Lifestage",
+        lifestage,
+        mix.getMixId(),
+        "",
+        "",
+        "",
+        "",
+        null,
+        null,
+        null);
+    addLogEntry(
+        mix.getName(),
+        "Add",
+        "Minimization Option",
+        txtMinimization.getText(),
+        mix.getMixId(),
+        "",
+        "",
+        "",
+        "",
+        null,
+        null,
+        null);
+    addLogEntry(
+        mix.getName(),
+        "Solve",
+        "Total Nutrient Index Score",
+        String.valueOf(score),
+        mix.getMixId(),
+        "",
+        "",
+        "",
+        "",
+        null,
+        null,
+        null);
+  }
+
+  private void minimizeDRIDeficiency(
+      String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid) {
+
+    // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency -----
+    createDeficiencyObjectiveFunction(mixid, program, print);
+
+    // ----- DRI DEVIATION TNI CONSTRAINTS -----
+    createDriDeviationTniConstraint(mixid, lifestageid, program, print);
+
+    // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
+    createDriDeviationSumDeficiencyConstraint(mixid, lifestageid, program, print);
+
+    // ----- NUTRIENT QUANTITY CONSTRAINTS -----
+    createNutrientQuantityConstraints(mixid, program, print);
+
+    // ----- NUTRIENT RATIO CONSTRAINTS -----
+    createNutrientRatioConstraint(mixid, program, print);
+
+    // ----- FOOD QUANTITY CONSTRAINTS -----
+    createFoodQuantityConstraint(mixid, program, print);
+
+    // ----- FOOD RATIO CONSTRAINTS -----
+    createFoodRatioConstraint(mixid, program, print);
+  }
+
+  private void minimizeDRIDeficiencyAndULExcess(
+      String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid) {
+
+    // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and UL Excess -----
+    createDeficiencyAndExcessObjectiveFunction(mixid, program, print);
+
+    // ----- DRI DEVIATION TNI CONSTRAINTS -----
+    createDriDeviationTniConstraint(mixid, lifestageid, program, print);
+
+    // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
+    createDriDeviationSumDeficiencyConstraint(mixid, lifestageid, program, print);
+
+    // ----- UL DEVIATION SUM EXCESS CONSTRAINT -----
+    createULDeviationSumExcessConstraint(mixid, lifestageid, program, print);
+
+    // ----- NUTRIENT QUANTITY CONSTRAINTS -----
+    createNutrientQuantityConstraints(mixid, program, print);
+
+    // ----- NUTRIENT RATIO CONSTRAINTS -----
+    createNutrientRatioConstraint(mixid, program, print);
+
+    // ----- FOOD QUANTITY CONSTRAINTS -----
+    createFoodQuantityConstraint(mixid, program, print);
+
+    // ----- FOOD RATIO CONSTRAINTS -----
+    createFoodRatioConstraint(mixid, program, print);
+  }
+
+  private void minimizeDRIDeficiencyAndDRIExcess(
+      String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid) {
+
+    // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and DRI Excess -----
+    createDeficiencyAndExcessObjectiveFunction(mixid, program, print);
+
+    // ----- DRI DEVIATION TNI CONSTRAINTS -----
+    createDriDeviationTniConstraint(mixid, lifestageid, program, print);
+
+    // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
+    createDriDeviationSumDeficiencyConstraint(mixid, lifestageid, program, print);
+
+    // ----- DRI DEVIATION SUM EXCESS CONSTRAINT -----
+    createDriDeviationSumExcessConstraint(mixid, lifestageid, program, print);
+
+    // ----- NUTRIENT QUANTITY CONSTRAINTS -----
+    createNutrientQuantityConstraints(mixid, program, print);
+
+    // ----- NUTRIENT RATIO CONSTRAINTS -----
+    createNutrientRatioConstraint(mixid, program, print);
+
+    // ----- FOOD QUANTITY CONSTRAINTS -----
+    createFoodQuantityConstraint(mixid, program, print);
+
+    // ----- FOOD RATIO CONSTRAINTS -----
+    createFoodRatioConstraint(mixid, program, print);
+  }
+
+  private void setTheHighScore(Double tni) {
+    listModelHighScore.addElement((new DecimalFormat("###0.00000")).format(tni));
     lstHighScore.ensureIndexIsVisible(listModelHighScore.getSize() - 1);
     lstHighScore.setSelectedIndex(lstHighScore.getLastVisibleIndex());
   }
@@ -4327,6 +4438,7 @@ public class Main {
     txp.setText(Utilities.getResourceAsString("/resources/html/about.html"));
     txp.setEditable(false);
     txp.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
+    txp.setCaretPosition(0);
     txp.addHyperlinkListener(
         (HyperlinkEvent e) -> {
           if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -4337,6 +4449,7 @@ public class Main {
         });
     JScrollPane scr = new JScrollPane(txp);
     scr.setPreferredSize(new Dimension(800, 400));
+    scr.getVerticalScrollBar().setValue(0);
     JComponent[] inputs = {scr};
     Message.showOptionDialog(inputs, "About");
   }
@@ -4373,26 +4486,6 @@ public class Main {
         Message.showMessage("Please select one or more meals.");
       }
     }
-  }
-
-  private void showAuthor() {
-    JTextPane txp = new JTextPane();
-    txp.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
-    txp.setText(Utilities.getResourceAsString("/resources/html/author.html"));
-    txp.setEditable(false);
-    txp.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-    txp.addHyperlinkListener(
-        (HyperlinkEvent e) -> {
-          if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            if (Desktop.isDesktopSupported()) {
-              Utilities.openUrl(e.getURL().toString());
-            }
-          }
-        });
-    JScrollPane scr = new JScrollPane(txp);
-    scr.setPreferredSize(new Dimension(800, 400));
-    JComponent[] inputs = {scr};
-    Message.showOptionDialog(inputs, "Author");
   }
 
   private void calculateBmr() {
@@ -4506,26 +4599,6 @@ public class Main {
         }
       }
     }
-  }
-
-  private void showCredits() {
-    JTextPane txp = new JTextPane();
-    txp.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
-    txp.setText(Utilities.getResourceAsString("/resources/html/credits.html"));
-    txp.setEditable(false);
-    txp.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-    txp.addHyperlinkListener(
-        (HyperlinkEvent e) -> {
-          if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            if (Desktop.isDesktopSupported()) {
-              Utilities.openUrl(e.getURL().toString());
-            }
-          }
-        });
-    JScrollPane scr = new JScrollPane(txp);
-    scr.setPreferredSize(new Dimension(800, 400));
-    JComponent[] inputs = {scr};
-    Message.showOptionDialog(inputs, "Credits");
   }
 
   private void calculateDigestibleCarbs() {
@@ -5120,26 +5193,6 @@ public class Main {
     }
   }
 
-  private void showProjectInformation() {
-    JTextPane txp = new JTextPane();
-    txp.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
-    txp.setText(Utilities.getResourceAsString("/resources/html/project.html"));
-    txp.setEditable(false);
-    txp.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-    txp.addHyperlinkListener(
-        (HyperlinkEvent e) -> {
-          if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            if (Desktop.isDesktopSupported()) {
-              Utilities.openUrl(e.getURL().toString());
-            }
-          }
-        });
-    JScrollPane scr = new JScrollPane(txp);
-    scr.setPreferredSize(new Dimension(800, 400));
-    JComponent[] inputs = {scr};
-    Message.showOptionDialog(inputs, "Project");
-  }
-
   private void calculateNutrientContent() {
     TableDri.Row row = tblDri.getSelectedValue();
     String nutrientid = row.getNutrientid();
@@ -5235,11 +5288,6 @@ public class Main {
     cmbNutrientRatioRelationship.setSelectedIndex(relationshipindex);
   }
 
-  private void process_evt_txt_nutrient_content() {
-    reload_tblmdl_nutrient_lookup();
-    setQuantityScale();
-  }
-
   private void reloadFoodComboBoxes(String mixid) {
     cmbFoodRatioFoodA.clear();
     cmbFoodRatioFoodB.clear();
@@ -5270,12 +5318,12 @@ public class Main {
     cmbFoodRatioNutrientA.reload(nutrientLoader.getList());
     cmbFoodRatioNutrientB.reload(nutrientLoader.getList());
     cmbNutrientContentNutrient.reload(nutrientLoader.getList());
-    cmbNutrientQuantityNutrient.setSelectedIndex(0);
+    cmbNutrientQuantityNutrient.setSelectedIndex(13);
     cmbNutrientRatioNutrientA.setSelectedIndex(0);
     cmbNutrientRatioNutrientB.setSelectedIndex(0);
-    cmbFoodQuantityNutrient.setSelectedIndex(0);
-    cmbFoodRatioNutrientA.setSelectedIndex(0);
-    cmbFoodRatioNutrientB.setSelectedIndex(0);
+    cmbFoodQuantityNutrient.setSelectedIndex(46);
+    cmbFoodRatioNutrientA.setSelectedIndex(46);
+    cmbFoodRatioNutrientB.setSelectedIndex(46);
   }
 
   private void reloadCbRelationshipData() {
@@ -5288,10 +5336,10 @@ public class Main {
     cmbNutrientRatioRelationship.reload(relationshipLoader.get());
     cmbFoodQuantityRelationship.reload(relationshipLoader.get());
     cmbFoodRatioRelationship.reload(relationshipLoader.get());
-    cmbNutrientQuantityRelationship.setSelectedIndex(0);
-    cmbNutrientRatioRelationship.setSelectedIndex(0);
-    cmbFoodQuantityRelationship.setSelectedIndex(0);
-    cmbFoodRatioRelationship.setSelectedIndex(0);
+    cmbNutrientQuantityRelationship.setSelectedIndex(2);
+    cmbNutrientRatioRelationship.setSelectedIndex(2);
+    cmbFoodQuantityRelationship.setSelectedIndex(2);
+    cmbFoodRatioRelationship.setSelectedIndex(2);
   }
 
   private void reloadMixConstraints(String mixid) {
@@ -5323,6 +5371,9 @@ public class Main {
 
   private void reload_tblmdl_nutrient_lookup() {
     NutrientDO nutrientDO = (NutrientDO) cmbNutrientContentNutrient.getSelectedItem();
+    if (nutrientDO == null) {
+      return;
+    }
     String text = txtNutrientSearchQuantity.getText();
     NumberCheck checkNumber = new NumberCheck();
     checkNumber.addToUncheckedList(text);
@@ -5434,7 +5485,7 @@ public class Main {
   private void loadSelectedMix() {
     MixDO mix = getSelectedMix();
     String mixid = mix.getMixId();
-    String nutrientid = mix.getNutrientid();
+    Integer lifeStageId = mix.getLifeStageId();
     try {
       Future<List<List>> task = BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mixid));
       List<List> foods = task.get();
@@ -5448,6 +5499,9 @@ public class Main {
     mixFoodLoader.reload(mixid);
     cmbPortionFood.reload(mixFoodLoader.get());
     setConstraintCounts();
+    LifeStageDO find =
+        LifestageFinder.find(((SpinnerListModel) spnLifestage.getModel()).getList(), lifeStageId);
+    spnLifestage.setSelectedItem(find);
     reloadResults(mix);
   }
 
@@ -5718,10 +5772,10 @@ public class Main {
   }
 
   private void createDriDeviationTniConstraint(
-      String mixid, LinearProgram program, LpsolvePrintOut print) {
+      String mixid, Integer lifestageId, LinearProgram program, LpsolvePrintOut print) {
     try {
       Future<List<Map<String, Object>>> taskRhs =
-          BackgroundExec.submit(new DriDevTniRhsTask(mixid, 8));
+          BackgroundExec.submit(new DriDevTniRhsTask(mixid, lifestageId));
       List<Map<String, Object>> lst = taskRhs.get();
       lst.forEach(
           (row) -> {
@@ -5794,7 +5848,6 @@ public class Main {
 
   private void createULDeviationSumExcessConstraint(
       String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print) {
-    // TODO - FIX
     // Add ul nutrient deficiency variables
     // Add ul nutrient excess variables
     // Add ul average deficiency variable

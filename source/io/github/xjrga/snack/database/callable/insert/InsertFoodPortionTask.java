@@ -48,7 +48,7 @@ public class InsertFoodPortionTask implements Callable<Boolean> {
       proc.execute();
       completed = true;
     } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
+      // LoggerImpl.INSTANCE.logProblem(e);
     } finally {
     }
     return completed;

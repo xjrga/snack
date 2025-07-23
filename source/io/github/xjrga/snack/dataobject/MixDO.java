@@ -25,14 +25,14 @@ public class MixDO implements Comparator {
   private String mixid;
   private String model;
   private String name;
-  private String nutrientid;
+  private Integer lifestageid;
   private BigDecimal cost;
 
   public MixDO() {
     this.mixid = "";
     this.model = "";
     this.name = "";
-    this.nutrientid = "";
+    this.lifestageid = -1;
     this.cost = new BigDecimal("0.0");
   }
 
@@ -58,8 +58,8 @@ public class MixDO implements Comparator {
     return name;
   }
 
-  public String getNutrientid() {
-    return nutrientid;
+  public Integer getLifeStageId() {
+    return lifestageid;
   }
 
   public void setMixId(String mixid) {
@@ -74,8 +74,8 @@ public class MixDO implements Comparator {
     this.name = name;
   }
 
-  public void setNutrientid(String nutrientid) {
-    this.nutrientid = nutrientid;
+  public void setLifeStageId(Integer lifestageid) {
+    this.lifestageid = lifestageid;
   }
 
   public BigDecimal getCost() {

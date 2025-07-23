@@ -1,5 +1,6 @@
 package io.github.xjrga.snack.xml;
 
+import io.github.xjrga.snack.gui.Message;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Utilities;
 import java.io.File;
@@ -71,29 +72,36 @@ public class FoodsImporter {
   }
 
   public boolean importFoodListUsingResource(String foodListSchema, String xml_doc_path) {
-    // foodListSchema = "/resources/schemas/foods.xsd";
-    boolean completed = false;
+    Schema schema = null;
+    boolean flag = true;
+    // Validate
     try {
       URL xsd_doc_url = Utilities.getResourceAsUrl(foodListSchema);
       Source xml_doc_source = new StreamSource(new File(xml_doc_path));
       SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-      Schema schema = schemaFactory.newSchema(xsd_doc_url);
-      // Validate
+      schema = schemaFactory.newSchema(xsd_doc_url);
       Validator validator = schema.newValidator();
       validator.validate(xml_doc_source);
-      // Parse
-      SAXParserFactory spf = SAXParserFactory.newInstance();
-      spf.setSchema(schema);
-      SAXParser parser = spf.newSAXParser();
-      XMLReader reader = parser.getXMLReader();
-      reader.setContentHandler(new FoodInsertHandler());
-      // reader.setErrorHandler( new TestErrorHandler() );
-      reader.parse(xml_doc_path);
-      completed = true;
     } catch (Exception e) {
       LoggerImpl.INSTANCE.logProblem(e);
+      flag = false;
+      Message.showMessagePad(800, 300, "File is not valid.", e.getMessage());
     }
-    return completed;
+    // Parse
+    if (flag) {
+      try {
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        spf.setSchema(schema);
+        SAXParser parser = spf.newSAXParser();
+        XMLReader reader = parser.getXMLReader();
+        reader.setContentHandler(new FoodInsertHandler());
+        // reader.setErrorHandler( new TestErrorHandler() );
+        reader.parse(xml_doc_path);
+      } catch (Exception e) {
+        LoggerImpl.INSTANCE.logProblem(e);
+      }
+    }
+    return flag;
   }
 
   public boolean importFoodList(String xml_doc_path) {
