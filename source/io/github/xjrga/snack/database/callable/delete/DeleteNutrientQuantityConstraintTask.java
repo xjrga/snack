@@ -12,32 +12,42 @@ import java.util.concurrent.Callable;
  */
 public class DeleteNutrientQuantityConstraintTask implements Callable<Boolean> {
 
-  private final Connection connection;
-  private final String mixid;
-  private final String nutrientid;
-  private final Integer relationshipid;
+	private final Connection connection;
+	private final String mixid;
+	private final String nutrientid;
+	private final Integer relationshipid;
 
-  public DeleteNutrientQuantityConstraintTask(
-      String mixid, String nutrientid, Integer relationshipid) {
-    connection = Connect.getInstance().getConnection();
-    this.mixid = mixid;
-    this.nutrientid = nutrientid;
-    this.relationshipid = relationshipid;
-  }
+	public DeleteNutrientQuantityConstraintTask( String mixid, String nutrientid, Integer relationshipid ) {
 
-  @Override
-  public Boolean call() throws Exception {
-    Boolean completed = false;
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.NutrientConstraint_Delete( ?, ?, ? )}")) {
-      proc.setString(1, mixid);
-      proc.setString(2, nutrientid);
-      proc.setInt(3, relationshipid);
-      proc.execute();
-      completed = true;
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return completed;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.mixid = mixid;
+		this.nutrientid = nutrientid;
+		this.relationshipid = relationshipid;
+
+	}
+
+	@Override
+	public Boolean call() throws Exception {
+
+		Boolean completed = false;
+
+		try ( CallableStatement proc = connection
+				.prepareCall( "{CALL public.NutrientConstraint_Delete( ?, ?, ? )}" ) ) {
+
+			proc.setString( 1, mixid );
+			proc.setString( 2, nutrientid );
+			proc.setInt( 3, relationshipid );
+			proc.execute();
+			completed = true;
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return completed;
+
+	}
+
 }

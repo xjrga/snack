@@ -14,38 +14,46 @@ import org.apache.commons.csv.CSVPrinter;
 
 public class AllFoodsReport1 {
 
-  private final Connection connection;
+	private final Connection connection;
 
-  public AllFoodsReport1() {
-    connection = Connect.getInstance().getConnection();
-  }
+	public AllFoodsReport1() {
 
-  public void create() {
-    try (FileWriter fileWriter = new FileWriter("models/allfoods1.csv")) {
-      CallableStatement proc = connection.prepareCall("{CALL public.getNutrients()}");
-      ResultSet rs = proc.executeQuery();
-      StringBuilder comment = new StringBuilder();
-      comment.append("Nutritional Values For Common Foods And Products");
-      CSVFormat csvFormat =
-          CSVFormat.DEFAULT
-              .builder()
-              .setCommentMarker('#')
-              .setHeaderComments("All Foods Report #1", comment.toString(), LocalDateTime.now())
-              .setHeader(rs)
-              .get();
-      CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
-      while (rs.next()) {
-        String foodid = rs.getString(1);
-        String nutrientid = rs.getString(2);
-        String food = rs.getString(3);
-        String nutrient = rs.getString(4);
-        BigDecimal q = rs.getBigDecimal(5);
-        String units = rs.getString(6);
-        Integer dri = rs.getInt(7);
-        csvPrinter.printRecord(foodid, nutrientid, food, nutrient, Utilities.strip(q), units, dri);
-      }
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-  }
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	public void create() {
+
+		try ( FileWriter fileWriter = new FileWriter( "models/allfoods1.csv" ) ) {
+
+			CallableStatement proc = connection.prepareCall( "{CALL public.getNutrients()}" );
+			ResultSet rs = proc.executeQuery();
+			StringBuilder comment = new StringBuilder();
+			comment.append( "Nutritional Values For Common Foods And Products" );
+			CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setCommentMarker( '#' )
+					.setHeaderComments( "All Foods Report #1", comment.toString(), LocalDateTime.now() ).setHeader( rs )
+					.get();
+			CSVPrinter csvPrinter = new CSVPrinter( fileWriter, csvFormat );
+
+			while ( rs.next() ) {
+
+				String foodid = rs.getString( 1 );
+				String nutrientid = rs.getString( 2 );
+				String food = rs.getString( 3 );
+				String nutrient = rs.getString( 4 );
+				BigDecimal q = rs.getBigDecimal( 5 );
+				String units = rs.getString( 6 );
+				Integer dri = rs.getInt( 7 );
+				csvPrinter.printRecord( foodid, nutrientid, food, nutrient, Utilities.strip( q ), units, dri );
+
+			}
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+	}
+
 }

@@ -12,20 +12,29 @@ import java.sql.SQLException;
  */
 public class AllocateAction {
 
-  private final Connection connection;
-  private final String mixid;
+	private final Connection connection;
+	private final String mixid;
 
-  public AllocateAction(String mixid) {
-    this.mixid = mixid;
-    connection = Connect.getInstance().getConnection();
-  }
+	public AllocateAction( String mixid ) {
 
-  public void execute() {
-    try (CallableStatement proc = connection.prepareCall("{CALL public.allocate( ? )}")) {
-      proc.setString(1, mixid);
-      proc.execute();
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-  }
+		this.mixid = mixid;
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	public void execute() {
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.allocate( ? )}" ) ) {
+
+			proc.setString( 1, mixid );
+			proc.execute();
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+	}
+
 }

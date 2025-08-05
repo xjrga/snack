@@ -5,7 +5,8 @@ package io.github.xjrga.snack.logger;
  */
 public interface Logger {
 
-  void logRecord(String message);
+	// void logRecord( String message );
 
-  void logProblem(Throwable problem);
+	void logProblem( Throwable problem );
+
 }

@@ -51,13 +51,13 @@ and share their insight.
 
 #### Build
 
-1530
+1540
 
 #### User Guide
 
 [https://xjrga.github.io/main/snack](https://xjrga.github.io/main/snack "Snack: Learning Software for Nutrition")
 
-#### Authors
+#### Author
 
 Jorge R Garcia de Alba
 

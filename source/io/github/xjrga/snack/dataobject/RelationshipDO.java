@@ -18,55 +18,81 @@ package io.github.xjrga.snack.dataobject;
 
 public class RelationshipDO {
 
-  private String name;
-  private Integer relationshipid;
+	private String name;
+	private Integer relationshipid;
 
-  public RelationshipDO(int relationshipid, String name) {
-    this.setRelationshipid(relationshipid);
-    this.setName(name);
-  }
+	public RelationshipDO( int relationshipid, String name ) {
 
-  public String getName() {
-    return name;
-  }
+		this.setRelationshipid( relationshipid );
+		this.setName( name );
 
-  public Integer getRelationshipid() {
-    return relationshipid;
-  }
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public String getName() {
 
-  public void setRelationshipid(int relationshipid) {
-    this.relationshipid = relationshipid;
-  }
+		return name;
 
-  @Override
-  public String toString() {
-    // return "{"+relationshipid+":"+name+"}";
-    return name;
-  }
+	}
 
-  @Override
-  public int hashCode() {
-    int hash = 3;
-    hash = 67 * hash + this.relationshipid;
-    return hash;
-  }
+	public Integer getRelationshipid() {
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final RelationshipDO other = (RelationshipDO) obj;
-    return relationshipid.compareTo(other.relationshipid) == 0;
-  }
+		return relationshipid;
+
+	}
+
+	public void setName( String name ) {
+
+		this.name = name;
+
+	}
+
+	public void setRelationshipid( int relationshipid ) {
+
+		this.relationshipid = relationshipid;
+
+	}
+
+	@Override
+	public String toString() {
+
+		// return "{"+relationshipid+":"+name+"}";
+		return name;
+
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hash = 3;
+		hash = 67 * hash + this.relationshipid;
+		return hash;
+
+	}
+
+	@Override
+	public boolean equals( Object obj ) {
+
+		if ( this == obj ) {
+
+			return true;
+
+		}
+
+		if ( obj == null ) {
+
+			return false;
+
+		}
+
+		if ( getClass() != obj.getClass() ) {
+
+			return false;
+
+		}
+
+		final RelationshipDO other = ( RelationshipDO ) obj;
+		return relationshipid.compareTo( other.relationshipid ) == 0;
+
+	}
+
 }

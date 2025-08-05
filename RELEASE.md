@@ -420,10 +420,16 @@
   * Added mix log
   * Bug fixes
 
-### 1530 - August 24, 2025
+### 1530 - July 24, 2025
 
   * Add food category column to nutrient search use case
   * Add life stage options
   * Add minimization options
   * Bug fixes
+
+### 1540 - August 05, 2025
+ 
+  * Bug fixes
+  * Graphical User Interface changes
+  * New mix totals report
   

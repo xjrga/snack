@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Ant Build Script To Start and Stop HSQLDB Server
+  Author: Jorge R. Garcia de Alba
+  Date: 2025-07-27
+-->
+<project name="hsqldb" basedir="." default="">
+  <tstamp>
+    <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+  </tstamp>
+  <path id="libraries">
+    <fileset dir="libraries">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+  <target name="start-mem" description="Start HSQL Server Using Memory Catalog">
+    <echo>${timestamp}</echo>
+    <java classname="org.hsqldb.server.Server" fork="true" failonerror="true">
+      <classpath>
+        <path>
+          <fileset dir="libraries">
+            <include name="**/*.jar"/>
+          </fileset>
+        </path>
+      </classpath>
+      <arg line="--port 9001 --database.0 mem:db01 --dbname.0 database"/>
+    </java>
+  </target>
+  <target name="start-hsql-server-file">
+    <echo>${timestamp}</echo>
+    <java classname="org.hsqldb.server.Server" fork="true" failonerror="true">
+      <classpath>
+        <path>
+          <fileset dir="libraries">
+            <include name="**/*.jar"/>
+          </fileset>
+        </path>
+      </classpath>
+      <arg line="--port 9001 --database.0 file:${db.path} --dbname.0 database"/>
+    </java>
+  </target>
+  <target name="stop" description="Stop HSQL Server">
+    <echo>${timestamp}</echo>
+    <java jar="libraries/sqltool-2.7.4.jar" fork="true" failonerror="true" maxmemory="2g">
+      <arg line="--inlineRc=url=jdbc:hsqldb:hsql://localhost/database,username='sa',password='' --sql 'SHUTDOWN;'"/>
+    </java>
+  </target>
+  <target name="start-manager" description="Start Database Manager">
+    <echo>${timestamp}</echo>
+    <java jar="libraries/hsqldb-2.7.4.jar" fork="true" failonerror="true" maxmemory="2g">          
+    </java>
+  </target>
+  <target name="start-file-prompt" description="Start HSQL Server Using File Catalog And Prompt For File Path">
+    <input message="Database Path: " addproperty="db.path" defaultvalue=""/>
+    <antcall target="start-hsql-server-file"/>
+  </target>
+  <target name="start-file-default" description="Start HSQL Server Using File Catalog And Use Default File Path">
+    <property name="db.path" value="database/4ihdnAogttew4Yt4VUvqJfs7oCmzzH"/>
+    <antcall target="start-hsql-server-file"/>
+  </target>
+  <target name="start-file-snack" description="Start HSQL Server Using File Catalog And Use Snack Database">
+    <property name="db.path" value="database/snack"/>
+    <antcall target="start-hsql-server-file"/>
+  </target>
+</project>

@@ -25,66 +25,80 @@ import java.util.Properties;
 
 public class Connect {
 
-  private static Connection connection = null;
-  private static String DB_PASS = "";
-  private static String DB_URL = "";
-  private static String DB_USER = "";
-  private static InputStream input = null;
-  private static final Connect instance = new Connect();
-  private static String JDBC_DRIVER = "";
-  private static Properties prop = null;
+	private static Connection connection = null;
+	private static String DB_PASS = "";
+	private static String DB_URL = "";
+	private static String DB_USER = "";
+	private static InputStream input = null;
+	private static final Connect instance = new Connect();
+	private static String JDBC_DRIVER = "";
+	private static Properties prop = null;
 
-  public static Connect getInstance() {
-    return instance;
-  }
+	public static Connect getInstance() {
 
-  private Connect() {}
+		return instance;
 
-  public Connection getConnection() {
-    try {
-      if (connection != null && !connection.isClosed()) {
-        return connection;
-      }
-      prop = new Properties();
-      input = new FileInputStream("config/connection.properties");
-      prop.load(input);
-      JDBC_DRIVER = prop.getProperty("jdbc.driver");
-      DB_URL = prop.getProperty("jdbc.url");
-      DB_USER = prop.getProperty("jdbc.username");
-      DB_PASS = prop.getProperty("jdbc.password");
-      Class.forName(JDBC_DRIVER);
-      connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return connection;
-  }
+	}
 
-  // public Connection getConnection() {
-  // USER_HOME = System.getProperty("user.home");
-  // StringBuilder sb = new StringBuilder();
-  // sb.append("jdbc:hsqldb:file:");
-  // sb.append(USER_HOME);
-  // sb.append(File.separator);
-  // sb.append(".snack");
-  // sb.append(File.separator);
-  // sb.append("database");
-  // sb.append(File.separator);
-  // sb.append("instance");
-  // sb.append(File.separator);
-  // sb.append("snack2;shutdown=true");
-  // JDBC_DRIVER = "org.hsqldb.jdbcDriver";
-  // DB_URL = sb.toString();
-  // DB_USER = "SA";
-  // DB_PASS = "";
-  // try {
-  // Class.forName(JDBC_DRIVER);
-  // } catch (ClassNotFoundException e) {
-  // }
-  // try {
-  // connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-  // } catch (SQLException e) {
-  // }
-  // return connection;
-  // }
+	private Connect() {
+
+	}
+
+	public Connection getConnection() {
+
+		try {
+
+			if ( connection != null && !connection.isClosed() ) {
+
+				return connection;
+
+			}
+
+			prop = new Properties();
+			input = new FileInputStream( "config/connection.properties" );
+			prop.load( input );
+			JDBC_DRIVER = prop.getProperty( "jdbc.driver" );
+			DB_URL = prop.getProperty( "jdbc.url" );
+			DB_USER = prop.getProperty( "jdbc.username" );
+			DB_PASS = prop.getProperty( "jdbc.password" );
+			Class.forName( JDBC_DRIVER );
+			connection = DriverManager.getConnection( DB_URL, DB_USER, DB_PASS );
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return connection;
+
+	}
+
+	// public Connection getConnection() {
+	// USER_HOME = System.getProperty("user.home");
+	// StringBuilder sb = new StringBuilder();
+	// sb.append("jdbc:hsqldb:file:");
+	// sb.append(USER_HOME);
+	// sb.append(File.separator);
+	// sb.append(".snack");
+	// sb.append(File.separator);
+	// sb.append("database");
+	// sb.append(File.separator);
+	// sb.append("instance");
+	// sb.append(File.separator);
+	// sb.append("snack2;shutdown=true");
+	// JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+	// DB_URL = sb.toString();
+	// DB_USER = "SA";
+	// DB_PASS = "";
+	// try {
+	// Class.forName(JDBC_DRIVER);
+	// } catch (ClassNotFoundException e) {
+	// }
+	// try {
+	// connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+	// } catch (SQLException e) {
+	// }
+	// return connection;
+	// }
 }

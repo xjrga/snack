@@ -12,24 +12,35 @@ import java.util.concurrent.Callable;
  */
 public class DeleteFoodTask implements Callable<Boolean> {
 
-  private final Connection connection;
-  private final String foodid;
+	private final Connection connection;
+	private final String foodid;
 
-  public DeleteFoodTask(String foodid) {
-    connection = Connect.getInstance().getConnection();
-    this.foodid = foodid;
-  }
+	public DeleteFoodTask( String foodid ) {
 
-  @Override
-  public Boolean call() throws Exception {
-    Boolean completed = false;
-    try (CallableStatement proc = connection.prepareCall("{CALL public.Food_Delete( ? )}")) {
-      proc.setString(1, foodid);
-      proc.execute();
-      completed = true;
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return completed;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.foodid = foodid;
+
+	}
+
+	@Override
+	public Boolean call() throws Exception {
+
+		Boolean completed = false;
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Food_Delete( ? )}" ) ) {
+
+			proc.setString( 1, foodid );
+			proc.execute();
+			completed = true;
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return completed;
+
+	}
+
 }

@@ -12,47 +12,68 @@ import javax.swing.SwingUtilities;
  */
 public class Splash extends JFrame {
 
-  private final JLabel lbl;
-  private Thread t;
+	private final JLabel lbl;
+	private Thread t;
 
-  public Splash() {
-    setSize(new Dimension(300, 50));
-    lbl = new JLabel();
-    lbl.setHorizontalAlignment(JLabel.CENTER);
-    add(lbl);
-    setTitle(" Snack is loading your food items");
-    setVisible(true);
-    toFront();
-  }
+	public Splash() {
 
-  public void initiate() {
-    ElapsedTime startupTime = new ElapsedTime();
-    startupTime.start();
-    Runnable r =
-        () -> {
-          startupTime.end();
-          lbl.setText(String.format("%,.0f s", startupTime.getElapsedTimeInSeconds()));
-        };
-    t =
-        new Thread() {
-          @Override
-          public void run() {
-            while (!isInterrupted()) {
-              SwingUtilities.invokeLater(r);
-              try {
-                Thread.sleep(1000L);
-              } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                // LoggerImpl.INSTANCE.logProblem(e);
-              }
-            }
-          }
-        };
-    t.start();
-  }
+		setSize( new Dimension( 300, 50 ) );
+		lbl = new JLabel();
+		lbl.setHorizontalAlignment( JLabel.CENTER );
+		add( lbl );
+		setTitle( " Snack is loading your food items" );
+		setVisible( true );
+		toFront();
 
-  public void halt() {
-    t.interrupt();
-    dispose();
-  }
+	}
+
+	public void initiate() {
+
+		ElapsedTime startupTime = new ElapsedTime();
+		startupTime.start();
+		Runnable r = () -> {
+
+			startupTime.end();
+			lbl.setText( String.format( "%,.0f s", startupTime.getElapsedTimeInSeconds() ) );
+
+		};
+		t = new Thread() {
+			@Override
+			public void run() {
+
+				while ( !isInterrupted() ) {
+
+					if ( startupTime.getElapsedTimeInSeconds() > 30 ) {
+
+						halt();
+
+					}
+
+					SwingUtilities.invokeLater( r );
+
+					try {
+
+						Thread.sleep( 1000L );
+
+					} catch (InterruptedException e) {
+
+						Thread.currentThread().interrupt();
+
+					}
+
+				}
+
+			}
+		};
+		t.start();
+
+	}
+
+	public void halt() {
+
+		dispose();
+		t.interrupt();
+
+	}
+
 }

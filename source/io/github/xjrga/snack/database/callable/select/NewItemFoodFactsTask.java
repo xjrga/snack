@@ -15,29 +15,42 @@ import java.util.concurrent.Callable;
  */
 public class NewItemFoodFactsTask implements Callable<List<List>> {
 
-  private final Connection connection;
+	private final Connection connection;
 
-  public NewItemFoodFactsTask() {
-    connection = Connect.getInstance().getConnection();
-  }
+	public NewItemFoodFactsTask() {
 
-  @Override
-  public List<List> call() {
-    List<List> table = new ArrayList();
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.getFoodFactsForNewItem()}")) {
-      ResultSet rs = proc.executeQuery();
-      while (rs.next()) {
-        ArrayList row = new ArrayList();
-        row.add(rs.getString(1));
-        row.add(rs.getString(2));
-        row.add(rs.getString(3));
-        row.add(rs.getBigDecimal(4));
-        table.add(row);
-      }
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return table;
-  }
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	@Override
+	public List<List> call() {
+
+		List<List> table = new ArrayList();
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.getFoodFactsForNewItem()}" ) ) {
+
+			ResultSet rs = proc.executeQuery();
+
+			while ( rs.next() ) {
+
+				ArrayList row = new ArrayList();
+				row.add( rs.getString( 1 ) );
+				row.add( rs.getString( 2 ) );
+				row.add( rs.getString( 3 ) );
+				row.add( rs.getBigDecimal( 4 ) );
+				table.add( row );
+
+			}
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return table;
+
+	}
+
 }

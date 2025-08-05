@@ -3,9 +3,12 @@ CREATE PROCEDURE updateMix (
 IN v_MixId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
 IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(11,5),
-IN v_MixDeficiency DECIMAL(11,5),
-IN v_MixExcess DECIMAL(11,5)
+IN v_MixCost DECIMAL(28,18)
+,
+IN v_MixDeficiency DECIMAL(28,18)
+,
+IN v_MixExcess DECIMAL(28,18)
+
 --
 )
 --

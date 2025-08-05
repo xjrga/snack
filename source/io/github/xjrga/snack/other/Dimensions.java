@@ -3,26 +3,33 @@ package io.github.xjrga.snack.other;
 import java.awt.Dimension;
 
 public enum Dimensions {
-  D1(900, 0),
-  Pct(75, 25),
-  Quantity(100, 25);
-  private final Integer height;
-  private final Integer width;
+	D1(900, 0), Pct(75, 25), Quantity(100, 25);
 
-  Dimensions(Integer width, Integer height) {
-    this.width = width;
-    this.height = height;
-  }
+	private final Integer height;
+	private final Integer width;
 
-  public Dimension get() {
-    return new Dimension(width, height);
-  }
+	Dimensions( Integer width, Integer height ) {
 
-  public Integer getHeight() {
-    return height;
-  }
+		this.width = width;
+		this.height = height;
 
-  public Integer getWidth() {
-    return width;
-  }
+	}
+
+	public Dimension get() {
+
+		return new Dimension( width, height );
+
+	}
+
+	public Integer getHeight() {
+
+		return height;
+
+	}
+
+	public Integer getWidth() {
+
+		return width;
+
+	}
 }

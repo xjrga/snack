@@ -9,7 +9,8 @@ FOR
 SELECT b.NutrientId,
        a.Name AS Category,
        b.Name AS Nutrient,
-       CAST(0.0 AS DECIMAL(11,5)) AS q
+       CAST(0.0 AS DECIMAL(28,18)
+) AS q
 FROM NutrientCategory a,
      Nutrient b
 WHERE a.NutrientCategoryId = b.NutrientCategoryId

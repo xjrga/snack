@@ -27,32 +27,49 @@ import java.util.concurrent.Future;
 
 public class NutrientLoader implements Reload {
 
-  private ArrayList<NutrientDO> nutrient_list;
+	private ArrayList<NutrientDO> nutrient_list;
 
-  public NutrientLoader() {}
+	public NutrientLoader() {
 
-  public ArrayList<NutrientDO> getList() {
-    return nutrient_list;
-  }
+	}
 
-  @Override
-  public void reload() {
-    nutrient_list = new ArrayList();
-    try {
-      Future<List<Map<String, Object>>> task = BackgroundExec.submit(new VisibleNutrientsTask());
-      List<Map<String, Object>> list = task.get();
-      if (list.isEmpty()) {
-        return;
-      }
-      list.forEach(
-          row -> {
-            String nutrientid = (String) row.get("NUTRIENTID");
-            String name = (String) row.get("NAME");
-            NutrientDO nutrientDataObject = new NutrientDO(nutrientid, name, null);
-            nutrient_list.add(nutrientDataObject);
-          });
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-  }
+	public ArrayList<NutrientDO> getList() {
+
+		return nutrient_list;
+
+	}
+
+	@Override
+	public void reload() {
+
+		nutrient_list = new ArrayList();
+
+		try {
+
+			Future<List<Map<String, Object>>> task = BackgroundExec.submit( new VisibleNutrientsTask() );
+			List<Map<String, Object>> list = task.get();
+
+			if ( list.isEmpty() ) {
+
+				return;
+
+			}
+
+			list.forEach( row -> {
+
+				String nutrientid = ( String ) row.get( "NUTRIENTID" );
+				String name = ( String ) row.get( "NAME" );
+				NutrientDO nutrientDataObject = new NutrientDO( nutrientid, name, null );
+				nutrient_list.add( nutrientDataObject );
+
+			} );
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+	}
+
 }

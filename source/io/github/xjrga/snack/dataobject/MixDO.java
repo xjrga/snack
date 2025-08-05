@@ -22,103 +22,184 @@ import java.util.Objects;
 
 public class MixDO implements Comparator {
 
-  private String mixid;
-  private String model;
-  private String name;
-  private Integer lifestageid;
-  private BigDecimal cost;
+	private String mixid;
+	private String model;
+	private String name;
+	private Integer lifestageid;
+	private BigDecimal cost;
+	private BigDecimal deficiency;
+	private BigDecimal excess;
 
-  public MixDO() {
-    this.mixid = "";
-    this.model = "";
-    this.name = "";
-    this.lifestageid = -1;
-    this.cost = new BigDecimal("0.0");
-  }
+	public MixDO() {
 
-  public MixDO(String mixid, String name) {
-    this.mixid = mixid;
-    this.name = name;
-  }
+		this.mixid = "";
+		this.name = "";
+		this.model = "";
+		this.lifestageid = -1;
+		this.cost = new BigDecimal( "1.0" );
+		this.deficiency = new BigDecimal( "1.0" );
+		this.excess = new BigDecimal( "1.0" );
 
-  public MixDO(String mixid) {
-    this.mixid = mixid;
-    this.name = "";
-  }
+	}
 
-  public String getMixId() {
-    return mixid;
-  }
+	public MixDO( String mixid, String name ) {
 
-  public String getModel() {
-    return model;
-  }
+		this.mixid = mixid;
+		this.name = name;
+		this.model = "";
+		this.lifestageid = -1;
+		this.cost = new BigDecimal( "1.0" );
+		this.deficiency = new BigDecimal( "1.0" );
+		this.excess = new BigDecimal( "1.0" );
 
-  public String getName() {
-    return name;
-  }
+	}
 
-  public Integer getLifeStageId() {
-    return lifestageid;
-  }
+	public MixDO( String mixid ) {
 
-  public void setMixId(String mixid) {
-    this.mixid = mixid;
-  }
+		this.mixid = mixid;
+		this.model = "";
+		this.lifestageid = -1;
+		this.cost = new BigDecimal( "1.0" );
+		this.deficiency = new BigDecimal( "1.0" );
+		this.excess = new BigDecimal( "1.0" );
 
-  public void setModel(String model) {
-    this.model = model;
-  }
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public String getMixid() {
 
-  public void setLifeStageId(Integer lifestageid) {
-    this.lifestageid = lifestageid;
-  }
+		return mixid;
 
-  public BigDecimal getCost() {
-    return cost;
-  }
+	}
 
-  public void setCost(BigDecimal cost) {
-    this.cost = cost;
-  }
+	public String getModel() {
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(name);
-    return sb.toString();
-  }
+		return model;
 
-  @Override
-  public int hashCode() {
-    int hash = 3;
-    hash = 67 * hash + Objects.hashCode(this.mixid);
-    return hash;
-  }
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final MixDO other = (MixDO) obj;
-    return this.mixid.equals(other.mixid);
-  }
+	public String getName() {
 
-  @Override
-  public int compare(Object o1, Object o2) {
-    MixDO m1 = (MixDO) o1;
-    MixDO m2 = (MixDO) o2;
-    return m1.getMixId().compareTo(m2.getMixId());
-  }
+		return name;
+
+	}
+
+	public Integer getLifestageid() {
+
+		return lifestageid;
+
+	}
+
+	public void setMixid( String mixid ) {
+
+		this.mixid = mixid;
+
+	}
+
+	public void setModel( String model ) {
+
+		this.model = model;
+
+	}
+
+	public void setName( String name ) {
+
+		this.name = name;
+
+	}
+
+	public void setLifestageid( Integer lifestageid ) {
+
+		this.lifestageid = lifestageid;
+
+	}
+
+	public BigDecimal getCost() {
+
+		return cost;
+
+	}
+
+	public void setCost( BigDecimal cost ) {
+
+		this.cost = cost;
+
+	}
+
+	public BigDecimal getDeficiency() {
+
+		return deficiency;
+
+	}
+
+	public void setDeficiency( BigDecimal deficiency ) {
+
+		this.deficiency = deficiency;
+
+	}
+
+	public BigDecimal getExcess() {
+
+		return excess;
+
+	}
+
+	public void setExcess( BigDecimal excess ) {
+
+		this.excess = excess;
+
+	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append( name );
+		return sb.toString();
+
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hash = 3;
+		hash = 67 * hash + Objects.hashCode( this.mixid );
+		return hash;
+
+	}
+
+	@Override
+	public boolean equals( Object obj ) {
+
+		if ( this == obj ) {
+
+			return true;
+
+		}
+
+		if ( obj == null ) {
+
+			return false;
+
+		}
+
+		if ( getClass() != obj.getClass() ) {
+
+			return false;
+
+		}
+
+		final MixDO other = ( MixDO ) obj;
+		return this.mixid.equals( other.mixid );
+
+	}
+
+	@Override
+	public int compare( Object o1, Object o2 ) {
+
+		MixDO m1 = ( MixDO ) o1;
+		MixDO m2 = ( MixDO ) o2;
+		return m1.getMixid().compareTo( m2.getMixid() );
+
+	}
+
 }

@@ -12,24 +12,35 @@ import java.util.concurrent.Callable;
  */
 public class DeleteMixTask implements Callable<Boolean> {
 
-  private final Connection connection;
-  private final String mixid;
+	private final Connection connection;
+	private final String mixid;
 
-  public DeleteMixTask(String mixid) {
-    connection = Connect.getInstance().getConnection();
-    this.mixid = mixid;
-  }
+	public DeleteMixTask( String mixid ) {
 
-  @Override
-  public Boolean call() throws Exception {
-    Boolean completed = false;
-    try (CallableStatement proc = connection.prepareCall("{CALL public.Mix_Delete( ? )}")) {
-      proc.setString(1, mixid);
-      proc.execute();
-      completed = true;
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return completed;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.mixid = mixid;
+
+	}
+
+	@Override
+	public Boolean call() throws Exception {
+
+		Boolean completed = false;
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Mix_Delete( ? )}" ) ) {
+
+			proc.setString( 1, mixid );
+			proc.execute();
+			completed = true;
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return completed;
+
+	}
+
 }

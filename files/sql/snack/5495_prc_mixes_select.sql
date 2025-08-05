@@ -7,7 +7,9 @@ SELECT MixId,
        Name,
        LifeStageId,
        Model,
-       MixCost
+       MixCost,
+       MixDeficiency,
+       MixExcess
 FROM Mix
 ORDER BY Name;
 --

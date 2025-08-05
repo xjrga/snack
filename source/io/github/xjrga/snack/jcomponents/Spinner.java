@@ -10,45 +10,67 @@ import javax.swing.SpinnerListModel;
  */
 public class Spinner<T> extends JSpinner {
 
-  private final SpinnerListModel model;
+	private final SpinnerListModel model;
 
-  public Spinner() {
-    model = new SpinnerListModel();
-    setModel(model);
-  }
+	public Spinner() {
 
-  public void setSelectedItem(T item) {
-    model.setValue(item);
-    repaint();
-  }
+		model = new SpinnerListModel();
+		setModel( model );
 
-  public T getSelectedItem() {
-    return (T) model.getValue();
-  }
+	}
 
-  public int getSelectedIndex() {
-    int index = 0;
-    int size = model.getList().size();
-    for (int i = 0; i < size; i++) {
-      T o = (T) model.getList().get(i);
-      if (o.equals(getSelectedItem())) {
-        index = i;
-      }
-    }
-    return index;
-  }
+	public void setSelectedItem( T item ) {
 
-  public void reload(List<T> list) {
-    model.setList(list);
-  }
+		model.setValue( item );
+		repaint();
 
-  @Override
-  public Object getPreviousValue() {
-    return super.getNextValue();
-  }
+	}
 
-  @Override
-  public Object getNextValue() {
-    return super.getPreviousValue();
-  }
+	public T getSelectedItem() {
+
+		return ( T ) model.getValue();
+
+	}
+
+	public int getSelectedIndex() {
+
+		int index = 0;
+		int size = model.getList().size();
+
+		for ( int i = 0; i < size; i++ ) {
+
+			T o = ( T ) model.getList().get( i );
+
+			if ( o.equals( getSelectedItem() ) ) {
+
+				index = i;
+
+			}
+
+		}
+
+		return index;
+
+	}
+
+	public void reload( List<T> list ) {
+
+		model.setList( list );
+
+	}
+
+	@Override
+	public Object getPreviousValue() {
+
+		return super.getNextValue();
+
+	}
+
+	@Override
+	public Object getNextValue() {
+
+		return super.getPreviousValue();
+
+	}
+
 }

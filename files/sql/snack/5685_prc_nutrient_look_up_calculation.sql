@@ -1,7 +1,8 @@
 CREATE PROCEDURE Nutrient_Lookup_List (
 --
 IN v_nutrientid LONGVARCHAR,
-IN v_q DECIMAL(16,10)
+IN v_q DECIMAL(28,18)
+
 --
 )
 --

@@ -17,23 +17,37 @@ import java.util.concurrent.Callable;
  */
 public class DriNutrientsTask implements Callable<List<NutrientDO>> {
 
-  private final Connection connection;
+	private final Connection connection;
 
-  public DriNutrientsTask() {
-    connection = Connect.getInstance().getConnection();
-  }
+	public DriNutrientsTask() {
 
-  @Override
-  public List<NutrientDO> call() {
-    LinkedList<NutrientDO> list = new LinkedList<>();
-    try (CallableStatement proc = connection.prepareCall("{CALL public.selectDriNutrients()}")) {
-      ResultSet rs = proc.executeQuery();
-      while (rs.next()) {
-        list.add(new NutrientDO(rs.getString(1), rs.getString(2), new BigDecimal("-1")));
-      }
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return list;
-  }
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	@Override
+	public List<NutrientDO> call() {
+
+		LinkedList<NutrientDO> list = new LinkedList<>();
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.selectDriNutrients()}" ) ) {
+
+			ResultSet rs = proc.executeQuery();
+
+			while ( rs.next() ) {
+
+				list.add( new NutrientDO( rs.getString( 1 ), rs.getString( 2 ), new BigDecimal( "-1" ) ) );
+
+			}
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return list;
+
+	}
+
 }

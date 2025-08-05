@@ -13,29 +13,39 @@ import java.util.concurrent.Callable;
  */
 public class UnallocatedFoodPercentageTask implements Callable<BigDecimal> {
 
-  private final String mixid;
-  private final String foodid;
-  private final Connection connection;
+	private final String mixid;
+	private final String foodid;
+	private final Connection connection;
 
-  public UnallocatedFoodPercentageTask(String mixid, String foodid) {
-    this.mixid = mixid;
-    this.foodid = foodid;
-    connection = Connect.getInstance().getConnection();
-  }
+	public UnallocatedFoodPercentageTask( String mixid, String foodid ) {
 
-  @Override
-  public BigDecimal call() throws Exception {
-    BigDecimal out = null;
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.calculate_remaining_percentage( ?, ? )}")) {
-      proc.setString(1, mixid);
-      proc.setString(2, foodid);
-      proc.execute();
-      ResultSet resultSet = proc.getResultSet();
-      resultSet.next();
-      out = resultSet.getBigDecimal(1);
-    } catch (SQLException e) {
-    }
-    return out;
-  }
+		this.mixid = mixid;
+		this.foodid = foodid;
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	@Override
+	public BigDecimal call() throws Exception {
+
+		BigDecimal out = null;
+
+		try ( CallableStatement proc = connection
+				.prepareCall( "{CALL public.calculate_remaining_percentage( ?, ? )}" ) ) {
+
+			proc.setString( 1, mixid );
+			proc.setString( 2, foodid );
+			proc.execute();
+			ResultSet resultSet = proc.getResultSet();
+			resultSet.next();
+			out = resultSet.getBigDecimal( 1 );
+
+		} catch (SQLException e) {
+
+		}
+
+		return out;
+
+	}
+
 }

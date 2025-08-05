@@ -27,32 +27,49 @@ import java.util.concurrent.Future;
 
 public class RelationshipLoader implements Reload {
 
-  private ArrayList<RelationshipDO> relationship_list;
+	private ArrayList<RelationshipDO> relationship_list;
 
-  public RelationshipLoader() {}
+	public RelationshipLoader() {
 
-  public ArrayList<RelationshipDO> get() {
-    return relationship_list;
-  }
+	}
 
-  @Override
-  public void reload() {
-    relationship_list = new ArrayList();
-    try {
-      Future<List<Map<String, Object>>> task = BackgroundExec.submit(new RelationshipsTask());
-      List<Map<String, Object>> list = task.get();
-      if (list.isEmpty()) {
-        return;
-      }
-      list.forEach(
-          row -> {
-            int relationshipid = (int) row.get("RELATIONSHIPID");
-            String name = (String) row.get("NAME");
-            RelationshipDO relationshipDataObject = new RelationshipDO(relationshipid, name);
-            relationship_list.add(relationshipDataObject);
-          });
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-  }
+	public ArrayList<RelationshipDO> get() {
+
+		return relationship_list;
+
+	}
+
+	@Override
+	public void reload() {
+
+		relationship_list = new ArrayList();
+
+		try {
+
+			Future<List<Map<String, Object>>> task = BackgroundExec.submit( new RelationshipsTask() );
+			List<Map<String, Object>> list = task.get();
+
+			if ( list.isEmpty() ) {
+
+				return;
+
+			}
+
+			list.forEach( row -> {
+
+				int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
+				String name = ( String ) row.get( "NAME" );
+				RelationshipDO relationshipDataObject = new RelationshipDO( relationshipid, name );
+				relationship_list.add( relationshipDataObject );
+
+			} );
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+	}
+
 }

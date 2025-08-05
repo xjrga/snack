@@ -24,17 +24,24 @@ import java.util.concurrent.Future;
  */
 public class BackgroundExec {
 
-  private static ExecutorService backgroundExec;
+	private static ExecutorService backgroundExec;
 
-  public static void start() {
-    backgroundExec = Executors.newSingleThreadExecutor();
-  }
+	public static void start() {
 
-  public static void execute(Runnable command) {
-    backgroundExec.execute(command);
-  }
+		backgroundExec = Executors.newSingleThreadExecutor();
 
-  public static <T> Future<T> submit(Callable<T> command) {
-    return backgroundExec.submit(command);
-  }
+	}
+
+	public static void execute( Runnable command ) {
+
+		backgroundExec.execute( command );
+
+	}
+
+	public static <T> Future<T> submit( Callable<T> command ) {
+
+		return backgroundExec.submit( command );
+
+	}
+
 }

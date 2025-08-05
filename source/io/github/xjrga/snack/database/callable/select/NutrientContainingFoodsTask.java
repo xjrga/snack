@@ -15,37 +15,50 @@ import java.util.concurrent.Callable;
  */
 public class NutrientContainingFoodsTask implements Callable<List<List>> {
 
-  private final Connection connection;
-  private final String nutrientid;
-  private final BigDecimal value;
+	private final Connection connection;
+	private final String nutrientid;
+	private final BigDecimal value;
 
-  public NutrientContainingFoodsTask(String nutrientid, BigDecimal value) {
-    connection = Connect.getInstance().getConnection();
-    this.nutrientid = nutrientid;
-    this.value = value;
-  }
+	public NutrientContainingFoodsTask( String nutrientid, BigDecimal value ) {
 
-  @Override
-  public List<List> call() {
-    ArrayList<List> table = new ArrayList();
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.Nutrient_Lookup_List( ?, ? )}")) {
-      proc.setString(1, nutrientid);
-      proc.setBigDecimal(2, value);
-      ResultSet rs = proc.executeQuery();
-      while (rs.next()) {
-        ArrayList row = new ArrayList();
-        row.add(rs.getString(1));
-        row.add(rs.getString(2));
-        row.add(rs.getString(3));
-        row.add(rs.getString(4));
-        row.add(rs.getBigDecimal(5));
-        row.add(rs.getBigDecimal(6));
-        table.add(row);
-      }
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return table;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.nutrientid = nutrientid;
+		this.value = value;
+
+	}
+
+	@Override
+	public List<List> call() {
+
+		ArrayList<List> table = new ArrayList();
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Nutrient_Lookup_List( ?, ? )}" ) ) {
+
+			proc.setString( 1, nutrientid );
+			proc.setBigDecimal( 2, value );
+			ResultSet rs = proc.executeQuery();
+
+			while ( rs.next() ) {
+
+				ArrayList row = new ArrayList();
+				row.add( rs.getString( 1 ) );
+				row.add( rs.getString( 2 ) );
+				row.add( rs.getString( 3 ) );
+				row.add( rs.getString( 4 ) );
+				row.add( rs.getBigDecimal( 5 ) );
+				row.add( rs.getBigDecimal( 6 ) );
+				table.add( row );
+
+			}
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return table;
+
+	}
+
 }

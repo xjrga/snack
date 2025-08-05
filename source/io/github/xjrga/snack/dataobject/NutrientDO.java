@@ -21,65 +21,95 @@ import java.util.Objects;
 
 public class NutrientDO {
 
-  private String nutr_no;
-  private String nutrdesc;
-  private BigDecimal q;
+	private String nutr_no;
+	private String nutrdesc;
+	private BigDecimal q;
 
-  public NutrientDO(String nutrientid, String nutrdesc, BigDecimal q) {
-    this.setNutr_no(nutrientid);
-    this.setNutrdesc(nutrdesc);
-    this.setQ(q);
-  }
+	public NutrientDO( String nutrientid, String nutrdesc, BigDecimal q ) {
 
-  public String getNutr_no() {
-    return nutr_no;
-  }
+		this.setNutr_no( nutrientid );
+		this.setNutrdesc( nutrdesc );
+		this.setQ( q );
 
-  public String getNutrdesc() {
-    return nutrdesc;
-  }
+	}
 
-  public BigDecimal getQ() {
-    return q;
-  }
+	public String getNutr_no() {
 
-  public void setNutr_no(String nutr_no) {
-    this.nutr_no = nutr_no;
-  }
+		return nutr_no;
 
-  public void setNutrdesc(String nutrdesc) {
-    this.nutrdesc = nutrdesc;
-  }
+	}
 
-  public void setQ(BigDecimal q) {
-    this.q = q;
-  }
+	public String getNutrdesc() {
 
-  @Override
-  public String toString() {
-    // return "{"+nutr_no+":"+nutrdesc+"}";
-    return nutrdesc;
-  }
+		return nutrdesc;
 
-  @Override
-  public int hashCode() {
-    int hash = 7;
-    hash = 23 * hash + Objects.hashCode(this.nutr_no);
-    return hash;
-  }
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final NutrientDO other = (NutrientDO) obj;
-    return Objects.equals(this.nutr_no, other.nutr_no);
-  }
+	public BigDecimal getQ() {
+
+		return q;
+
+	}
+
+	public void setNutr_no( String nutr_no ) {
+
+		this.nutr_no = nutr_no;
+
+	}
+
+	public void setNutrdesc( String nutrdesc ) {
+
+		this.nutrdesc = nutrdesc;
+
+	}
+
+	public void setQ( BigDecimal q ) {
+
+		this.q = q;
+
+	}
+
+	@Override
+	public String toString() {
+
+		// return "{"+nutr_no+":"+nutrdesc+"}";
+		return nutrdesc;
+
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hash = 7;
+		hash = 23 * hash + Objects.hashCode( this.nutr_no );
+		return hash;
+
+	}
+
+	@Override
+	public boolean equals( Object obj ) {
+
+		if ( this == obj ) {
+
+			return true;
+
+		}
+
+		if ( obj == null ) {
+
+			return false;
+
+		}
+
+		if ( getClass() != obj.getClass() ) {
+
+			return false;
+
+		}
+
+		final NutrientDO other = ( NutrientDO ) obj;
+		return Objects.equals( this.nutr_no, other.nutr_no );
+
+	}
+
 }

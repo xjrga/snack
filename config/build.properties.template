@@ -1,0 +1,9 @@
+project.creator=Jorge R. Garcia de Alba
+project.name=snack
+project.class=io.github.xjrga.snack.gui.Main
+project.package.name=snack-1540
+project.package.jar=snack
+project.backup.dir=/path/to/backup/dir
+project.backup.name=snack
+project.site.dir=/path/to/local/site
+project.jpda.address=5010

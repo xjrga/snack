@@ -13,26 +13,40 @@ import java.util.concurrent.Callable;
  */
 public class ExportMixTask implements Callable<String> {
 
-  private final Connection connection;
-  private final String mixid;
+	private final Connection connection;
+	private final String mixid;
 
-  public ExportMixTask(String mixid) {
-    connection = Connect.getInstance().getConnection();
-    this.mixid = mixid;
-  }
+	public ExportMixTask( String mixid ) {
 
-  @Override
-  public String call() throws Exception {
-    String out = "";
-    try (CallableStatement proc = connection.prepareCall("{CALL public.exportMixModel( ? )}")) {
-      proc.setString(1, mixid);
-      ResultSet rs = proc.executeQuery();
-      while (rs.next()) {
-        out = rs.getString(1);
-      }
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return out;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.mixid = mixid;
+
+	}
+
+	@Override
+	public String call() throws Exception {
+
+		String out = "";
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.exportMixModel( ? )}" ) ) {
+
+			proc.setString( 1, mixid );
+			ResultSet rs = proc.executeQuery();
+
+			while ( rs.next() ) {
+
+				out = rs.getString( 1 );
+
+			}
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return out;
+
+	}
+
 }

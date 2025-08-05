@@ -12,22 +12,34 @@ import java.util.concurrent.Callable;
  */
 public class DeleteAllMixesTask implements Callable<Boolean> {
 
-  private final Connection connection;
+	private final Connection connection;
 
-  public DeleteAllMixesTask() {
-    connection = Connect.getInstance().getConnection();
-  }
+	public DeleteAllMixesTask() {
 
-  @Override
-  public Boolean call() throws Exception {
-    boolean completed = false;
-    try (CallableStatement proc = connection.prepareCall("{CALL public.deleteAllMixes()}")) {
-      proc.execute();
-      completed = true;
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    } finally {
-    }
-    return completed;
-  }
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	@Override
+	public Boolean call() throws Exception {
+
+		boolean completed = false;
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.deleteAllMixes()}" ) ) {
+
+			proc.execute();
+			completed = true;
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		} finally {
+
+		}
+
+		return completed;
+
+	}
+
 }

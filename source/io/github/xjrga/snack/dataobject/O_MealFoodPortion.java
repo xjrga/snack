@@ -4,77 +4,95 @@ import java.math.BigDecimal;
 
 public class O_MealFoodPortion {
 
-  private BigDecimal ActualWt;
-  private BigDecimal ExpectedWt;
-  private String FoodId;
-  private Integer MealId;
-  private String MixId;
-  private BigDecimal Pct;
+	private BigDecimal ActualWt;
+	private BigDecimal ExpectedWt;
+	private String FoodId;
+	private Integer MealId;
+	private String MixId;
+	private BigDecimal Pct;
 
-  public O_MealFoodPortion() {}
+	public O_MealFoodPortion() {
 
-  public BigDecimal getActualwt() {
-    return ActualWt;
-  }
+	}
 
-  public BigDecimal getExpectedwt() {
-    return ExpectedWt;
-  }
+	public BigDecimal getActualwt() {
 
-  public String getFoodid() {
-    return FoodId;
-  }
+		return ActualWt;
 
-  public Integer getMealid() {
-    return MealId;
-  }
+	}
 
-  public String getMixid() {
-    return MixId;
-  }
+	public BigDecimal getExpectedwt() {
 
-  public BigDecimal getPct() {
-    return Pct;
-  }
+		return ExpectedWt;
 
-  public void setActualwt(BigDecimal ActualWt) {
-    this.ActualWt = ActualWt;
-  }
+	}
 
-  public void setExpectedwt(BigDecimal ExpectedWt) {
-    this.ExpectedWt = ExpectedWt;
-  }
+	public String getFoodid() {
 
-  public void setFoodid(String FoodId) {
-    this.FoodId = FoodId;
-  }
+		return FoodId;
 
-  public void setMealid(Integer MealId) {
-    this.MealId = MealId;
-  }
+	}
 
-  public void setMixid(String MixId) {
-    this.MixId = MixId;
-  }
+	public Integer getMealid() {
 
-  public void setPct(BigDecimal Pct) {
-    this.Pct = Pct;
-  }
+		return MealId;
 
-  @Override
-  public String toString() {
-    return "O_MealFoodAllocation{MixId="
-        + MixId
-        + ", MealId="
-        + MealId
-        + ", FoodId="
-        + FoodId
-        + ", Pct="
-        + Pct
-        + ", ExpectedWt="
-        + ExpectedWt
-        + ", ActualWt="
-        + ActualWt
-        + "}";
-  }
+	}
+
+	public String getMixid() {
+
+		return MixId;
+
+	}
+
+	public BigDecimal getPct() {
+
+		return Pct;
+
+	}
+
+	public void setActualwt( BigDecimal ActualWt ) {
+
+		this.ActualWt = ActualWt;
+
+	}
+
+	public void setExpectedwt( BigDecimal ExpectedWt ) {
+
+		this.ExpectedWt = ExpectedWt;
+
+	}
+
+	public void setFoodid( String FoodId ) {
+
+		this.FoodId = FoodId;
+
+	}
+
+	public void setMealid( Integer MealId ) {
+
+		this.MealId = MealId;
+
+	}
+
+	public void setMixid( String MixId ) {
+
+		this.MixId = MixId;
+
+	}
+
+	public void setPct( BigDecimal Pct ) {
+
+		this.Pct = Pct;
+
+	}
+
+	@Override
+	public String toString() {
+
+		return "O_MealFoodAllocation{MixId=" + MixId + ", MealId=" + MealId + ", FoodId=" + FoodId + ", Pct=" + Pct
+				+ ", ExpectedWt=" + ExpectedWt + ", ActualWt=" + ActualWt + "}";
+
+	}
+
 }

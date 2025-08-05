@@ -15,83 +15,83 @@ CREATE TABLE DnFoodFact
 (
         food_id LONGVARCHAR,
         food_name LONGVARCHAR,
-        carbohydrates_carbs_by_diff DECIMAL(16,10),
-        carbohydrates_fiber_insoluble DECIMAL(16,10),
-        carbohydrates_fiber_soluble DECIMAL(16,10),
-        carbohydrates_fiber DECIMAL(16,10),
-        carbohydrates_fructose DECIMAL(16,10),
-        carbohydrates_glucose DECIMAL(16,10),
-        carbohydrates_glycemic_load DECIMAL(16,10),
-        carbohydrates_lactose DECIMAL(16,10),
-        carbohydrates_starch DECIMAL(16,10),
-        carbohydrates_sucrose DECIMAL(16,10),
-        carbohydrates_sugars DECIMAL(16,10),
-        energy_gross DECIMAL(16,10),
-        fats_cholesterol DECIMAL(16,10),
-        fats_dha DECIMAL(16,10),
-        fats_epa DECIMAL(16,10),
-        fats_lauric DECIMAL(16,10),
-        fats_linoleic DECIMAL(16,10),
-        fats_linolenic DECIMAL(16,10),
-        fats_monounsaturated DECIMAL(16,10),
-        fats_myristic DECIMAL(16,10),
-        fats_palmitic DECIMAL(16,10),
-        fats_polyunsaturated DECIMAL(16,10),
-        fats_saturated DECIMAL(16,10),
-        fats_stearic DECIMAL(16,10),
-        fats_total DECIMAL(16,10),
-        minerals_calcium DECIMAL(16,10),
-        minerals_copper DECIMAL(16,10),
-        minerals_iron DECIMAL(16,10),
-        minerals_magnesium DECIMAL(16,10),
-        minerals_manganese DECIMAL(16,10),
-        minerals_phosphorus DECIMAL(16,10),
-        minerals_potassium DECIMAL(16,10),
-        minerals_selenium DECIMAL(16,10),
-        minerals_sodium DECIMAL(16,10),
-        minerals_zinc DECIMAL(16,10),
-        other_alcohol DECIMAL(16,10),
-        other_cost DECIMAL(16,10),
-        other_water DECIMAL(16,10),
-        other_weight DECIMAL(16,10),
-        phytonutrients_anthocyanins DECIMAL(16,10),
-        phytonutrients_caffeine DECIMAL(16,10),
-        phytonutrients_beta_carotene DECIMAL(16,10),
-        phytonutrients_carotenoids DECIMAL(16,10),
-        phytonutrients_flavanols DECIMAL(16,10),
-        phytonutrients_flavanones DECIMAL(16,10),
-        phytonutrients_flavones DECIMAL(16,10),
-        phytonutrients_flavonoids DECIMAL(16,10),
-        phytonutrients_flavonols DECIMAL(16,10),
-        phytonutrients_isoflavones DECIMAL(16,10),
-        phytonutrients_lutein_zeaxanthin DECIMAL(16,10),
-        phytonutrients_lycopene DECIMAL(16,10),
-        phytonutrients_phytosterols DECIMAL(16,10),
-        phytonutrients_theobromine DECIMAL(16,10),
-        protein_complete DECIMAL(16,10),
-        protein_total DECIMAL(16,10),
-        vitamins_vitamin_a DECIMAL(16,10),
-        vitamins_vitamin_b12 DECIMAL(16,10),
-        vitamins_vitamin_b6 DECIMAL(16,10),
-        vitamins_vitamin_c DECIMAL(16,10),
-        vitamins_choline DECIMAL(16,10),
-        vitamins_vitamin_d DECIMAL(16,10),
-        vitamins_vitamin_e DECIMAL(16,10),
-        vitamins_folate DECIMAL(16,10),
-        vitamins_vitamin_k DECIMAL(16,10),
-        vitamins_niacin DECIMAL(16,10),
-        vitamins_pantothenic_acid DECIMAL(16,10),
-        vitamins_riboflavin DECIMAL(16,10),
-        vitamins_thiamin DECIMAL(16,10),
-        carbohydrates_digestible DECIMAL(16,10),
-        energy_carbohydrate DECIMAL(16,10),
-        energy_fat DECIMAL(16,10),
-        energy_fat_and_carbohydrate DECIMAL(16,10),
-        energy_protein DECIMAL(16,10),
-        energy_alcohol DECIMAL(16,10),
-        energy_digestible DECIMAL(16,10),
-        fats_hcsfa DECIMAL(16,10),
-        fats_lcn3pufa DECIMAL(16,10),
+        carbohydrates_carbs_by_diff DECIMAL(24,18),
+        carbohydrates_fiber_insoluble DECIMAL(24,18),
+        carbohydrates_fiber_soluble DECIMAL(24,18),
+        carbohydrates_fiber DECIMAL(24,18),
+        carbohydrates_fructose DECIMAL(24,18),
+        carbohydrates_glucose DECIMAL(24,18),
+        carbohydrates_glycemic_load DECIMAL(24,18),
+        carbohydrates_lactose DECIMAL(24,18),
+        carbohydrates_starch DECIMAL(24,18),
+        carbohydrates_sucrose DECIMAL(24,18),
+        carbohydrates_sugars DECIMAL(24,18),
+        energy_gross DECIMAL(24,18),
+        fats_cholesterol DECIMAL(24,18),
+        fats_dha DECIMAL(24,18),
+        fats_epa DECIMAL(24,18),
+        fats_lauric DECIMAL(24,18),
+        fats_linoleic DECIMAL(24,18),
+        fats_linolenic DECIMAL(24,18),
+        fats_monounsaturated DECIMAL(24,18),
+        fats_myristic DECIMAL(24,18),
+        fats_palmitic DECIMAL(24,18),
+        fats_polyunsaturated DECIMAL(24,18),
+        fats_saturated DECIMAL(24,18),
+        fats_stearic DECIMAL(24,18),
+        fats_total DECIMAL(24,18),
+        minerals_calcium DECIMAL(24,18),
+        minerals_copper DECIMAL(24,18),
+        minerals_iron DECIMAL(24,18),
+        minerals_magnesium DECIMAL(24,18),
+        minerals_manganese DECIMAL(24,18),
+        minerals_phosphorus DECIMAL(24,18),
+        minerals_potassium DECIMAL(24,18),
+        minerals_selenium DECIMAL(24,18),
+        minerals_sodium DECIMAL(24,18),
+        minerals_zinc DECIMAL(24,18),
+        other_alcohol DECIMAL(24,18),
+        other_cost DECIMAL(24,18),
+        other_water DECIMAL(24,18),
+        other_weight DECIMAL(24,18),
+        phytonutrients_anthocyanins DECIMAL(24,18),
+        phytonutrients_caffeine DECIMAL(24,18),
+        phytonutrients_beta_carotene DECIMAL(24,18),
+        phytonutrients_carotenoids DECIMAL(24,18),
+        phytonutrients_flavanols DECIMAL(24,18),
+        phytonutrients_flavanones DECIMAL(24,18),
+        phytonutrients_flavones DECIMAL(24,18),
+        phytonutrients_flavonoids DECIMAL(24,18),
+        phytonutrients_flavonols DECIMAL(24,18),
+        phytonutrients_isoflavones DECIMAL(24,18),
+        phytonutrients_lutein_zeaxanthin DECIMAL(24,18),
+        phytonutrients_lycopene DECIMAL(24,18),
+        phytonutrients_phytosterols DECIMAL(24,18),
+        phytonutrients_theobromine DECIMAL(24,18),
+        protein_complete DECIMAL(24,18),
+        protein_total DECIMAL(24,18),
+        vitamins_vitamin_a DECIMAL(24,18),
+        vitamins_vitamin_b12 DECIMAL(24,18),
+        vitamins_vitamin_b6 DECIMAL(24,18),
+        vitamins_vitamin_c DECIMAL(24,18),
+        vitamins_choline DECIMAL(24,18),
+        vitamins_vitamin_d DECIMAL(24,18),
+        vitamins_vitamin_e DECIMAL(24,18),
+        vitamins_folate DECIMAL(24,18),
+        vitamins_vitamin_k DECIMAL(24,18),
+        vitamins_niacin DECIMAL(24,18),
+        vitamins_pantothenic_acid DECIMAL(24,18),
+        vitamins_riboflavin DECIMAL(24,18),
+        vitamins_thiamin DECIMAL(24,18),
+        carbohydrates_digestible DECIMAL(24,18),
+        energy_carbohydrate DECIMAL(24,18),
+        energy_fat DECIMAL(24,18),
+        energy_fat_and_carbohydrate DECIMAL(24,18),
+        energy_protein DECIMAL(24,18),
+        energy_alcohol DECIMAL(24,18),
+        energy_digestible DECIMAL(24,18),
+        fats_hcsfa DECIMAL(24,18),
+        fats_lcn3pufa DECIMAL(24,18),
         CONSTRAINT DnFoodFact_primary_key PRIMARY KEY (
         food_id
         )
@@ -102,83 +102,83 @@ CREATE TABLE DnMixResult
         mix_id LONGVARCHAR,
         food_id LONGVARCHAR,
         food_name LONGVARCHAR,
-        carbohydrates_carbs_by_diff DECIMAL(16,10),
-        carbohydrates_fiber_insoluble DECIMAL(16,10),
-        carbohydrates_fiber_soluble DECIMAL(16,10),
-        carbohydrates_fiber DECIMAL(16,10),
-        carbohydrates_fructose DECIMAL(16,10),
-        carbohydrates_glucose DECIMAL(16,10),
-        carbohydrates_glycemic_load DECIMAL(16,10),
-        carbohydrates_lactose DECIMAL(16,10),
-        carbohydrates_starch DECIMAL(16,10),
-        carbohydrates_sucrose DECIMAL(16,10),
-        carbohydrates_sugars DECIMAL(16,10),
-        energy_gross DECIMAL(16,10),
-        fats_cholesterol DECIMAL(16,10),
-        fats_dha DECIMAL(16,10),
-        fats_epa DECIMAL(16,10),
-        fats_lauric DECIMAL(16,10),
-        fats_linoleic DECIMAL(16,10),
-        fats_linolenic DECIMAL(16,10),
-        fats_monounsaturated DECIMAL(16,10),
-        fats_myristic DECIMAL(16,10),
-        fats_palmitic DECIMAL(16,10),
-        fats_polyunsaturated DECIMAL(16,10),
-        fats_saturated DECIMAL(16,10),
-        fats_stearic DECIMAL(16,10),
-        fats_total DECIMAL(16,10),
-        minerals_calcium DECIMAL(16,10),
-        minerals_copper DECIMAL(16,10),
-        minerals_iron DECIMAL(16,10),
-        minerals_magnesium DECIMAL(16,10),
-        minerals_manganese DECIMAL(16,10),
-        minerals_phosphorus DECIMAL(16,10),
-        minerals_potassium DECIMAL(16,10),
-        minerals_selenium DECIMAL(16,10),
-        minerals_sodium DECIMAL(16,10),
-        minerals_zinc DECIMAL(16,10),
-        other_alcohol DECIMAL(16,10),
-        other_cost DECIMAL(16,10),
-        other_water DECIMAL(16,10),
-        other_weight DECIMAL(16,10),
-        phytonutrients_anthocyanins DECIMAL(16,10),
-        phytonutrients_caffeine DECIMAL(16,10),
-        phytonutrients_beta_carotene DECIMAL(16,10),
-        phytonutrients_carotenoids DECIMAL(16,10),
-        phytonutrients_flavanols DECIMAL(16,10),
-        phytonutrients_flavanones DECIMAL(16,10),
-        phytonutrients_flavones DECIMAL(16,10),
-        phytonutrients_flavonoids DECIMAL(16,10),
-        phytonutrients_flavonols DECIMAL(16,10),
-        phytonutrients_isoflavones DECIMAL(16,10),
-        phytonutrients_lutein_zeaxanthin DECIMAL(16,10),
-        phytonutrients_lycopene DECIMAL(16,10),
-        phytonutrients_phytosterols DECIMAL(16,10),
-        phytonutrients_theobromine DECIMAL(16,10),
-        protein_complete DECIMAL(16,10),
-        protein_total DECIMAL(16,10),
-        vitamins_vitamin_a DECIMAL(16,10),
-        vitamins_vitamin_b12 DECIMAL(16,10),
-        vitamins_vitamin_b6 DECIMAL(16,10),
-        vitamins_vitamin_c DECIMAL(16,10),
-        vitamins_choline DECIMAL(16,10),
-        vitamins_vitamin_d DECIMAL(16,10),
-        vitamins_vitamin_e DECIMAL(16,10),
-        vitamins_folate DECIMAL(16,10),
-        vitamins_vitamin_k DECIMAL(16,10),
-        vitamins_niacin DECIMAL(16,10),
-        vitamins_pantothenic_acid DECIMAL(16,10),
-        vitamins_riboflavin DECIMAL(16,10),
-        vitamins_thiamin DECIMAL(16,10),
-        carbohydrates_digestible DECIMAL(16,10),
-        energy_carbohydrate DECIMAL(16,10),
-        energy_fat DECIMAL(16,10),
-        energy_fat_and_carbohydrate DECIMAL(16,10),
-        energy_protein DECIMAL(16,10),
-        energy_alcohol DECIMAL(16,10),
-        energy_digestible DECIMAL(16,10),
-        fats_hcsfa DECIMAL(16,10),
-        fats_lcn3pufa DECIMAL(16,10),
+        carbohydrates_carbs_by_diff DECIMAL(24,18),
+        carbohydrates_fiber_insoluble DECIMAL(24,18),
+        carbohydrates_fiber_soluble DECIMAL(24,18),
+        carbohydrates_fiber DECIMAL(24,18),
+        carbohydrates_fructose DECIMAL(24,18),
+        carbohydrates_glucose DECIMAL(24,18),
+        carbohydrates_glycemic_load DECIMAL(24,18),
+        carbohydrates_lactose DECIMAL(24,18),
+        carbohydrates_starch DECIMAL(24,18),
+        carbohydrates_sucrose DECIMAL(24,18),
+        carbohydrates_sugars DECIMAL(24,18),
+        energy_gross DECIMAL(24,18),
+        fats_cholesterol DECIMAL(24,18),
+        fats_dha DECIMAL(24,18),
+        fats_epa DECIMAL(24,18),
+        fats_lauric DECIMAL(24,18),
+        fats_linoleic DECIMAL(24,18),
+        fats_linolenic DECIMAL(24,18),
+        fats_monounsaturated DECIMAL(24,18),
+        fats_myristic DECIMAL(24,18),
+        fats_palmitic DECIMAL(24,18),
+        fats_polyunsaturated DECIMAL(24,18),
+        fats_saturated DECIMAL(24,18),
+        fats_stearic DECIMAL(24,18),
+        fats_total DECIMAL(24,18),
+        minerals_calcium DECIMAL(24,18),
+        minerals_copper DECIMAL(24,18),
+        minerals_iron DECIMAL(24,18),
+        minerals_magnesium DECIMAL(24,18),
+        minerals_manganese DECIMAL(24,18),
+        minerals_phosphorus DECIMAL(24,18),
+        minerals_potassium DECIMAL(24,18),
+        minerals_selenium DECIMAL(24,18),
+        minerals_sodium DECIMAL(24,18),
+        minerals_zinc DECIMAL(24,18),
+        other_alcohol DECIMAL(24,18),
+        other_cost DECIMAL(24,18),
+        other_water DECIMAL(24,18),
+        other_weight DECIMAL(24,18),
+        phytonutrients_anthocyanins DECIMAL(24,18),
+        phytonutrients_caffeine DECIMAL(24,18),
+        phytonutrients_beta_carotene DECIMAL(24,18),
+        phytonutrients_carotenoids DECIMAL(24,18),
+        phytonutrients_flavanols DECIMAL(24,18),
+        phytonutrients_flavanones DECIMAL(24,18),
+        phytonutrients_flavones DECIMAL(24,18),
+        phytonutrients_flavonoids DECIMAL(24,18),
+        phytonutrients_flavonols DECIMAL(24,18),
+        phytonutrients_isoflavones DECIMAL(24,18),
+        phytonutrients_lutein_zeaxanthin DECIMAL(24,18),
+        phytonutrients_lycopene DECIMAL(24,18),
+        phytonutrients_phytosterols DECIMAL(24,18),
+        phytonutrients_theobromine DECIMAL(24,18),
+        protein_complete DECIMAL(24,18),
+        protein_total DECIMAL(24,18),
+        vitamins_vitamin_a DECIMAL(24,18),
+        vitamins_vitamin_b12 DECIMAL(24,18),
+        vitamins_vitamin_b6 DECIMAL(24,18),
+        vitamins_vitamin_c DECIMAL(24,18),
+        vitamins_choline DECIMAL(24,18),
+        vitamins_vitamin_d DECIMAL(24,18),
+        vitamins_vitamin_e DECIMAL(24,18),
+        vitamins_folate DECIMAL(24,18),
+        vitamins_vitamin_k DECIMAL(24,18),
+        vitamins_niacin DECIMAL(24,18),
+        vitamins_pantothenic_acid DECIMAL(24,18),
+        vitamins_riboflavin DECIMAL(24,18),
+        vitamins_thiamin DECIMAL(24,18),
+        carbohydrates_digestible DECIMAL(24,18),
+        energy_carbohydrate DECIMAL(24,18),
+        energy_fat DECIMAL(24,18),
+        energy_fat_and_carbohydrate DECIMAL(24,18),
+        energy_protein DECIMAL(24,18),
+        energy_alcohol DECIMAL(24,18),
+        energy_digestible DECIMAL(24,18),
+        fats_hcsfa DECIMAL(24,18),
+        fats_lcn3pufa DECIMAL(24,18),
         CONSTRAINT DnMixResult_primary_key PRIMARY KEY (
         mix_id,
         food_id
@@ -207,7 +207,7 @@ CREATE TABLE FoodFact
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DECIMAL(16,10),
+        q DECIMAL(24,18),
         CONSTRAINT FoodFact_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -218,7 +218,7 @@ CREATE TABLE FoodFactCoefficient
 (
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        c DECIMAL(16,10),
+        c DECIMAL(24,18),
         CONSTRAINT FoodFactCoefficient_primary_key PRIMARY KEY (
         FoodId,
         NutrientId
@@ -231,7 +231,7 @@ CREATE TABLE FoodNutrientConstraint
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DECIMAL(16,10),
+        b DECIMAL(24,18),
         CONSTRAINT FoodNutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -248,8 +248,8 @@ CREATE TABLE FoodNutrientRatio
         Food_Id_2 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DECIMAL(16,10),
-        B DECIMAL(16,10),
+        A DECIMAL(24,18),
+        B DECIMAL(24,18),
         CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Food_Id_1,
@@ -277,9 +277,9 @@ CREATE TABLE MealFoodPortion
         MixId LONGVARCHAR,
         MealId INTEGER,
         FoodId LONGVARCHAR,
-        Pct DECIMAL(16,10),
-        ExpectedWt DECIMAL(16,10),
-        ActualWt DECIMAL(16,10),
+        Pct DECIMAL(24,18),
+        ExpectedWt DECIMAL(24,18),
+        ActualWt DECIMAL(24,18),
         CONSTRAINT MealFoodPortion_primary_key PRIMARY KEY (
         MixId,
         MealId,
@@ -293,9 +293,9 @@ CREATE TABLE Mix
         Name LONGVARCHAR,
         LifeStageId INTEGER,
         Model LONGVARCHAR,
-        MixCost DECIMAL(16,10),
-        MixDeficiency DECIMAL(16,10),
-        MixExcess DECIMAL(16,10),
+        MixCost DECIMAL(24,18),
+        MixDeficiency DECIMAL(24,18),
+        MixExcess DECIMAL(24,18),
         CONSTRAINT Mix_primary_key PRIMARY KEY (
         MixId
         )
@@ -305,7 +305,7 @@ CREATE TABLE MixFood
 (
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
-        x DECIMAL(16,10),
+        x DECIMAL(24,18),
         CONSTRAINT MixFood_primary_key PRIMARY KEY (
         MixId,
         FoodId
@@ -315,7 +315,7 @@ CREATE TABLE MixFood
 CREATE TABLE MixInventory
 (
         MixId LONGVARCHAR,
-        Days DECIMAL(16,10),
+        Days DECIMAL(24,18),
         CONSTRAINT MixInventory_primary_key PRIMARY KEY (
         MixId
         )
@@ -326,7 +326,7 @@ CREATE TABLE MixResult
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
-        q DECIMAL(16,10),
+        q DECIMAL(24,18),
         CONSTRAINT MixResult_primary_key PRIMARY KEY (
         MixId,
         FoodId,
@@ -362,7 +362,7 @@ CREATE TABLE NutrientConstraint
         MixId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
-        b DECIMAL(16,10),
+        b DECIMAL(24,18),
         CONSTRAINT NutrientConstraint_primary_key PRIMARY KEY (
         MixId,
         NutrientId,
@@ -376,8 +376,8 @@ CREATE TABLE NutrientRatio
         Nutrient_Id_1 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
-        A DECIMAL(16,10),
-        B DECIMAL(16,10),
+        A DECIMAL(24,18),
+        B DECIMAL(24,18),
         CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (
         MixId,
         Nutrient_Id_1,
@@ -390,8 +390,8 @@ CREATE TABLE Rda
 (
         NutrientId LONGVARCHAR,
         LifeStageId INTEGER,
-        q DECIMAL(16,10) DEFAULT 0.0,
-        UL DECIMAL(16,10) DEFAULT 0.0,
+        q DECIMAL(24,18) DEFAULT 0.0,
+        UL DECIMAL(24,18) DEFAULT 0.0,
         CONSTRAINT Rda_primary_key PRIMARY KEY (
         NutrientId,
         LifeStageId
@@ -420,7 +420,7 @@ CREATE TABLE Units
 (
         UnitId INTEGER,
         Name LONGVARCHAR,
-        Factor DECIMAL(16,10),
+        Factor DECIMAL(24,18),
         CONSTRAINT Units_primary_key PRIMARY KEY (
         UnitId
         )
@@ -498,9 +498,9 @@ ALTER TABLE Rda ADD CONSTRAINT R33_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaL
 
 CREATE FUNCTION getFoodQuotient(
 IN v_MixId LONGVARCHAR
-) RETURNS DECIMAL(10,5)
+) RETURNS DECIMAL(24,18)
 READS SQL DATA BEGIN ATOMIC
-DECLARE fq DECIMAL(10,5);
+DECLARE fq DECIMAL(24,18);
 SELECT --Food quotient (FQ) calculated using the equation of Black et al
        --FQ for alcohol is 0.667
        CASE WHEN SUM(energy_digestible) <= 0 OR SUM(energy_digestible) IS NULL THEN 0 ELSE SUM(energy_carbohydrate) /SUM(energy_digestible)*1.00 +SUM(energy_fat) /SUM(energy_digestible)*0.71 +SUM(energy_protein) /SUM(energy_digestible)*0.81 +SUM(energy_alcohol) /SUM(energy_digestible)*0.667 END into fq
@@ -516,7 +516,7 @@ CREATE FUNCTION get_essential_fat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DECIMAL(10,5);
+DECLARE ratio DECIMAL(24,18);
 --
 SELECT CASEWHEN(sum(fats_linolenic) <= 0,0,sum(fats_linoleic)/sum(fats_linolenic)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
@@ -531,7 +531,7 @@ CREATE FUNCTION get_electrolyte_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DECIMAL(10,5);
+DECLARE ratio DECIMAL(24,18);
 --
 SELECT CASEWHEN(sum(minerals_sodium) <= 0,0,sum(minerals_potassium)/sum(minerals_sodium)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
@@ -546,7 +546,7 @@ CREATE FUNCTION get_polyufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DECIMAL(10,5);
+DECLARE ratio DECIMAL(24,18);
 --
 SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_polyunsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
@@ -561,7 +561,7 @@ CREATE FUNCTION get_monoufat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE ratio DECIMAL(10,5);
+DECLARE ratio DECIMAL(24,18);
 --
 SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_monounsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
@@ -597,12 +597,12 @@ RETURN v_gi;
 END;
 /
 
-CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DECIMAL(10,5)
+CREATE FUNCTION getMealGI (IN v_MixId LONGVARCHAR) RETURNS DECIMAL(24,18)
 --
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE mealGI DECIMAL(10,5);
+DECLARE mealGI DECIMAL(24,18);
 --
 SET mealGI = 0;
 --
@@ -703,12 +703,14 @@ END;
 CREATE FUNCTION calculate_remaining_percentage (
 IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR
-) RETURNS DECIMAL(11,5)
+) RETURNS DECIMAL(28,18)
+
 --
 READS SQL DATA
 BEGIN ATOMIC
 --
-DECLARE v_c DECIMAL(11,5);
+DECLARE v_c DECIMAL(28,18)
+;
 --
 SELECT SUM(pct) INTO v_c FROM MealFoodPortion WHERE MixId = v_MixId AND FoodId = v_FoodId;
 --
@@ -756,7 +758,8 @@ END;
 
 CREATE FUNCTION getFoodCoefficient(IN v_FoodId LONGVARCHAR,IN v_NutrientId LONGVARCHAR ) RETURNS DOUBLE
 READS SQL DATA BEGIN ATOMIC
-DECLARE v_c DECIMAL(11,5);
+DECLARE v_c DECIMAL(24,18)
+;
 SELECT CASE WHEN a.q > 0 THEN b.q / a.q ELSE 0 END INTO v_c
 FROM (SELECT foodid,
              q
@@ -1000,7 +1003,8 @@ END;
 CREATE PROCEDURE FoodFact_Merge (
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
-IN v_q DECIMAL(11,5)
+IN v_q DECIMAL(28,18)
+
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 MERGE INTO FoodFact USING ( VALUES (
@@ -1026,7 +1030,8 @@ CREATE PROCEDURE FoodFact_insert (
 --
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
-IN v_q DECIMAL(11,5)
+IN v_q DECIMAL(28,18)
+
 --
 )
 --
@@ -1123,7 +1128,8 @@ FOR
 SELECT b.NutrientId,
        a.Name AS Category,
        b.Name AS Nutrient,
-       CAST(0.0 AS DECIMAL(11,5)) AS q
+       CAST(0.0 AS DECIMAL(28,18)
+) AS q
 FROM NutrientCategory a,
      Nutrient b
 WHERE a.NutrientCategoryId = b.NutrientCategoryId
@@ -2446,85 +2452,93 @@ MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 --
-SELECT food_id,
-       food_name,
-       carbohydrates_carbs_by_diff,
-       carbohydrates_fiber_insoluble,
-       carbohydrates_fiber_soluble,
-       carbohydrates_fiber,
-       carbohydrates_fructose,
-       carbohydrates_glucose,
-       carbohydrates_glycemic_load,
-       carbohydrates_lactose,
-       carbohydrates_starch,
-       carbohydrates_sucrose,
-       carbohydrates_sugars,
-       energy_gross,
-       fats_cholesterol,
-       fats_dha,
-       fats_epa,
-       fats_lauric,
-       fats_linoleic,
-       fats_linolenic,
-       fats_monounsaturated,
-       fats_myristic,
-       fats_palmitic,
-       fats_polyunsaturated,
-       fats_saturated,
-       fats_stearic,
-       fats_total,
-       minerals_calcium,
-       minerals_copper,
-       minerals_iron,
-       minerals_magnesium,
-       minerals_manganese,
-       minerals_phosphorus,
-       minerals_potassium,
-       minerals_selenium,
-       minerals_sodium,
-       minerals_zinc,
-       other_alcohol,
-       other_cost,
-       other_water,
-       other_weight,
-       phytonutrients_anthocyanins,
-       phytonutrients_caffeine,
-       phytonutrients_beta_carotene,
-       phytonutrients_carotenoids,
-       phytonutrients_flavanols,
-       phytonutrients_flavanones,
-       phytonutrients_flavones,
-       phytonutrients_flavonoids,
-       phytonutrients_flavonols,
-       phytonutrients_isoflavones,
-       phytonutrients_lutein_zeaxanthin,
-       phytonutrients_lycopene,
-       phytonutrients_phytosterols,
-       phytonutrients_theobromine,
-       protein_complete,
-       protein_total,
-       vitamins_vitamin_a,
-       vitamins_vitamin_b12,
-       vitamins_vitamin_b6,
-       vitamins_vitamin_c,
-       vitamins_choline,
-       vitamins_vitamin_d,
-       vitamins_vitamin_e,
-       vitamins_folate,
-       vitamins_vitamin_k,
-       vitamins_niacin,
-       vitamins_pantothenic_acid,
-       vitamins_riboflavin,
-       vitamins_thiamin,
-       carbohydrates_digestible,
-       energy_carbohydrate,
-       energy_fat,
-       energy_fat_and_carbohydrate,
-       energy_protein,
-       energy_alcohol,
-       energy_digestible,
-       fats_hcsfa,
-       fats_lcn3pufa
+SELECT  food_id,
+        food_name,
+        other_weight,
+        energy_gross,
+        energy_digestible,
+        energy_fat,
+        energy_carbohydrate,
+        energy_fat_and_carbohydrate,
+        energy_protein,
+        energy_alcohol,
+        fats_total,
+        carbohydrates_digestible,
+        protein_total,
+        other_alcohol,
+        energy_protein,
+        protein_total,
+        protein_complete,
+        energy_fat,
+        fats_total,
+        fats_monounsaturated,
+        fats_polyunsaturated,
+        fats_saturated,
+        fats_cholesterol,
+        fats_saturated,
+        fats_hcsfa,
+        fats_lauric,
+        fats_myristic,
+        fats_palmitic,
+        fats_stearic,
+        fats_polyunsaturated,
+        fats_linoleic,
+        fats_linolenic,
+        fats_epa,
+        fats_dha,
+        fats_lcn3pufa,
+        energy_carbohydrate,
+        carbohydrates_carbs_by_diff,
+        carbohydrates_fiber,
+        carbohydrates_fiber_insoluble,
+        carbohydrates_fiber_soluble,
+        carbohydrates_digestible,
+        carbohydrates_starch,
+        carbohydrates_sugars,
+        carbohydrates_sucrose,
+        carbohydrates_lactose,
+        carbohydrates_fructose,
+        carbohydrates_glucose,
+        carbohydrates_glycemic_load,
+        vitamins_vitamin_a,
+        vitamins_vitamin_d,
+        vitamins_vitamin_e,
+        vitamins_vitamin_c,
+        vitamins_thiamin,
+        vitamins_riboflavin,
+        vitamins_niacin,
+        vitamins_vitamin_b6,
+        vitamins_folate,
+        vitamins_vitamin_b12,
+        vitamins_vitamin_k,
+        vitamins_pantothenic_acid,
+        vitamins_choline,
+        minerals_calcium,
+        minerals_phosphorus,
+        minerals_magnesium,
+        minerals_iron,
+        minerals_zinc,
+        minerals_copper,
+        minerals_manganese,
+        minerals_selenium,
+        minerals_potassium,
+        minerals_sodium,
+        phytonutrients_flavonoids,
+        phytonutrients_anthocyanins,
+        phytonutrients_carotenoids,
+        phytonutrients_flavanols,
+        phytonutrients_flavanones,
+        phytonutrients_flavones,
+        phytonutrients_flavonols,
+        phytonutrients_isoflavones,
+        phytonutrients_phytosterols,
+        phytonutrients_beta_carotene,
+        phytonutrients_lutein_zeaxanthin,
+        phytonutrients_lycopene,
+        phytonutrients_caffeine,
+        phytonutrients_theobromine,
+        other_cost,
+        other_water
 FROM DnFoodFact
 ORDER BY food_name;
 --
@@ -3201,12 +3215,19 @@ SELECT generateId() INTO newid2 FROM (VALUES(0));
 INSERT INTO Mix (
 MixId,
 Name,
-LifeStageId
+LifeStageId,
+Model,
+MixCost,
+MixDeficiency,
+MixExcess
 ) VALUES (
 newid2,
 v_Name,
---TODO - fix
-8
+8,
+'',
+1.0,
+1.0,
+1.0
 );
 --
 SET newid = newid2;
@@ -3223,7 +3244,9 @@ SELECT MixId,
        Name,
        LifeStageId,
        Model,
-       MixCost
+       MixCost,
+       MixDeficiency,
+       MixExcess
 FROM Mix
 ORDER BY Name;
 --
@@ -3253,9 +3276,12 @@ CREATE PROCEDURE updateMix (
 IN v_MixId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
 IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(11,5),
-IN v_MixDeficiency DECIMAL(11,5),
-IN v_MixExcess DECIMAL(11,5)
+IN v_MixCost DECIMAL(28,18)
+,
+IN v_MixDeficiency DECIMAL(28,18)
+,
+IN v_MixExcess DECIMAL(28,18)
+
 --
 )
 --
@@ -3624,191 +3650,203 @@ WHERE mix_id = v_MixId_Old;
 END;
 /
 
-CREATE PROCEDURE MixResult_Select (
-IN v_MixId LONGVARCHAR
-)
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
-DECLARE result CURSOR
+CREATE PROCEDURE MixResult_Select (IN v_MixId LONGVARCHAR) MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC DECLARE result CURSOR
 FOR
-SELECT 
-a.mix_id,
-a.food_id,
-b.name,
-carbohydrates_carbs_by_diff,
-carbohydrates_fiber_insoluble,
-carbohydrates_fiber_soluble,
-carbohydrates_fiber,
-carbohydrates_fructose,
-carbohydrates_glucose,
-carbohydrates_glycemic_load,
-carbohydrates_lactose,
-carbohydrates_starch,
-carbohydrates_sucrose,
-carbohydrates_sugars,
-energy_gross,
-fats_cholesterol,
-fats_dha,
-fats_epa,
-fats_lauric,
-fats_linoleic,
-fats_linolenic,
-fats_monounsaturated,
-fats_myristic,
-fats_palmitic,
-fats_polyunsaturated,
-fats_saturated,
-fats_stearic,
-fats_total,
-minerals_calcium,
-minerals_copper,
-minerals_iron,
-minerals_magnesium,
-minerals_manganese,
-minerals_phosphorus,
-minerals_potassium,
-minerals_selenium,
-minerals_sodium,
-minerals_zinc,
-other_alcohol,
-other_cost,
-other_water,
-other_weight,
-phytonutrients_anthocyanins,
-phytonutrients_caffeine,
-phytonutrients_beta_carotene,
-phytonutrients_carotenoids,
-phytonutrients_flavanols,
-phytonutrients_flavanones,
-phytonutrients_flavones,
-phytonutrients_flavonoids,
-phytonutrients_flavonols,
-phytonutrients_isoflavones,
-phytonutrients_lutein_zeaxanthin,
-phytonutrients_lycopene,
-phytonutrients_phytosterols,
-phytonutrients_theobromine,
-protein_complete,
-protein_total,
-vitamins_vitamin_a,
-vitamins_vitamin_b12,
-vitamins_vitamin_b6,
-vitamins_vitamin_c,
-vitamins_choline,
-vitamins_vitamin_d,
-vitamins_vitamin_e,
-vitamins_folate,
-vitamins_vitamin_k,
-vitamins_niacin,
-vitamins_pantothenic_acid,
-vitamins_riboflavin,
-vitamins_thiamin,
-carbohydrates_digestible,
-energy_carbohydrate,
-energy_fat,
-energy_fat_and_carbohydrate,
-energy_protein,
-energy_alcohol,
-energy_digestible,
-fats_hcsfa,
-fats_lcn3pufa
+--
+SELECT mix_id,
+       food_id,
+       food_name,
+       other_weight,
+       energy_gross,
+       energy_digestible,
+       energy_fat,
+       energy_carbohydrate,
+       energy_fat_and_carbohydrate,
+       energy_protein,
+       energy_alcohol,
+       fats_total,
+       carbohydrates_digestible,
+       protein_total,
+       other_alcohol,
+       energy_protein,
+       protein_total,
+       protein_complete,
+       energy_fat,
+       fats_total,
+       fats_monounsaturated,
+       fats_polyunsaturated,
+       fats_saturated,
+       fats_cholesterol,
+       fats_saturated,
+       fats_hcsfa,
+       fats_lauric,
+       fats_myristic,
+       fats_palmitic,
+       fats_stearic,
+       fats_polyunsaturated,
+       fats_linoleic,
+       fats_linolenic,
+       fats_epa,
+       fats_dha,
+       fats_lcn3pufa,
+       energy_carbohydrate,
+       carbohydrates_carbs_by_diff,
+       carbohydrates_fiber,
+       carbohydrates_fiber_insoluble,
+       carbohydrates_fiber_soluble,
+       carbohydrates_digestible,
+       carbohydrates_starch,
+       carbohydrates_sugars,
+       carbohydrates_sucrose,
+       carbohydrates_lactose,
+       carbohydrates_fructose,
+       carbohydrates_glucose,
+       carbohydrates_glycemic_load,
+       vitamins_vitamin_a,
+       vitamins_vitamin_d,
+       vitamins_vitamin_e,
+       vitamins_vitamin_c,
+       vitamins_thiamin,
+       vitamins_riboflavin,
+       vitamins_niacin,
+       vitamins_vitamin_b6,
+       vitamins_folate,
+       vitamins_vitamin_b12,
+       vitamins_vitamin_k,
+       vitamins_pantothenic_acid,
+       vitamins_choline,
+       minerals_calcium,
+       minerals_phosphorus,
+       minerals_magnesium,
+       minerals_iron,
+       minerals_zinc,
+       minerals_copper,
+       minerals_manganese,
+       minerals_selenium,
+       minerals_potassium,
+       minerals_sodium,
+       phytonutrients_flavonoids,
+       phytonutrients_anthocyanins,
+       phytonutrients_carotenoids,
+       phytonutrients_flavanols,
+       phytonutrients_flavanones,
+       phytonutrients_flavones,
+       phytonutrients_flavonols,
+       phytonutrients_isoflavones,
+       phytonutrients_phytosterols,
+       phytonutrients_beta_carotene,
+       phytonutrients_lutein_zeaxanthin,
+       phytonutrients_lycopene,
+       phytonutrients_caffeine,
+       phytonutrients_theobromine,
+       other_cost,
+       other_water
 FROM DnMixResult a,
      food b
-WHERE a.mix_id = v_mixid
+WHERE a.mix_id = v_MixId
 AND   a.food_id = b.foodid
---
-union
---
-select
-a.mix_id,
-'',
-'Total',
-sum(carbohydrates_carbs_by_diff),
-sum(carbohydrates_fiber_insoluble),
-sum(carbohydrates_fiber_soluble),
-sum(carbohydrates_fiber),
-sum(carbohydrates_fructose),
-sum(carbohydrates_glucose),
-sum(carbohydrates_glycemic_load),
-sum(carbohydrates_lactose),
-sum(carbohydrates_starch),
-sum(carbohydrates_sucrose),
-sum(carbohydrates_sugars),
-sum(energy_gross),
-sum(fats_cholesterol),
-sum(fats_dha),
-sum(fats_epa),
-sum(fats_lauric),
-sum(fats_linoleic),
-sum(fats_linolenic),
-sum(fats_monounsaturated),
-sum(fats_myristic),
-sum(fats_palmitic),
-sum(fats_polyunsaturated),
-sum(fats_saturated),
-sum(fats_stearic),
-sum(fats_total),
-sum(minerals_calcium),
-sum(minerals_copper),
-sum(minerals_iron),
-sum(minerals_magnesium),
-sum(minerals_manganese),
-sum(minerals_phosphorus),
-sum(minerals_potassium),
-sum(minerals_selenium),
-sum(minerals_sodium),
-sum(minerals_zinc),
-sum(other_alcohol),
-sum(other_cost),
-sum(other_water),
-sum(other_weight),
-sum(phytonutrients_anthocyanins),
-sum(phytonutrients_caffeine),
-sum(phytonutrients_beta_carotene),
-sum(phytonutrients_carotenoids),
-sum(phytonutrients_flavanols),
-sum(phytonutrients_flavanones),
-sum(phytonutrients_flavones),
-sum(phytonutrients_flavonoids),
-sum(phytonutrients_flavonols),
-sum(phytonutrients_isoflavones),
-sum(phytonutrients_lutein_zeaxanthin),
-sum(phytonutrients_lycopene),
-sum(phytonutrients_phytosterols),
-sum(phytonutrients_theobromine),
-sum(protein_complete),
-sum(protein_total),
-sum(vitamins_vitamin_a),
-sum(vitamins_vitamin_b12),
-sum(vitamins_vitamin_b6),
-sum(vitamins_vitamin_c),
-sum(vitamins_choline),
-sum(vitamins_vitamin_d),
-sum(vitamins_vitamin_e),
-sum(vitamins_folate),
-sum(vitamins_vitamin_k),
-sum(vitamins_niacin),
-sum(vitamins_pantothenic_acid),
-sum(vitamins_riboflavin),
-sum(vitamins_thiamin),
-sum(carbohydrates_digestible),
-sum(energy_carbohydrate),
-sum(energy_fat),
-sum(energy_fat_and_carbohydrate),
-sum(energy_protein),
-sum(energy_alcohol),
-sum(energy_digestible),
-sum(fats_hcsfa),
-sum(fats_lcn3pufa)
+UNION
+SELECT a.mix_id,
+       '',
+       'Total',
+       SUM(other_weight),
+       SUM(energy_gross),
+       SUM(energy_digestible),
+       SUM(energy_fat),
+       SUM(energy_carbohydrate),
+       SUM(energy_fat_and_carbohydrate),
+       SUM(energy_protein),
+       SUM(energy_alcohol),
+       SUM(fats_total),
+       SUM(carbohydrates_digestible),
+       SUM(protein_total),
+       SUM(other_alcohol),
+       SUM(energy_protein),
+       SUM(protein_total),
+       SUM(protein_complete),
+       SUM(energy_fat),
+       SUM(fats_total),
+       SUM(fats_monounsaturated),
+       SUM(fats_polyunsaturated),
+       SUM(fats_saturated),
+       SUM(fats_cholesterol),
+       SUM(fats_saturated),
+       SUM(fats_hcsfa),
+       SUM(fats_lauric),
+       SUM(fats_myristic),
+       SUM(fats_palmitic),
+       SUM(fats_stearic),
+       SUM(fats_polyunsaturated),
+       SUM(fats_linoleic),
+       SUM(fats_linolenic),
+       SUM(fats_epa),
+       SUM(fats_dha),
+       SUM(fats_lcn3pufa),
+       SUM(energy_carbohydrate),
+       SUM(carbohydrates_carbs_by_diff),
+       SUM(carbohydrates_fiber),
+       SUM(carbohydrates_fiber_insoluble),
+       SUM(carbohydrates_fiber_soluble),
+       SUM(carbohydrates_digestible),
+       SUM(carbohydrates_starch),
+       SUM(carbohydrates_sugars),
+       SUM(carbohydrates_sucrose),
+       SUM(carbohydrates_lactose),
+       SUM(carbohydrates_fructose),
+       SUM(carbohydrates_glucose),
+       SUM(carbohydrates_glycemic_load),
+       SUM(vitamins_vitamin_a),
+       SUM(vitamins_vitamin_d),
+       SUM(vitamins_vitamin_e),
+       SUM(vitamins_vitamin_c),
+       SUM(vitamins_thiamin),
+       SUM(vitamins_riboflavin),
+       SUM(vitamins_niacin),
+       SUM(vitamins_vitamin_b6),
+       SUM(vitamins_folate),
+       SUM(vitamins_vitamin_b12),
+       SUM(vitamins_vitamin_k),
+       SUM(vitamins_pantothenic_acid),
+       SUM(vitamins_choline),
+       SUM(minerals_calcium),
+       SUM(minerals_phosphorus),
+       SUM(minerals_magnesium),
+       SUM(minerals_iron),
+       SUM(minerals_zinc),
+       SUM(minerals_copper),
+       SUM(minerals_manganese),
+       SUM(minerals_selenium),
+       SUM(minerals_potassium),
+       SUM(minerals_sodium),
+       SUM(phytonutrients_flavonoids),
+       SUM(phytonutrients_anthocyanins),
+       SUM(phytonutrients_carotenoids),
+       SUM(phytonutrients_flavanols),
+       SUM(phytonutrients_flavanones),
+       SUM(phytonutrients_flavones),
+       SUM(phytonutrients_flavonols),
+       SUM(phytonutrients_isoflavones),
+       SUM(phytonutrients_phytosterols),
+       SUM(phytonutrients_beta_carotene),
+       SUM(phytonutrients_lutein_zeaxanthin),
+       SUM(phytonutrients_lycopene),
+       SUM(phytonutrients_caffeine),
+       SUM(phytonutrients_theobromine),
+       SUM(other_cost),
+       SUM(other_water)
 FROM DnMixResult a,
-food b
-WHERE a.mix_id = v_mixid
+     food b
+WHERE a.mix_id = v_MixId
 AND   a.food_id = b.foodid
-group by a.mix_id
-order by a.energy_digestible,a.other_weight,b.name;
+GROUP BY a.mix_id
+ORDER BY energy_digestible, food_id desc;
+
 --
 OPEN result;
+
 END;
 /
+
 
 CREATE PROCEDURE MixResult_Select_Pct (
 --
@@ -4439,7 +4477,8 @@ END;
 CREATE PROCEDURE Nutrient_Lookup_List (
 --
 IN v_nutrientid LONGVARCHAR,
-IN v_q DECIMAL(16,10)
+IN v_q DECIMAL(28,18)
+
 --
 )
 --
@@ -7085,21 +7124,36 @@ IN v_foodid LONGVARCHAR
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
-DECLARE v_carbsbydiff DECIMAL(11,5);
-DECLARE v_fiber DECIMAL(11,5);
-DECLARE v_digestible_carbohydrate DECIMAL(11,5);
-DECLARE v_energy_alcohol DECIMAL(11,5);
-DECLARE v_energy_carbohydrate DECIMAL(11,5);
-DECLARE v_energy_fat DECIMAL(11,5);
-DECLARE v_energy_protein DECIMAL(11,5);
-DECLARE v_gi DECIMAL(11,5);
-DECLARE v_lauric DECIMAL(11,5);
-DECLARE v_myristic DECIMAL(11,5);
-DECLARE v_palmitic DECIMAL(11,5);
-DECLARE v_hcsfa DECIMAL(11,5);
-DECLARE v_dha DECIMAL(11,5);
-DECLARE v_epa DECIMAL(11,5);
-DECLARE v_lcn3pufa DECIMAL(11,5);
+DECLARE v_carbsbydiff DECIMAL(28,18)
+;
+DECLARE v_fiber DECIMAL(28,18)
+;
+DECLARE v_digestible_carbohydrate DECIMAL(28,18)
+;
+DECLARE v_energy_alcohol DECIMAL(28,18)
+;
+DECLARE v_energy_carbohydrate DECIMAL(28,18)
+;
+DECLARE v_energy_fat DECIMAL(28,18)
+;
+DECLARE v_energy_protein DECIMAL(28,18)
+;
+DECLARE v_gi DECIMAL(28,18)
+;
+DECLARE v_lauric DECIMAL(28,18)
+;
+DECLARE v_myristic DECIMAL(28,18)
+;
+DECLARE v_palmitic DECIMAL(28,18)
+;
+DECLARE v_hcsfa DECIMAL(28,18)
+;
+DECLARE v_dha DECIMAL(28,18)
+;
+DECLARE v_epa DECIMAL(28,18)
+;
+DECLARE v_lcn3pufa DECIMAL(28,18)
+;
 --
 --digestible_carbohydrate
 SELECT q INTO v_carbsbydiff FROM foodfact WHERE nutrientid = '205' AND foodid = v_foodid;
@@ -7522,9 +7576,12 @@ IN v_MixId LONGVARCHAR,
 --IN v_Name LONGVARCHAR,
 --IN v_NutrientId LONGVARCHAR,
 --IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(11,5),
-IN v_MixDeficiency DECIMAL(11,5),
-IN v_MixExcess DECIMAL(11,5)
+IN v_MixCost DECIMAL(28,18)
+,
+IN v_MixDeficiency DECIMAL(28,18)
+,
+IN v_MixExcess DECIMAL(28,18)
+
 --
 )
 --
@@ -7713,7 +7770,8 @@ IN v_foodid LONGVARCHAR
 MODIFIES SQL DATA
 BEGIN ATOMIC
 --
-DECLARE v_c DECIMAL(11,5);
+DECLARE v_c DECIMAL(28,18)
+;
 --
 FOR SELECT nutrientid FROM nutrient DO
 --
@@ -8386,6 +8444,120 @@ FROM (SELECT name, c
              -8 AS avg_excess
       FROM (
            VALUES (0)));
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE MixTotals (
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1 
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT a.mix_id AS id,
+       b.name AS name,
+       now() AS date,
+       SUM(other_weight) AS other_weight,
+       SUM(energy_gross) AS energy_gross,
+       SUM(energy_digestible) AS energy_digestible,
+       SUM(energy_fat) AS energy_fat,
+       SUM(energy_carbohydrate) AS energy_carbohydrate,
+       SUM(energy_fat_and_carbohydrate) AS energy_fat_and_carbohydrate,
+       SUM(energy_protein) AS energy_protein,
+       SUM(energy_alcohol) AS energy_alcohol,
+       SUM(fats_total) AS fats_total,
+       SUM(carbohydrates_digestible) AS carbohydrates_digestible,
+       SUM(protein_total) AS protein_total,
+       SUM(other_alcohol) AS other_alcohol,
+       SUM(energy_protein) AS energy_protein,
+       SUM(protein_total) AS protein_total,
+       SUM(protein_complete) AS protein_complete,
+       SUM(energy_fat) AS energy_fat,
+       SUM(fats_total) AS fats_total,
+       SUM(fats_monounsaturated) AS fats_monounsaturated,
+       SUM(fats_polyunsaturated) AS fats_polyunsaturated,
+       SUM(fats_saturated) AS fats_saturated,
+       SUM(fats_cholesterol) AS fats_cholesterol,
+       SUM(fats_saturated) AS fats_saturated,
+       SUM(fats_hcsfa) AS fats_hcsfa,
+       SUM(fats_lauric) AS fats_lauric,
+       SUM(fats_myristic) AS fats_myristic,
+       SUM(fats_palmitic) AS fats_palmitic,
+       SUM(fats_stearic) AS fats_stearic,
+       SUM(fats_polyunsaturated) AS fats_polyunsaturated,
+       SUM(fats_linoleic) AS fats_linoleic,
+       SUM(fats_linolenic) AS fats_linolenic,
+       SUM(fats_epa) AS fats_epa,
+       SUM(fats_dha) AS fats_dha,
+       SUM(fats_lcn3pufa) AS fats_lcn3pufa,
+       SUM(energy_carbohydrate) AS energy_carbohydrate,
+       SUM(carbohydrates_carbs_by_diff) AS carbohydrates_carbs_by_diff,
+       SUM(carbohydrates_fiber) AS carbohydrates_fiber,
+       SUM(carbohydrates_fiber_insoluble) AS carbohydrates_fiber_insoluble,
+       SUM(carbohydrates_fiber_soluble) AS carbohydrates_fiber_soluble,
+       SUM(carbohydrates_digestible) AS carbohydrates_digestible,
+       SUM(carbohydrates_starch) AS carbohydrates_starch,
+       SUM(carbohydrates_sugars) AS carbohydrates_sugars,
+       SUM(carbohydrates_sucrose) AS carbohydrates_sucrose,
+       SUM(carbohydrates_lactose) AS carbohydrates_lactose,
+       SUM(carbohydrates_fructose) AS carbohydrates_fructose,
+       SUM(carbohydrates_glucose) AS carbohydrates_glucose,
+       SUM(carbohydrates_glycemic_load) AS carbohydrates_glycemic_load,
+       SUM(vitamins_vitamin_a) AS vitamins_vitamin_a,
+       SUM(vitamins_vitamin_d) AS vitamins_vitamin_d,
+       SUM(vitamins_vitamin_e) AS vitamins_vitamin_e,
+       SUM(vitamins_vitamin_c) AS vitamins_vitamin_c,
+       SUM(vitamins_thiamin) AS vitamins_thiamin,
+       SUM(vitamins_riboflavin) AS vitamins_riboflavin,
+       SUM(vitamins_niacin) AS vitamins_niacin,
+       SUM(vitamins_vitamin_b6) AS vitamins_vitamin_b6,
+       SUM(vitamins_folate) AS vitamins_folate,
+       SUM(vitamins_vitamin_b12) AS vitamins_vitamin_b12,
+       SUM(vitamins_vitamin_k) AS vitamins_vitamin_k,
+       SUM(vitamins_pantothenic_acid) AS vitamins_pantothenic_acid,
+       SUM(vitamins_choline) AS vitamins_choline,
+       SUM(minerals_calcium) AS minerals_calcium,
+       SUM(minerals_phosphorus) AS minerals_phosphorus,
+       SUM(minerals_magnesium) AS minerals_magnesium,
+       SUM(minerals_iron) AS minerals_iron,
+       SUM(minerals_zinc) AS minerals_zinc,
+       SUM(minerals_copper) AS minerals_copper,
+       SUM(minerals_manganese) AS minerals_manganese,
+       SUM(minerals_selenium) AS minerals_selenium,
+       SUM(minerals_potassium) AS minerals_potassium,
+       SUM(minerals_sodium) AS minerals_sodium,
+       SUM(phytonutrients_flavonoids) AS phytonutrients_flavonoids,
+       SUM(phytonutrients_anthocyanins) AS phytonutrients_anthocyanins,
+       SUM(phytonutrients_carotenoids) AS phytonutrients_carotenoids,
+       SUM(phytonutrients_flavanols) AS phytonutrients_flavanols,
+       SUM(phytonutrients_flavanones) AS phytonutrients_flavanones,
+       SUM(phytonutrients_flavones) AS phytonutrients_flavones,
+       SUM(phytonutrients_flavonols) AS phytonutrients_flavonols,
+       SUM(phytonutrients_isoflavones) AS phytonutrients_isoflavones,
+       SUM(phytonutrients_phytosterols) AS phytonutrients_phytosterols,
+       SUM(phytonutrients_beta_carotene) AS phytonutrients_beta_carotene,
+       SUM(phytonutrients_lutein_zeaxanthin) AS phytonutrients_lutein_zeaxanthin,
+       SUM(phytonutrients_lycopene) AS phytonutrients_lycopene,
+       SUM(phytonutrients_caffeine) AS phytonutrients_caffeine,
+       SUM(phytonutrients_theobromine) AS phytonutrients_theobromine,
+       SUM(other_cost) AS other_cost,
+       SUM(other_water) AS other_water
+FROM DnMixResult a,
+     mix b
+WHERE a.mix_id = v_MixId
+AND   a.mix_id = b.mixid
+GROUP BY a.mix_id,
+         b.name;
 --
 OPEN result;
 --

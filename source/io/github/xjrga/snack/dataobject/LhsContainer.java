@@ -7,23 +7,34 @@ import java.util.ArrayList;
  */
 public class LhsContainer {
 
-  private final ArrayList<Lhs> list;
+	private final ArrayList<Lhs> list;
 
-  public LhsContainer() {
-    list = new ArrayList();
-  }
+	public LhsContainer() {
 
-  public void add(Lhs lhs) {
-    list.add(lhs);
-  }
+		list = new ArrayList();
 
-  public double[] getCoefficients() {
-    int size = list.size();
-    double[] coefficients = new double[size];
-    for (int i = 0; i < size; i++) {
-      Lhs lhs = list.get(i);
-      coefficients[i] = lhs.getCoefficient().doubleValue();
-    }
-    return coefficients;
-  }
+	}
+
+	public void add( Lhs lhs ) {
+
+		list.add( lhs );
+
+	}
+
+	public double[] getCoefficients() {
+
+		int size = list.size();
+		double[] coefficients = new double[size];
+
+		for ( int i = 0; i < size; i++ ) {
+
+			Lhs lhs = list.get( i );
+			coefficients[i] = lhs.getCoefficient().doubleValue();
+
+		}
+
+		return coefficients;
+
+	}
+
 }

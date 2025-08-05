@@ -15,32 +15,45 @@ import java.util.concurrent.Callable;
  */
 public class DerivedFoodFactsTask implements Callable<List<List>> {
 
-  private final Connection connection;
-  private final String foodid;
+	private final Connection connection;
+	private final String foodid;
 
-  public DerivedFoodFactsTask(String foodid) {
-    connection = Connect.getInstance().getConnection();
-    this.foodid = foodid;
-  }
+	public DerivedFoodFactsTask( String foodid ) {
 
-  @Override
-  public List<List> call() {
-    List<List> table = new ArrayList();
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.getFoodFactsForDerivedItem( ? )}")) {
-      proc.setString(1, foodid);
-      ResultSet rs = proc.executeQuery();
-      while (rs.next()) {
-        ArrayList row = new ArrayList();
-        row.add(rs.getString(1));
-        row.add(rs.getString(2));
-        row.add(rs.getString(3));
-        row.add(rs.getBigDecimal(4));
-        table.add(row);
-      }
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return table;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.foodid = foodid;
+
+	}
+
+	@Override
+	public List<List> call() {
+
+		List<List> table = new ArrayList();
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.getFoodFactsForDerivedItem( ? )}" ) ) {
+
+			proc.setString( 1, foodid );
+			ResultSet rs = proc.executeQuery();
+
+			while ( rs.next() ) {
+
+				ArrayList row = new ArrayList();
+				row.add( rs.getString( 1 ) );
+				row.add( rs.getString( 2 ) );
+				row.add( rs.getString( 3 ) );
+				row.add( rs.getBigDecimal( 4 ) );
+				table.add( row );
+
+			}
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return table;
+
+	}
+
 }

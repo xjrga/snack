@@ -12,25 +12,37 @@ import java.util.concurrent.Callable;
  */
 public class PinMixTask implements Callable<Boolean> {
 
-  private final Connection connection;
-  private final String mixid;
+	private final Connection connection;
+	private final String mixid;
 
-  public PinMixTask(String mixid) {
-    this.mixid = mixid;
-    connection = Connect.getInstance().getConnection();
-  }
+	public PinMixTask( String mixid ) {
 
-  @Override
-  public Boolean call() throws Exception {
-    boolean completed = false;
-    try (CallableStatement proc = connection.prepareCall("{CALL public.pin_mix( ? )}")) {
-      proc.setString(1, mixid);
-      proc.execute();
-      completed = true;
-    } catch (SQLException e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    } finally {
-    }
-    return completed;
-  }
+		this.mixid = mixid;
+		connection = Connect.getInstance().getConnection();
+
+	}
+
+	@Override
+	public Boolean call() throws Exception {
+
+		boolean completed = false;
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.pin_mix( ? )}" ) ) {
+
+			proc.setString( 1, mixid );
+			proc.execute();
+			completed = true;
+
+		} catch (SQLException e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		} finally {
+
+		}
+
+		return completed;
+
+	}
+
 }

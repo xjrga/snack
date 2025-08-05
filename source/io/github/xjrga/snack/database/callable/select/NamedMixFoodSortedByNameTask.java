@@ -14,33 +14,49 @@ import java.util.concurrent.Callable;
  */
 public class NamedMixFoodSortedByNameTask implements Callable<List<List>> {
 
-  private final Connection connection;
-  private final String mixid;
+	private final Connection connection;
+	private final String mixid;
 
-  public NamedMixFoodSortedByNameTask(String mixid) {
-    connection = Connect.getInstance().getConnection();
-    this.mixid = mixid;
-  }
+	public NamedMixFoodSortedByNameTask( String mixid ) {
 
-  @Override
-  public List<List> call() {
-    ArrayList<List> table = new ArrayList();
-    try (CallableStatement proc =
-        connection.prepareCall("{CALL public.MixFood_Select_All_By_Name(?)}")) {
-      proc.setString(1, mixid);
-      ResultSet rs = proc.executeQuery();
-      if (rs.wasNull()) {
-        return new ArrayList<List>();
-      }
-      while (rs.next()) {
-        ArrayList row = new ArrayList();
-        row.add(rs.getString(1));
-        row.add(rs.getString(2));
-        table.add(row);
-      }
-    } catch (Exception e) {
-      LoggerImpl.INSTANCE.logProblem(e);
-    }
-    return table;
-  }
+		connection = Connect.getInstance().getConnection();
+		this.mixid = mixid;
+
+	}
+
+	@Override
+	public List<List> call() {
+
+		ArrayList<List> table = new ArrayList();
+
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.MixFood_Select_All_By_Name(?)}" ) ) {
+
+			proc.setString( 1, mixid );
+			ResultSet rs = proc.executeQuery();
+
+			if ( rs.wasNull() ) {
+
+				return new ArrayList<List>();
+
+			}
+
+			while ( rs.next() ) {
+
+				ArrayList row = new ArrayList();
+				row.add( rs.getString( 1 ) );
+				row.add( rs.getString( 2 ) );
+				table.add( row );
+
+			}
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+		return table;
+
+	}
+
 }
