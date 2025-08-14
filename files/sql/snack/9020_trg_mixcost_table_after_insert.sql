@@ -1,7 +1,7 @@
 CREATE TRIGGER MixCost_rlai_trigger
 AFTER INSERT ON Mix
 REFERENCING NEW AS new
-FOR EACH ROW WHEN (new.mixcost >= 0)
+FOR EACH ROW
 --
 BEGIN ATOMIC
 --

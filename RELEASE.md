@@ -432,4 +432,8 @@
   * Bug fixes
   * Graphical User Interface changes
   * New mix totals report
-  
+
+### 1550 - August 13, 2025
+
+  * Bug fixes
+  * Food comparison feature compares two 100 Kcal food portions

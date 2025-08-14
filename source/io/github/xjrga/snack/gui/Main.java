@@ -552,7 +552,7 @@ public class Main {
 		tabMain.setTitleAt( 1, txt1 );
 		tabMain.setToolTipTextAt( 1, "This is your list of favorite food items" );
 		tabMain.setTitleAt( 2, txt2 );
-		tabMain.setToolTipTextAt( 2, "This is where you compare two 100g food servings" );
+		tabMain.setToolTipTextAt( 2, "This is where you compare two 100 Kcal food servings" );
 		tabMain.setTitleAt( 3, txt3 );
 		tabMain.setToolTipTextAt( 3, "This is where you compare two mixes" );
 		tabMain.setTitleAt( 4, txt4 );
@@ -4950,7 +4950,7 @@ public class Main {
 				double tni = calculateTni( theAvgDeficiency );
 				BigDecimal deficiency = new BigDecimal( theAvgDeficiency, MathContext.DECIMAL128 );
 				BigDecimal excess = new BigDecimal( theAvgExcess, MathContext.DECIMAL128 );
-				BigDecimal cost = new BigDecimal( theCost, MathContext.DECIMAL128 );
+				BigDecimal cost = new BigDecimal( theCost, MathContext.DECIMAL128 );								
 
 				// ---- SET THE HIGH SCORE ----
 				setTheHighScore( tni );
