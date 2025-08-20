@@ -130,6 +130,7 @@ public class MixResultsReport2 {
 			String c86 = rs.getMetaData().getColumnName( 86 );
 			String c87 = rs.getMetaData().getColumnName( 87 );
 			String c88 = rs.getMetaData().getColumnName( 88 );
+			String c89 = rs.getMetaData().getColumnName( 89 );
 
 			while ( rs.next() ) {
 
@@ -290,22 +291,24 @@ public class MixResultsReport2 {
 				csvPrinter.printRecord( x1, x2, x3, c79, Utilities.strip( x79 ) );
 				BigDecimal x80 = rs.getBigDecimal( 80 );
 				csvPrinter.printRecord( x1, x2, x3, c80, Utilities.strip( x80 ) );
-				BigDecimal x81 = rs.getBigDecimal( 80 );
+				BigDecimal x81 = rs.getBigDecimal( 81 );
 				csvPrinter.printRecord( x1, x2, x3, c81, Utilities.strip( x81 ) );
-				BigDecimal x82 = rs.getBigDecimal( 80 );
+				BigDecimal x82 = rs.getBigDecimal( 82 );
 				csvPrinter.printRecord( x1, x2, x3, c82, Utilities.strip( x82 ) );
-				BigDecimal x83 = rs.getBigDecimal( 80 );
+				BigDecimal x83 = rs.getBigDecimal( 83 );
 				csvPrinter.printRecord( x1, x2, x3, c83, Utilities.strip( x83 ) );
-				BigDecimal x84 = rs.getBigDecimal( 80 );
+				BigDecimal x84 = rs.getBigDecimal( 84 );
 				csvPrinter.printRecord( x1, x2, x3, c84, Utilities.strip( x84 ) );
-				BigDecimal x85 = rs.getBigDecimal( 80 );
+				BigDecimal x85 = rs.getBigDecimal( 85 );
 				csvPrinter.printRecord( x1, x2, x3, c85, Utilities.strip( x85 ) );
-				BigDecimal x86 = rs.getBigDecimal( 80 );
+				BigDecimal x86 = rs.getBigDecimal( 86 );
 				csvPrinter.printRecord( x1, x2, x3, c86, Utilities.strip( x86 ) );
-				BigDecimal x87 = rs.getBigDecimal( 80 );
+				BigDecimal x87 = rs.getBigDecimal( 87 );
 				csvPrinter.printRecord( x1, x2, x3, c87, Utilities.strip( x87 ) );
-				BigDecimal x88 = rs.getBigDecimal( 80 );
+				BigDecimal x88 = rs.getBigDecimal( 88 );
 				csvPrinter.printRecord( x1, x2, x3, c88, Utilities.strip( x88 ) );
+				BigDecimal x89 = rs.getBigDecimal( 89 );
+				csvPrinter.printRecord( x1, x2, x3, c89, Utilities.strip( x89 ) );
 
 			}
 

@@ -73,8 +73,8 @@ import io.github.xjrga.snack.database.callable.select.LifestageDriTask;
 import io.github.xjrga.snack.database.callable.select.LifestagesTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanMealsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanPortionsTask;
-import io.github.xjrga.snack.database.callable.select.MealPlanResultsCaloriesTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanResultsMacronutrientsTask;
+import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageResultsTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageTask;
 import io.github.xjrga.snack.database.callable.select.MixDiffTask;
@@ -562,7 +562,7 @@ public class Main {
 		tabMain.setTitleAt( 6, txt6 );
 		tabMain.setToolTipTextAt( 6, "This is where you find out how much food you need to buy" );
 		tabMain.add( txt7, getModelLogPanel() );
-		tabMain.setToolTipTextAt( 7, "This is keeps a track of changes made to all mixes for this session" );
+		tabMain.setToolTipTextAt( 7, "This is keeps track of changes made to mixes in this session" );
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView( tabMain );
 		frm.add( scrollPane );
@@ -632,8 +632,6 @@ public class Main {
 
 		setSplitPanelDivider();
 		setQuantityScale();
-		// TODO - fix
-		// fch.setCurrentDirectory( new File( "." ) );
 		splash.halt();
 
 	}
@@ -2332,11 +2330,11 @@ public class Main {
 		} );
 		mniImportMixModel.addActionListener( ( ActionEvent evt ) -> {
 
-			frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 			int returnVal = fch.showOpenDialog( frm );
 
 			if ( returnVal == JFileChooser.APPROVE_OPTION ) {
 
+				frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 				File file = fch.getSelectedFile();
 				fch.setCurrentDirectory( file );
 				String path = file.getAbsolutePath();
@@ -2375,10 +2373,9 @@ public class Main {
 
 				reloadFoods();
 
-				frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-
 				if ( !solutionFound ) {
 
+					frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
 					return;
 
 				}
@@ -2398,9 +2395,9 @@ public class Main {
 
 				}
 
-			}
+				frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
 
-			frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+			}
 
 		} );
 		mniImportFoods.addActionListener( ( ActionEvent evt ) -> {
@@ -2412,13 +2409,14 @@ public class Main {
 				File file = fch.getSelectedFile();
 				String path = file.getAbsolutePath();
 				fch.setCurrentDirectory( new File( path ) );
-				frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 				String schema = "/resources/schemas/foods.xsd";
 				boolean completed = false;
 				ElapsedTime time = new ElapsedTime();
+				frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 				time.start();
 				completed = new FoodsImporter().importFoodListUsingResource( schema, path );
 				time.end();
+				frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
 
 				if ( completed ) {
 
@@ -2431,8 +2429,6 @@ public class Main {
 					Message.showMessage( sb.toString() );
 
 				}
-
-				frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
 
 			}
 
@@ -3513,11 +3509,11 @@ public class Main {
 			File file = fch.getSelectedFile();
 			fch.setCurrentDirectory( file );
 			String path = file.getAbsolutePath();
-			frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 
 			try {
 
 				TableCategory.Row selectedValue = tblCategory.getSelectedValue();
+				frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 				Future<String> task = BackgroundExec
 						.submit( new SendCategoryToXmlTask( selectedValue.getCategoryid() ) );
 				String xml = task.get();
@@ -4170,9 +4166,18 @@ public class Main {
 
 		try {
 
-			Future<List<List>> task = BackgroundExec.submit( new MealPlanResultsCaloriesTask( mix.getMixid() ) );
+			Future<List<List>> task = BackgroundExec.submit( new MealPlanResultsTask( mix.getMixid() ) );
 			List<List> results = task.get();
-			tblMealCalories.reload( results );
+
+			if ( results.size() > 1 ) {
+
+				tblMealCalories.reload( results );
+
+			} else {
+
+				tblMealCalories.clear();
+
+			}
 
 		} catch (Exception e) {
 
@@ -4184,7 +4189,16 @@ public class Main {
 
 			Future<List<List>> task = BackgroundExec.submit( new MealPlanResultsMacronutrientsTask( mix.getMixid() ) );
 			List<List> results = task.get();
-			tblMealMacronutrients.reload( results );
+
+			if ( results.size() > 1 ) {
+
+				tblMealMacronutrients.reload( results );
+
+			} else {
+
+				tblMealMacronutrients.clear();
+
+			}
 
 		} catch (Exception e) {
 
@@ -4212,44 +4226,7 @@ public class Main {
 
 						if ( complete ) {
 
-							try {
-
-								Future<List<List>> task1 = BackgroundExec
-										.submit( new MealPlanPortionsTask( row.getMixid() ) );
-								List<List> portions = task1.get();
-								tblMealPortions.reload( portions );
-
-							} catch (Exception e) {
-
-								LoggerImpl.INSTANCE.logProblem( e );
-
-							}
-
-							try {
-
-								Future<List<List>> task2 = BackgroundExec
-										.submit( new MealPlanResultsCaloriesTask( row.getMixid() ) );
-								List<List> results = task2.get();
-								tblMealCalories.reload( results );
-
-							} catch (Exception e) {
-
-								LoggerImpl.INSTANCE.logProblem( e );
-
-							}
-
-							try {
-
-								Future<List<List>> task = BackgroundExec
-										.submit( new MealPlanResultsMacronutrientsTask( row.getMixid() ) );
-								List<List> results = task.get();
-								tblMealMacronutrients.reload( results );
-
-							} catch (Exception e) {
-
-								LoggerImpl.INSTANCE.logProblem( e );
-
-							}
+							executeMealPlanPortionsTasks( new MixDO( row.getMixid() ) );
 
 						}
 
@@ -4306,42 +4283,7 @@ public class Main {
 
 					if ( complete ) {
 
-						try {
-
-							Future<List<List>> task1 = BackgroundExec.submit( new MealPlanPortionsTask( mixid ) );
-							List<List> portions = task1.get();
-							tblMealPortions.reload( portions );
-
-						} catch (Exception e) {
-
-							LoggerImpl.INSTANCE.logProblem( e );
-
-						}
-
-						try {
-
-							Future<List<List>> task = BackgroundExec.submit( new MealPlanResultsCaloriesTask( mixid ) );
-							List<List> results = task.get();
-							tblMealCalories.reload( results );
-
-						} catch (Exception e) {
-
-							LoggerImpl.INSTANCE.logProblem( e );
-
-						}
-
-						try {
-
-							Future<List<List>> task = BackgroundExec
-									.submit( new MealPlanResultsMacronutrientsTask( mixid ) );
-							List<List> results = task.get();
-							tblMealMacronutrients.reload( results );
-
-						} catch (Exception e) {
-
-							LoggerImpl.INSTANCE.logProblem( e );
-
-						}
+						executeMealPlanPortionsTasks( new MixDO( mixid ) );
 
 					}
 
@@ -4950,7 +4892,7 @@ public class Main {
 				double tni = calculateTni( theAvgDeficiency );
 				BigDecimal deficiency = new BigDecimal( theAvgDeficiency, MathContext.DECIMAL128 );
 				BigDecimal excess = new BigDecimal( theAvgExcess, MathContext.DECIMAL128 );
-				BigDecimal cost = new BigDecimal( theCost, MathContext.DECIMAL128 );								
+				BigDecimal cost = new BigDecimal( theCost, MathContext.DECIMAL128 );
 
 				// ---- SET THE HIGH SCORE ----
 				setTheHighScore( tni );
@@ -5014,7 +4956,7 @@ public class Main {
 
 				//
 				mix.setModel( model );
-				mix.setCost( new BigDecimal( "-1.0" ) );
+				mix.setCost( new BigDecimal( "1.0" ) );
 
 			}
 
@@ -6409,7 +6351,7 @@ public class Main {
 		String nutrientid = row.getNutrientid();
 		String nutrient = row.getNutrient();
 		BigDecimal dri = row.getDri();
-		txtNutrientSearchQuantity.setText( String.valueOf( dri ) );
+		txtNutrientSearchQuantity.setText( (new DecimalFormat( "######0.0#################" )).format( dri ) );
 		NutrientDO nutrientDO = new NutrientDO( nutrientid, nutrient, null );
 		cmbNutrientContentNutrient.setSelectedItem( nutrientDO );
 
@@ -6442,7 +6384,7 @@ public class Main {
 		cmbFoodQuantityFood.setSelectedIndex( foodIndex );
 		cmbFoodQuantityNutrient.setSelectedIndex( nutrientIndex );
 		cmbFoodQuantityRelationship.setSelectedIndex( relationshipIndex );
-		txtFoodQuantityValue.setText( (new DecimalFormat( "###0.0" )).format( q ) );
+		txtFoodQuantityValue.setText( (new DecimalFormat( "###0.000" )).format( q ) );
 
 	}
 
@@ -6464,9 +6406,9 @@ public class Main {
 		cmbFoodRatioFoodA.setSelectedIndex( foodAIndex );
 		cmbFoodRatioFoodB.setSelectedIndex( foodBIndex );
 		cmbFoodRatioNutrientA.setSelectedIndex( nutrientAindex );
-		txtFoodNutrientRatioQuantityA.setText( (new DecimalFormat( "###0.0" )).format( qA ) );
+		txtFoodNutrientRatioQuantityA.setText( (new DecimalFormat( "###0.000" )).format( qA ) );
 		cmbFoodRatioNutrientB.setSelectedIndex( nutrientBindex );
-		txtFoodNutrientRatioQuantityB.setText( (new DecimalFormat( "###0.0" )).format( qB ) );
+		txtFoodNutrientRatioQuantityB.setText( (new DecimalFormat( "###0.000" )).format( qB ) );
 		cmbFoodRatioRelationship.setSelectedIndex( relationshipindex );
 
 	}
@@ -6482,7 +6424,7 @@ public class Main {
 		int relationshipindex = cmbNutrientQuantityRelationship.index( new RelationshipDO( relationshipid, "" ) );
 		cmbNutrientQuantityNutrient.setSelectedIndex( nutrientindex );
 		cmbNutrientQuantityRelationship.setSelectedIndex( relationshipindex );
-		txtNutrientQuantityValue.setText( (new DecimalFormat( "###0.0" )).format( q ) );
+		txtNutrientQuantityValue.setText( (new DecimalFormat( "###0.000" )).format( q ) );
 
 	}
 
@@ -6500,9 +6442,9 @@ public class Main {
 				.index( new NutrientDO( nutrientidb, "", new BigDecimal( "-1" ) ) );
 		int relationshipindex = cmbNutrientRatioRelationship.index( new RelationshipDO( relationshipid, "" ) );
 		cmbNutrientRatioNutrientA.setSelectedIndex( nutrientAindex );
-		txtNutrientRatioNutrientA.setText( (new DecimalFormat( "###0.0" )).format( qA ) );
+		txtNutrientRatioNutrientA.setText( (new DecimalFormat( "###0.000" )).format( qA ) );
 		cmbNutrientRatioNutrientB.setSelectedIndex( nutrientBindex );
-		txtNutrientRatioNutrientB.setText( (new DecimalFormat( "###0.0" )).format( qB ) );
+		txtNutrientRatioNutrientB.setText( (new DecimalFormat( "###0.000" )).format( qB ) );
 		cmbNutrientRatioRelationship.setSelectedIndex( relationshipindex );
 
 	}

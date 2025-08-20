@@ -9,7 +9,7 @@ FOR
 SELECT b.NutrientId,
        a.Name AS Category,
        b.Name AS Nutrient,
-       CAST(0.0 AS DECIMAL(28,18)
+       CAST(0.0 AS DECIMAL(25,18)
 ) AS q
 FROM NutrientCategory a,
      Nutrient b

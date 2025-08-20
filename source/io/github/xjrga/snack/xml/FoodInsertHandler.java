@@ -298,6 +298,11 @@ public class FoodInsertHandler extends DefaultHandler {
 			food.setPhytonutrients_theobromine_nutr_no( attributes.getValue( "nutr_no" ) );
 
 		}
+		case "phytonutrients-gamma_tocopherol" -> {
+
+			food.setPhytonutrients_gamma_tocopherol_nutr_no( attributes.getValue( "nutr_no" ) );
+
+		}
 		case "protein-complete" -> {
 
 			food.setProtein_complete_nutr_no( attributes.getValue( "nutr_no" ) );
@@ -675,6 +680,13 @@ public class FoodInsertHandler extends DefaultHandler {
 			food.setPhytonutrients_theobromine_quantity( text.toString() );
 
 		}
+
+		case "phytonutrients-gamma_tocopherol" -> {
+
+			food.setPhytonutrients_gamma_tocopherol_quantity( text.toString() );
+
+		}
+
 		case "protein-complete" -> {
 
 			food.setProtein_complete_quantity( text.toString() );

@@ -2,7 +2,7 @@ CREATE PROCEDURE FoodFact_insert (
 --
 IN v_FoodId LONGVARCHAR,
 IN v_NutrientId LONGVARCHAR,
-IN v_q DECIMAL(28,18)
+IN v_q DECIMAL(25,18)
 
 --
 )

@@ -4,35 +4,35 @@ IN v_foodid LONGVARCHAR
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
 --
-DECLARE v_carbsbydiff DECIMAL(28,18)
+DECLARE v_carbsbydiff DECIMAL(25,18)
 ;
-DECLARE v_fiber DECIMAL(28,18)
+DECLARE v_fiber DECIMAL(25,18)
 ;
-DECLARE v_digestible_carbohydrate DECIMAL(28,18)
+DECLARE v_digestible_carbohydrate DECIMAL(25,18)
 ;
-DECLARE v_energy_alcohol DECIMAL(28,18)
+DECLARE v_energy_alcohol DECIMAL(25,18)
 ;
-DECLARE v_energy_carbohydrate DECIMAL(28,18)
+DECLARE v_energy_carbohydrate DECIMAL(25,18)
 ;
-DECLARE v_energy_fat DECIMAL(28,18)
+DECLARE v_energy_fat DECIMAL(25,18)
 ;
-DECLARE v_energy_protein DECIMAL(28,18)
+DECLARE v_energy_protein DECIMAL(25,18)
 ;
-DECLARE v_gi DECIMAL(28,18)
+DECLARE v_gi DECIMAL(25,18)
 ;
-DECLARE v_lauric DECIMAL(28,18)
+DECLARE v_lauric DECIMAL(25,18)
 ;
-DECLARE v_myristic DECIMAL(28,18)
+DECLARE v_myristic DECIMAL(25,18)
 ;
-DECLARE v_palmitic DECIMAL(28,18)
+DECLARE v_palmitic DECIMAL(25,18)
 ;
-DECLARE v_hcsfa DECIMAL(28,18)
+DECLARE v_hcsfa DECIMAL(25,18)
 ;
-DECLARE v_dha DECIMAL(28,18)
+DECLARE v_dha DECIMAL(25,18)
 ;
-DECLARE v_epa DECIMAL(28,18)
+DECLARE v_epa DECIMAL(25,18)
 ;
-DECLARE v_lcn3pufa DECIMAL(28,18)
+DECLARE v_lcn3pufa DECIMAL(25,18)
 ;
 --
 --digestible_carbohydrate

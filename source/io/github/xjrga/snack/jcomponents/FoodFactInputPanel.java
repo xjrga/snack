@@ -163,8 +163,7 @@ public class FoodFactInputPanel {
 				String nutrient = ( String ) tbl.getValueAt( selectedRowNo, 2 );
 				Object valueAt = tbl.getValueAt( selectedRowNo, 3 );
 				BigDecimal weight = ( BigDecimal ) valueAt;
-				String fWeight = (new DecimalFormat( "###0.0" )).format( weight );
-				txtNutrientValue.setText( fWeight );
+				txtNutrientValue.setText( (new DecimalFormat( "######0.0#################" )).format( weight ) );
 				labelNutrientWeight.setText( nutrient );
 
 			}
@@ -197,7 +196,7 @@ public class FoodFactInputPanel {
 		);
 		lblMC.setHorizontalAlignment( SwingConstants.RIGHT );
 		txpInfo.setEditable( false );
-		txtMC.setPreferredSize( new Dimension( 100, 25 ) );
+		txtMC.setPreferredSize( new Dimension( 75, 28 ) );
 		NumberCheck checkNumber = new NumberCheck();
 		// model row index is specified by sql query.
 		int columnIndex = 3;
@@ -207,10 +206,10 @@ public class FoodFactInputPanel {
 		BigDecimal initialWeight = ( BigDecimal ) tbl.getValueAt( weightIndex, columnIndex );
 		MoistureContentModifier mcm = new MoistureContentModifier( initialWeight.doubleValue(),
 				initialWaterWeight.doubleValue(), 0.0 );
-		String fInitialWeight = (new DecimalFormat( "###0.0" )).format( mcm.getInitialWeight() );
-		String fInitialWaterWeight = (new DecimalFormat( "###0.0" )).format( mcm.getInitialWaterWeight() );
-		String fDryMatterWeight = (new DecimalFormat( "###0.0" )).format( mcm.getDryMatterWeight() );
-		String fInitialMoistureContent = (new DecimalFormat( "###0.0" )).format( mcm.getInitialMoistureContent() );
+		String fInitialWeight = (new DecimalFormat( "###0.000" )).format( mcm.getInitialWeight() );
+		String fInitialWaterWeight = (new DecimalFormat( "###0.000" )).format( mcm.getInitialWaterWeight() );
+		String fDryMatterWeight = (new DecimalFormat( "###0.000" )).format( mcm.getDryMatterWeight() );
+		String fInitialMoistureContent = (new DecimalFormat( "###0.000" )).format( mcm.getInitialMoistureContent() );
 		int length = txtFoodName.getText().length() + 2;
 		sb.append( StringUtils.center( "Moisture Content In", Math.max( length, 50 ) ) );
 		sb.append( "\n" );
@@ -338,8 +337,8 @@ public class FoodFactInputPanel {
 				"p,p" // rows
 		);
 		NumberCheck checkNumber = new NumberCheck();
-		txtProtein.setPreferredSize( new Dimension( 100, 28 ) );
-		txtCompleteProtein.setPreferredSize( new Dimension( 100, 28 ) );
+		txtProtein.setPreferredSize( new Dimension( 75, 28 ) );
+		txtCompleteProtein.setPreferredSize( new Dimension( 75, 28 ) );
 
 		// model row index is specified by sql query.
 		int columnIndex = 3;
@@ -347,10 +346,8 @@ public class FoodFactInputPanel {
 		int completeProteinIndex = tbl.find( "10001" );
 		BigDecimal protein = ( BigDecimal ) tbl.getValueAt( proteinIndex, columnIndex );
 		BigDecimal completeProtein = ( BigDecimal ) tbl.getValueAt( completeProteinIndex, columnIndex );
-		String fprotein = (new DecimalFormat( "###0.0" )).format( protein );
-		String fcompleteprotein = (new DecimalFormat( "###0.0" )).format( completeProtein );
-		txtProtein.setText( fprotein );
-		txtCompleteProtein.setText( fcompleteprotein );
+		txtProtein.setText( (new DecimalFormat( "######0.0#################" )).format( protein ) );
+		txtCompleteProtein.setText( (new DecimalFormat( "######0.0#################" )).format( completeProtein ) );
 
 		pnl.setLayout( lyo );
 		pnl.add( lblProtein, cc.xy( 1, 1 ) );
@@ -412,10 +409,10 @@ public class FoodFactInputPanel {
 		lblSfa.setHorizontalAlignment( SwingConstants.RIGHT );
 		lblMufa.setHorizontalAlignment( SwingConstants.RIGHT );
 		lblPufa.setHorizontalAlignment( SwingConstants.RIGHT );
-		txtFat.setPreferredSize( new Dimension( 100, 25 ) );
-		txtSfa.setPreferredSize( new Dimension( 100, 25 ) );
-		txtMufa.setPreferredSize( new Dimension( 100, 25 ) );
-		txtPufa.setPreferredSize( new Dimension( 100, 25 ) );
+		txtFat.setPreferredSize( new Dimension( 75, 28 ) );
+		txtSfa.setPreferredSize( new Dimension( 75, 28 ) );
+		txtMufa.setPreferredSize( new Dimension( 75, 28 ) );
+		txtPufa.setPreferredSize( new Dimension( 75, 28 ) );
 		// model row index is specified by sql query.
 		int columnIndex = 3;
 		int fatIndex = tbl.find( "204" );
@@ -426,14 +423,10 @@ public class FoodFactInputPanel {
 		BigDecimal sfa = ( BigDecimal ) tbl.getValueAt( sfaIndex, columnIndex );
 		BigDecimal mufa = ( BigDecimal ) tbl.getValueAt( mufaIndex, columnIndex );
 		BigDecimal pufa = ( BigDecimal ) tbl.getValueAt( pufaIndex, columnIndex );
-		String ffat = (new DecimalFormat( "###0.0" )).format( fat );
-		String fsfa = (new DecimalFormat( "###0.0" )).format( sfa );
-		String fmufa = (new DecimalFormat( "###0.0" )).format( mufa );
-		String fpufa = (new DecimalFormat( "###0.0" )).format( pufa );
-		txtFat.setText( ffat );
-		txtSfa.setText( fsfa );
-		txtMufa.setText( fmufa );
-		txtPufa.setText( fpufa );
+		txtFat.setText( (new DecimalFormat( "######0.0#################" )).format( fat ) );
+		txtSfa.setText( (new DecimalFormat( "######0.0#################" )).format( sfa ) );
+		txtMufa.setText( (new DecimalFormat( "######0.0#################" )).format( mufa ) );
+		txtPufa.setText( (new DecimalFormat( "######0.0#################" )).format( pufa ) );
 		pnl.setLayout( lyo );
 		pnl.add( lblFat, cc.xy( 1, 1 ) );
 		pnl.add( txtFat, cc.xy( 2, 1 ) );
@@ -486,7 +479,7 @@ public class FoodFactInputPanel {
 	private void fillVitaminAmount() {
 
 		FormLayout lyo = new FormLayout( "min:grow,min,30dlu", // columns
-				"25px,fill:25px" // rows
+				"p,fill:p" // rows
 		);
 		JPanel pnl = new JPanel();
 		JComponent[] inputs = {
@@ -535,7 +528,8 @@ public class FoodFactInputPanel {
 
 		}
 
-		txtDailyValuePct.setMinimumSize( new Dimension( 50, 20 ) );
+		cmbLifeStage.setPreferredSize( new Dimension( 0, 28 ) );
+		txtDailyValuePct.setPreferredSize( new Dimension( 75, 28 ) );
 		pnl.add( cmbLifeStage, cc.xyw( 1, 1, 3 ) );
 		pnl.add( cmbNutrients, cc.xy( 1, 2 ) );
 		pnl.add( new JLabel( StringUtils.center( "%DRI", 6 ) ), cc.xy( 2, 2 ) );
@@ -604,8 +598,8 @@ public class FoodFactInputPanel {
 		);
 		lblPrice.setHorizontalAlignment( SwingConstants.RIGHT );
 		lblWeight.setHorizontalAlignment( SwingConstants.RIGHT );
-		txtPrice.setPreferredSize( new Dimension( 100, 25 ) );
-		txtWeight.setPreferredSize( new Dimension( 100, 25 ) );
+		txtPrice.setPreferredSize( new Dimension( 75, 28 ) );
+		txtWeight.setPreferredSize( new Dimension( 75, 28 ) );
 		NumberCheck checkNumber = new NumberCheck();
 		pnl.setLayout( lyo );
 		pnl.add( lblPrice, cc.xy( 1, 1 ) );
@@ -816,6 +810,11 @@ public class FoodFactInputPanel {
 			case "338":
 				food.setPhytonutrients_lutein_zeaxanthin_nutr_no( nutrientid );
 				food.setPhytonutrients_lutein_zeaxanthin_quantity( q );
+				break;
+
+			case "342":
+				food.setPhytonutrients_gamma_tocopherol_nutr_no( nutrientid );
+				food.setPhytonutrients_gamma_tocopherol_quantity( q );
 				break;
 
 			case "401":

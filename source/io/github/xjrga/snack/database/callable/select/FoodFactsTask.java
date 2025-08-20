@@ -65,7 +65,6 @@ public class FoodFactsTask implements Callable<List<List>> {
 				row.add( rs.getBigDecimal( 29 ) );
 				// Cholesterol duplicate
 				row.add( rs.getBigDecimal( 23 ) );
-				//
 				row.add( rs.getBigDecimal( 30 ) );
 				row.add( rs.getBigDecimal( 31 ) );
 				row.add( rs.getBigDecimal( 32 ) );
@@ -124,6 +123,7 @@ public class FoodFactsTask implements Callable<List<List>> {
 				row.add( rs.getBigDecimal( 85 ) );
 				row.add( rs.getBigDecimal( 86 ) );
 				row.add( rs.getBigDecimal( 87 ) );
+				row.add( rs.getBigDecimal( 88 ) );
 				table.add( row );
 
 			}

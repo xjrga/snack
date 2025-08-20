@@ -5,11 +5,11 @@ IN v_foodid LONGVARCHAR,
 IN v_nutrientid LONGVARCHAR
 --
 
-) RETURNS DOUBLE
+) RETURNS DECIMAL(25,18)
 --
 READS SQL DATA BEGIN ATOMIC
 --
-DECLARE v_q DOUBLE;
+DECLARE v_q DECIMAL(25,18);
 --
 SELECT q INTO v_q FROM FoodFact WHERE foodid = v_foodid AND nutrientid = v_nutrientid;
 --

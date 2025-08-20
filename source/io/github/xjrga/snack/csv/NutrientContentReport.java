@@ -48,13 +48,14 @@ public class NutrientContentReport {
 				BigDecimal dri = new BigDecimal( textFieldNutrientLookup.getText() );
 				Future<List<List>> task = BackgroundExec.submit( new NutrientContainingFoodsTask( nutrientid, dri ) );
 				List<List> results = task.get();
+
 				results.forEach( row -> {
 
 					try {
 
-						String food = ( String ) row.get( 0 );
-						BigDecimal weight = ( BigDecimal ) row.get( 1 );
-						BigDecimal calories = ( BigDecimal ) row.get( 2 );
+						String food = ( String ) row.get( 3 );
+						BigDecimal weight = ( BigDecimal ) row.get( 4 );
+						BigDecimal calories = ( BigDecimal ) row.get( 5 );
 						csvPrinter.printRecord( food, Utilities.strip( weight ), Utilities.strip( calories ) );
 
 					} catch (IOException e) {

@@ -170,6 +170,8 @@ call Nutrient_Insert('10025','Phytonutrients, Isoflavones (mg)','8','phytonutrie
 /
 call Nutrient_Insert('10026','Phytonutrients, Flavonoids (mg)','8','phytonutrients-flavonoids','mg',0);
 /
+call Nutrient_Insert('342','Phytonutrients, Tocopherol, gamma (mg)','8','phytonutrients-gamma_tocopherol','mg',0);
+/
 
 
 call relationship_insert(1,'>=');

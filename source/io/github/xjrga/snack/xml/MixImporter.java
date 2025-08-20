@@ -804,6 +804,14 @@ public class MixImporter {
 						food.setPhytonutrients_theobromine_nutr_no( nutr_no );
 						break;
 
+					// Phytonutrients, Tocopherol, gamma (mg), 342,
+					// phytonutrients-theobromine
+					case "phytonutrients-gamma_tocopherol":
+						nutr_no = startElement.getAttributeByName( attribute ).getValue();
+						food.setPhytonutrients_gamma_tocopherol_quantity( data );
+						food.setPhytonutrients_gamma_tocopherol_nutr_no( nutr_no );
+						break;
+
 					// ** Protein **
 					// Protein, Complete Protein (g), 10001,
 					// protein-complete

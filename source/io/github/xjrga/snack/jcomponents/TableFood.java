@@ -1,6 +1,5 @@
 package io.github.xjrga.snack.jcomponents;
 
-import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -73,7 +72,7 @@ public class TableFood extends JTable {
 
 				} catch (java.util.regex.PatternSyntaxException e) {
 
-					LoggerImpl.INSTANCE.logProblem( e );
+					// LoggerImpl.INSTANCE.logProblem( e );
 
 				}
 

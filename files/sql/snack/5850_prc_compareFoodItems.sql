@@ -31,16 +31,14 @@ SELECT a.nutrientid,
        a.value AS food_a,
        b.value AS food_b,
        a.value - b.value AS diff
-FROM (SELECT nutrientid,
-             q / get_foodfact(v_food_a,'10009') * 100 AS value
+FROM (SELECT nutrientid, CASE WHEN get_foodfact(v_food_a,'10009') <= 0 THEN 0 ELSE q / get_foodfact(v_food_a,'10009') * 100 END AS value
       FROM foodfact
       WHERE foodid = v_food_a) a,
-     (SELECT nutrientid,
-             q / get_foodfact(v_food_b,'10009') * 100 AS value
+     (SELECT nutrientid, CASE WHEN get_foodfact(v_food_b,'10009') <= 0 THEN 0 ELSE q / get_foodfact(v_food_b,'10009') * 100 END AS value
       FROM foodfact
       WHERE foodid = v_food_b) b
 WHERE a.nutrientid = b.nutrientid
---      
+--
 ) a,
 (SELECT nutrientid, name, nutrientcategoryid FROM nutrient) b
 WHERE a.nutrientid = b.nutrientid) B

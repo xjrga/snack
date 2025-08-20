@@ -118,6 +118,8 @@ public class Food {
 	private BigDecimal Phytonutrients_phytosterols_quantity;
 	private String Phytonutrients_theobromine_nutr_no;
 	private BigDecimal Phytonutrients_theobromine_quantity;
+	private String Phytonutrients_gamma_tocopherol_nutr_no;
+	private BigDecimal Phytonutrients_gamma_tocopherol_quantity;
 	private String Protein_complete_nutr_no;
 	private BigDecimal Protein_complete_quantity;
 	private String Protein_total_nutr_no;
@@ -259,6 +261,8 @@ public class Food {
 		Phytonutrients_phytosterols_quantity = new BigDecimal( "0.0" );
 		Phytonutrients_theobromine_nutr_no = "";
 		Phytonutrients_theobromine_quantity = new BigDecimal( "0.0" );
+		Phytonutrients_gamma_tocopherol_nutr_no = "";
+		Phytonutrients_gamma_tocopherol_quantity = new BigDecimal( "0.0" );
 		Protein_complete_nutr_no = "";
 		Protein_complete_quantity = new BigDecimal( "0.0" );
 		Protein_total_nutr_no = "";
@@ -950,6 +954,18 @@ public class Food {
 	public BigDecimal getPhytonutrients_theobromine_quantity() {
 
 		return Phytonutrients_theobromine_quantity;
+
+	}
+
+	public String getPhytonutrients_gamma_tocopherol_nutr_no() {
+
+		return Phytonutrients_gamma_tocopherol_nutr_no;
+
+	}
+
+	public BigDecimal getPhytonutrients_gamma_tocopherol_quantity() {
+
+		return Phytonutrients_gamma_tocopherol_quantity;
 
 	}
 
@@ -2099,6 +2115,24 @@ public class Food {
 
 	}
 
+	public void setPhytonutrients_gamma_tocopherol_nutr_no( String Phytonutrients_gamma_tocopherol_nutr_no ) {
+
+		this.Phytonutrients_gamma_tocopherol_nutr_no = Phytonutrients_gamma_tocopherol_nutr_no;
+
+	}
+
+	public void setPhytonutrients_gamma_tocopherol_quantity( String Phytonutrients_gamma_tocopherol_quantity ) {
+
+		this.Phytonutrients_gamma_tocopherol_quantity = new BigDecimal( Phytonutrients_gamma_tocopherol_quantity );
+
+	}
+
+	public void setPhytonutrients_gamma_tocopherol_quantity( BigDecimal Phytonutrients_gamma_tocopherol_quantity ) {
+
+		this.Phytonutrients_gamma_tocopherol_quantity = Phytonutrients_gamma_tocopherol_quantity;
+
+	}
+
 	public void setProtein_complete_nutr_no( String Protein_complete_nutr_no ) {
 
 		this.Protein_complete_nutr_no = Protein_complete_nutr_no;
@@ -2429,6 +2463,7 @@ public class Food {
 		sb.append( ", Phytonutrients_lycopene_quantity=" ).append( Phytonutrients_lycopene_quantity );
 		sb.append( ", Phytonutrients_phytosterols_quantity=" ).append( Phytonutrients_phytosterols_quantity );
 		sb.append( ", Phytonutrients_theobromine_quantity=" ).append( Phytonutrients_theobromine_quantity );
+		sb.append( ", Phytonutrients_gamma_tocopherol_quantity=" ).append( Phytonutrients_gamma_tocopherol_quantity );
 		sb.append( ", Protein_complete_quantity=" ).append( Protein_complete_quantity );
 		sb.append( ", Protein_total_quantity=" ).append( Protein_total_quantity );
 		sb.append( ", Vitamins_vitamin_a_quantity=" ).append( Vitamins_vitamin_a_quantity );
@@ -2497,6 +2532,7 @@ public class Food {
 		sb.append( ", Phytonutrients_lycopene_nutr_no=" ).append( Phytonutrients_lycopene_nutr_no );
 		sb.append( ", Phytonutrients_phytosterols_nutr_no=" ).append( Phytonutrients_phytosterols_nutr_no );
 		sb.append( ", Phytonutrients_theobromine_nutr_no=" ).append( Phytonutrients_theobromine_nutr_no );
+		sb.append( ", Phytonutrients_gamma_tocopherol_nutr_no=" ).append( Phytonutrients_gamma_tocopherol_nutr_no );
 		sb.append( ", Protein_complete_nutr_no=" ).append( Protein_complete_nutr_no );
 		sb.append( ", Protein_total_nutr_no=" ).append( Protein_total_nutr_no );
 		sb.append( ", Vitamins_vitamin_a_nutr_no=" ).append( Vitamins_vitamin_a_nutr_no );
@@ -2575,6 +2611,7 @@ public class Food {
 		foodfacts.add( Phytonutrients_lycopene_quantity );
 		foodfacts.add( Phytonutrients_phytosterols_quantity );
 		foodfacts.add( Phytonutrients_theobromine_quantity );
+		foodfacts.add( Phytonutrients_gamma_tocopherol_quantity );
 		foodfacts.add( Protein_complete_quantity );
 		foodfacts.add( Protein_total_quantity );
 		foodfacts.add( Vitamins_choline_quantity );
@@ -2752,6 +2789,8 @@ public class Food {
 		Phytonutrients_phytosterols_quantity = new BigDecimal( "0.0" );
 		Phytonutrients_theobromine_nutr_no = "";
 		Phytonutrients_theobromine_quantity = new BigDecimal( "0.0" );
+		Phytonutrients_gamma_tocopherol_nutr_no = "";
+		Phytonutrients_gamma_tocopherol_quantity = new BigDecimal( "0.0" );
 		Protein_complete_nutr_no = "";
 		Protein_complete_quantity = new BigDecimal( "0.0" );
 		Protein_total_nutr_no = "";

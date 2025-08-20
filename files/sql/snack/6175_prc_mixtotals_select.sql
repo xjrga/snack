@@ -97,6 +97,7 @@ SELECT a.mix_id AS id,
        SUM(phytonutrients_lycopene) AS phytonutrients_lycopene,
        SUM(phytonutrients_caffeine) AS phytonutrients_caffeine,
        SUM(phytonutrients_theobromine) AS phytonutrients_theobromine,
+       SUM(phytonutrients_gamma_tocopherol) AS phytonutrients_gamma_tocopherol,
        SUM(other_cost) AS other_cost,
        SUM(other_water) AS other_water
 FROM DnMixResult a,

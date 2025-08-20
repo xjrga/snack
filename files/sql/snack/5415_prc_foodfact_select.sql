@@ -90,6 +90,7 @@ SELECT  food_id,
         phytonutrients_lycopene,
         phytonutrients_caffeine,
         phytonutrients_theobromine,
+        phytonutrients_gamma_tocopherol,
         other_cost,
         other_water
 FROM DnFoodFact

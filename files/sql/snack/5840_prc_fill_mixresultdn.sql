@@ -66,6 +66,7 @@ phytonutrients_lutein_zeaxanthin,
 phytonutrients_lycopene,
 phytonutrients_phytosterols,
 phytonutrients_theobromine,
+phytonutrients_gamma_tocopherol,
 protein_complete,
 protein_total,
 vitamins_vitamin_a,
@@ -148,6 +149,7 @@ phytonutrients_lutein_zeaxanthin,
 phytonutrients_lycopene,
 phytonutrients_phytosterols,
 phytonutrients_theobromine,
+phytonutrients_gamma_tocopherol,
 protein_complete,
 protein_total,
 vitamins_vitamin_a,
@@ -228,6 +230,7 @@ x338.q AS phytonutrients_lutein_zeaxanthin,
 x337.q AS phytonutrients_lycopene,
 x636.q AS phytonutrients_phytosterols,
 x263.q AS phytonutrients_theobromine,
+x342.q AS phytonutrients_gamma_tocopherol,
 x10001.q AS protein_complete,
 x203.q AS protein_total,
 x320.q AS vitamins_vitamin_a,
@@ -627,6 +630,13 @@ AND   nutrientid = '636') x636,
 FROM mixresult
 WHERE mixid = v_MixId
 AND   nutrientid = '263') x263,
+--342, phytonutrients-gamma_tocopherol
+(SELECT mixid,
+        foodid,
+        q
+FROM mixresult
+WHERE mixid = v_MixId
+AND   nutrientid = '342') x342,
 --10001, protein-complete
 (SELECT mixid,
         foodid,
@@ -902,6 +912,8 @@ AND x0.mixid = x636.mixid
 AND x0.foodid = x636.foodid
 AND x0.mixid = x263.mixid
 AND x0.foodid = x263.foodid
+AND x0.mixid = x342.mixid
+AND x0.foodid = x342.foodid
 AND x0.mixid = x10001.mixid
 AND x0.foodid = x10001.foodid
 AND x0.mixid = x203.mixid

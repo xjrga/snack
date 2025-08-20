@@ -122,6 +122,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 		dm.addColumn( "Lycopene" );
 		dm.addColumn( "Caffeine" );
 		dm.addColumn( "Theobromine" );
+		dm.addColumn( "GammaTocopherol" );
 		dm.addColumn( "Cost" );
 		dm.addColumn( "Water" );
 		setModel( dm );
@@ -338,8 +339,9 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 		BigDecimal phytonutrients_phytonutrients_lycopene = ( BigDecimal ) getValueAt( selectedRowNo, 83 );
 		BigDecimal phytonutrients_phytonutrients_caffeine = ( BigDecimal ) getValueAt( selectedRowNo, 84 );
 		BigDecimal phytonutrients_phytonutrients_theobromine = ( BigDecimal ) getValueAt( selectedRowNo, 85 );
-		BigDecimal other_other_cost = ( BigDecimal ) getValueAt( selectedRowNo, 86 );
-		BigDecimal other_other_water = ( BigDecimal ) getValueAt( selectedRowNo, 87 );
+		BigDecimal phytonutrients_phytonutrients_gamma_tocopherol = ( BigDecimal ) getValueAt( selectedRowNo, 86 );
+		BigDecimal other_other_cost = ( BigDecimal ) getValueAt( selectedRowNo, 87 );
+		BigDecimal other_other_water = ( BigDecimal ) getValueAt( selectedRowNo, 88 );
 		Row row = new Row();
 		row.setId_food_id( id_food_id );
 		row.setId_food_name( id_food_name );
@@ -427,6 +429,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 		row.setPhytonutrients_phytonutrients_lycopene( phytonutrients_phytonutrients_lycopene );
 		row.setPhytonutrients_phytonutrients_caffeine( phytonutrients_phytonutrients_caffeine );
 		row.setPhytonutrients_phytonutrients_theobromine( phytonutrients_phytonutrients_theobromine );
+		row.setPhytonutrients_phytonutrients_gamma_tocopherol( phytonutrients_phytonutrients_gamma_tocopherol );
 		row.setOther_other_cost( other_other_cost );
 		row.setOther_other_water( other_other_water );
 		return row;
@@ -571,6 +574,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 		getColumnModel().getColumn( 85 ).setCellRenderer( renderer );
 		getColumnModel().getColumn( 86 ).setCellRenderer( renderer );
 		getColumnModel().getColumn( 87 ).setCellRenderer( renderer );
+		getColumnModel().getColumn( 88 ).setCellRenderer( renderer );
 
 		revalidate();
 		repaint();
@@ -592,8 +596,8 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 		case 7 -> adjustWidth( 49, 61 );
 		case 8 -> adjustWidth( 62, 69 );
 		case 9 -> adjustWidth( 70, 71 );
-		case 10 -> adjustWidth( 72, 85 );
-		case 11 -> adjustWidth( 86, 87 );
+		case 10 -> adjustWidth( 72, 86 );
+		case 11 -> adjustWidth( 87, 88 );
 
 		default -> {
 
@@ -733,6 +737,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 		private BigDecimal phytonutrients_phytonutrients_lycopene;
 		private BigDecimal phytonutrients_phytonutrients_caffeine;
 		private BigDecimal phytonutrients_phytonutrients_theobromine;
+		private BigDecimal phytonutrients_phytonutrients_gamma_tocopherol;
 		private BigDecimal other_other_cost;
 		private BigDecimal other_other_water;
 
@@ -824,6 +829,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 			phytonutrients_phytonutrients_lycopene = new BigDecimal( "0.0" );
 			phytonutrients_phytonutrients_caffeine = new BigDecimal( "0.0" );
 			phytonutrients_phytonutrients_theobromine = new BigDecimal( "0.0" );
+			phytonutrients_phytonutrients_gamma_tocopherol = new BigDecimal( "0.0" );
 			other_other_cost = new BigDecimal( "0.0" );
 			other_other_water = new BigDecimal( "0.0" );
 
@@ -1868,6 +1874,19 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 
 		}
 
+		public BigDecimal getPhytonutrients_phytonutrients_gamma_tocopherol() {
+
+			return phytonutrients_phytonutrients_gamma_tocopherol;
+
+		}
+
+		public void setPhytonutrients_phytonutrients_gamma_tocopherol(
+				BigDecimal phytonutrients_phytonutrients_gamma_tocopherol ) {
+
+			this.phytonutrients_phytonutrients_gamma_tocopherol = phytonutrients_phytonutrients_gamma_tocopherol;
+
+		}
+
 		public BigDecimal getOther_other_cost() {
 
 			return other_other_cost;
@@ -2149,6 +2168,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
 			"Phytonutrients, Lycopene (mcg), 337, phytonutrients-lycopene",
 			"Phytonutrients, Caffeine (mg), 262, phytonutrients-caffeine",
 			"Phytonutrients, Theobromine (mg), 263, phytonutrients-theobromine",
+			"Phytonutrients, Tocopherol, gamma (mg), 342, phytonutrients-gamma_tocopherol",
 			"Other, Cost ($), 10005, other-cost",
 			"Other, Water (g), 255, other-water"
 	};

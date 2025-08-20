@@ -142,6 +142,7 @@ public class MixTotalsReport {
 				BigDecimal x86 = rs.getBigDecimal( 86 );
 				BigDecimal x87 = rs.getBigDecimal( 87 );
 				BigDecimal x88 = rs.getBigDecimal( 88 );
+				BigDecimal x89 = rs.getBigDecimal( 89 );
 
 				csvPrinter.printRecord( x1, x2, x3, Utilities.strip( x4 ), Utilities.strip( x5 ), Utilities.strip( x6 ),
 						Utilities.strip( x7 ), Utilities.strip( x8 ), Utilities.strip( x9 ), Utilities.strip( x10 ),
@@ -164,7 +165,7 @@ public class MixTotalsReport {
 						Utilities.strip( x75 ), Utilities.strip( x76 ), Utilities.strip( x77 ), Utilities.strip( x78 ),
 						Utilities.strip( x79 ), Utilities.strip( x80 ), Utilities.strip( x81 ), Utilities.strip( x82 ),
 						Utilities.strip( x83 ), Utilities.strip( x84 ), Utilities.strip( x85 ), Utilities.strip( x86 ),
-						Utilities.strip( x87 ), Utilities.strip( x88 ) );
+						Utilities.strip( x87 ), Utilities.strip( x88 ), Utilities.strip( x89 ) );
 
 				csvPrinter.flush();
 				csvPrinter.close();

@@ -437,3 +437,9 @@
 
   * Bug fixes
   * Food comparison feature compares two 100 Kcal food portions
+
+### 1560 - August 21, 2025
+
+  * Bug fixes
+  * Add gamma-tocopherol phytonutrient to database
+

@@ -129,6 +129,7 @@ public class MixResultsTask implements Callable<List<List>> {
 				row.add( rs.getBigDecimal( 86 ) );
 				row.add( rs.getBigDecimal( 87 ) );
 				row.add( rs.getBigDecimal( 88 ) );
+				row.add( rs.getBigDecimal( 89 ) );
 				lst.add( row );
 
 			}

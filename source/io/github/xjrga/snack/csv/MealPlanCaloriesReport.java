@@ -2,7 +2,7 @@ package io.github.xjrga.snack.csv;
 
 import io.github.xjrga.snack.other.Reloader;
 import io.github.xjrga.snack.database.callable.BackgroundExec;
-import io.github.xjrga.snack.database.callable.select.MealPlanResultsCaloriesTask;
+import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Utilities;
@@ -40,8 +40,7 @@ public class MealPlanCaloriesReport {
 
 			try {
 
-				Future<List<List>> task = BackgroundExec
-						.submit( new MealPlanResultsCaloriesTask( mixDataObject.getMixid() ) );
+				Future<List<List>> task = BackgroundExec.submit( new MealPlanResultsTask( mixDataObject.getMixid() ) );
 				List<List> list = task.get();
 				List<List> rows = Reloader.getMealPlanCalories( list );
 				rows.forEach( row -> {

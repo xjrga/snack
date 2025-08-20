@@ -503,6 +503,7 @@ public class TableMealCalories extends JTable {
 
 		}
 
+		@Override
 		public void reload( List<List> data ) {
 
 			this.data = data;

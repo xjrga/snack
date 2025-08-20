@@ -22,16 +22,15 @@ public class RoundDownRenderer extends DefaultTableCellRenderer {
 	@Override
 	protected void setValue( Object value ) {
 
-		if ( value != null ) {
+		if ( value == null ) {
 
-			if ( value instanceof BigDecimal bigDecimal ) {
-
-				DecimalFormat df = new DecimalFormat( "###0.000" );
-				txt = df.format( bigDecimal );
-
-			}
+			super.setValue( txt );
+			return;
 
 		}
+
+		DecimalFormat df = new DecimalFormat( "###0.000" );
+		txt = df.format( ( BigDecimal ) value );
 
 		super.setValue( txt );
 
@@ -42,7 +41,15 @@ public class RoundDownRenderer extends DefaultTableCellRenderer {
 			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
 
 		JLabel c = ( JLabel ) super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
-		c.setToolTipText( "" + value );
+
+		if ( value == null ) {
+
+			return c;
+
+		}
+
+		c.setToolTipText( (new DecimalFormat( "######0.0#################" )).format( value ) );
+
 		return c;
 
 	}

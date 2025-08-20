@@ -2,15 +2,17 @@ package io.github.xjrga.snack.renderers;
 
 import io.github.xjrga.snack.other.Utilities;
 import java.awt.Color;
+import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class RoundUpRendererNE extends DefaultTableCellRenderer {
 
 	private String txt;
-	private BigDecimal bigDecimal;
 
 	@Override
 	public void setHorizontalAlignment( int alignment ) {
@@ -22,28 +24,46 @@ public class RoundUpRendererNE extends DefaultTableCellRenderer {
 	@Override
 	protected void setValue( Object value ) {
 
-		if ( value != null ) {
+		if ( value == null ) {
 
-			if ( value instanceof BigDecimal d ) {
+			super.setValue( txt );
+			return;
 
-				DecimalFormat df = new DecimalFormat( "###0.0" );
-				txt = df.format( d );
+		}
 
-				if ( !Utilities.equalTo( d, new BigDecimal( "0" ) ) ) {
+		DecimalFormat df = new DecimalFormat( "###0.0" );
+		BigDecimal d = ( BigDecimal ) value;
+		txt = df.format( d );
 
-					setForeground( Color.decode( "0x00FF00" ) );
+		if ( !Utilities.equalTo( d, new BigDecimal( "0" ) ) ) {
 
-				} else {
+			setForeground( Color.decode( "0x00FF00" ) );
 
-					setForeground( Color.decode( "0xbec6cc" ) );
+		} else {
 
-				}
-
-			}
+			setForeground( Color.decode( "0xbec6cc" ) );
 
 		}
 
 		super.setValue( txt );
+
+	}
+
+	@Override
+	public Component getTableCellRendererComponent(
+			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
+
+		JLabel c = ( JLabel ) super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+
+		if ( value == null ) {
+
+			return c;
+
+		}
+
+		c.setToolTipText( (new DecimalFormat( "######0.0#################" )).format( value ) );
+
+		return c;
 
 	}
 

@@ -66,6 +66,7 @@ phytonutrients_lutein_zeaxanthin,
 phytonutrients_lycopene,
 phytonutrients_phytosterols,
 phytonutrients_theobromine,
+phytonutrients_gamma_tocopherol,
 protein_complete,
 protein_total,
 vitamins_vitamin_a,
@@ -146,6 +147,7 @@ SELECT x0.foodid,
        x337.q AS phytonutrients_lycopene,
        x636.q AS phytonutrients_phytosterols,
        x263.q AS phytonutrients_theobromine,
+       x342.q AS phytonutrients_gamma_tocopherol,
        x10001.q AS protein_complete,
        x203.q AS protein_total,
        x320.q AS vitamins_vitamin_a,
@@ -491,6 +493,12 @@ FROM
  FROM foodfact
  WHERE nutrientid = '263'
  AND   foodid = v_foodId) x263,
+     --342, phytonutrients-gamma_tocopherol
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '342'
+ AND   foodid = v_foodId) x342,
      --10001, protein-complete
 (SELECT foodid,
         q

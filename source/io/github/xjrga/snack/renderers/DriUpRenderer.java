@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,24 +24,24 @@ public class DriUpRenderer extends DefaultTableCellRenderer {
 	@Override
 	protected void setValue( Object value ) {
 
-		if ( value != null ) {
+		if ( value == null ) {
 
-			if ( value instanceof BigDecimal d ) {
+			super.setValue( txt );
+			return;
 
-				DecimalFormat df = new DecimalFormat( "###0.0" );
-				txt = df.format( d );
+		}
 
-				if ( Utilities.lessThan( d, new BigDecimal( "99.99999" ) ) ) {
+		DecimalFormat df = new DecimalFormat( "###0.0" );
+		final BigDecimal bvalue = ( BigDecimal ) value;
+		txt = df.format( bvalue );
 
-					setForeground( Color.PINK );
+		if ( Utilities.lessThan( bvalue, new BigDecimal( "99.99999" ) ) ) {
 
-				} else {
+			setForeground( Color.PINK );
 
-					setForeground( Color.decode( "0xbec6cc" ) );
+		} else {
 
-				}
-
-			}
+			setForeground( Color.decode( "0xbec6cc" ) );
 
 		}
 
@@ -52,7 +53,13 @@ public class DriUpRenderer extends DefaultTableCellRenderer {
 	public Component getTableCellRendererComponent(
 			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
 
-		Component c = super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+		JLabel c = ( JLabel ) super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+
+		if ( value == null ) {
+
+			return c;
+
+		}
 
 		if ( column != 4 ) {
 
@@ -60,29 +67,25 @@ public class DriUpRenderer extends DefaultTableCellRenderer {
 
 		}
 
+		final BigDecimal bValue = ( BigDecimal ) value;
+
 		String nutrientid = ( String ) table.getValueAt( row, 0 );
 
 		switch ( nutrientid ) {
 
 		case "301", "304", "306", "421", "320", "401", "328", "323" -> {
 
-			if ( value != null ) {
+			if ( Utilities.lessThan( bValue, new BigDecimal( "99.99999" ) ) ) {
 
-				if ( value instanceof BigDecimal d ) {
-
-					if ( Utilities.lessThan( d, new BigDecimal( "99.99999" ) ) ) {
-
-						setForeground( Color.RED );
-
-					}
-
-				}
+				setForeground( Color.RED );
 
 			}
 
 		}
 
 		}
+
+		c.setToolTipText( (new DecimalFormat( "######0.0#################" )).format( bValue ) );
 
 		return c;
 

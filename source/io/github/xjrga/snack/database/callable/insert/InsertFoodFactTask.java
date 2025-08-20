@@ -97,6 +97,8 @@ public class InsertFoodFactTask implements Callable<Boolean> {
 					food.getPhytonutrients_phytosterols_quantity() );
 			execute( foodid, food.getPhytonutrients_theobromine_nutr_no(),
 					food.getPhytonutrients_theobromine_quantity() );
+			execute( foodid, food.getPhytonutrients_gamma_tocopherol_nutr_no(),
+					food.getPhytonutrients_gamma_tocopherol_quantity() );
 			execute( foodid, food.getProtein_complete_nutr_no(), food.getProtein_complete_quantity() );
 			execute( foodid, food.getProtein_total_nutr_no(), food.getProtein_total_quantity() );
 			execute( foodid, food.getVitamins_vitamin_a_nutr_no(), food.getVitamins_vitamin_a_quantity() );

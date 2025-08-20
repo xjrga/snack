@@ -4,11 +4,11 @@ IN v_MixId LONGVARCHAR,
 --IN v_Name LONGVARCHAR,
 --IN v_NutrientId LONGVARCHAR,
 --IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(28,18)
+IN v_MixCost DECIMAL(25,18)
 ,
-IN v_MixDeficiency DECIMAL(28,18)
+IN v_MixDeficiency DECIMAL(25,18)
 ,
-IN v_MixExcess DECIMAL(28,18)
+IN v_MixExcess DECIMAL(25,18)
 
 --
 )

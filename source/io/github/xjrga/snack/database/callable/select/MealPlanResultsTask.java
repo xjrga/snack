@@ -13,12 +13,12 @@ import java.util.concurrent.Callable;
 /**
  * @author jr
  */
-public class MealPlanResultsCaloriesTask implements Callable<List<List>> {
+public class MealPlanResultsTask implements Callable<List<List>> {
 
 	private final Connection connection;
 	private final String mixid;
 
-	public MealPlanResultsCaloriesTask( String mixid ) {
+	public MealPlanResultsTask( String mixid ) {
 
 		connection = Connect.getInstance().getConnection();
 		this.mixid = mixid;

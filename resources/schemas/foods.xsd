@@ -5,7 +5,7 @@
                 Data Exchange Document Schema For Snack Software Food List
                 Snack: Learning Software For Nutrition
                 Author: Jorge Rolando Garcia de Alba
-                Version: 01
+                Version: 02
             </xsd:documentation>
         </xsd:annotation>
     </xsd:element>
@@ -125,6 +125,8 @@
             <xsd:element name="phytonutrients-phytosterols" type="phytonutrients-phytosterols" minOccurs="1" maxOccurs="1" />
             <!-- Phytonutrients, Theobromine, mg, 263, phytonutrients-theobromine -->
             <xsd:element name="phytonutrients-theobromine" type="phytonutrients-theobromine" minOccurs="1" maxOccurs="1" />
+            <!-- Phytonutrients, Tocopherol, gamma, mg, 342, phytonutrients-gamma_tocopherol -->
+            <xsd:element name="phytonutrients-gamma_tocopherol" type="phytonutrients-gamma_tocopherol" minOccurs="1" maxOccurs="1" />
             <!-- Protein, Complete Protein, g, 10001, protein-complete -->
             <xsd:element name="protein-complete" type="protein-complete" minOccurs="1" maxOccurs="1" />
             <!-- Protein, Total Protein, g, 203, protein-total -->
@@ -638,6 +640,15 @@
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
+    <!-- Phytonutrients, Tocopherol, gamma, mg, 342, phytonutrients-gamma_tocopherol -->
+    <xsd:complexType name="phytonutrients-gamma_tocopherol">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="units" fixed="mg" type="xsd:string"/>
+                <xsd:attribute name="nutr_no" fixed="342" type="food-metric"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>    
     <!-- Protein, Complete Protein, g, 10001, protein-complete -->
     <xsd:complexType name="protein-complete">
         <xsd:simpleContent>
@@ -916,6 +927,8 @@
             <xsd:enumeration value = "636"/>
             <!-- Phytonutrients, Theobromine (mg), 263, phytonutrients-theobromine -->
             <xsd:enumeration value = "263"/>
+            <!-- Phytonutrients, Tocopherol, gamma (mg), 342, phytonutrients-gamma_tocopherol -->
+            <xsd:enumeration value = "342"/>
             <!-- Protein, Complete Protein (g), 10001, protein-complete -->
             <xsd:enumeration value = "10001"/>
             <!-- Protein, Total Protein (g), 203, protein-total -->
