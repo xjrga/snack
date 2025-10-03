@@ -17,13 +17,13 @@ SET doc = '';
 --
 SET counter = 0;
 --
-SELECT count(nutrientid, relationshipid, b) INTO counter FROM nutrientconstraint WHERE mixid = v_mixid;
+SELECT count(nutrientid, relationshipid, b) INTO counter FROM NutrientQuantityC WHERE mixid = v_mixid;
 --
 IF counter > 0 THEN
 --
 SET doc = doc + '<nutrient_quantity_list>' + CHAR (10);
 --
-FOR select nutrientid, relationshipid, b from nutrientconstraint  WHERE mixid = v_mixid DO
+FOR select nutrientid, relationshipid, b from NutrientQuantityC  WHERE mixid = v_mixid DO
 --
 SET doc = doc + '<nutrient_quantity>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</nutrient_quantity>' + CHAR (10);
 --

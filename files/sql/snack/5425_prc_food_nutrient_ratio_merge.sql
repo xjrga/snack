@@ -9,7 +9,7 @@ IN v_A DOUBLE,
 IN v_B DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO FoodNutrientRatio USING ( VALUES (
+MERGE INTO FoodRatioC USING ( VALUES (
 v_MixId,
 v_Food_Id_1,
 v_Nutrient_Id_1,

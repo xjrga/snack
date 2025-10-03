@@ -443,3 +443,8 @@
   * Bug fixes
   * Add gamma-tocopherol phytonutrient to database
 
+### 1570 - TBA
+
+  * Bug fixes
+  * Add new pin mix and keep constraints option
+  

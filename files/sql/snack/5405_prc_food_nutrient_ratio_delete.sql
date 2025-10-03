@@ -8,7 +8,7 @@ IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
-FoodNutrientRatio
+FoodRatioC
 WHERE
 MixId = v_MixId
 AND

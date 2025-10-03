@@ -16,7 +16,7 @@ SELECT mixid,
        b.name as food,
        c.name as nutrient,
        d.name as eq
-FROM foodnutrientconstraint a, food b, nutrient c, relationship d
+FROM FoodQuantityC a, food b, nutrient c, relationship d
 WHERE mixid = v_mixid
 AND a.foodid = b.foodid
 AND a.nutrientid = c.nutrientid

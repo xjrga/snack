@@ -11,27 +11,27 @@ FOR
 --
 SELECT DISTINCT nutrientid
 FROM (SELECT nutrientid
-      FROM nutrientconstraint
+      FROM NutrientQuantityC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_1
-      FROM nutrientratio
+      FROM NutrientRatioC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_2
-      FROM nutrientratio
+      FROM NutrientRatioC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrientid
-      FROM foodnutrientconstraint
+      FROM FoodQuantityC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_1
-      FROM foodnutrientratio
+      FROM FoodRatioC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_2
-      FROM foodnutrientratio
+      FROM FoodRatioC
       WHERE mixid = v_mixid)
 ORDER BY nutrientid;
 --

@@ -19,7 +19,7 @@ SELECT a.mixid,
        a.relationshipid,
        b.foodid,
        c.c
-FROM nutrientconstraint a,
+FROM NutrientQuantityC a,
      mixfood b,
      foodfactcoefficient c
 WHERE a.mixid = b.mixid

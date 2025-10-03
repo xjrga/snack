@@ -227,14 +227,61 @@ CREATE TABLE FoodFactCoefficient
         )
 );
 /
-CREATE TABLE FoodNutrientConstraint
+CREATE TABLE FoodGroupList
+(
+        GroupId INTEGER,
+        MixId LONGVARCHAR,
+        FoodId LONGVARCHAR,
+        CONSTRAINT FoodGroupList_primary_key PRIMARY KEY (
+        GroupId,
+        MixId,
+        FoodId
+        )
+);
+/
+CREATE TABLE FoodGroupQuantityC
+(
+        MixId LONGVARCHAR,
+        GroupId INTEGER,
+        NutrientId LONGVARCHAR,
+        RelationshipId INTEGER,
+        b DECIMAL(25,18),
+        CONSTRAINT FoodGroupQuantityC_primary_key PRIMARY KEY (
+        MixId,
+        GroupId,
+        NutrientId,
+        RelationshipId
+        )
+);
+/
+CREATE TABLE FoodGroupRatioC
+(
+        MixId LONGVARCHAR,
+        Group_Id_1 INTEGER,
+        Nutrient_Id_1 LONGVARCHAR,
+        Group_Id_2 INTEGER,
+        Nutrient_Id_2 LONGVARCHAR,
+        RelationshipId INTEGER,
+        A DECIMAL(25,18),
+        B DECIMAL(25,18),
+        CONSTRAINT FoodGroupRatioC_primary_key PRIMARY KEY (
+        MixId,
+        Group_Id_1,
+        Nutrient_Id_1,
+        Group_Id_2,
+        Nutrient_Id_2,
+        RelationshipId
+        )
+);
+/
+CREATE TABLE FoodQuantityC
 (
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
         b DECIMAL(25,18),
-        CONSTRAINT FoodNutrientConstraint_primary_key PRIMARY KEY (
+        CONSTRAINT FoodQuantityC_primary_key PRIMARY KEY (
         MixId,
         FoodId,
         NutrientId,
@@ -242,7 +289,7 @@ CREATE TABLE FoodNutrientConstraint
         )
 );
 /
-CREATE TABLE FoodNutrientRatio
+CREATE TABLE FoodRatioC
 (
         MixId LONGVARCHAR,
         Food_Id_1 LONGVARCHAR,
@@ -252,7 +299,7 @@ CREATE TABLE FoodNutrientRatio
         RelationshipId INTEGER,
         A DECIMAL(25,18),
         B DECIMAL(25,18),
-        CONSTRAINT FoodNutrientRatio_primary_key PRIMARY KEY (
+        CONSTRAINT FoodRatioC_primary_key PRIMARY KEY (
         MixId,
         Food_Id_1,
         Nutrient_Id_1,
@@ -314,6 +361,17 @@ CREATE TABLE MixFood
         )
 );
 /
+CREATE TABLE MixFoodGroup
+(
+        MixId LONGVARCHAR,
+        GroupId INTEGER,
+        Name LONGVARCHAR,
+        CONSTRAINT MixFoodGroup_primary_key PRIMARY KEY (
+        MixId,
+        GroupId
+        )
+);
+/
 CREATE TABLE MixInventory
 (
         MixId LONGVARCHAR,
@@ -359,20 +417,20 @@ CREATE TABLE NutrientCategory
         )
 );
 /
-CREATE TABLE NutrientConstraint
+CREATE TABLE NutrientQuantityC
 (
         MixId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
         b DECIMAL(25,18),
-        CONSTRAINT NutrientConstraint_primary_key PRIMARY KEY (
+        CONSTRAINT NutrientQuantityC_primary_key PRIMARY KEY (
         MixId,
         NutrientId,
         RelationshipId
         )
 );
 /
-CREATE TABLE NutrientRatio
+CREATE TABLE NutrientRatioC
 (
         MixId LONGVARCHAR,
         Nutrient_Id_1 LONGVARCHAR,
@@ -380,7 +438,7 @@ CREATE TABLE NutrientRatio
         RelationshipId INTEGER,
         A DECIMAL(25,18),
         B DECIMAL(25,18),
-        CONSTRAINT NutrientRatio_primary_key PRIMARY KEY (
+        CONSTRAINT NutrientRatioC_primary_key PRIMARY KEY (
         MixId,
         Nutrient_Id_1,
         Nutrient_Id_2,
@@ -442,59 +500,81 @@ ALTER TABLE FoodFact ADD CONSTRAINT R5_FoodFact FOREIGN KEY (NutrientId) REFEREN
 /
 ALTER TABLE FoodFactCoefficient ADD CONSTRAINT R6_FoodFactCoefficient FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFact (FoodId,NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R7_FoodNutrientConstraint FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupList ADD CONSTRAINT R7_FoodGroupList FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R8_FoodNutrientConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupList ADD CONSTRAINT R8_FoodGroupList FOREIGN KEY (GroupId,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientConstraint ADD CONSTRAINT R9_FoodNutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupQuantityC ADD CONSTRAINT R9_FoodGroupQuantityC FOREIGN KEY (GroupId,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R10_FoodNutrientRatio FOREIGN KEY (Food_Id_1,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupQuantityC ADD CONSTRAINT R10_FoodGroupQuantityC FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R11_FoodNutrientRatio FOREIGN KEY (Food_Id_2,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupQuantityC ADD CONSTRAINT R11_FoodGroupQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R12_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R12_FoodGroupRatioC FOREIGN KEY (Group_Id_2,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R13_FoodNutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R13_FoodGroupRatioC FOREIGN KEY (Group_Id_1,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodNutrientRatio ADD CONSTRAINT R14_FoodNutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R14_FoodGroupRatioC FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE Meal ADD CONSTRAINT R15_Meal FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R15_FoodGroupRatioC FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodPortion ADD CONSTRAINT R16_MealFoodPortion FOREIGN KEY (MealId,MixId) REFERENCES Meal (MealId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R16_FoodGroupRatioC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE MealFoodPortion ADD CONSTRAINT R17_MealFoodPortion FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodQuantityC ADD CONSTRAINT R17_FoodQuantityC FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE Mix ADD CONSTRAINT R18_Mix FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE SET NULL;
+ALTER TABLE FoodQuantityC ADD CONSTRAINT R18_FoodQuantityC FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MixFood ADD CONSTRAINT R19_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
+ALTER TABLE FoodQuantityC ADD CONSTRAINT R19_FoodQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE MixFood ADD CONSTRAINT R20_MixFood FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R20_FoodRatioC FOREIGN KEY (Food_Id_2,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MixInventory ADD CONSTRAINT R21_MixInventory FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R21_FoodRatioC FOREIGN KEY (Food_Id_1,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MixResult ADD CONSTRAINT R22_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R22_FoodRatioC FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE MixResult ADD CONSTRAINT R23_MixResult FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R23_FoodRatioC FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE Nutrient ADD CONSTRAINT R24_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R24_FoodRatioC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientConstraint ADD CONSTRAINT R25_NutrientConstraint FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE Meal ADD CONSTRAINT R25_Meal FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientConstraint ADD CONSTRAINT R26_NutrientConstraint FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R26_MealFoodPortion FOREIGN KEY (MealId,MixId) REFERENCES Meal (MealId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientConstraint ADD CONSTRAINT R27_NutrientConstraint FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE MealFoodPortion ADD CONSTRAINT R27_MealFoodPortion FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R28_NutrientRatio FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE Mix ADD CONSTRAINT R28_Mix FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE SET NULL;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R29_NutrientRatio FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE MixFood ADD CONSTRAINT R29_MixFood FOREIGN KEY (FoodId) REFERENCES Food (FoodId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R30_NutrientRatio FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE MixFood ADD CONSTRAINT R30_MixFood FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatio ADD CONSTRAINT R31_NutrientRatio FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE MixFoodGroup ADD CONSTRAINT R31_MixFoodGroup FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE Rda ADD CONSTRAINT R32_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE MixInventory ADD CONSTRAINT R32_MixInventory FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE Rda ADD CONSTRAINT R33_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE CASCADE;
+ALTER TABLE MixResult ADD CONSTRAINT R33_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
+/
+ALTER TABLE MixResult ADD CONSTRAINT R34_MixResult FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+/
+ALTER TABLE Nutrient ADD CONSTRAINT R35_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
+/
+ALTER TABLE NutrientQuantityC ADD CONSTRAINT R36_NutrientQuantityC FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+/
+ALTER TABLE NutrientQuantityC ADD CONSTRAINT R37_NutrientQuantityC FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+/
+ALTER TABLE NutrientQuantityC ADD CONSTRAINT R38_NutrientQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+/
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R39_NutrientRatioC FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+/
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R40_NutrientRatioC FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+/
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R41_NutrientRatioC FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+/
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R42_NutrientRatioC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+/
+ALTER TABLE Rda ADD CONSTRAINT R43_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+/
+ALTER TABLE Rda ADD CONSTRAINT R44_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE CASCADE;
 /
 
 
@@ -1181,7 +1261,7 @@ SELECT mixid,
        b.name as food,
        c.name as nutrient,
        d.name as eq
-FROM foodnutrientconstraint a, food b, nutrient c, relationship d
+FROM FoodQuantityC a, food b, nutrient c, relationship d
 WHERE mixid = v_mixid
 AND a.foodid = b.foodid
 AND a.nutrientid = c.nutrientid
@@ -1944,7 +2024,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO FoodNutrientConstraint
+INSERT INTO FoodQuantityC
 (
   mixid,
   foodid,
@@ -1957,7 +2037,7 @@ SELECT v_MixId_New,
        nutrientid,
        relationshipid,
        b
-FROM FoodNutrientConstraint
+FROM FoodQuantityC
 WHERE mixid = v_MixId_Old;
 
 --
@@ -2200,7 +2280,7 @@ IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
-FoodNutrientConstraint
+FoodQuantityC
 WHERE
 MixId = v_MixId
 AND
@@ -2221,7 +2301,7 @@ IN v_RelationshipId INTEGER,
 IN v_b DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO FoodNutrientConstraint USING ( VALUES (
+MERGE INTO FoodQuantityC USING ( VALUES (
 v_MixId,
 v_FoodId,
 v_NutrientId,
@@ -2288,7 +2368,7 @@ c.Name as Nutrient,
 d.Name as Relationship,
 CASE WHEN a.b IS NULL THEN 0 ELSE a.b END
 FROM
-FoodNutrientConstraint a, Food b, Nutrient c, Relationship d
+FoodQuantityC a, Food b, Nutrient c, Relationship d
 WHERE
 a.MixId = v_MixId
 AND
@@ -2315,7 +2395,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO FoodNutrientRatio
+INSERT INTO FoodRatioC
 (
   mixid,
   food_id_1,
@@ -2334,7 +2414,7 @@ SELECT v_MixId_New,
        relationshipid,
        a,
        b
-FROM FoodNutrientRatio
+FROM FoodRatioC
 WHERE mixid = v_MixId_Old;
 
 --
@@ -2378,7 +2458,7 @@ IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
-FoodNutrientRatio
+FoodRatioC
 WHERE
 MixId = v_MixId
 AND
@@ -2431,7 +2511,7 @@ FROM (SELECT a.mixid,
          WHEN b.foodid = a.food_id_2 THEN (select c from foodfactcoefficient where foodid = a.food_id_2 and nutrientid = a.nutrient_id_2)
          ELSE 0
        END * a.a AS c
-FROM foodnutrientratio a,
+FROM FoodRatioC a,
      mixfood b
 WHERE a.mixid = b.mixid
 AND mixid = v_mixid
@@ -2688,7 +2768,7 @@ IN v_A DOUBLE,
 IN v_B DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO FoodNutrientRatio USING ( VALUES (
+MERGE INTO FoodRatioC USING ( VALUES (
 v_MixId,
 v_Food_Id_1,
 v_Nutrient_Id_1,
@@ -2765,7 +2845,7 @@ SELECT mixid,
        d.name as food2,
        e.name as nutrient2,
        f.name as eq
-FROM foodnutrientratio a, food b, nutrient c, food d, nutrient e, relationship f
+FROM FoodRatioC a, food b, nutrient c, food d, nutrient e, relationship f
 WHERE mixid = v_mixid
 AND a.food_id_1 = b.foodid
 AND a.nutrient_id_1 = c.nutrientid
@@ -2886,7 +2966,7 @@ FROM (SELECT a.mixid,
          WHEN b.foodid = a.foodid THEN (select c from foodfactcoefficient where foodid = a.foodid and nutrientid = a.nutrientid)
          ELSE 0
        END AS c
-FROM foodnutrientconstraint a,
+FROM FoodQuantityC a,
      mixfood b
 WHERE a.mixid = b.mixid
 AND a.mixid = v_mixid
@@ -2931,7 +3011,7 @@ a.A,
 a.B,
 f.Name as Relationship
 FROM
-FoodNutrientRatio a, Food b, Nutrient c, Food d, Nutrient e, Relationship f
+FoodRatioC a, Food b, Nutrient c, Food d, Nutrient e, Relationship f
 WHERE
 a.MixId = v_MixId
 AND
@@ -3096,10 +3176,10 @@ SELECT 'Dietary Index'
        a.mixa,
        b.mixb,
        a.mixa - b.mixb as diff
-FROM (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixa
+FROM (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixa
       FROM mix
       WHERE mixid = v_MixId_1) a,
-     (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixb
+     (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixb
       FROM mix
       WHERE mixid = v_MixId_2) b
 UNION      
@@ -3950,7 +4030,7 @@ SELECT a.mixid,
        a.relationshipid,
        b.foodid,
        c.c
-FROM nutrientconstraint a,
+FROM NutrientQuantityC a,
      mixfood b,
      foodfactcoefficient c
 WHERE a.mixid = b.mixid
@@ -3987,7 +4067,7 @@ SELECT mixid,
        b,
        b.name as nutrient,
        c.name as eq
-FROM nutrientconstraint a, nutrient b, relationship c
+FROM NutrientQuantityC a, nutrient b, relationship c
 WHERE mixid = v_MixId
 AND a.nutrientid = b.nutrientid
 AND a.relationshipid = c.relationshipid
@@ -4107,7 +4187,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO NutrientConstraint
+INSERT INTO NutrientQuantityC
 (
   mixid,
   nutrientid,
@@ -4118,7 +4198,7 @@ SELECT v_MixId_New,
        nutrientid,
        relationshipid,
        b
-FROM NutrientConstraint
+FROM NutrientQuantityC
 WHERE mixid = v_MixId_Old;
 
 --
@@ -4132,7 +4212,7 @@ IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
-NutrientConstraint
+NutrientQuantityC
 WHERE
 MixId = v_MixId
 AND
@@ -4150,7 +4230,7 @@ IN v_RelationshipId INTEGER,
 IN v_b DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO NutrientConstraint USING ( VALUES (
+MERGE INTO NutrientQuantityC USING ( VALUES (
 v_MixId,
 v_NutrientId,
 v_RelationshipId,
@@ -4187,7 +4267,7 @@ b.Name as Nutrient,
 c.Name as Relationship,
 a.b
 FROM
-NutrientConstraint a, Nutrient b, Relationship c
+NutrientQuantityC a, Nutrient b, Relationship c
 WHERE
 a.MixId = v_MixId
 AND
@@ -4212,7 +4292,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO NutrientRatio
+INSERT INTO NutrientRatioC
 (
   mixid,
   nutrient_id_1,
@@ -4227,7 +4307,7 @@ SELECT v_MixId_New,
        relationshipid,
        a,
        b
-FROM NutrientRatio
+FROM NutrientRatioC
 WHERE mixid = v_MixId_Old;
 
 --
@@ -4242,7 +4322,7 @@ IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
-NutrientRatio
+NutrientRatioC
 WHERE
 MixId = v_MixId
 AND
@@ -4288,7 +4368,7 @@ FROM (SELECT a.mixid,
                    a.a,
                    a.b,
                    b.c
-            FROM nutrientratio a,
+            FROM NutrientRatioC a,
                  (SELECT a.mixid,
                          a.foodid,
                          b.nutrientid,
@@ -4312,7 +4392,7 @@ FROM (SELECT a.mixid,
                    a.a,
                    a.b,
                    b.c
-            FROM nutrientratio a,
+            FROM NutrientRatioC a,
                  (SELECT a.mixid,
                          a.foodid,
                          b.nutrientid,
@@ -4358,7 +4438,7 @@ IN v_A DOUBLE,
 IN v_B DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO NutrientRatio USING ( VALUES (
+MERGE INTO NutrientRatioC USING ( VALUES (
 v_MixId,
 v_Nutrient_Id_1,
 v_Nutrient_Id_2,
@@ -4407,7 +4487,7 @@ SELECT mixid,
        b.name as nutrient1,
        c.name as nutrient2,
        d.name as eq
-FROM nutrientratio a, nutrient b, nutrient c, relationship d
+FROM NutrientRatioC a, nutrient b, nutrient c, relationship d
 WHERE mixid = v_mixid
 AND a.nutrient_id_1 = b.nutrientid
 AND a.nutrient_id_2 = c.nutrientid
@@ -4440,7 +4520,7 @@ a.A,
 a.B,
 d.Name as Relationship
 FROM
-NutrientRatio a, Nutrient b, Nutrient c, Relationship d
+NutrientRatioC a, Nutrient b, Nutrient c, Relationship d
 WHERE
 a.MixId = v_MixId
 AND
@@ -4979,13 +5059,13 @@ SET doc = '';
 --
 SET counter = 0;
 --
-SELECT count(nutrientid, relationshipid, b) INTO counter FROM nutrientconstraint WHERE mixid = v_mixid;
+SELECT count(nutrientid, relationshipid, b) INTO counter FROM NutrientQuantityC WHERE mixid = v_mixid;
 --
 IF counter > 0 THEN
 --
 SET doc = doc + '<nutrient_quantity_list>' + CHAR (10);
 --
-FOR select nutrientid, relationshipid, b from nutrientconstraint  WHERE mixid = v_mixid DO
+FOR select nutrientid, relationshipid, b from NutrientQuantityC  WHERE mixid = v_mixid DO
 --
 SET doc = doc + '<nutrient_quantity>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</nutrient_quantity>' + CHAR (10);
 --
@@ -5020,13 +5100,13 @@ SET doc = '';
 --
 SET counter = 0;
 --
-SELECT count(foodid , nutrientid, relationshipid, b) INTO counter FROM foodnutrientconstraint a WHERE a.mixid = v_mixid;
+SELECT count(foodid , nutrientid, relationshipid, b) INTO counter FROM FoodQuantityC a WHERE a.mixid = v_mixid;
 --
 IF counter > 0 THEN
 --
 SET doc = doc + '<food_quantity_list>' + CHAR (10);
 --
-FOR select foodid , nutrientid, relationshipid, b from foodnutrientconstraint a WHERE a.mixid = v_mixid DO
+FOR select foodid , nutrientid, relationshipid, b from FoodQuantityC a WHERE a.mixid = v_mixid DO
 --
 SET doc = doc + '<food_quantity>' + CHAR (10) + '<food-id>' + foodid + '</food-id>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</food_quantity>' + CHAR (10);
 --
@@ -5061,13 +5141,13 @@ SET doc = '';
 --
 SET counter = 0;
 --
-SELECT count(food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b) INTO counter FROM foodnutrientratio WHERE mixid = v_mixid;
+SELECT count(food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b) INTO counter FROM FoodRatioC WHERE mixid = v_mixid;
 --
 IF counter > 0 THEN
 --
 SET doc = doc + '<food_ratio_list>' + CHAR (10);
 --
-FOR select food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b from foodnutrientratio WHERE mixid = v_mixid DO
+FOR select food_id_1, nutrient_id_1,food_id_2, nutrient_id_2,relationshipid, a, b from FoodRatioC WHERE mixid = v_mixid DO
 --
 SET doc = doc + '<food_ratio>' + CHAR (10) + '<food-id_a>' + food_id_1 + '</food-id_a>' + CHAR (10) + '<nutrient-id_a>' + nutrient_id_1 + '</nutrient-id_a>' + CHAR (10) + '<food-id_b>' + food_id_2 + '</food-id_b>' + CHAR (10) + '<nutrient-id_b>' + nutrient_id_2 + '</nutrient-id_b>' + CHAR (10) + '<relationship-id>' + relationshipid  + '</relationship-id>' + CHAR (10) + '<a>' + a  + '</a>' +CHAR (10) + '<b>'+ b  + '</b>' +CHAR (10) + '</food_ratio>' + CHAR (10);
 --
@@ -5103,13 +5183,13 @@ SET doc = '';
 --
 SET counter = 0;
 --
-SELECT count(nutrient_id_1, nutrient_id_2, relationshipid, a, b) INTO counter FROM nutrientratio WHERE mixid = v_mixid;
+SELECT count(nutrient_id_1, nutrient_id_2, relationshipid, a, b) INTO counter FROM NutrientRatioC WHERE mixid = v_mixid;
 --
 IF counter > 0 THEN
 --
 SET doc = doc + '<nutrient_ratio_list>' + CHAR (10);
 --
-FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from nutrientratio WHERE mixid = v_mixid DO
+FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from NutrientRatioC WHERE mixid = v_mixid DO
 --
 SET doc = doc + '<nutrient_ratio>' + CHAR (10)  + '<nutrient-id_a>' + nutrient_id_1 + '</nutrient-id_a>' + CHAR (10)  + '<nutrient-id_b>' + nutrient_id_2 + '</nutrient-id_b>' + CHAR (10) + '<relationship-id>' + relationshipid  + '</relationship-id>' + CHAR (10) + '<a>' + a  + '</a>' +CHAR (10) + '<b>'+ b  + '</b>' +CHAR (10) + '</nutrient_ratio>' + CHAR (10);
 --
@@ -6163,7 +6243,7 @@ END;
 /
 
 
-CREATE PROCEDURE pin_mix (
+CREATE PROCEDURE pin_and_keep_constraints (
 --
 IN v_mixid LONGVARCHAR
 --
@@ -6171,11 +6251,30 @@ IN v_mixid LONGVARCHAR
 --
 MODIFIES SQL DATA  BEGIN ATOMIC
 --
-DELETE FROM NUTRIENTCONSTRAINT WHERE MixId = v_mixid;
-DELETE FROM FOODNUTRIENTCONSTRAINT WHERE MixId = v_mixid;
-DELETE FROM FOODNUTRIENTRATIO WHERE MixId = v_mixid;
-DELETE FROM NUTRIENTRATIO WHERE MixId = v_mixid;
-INSERT INTO FOODNUTRIENTCONSTRAINT
+DELETE FROM FoodQuantityC WHERE MixId = v_mixid AND relationshipid = 3;
+INSERT INTO FoodQuantityC
+SELECT mixid,foodid,'10000' as nutrientid,3 as relationshipid,x as b
+FROM mixfood
+WHERE mixid = v_mixid;
+
+--
+END;
+/
+
+
+CREATE PROCEDURE pin_and_delete_constraints (
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA  BEGIN ATOMIC
+--
+DELETE FROM NutrientQuantityC WHERE MixId = v_mixid;
+DELETE FROM FoodQuantityC WHERE MixId = v_mixid;
+DELETE FROM FoodRatioC WHERE MixId = v_mixid;
+DELETE FROM NutrientRatioC WHERE MixId = v_mixid;
+INSERT INTO FoodQuantityC
 SELECT mixid,foodid,'10000' as nutrientid,3 as relationshipid,x as b
 FROM mixfood
 WHERE mixid = v_mixid;
@@ -7305,27 +7404,27 @@ FOR
 --
 SELECT DISTINCT nutrientid
 FROM (SELECT nutrientid
-      FROM nutrientconstraint
+      FROM NutrientQuantityC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_1
-      FROM nutrientratio
+      FROM NutrientRatioC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_2
-      FROM nutrientratio
+      FROM NutrientRatioC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrientid
-      FROM foodnutrientconstraint
+      FROM FoodQuantityC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_1
-      FROM foodnutrientratio
+      FROM FoodRatioC
       WHERE mixid = v_mixid
       UNION
       SELECT nutrient_id_2
-      FROM foodnutrientratio
+      FROM FoodRatioC
       WHERE mixid = v_mixid)
 ORDER BY nutrientid;
 --

@@ -45,7 +45,8 @@ import io.github.xjrga.snack.database.callable.insert.MergeNutrientRatioConstrai
 import io.github.xjrga.snack.database.callable.other.DenormalizeFoodFactsTask;
 import io.github.xjrga.snack.database.callable.other.DuplicateMixTask;
 import io.github.xjrga.snack.database.callable.other.ExportMixTask;
-import io.github.xjrga.snack.database.callable.other.PinMixTask;
+import io.github.xjrga.snack.database.callable.other.PinAndDeleteTask;
+import io.github.xjrga.snack.database.callable.other.PinAndKeepTask;
 import io.github.xjrga.snack.database.callable.other.SendCategoryToXmlTask;
 import io.github.xjrga.snack.database.callable.select.DerivedFoodFactsTask;
 import io.github.xjrga.snack.database.callable.select.DriDevNutrientQuantityLhsTask;
@@ -335,7 +336,8 @@ public class Main {
 	private final JMenuItem mniExportMixModel;
 	private final JMenuItem mniImportFoods;
 	private final JMenuItem mniImportMixModel;
-	private final JMenuItem mniPinMix;
+	private final JMenuItem mniPinMixAndDeleteConstraints;
+	private final JMenuItem mniPinMixAndKeepConstraints;
 	private final JMenuItem mniRenameMix;
 	private final JMenuItem mniSetConstraints;
 	private final JMenuItem mniShowCarbohydrateRequired;
@@ -499,7 +501,8 @@ public class Main {
 		mniExportMixModel = new JMenuItem();
 		mniImportFoods = new JMenuItem();
 		mniImportMixModel = new JMenuItem();
-		mniPinMix = new JMenuItem( "Pin" );
+		mniPinMixAndDeleteConstraints = new JMenuItem();
+		mniPinMixAndKeepConstraints = new JMenuItem();
 		mniRenameMix = new JMenuItem();
 		mniSetConstraints = new JMenuItem();
 		mniShowCarbohydrateRequired = new JMenuItem();
@@ -2088,7 +2091,8 @@ public class Main {
 		mnuMix.add( mniDeleteMix );
 		mnuMix.add( mniRenameMix );
 		mnuMix.add( mniDuplicateMix );
-		mnuMix.add( mniPinMix );
+		mnuMix.add( mniPinMixAndDeleteConstraints );
+		mnuMix.add( mniPinMixAndKeepConstraints );
 		mnuMix.add( mniConvertMix );
 		mnuMix.add( mniShowMixStats );
 		mnuProgram.setText( "Program" );
@@ -2136,7 +2140,8 @@ public class Main {
 		mniDeleteMix.setText( "Delete mix" );
 		mniRenameMix.setText( "Rename mix" );
 		mniDuplicateMix.setText( "Duplicate mix" );
-		mniPinMix.setText( "Pin mix" );
+		mniPinMixAndDeleteConstraints.setText( "Pin mix and delete constraints" );
+		mniPinMixAndKeepConstraints.setText( "Pin mix and keep constraints" );
 		mniConvertMix.setText( "Convert mix to food item" );
 		mniShowMixStats.setText( "Show mix statistics" );
 		mnuDELETE.setText( "DELETE" );
@@ -2479,9 +2484,14 @@ public class Main {
 			convertMixToFood();
 
 		} );
-		mniPinMix.addActionListener( ( ActionEvent evt ) -> {
+		mniPinMixAndDeleteConstraints.addActionListener( ( ActionEvent evt ) -> {
 
-			pinMix();
+			pinAndDelete();
+
+		} );
+		mniPinMixAndKeepConstraints.addActionListener( ( ActionEvent evt ) -> {
+
+			pinAndKeep();
 
 		} );
 		return mnuBar;
@@ -4893,6 +4903,7 @@ public class Main {
 				BigDecimal deficiency = new BigDecimal( theAvgDeficiency, MathContext.DECIMAL128 );
 				BigDecimal excess = new BigDecimal( theAvgExcess, MathContext.DECIMAL128 );
 				BigDecimal cost = new BigDecimal( theCost, MathContext.DECIMAL128 );
+				// System.out.println( mix.getName() + ": " + cost.toPlainString() );
 
 				// ---- SET THE HIGH SCORE ----
 				setTheHighScore( tni );
@@ -6074,11 +6085,11 @@ public class Main {
 
 	}
 
-	private void pinMix() {
+	private void pinAndDelete() {
 
 		try {
 
-			Future<Boolean> task = BackgroundExec.submit( new PinMixTask( selectedMixId ) );
+			Future<Boolean> task = BackgroundExec.submit( new PinAndDeleteTask( selectedMixId ) );
 			Boolean completed = task.get();
 
 			if ( completed ) {
@@ -6156,6 +6167,61 @@ public class Main {
 							( String ) row.get( 1 ), ( String ) row.get( 2 ), ( String ) row.get( 3 ),
 							( String ) row.get( 4 ), ( Integer ) row.get( 5 ), ( BigDecimal ) row.get( 8 ),
 							( BigDecimal ) row.get( 12 ) );
+
+				} );
+
+				reloadMixConstraints( selectedMixId );
+
+				tblFoodQuantityConstraint.getStream().forEach( o -> {
+
+					List row = ( List ) o;
+					StringBuilder sb = new StringBuilder();
+					sb.append( row.get( 4 ) );
+					sb.append( " using " );
+					sb.append( row.get( 5 ) );
+					sb.append( " " );
+					sb.append( row.get( 6 ) );
+					sb.append( " " );
+					sb.append( (new DecimalFormat( "###0.0" )).format( row.get( 7 ) ) );
+					addLogEntry( selectedMixName, "Add", "Food Quantity Constraint", sb.toString(), selectedMixId,
+							( String ) row.get( 1 ), ( String ) row.get( 2 ), "", "", ( Integer ) row.get( 3 ),
+							( BigDecimal ) row.get( 7 ), null );
+
+				} );
+
+			}
+
+		} catch (Exception e) {
+
+			LoggerImpl.INSTANCE.logProblem( e );
+
+		}
+
+	}
+
+	private void pinAndKeep() {
+
+		try {
+
+			Future<Boolean> task = BackgroundExec.submit( new PinAndKeepTask( selectedMixId ) );
+			Boolean completed = task.get();
+
+			if ( completed ) {
+
+				tblFoodQuantityConstraint.getStream().forEach( o -> {
+
+					List row = ( List ) o;
+					StringBuilder sb = new StringBuilder();
+					sb.append( row.get( 4 ) );
+					sb.append( " using " );
+					sb.append( row.get( 5 ) );
+					sb.append( " " );
+					sb.append( row.get( 6 ) );
+					sb.append( " " );
+					sb.append( (new DecimalFormat( "###0.0" )).format( row.get( 7 ) ) );
+					addLogEntry( selectedMixName, "Delete", "Food Quantity Constraint", sb.toString(), selectedMixId,
+							( String ) row.get( 1 ), ( String ) row.get( 2 ), "", "", ( Integer ) row.get( 3 ),
+							( BigDecimal ) row.get( 7 ), null );
 
 				} );
 

@@ -34,7 +34,7 @@ FROM (SELECT a.mixid,
          WHEN b.foodid = a.food_id_2 THEN (select c from foodfactcoefficient where foodid = a.food_id_2 and nutrientid = a.nutrient_id_2)
          ELSE 0
        END * a.a AS c
-FROM foodnutrientratio a,
+FROM FoodRatioC a,
      mixfood b
 WHERE a.mixid = b.mixid
 AND mixid = v_mixid

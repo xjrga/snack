@@ -1,7 +1,7 @@
 digraph erd {
 
     labelloc = "t";
-    label = "SNACK";
+    label = "";
     fontsize = 20;
     fontname = "Liberation Mono Bold"
     size = "100,100";
@@ -30,7 +30,7 @@ DnMixResult [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>DnMixResult</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">mix_id: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>                             
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>               
         </table>
     >]
 Food [shape=record, label=<
@@ -67,9 +67,43 @@ FoodFactCoefficient [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">c: DECIMAL(11,5)</td></tr>
         </table>
     >]
-FoodNutrientConstraint [shape=Mrecord, label=<
+FoodGroupList [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>FoodNutrientConstraint</b></td></tr>
+            <tr><td bgcolor="#CECFC3"><b>FoodGroupList</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">GroupId: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+        </table>
+    >]
+FoodGroupQuantityC [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodGroupQuantityC</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">GroupId: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
+        </table>
+    >]
+FoodGroupRatioC [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodGroupRatioC</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Group_Id_1: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Group_Id_2: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">A: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">B: DECIMAL(11,5)</td></tr>
+        </table>
+    >]
+FoodQuantityC [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>FoodQuantityC</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
@@ -78,9 +112,9 @@ FoodNutrientConstraint [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
-FoodNutrientRatio [shape=Mrecord, label=<
+FoodRatioC [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>FoodNutrientRatio</b></td></tr>
+            <tr><td bgcolor="#CECFC3"><b>FoodRatioC</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Food_Id_1: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
@@ -120,7 +154,7 @@ Mix [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Model: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixCost: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixDeficiency: DECIMAL(11,5)</td></tr>
@@ -134,6 +168,15 @@ MixFood [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
                <tr><td bgcolor="#ECEEE9" align="left">x: DECIMAL(11,5)</td></tr>
+        </table>
+    >]
+MixFoodGroup [shape=Mrecord, label=<
+        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
+            <tr><td bgcolor="#CECFC3"><b>MixFoodGroup</b></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">GroupId: INTEGER </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
 MixInventory [shape=Mrecord, label=<
@@ -175,9 +218,9 @@ NutrientCategory [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
-NutrientConstraint [shape=Mrecord, label=<
+NutrientQuantityC [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>NutrientConstraint</b></td></tr>
+            <tr><td bgcolor="#CECFC3"><b>NutrientQuantityC</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
@@ -185,9 +228,9 @@ NutrientConstraint [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
-NutrientRatio [shape=Mrecord, label=<
+NutrientRatioC [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>NutrientRatio</b></td></tr>
+            <tr><td bgcolor="#CECFC3"><b>NutrientRatioC</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
@@ -248,21 +291,41 @@ Nutrient -> FoodFact [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 FoodFact -> FoodFactCoefficient [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-MixFood -> FoodNutrientConstraint [dir=forward,weight=1];
+MixFood -> FoodGroupList [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Nutrient -> FoodNutrientConstraint [dir=forward,weight=1];
+MixFoodGroup -> FoodGroupList [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Relationship -> FoodNutrientConstraint [dir=forward,weight=1];
+MixFoodGroup -> FoodGroupQuantityC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-MixFood -> FoodNutrientRatio [dir=forward,weight=1];
+Nutrient -> FoodGroupQuantityC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-MixFood -> FoodNutrientRatio [dir=forward,weight=1];
+Relationship -> FoodGroupQuantityC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Nutrient -> FoodNutrientRatio [dir=forward,weight=1];
+MixFoodGroup -> FoodGroupRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Nutrient -> FoodNutrientRatio [dir=forward,weight=1];
+MixFoodGroup -> FoodGroupRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Relationship -> FoodNutrientRatio [dir=forward,weight=1];
+Nutrient -> FoodGroupRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodGroupRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> FoodGroupRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> FoodQuantityC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodQuantityC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> FoodQuantityC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> FoodRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+MixFood -> FoodRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Nutrient -> FoodRatioC [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Relationship -> FoodRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Mix -> Meal [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
@@ -270,13 +333,13 @@ Meal -> MealFoodPortion [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 MixFood -> MealFoodPortion [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
-Nutrient -> Mix [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
 RdaLifeStage -> Mix [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Food -> MixFood [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Mix -> MixFood [dir=forward,weight=1];
+edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
+Mix -> MixFoodGroup [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Mix -> MixInventory [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
@@ -286,19 +349,19 @@ MixFood -> MixResult [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=dashed]
 NutrientCategory -> Nutrient [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Mix -> NutrientConstraint [dir=forward,weight=1];
+Mix -> NutrientQuantityC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Nutrient -> NutrientConstraint [dir=forward,weight=1];
+Nutrient -> NutrientQuantityC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Relationship -> NutrientConstraint [dir=forward,weight=1];
+Relationship -> NutrientQuantityC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Mix -> NutrientRatio [dir=forward,weight=1];
+Mix -> NutrientRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Nutrient -> NutrientRatio [dir=forward,weight=1];
+Nutrient -> NutrientRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Nutrient -> NutrientRatio [dir=forward,weight=1];
+Nutrient -> NutrientRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Relationship -> NutrientRatio [dir=forward,weight=1];
+Relationship -> NutrientRatioC [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Nutrient -> Rda [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]

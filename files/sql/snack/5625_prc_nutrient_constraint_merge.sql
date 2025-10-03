@@ -5,7 +5,7 @@ IN v_RelationshipId INTEGER,
 IN v_b DOUBLE
 )
 MODIFIES SQL DATA BEGIN ATOMIC
-MERGE INTO NutrientConstraint USING ( VALUES (
+MERGE INTO NutrientQuantityC USING ( VALUES (
 v_MixId,
 v_NutrientId,
 v_RelationshipId,

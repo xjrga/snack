@@ -8,7 +8,7 @@ IN v_MixId_New LONGVARCHAR
 --
 modifies sql data BEGIN atomic
 --
-INSERT INTO FoodNutrientRatio
+INSERT INTO FoodRatioC
 (
   mixid,
   food_id_1,
@@ -27,7 +27,7 @@ SELECT v_MixId_New,
        relationshipid,
        a,
        b
-FROM FoodNutrientRatio
+FROM FoodRatioC
 WHERE mixid = v_MixId_Old;
 
 --

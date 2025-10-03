@@ -5,7 +5,7 @@ IN v_RelationshipId INTEGER
 )
 MODIFIES SQL DATA BEGIN ATOMIC
 DELETE FROM
-NutrientConstraint
+NutrientQuantityC
 WHERE
 MixId = v_MixId
 AND

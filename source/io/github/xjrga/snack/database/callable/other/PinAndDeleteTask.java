@@ -10,12 +10,12 @@ import java.util.concurrent.Callable;
 /**
  * @author jr
  */
-public class PinMixTask implements Callable<Boolean> {
+public class PinAndDeleteTask implements Callable<Boolean> {
 
 	private final Connection connection;
 	private final String mixid;
 
-	public PinMixTask( String mixid ) {
+	public PinAndDeleteTask( String mixid ) {
 
 		this.mixid = mixid;
 		connection = Connect.getInstance().getConnection();
@@ -27,7 +27,7 @@ public class PinMixTask implements Callable<Boolean> {
 
 		boolean completed = false;
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.pin_mix( ? )}" ) ) {
+		try ( CallableStatement proc = connection.prepareCall( "{CALL public.pin_and_delete_constraints( ? )}" ) ) {
 
 			proc.setString( 1, mixid );
 			proc.execute();

@@ -15,7 +15,7 @@ a.A,
 a.B,
 d.Name as Relationship
 FROM
-NutrientRatio a, Nutrient b, Nutrient c, Relationship d
+NutrientRatioC a, Nutrient b, Nutrient c, Relationship d
 WHERE
 a.MixId = v_MixId
 AND

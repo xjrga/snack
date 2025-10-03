@@ -12,7 +12,7 @@ b.Name as Nutrient,
 c.Name as Relationship,
 a.b
 FROM
-NutrientConstraint a, Nutrient b, Relationship c
+NutrientQuantityC a, Nutrient b, Relationship c
 WHERE
 a.MixId = v_MixId
 AND

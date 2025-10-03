@@ -17,7 +17,7 @@ SELECT mixid,
        b.name as nutrient1,
        c.name as nutrient2,
        d.name as eq
-FROM nutrientratio a, nutrient b, nutrient c, relationship d
+FROM NutrientRatioC a, nutrient b, nutrient c, relationship d
 WHERE mixid = v_mixid
 AND a.nutrient_id_1 = b.nutrientid
 AND a.nutrient_id_2 = c.nutrientid

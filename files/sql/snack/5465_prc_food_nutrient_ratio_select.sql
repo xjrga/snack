@@ -19,7 +19,7 @@ a.A,
 a.B,
 f.Name as Relationship
 FROM
-FoodNutrientRatio a, Food b, Nutrient c, Food d, Nutrient e, Relationship f
+FoodRatioC a, Food b, Nutrient c, Food d, Nutrient e, Relationship f
 WHERE
 a.MixId = v_MixId
 AND

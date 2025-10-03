@@ -18,13 +18,13 @@ SET doc = '';
 --
 SET counter = 0;
 --
-SELECT count(nutrient_id_1, nutrient_id_2, relationshipid, a, b) INTO counter FROM nutrientratio WHERE mixid = v_mixid;
+SELECT count(nutrient_id_1, nutrient_id_2, relationshipid, a, b) INTO counter FROM NutrientRatioC WHERE mixid = v_mixid;
 --
 IF counter > 0 THEN
 --
 SET doc = doc + '<nutrient_ratio_list>' + CHAR (10);
 --
-FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from nutrientratio WHERE mixid = v_mixid DO
+FOR select nutrient_id_1, nutrient_id_2, relationshipid, a, b from NutrientRatioC WHERE mixid = v_mixid DO
 --
 SET doc = doc + '<nutrient_ratio>' + CHAR (10)  + '<nutrient-id_a>' + nutrient_id_1 + '</nutrient-id_a>' + CHAR (10)  + '<nutrient-id_b>' + nutrient_id_2 + '</nutrient-id_b>' + CHAR (10) + '<relationship-id>' + relationshipid  + '</relationship-id>' + CHAR (10) + '<a>' + a  + '</a>' +CHAR (10) + '<b>'+ b  + '</b>' +CHAR (10) + '</nutrient_ratio>' + CHAR (10);
 --

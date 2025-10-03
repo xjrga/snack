@@ -49,10 +49,10 @@ SELECT 'Dietary Index'
        a.mixa,
        b.mixb,
        a.mixa - b.mixb as diff
-FROM (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixa
+FROM (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixa
       FROM mix
       WHERE mixid = v_MixId_1) a,
-     (SELECT IFNULL(CASEWHEN(mixdeficiency <= 0,0,(1 - mixdeficiency)*100.0),0) AS mixb
+     (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixb
       FROM mix
       WHERE mixid = v_MixId_2) b
 UNION      

@@ -26,7 +26,7 @@ FROM (SELECT a.mixid,
          WHEN b.foodid = a.foodid THEN (select c from foodfactcoefficient where foodid = a.foodid and nutrientid = a.nutrientid)
          ELSE 0
        END AS c
-FROM foodnutrientconstraint a,
+FROM FoodQuantityC a,
      mixfood b
 WHERE a.mixid = b.mixid
 AND a.mixid = v_mixid
