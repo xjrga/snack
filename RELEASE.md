@@ -401,7 +401,7 @@
   * Added new data exchange document definition
   * Added new food primary key definition (calculated based all nutrient values)
   * Added ability to export all foods in a food category
-  
+
 ### 1505 - May 10, 2025
 
   * Fixed meal plan results macronutrients
@@ -416,19 +416,19 @@
   * This is the Total Nutrient Index (TNI) version.
 
 ### 1520 - July 09, 2025
-  
+
   * Added mix log
   * Bug fixes
 
 ### 1530 - July 24, 2025
 
-  * Add food category column to nutrient search use case
-  * Add life stage options
-  * Add minimization options
+  * Added food category column to nutrient search use case
+  * Added life stage options
+  * Added minimization options
   * Bug fixes
 
 ### 1540 - August 05, 2025
- 
+
   * Bug fixes
   * Graphical User Interface changes
   * New mix totals report
@@ -441,10 +441,16 @@
 ### 1560 - August 21, 2025
 
   * Bug fixes
-  * Add gamma-tocopherol phytonutrient to database
+  * Added gamma-tocopherol phytonutrient to database
 
-### 1570 - TBA
+### 1570 - October 03, 2025
 
   * Bug fixes
-  * Add new pin mix and keep constraints option
-  
+  * Added new pin mix and keep constraints option
+
+### 1580 - November 13, 2025
+
+  * Bug fixes
+  * Added "Adjust food nutrient values to 100 g edible portion" option
+    when creating or updating food items
+
