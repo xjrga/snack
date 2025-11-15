@@ -14,51 +14,45 @@ import java.util.concurrent.Callable;
  */
 public class MealPlanMealsTask implements Callable<List<List>> {
 
-	private final Connection connection;
-	private final String mixid;
+    private final Connection connection;
+    private final String mixid;
 
-	public MealPlanMealsTask( String mixid ) {
+    public MealPlanMealsTask(String mixid) {
 
-		connection = Connect.getInstance().getConnection();
-		this.mixid = mixid;
+        connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+    }
 
-	}
+    @Override
+    public List<List> call() {
 
-	@Override
-	public List<List> call() {
+        ArrayList<List> table = new ArrayList();
 
-		ArrayList<List> table = new ArrayList();
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Meal_Select_All( ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Meal_Select_All( ? )}" ) ) {
+            proc.setString(1, mixid);
+            ResultSet rs = proc.executeQuery();
 
-			proc.setString( 1, mixid );
-			ResultSet rs = proc.executeQuery();
+            if (rs.wasNull()) {
 
-			if ( rs.wasNull() ) {
+                return new ArrayList<List>();
+            }
 
-				return new ArrayList<List>();
+            while (rs.next()) {
 
-			}
+                ArrayList row = new ArrayList();
+                row.add(rs.getString(1));
+                row.add(rs.getInt(2));
+                row.add(rs.getString(3));
+                row.add(rs.getInt(4));
+                table.add(row);
+            }
 
-			while ( rs.next() ) {
+        } catch (Exception e) {
 
-				ArrayList row = new ArrayList();
-				row.add( rs.getString( 1 ) );
-				row.add( rs.getInt( 2 ) );
-				row.add( rs.getString( 3 ) );
-				row.add( rs.getInt( 4 ) );
-				table.add( row );
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			}
-
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return table;
-
-	}
-
+        return table;
+    }
 }

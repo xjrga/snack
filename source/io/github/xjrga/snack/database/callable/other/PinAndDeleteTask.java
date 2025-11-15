@@ -12,37 +12,34 @@ import java.util.concurrent.Callable;
  */
 public class PinAndDeleteTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
+    private final Connection connection;
+    private final String mixid;
 
-	public PinAndDeleteTask( String mixid ) {
+    public PinAndDeleteTask(String mixid) {
 
-		this.mixid = mixid;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        boolean completed = false;
 
-		boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.pin_and_delete_constraints( ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.pin_and_delete_constraints( ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
 
-			LoggerImpl.INSTANCE.logProblem( e );
+        } finally {
 
-		} finally {
+        }
 
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

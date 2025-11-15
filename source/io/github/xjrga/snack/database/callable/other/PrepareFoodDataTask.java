@@ -8,35 +8,31 @@ import java.util.concurrent.Callable;
 
 public class PrepareFoodDataTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String foodid;
+    private final Connection connection;
+    private final String foodid;
 
-	public PrepareFoodDataTask( String foodid ) {
+    public PrepareFoodDataTask(String foodid) {
 
-		connection = Connect.getInstance().getConnection();
-		this.foodid = foodid;
+        connection = Connect.getInstance().getConnection();
+        this.foodid = foodid;
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        boolean completed = false;
 
-		boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.preparefooddata( ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.preparefooddata( ? )}" ) ) {
+            proc.setString(1, foodid);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, foodid );
-			proc.execute();
-			completed = true;
+        } catch (Exception e) {
 
-		} catch (Exception e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

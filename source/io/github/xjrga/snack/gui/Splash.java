@@ -12,68 +12,58 @@ import javax.swing.SwingUtilities;
  */
 public class Splash extends JFrame {
 
-	private final JLabel lbl;
-	private Thread t;
+    private final JLabel lbl;
+    private Thread t;
 
-	public Splash() {
+    public Splash() {
 
-		setSize( new Dimension( 300, 50 ) );
-		lbl = new JLabel();
-		lbl.setHorizontalAlignment( JLabel.CENTER );
-		add( lbl );
-		setTitle( " Snack is loading your food items" );
-		setVisible( true );
-		toFront();
+        setSize(new Dimension(300, 50));
+        lbl = new JLabel();
+        lbl.setHorizontalAlignment(JLabel.CENTER);
+        add(lbl);
+        setTitle(" Snack is loading your food items");
+        setVisible(true);
+        toFront();
+    }
 
-	}
+    public void initiate() {
 
-	public void initiate() {
+        ElapsedTime startupTime = new ElapsedTime();
+        startupTime.start();
+        Runnable r = () -> {
+            startupTime.end();
+            lbl.setText(String.format("%,.0f s", startupTime.getElapsedTimeInSeconds()));
+        };
+        t = new Thread() {
+            @Override
+            public void run() {
 
-		ElapsedTime startupTime = new ElapsedTime();
-		startupTime.start();
-		Runnable r = () -> {
+                while (!isInterrupted()) {
 
-			startupTime.end();
-			lbl.setText( String.format( "%,.0f s", startupTime.getElapsedTimeInSeconds() ) );
+                    if (startupTime.getElapsedTimeInSeconds() > 30) {
 
-		};
-		t = new Thread() {
-			@Override
-			public void run() {
+                        halt();
+                    }
 
-				while ( !isInterrupted() ) {
+                    SwingUtilities.invokeLater(r);
 
-					if ( startupTime.getElapsedTimeInSeconds() > 30 ) {
+                    try {
 
-						halt();
+                        Thread.sleep(1000L);
 
-					}
+                    } catch (InterruptedException e) {
 
-					SwingUtilities.invokeLater( r );
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        };
+        t.start();
+    }
 
-					try {
+    public void halt() {
 
-						Thread.sleep( 1000L );
-
-					} catch (InterruptedException e) {
-
-						Thread.currentThread().interrupt();
-
-					}
-
-				}
-
-			}
-		};
-		t.start();
-
-	}
-
-	public void halt() {
-
-		dispose();
-		t.interrupt();
-
-	}
-
+        dispose();
+        t.interrupt();
+    }
 }

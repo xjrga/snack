@@ -8,37 +8,34 @@ import java.util.concurrent.Callable;
 
 public class InsertFoodCategoryTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String categoryid;
-	private final String categoryname;
+    private final Connection connection;
+    private final String categoryid;
+    private final String categoryname;
 
-	public InsertFoodCategoryTask( String categoryid, String categoryname ) {
+    public InsertFoodCategoryTask(String categoryid, String categoryname) {
 
-		connection = Connect.getInstance().getConnection();
-		this.categoryid = categoryid;
-		this.categoryname = categoryname;
+        connection = Connect.getInstance().getConnection();
+        this.categoryid = categoryid;
+        this.categoryname = categoryname;
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        boolean completed = false;
 
-		boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodCategory_Insert( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodCategory_Insert( ?, ? )}" ) ) {
+            proc.setString(1, categoryid);
+            proc.setString(2, categoryname);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, categoryid );
-			proc.setString( 2, categoryname );
-			proc.execute();
-			completed = true;
+        } catch (Exception e) {
 
-		} catch (Exception e) {
+            // LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			// LoggerImpl.INSTANCE.logProblem(e);
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

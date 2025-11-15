@@ -8,76 +8,65 @@ import java.util.Objects;
  */
 public class Lhs {
 
-	private final Integer rownum;
-	private final String name;
-	private final BigDecimal coefficient;
+    private final Integer rownum;
+    private final String name;
+    private final BigDecimal coefficient;
 
-	public Lhs( Integer rownum, String name, BigDecimal c ) {
+    public Lhs(Integer rownum, String name, BigDecimal c) {
 
-		this.rownum = rownum;
-		this.name = name;
-		this.coefficient = c;
+        this.rownum = rownum;
+        this.name = name;
+        this.coefficient = c;
+    }
 
-	}
+    public Integer getRownum() {
 
-	public Integer getRownum() {
+        return rownum;
+    }
 
-		return rownum;
+    public String getName() {
 
-	}
+        return name;
+    }
 
-	public String getName() {
+    public BigDecimal getCoefficient() {
 
-		return name;
+        return coefficient;
+    }
 
-	}
+    @Override
+    public String toString() {
 
-	public BigDecimal getCoefficient() {
+        return "Lhs{" + "rownum=" + rownum + ", name=" + name + ", c=" + coefficient + '}';
+    }
 
-		return coefficient;
+    @Override
+    public int hashCode() {
 
-	}
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this.rownum);
+        return hash;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public boolean equals(Object obj) {
 
-		return "Lhs{" + "rownum=" + rownum + ", name=" + name + ", c=" + coefficient + '}';
+        if (this == obj) {
 
-	}
+            return true;
+        }
 
-	@Override
-	public int hashCode() {
+        if (obj == null) {
 
-		int hash = 5;
-		hash = 73 * hash + Objects.hashCode( this.rownum );
-		return hash;
+            return false;
+        }
 
-	}
+        if (getClass() != obj.getClass()) {
 
-	@Override
-	public boolean equals( Object obj ) {
+            return false;
+        }
 
-		if ( this == obj ) {
-
-			return true;
-
-		}
-
-		if ( obj == null ) {
-
-			return false;
-
-		}
-
-		if ( getClass() != obj.getClass() ) {
-
-			return false;
-
-		}
-
-		final Lhs other = ( Lhs ) obj;
-		return Objects.equals( this.rownum, other.rownum );
-
-	}
-
+        final Lhs other = (Lhs) obj;
+        return Objects.equals(this.rownum, other.rownum);
+    }
 }

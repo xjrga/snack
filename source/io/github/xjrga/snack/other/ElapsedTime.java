@@ -2,35 +2,28 @@ package io.github.xjrga.snack.other;
 
 public class ElapsedTime {
 
-	private long end;
-	private long start;
+    private long end;
+    private long start;
 
-	public ElapsedTime() {
+    public ElapsedTime() {}
 
-	}
+    public void end() {
 
-	public void end() {
+        end = System.currentTimeMillis();
+    }
 
-		end = System.currentTimeMillis();
+    public float getElapsedTimeInMinutes() {
 
-	}
+        return (end - start) / (60 * 1000F);
+    }
 
-	public float getElapsedTimeInMinutes() {
+    public float getElapsedTimeInSeconds() {
 
-		return (end - start) / (60 * 1000F);
+        return (end - start) / 1000F;
+    }
 
-	}
+    public void start() {
 
-	public float getElapsedTimeInSeconds() {
-
-		return (end - start) / 1000F;
-
-	}
-
-	public void start() {
-
-		start = System.currentTimeMillis();
-
-	}
-
+        start = System.currentTimeMillis();
+    }
 }

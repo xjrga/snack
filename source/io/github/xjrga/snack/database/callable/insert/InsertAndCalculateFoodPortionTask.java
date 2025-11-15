@@ -13,45 +13,41 @@ import java.util.concurrent.Callable;
  */
 public class InsertAndCalculateFoodPortionTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
-	private final Integer mealid;
-	private final String foodid;
-	private final Double pct;
+    private final Connection connection;
+    private final String mixid;
+    private final Integer mealid;
+    private final String foodid;
+    private final Double pct;
 
-	public InsertAndCalculateFoodPortionTask( String mixid, Integer mealid, String foodid, Double pct ) {
+    public InsertAndCalculateFoodPortionTask(String mixid, Integer mealid, String foodid, Double pct) {
 
-		this.mixid = mixid;
-		this.mealid = mealid;
-		this.foodid = foodid;
-		this.pct = pct;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.mealid = mealid;
+        this.foodid = foodid;
+        this.pct = pct;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        boolean execute = false;
 
-		boolean execute = false;
+        try (CallableStatement proc =
+                connection.prepareCall("{CALL public.MealFoodPortion_insert_and_calculate( ?, ?, ?, ? )}")) {
 
-		try ( CallableStatement proc = connection
-				.prepareCall( "{CALL public.MealFoodPortion_insert_and_calculate( ?, ?, ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setInt(2, mealid);
+            proc.setString(3, foodid);
+            proc.setDouble(4, pct);
+            proc.execute();
+            execute = true;
 
-			proc.setString( 1, mixid );
-			proc.setInt( 2, mealid );
-			proc.setString( 3, foodid );
-			proc.setDouble( 4, pct );
-			proc.execute();
-			execute = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return execute;
-
-	}
-
+        return execute;
+    }
 }

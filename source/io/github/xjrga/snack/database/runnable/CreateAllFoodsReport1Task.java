@@ -12,37 +12,31 @@ import javax.swing.SwingUtilities;
  */
 public class CreateAllFoodsReport1Task implements Runnable {
 
-	private final JFrame frm;
+    private final JFrame frm;
 
-	public CreateAllFoodsReport1Task( JFrame frm ) {
+    public CreateAllFoodsReport1Task(JFrame frm) {
 
-		this.frm = frm;
+        this.frm = frm;
+    }
 
-	}
+    @Override
+    public void run() {
 
-	@Override
-	public void run() {
+        try {
 
-		try {
+            (new AllFoodsReport1()).create();
 
-			(new AllFoodsReport1()).create();
+        } catch (Exception e) {
 
-		} catch (Exception e) {
+            LoggerImpl.INSTANCE.logProblem(e);
 
-			LoggerImpl.INSTANCE.logProblem( e );
+        } finally {
 
-		} finally {
-
-			Runnable r = () -> {
-
-				frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-				Message.showMessage( "All Foods Report #1 created." );
-
-			};
-			SwingUtilities.invokeLater( r );
-
-		}
-
-	}
-
+            Runnable r = () -> {
+                frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                Message.showMessage("All Foods Report #1 created.");
+            };
+            SwingUtilities.invokeLater(r);
+        }
+    }
 }

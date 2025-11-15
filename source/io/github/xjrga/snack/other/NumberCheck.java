@@ -7,66 +7,55 @@ import java.util.regex.Pattern;
 
 public class NumberCheck {
 
-	List<String> numbers = new LinkedList();
+    List<String> numbers = new LinkedList();
 
-	public NumberCheck() {
+    public NumberCheck() {}
 
-	}
+    public void addToUncheckedList(String s) {
 
-	public void addToUncheckedList( String s ) {
+        numbers.add(s);
+    }
 
-		numbers.add( s );
+    private boolean checkNumbers() {
 
-	}
+        boolean pass = true;
 
-	private boolean checkNumbers() {
+        for (String s : numbers) {
 
-		boolean pass = true;
+            if (s.isEmpty() || !checkStringIsNumber(s)) {
 
-		for ( String s : numbers ) {
+                pass = false;
+                break;
+            }
+        }
 
-			if ( s.isEmpty() || !checkStringIsNumber( s ) ) {
+        return pass;
+    }
 
-				pass = false;
-				break;
+    private boolean checkStringIsNumber(String s) {
 
-			}
+        boolean pass = false;
+        String patternStr = "^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$";
+        Pattern pattern = Pattern.compile(patternStr);
+        Matcher matcher = pattern.matcher(s);
 
-		}
+        if (matcher.matches()) {
 
-		return pass;
+            pass = true;
+        }
 
-	}
+        return pass;
+    }
 
-	private boolean checkStringIsNumber( String s ) {
+    public boolean pass() {
 
-		boolean pass = false;
-		String patternStr = "^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)$";
-		Pattern pattern = Pattern.compile( patternStr );
-		Matcher matcher = pattern.matcher( s );
+        boolean pass = false;
 
-		if ( matcher.matches() ) {
+        if (checkNumbers()) {
 
-			pass = true;
+            pass = true;
+        }
 
-		}
-
-		return pass;
-
-	}
-
-	public boolean pass() {
-
-		boolean pass = false;
-
-		if ( checkNumbers() ) {
-
-			pass = true;
-
-		}
-
-		return pass;
-
-	}
-
+        return pass;
+    }
 }

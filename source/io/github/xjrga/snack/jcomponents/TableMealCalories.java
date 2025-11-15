@@ -26,535 +26,462 @@ import javax.swing.table.TableRowSorter;
  */
 public class TableMealCalories extends JTable {
 
-	private TableRowSorter sorter;
-	private JTextField searchField;
-	private DataModel dm;
+    private TableRowSorter sorter;
+    private JTextField searchField;
+    private DataModel dm;
 
-	public TableMealCalories() {
+    public TableMealCalories() {
 
-		searchField = new JTextField();
-		dm = new DataModel();
-		dm.addColumn( "Meal" );
-		dm.addColumn( "Weight" );
-		dm.addColumn( "eGross" );
-		dm.addColumn( "eDigestible" );
-		dm.addColumn( "eFat" );
-		dm.addColumn( "eCarbs" );
-		dm.addColumn( "eFat+" );
-		dm.addColumn( "eProtein" );
-		dm.addColumn( "eAlcohol" );
-		setModel( dm );
-		setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		setFillsViewportHeight( true );
-		setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
-		getTableHeader().setReorderingAllowed( false );
-		sorter = new TableRowSorter<>( dm );
-		setRowSorter( sorter );
-		searchField.getDocument().addDocumentListener( new DocumentListener() {
-			@Override
-			public void changedUpdate( DocumentEvent e ) {
+        searchField = new JTextField();
+        dm = new DataModel();
+        dm.addColumn("Meal");
+        dm.addColumn("Weight");
+        dm.addColumn("eGross");
+        dm.addColumn("eDigestible");
+        dm.addColumn("eFat");
+        dm.addColumn("eCarbs");
+        dm.addColumn("eFat+");
+        dm.addColumn("eProtein");
+        dm.addColumn("eAlcohol");
+        setModel(dm);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setFillsViewportHeight(true);
+        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        getTableHeader().setReorderingAllowed(false);
+        sorter = new TableRowSorter<>(dm);
+        setRowSorter(sorter);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
 
-				filter();
+                filter();
+            }
 
-			}
+            @Override
+            public void insertUpdate(DocumentEvent e) {
 
-			@Override
-			public void insertUpdate( DocumentEvent e ) {
+                filter();
+            }
 
-				filter();
+            @Override
+            public void removeUpdate(DocumentEvent e) {
 
-			}
+                filter();
+            }
 
-			@Override
-			public void removeUpdate( DocumentEvent e ) {
+            private void filter() {
 
-				filter();
+                RowFilter<Object, Object> rf = null;
 
-			}
+                try {
 
-			private void filter() {
+                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 0));
+                    rf = RowFilter.orFilter(filters);
 
-				RowFilter<Object, Object> rf = null;
+                } catch (java.util.regex.PatternSyntaxException e) {
 
-				try {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
 
-					List<RowFilter<Object, Object>> filters = new ArrayList<>();
-					filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 0 ) );
-					rf = RowFilter.orFilter( filters );
+                sorter.setRowFilter(rf);
+            }
+        });
+        adjustColumnWidth();
+    }
 
-				} catch (java.util.regex.PatternSyntaxException e) {
+    @Override
+    public void setValueAt(Object aValue, int row, int column) {
 
-					LoggerImpl.INSTANCE.logProblem( e );
+        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    }
 
-				}
+    public void selectRow(int RowNo) {
 
-				sorter.setRowFilter( rf );
+        setRowSelectionInterval(RowNo, RowNo);
+    }
 
-			}
-		} );
-		adjustColumnWidth();
+    public void showRow(int RowNo) {
 
-	}
+        Rectangle rect = getCellRect(RowNo, 0, true);
+        scrollRectToVisible(rect);
+    }
 
-	@Override
-	public void setValueAt( Object aValue, int row, int column ) {
+    public boolean isSelectionEmpty() {
 
-		dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
+        int[] rows = getSelectedRows();
+        return rows.length == 0;
+    }
 
-	}
+    public boolean isEmpty() {
 
-	public void selectRow( int RowNo ) {
+        return !(getRowCount() > 0);
+    }
 
-		setRowSelectionInterval( RowNo, RowNo );
+    public Row getSelectedValue() {
 
-	}
+        if (isEmpty()) {
 
-	public void showRow( int RowNo ) {
+            return new NullRow();
+        }
 
-		Rectangle rect = getCellRect( RowNo, 0, true );
-		scrollRectToVisible( rect );
+        if (isSelectionEmpty()) {
 
-	}
+            return new NullRow();
+        }
 
-	public boolean isSelectionEmpty() {
+        int row = getSelectedRow();
+        return getRow(row);
+    }
 
-		int[] rows = getSelectedRows();
-		return rows.length == 0;
+    public List<Row> getSelectedValues() {
 
-	}
+        int[] selectedRows = getSelectedRows();
+        ArrayList<Row> rows = new ArrayList<Row>();
 
-	public boolean isEmpty() {
+        if (getSelectedRowCount() == 0) {
 
-		return !(getRowCount() > 0);
+            return rows;
+        }
+
+        for (int i = 0; i < selectedRows.length; i++) {
+
+            Row row = getRow(selectedRows[i]);
+            rows.add(row);
+        }
+
+        return rows;
+    }
+
+    private Row getRow(int selectedRowNo) {
 
-	}
+        String meal = (String) getValueAt(selectedRowNo, 0);
+        BigDecimal weight = (BigDecimal) getValueAt(selectedRowNo, 1);
+        BigDecimal egross = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal edigest = (BigDecimal) getValueAt(selectedRowNo, 3);
+        BigDecimal efat = (BigDecimal) getValueAt(selectedRowNo, 4);
+        BigDecimal ecarbs = (BigDecimal) getValueAt(selectedRowNo, 5);
+        BigDecimal efatplus = (BigDecimal) getValueAt(selectedRowNo, 6);
+        BigDecimal eprotein = (BigDecimal) getValueAt(selectedRowNo, 7);
+        BigDecimal ealcohol = (BigDecimal) getValueAt(selectedRowNo, 8);
+        Row row = new Row();
+        row.setMeal(meal);
+        row.setWeight(weight);
+        row.setEgross(egross);
+        row.setEdigest(edigest);
+        row.setEfat(efat);
+        row.setEcarbs(ecarbs);
+        row.setEfatplus(efatplus);
+        row.setEprotein(eprotein);
+        row.setEalcohol(ealcohol);
+        return row;
+    }
 
-	public Row getSelectedValue() {
+    public JTextField getSearchField() {
 
-		if ( isEmpty() ) {
+        return searchField;
+    }
 
-			return new NullRow();
+    public void reload(List<List> data) {
 
-		}
+        dm.clear();
+        dm.reload(data);
+        adjustColumnWidth();
+    }
 
-		if ( isSelectionEmpty() ) {
+    public void clear() {
 
-			return new NullRow();
+        dm.clear();
+    }
 
-		}
+    private void adjustColumnWidth() {
 
-		int row = getSelectedRow();
-		return getRow( row );
+        getColumnModel().getColumn(0).setMinWidth(200);
+    }
 
-	}
+    public void roundUp() {
 
-	public List<Row> getSelectedValues() {
+        roundQuantity(new RoundUpRenderer());
+    }
 
-		int[] selectedRows = getSelectedRows();
-		ArrayList<Row> rows = new ArrayList<Row>();
+    public void roundDown() {
 
-		if ( getSelectedRowCount() == 0 ) {
+        roundQuantity(new RoundDownRenderer());
+    }
 
-			return rows;
+    private void roundQuantity(DefaultTableCellRenderer renderer) {
 
-		}
+        getColumnModel().getColumn(1).setCellRenderer(renderer);
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        getColumnModel().getColumn(4).setCellRenderer(renderer);
+        getColumnModel().getColumn(5).setCellRenderer(renderer);
+        getColumnModel().getColumn(6).setCellRenderer(renderer);
+        getColumnModel().getColumn(7).setCellRenderer(renderer);
+        getColumnModel().getColumn(8).setCellRenderer(renderer);
+        revalidate();
+        repaint();
+    }
 
-		for ( int i = 0; i < selectedRows.length; i++ ) {
+    public class Row {
 
-			Row row = getRow( selectedRows[i] );
-			rows.add( row );
+        private String meal;
+        private BigDecimal weight;
+        private BigDecimal egross;
+        private BigDecimal edigest;
+        private BigDecimal efat;
+        private BigDecimal ecarbs;
+        private BigDecimal efatplus;
+        private BigDecimal eprotein;
+        private BigDecimal ealcohol;
 
-		}
+        public Row() {
 
-		return rows;
+            meal = null;
+            weight = null;
+            egross = null;
+            edigest = null;
+            efat = null;
+            ecarbs = null;
+            efatplus = null;
+            eprotein = null;
+            ealcohol = null;
+        }
 
-	}
+        public String getMeal() {
 
-	private Row getRow( int selectedRowNo ) {
+            return meal;
+        }
 
-		String meal = ( String ) getValueAt( selectedRowNo, 0 );
-		BigDecimal weight = ( BigDecimal ) getValueAt( selectedRowNo, 1 );
-		BigDecimal egross = ( BigDecimal ) getValueAt( selectedRowNo, 2 );
-		BigDecimal edigest = ( BigDecimal ) getValueAt( selectedRowNo, 3 );
-		BigDecimal efat = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
-		BigDecimal ecarbs = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
-		BigDecimal efatplus = ( BigDecimal ) getValueAt( selectedRowNo, 6 );
-		BigDecimal eprotein = ( BigDecimal ) getValueAt( selectedRowNo, 7 );
-		BigDecimal ealcohol = ( BigDecimal ) getValueAt( selectedRowNo, 8 );
-		Row row = new Row();
-		row.setMeal( meal );
-		row.setWeight( weight );
-		row.setEgross( egross );
-		row.setEdigest( edigest );
-		row.setEfat( efat );
-		row.setEcarbs( ecarbs );
-		row.setEfatplus( efatplus );
-		row.setEprotein( eprotein );
-		row.setEalcohol( ealcohol );
-		return row;
+        public void setMeal(String meal) {
 
-	}
+            this.meal = meal;
+        }
 
-	public JTextField getSearchField() {
+        public BigDecimal getWeight() {
 
-		return searchField;
+            return weight;
+        }
 
-	}
+        public void setWeight(BigDecimal weight) {
 
-	public void reload( List<List> data ) {
+            this.weight = weight;
+        }
 
-		dm.clear();
-		dm.reload( data );
-		adjustColumnWidth();
+        public BigDecimal getEgross() {
 
-	}
+            return egross;
+        }
 
-	public void clear() {
+        public void setEgross(BigDecimal egross) {
 
-		dm.clear();
+            this.egross = egross;
+        }
 
-	}
+        public BigDecimal getEdigest() {
 
-	private void adjustColumnWidth() {
+            return edigest;
+        }
 
-		getColumnModel().getColumn( 0 ).setMinWidth( 200 );
+        public void setEdigest(BigDecimal edigest) {
 
-	}
+            this.edigest = edigest;
+        }
 
-	public void roundUp() {
+        public BigDecimal getEfat() {
 
-		roundQuantity( new RoundUpRenderer() );
+            return efat;
+        }
 
-	}
+        public void setEfat(BigDecimal efat) {
 
-	public void roundDown() {
+            this.efat = efat;
+        }
 
-		roundQuantity( new RoundDownRenderer() );
+        public BigDecimal getEcarbs() {
 
-	}
+            return ecarbs;
+        }
 
-	private void roundQuantity( DefaultTableCellRenderer renderer ) {
+        public void setEcarbs(BigDecimal ecarbs) {
 
-		getColumnModel().getColumn( 1 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 4 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 6 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 7 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 8 ).setCellRenderer( renderer );
-		revalidate();
-		repaint();
+            this.ecarbs = ecarbs;
+        }
 
-	}
+        public BigDecimal getEfatplus() {
 
-	public class Row {
+            return efatplus;
+        }
 
-		private String meal;
-		private BigDecimal weight;
-		private BigDecimal egross;
-		private BigDecimal edigest;
-		private BigDecimal efat;
-		private BigDecimal ecarbs;
-		private BigDecimal efatplus;
-		private BigDecimal eprotein;
-		private BigDecimal ealcohol;
+        public void setEfatplus(BigDecimal efatplus) {
 
-		public Row() {
+            this.efatplus = efatplus;
+        }
 
-			meal = null;
-			weight = null;
-			egross = null;
-			edigest = null;
-			efat = null;
-			ecarbs = null;
-			efatplus = null;
-			eprotein = null;
-			ealcohol = null;
+        public BigDecimal getEprotein() {
 
-		}
+            return eprotein;
+        }
 
-		public String getMeal() {
+        public void setEprotein(BigDecimal eprotein) {
 
-			return meal;
+            this.eprotein = eprotein;
+        }
 
-		}
+        public BigDecimal getEalcohol() {
 
-		public void setMeal( String meal ) {
+            return ealcohol;
+        }
 
-			this.meal = meal;
+        public void setEalcohol(BigDecimal ealcohol) {
 
-		}
+            this.ealcohol = ealcohol;
+        }
 
-		public BigDecimal getWeight() {
+        public boolean isNull() {
 
-			return weight;
+            return false;
+        }
+    }
 
-		}
+    public class NullRow extends Row {
 
-		public void setWeight( BigDecimal weight ) {
+        public boolean isNull() {
 
-			this.weight = weight;
+            return true;
+        }
+    }
 
-		}
+    private class DataModel extends AbstractTableModel implements Reload {
 
-		public BigDecimal getEgross() {
+        private List<List> data;
+        private List<String> columns;
+        private int rowcount;
 
-			return egross;
+        public DataModel() {
 
-		}
+            data = new ArrayList<List>();
+            columns = new ArrayList<String>();
+            setRowCount();
+        }
 
-		public void setEgross( BigDecimal egross ) {
+        public void addColumn(String col) {
 
-			this.egross = egross;
+            columns.add(col);
+        }
 
-		}
+        @Override
+        public void addTableModelListener(TableModelListener l) {
 
-		public BigDecimal getEdigest() {
+            super.addTableModelListener(l);
+        }
 
-			return edigest;
+        @Override
+        public Class<?> getColumnClass(int c) {
 
-		}
+            Class columnClass = BigDecimal.class;
 
-		public void setEdigest( BigDecimal edigest ) {
+            switch (c) {
+                case 0 -> {
+                    columnClass = String.class;
+                }
+            }
 
-			this.edigest = edigest;
+            return columnClass;
+        }
 
-		}
+        @Override
+        public int getColumnCount() {
 
-		public BigDecimal getEfat() {
+            return columns.size();
+        }
 
-			return efat;
+        @Override
+        public String getColumnName(int c) {
 
-		}
+            return columns.get(c);
+        }
 
-		public void setEfat( BigDecimal efat ) {
+        @Override
+        public int getRowCount() {
 
-			this.efat = efat;
+            return rowcount;
+        }
 
-		}
+        @Override
+        public Object getValueAt(int r, int c) {
 
-		public BigDecimal getEcarbs() {
+            if (data.isEmpty()) {
 
-			return ecarbs;
+                return "";
+            }
 
-		}
+            return data.get(r).get(c);
+        }
 
-		public void setEcarbs( BigDecimal ecarbs ) {
+        @Override
+        public boolean isCellEditable(int r, int c) {
 
-			this.ecarbs = ecarbs;
+            return false;
+        }
 
-		}
+        @Override
+        public void removeTableModelListener(TableModelListener l) {
 
-		public BigDecimal getEfatplus() {
+            super.removeTableModelListener(l);
+        }
 
-			return efatplus;
+        @Override
+        public void setValueAt(Object o, int r, int c) {
 
-		}
+            data.get(r).set(c, o);
+            fireTableCellUpdated(r, c);
+            ;
+        }
 
-		public void setEfatplus( BigDecimal efatplus ) {
+        @Override
+        public void reload(List<List> data) {
 
-			this.efatplus = efatplus;
+            this.data = data;
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		}
+        @Override
+        public void clear() {
 
-		public BigDecimal getEprotein() {
+            data.clear();
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-			return eprotein;
+        private void setRowCount() {
 
-		}
+            rowcount = data.size();
+        }
+    }
 
-		public void setEprotein( BigDecimal eprotein ) {
+    @Override
+    protected JTableHeader createDefaultTableHeader() {
 
-			this.eprotein = eprotein;
+        return new JTableHeader(columnModel) {
+            @Override
+            public String getToolTipText(MouseEvent e) {
 
-		}
+                java.awt.Point p = e.getPoint();
+                int index = columnModel.getColumnIndexAtX(p.x);
 
-		public BigDecimal getEalcohol() {
+                if (index == -1) {
 
-			return ealcohol;
+                    return "";
+                }
 
-		}
+                int realIndex = columnModel.getColumn(index).getModelIndex();
+                return columnToolTips[realIndex];
+            }
+        };
+    }
 
-		public void setEalcohol( BigDecimal ealcohol ) {
-
-			this.ealcohol = ealcohol;
-
-		}
-
-		public boolean isNull() {
-
-			return false;
-
-		}
-
-	}
-
-	public class NullRow extends Row {
-
-		public boolean isNull() {
-
-			return true;
-
-		}
-
-	}
-
-	private class DataModel extends AbstractTableModel implements Reload {
-
-		private List<List> data;
-		private List<String> columns;
-		private int rowcount;
-
-		public DataModel() {
-
-			data = new ArrayList<List>();
-			columns = new ArrayList<String>();
-			setRowCount();
-
-		}
-
-		public void addColumn( String col ) {
-
-			columns.add( col );
-
-		}
-
-		@Override
-		public void addTableModelListener( TableModelListener l ) {
-
-			super.addTableModelListener( l );
-
-		}
-
-		@Override
-		public Class<?> getColumnClass( int c ) {
-
-			Class columnClass = BigDecimal.class;
-
-			switch ( c ) {
-
-			case 0 -> {
-
-				columnClass = String.class;
-
-			}
-
-			}
-
-			return columnClass;
-
-		}
-
-		@Override
-		public int getColumnCount() {
-
-			return columns.size();
-
-		}
-
-		@Override
-		public String getColumnName( int c ) {
-
-			return columns.get( c );
-
-		}
-
-		@Override
-		public int getRowCount() {
-
-			return rowcount;
-
-		}
-
-		@Override
-		public Object getValueAt( int r, int c ) {
-
-			if ( data.isEmpty() ) {
-
-				return "";
-
-			}
-
-			return data.get( r ).get( c );
-
-		}
-
-		@Override
-		public boolean isCellEditable( int r, int c ) {
-
-			return false;
-
-		}
-
-		@Override
-		public void removeTableModelListener( TableModelListener l ) {
-
-			super.removeTableModelListener( l );
-
-		}
-
-		@Override
-		public void setValueAt( Object o, int r, int c ) {
-
-			data.get( r ).set( c, o );
-			fireTableCellUpdated( r, c );
-			;
-
-		}
-
-		@Override
-		public void reload( List<List> data ) {
-
-			this.data = data;
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		@Override
-		public void clear() {
-
-			data.clear();
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		private void setRowCount() {
-
-			rowcount = data.size();
-
-		}
-
-	}
-
-	@Override
-	protected JTableHeader createDefaultTableHeader() {
-
-		return new JTableHeader( columnModel ) {
-			@Override
-			public String getToolTipText( MouseEvent e ) {
-
-				java.awt.Point p = e.getPoint();
-				int index = columnModel.getColumnIndexAtX( p.x );
-
-				if ( index == -1 ) {
-
-					return "";
-
-				}
-
-				int realIndex = columnModel.getColumn( index ).getModelIndex();
-				return columnToolTips[realIndex];
-
-			}
-		};
-
-	}
-
-	protected String[] columnToolTips = new String[] {
-			"Meal", "Weight", "EGross", "EDigest", "EFat", "ECarbs", "EFatPlus", "EProtein", "EAlcohol"
-	};
-
+    protected String[] columnToolTips =
+            new String[] {"Meal", "Weight", "EGross", "EDigest", "EFat", "ECarbs", "EFatPlus", "EProtein", "EAlcohol"};
 }

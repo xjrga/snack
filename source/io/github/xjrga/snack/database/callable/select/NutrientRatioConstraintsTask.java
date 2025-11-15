@@ -14,56 +14,50 @@ import java.util.concurrent.Callable;
  */
 public class NutrientRatioConstraintsTask implements Callable<List<List>> {
 
-	private final Connection connection;
-	private final String mixid;
+    private final Connection connection;
+    private final String mixid;
 
-	public NutrientRatioConstraintsTask( String mixid ) {
+    public NutrientRatioConstraintsTask(String mixid) {
 
-		connection = Connect.getInstance().getConnection();
-		this.mixid = mixid;
+        connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+    }
 
-	}
+    @Override
+    public List<List> call() {
 
-	@Override
-	public List<List> call() {
+        ArrayList<List> table = new ArrayList();
 
-		ArrayList<List> table = new ArrayList();
+        try (CallableStatement proc = connection.prepareCall("{CALL public.NutrientRatio_Select( ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.NutrientRatio_Select( ? )}" ) ) {
+            proc.setString(1, mixid);
+            ResultSet rs = proc.executeQuery();
 
-			proc.setString( 1, mixid );
-			ResultSet rs = proc.executeQuery();
+            if (rs.wasNull()) {
 
-			if ( rs.wasNull() ) {
+                return new ArrayList<List>();
+            }
 
-				return new ArrayList<List>();
+            while (rs.next()) {
 
-			}
+                ArrayList row = new ArrayList();
+                row.add(rs.getString(1));
+                row.add(rs.getString(2));
+                row.add(rs.getString(3));
+                row.add(rs.getInt(4));
+                row.add(rs.getString(5));
+                row.add(rs.getBigDecimal(7));
+                row.add(rs.getString(9));
+                row.add(rs.getString(6));
+                row.add(rs.getBigDecimal(8));
+                table.add(row);
+            }
 
-			while ( rs.next() ) {
+        } catch (Exception e) {
 
-				ArrayList row = new ArrayList();
-				row.add( rs.getString( 1 ) );
-				row.add( rs.getString( 2 ) );
-				row.add( rs.getString( 3 ) );
-				row.add( rs.getInt( 4 ) );
-				row.add( rs.getString( 5 ) );
-				row.add( rs.getBigDecimal( 7 ) );
-				row.add( rs.getString( 9 ) );
-				row.add( rs.getString( 6 ) );
-				row.add( rs.getBigDecimal( 8 ) );
-				table.add( row );
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			}
-
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return table;
-
-	}
-
+        return table;
+    }
 }

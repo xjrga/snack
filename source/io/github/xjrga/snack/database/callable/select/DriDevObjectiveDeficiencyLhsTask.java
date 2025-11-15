@@ -13,47 +13,41 @@ import java.util.concurrent.Callable;
 
 public class DriDevObjectiveDeficiencyLhsTask implements Callable<LhsContainer> {
 
-	private final String mixid;
-	private final Connection connection;
+    private final String mixid;
+    private final Connection connection;
 
-	public DriDevObjectiveDeficiencyLhsTask( String mixid ) {
+    public DriDevObjectiveDeficiencyLhsTask(String mixid) {
 
-		this.mixid = mixid;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public LhsContainer call() {
 
-	@Override
-	public LhsContainer call() {
+        LhsContainer container = new LhsContainer();
 
-		LhsContainer container = new LhsContainer();
+        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_objective_deficiency_lhs( ? )}")) {
 
-		try ( CallableStatement proc = connection
-				.prepareCall( "{CALL public.dridev_objective_deficiency_lhs( ? )}" ) ) {
+            proc.setString(1, mixid);
+            ResultSet rs = proc.executeQuery();
 
-			proc.setString( 1, mixid );
-			ResultSet rs = proc.executeQuery();
+            while (rs.next()) {
 
-			while ( rs.next() ) {
+                Integer rownum = rs.getInt(1);
+                String name = rs.getString(2);
+                BigDecimal c = rs.getBigDecimal(3);
+                Lhs lhs = new Lhs(rownum, name, c);
+                container.add(lhs);
+            }
 
-				Integer rownum = rs.getInt( 1 );
-				String name = rs.getString( 2 );
-				BigDecimal c = rs.getBigDecimal( 3 );
-				Lhs lhs = new Lhs( rownum, name, c );
-				container.add( lhs );
+            proc.close();
 
-			}
+        } catch (SQLException e) {
 
-			proc.close();
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		} catch (SQLException e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return container;
-
-	}
-
+        return container;
+    }
 }

@@ -21,95 +21,81 @@ import java.util.Objects;
 
 public class NutrientDO {
 
-	private String nutr_no;
-	private String nutrdesc;
-	private BigDecimal q;
+    private String nutr_no;
+    private String nutrdesc;
+    private BigDecimal q;
 
-	public NutrientDO( String nutrientid, String nutrdesc, BigDecimal q ) {
+    public NutrientDO(String nutrientid, String nutrdesc, BigDecimal q) {
 
-		this.setNutr_no( nutrientid );
-		this.setNutrdesc( nutrdesc );
-		this.setQ( q );
+        this.setNutr_no(nutrientid);
+        this.setNutrdesc(nutrdesc);
+        this.setQ(q);
+    }
 
-	}
+    public String getNutr_no() {
 
-	public String getNutr_no() {
+        return nutr_no;
+    }
 
-		return nutr_no;
+    public String getNutrdesc() {
 
-	}
+        return nutrdesc;
+    }
 
-	public String getNutrdesc() {
+    public BigDecimal getQ() {
 
-		return nutrdesc;
+        return q;
+    }
 
-	}
+    public void setNutr_no(String nutr_no) {
 
-	public BigDecimal getQ() {
+        this.nutr_no = nutr_no;
+    }
 
-		return q;
+    public void setNutrdesc(String nutrdesc) {
 
-	}
+        this.nutrdesc = nutrdesc;
+    }
 
-	public void setNutr_no( String nutr_no ) {
+    public void setQ(BigDecimal q) {
 
-		this.nutr_no = nutr_no;
+        this.q = q;
+    }
 
-	}
+    @Override
+    public String toString() {
 
-	public void setNutrdesc( String nutrdesc ) {
+        // return "{"+nutr_no+":"+nutrdesc+"}";
+        return nutrdesc;
+    }
 
-		this.nutrdesc = nutrdesc;
+    @Override
+    public int hashCode() {
 
-	}
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.nutr_no);
+        return hash;
+    }
 
-	public void setQ( BigDecimal q ) {
+    @Override
+    public boolean equals(Object obj) {
 
-		this.q = q;
+        if (this == obj) {
 
-	}
+            return true;
+        }
 
-	@Override
-	public String toString() {
+        if (obj == null) {
 
-		// return "{"+nutr_no+":"+nutrdesc+"}";
-		return nutrdesc;
+            return false;
+        }
 
-	}
+        if (getClass() != obj.getClass()) {
 
-	@Override
-	public int hashCode() {
+            return false;
+        }
 
-		int hash = 7;
-		hash = 23 * hash + Objects.hashCode( this.nutr_no );
-		return hash;
-
-	}
-
-	@Override
-	public boolean equals( Object obj ) {
-
-		if ( this == obj ) {
-
-			return true;
-
-		}
-
-		if ( obj == null ) {
-
-			return false;
-
-		}
-
-		if ( getClass() != obj.getClass() ) {
-
-			return false;
-
-		}
-
-		final NutrientDO other = ( NutrientDO ) obj;
-		return Objects.equals( this.nutr_no, other.nutr_no );
-
-	}
-
+        final NutrientDO other = (NutrientDO) obj;
+        return Objects.equals(this.nutr_no, other.nutr_no);
+    }
 }

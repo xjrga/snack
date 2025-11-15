@@ -2,18 +2,15 @@ package io.github.xjrga.snack.other;
 
 public class CunninghamFormula {
 
-	private final Double weightinlbs;
+    private final Double weightinlbs;
 
-	public CunninghamFormula( Double weightinlbs ) {
+    public CunninghamFormula(Double weightinlbs) {
 
-		this.weightinlbs = weightinlbs;
+        this.weightinlbs = weightinlbs;
+    }
 
-	}
+    public double getCalories() {
 
-	public double getCalories() {
-
-		return 500.0D + 22 * weightinlbs.intValue() / 2.20462262185D;
-
-	}
-
+        return 500.0D + 22 * weightinlbs.intValue() / 2.20462262185D;
+    }
 }

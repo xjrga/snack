@@ -26,42 +26,34 @@ import java.util.concurrent.Future;
 
 public class MixFoodLoader implements ReloadMixid {
 
-	private ArrayList<MixFoodDO> food_list;
+    private ArrayList<MixFoodDO> food_list;
 
-	public MixFoodLoader() {
+    public MixFoodLoader() {}
 
-	}
+    public ArrayList<MixFoodDO> get() {
 
-	public ArrayList<MixFoodDO> get() {
+        return food_list;
+    }
 
-		return food_list;
+    @Override
+    public void reload(String mixid) {
 
-	}
+        food_list = new ArrayList();
 
-	@Override
-	public void reload( String mixid ) {
+        try {
 
-		food_list = new ArrayList();
+            Future<List<List>> task = BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mixid));
+            List<List> foods = task.get();
+            foods.forEach(row -> {
+                String foodid = (String) row.get(0);
+                String name = (String) row.get(1);
+                MixFoodDO foodDataObject = new MixFoodDO(foodid, name);
+                food_list.add(foodDataObject);
+            });
 
-		try {
+        } catch (Exception e) {
 
-			Future<List<List>> task = BackgroundExec.submit( new NamedMixFoodSortedByNameTask( mixid ) );
-			List<List> foods = task.get();
-			foods.forEach( row -> {
-
-				String foodid = ( String ) row.get( 0 );
-				String name = ( String ) row.get( 1 );
-				MixFoodDO foodDataObject = new MixFoodDO( foodid, name );
-				food_list.add( foodDataObject );
-
-			} );
-
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-	}
-
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
+    }
 }

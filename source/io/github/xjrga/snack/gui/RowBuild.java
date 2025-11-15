@@ -2,98 +2,94 @@ package io.github.xjrga.snack.gui;
 
 public class RowBuild {
 
-	enum componentSize {
-		DEFAULT, MIN, PREF;
-	}
+    enum componentSize {
+        DEFAULT,
+        MIN,
+        PREF;
+    }
 
-	enum resizeBehavior {
-		GROW, NONE;
-	}
+    enum resizeBehavior {
+        GROW,
+        NONE;
+    }
 
-	enum rowAlignment {
-		BOTTOM, CENTER, FILL, TOP;
-	}
+    enum rowAlignment {
+        BOTTOM,
+        CENTER,
+        FILL,
+        TOP;
+    }
 
-	private final StringBuilder columns;
+    private final StringBuilder columns;
 
-	public RowBuild() {
+    public RowBuild() {
 
-		columns = new StringBuilder();
+        columns = new StringBuilder();
+    }
 
-	}
+    public void add(componentSize size) {
 
-	public void add( componentSize size ) {
+        columns.append(size);
+        columns.append(",");
+    }
 
-		columns.append( size );
-		columns.append( "," );
+    public void add(componentSize size, resizeBehavior behavior) {
 
-	}
+        columns.append(size);
+        columns.append(":");
+        columns.append(behavior.name());
+        columns.append(",");
+    }
 
-	public void add( componentSize size, resizeBehavior behavior ) {
+    public void add(Integer pixels, resizeBehavior behavior) {
 
-		columns.append( size );
-		columns.append( ":" );
-		columns.append( behavior.name() );
-		columns.append( "," );
+        columns.append(pixels);
+        columns.append(":");
+        columns.append(behavior.name());
+        columns.append(",");
+    }
 
-	}
+    // Using component size
+    public void add(rowAlignment alignment, componentSize size) {
 
-	public void add( Integer pixels, resizeBehavior behavior ) {
+        columns.append(alignment.name());
+        columns.append(":");
+        columns.append(size);
+        columns.append(",");
+    }
 
-		columns.append( pixels );
-		columns.append( ":" );
-		columns.append( behavior.name() );
-		columns.append( "," );
+    public void add(rowAlignment alignment, componentSize size, resizeBehavior behavior) {
 
-	}
+        columns.append(alignment.name());
+        columns.append(":");
+        columns.append(size);
+        columns.append(":");
+        columns.append(behavior.name());
+        columns.append(",");
+    }
 
-	// Using component size
-	public void add( rowAlignment alignment, componentSize size ) {
+    // Using constant size
+    public void add(rowAlignment alignment, Integer pixels) {
 
-		columns.append( alignment.name() );
-		columns.append( ":" );
-		columns.append( size );
-		columns.append( "," );
+        columns.append(alignment.name());
+        columns.append(":");
+        columns.append(pixels);
+        columns.append(",");
+    }
 
-	}
+    public void add(rowAlignment alignment, Integer pixels, resizeBehavior behavior) {
 
-	public void add( rowAlignment alignment, componentSize size, resizeBehavior behavior ) {
+        columns.append(alignment.name());
+        columns.append(":");
+        columns.append(pixels);
+        columns.append("px");
+        columns.append(":");
+        columns.append(behavior.name());
+        columns.append(",");
+    }
 
-		columns.append( alignment.name() );
-		columns.append( ":" );
-		columns.append( size );
-		columns.append( ":" );
-		columns.append( behavior.name() );
-		columns.append( "," );
+    public String get() {
 
-	}
-
-	// Using constant size
-	public void add( rowAlignment alignment, Integer pixels ) {
-
-		columns.append( alignment.name() );
-		columns.append( ":" );
-		columns.append( pixels );
-		columns.append( "," );
-
-	}
-
-	public void add( rowAlignment alignment, Integer pixels, resizeBehavior behavior ) {
-
-		columns.append( alignment.name() );
-		columns.append( ":" );
-		columns.append( pixels );
-		columns.append( "px" );
-		columns.append( ":" );
-		columns.append( behavior.name() );
-		columns.append( "," );
-
-	}
-
-	public String get() {
-
-		return columns.toString().substring( 0, columns.toString().length() - 1 );
-
-	}
-
+        return columns.toString().substring(0, columns.toString().length() - 1);
+    }
 }

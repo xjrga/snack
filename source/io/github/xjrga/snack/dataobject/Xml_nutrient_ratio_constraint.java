@@ -4,93 +4,80 @@ import java.math.BigDecimal;
 
 public class Xml_nutrient_ratio_constraint {
 
-	private BigDecimal a = new BigDecimal( "0.0" );
-	private BigDecimal b = new BigDecimal( "0.0" );
-	private String nutrientid_a = "";
-	private String nutrientid_b = "";
-	private Integer relationshipid = 0;
-	private final StringBuilder sb;
+    private BigDecimal a = new BigDecimal("0.0");
+    private BigDecimal b = new BigDecimal("0.0");
+    private String nutrientid_a = "";
+    private String nutrientid_b = "";
+    private Integer relationshipid = 0;
+    private final StringBuilder sb;
 
-	public Xml_nutrient_ratio_constraint() {
+    public Xml_nutrient_ratio_constraint() {
 
-		sb = new StringBuilder();
+        sb = new StringBuilder();
+    }
 
-	}
+    public BigDecimal getA() {
 
-	public BigDecimal getA() {
+        return a;
+    }
 
-		return a;
+    public BigDecimal getB() {
 
-	}
+        return b;
+    }
 
-	public BigDecimal getB() {
+    public String getNutrientid_a() {
 
-		return b;
+        return nutrientid_a;
+    }
 
-	}
+    public String getNutrientid_b() {
 
-	public String getNutrientid_a() {
+        return nutrientid_b;
+    }
 
-		return nutrientid_a;
+    public Integer getRelationshipid() {
 
-	}
+        return relationshipid;
+    }
 
-	public String getNutrientid_b() {
+    public void setA(BigDecimal a) {
 
-		return nutrientid_b;
+        this.a = a;
+    }
 
-	}
+    public void setB(BigDecimal b) {
 
-	public Integer getRelationshipid() {
+        this.b = b;
+    }
 
-		return relationshipid;
+    public void setNutrientid_a(String nutrientid_a) {
 
-	}
+        this.nutrientid_a = nutrientid_a;
+    }
 
-	public void setA( BigDecimal a ) {
+    public void setNutrientid_b(String nutrientid_b) {
 
-		this.a = a;
+        this.nutrientid_b = nutrientid_b;
+    }
 
-	}
+    public void setRelationshipid(Integer relationshipid) {
 
-	public void setB( BigDecimal b ) {
+        this.relationshipid = relationshipid;
+    }
 
-		this.b = b;
+    @Override
+    public String toString() {
 
-	}
-
-	public void setNutrientid_a( String nutrientid_a ) {
-
-		this.nutrientid_a = nutrientid_a;
-
-	}
-
-	public void setNutrientid_b( String nutrientid_b ) {
-
-		this.nutrientid_b = nutrientid_b;
-
-	}
-
-	public void setRelationshipid( Integer relationshipid ) {
-
-		this.relationshipid = relationshipid;
-
-	}
-
-	@Override
-	public String toString() {
-
-		sb.append( "[" );
-		sb.append( nutrientid_a );
-		sb.append( "," );
-		sb.append( nutrientid_b );
-		sb.append( "," );
-		sb.append( relationshipid );
-		sb.append( "," );
-		sb.append( b );
-		sb.append( "]" );
-		return sb.toString();
-
-	}
-
+        sb.append("[");
+        sb.append(nutrientid_a);
+        sb.append(",");
+        sb.append(nutrientid_b);
+        sb.append(",");
+        sb.append(relationshipid);
+        sb.append(",");
+        sb.append(b);
+        sb.append("]");
+        return sb.toString();
+    }
 }

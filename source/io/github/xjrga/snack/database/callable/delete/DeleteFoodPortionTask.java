@@ -12,41 +12,37 @@ import java.util.concurrent.Callable;
  */
 public class DeleteFoodPortionTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
-	private final Integer mealid;
-	private final String foodid;
+    private final Connection connection;
+    private final String mixid;
+    private final Integer mealid;
+    private final String foodid;
 
-	public DeleteFoodPortionTask( String mixid, Integer mealid, String foodid ) {
+    public DeleteFoodPortionTask(String mixid, Integer mealid, String foodid) {
 
-		this.mixid = mixid;
-		this.mealid = mealid;
-		this.foodid = foodid;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.mealid = mealid;
+        this.foodid = foodid;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        Boolean completed = false;
 
-		Boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.MealFoodPortion_delete( ?, ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.MealFoodPortion_delete( ?, ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setInt(2, mealid);
+            proc.setString(3, foodid);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.setInt( 2, mealid );
-			proc.setString( 3, foodid );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

@@ -12,38 +12,34 @@ import java.util.concurrent.Callable;
  */
 public class DeleteCategoryLinkTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String categoryid;
-	private final String foodid;
+    private final Connection connection;
+    private final String categoryid;
+    private final String foodid;
 
-	public DeleteCategoryLinkTask( String categoryid, String foodid ) {
+    public DeleteCategoryLinkTask(String categoryid, String foodid) {
 
-		this.categoryid = categoryid;
-		this.foodid = foodid;
-		connection = Connect.getInstance().getConnection();
+        this.categoryid = categoryid;
+        this.foodid = foodid;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        boolean completed = false;
 
-		boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.CategoryLink_Delete( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.CategoryLink_Delete( ?, ? )}" ) ) {
+            proc.setString(1, categoryid);
+            proc.setString(2, foodid);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, categoryid );
-			proc.setString( 2, foodid );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

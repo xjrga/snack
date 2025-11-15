@@ -2,68 +2,56 @@ package io.github.xjrga.snack.dataobject;
 
 public class O_Meal {
 
-	private Integer MealId;
-	private Integer MealOrder;
-	private String MixId;
-	private String Name;
+    private Integer MealId;
+    private Integer MealOrder;
+    private String MixId;
+    private String Name;
 
-	public O_Meal() {
+    public O_Meal() {}
 
-	}
+    public Integer getMealid() {
 
-	public Integer getMealid() {
+        return MealId;
+    }
 
-		return MealId;
+    public Integer getMealOrder() {
 
-	}
+        return MealOrder;
+    }
 
-	public Integer getMealOrder() {
+    public String getMixid() {
 
-		return MealOrder;
+        return MixId;
+    }
 
-	}
+    public String getName() {
 
-	public String getMixid() {
+        return Name;
+    }
 
-		return MixId;
+    public void setMealid(Integer MealId) {
 
-	}
+        this.MealId = MealId;
+    }
 
-	public String getName() {
+    public void setMealOrder(Integer order) {
 
-		return Name;
+        MealOrder = order;
+    }
 
-	}
+    public void setMixid(String MixId) {
 
-	public void setMealid( Integer MealId ) {
+        this.MixId = MixId;
+    }
 
-		this.MealId = MealId;
+    public void setName(String Name) {
 
-	}
+        this.Name = Name;
+    }
 
-	public void setMealOrder( Integer order ) {
+    @Override
+    public String toString() {
 
-		MealOrder = order;
-
-	}
-
-	public void setMixid( String MixId ) {
-
-		this.MixId = MixId;
-
-	}
-
-	public void setName( String Name ) {
-
-		this.Name = Name;
-
-	}
-
-	@Override
-	public String toString() {
-
-		return Name;
-
-	}
-
+        return Name;
+    }
 }

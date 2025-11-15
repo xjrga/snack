@@ -4,28 +4,24 @@ import java.math.BigDecimal;
 
 public class AlphaLinolenicRequired {
 
-	private final BigDecimal energy;
+    private final BigDecimal energy;
 
-	public AlphaLinolenicRequired( Double energy ) {
+    public AlphaLinolenicRequired(Double energy) {
 
-		BigDecimal q = new BigDecimal( energy );
-		// .setScale(scale, RoundingMode.HALF_UP)
-		this.energy = q;
+        BigDecimal q = new BigDecimal(energy);
+        // .setScale(scale, RoundingMode.HALF_UP)
+        this.energy = q;
+    }
 
-	}
+    public BigDecimal get_high_in_grams() {
 
-	public BigDecimal get_high_in_grams() {
+        return energy.multiply(new BigDecimal(.012 / 9.0));
+    }
 
-		return energy.multiply( new BigDecimal( .012 / 9.0 ) );
+    public BigDecimal get_low_in_grams() {
 
-	}
-
-	public BigDecimal get_low_in_grams() {
-
-		return energy.multiply( new BigDecimal( .006 / 9.0 ) );
-
-	}
-
+        return energy.multiply(new BigDecimal(.006 / 9.0));
+    }
 }
 // -
 // Stark, A.H., Crawford, M.A. and Reifen, R., 2008. Update on alpha-linolenic

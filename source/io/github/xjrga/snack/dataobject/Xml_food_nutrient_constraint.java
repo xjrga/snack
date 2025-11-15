@@ -4,80 +4,69 @@ import java.math.BigDecimal;
 
 public class Xml_food_nutrient_constraint {
 
-	private BigDecimal b = new BigDecimal( "0.0" );
-	private String foodid = "";
-	private String nutrientid = "";
-	private Integer relationshipid = 0;
-	private final StringBuilder sb;
+    private BigDecimal b = new BigDecimal("0.0");
+    private String foodid = "";
+    private String nutrientid = "";
+    private Integer relationshipid = 0;
+    private final StringBuilder sb;
 
-	public Xml_food_nutrient_constraint() {
+    public Xml_food_nutrient_constraint() {
 
-		sb = new StringBuilder();
+        sb = new StringBuilder();
+    }
 
-	}
+    public BigDecimal getB() {
 
-	public BigDecimal getB() {
+        return b;
+    }
 
-		return b;
+    public String getFoodid() {
 
-	}
+        return foodid;
+    }
 
-	public String getFoodid() {
+    public String getNutrientid() {
 
-		return foodid;
+        return nutrientid;
+    }
 
-	}
+    public Integer getRelationshipid() {
 
-	public String getNutrientid() {
+        return relationshipid;
+    }
 
-		return nutrientid;
+    public void setB(BigDecimal b) {
 
-	}
+        this.b = b;
+    }
 
-	public Integer getRelationshipid() {
+    public void setFoodid(String foodid) {
 
-		return relationshipid;
+        this.foodid = foodid;
+    }
 
-	}
+    public void setNutrientid(String nutrientid) {
 
-	public void setB( BigDecimal b ) {
+        this.nutrientid = nutrientid;
+    }
 
-		this.b = b;
+    public void setRelationshipid(Integer relationshipid) {
 
-	}
+        this.relationshipid = relationshipid;
+    }
 
-	public void setFoodid( String foodid ) {
+    @Override
+    public String toString() {
 
-		this.foodid = foodid;
-
-	}
-
-	public void setNutrientid( String nutrientid ) {
-
-		this.nutrientid = nutrientid;
-
-	}
-
-	public void setRelationshipid( Integer relationshipid ) {
-
-		this.relationshipid = relationshipid;
-
-	}
-
-	@Override
-	public String toString() {
-
-		sb.append( "[" );
-		sb.append( foodid );
-		sb.append( "," );
-		sb.append( nutrientid );
-		sb.append( "," );
-		sb.append( relationshipid );
-		sb.append( "," );
-		sb.append( b );
-		sb.append( "]" );
-		return sb.toString();
-
-	}
-
+        sb.append("[");
+        sb.append(foodid);
+        sb.append(",");
+        sb.append(nutrientid);
+        sb.append(",");
+        sb.append(relationshipid);
+        sb.append(",");
+        sb.append(b);
+        sb.append("]");
+        return sb.toString();
+    }
 }

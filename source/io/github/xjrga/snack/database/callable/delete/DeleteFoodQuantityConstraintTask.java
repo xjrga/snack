@@ -12,45 +12,41 @@ import java.util.concurrent.Callable;
  */
 public class DeleteFoodQuantityConstraintTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
-	private final String foodid;
-	private final String nutrientid;
-	private final Integer relationshipid;
+    private final Connection connection;
+    private final String mixid;
+    private final String foodid;
+    private final String nutrientid;
+    private final Integer relationshipid;
 
-	public DeleteFoodQuantityConstraintTask( String mixid, String foodid, String nutrientid, Integer relationshipid ) {
+    public DeleteFoodQuantityConstraintTask(String mixid, String foodid, String nutrientid, Integer relationshipid) {
 
-		connection = Connect.getInstance().getConnection();
-		this.mixid = mixid;
-		this.foodid = foodid;
-		this.nutrientid = nutrientid;
-		this.relationshipid = relationshipid;
+        connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.foodid = foodid;
+        this.nutrientid = nutrientid;
+        this.relationshipid = relationshipid;
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        Boolean completed = false;
 
-		Boolean completed = false;
+        try (CallableStatement proc =
+                connection.prepareCall("{CALL public.FoodNutrientConstraint_Delete( ?, ?, ?, ? )}")) {
 
-		try ( CallableStatement proc = connection
-				.prepareCall( "{CALL public.FoodNutrientConstraint_Delete( ?, ?, ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setString(2, foodid);
+            proc.setString(3, nutrientid);
+            proc.setInt(4, relationshipid);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.setString( 2, foodid );
-			proc.setString( 3, nutrientid );
-			proc.setInt( 4, relationshipid );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

@@ -12,38 +12,34 @@ import java.util.concurrent.Callable;
  */
 public class MergeMealPlanUsageTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
-	private final Double days;
+    private final Connection connection;
+    private final String mixid;
+    private final Double days;
 
-	public MergeMealPlanUsageTask( String mixid, Double days ) {
+    public MergeMealPlanUsageTask(String mixid, Double days) {
 
-		connection = Connect.getInstance().getConnection();
-		this.mixid = mixid;
-		this.days = days;
+        connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.days = days;
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        Boolean completed = false;
 
-		Boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{call MixInventory_merge(?,?)}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{call MixInventory_merge(?,?)}" ) ) {
+            proc.setString(1, mixid);
+            proc.setDouble(2, days);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.setDouble( 2, days );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

@@ -13,38 +13,34 @@ import java.util.concurrent.Callable;
  */
 public class UpdateNameOnMixTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
-	private final String mixname;
+    private final Connection connection;
+    private final String mixid;
+    private final String mixname;
 
-	public UpdateNameOnMixTask( String mixid, String mixname ) {
+    public UpdateNameOnMixTask(String mixid, String mixname) {
 
-		this.mixid = mixid;
-		this.mixname = mixname;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.mixname = mixname;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        Boolean completed = false;
 
-		Boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Mix_Update_Name( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Mix_Update_Name( ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setString(2, mixname);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.setString( 2, mixname );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

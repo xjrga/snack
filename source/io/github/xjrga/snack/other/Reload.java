@@ -7,8 +7,7 @@ import java.util.List;
  */
 public interface Reload {
 
-	void clear();
+    void clear();
 
-	void reload( List<List> data );
-
+    void reload(List<List> data);
 }

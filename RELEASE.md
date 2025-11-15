@@ -454,3 +454,9 @@
   * Added "Adjust food nutrient values to 100 g edible portion" option
     when creating or updating food items
 
+### 1590 - November 16, 2025
+
+  * Bug fixes
+  * Removed category field from nutrient search results and added foodid field
+  * Added "Search food by id" on food list and on category foods list
+  * Added "Show food categories" popup menu on category foods list

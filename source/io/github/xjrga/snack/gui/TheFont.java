@@ -14,72 +14,64 @@ import java.io.InputStream;
  */
 public final class TheFont {
 
-	private Font font;
-	private float size = 13f;
+    private Font font;
+    private float size = 13f;
 
-	/**
-	 * TheFont constructor
-	 *
-	 * @param path
-	 * @see java.awt.Font
-	 */
-	public TheFont( String path ) {
+    /**
+     * TheFont constructor
+     *
+     * @param path
+     * @see java.awt.Font
+     */
+    public TheFont(String path) {
 
-		set_font_file_path( path );
+        set_font_file_path(path);
+    }
 
-	}
+    /**
+     * @return A Font object
+     * @see java.awt.Font
+     */
+    public Font get_font() {
 
-	/**
-	 * @return A Font object
-	 * @see java.awt.Font
-	 */
-	public Font get_font() {
+        return font;
+    }
 
-		return font;
+    /**
+     * @param path Path to truetype font
+     */
+    public void set_font_file_path(String path) {
 
-	}
+        try {
 
-	/**
-	 * @param path Path to truetype font
-	 */
-	public void set_font_file_path( String path ) {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(path)).deriveFont(size);
 
-		try {
+        } catch (FontFormatException | IOException e) {
 
-			font = Font.createFont( Font.TRUETYPE_FONT, new File( path ) ).deriveFont( size );
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
+    }
 
-		} catch (FontFormatException | IOException e) {
+    /**
+     * @param fontStream InputStream
+     */
+    public void set_font_file_stream(InputStream fontStream) {
 
-			LoggerImpl.INSTANCE.logProblem( e );
+        try {
 
-		}
+            font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(size);
 
-	}
+        } catch (FontFormatException | IOException e) {
 
-	/**
-	 * @param fontStream InputStream
-	 */
-	public void set_font_file_stream( InputStream fontStream ) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
+    }
 
-		try {
+    /**
+     * @param size Font size
+     */
+    public void set_size(float size) {
 
-			font = Font.createFont( Font.TRUETYPE_FONT, fontStream ).deriveFont( size );
-
-		} catch (FontFormatException | IOException e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-	}
-
-	/**
-	 * @param size Font size
-	 */
-	public void set_size( float size ) {
-
-		this.size = size;
-
-	}
-
+        this.size = size;
+    }
 }

@@ -35,109 +35,93 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
  */
 public class LinearProgram {
 
-	public static final int EQ = 3;
-	public static final int GEQ = 1;
-	public static final int LEQ = 2;
-	private JPanel component;
-	private final ArrayList constraints;
-	private double cost;
-	public boolean flag;
-	private LinearConstraintSet linearConstraintSet;
-	private LinearObjectiveFunction linearObjectiveFunction;
-	private double[] point;
+    public static final int EQ = 3;
+    public static final int GEQ = 1;
+    public static final int LEQ = 2;
+    private JPanel component;
+    private final ArrayList constraints;
+    private double cost;
+    public boolean flag;
+    private LinearConstraintSet linearConstraintSet;
+    private LinearObjectiveFunction linearObjectiveFunction;
+    private double[] point;
 
-	public LinearProgram() {
+    public LinearProgram() {
 
-		flag = false;
-		constraints = new ArrayList();
+        flag = false;
+        constraints = new ArrayList();
+    }
 
-	}
+    public void addConstraint(double[] coefficients, int rel, double amount) {
 
-	public void addConstraint( double[] coefficients, int rel, double amount ) {
+        Relationship relationship = null;
+        relationship = switch (rel) {
+            case LinearProgram.GEQ -> Relationship.GEQ;
+            case LinearProgram.LEQ -> Relationship.LEQ;
+            case LinearProgram.EQ -> Relationship.EQ;
+            default -> Relationship.GEQ;
+        };
+        // Linear Constraint
+        LinearConstraint c = new LinearConstraint(coefficients, relationship, amount);
+        constraints.add(c);
+    }
 
-		Relationship relationship = null;
-		relationship = switch ( rel ) {
+    public void addObjectiveFunction(double[] coefficients) {
 
-		case LinearProgram.GEQ -> Relationship.GEQ;
-		case LinearProgram.LEQ -> Relationship.LEQ;
-		case LinearProgram.EQ -> Relationship.EQ;
-		default -> Relationship.GEQ;
+        byte constantTerm = 0;
+        linearObjectiveFunction = new LinearObjectiveFunction(coefficients, constantTerm);
+    }
 
-		};
-		// Linear Constraint
-		LinearConstraint c = new LinearConstraint( coefficients, relationship, amount );
-		constraints.add( c );
+    public Collection<LinearConstraint> getConstraints() {
 
-	}
+        return linearConstraintSet.getConstraints();
+    }
 
-	public void addObjectiveFunction( double[] coefficients ) {
+    public double getCost() {
 
-		byte constantTerm = 0;
-		linearObjectiveFunction = new LinearObjectiveFunction( coefficients, constantTerm );
+        return cost;
+    }
 
-	}
+    public double[] getPoint() {
 
-	public Collection<LinearConstraint> getConstraints() {
+        return point;
+    }
 
-		return linearConstraintSet.getConstraints();
+    public boolean isSolved() {
 
-	}
+        return flag;
+    }
 
-	public double getCost() {
+    public void setComponent(JPanel component) {
 
-		return cost;
+        this.component = component;
+    }
 
-	}
+    public boolean solve() {
 
-	public double[] getPoint() {
+        try {
 
-		return point;
+            // Constraint Set
+            linearConstraintSet = new LinearConstraintSet(constraints);
 
-	}
+            // Solution
+            if (!linearConstraintSet.getConstraints().isEmpty()) {
 
-	public boolean isSolved() {
+                GoalType minimize = GoalType.MINIMIZE;
+                NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint(true);
+                PointValuePair solution = (new SimplexSolver())
+                        .optimize(linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint);
+                point = solution.getPoint();
+                cost = solution.getSecond();
+                flag = true;
+            }
 
-		return flag;
+        } catch (Exception e) {
 
-	}
+            JComponent[] inputs = {component};
+            Message.showMessage(inputs, "No Feasible Solution");
+        }
 
-	public void setComponent( JPanel component ) {
-
-		this.component = component;
-
-	}
-
-	public boolean solve() {
-
-		try {
-
-			// Constraint Set
-			linearConstraintSet = new LinearConstraintSet( constraints );
-
-			// Solution
-			if ( !linearConstraintSet.getConstraints().isEmpty() ) {
-
-				GoalType minimize = GoalType.MINIMIZE;
-				NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint( true );
-				PointValuePair solution = (new SimplexSolver()).optimize( linearObjectiveFunction, linearConstraintSet,
-						minimize, nonNegativeConstraint );
-				point = solution.getPoint();
-				cost = solution.getSecond();
-				flag = true;
-
-			}
-
-		} catch (Exception e) {
-
-			JComponent[] inputs = {
-					component
-			};
-			Message.showMessage( inputs, "No Feasible Solution" );
-
-		}
-
-		return flag;
-
-	}
-
+        return flag;
+    }
 }

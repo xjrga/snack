@@ -13,271 +13,231 @@ import javax.swing.event.ListDataListener;
  */
 public class ComboBox<T> extends JComboBox {
 
-	private final ListComboBoxModel<T> model;
+    private final ListComboBoxModel<T> model;
 
-	public ComboBox() {
+    public ComboBox() {
 
-		model = new ListComboBoxModel();
-		setModel( model );
+        model = new ListComboBoxModel();
+        setModel(model);
+    }
 
-	}
+    public void reload(List<T> list) {
 
-	public void reload( List<T> list ) {
+        model.clear();
+        model.reload(list);
+    }
 
-		model.clear();
-		model.reload( list );
+    public void clear() {
 
-	}
+        model.clear();
+    }
 
-	public void clear() {
+    public T getElementAt(int i) {
 
-		model.clear();
+        return model.getElementAt(i);
+    }
 
-	}
+    @Override
+    public T getSelectedItem() {
 
-	public T getElementAt( int i ) {
+        return model.getSelectedItem();
+    }
 
-		return model.getElementAt( i );
+    public T find(T obj) {
 
-	}
+        return getElementAt(index(obj));
+    }
 
-	@Override
-	public T getSelectedItem() {
+    public int index(T obj) {
 
-		return model.getSelectedItem();
+        return model.find(obj);
+    }
 
-	}
+    @Override
+    public void setSelectedIndex(int index) {
 
-	public T find( T obj ) {
+        model.setSelectedItem(getElementAt(index));
+        repaint();
+    }
 
-		return getElementAt( index( obj ) );
+    public boolean isEmpty() {
 
-	}
+        return !(model.getSize() > 0);
+    }
 
-	public int index( T obj ) {
+    public boolean isSelectionEmpty() {
 
-		return model.find( obj );
+        return !(model.getSelectedIndex() >= 0);
+    }
 
-	}
+    public void removeElementAt(int index) {
 
-	@Override
-	public void setSelectedIndex( int index ) {
+        model.removeElementAt(index);
+    }
 
-		model.setSelectedItem( getElementAt( index ) );
-		repaint();
+    public void insertElementAt(T obj, int index) {
 
-	}
+        model.insertElementAt(obj, index);
+    }
 
-	public boolean isEmpty() {
+    private class ListComboBoxModel<T> implements MutableComboBoxModel {
 
-		return !(model.getSize() > 0);
+        protected List<T> data;
+        private final ArrayList listeners;
+        private T selected;
 
-	}
+        public ListComboBoxModel() {
 
-	public boolean isSelectionEmpty() {
+            this.listeners = new ArrayList();
+        }
 
-		return !(model.getSelectedIndex() >= 0);
+        public ListComboBoxModel(List<T> list) {
 
-	}
+            this.listeners = new ArrayList();
+            this.data = list;
+        }
 
-	public void removeElementAt( int index ) {
+        @Override
+        public void setSelectedItem(Object item) {
 
-		model.removeElementAt( index );
+            if (data == null) {
 
-	}
+                return;
+            }
 
-	public void insertElementAt( T obj, int index ) {
+            this.selected = (T) item;
+            fireDataChanged();
+        }
 
-		model.insertElementAt( obj, index );
+        @Override
+        public T getSelectedItem() {
 
-	}
+            return selected;
+        }
 
-	private class ListComboBoxModel<T> implements MutableComboBoxModel {
+        public int getSelectedIndex() {
 
-		protected List<T> data;
-		private final ArrayList listeners;
-		private T selected;
+            return find(selected);
+        }
 
-		public ListComboBoxModel() {
+        @Override
+        public int getSize() {
 
-			this.listeners = new ArrayList();
+            if (data == null) {
 
-		}
+                return 0;
+            }
 
-		public ListComboBoxModel( List<T> list ) {
+            return data.size();
+        }
 
-			this.listeners = new ArrayList();
-			this.data = list;
+        @Override
+        public T getElementAt(int index) {
 
-		}
+            if (data == null) {
 
-		@Override
-		public void setSelectedItem( Object item ) {
+                return (T) "";
+            }
 
-			if ( data == null ) {
+            if (index == -1) {
 
-				return;
+                return (T) "";
+            }
 
-			}
+            if (data.isEmpty()) {
 
-			this.selected = ( T ) item;
-			fireDataChanged();
+                return (T) "";
+            }
 
-		}
+            return data.get(index);
+        }
 
-		@Override
-		public T getSelectedItem() {
+        @Override
+        public void addListDataListener(ListDataListener l) {
 
-			return selected;
+            listeners.add(l);
+        }
 
-		}
+        @Override
+        public void removeListDataListener(ListDataListener l) {
 
-		public int getSelectedIndex() {
+            listeners.remove(l);
+        }
 
-			return find( selected );
+        @Override
+        public void addElement(Object obj) {
 
-		}
+            data.add((T) obj);
+            fireDataChanged();
+        }
 
-		@Override
-		public int getSize() {
+        @Override
+        public void removeElement(Object obj) {
 
-			if ( data == null ) {
+            data.remove((T) obj);
+            fireDataChanged();
+        }
 
-				return 0;
+        @Override
+        public void insertElementAt(Object obj, int index) {
 
-			}
+            data.add(index, (T) obj);
+            fireDataChanged();
+        }
 
-			return data.size();
+        @Override
+        public void removeElementAt(int index) {
 
-		}
+            data.remove(index);
+            fireDataChanged();
+        }
 
-		@Override
-		public T getElementAt( int index ) {
+        public void reload(List<T> list) {
 
-			if ( data == null ) {
+            this.data = new ArrayList(list);
+            fireDataChanged();
+        }
 
-				return ( T ) "";
+        public void clear() {
 
-			}
+            if (data == null) {
 
-			if ( index == -1 ) {
+                return;
+            }
 
-				return ( T ) "";
+            data.clear();
+            setSelectedItem("");
+            fireDataChanged();
+        }
 
-			}
+        public void fireDataChanged() {
 
-			if ( data.isEmpty() ) {
+            ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, data.size());
 
-				return ( T ) "";
+            for (int i = 0; i < listeners.size(); i++) {
 
-			}
+                ListDataListener l = (ListDataListener) listeners.get(i);
+                l.contentsChanged(e);
+            }
+        }
 
-			return data.get( index );
+        public int find(T obj) {
 
-		}
+            int index = -1;
+            int size = getSize();
 
-		@Override
-		public void addListDataListener( ListDataListener l ) {
+            for (int i = 0; i < size; i++) {
 
-			listeners.add( l );
+                T elementAt = getElementAt(i);
 
-		}
+                if (elementAt.equals(obj)) {
 
-		@Override
-		public void removeListDataListener( ListDataListener l ) {
+                    index = i;
+                    break;
+                }
+            }
 
-			listeners.remove( l );
-
-		}
-
-		@Override
-		public void addElement( Object obj ) {
-
-			data.add( ( T ) obj );
-			fireDataChanged();
-
-		}
-
-		@Override
-		public void removeElement( Object obj ) {
-
-			data.remove( ( T ) obj );
-			fireDataChanged();
-
-		}
-
-		@Override
-		public void insertElementAt( Object obj, int index ) {
-
-			data.add( index, ( T ) obj );
-			fireDataChanged();
-
-		}
-
-		@Override
-		public void removeElementAt( int index ) {
-
-			data.remove( index );
-			fireDataChanged();
-
-		}
-
-		public void reload( List<T> list ) {
-
-			this.data = new ArrayList( list );
-			fireDataChanged();
-
-		}
-
-		public void clear() {
-
-			if ( data == null ) {
-
-				return;
-
-			}
-
-			data.clear();
-			setSelectedItem( "" );
-			fireDataChanged();
-
-		}
-
-		public void fireDataChanged() {
-
-			ListDataEvent e = new ListDataEvent( this, ListDataEvent.CONTENTS_CHANGED, 0, data.size() );
-
-			for ( int i = 0; i < listeners.size(); i++ ) {
-
-				ListDataListener l = ( ListDataListener ) listeners.get( i );
-				l.contentsChanged( e );
-
-			}
-
-		}
-
-		public int find( T obj ) {
-
-			int index = -1;
-			int size = getSize();
-
-			for ( int i = 0; i < size; i++ ) {
-
-				T elementAt = getElementAt( i );
-
-				if ( elementAt.equals( obj ) ) {
-
-					index = i;
-					break;
-
-				}
-
-			}
-
-			return index;
-
-		}
-
-	}
-
+            return index;
+        }
+    }
 }

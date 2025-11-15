@@ -4,82 +4,70 @@ import java.util.Objects;
 
 public class LifeStageDO {
 
-	private String Label = "";
-	private Integer LifeStageId = -1;
+    private String Label = "";
+    private Integer LifeStageId = -1;
 
-	public LifeStageDO( Integer LifeStageId, String Label ) {
+    public LifeStageDO(Integer LifeStageId, String Label) {
 
-		this.LifeStageId = LifeStageId;
-		this.Label = Label;
+        this.LifeStageId = LifeStageId;
+        this.Label = Label;
+    }
 
-	}
+    public String getLabel() {
 
-	public String getLabel() {
+        return Label;
+    }
 
-		return Label;
+    public Integer getLifeStageId() {
 
-	}
+        return LifeStageId;
+    }
 
-	public Integer getLifeStageId() {
+    public void setLabel(String Label) {
 
-		return LifeStageId;
+        this.Label = Label;
+    }
 
-	}
+    public void setLifeStageId(Integer LifeStageId) {
 
-	public void setLabel( String Label ) {
+        this.LifeStageId = LifeStageId;
+    }
 
-		this.Label = Label;
+    @Override
+    public int hashCode() {
 
-	}
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.LifeStageId);
+        return hash;
+    }
 
-	public void setLifeStageId( Integer LifeStageId ) {
+    @Override
+    public boolean equals(Object obj) {
 
-		this.LifeStageId = LifeStageId;
+        if (this == obj) {
 
-	}
+            return true;
+        }
 
-	@Override
-	public int hashCode() {
+        if (obj == null) {
 
-		int hash = 3;
-		hash = 97 * hash + Objects.hashCode( this.LifeStageId );
-		return hash;
+            return false;
+        }
 
-	}
+        if (getClass() != obj.getClass()) {
 
-	@Override
-	public boolean equals( Object obj ) {
+            return false;
+        }
 
-		if ( this == obj ) {
+        final LifeStageDO other = (LifeStageDO) obj;
+        return Objects.equals(this.LifeStageId, other.LifeStageId);
+    }
 
-			return true;
+    @Override
+    public String toString() {
 
-		}
-
-		if ( obj == null ) {
-
-			return false;
-
-		}
-
-		if ( getClass() != obj.getClass() ) {
-
-			return false;
-
-		}
-
-		final LifeStageDO other = ( LifeStageDO ) obj;
-		return Objects.equals( this.LifeStageId, other.LifeStageId );
-
-	}
-
-	@Override
-	public String toString() {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append( Label );
-		return sb.toString();
-
-	}
-
+        StringBuilder sb = new StringBuilder();
+        sb.append(Label);
+        return sb.toString();
+    }
 }

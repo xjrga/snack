@@ -18,66 +18,64 @@ import org.apache.commons.csv.CSVPrinter;
 
 public class NutrientContentReport {
 
-	enum Headers {
-		Food, Weight, Calories
-	}
+    enum Headers {
+        Foodid,
+        Food,
+        Weight,
+        Calories
+    }
 
-	public NutrientContentReport() {
+    public NutrientContentReport() {}
 
-	}
+    public void create(JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient) {
 
-	public void create( JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient ) {
+        try (FileWriter fileWriter = new FileWriter("models/nutrientcontent.csv")) {
 
-		try ( FileWriter fileWriter = new FileWriter( "models/nutrientcontent.csv" ) ) {
+            NutrientDO nutrientDO = (NutrientDO) comboBoxNutrientLookupListNutrient.getSelectedItem();
+            StringBuilder comment = new StringBuilder();
+            comment.append("How to get ");
+            comment.append(textFieldNutrientLookup.getText());
+            comment.append(" of ");
+            comment.append(nutrientDO.getNutrdesc());
+            comment.append(" per day?");
+            CSVFormat csvFormat = CSVFormat.DEFAULT
+                    .builder()
+                    .setCommentMarker('#')
+                    .setHeaderComments("Nutrient Content Report", comment.toString(), LocalDateTime.now())
+                    .setHeader(Headers.class)
+                    .get();
+            CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
 
-			NutrientDO nutrientDO = ( NutrientDO ) comboBoxNutrientLookupListNutrient.getSelectedItem();
-			StringBuilder comment = new StringBuilder();
-			comment.append( "How to get " );
-			comment.append( textFieldNutrientLookup.getText() );
-			comment.append( " of " );
-			comment.append( nutrientDO.getNutrdesc() );
-			comment.append( " per day?" );
-			CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setCommentMarker( '#' )
-					.setHeaderComments( "Nutrient Content Report", comment.toString(), LocalDateTime.now() )
-					.setHeader( Headers.class ).get();
-			CSVPrinter csvPrinter = new CSVPrinter( fileWriter, csvFormat );
+            try {
 
-			try {
+                String nutrientid = nutrientDO.getNutr_no();
+                BigDecimal dri = new BigDecimal(textFieldNutrientLookup.getText());
+                Future<List<List>> task = BackgroundExec.submit(new NutrientContainingFoodsTask(nutrientid, dri));
+                List<List> results = task.get();
 
-				String nutrientid = nutrientDO.getNutr_no();
-				BigDecimal dri = new BigDecimal( textFieldNutrientLookup.getText() );
-				Future<List<List>> task = BackgroundExec.submit( new NutrientContainingFoodsTask( nutrientid, dri ) );
-				List<List> results = task.get();
+                results.forEach(row -> {
+                    try {
 
-				results.forEach( row -> {
+                        String foodid = (String) row.get(0);
+                        String food = (String) row.get(1);
+                        BigDecimal weight = (BigDecimal) row.get(2);
+                        BigDecimal calories = (BigDecimal) row.get(3);
+                        csvPrinter.printRecord(foodid, food, Utilities.strip(weight), Utilities.strip(calories));
 
-					try {
+                    } catch (IOException e) {
 
-						String food = ( String ) row.get( 3 );
-						BigDecimal weight = ( BigDecimal ) row.get( 4 );
-						BigDecimal calories = ( BigDecimal ) row.get( 5 );
-						csvPrinter.printRecord( food, Utilities.strip( weight ), Utilities.strip( calories ) );
+                        LoggerImpl.INSTANCE.logProblem(e);
+                    }
+                });
 
-					} catch (IOException e) {
+            } catch (Exception e) {
 
-						LoggerImpl.INSTANCE.logProblem( e );
+                LoggerImpl.INSTANCE.logProblem(e);
+            }
 
-					}
+        } catch (Exception e) {
 
-				} );
-
-			} catch (Exception e) {
-
-				LoggerImpl.INSTANCE.logProblem( e );
-
-			}
-
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-	}
-
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
+    }
 }

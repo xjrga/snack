@@ -26,480 +26,412 @@ import javax.swing.table.TableRowSorter;
  */
 public class TableMealPlanUsageResults extends JTable {
 
-	private TableRowSorter sorter;
-	private JTextField searchField;
-	private DataModel dm;
+    private TableRowSorter sorter;
+    private JTextField searchField;
+    private DataModel dm;
 
-	public TableMealPlanUsageResults() {
+    public TableMealPlanUsageResults() {
 
-		searchField = new JTextField();
-		dm = new DataModel();
-		dm.addColumn( "FoodId" );
-		dm.addColumn( "Food" );
-		dm.addColumn( "Grams" );
-		dm.addColumn( "Ounces" );
-		dm.addColumn( "Pounds" );
-		dm.addColumn( "Kilograms" );
-		setModel( dm );
-		setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		setFillsViewportHeight( true );
-		setAutoResizeMode( JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS );
-		getTableHeader().setReorderingAllowed( false );
-		sorter = new TableRowSorter<>( dm );
-		setRowSorter( sorter );
-		searchField.getDocument().addDocumentListener( new DocumentListener() {
-			@Override
-			public void changedUpdate( DocumentEvent e ) {
+        searchField = new JTextField();
+        dm = new DataModel();
+        dm.addColumn("FoodId");
+        dm.addColumn("Food");
+        dm.addColumn("Grams");
+        dm.addColumn("Ounces");
+        dm.addColumn("Pounds");
+        dm.addColumn("Kilograms");
+        setModel(dm);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setFillsViewportHeight(true);
+        setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        getTableHeader().setReorderingAllowed(false);
+        sorter = new TableRowSorter<>(dm);
+        setRowSorter(sorter);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
 
-				filter();
+                filter();
+            }
 
-			}
+            @Override
+            public void insertUpdate(DocumentEvent e) {
 
-			@Override
-			public void insertUpdate( DocumentEvent e ) {
+                filter();
+            }
 
-				filter();
+            @Override
+            public void removeUpdate(DocumentEvent e) {
 
-			}
+                filter();
+            }
 
-			@Override
-			public void removeUpdate( DocumentEvent e ) {
+            private void filter() {
 
-				filter();
+                RowFilter<Object, Object> rf = null;
 
-			}
+                try {
 
-			private void filter() {
+                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 1));
+                    rf = RowFilter.orFilter(filters);
 
-				RowFilter<Object, Object> rf = null;
+                } catch (java.util.regex.PatternSyntaxException e) {
 
-				try {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
 
-					List<RowFilter<Object, Object>> filters = new ArrayList<>();
-					filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 1 ) );
-					rf = RowFilter.orFilter( filters );
+                sorter.setRowFilter(rf);
+            }
+        });
+        adjustColumnWidth();
+    }
 
-				} catch (java.util.regex.PatternSyntaxException e) {
+    @Override
+    public void setValueAt(Object aValue, int row, int column) {
 
-					LoggerImpl.INSTANCE.logProblem( e );
+        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    }
 
-				}
+    public void selectRow(int RowNo) {
 
-				sorter.setRowFilter( rf );
+        setRowSelectionInterval(RowNo, RowNo);
+    }
 
-			}
-		} );
-		adjustColumnWidth();
+    public void showRow(int RowNo) {
 
-	}
+        Rectangle rect = getCellRect(RowNo, 0, true);
+        scrollRectToVisible(rect);
+    }
 
-	@Override
-	public void setValueAt( Object aValue, int row, int column ) {
+    public boolean isSelectionEmpty() {
 
-		dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
+        int[] rows = getSelectedRows();
+        return rows.length == 0;
+    }
 
-	}
+    public boolean isEmpty() {
 
-	public void selectRow( int RowNo ) {
+        return !(getRowCount() > 0);
+    }
 
-		setRowSelectionInterval( RowNo, RowNo );
+    public Row getSelectedValue() {
 
-	}
+        if (isEmpty()) {
 
-	public void showRow( int RowNo ) {
+            return new NullRow();
+        }
 
-		Rectangle rect = getCellRect( RowNo, 0, true );
-		scrollRectToVisible( rect );
+        if (isSelectionEmpty()) {
 
-	}
+            return new NullRow();
+        }
 
-	public boolean isSelectionEmpty() {
+        int row = getSelectedRow();
+        return getRow(row);
+    }
 
-		int[] rows = getSelectedRows();
-		return rows.length == 0;
+    public List<Row> getSelectedValues() {
 
-	}
+        int[] selectedRows = getSelectedRows();
+        ArrayList<Row> rows = new ArrayList<Row>();
 
-	public boolean isEmpty() {
+        if (getSelectedRowCount() == 0) {
 
-		return !(getRowCount() > 0);
+            return rows;
+        }
 
-	}
+        for (int i = 0; i < selectedRows.length; i++) {
 
-	public Row getSelectedValue() {
+            Row row = getRow(selectedRows[i]);
+            rows.add(row);
+        }
 
-		if ( isEmpty() ) {
+        return rows;
+    }
 
-			return new NullRow();
+    private Row getRow(int selectedRowNo) {
 
-		}
+        String foodid = (String) getValueAt(selectedRowNo, 0);
+        String food = (String) getValueAt(selectedRowNo, 1);
+        BigDecimal g = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal oz = (BigDecimal) getValueAt(selectedRowNo, 3);
+        BigDecimal lb = (BigDecimal) getValueAt(selectedRowNo, 4);
+        BigDecimal kg = (BigDecimal) getValueAt(selectedRowNo, 5);
+        Row row = new Row();
+        row.setFoodid(foodid);
+        row.setFood(food);
+        row.setG(g);
+        row.setOz(oz);
+        row.setLb(lb);
+        row.setKg(kg);
+        return row;
+    }
 
-		if ( isSelectionEmpty() ) {
+    public JTextField getSearchField() {
 
-			return new NullRow();
+        return searchField;
+    }
 
-		}
+    public void reload(List<List> data) {
 
-		int row = getSelectedRow();
-		return getRow( row );
+        dm.clear();
+        dm.reload(data);
+        adjustColumnWidth();
+    }
 
-	}
+    public void clear() {
 
-	public List<Row> getSelectedValues() {
+        dm.clear();
+    }
 
-		int[] selectedRows = getSelectedRows();
-		ArrayList<Row> rows = new ArrayList<Row>();
+    private void adjustColumnWidth() {
 
-		if ( getSelectedRowCount() == 0 ) {
+        getColumnModel().getColumn(0).setMinWidth(0);
+        getColumnModel().getColumn(0).setMaxWidth(0);
+    }
 
-			return rows;
+    public void roundUp() {
 
-		}
+        roundQuantity(new RoundUpRenderer());
+    }
 
-		for ( int i = 0; i < selectedRows.length; i++ ) {
+    public void roundDown() {
 
-			Row row = getRow( selectedRows[i] );
-			rows.add( row );
+        roundQuantity(new RoundDownRenderer());
+    }
 
-		}
+    private void roundQuantity(DefaultTableCellRenderer renderer) {
 
-		return rows;
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        getColumnModel().getColumn(4).setCellRenderer(renderer);
+        getColumnModel().getColumn(5).setCellRenderer(renderer);
+        revalidate();
+        repaint();
+    }
 
-	}
+    public class Row {
 
-	private Row getRow( int selectedRowNo ) {
+        private String foodid;
+        private String food;
+        private BigDecimal g;
+        private BigDecimal oz;
+        private BigDecimal lb;
+        private BigDecimal kg;
 
-		String foodid = ( String ) getValueAt( selectedRowNo, 0 );
-		String food = ( String ) getValueAt( selectedRowNo, 1 );
-		BigDecimal g = ( BigDecimal ) getValueAt( selectedRowNo, 2 );
-		BigDecimal oz = ( BigDecimal ) getValueAt( selectedRowNo, 3 );
-		BigDecimal lb = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
-		BigDecimal kg = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
-		Row row = new Row();
-		row.setFoodid( foodid );
-		row.setFood( food );
-		row.setG( g );
-		row.setOz( oz );
-		row.setLb( lb );
-		row.setKg( kg );
-		return row;
+        public Row() {
 
-	}
+            foodid = "";
+            food = "";
+            g = new BigDecimal("0.0");
+            oz = new BigDecimal("0.0");
+            lb = new BigDecimal("0.0");
+            kg = new BigDecimal("0.0");
+        }
 
-	public JTextField getSearchField() {
+        public String getFoodid() {
 
-		return searchField;
+            return foodid;
+        }
 
-	}
+        public void setFoodid(String foodid) {
 
-	public void reload( List<List> data ) {
+            this.foodid = foodid;
+        }
 
-		dm.clear();
-		dm.reload( data );
-		adjustColumnWidth();
+        public String getFood() {
 
-	}
+            return food;
+        }
 
-	public void clear() {
+        public void setFood(String food) {
 
-		dm.clear();
+            this.food = food;
+        }
 
-	}
+        public BigDecimal getG() {
 
-	private void adjustColumnWidth() {
+            return g;
+        }
 
-		getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-		getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
+        public void setG(BigDecimal g) {
 
-	}
+            this.g = g;
+        }
 
-	public void roundUp() {
+        public BigDecimal getOz() {
 
-		roundQuantity( new RoundUpRenderer() );
+            return oz;
+        }
 
-	}
+        public void setOz(BigDecimal oz) {
 
-	public void roundDown() {
+            this.oz = oz;
+        }
 
-		roundQuantity( new RoundDownRenderer() );
+        public BigDecimal getLb() {
 
-	}
+            return lb;
+        }
 
-	private void roundQuantity( DefaultTableCellRenderer renderer ) {
+        public void setLb(BigDecimal lb) {
 
-		getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 4 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
-		revalidate();
-		repaint();
+            this.lb = lb;
+        }
 
-	}
+        public BigDecimal getKg() {
 
-	public class Row {
+            return kg;
+        }
 
-		private String foodid;
-		private String food;
-		private BigDecimal g;
-		private BigDecimal oz;
-		private BigDecimal lb;
-		private BigDecimal kg;
+        public void setKg(BigDecimal kg) {
 
-		public Row() {
+            this.kg = kg;
+        }
 
-			foodid = "";
-			food = "";
-			g = new BigDecimal( "0.0" );
-			oz = new BigDecimal( "0.0" );
-			lb = new BigDecimal( "0.0" );
-			kg = new BigDecimal( "0.0" );
+        public boolean isNull() {
 
-		}
+            return false;
+        }
+    }
 
-		public String getFoodid() {
+    public class NullRow extends Row {
 
-			return foodid;
+        public boolean isNull() {
 
-		}
+            return true;
+        }
+    }
 
-		public void setFoodid( String foodid ) {
+    private class DataModel extends AbstractTableModel implements Reload {
 
-			this.foodid = foodid;
+        private List<List> data;
+        private List<String> columns;
+        private int rowcount;
 
-		}
+        public DataModel() {
 
-		public String getFood() {
+            data = new ArrayList<List>();
+            columns = new ArrayList<String>();
+            setRowCount();
+        }
 
-			return food;
+        public void addColumn(String col) {
 
-		}
+            columns.add(col);
+        }
 
-		public void setFood( String food ) {
+        @Override
+        public void addTableModelListener(TableModelListener l) {
 
-			this.food = food;
+            super.addTableModelListener(l);
+        }
 
-		}
+        @Override
+        public Class<?> getColumnClass(int c) {
 
-		public BigDecimal getG() {
+            Class columnClass = BigDecimal.class;
 
-			return g;
+            switch (c) {
+                case 0, 1 -> {
+                    columnClass = String.class;
+                }
+            }
 
-		}
+            return columnClass;
+        }
 
-		public void setG( BigDecimal g ) {
+        @Override
+        public int getColumnCount() {
 
-			this.g = g;
+            return columns.size();
+        }
 
-		}
+        @Override
+        public String getColumnName(int c) {
 
-		public BigDecimal getOz() {
+            return columns.get(c);
+        }
 
-			return oz;
+        @Override
+        public int getRowCount() {
 
-		}
+            return rowcount;
+        }
 
-		public void setOz( BigDecimal oz ) {
+        @Override
+        public Object getValueAt(int r, int c) {
 
-			this.oz = oz;
+            if (data.isEmpty()) {
 
-		}
+                return "";
+            }
 
-		public BigDecimal getLb() {
+            return data.get(r).get(c);
+        }
 
-			return lb;
+        @Override
+        public boolean isCellEditable(int r, int c) {
 
-		}
+            return false;
+        }
 
-		public void setLb( BigDecimal lb ) {
+        @Override
+        public void removeTableModelListener(TableModelListener l) {
 
-			this.lb = lb;
+            super.removeTableModelListener(l);
+        }
 
-		}
+        @Override
+        public void setValueAt(Object o, int r, int c) {
 
-		public BigDecimal getKg() {
+            data.get(r).set(c, o);
+            fireTableCellUpdated(r, c);
+            ;
+        }
 
-			return kg;
+        public void reload(List<List> data) {
 
-		}
+            this.data = data;
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		public void setKg( BigDecimal kg ) {
+        @Override
+        public void clear() {
 
-			this.kg = kg;
+            data.clear();
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		}
+        private void setRowCount() {
 
-		public boolean isNull() {
+            rowcount = data.size();
+        }
+    }
 
-			return false;
+    @Override
+    protected JTableHeader createDefaultTableHeader() {
 
-		}
+        return new JTableHeader(columnModel) {
+            @Override
+            public String getToolTipText(MouseEvent e) {
 
-	}
+                java.awt.Point p = e.getPoint();
+                int index = columnModel.getColumnIndexAtX(p.x);
 
-	public class NullRow extends Row {
+                if (index == -1) {
 
-		public boolean isNull() {
+                    return "";
+                }
 
-			return true;
+                int realIndex = columnModel.getColumn(index).getModelIndex();
+                return columnToolTips[realIndex];
+            }
+        };
+    }
 
-		}
-
-	}
-
-	private class DataModel extends AbstractTableModel implements Reload {
-
-		private List<List> data;
-		private List<String> columns;
-		private int rowcount;
-
-		public DataModel() {
-
-			data = new ArrayList<List>();
-			columns = new ArrayList<String>();
-			setRowCount();
-
-		}
-
-		public void addColumn( String col ) {
-
-			columns.add( col );
-
-		}
-
-		@Override
-		public void addTableModelListener( TableModelListener l ) {
-
-			super.addTableModelListener( l );
-
-		}
-
-		@Override
-		public Class<?> getColumnClass( int c ) {
-
-			Class columnClass = BigDecimal.class;
-
-			switch ( c ) {
-
-			case 0, 1 -> {
-
-				columnClass = String.class;
-
-			}
-
-			}
-
-			return columnClass;
-
-		}
-
-		@Override
-		public int getColumnCount() {
-
-			return columns.size();
-
-		}
-
-		@Override
-		public String getColumnName( int c ) {
-
-			return columns.get( c );
-
-		}
-
-		@Override
-		public int getRowCount() {
-
-			return rowcount;
-
-		}
-
-		@Override
-		public Object getValueAt( int r, int c ) {
-
-			if ( data.isEmpty() ) {
-
-				return "";
-
-			}
-
-			return data.get( r ).get( c );
-
-		}
-
-		@Override
-		public boolean isCellEditable( int r, int c ) {
-
-			return false;
-
-		}
-
-		@Override
-		public void removeTableModelListener( TableModelListener l ) {
-
-			super.removeTableModelListener( l );
-
-		}
-
-		@Override
-		public void setValueAt( Object o, int r, int c ) {
-
-			data.get( r ).set( c, o );
-			fireTableCellUpdated( r, c );
-			;
-
-		}
-
-		public void reload( List<List> data ) {
-
-			this.data = data;
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		@Override
-		public void clear() {
-
-			data.clear();
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		private void setRowCount() {
-
-			rowcount = data.size();
-
-		}
-
-	}
-
-	@Override
-	protected JTableHeader createDefaultTableHeader() {
-
-		return new JTableHeader( columnModel ) {
-			@Override
-			public String getToolTipText( MouseEvent e ) {
-
-				java.awt.Point p = e.getPoint();
-				int index = columnModel.getColumnIndexAtX( p.x );
-
-				if ( index == -1 ) {
-
-					return "";
-
-				}
-
-				int realIndex = columnModel.getColumn( index ).getModelIndex();
-				return columnToolTips[realIndex];
-
-			}
-		};
-
-	}
-
-	protected String[] columnToolTips = new String[] {
-			"FoodId", "Food", "Grams", "Ounces", "Pounds", "Kilograms"
-	};
-
+    protected String[] columnToolTips = new String[] {"FoodId", "Food", "Grams", "Ounces", "Pounds", "Kilograms"};
 }

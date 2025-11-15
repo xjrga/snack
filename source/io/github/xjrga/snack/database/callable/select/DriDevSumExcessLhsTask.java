@@ -13,49 +13,44 @@ import java.util.concurrent.Callable;
 
 public class DriDevSumExcessLhsTask implements Callable<LhsContainer> {
 
-	private final String mixid;
-	private final Integer lifestageid;
-	private final Connection connection;
+    private final String mixid;
+    private final Integer lifestageid;
+    private final Connection connection;
 
-	public DriDevSumExcessLhsTask( String mixid, Integer lifestageid ) {
+    public DriDevSumExcessLhsTask(String mixid, Integer lifestageid) {
 
-		this.mixid = mixid;
-		this.lifestageid = lifestageid;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.lifestageid = lifestageid;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public LhsContainer call() {
 
-	@Override
-	public LhsContainer call() {
+        LhsContainer container = new LhsContainer();
 
-		LhsContainer container = new LhsContainer();
+        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_sum_excess_lhs( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.dridev_sum_excess_lhs( ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setInt(2, lifestageid);
+            ResultSet rs = proc.executeQuery();
 
-			proc.setString( 1, mixid );
-			proc.setInt( 2, lifestageid );
-			ResultSet rs = proc.executeQuery();
+            while (rs.next()) {
 
-			while ( rs.next() ) {
+                Integer rownum = rs.getInt(1);
+                String name = rs.getString(2);
+                BigDecimal c = rs.getBigDecimal(3);
+                Lhs lhs = new Lhs(rownum, name, c);
+                container.add(lhs);
+            }
 
-				Integer rownum = rs.getInt( 1 );
-				String name = rs.getString( 2 );
-				BigDecimal c = rs.getBigDecimal( 3 );
-				Lhs lhs = new Lhs( rownum, name, c );
-				container.add( lhs );
+            proc.close();
 
-			}
+        } catch (SQLException e) {
 
-			proc.close();
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		} catch (SQLException e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return container;
-
-	}
-
+        return container;
+    }
 }

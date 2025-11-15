@@ -7,26 +7,23 @@ import java.sql.Statement;
 
 public class Shutdown {
 
-	private final Connection connection;
+    private final Connection connection;
 
-	public Shutdown() {
+    public Shutdown() {
 
-		connection = Connect.getInstance().getConnection();
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    public void execute() {
 
-	public void execute() {
+        String sql = "SHUTDOWN;";
 
-		String sql = "SHUTDOWN;";
+        try (Statement stmt = connection.createStatement()) {
 
-		try ( Statement stmt = connection.createStatement() ) {
+            stmt.executeUpdate(sql);
 
-			stmt.executeUpdate( sql );
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
-
-		}
-
-	}
-
+        }
+    }
 }

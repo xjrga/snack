@@ -15,36 +15,32 @@ import java.util.concurrent.Callable;
  */
 public class CreateMixTask implements Callable<MixDO> {
 
-	private final Connection connection;
-	private final String _mixName;
+    private final Connection connection;
+    private final String _mixName;
 
-	public CreateMixTask( String mixName ) {
+    public CreateMixTask(String mixName) {
 
-		_mixName = mixName;
-		connection = Connect.getInstance().getConnection();
+        _mixName = mixName;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public MixDO call() throws Exception {
 
-	@Override
-	public MixDO call() throws Exception {
+        String out = "";
 
-		String out = "";
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Mix_Insert( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Mix_Insert( ?, ? )}" ) ) {
+            proc.registerOutParameter(1, Types.INTEGER);
+            proc.setString(2, _mixName);
+            proc.execute();
+            out = proc.getString(1);
 
-			proc.registerOutParameter( 1, Types.INTEGER );
-			proc.setString( 2, _mixName );
-			proc.execute();
-			out = proc.getString( 1 );
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return new MixDO( out );
-
-	}
-
+        return new MixDO(out);
+    }
 }

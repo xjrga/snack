@@ -14,36 +14,32 @@ import java.util.concurrent.Callable;
  */
 public class DuplicateMixTask implements Callable<MixDO> {
 
-	private final Connection connection;
-	private final String mixid;
+    private final Connection connection;
+    private final String mixid;
 
-	public DuplicateMixTask( String mixid ) {
+    public DuplicateMixTask(String mixid) {
 
-		connection = Connect.getInstance().getConnection();
-		this.mixid = mixid;
+        connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+    }
 
-	}
+    @Override
+    public MixDO call() throws Exception {
 
-	@Override
-	public MixDO call() throws Exception {
+        String out = "";
 
-		String out = "";
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Mix_Duplicate( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Mix_Duplicate( ?, ? )}" ) ) {
+            proc.registerOutParameter(1, Types.LONGVARCHAR);
+            proc.setString(2, mixid);
+            proc.execute();
+            out = proc.getString(1);
 
-			proc.registerOutParameter( 1, Types.LONGVARCHAR );
-			proc.setString( 2, mixid );
-			proc.execute();
-			out = proc.getString( 1 );
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return new MixDO( out );
-
-	}
-
+        return new MixDO(out);
+    }
 }

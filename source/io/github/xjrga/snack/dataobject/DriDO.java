@@ -20,100 +20,88 @@ import java.math.BigDecimal;
 
 public class DriDO {
 
-	private String nutrientId;
-	private String nutrientName;
-	private String nutrientUnits;
-	private Integer lifestageId;
-	private String lifestageLabel;
-	private BigDecimal nutrientQ;
+    private String nutrientId;
+    private String nutrientName;
+    private String nutrientUnits;
+    private Integer lifestageId;
+    private String lifestageLabel;
+    private BigDecimal nutrientQ;
 
-	public DriDO() {
+    public DriDO() {}
 
-	}
+    public DriDO(
+            String nutrientId,
+            String nutrientName,
+            String nutrientUnits,
+            Integer lifestageId,
+            String lifestageLabel,
+            BigDecimal nutrientQ) {
 
-	public DriDO(
-			String nutrientId, String nutrientName, String nutrientUnits, Integer lifestageId, String lifestageLabel,
-			BigDecimal nutrientQ ) {
+        this.nutrientId = nutrientId;
+        this.nutrientName = nutrientName;
+        this.nutrientUnits = nutrientUnits;
+        this.lifestageId = lifestageId;
+        this.lifestageLabel = lifestageLabel;
+        this.nutrientQ = nutrientQ;
+    }
 
-		this.nutrientId = nutrientId;
-		this.nutrientName = nutrientName;
-		this.nutrientUnits = nutrientUnits;
-		this.lifestageId = lifestageId;
-		this.lifestageLabel = lifestageLabel;
-		this.nutrientQ = nutrientQ;
+    public String getNutrientId() {
 
-	}
+        return nutrientId;
+    }
 
-	public String getNutrientId() {
+    public void setNutrientId(String nutrientId) {
 
-		return nutrientId;
+        this.nutrientId = nutrientId;
+    }
 
-	}
+    public String getNutrientName() {
 
-	public void setNutrientId( String nutrientId ) {
+        return nutrientName;
+    }
 
-		this.nutrientId = nutrientId;
+    public void setNutrientName(String nutrientName) {
 
-	}
+        this.nutrientName = nutrientName;
+    }
 
-	public String getNutrientName() {
+    public String getNutrientUnits() {
 
-		return nutrientName;
+        return nutrientUnits;
+    }
 
-	}
+    public void setNutrientUnits(String nutrientUnits) {
 
-	public void setNutrientName( String nutrientName ) {
+        this.nutrientUnits = nutrientUnits;
+    }
 
-		this.nutrientName = nutrientName;
+    public Integer getLifestageId() {
 
-	}
+        return lifestageId;
+    }
 
-	public String getNutrientUnits() {
+    public void setLifestageId(Integer lifestageId) {
 
-		return nutrientUnits;
+        this.lifestageId = lifestageId;
+    }
 
-	}
+    public String getLifestageLabel() {
 
-	public void setNutrientUnits( String nutrientUnits ) {
+        return lifestageLabel;
+    }
 
-		this.nutrientUnits = nutrientUnits;
+    public void setLifestageLabel(String lifestageLabel) {
 
-	}
+        this.lifestageLabel = lifestageLabel;
+    }
 
-	public Integer getLifestageId() {
+    public BigDecimal getNutrientQ() {
 
-		return lifestageId;
+        return nutrientQ;
+    }
 
-	}
+    public void setNutrientQ(BigDecimal nutrientQ) {
 
-	public void setLifestageId( Integer lifestageId ) {
-
-		this.lifestageId = lifestageId;
-
-	}
-
-	public String getLifestageLabel() {
-
-		return lifestageLabel;
-
-	}
-
-	public void setLifestageLabel( String lifestageLabel ) {
-
-		this.lifestageLabel = lifestageLabel;
-
-	}
-
-	public BigDecimal getNutrientQ() {
-
-		return nutrientQ;
-
-	}
-
-	public void setNutrientQ( BigDecimal nutrientQ ) {
-
-		this.nutrientQ = nutrientQ;
-
-	}
-
+        this.nutrientQ = nutrientQ;
+    }
 }

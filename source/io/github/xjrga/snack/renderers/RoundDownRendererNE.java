@@ -12,60 +12,53 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class RoundDownRendererNE extends DefaultTableCellRenderer {
 
-	private String txt;
-	private BigDecimal bigDecimal;
+    private String txt;
+    private BigDecimal bigDecimal;
 
-	@Override
-	public void setHorizontalAlignment( int alignment ) {
+    @Override
+    public void setHorizontalAlignment(int alignment) {
 
-		super.setHorizontalAlignment( SwingConstants.RIGHT );
+        super.setHorizontalAlignment(SwingConstants.RIGHT);
+    }
 
-	}
+    @Override
+    protected void setValue(Object value) {
 
-	@Override
-	protected void setValue( Object value ) {
+        if (value == null) {
 
-		if ( value == null ) {
+            super.setValue(txt);
+            return;
+        }
 
-			super.setValue( txt );
-			return;
+        DecimalFormat df = new DecimalFormat("###0.000");
+        BigDecimal d = (BigDecimal) value;
+        txt = df.format(d);
 
-		}
+        if (!Utilities.equalTo(d, new BigDecimal("0"))) {
 
-		DecimalFormat df = new DecimalFormat( "###0.000" );
-		BigDecimal d = ( BigDecimal ) value;
-		txt = df.format( d );
+            setForeground(Color.decode("0x00FF00"));
 
-		if ( !Utilities.equalTo( d, new BigDecimal( "0" ) ) ) {
+        } else {
 
-			setForeground( Color.decode( "0x00FF00" ) );
+            setForeground(Color.decode("0xbec6cc"));
+        }
 
-		} else {
+        super.setValue(txt);
+    }
 
-			setForeground( Color.decode( "0xbec6cc" ) );
+    @Override
+    public Component getTableCellRendererComponent(
+            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
-		}
+        JLabel c = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-		super.setValue( txt );
+        if (value == null) {
 
-	}
+            return c;
+        }
 
-	@Override
-	public Component getTableCellRendererComponent(
-			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
+        c.setToolTipText((new DecimalFormat("######0.0#################")).format(value));
 
-		JLabel c = ( JLabel ) super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
-
-		if ( value == null ) {
-
-			return c;
-
-		}
-
-		c.setToolTipText( (new DecimalFormat( "######0.0#################" )).format( value ) );
-
-		return c;
-
-	}
-
+        return c;
+    }
 }

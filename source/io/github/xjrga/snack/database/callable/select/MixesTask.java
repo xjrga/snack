@@ -14,46 +14,41 @@ import java.util.concurrent.Callable;
  */
 public class MixesTask implements Callable<List<List>> {
 
-	private final Connection connection;
+    private final Connection connection;
 
-	public MixesTask() {
+    public MixesTask() {
 
-		connection = Connect.getInstance().getConnection();
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public List<List> call() {
 
-	@Override
-	public List<List> call() {
+        List<List> lst = new ArrayList();
 
-		List<List> lst = new ArrayList();
+        try {
 
-		try {
+            CallableStatement proc = connection.prepareCall("{CALL public.Mix_Select_All()}");
+            ResultSet rs = proc.executeQuery();
 
-			CallableStatement proc = connection.prepareCall( "{CALL public.Mix_Select_All()}" );
-			ResultSet rs = proc.executeQuery();
+            while (rs.next()) {
 
-			while ( rs.next() ) {
+                ArrayList row = new ArrayList();
+                row.add(rs.getString(1));
+                row.add(rs.getString(2));
+                row.add(rs.getInt(3));
+                row.add(rs.getString(4));
+                row.add(rs.getBigDecimal(5));
+                row.add(rs.getBigDecimal(6));
+                row.add(rs.getBigDecimal(7));
+                lst.add(row);
+            }
 
-				ArrayList row = new ArrayList();
-				row.add( rs.getString( 1 ) );
-				row.add( rs.getString( 2 ) );
-				row.add( rs.getInt( 3 ) );
-				row.add( rs.getString( 4 ) );
-				row.add( rs.getBigDecimal( 5 ) );
-				row.add( rs.getBigDecimal( 6 ) );
-				row.add( rs.getBigDecimal( 7 ) );
-				lst.add( row );
+        } catch (Exception e) {
 
-			}
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return lst;
-
-	}
-
+        return lst;
+    }
 }

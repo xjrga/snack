@@ -16,41 +16,36 @@ import java.util.concurrent.Callable;
  */
 public class NutrientsTask implements Callable<List<Map<String, Object>>> {
 
-	private final Connection connection;
+    private final Connection connection;
 
-	public NutrientsTask() {
+    public NutrientsTask() {
 
-		connection = Connect.getInstance().getConnection();
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public List<Map<String, Object>> call() {
 
-	@Override
-	public List<Map<String, Object>> call() {
+        LinkedList<Map<String, Object>> list = new LinkedList<>();
 
-		LinkedList<Map<String, Object>> list = new LinkedList<>();
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Nutrient_Select_All()}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Nutrient_Select_All()}" ) ) {
+            ResultSet rs = proc.executeQuery();
 
-			ResultSet rs = proc.executeQuery();
+            while (rs.next()) {
 
-			while ( rs.next() ) {
+                Map<String, Object> row = new HashMap<>();
+                row.put("NUTRIENTID", rs.getObject(1));
+                row.put("NAME", rs.getObject(2));
+                row.put("VISIBLE", rs.getObject(3));
+                list.add(row);
+            }
 
-				Map<String, Object> row = new HashMap<>();
-				row.put( "NUTRIENTID", rs.getObject( 1 ) );
-				row.put( "NAME", rs.getObject( 2 ) );
-				row.put( "VISIBLE", rs.getObject( 3 ) );
-				list.add( row );
+        } catch (Exception e) {
 
-			}
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return list;
-
-	}
-
+        return list;
+    }
 }

@@ -4,65 +4,56 @@ import java.math.BigDecimal;
 
 public class Xml_nutrient_constraint {
 
-	private BigDecimal b = new BigDecimal( "0.0" );
-	private String nutrientid = "";
-	private Integer relationshipid = 0;
-	private final StringBuilder sb;
+    private BigDecimal b = new BigDecimal("0.0");
+    private String nutrientid = "";
+    private Integer relationshipid = 0;
+    private final StringBuilder sb;
 
-	public Xml_nutrient_constraint() {
+    public Xml_nutrient_constraint() {
 
-		sb = new StringBuilder();
+        sb = new StringBuilder();
+    }
 
-	}
+    public BigDecimal getB() {
 
-	public BigDecimal getB() {
+        return b;
+    }
 
-		return b;
+    public String getNutrientid() {
 
-	}
+        return nutrientid;
+    }
 
-	public String getNutrientid() {
+    public Integer getRelationshipid() {
 
-		return nutrientid;
+        return relationshipid;
+    }
 
-	}
+    public void setB(BigDecimal b) {
 
-	public Integer getRelationshipid() {
+        this.b = b;
+    }
 
-		return relationshipid;
+    public void setNutrientid(String nutrientid) {
 
-	}
+        this.nutrientid = nutrientid;
+    }
 
-	public void setB( BigDecimal b ) {
+    public void setRelationshipid(Integer relationshipid) {
 
-		this.b = b;
+        this.relationshipid = relationshipid;
+    }
 
-	}
+    @Override
+    public String toString() {
 
-	public void setNutrientid( String nutrientid ) {
-
-		this.nutrientid = nutrientid;
-
-	}
-
-	public void setRelationshipid( Integer relationshipid ) {
-
-		this.relationshipid = relationshipid;
-
-	}
-
-	@Override
-	public String toString() {
-
-		sb.append( "[" );
-		sb.append( nutrientid );
-		sb.append( "," );
-		sb.append( relationshipid );
-		sb.append( "," );
-		sb.append( b );
-		sb.append( "]" );
-		return sb.toString();
-
-	}
-
+        sb.append("[");
+        sb.append(nutrientid);
+        sb.append(",");
+        sb.append(relationshipid);
+        sb.append(",");
+        sb.append(b);
+        sb.append("]");
+        return sb.toString();
+    }
 }

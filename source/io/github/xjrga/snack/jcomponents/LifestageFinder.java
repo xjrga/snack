@@ -8,29 +8,25 @@ import java.util.List;
  */
 public class LifestageFinder {
 
-	public LifestageFinder() {
+    public LifestageFinder() {
 
-		//
-	}
+        //
+    }
 
-	public static LifeStageDO find( List<?> list, int LifeStageId ) {
+    public static LifeStageDO find(List<?> list, int LifeStageId) {
 
-		LifeStageDO o = null;
+        LifeStageDO o = null;
 
-		for ( int i = 0; i < list.size(); i++ ) {
+        for (int i = 0; i < list.size(); i++) {
 
-			o = ( LifeStageDO ) list.get( i );
+            o = (LifeStageDO) list.get(i);
 
-			if ( o.getLifeStageId() == LifeStageId ) {
+            if (o.getLifeStageId() == LifeStageId) {
 
-				break;
+                break;
+            }
+        }
 
-			}
-
-		}
-
-		return o;
-
-	}
-
+        return o;
+    }
 }

@@ -43,415 +43,369 @@ import org.xml.sax.InputSource;
 
 public class Utilities {
 
-	public static void appendToFile( String filePath, String txt ) {
+    public static void appendToFile(String filePath, String txt) {
 
-		try ( BufferedWriter out = new BufferedWriter( new FileWriter( filePath, true ) ) ) {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath, true))) {
 
-			out.write( txt );
+            out.write(txt);
 
-		} catch (IOException ex) {
+        } catch (IOException ex) {
 
-		}
+        }
+    }
 
-	}
+    public static double calculateDotProduct(RealVector v, double[] point) {
 
-	public static double calculateDotProduct( RealVector v, double[] point ) {
+        ArrayRealVector rvpoint = new ArrayRealVector(point);
+        return v.dotProduct(rvpoint);
+    }
 
-		ArrayRealVector rvpoint = new ArrayRealVector( point );
-		return v.dotProduct( rvpoint );
+    public static String convertFileToString(String path) {
 
-	}
+        String str = "";
 
-	public static String convertFileToString( String path ) {
+        try {
 
-		String str = "";
+            str = new String(Files.readAllBytes(Path.of(path)));
 
-		try {
+        } catch (IOException ex) {
 
-			str = new String( Files.readAllBytes( Path.of( path ) ) );
+        }
 
-		} catch (IOException ex) {
+        return str;
+    }
 
-		}
+    public static double[] doubleArray(int[] array) {
 
-		return str;
+        double[] darray = new double[array.length];
 
-	}
+        for (int i = 0; i < array.length; i++) {
 
-	public static double[] doubleArray( int[] array ) {
+            darray[i] = array[i];
+        }
 
-		double[] darray = new double[array.length];
+        return darray;
+    }
 
-		for ( int i = 0; i < array.length; i++ ) {
+    public static double[] doubleArray(List<Double> list) {
 
-			darray[i] = array[i];
+        double[] arr = new double[list.size()];
 
-		}
+        for (int i = 0; i < arr.length; i++) {
 
-		return darray;
+            arr[i] = list.get(i);
+        }
 
-	}
+        return arr;
+    }
 
-	public static double[] doubleArray( List<Double> list ) {
+    public static int[] intArray(List<Integer> list) {
 
-		double[] arr = new double[list.size()];
+        int[] arr = new int[list.size()];
 
-		for ( int i = 0; i < arr.length; i++ ) {
+        for (int i = 0; i < arr.length; i++) {
 
-			arr[i] = list.get( i );
+            arr[i] = list.get(i);
+        }
 
-		}
+        return arr;
+    }
 
-		return arr;
+    public static String formatXmlDoc(String xml) {
 
-	}
+        String str = "";
 
-	public static int[] intArray( List<Integer> list ) {
+        try {
 
-		int[] arr = new int[list.size()];
+            final InputSource src = new InputSource(new StringReader(xml));
+            final Node document = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(src)
+                    .getDocumentElement();
+            final Boolean keepDeclaration = xml.startsWith("<?xml");
+            final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+            final DOMImplementationLS impl = (DOMImplementationLS) registry.getDOMImplementation("LS");
+            final LSSerializer writer = impl.createLSSerializer();
+            writer.getDomConfig().setParameter("format-pretty-print", Boolean.TRUE);
+            writer.getDomConfig().setParameter("xml-declaration", keepDeclaration);
+            return writer.writeToString(document);
 
-		for ( int i = 0; i < arr.length; i++ ) {
+        } catch (Exception e) {
 
-			arr[i] = list.get( i );
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		}
+        return str;
+    }
 
-		return arr;
+    public static String formatDate(Date date) {
 
-	}
+        String pattern = "EEEE, MMMMM dd, yyyy' at 'HH:mm:ss";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        return dateFormat.format(date);
+    }
 
-	public static String formatXmlDoc( String xml ) {
+    public static String formatDecimal(Double x) {
 
-		String str = "";
+        DecimalFormat formatter = new DecimalFormat("####.###");
+        return formatter.format(x);
+    }
 
-		try {
+    public static BufferedReader getBufferedReader(String path) {
 
-			final InputSource src = new InputSource( new StringReader( xml ) );
-			final Node document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse( src )
-					.getDocumentElement();
-			final Boolean keepDeclaration = xml.startsWith( "<?xml" );
-			final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
-			final DOMImplementationLS impl = ( DOMImplementationLS ) registry.getDOMImplementation( "LS" );
-			final LSSerializer writer = impl.createLSSerializer();
-			writer.getDomConfig().setParameter( "format-pretty-print", Boolean.TRUE );
-			writer.getDomConfig().setParameter( "xml-declaration", keepDeclaration );
-			return writer.writeToString( document );
+        return new BufferedReader(
+                new InputStreamReader(ClassLoader.getSystemClassLoader().getResourceAsStream(path)));
+    }
 
-		} catch (Exception e) {
+    public static long getCurrentTimeMillis() {
 
-			LoggerImpl.INSTANCE.logProblem( e );
+        return System.currentTimeMillis();
+    }
 
-		}
+    public static String getCurrentTimeMillisTxt() {
 
-		return str;
+        StringBuilder sb = new StringBuilder();
+        sb.append(System.currentTimeMillis());
+        sb.setLength(sb.length() - 3);
+        return sb.toString();
+    }
 
-	}
+    public static Dimension getDimension(Integer width, Integer height) {
 
-	public static String formatDate( Date date ) {
+        return new Dimension(width, height);
+    }
 
-		String pattern = "EEEE, MMMMM dd, yyyy' at 'HH:mm:ss";
-		SimpleDateFormat dateFormat = new SimpleDateFormat( pattern );
-		return dateFormat.format( date );
+    public static File getResourceAsFile(String path) {
 
-	}
+        return new File(Utilities.class.getClassLoader().getResource(path).getFile());
+    }
 
-	public static String formatDecimal( Double x ) {
+    public static Path getResourceAsPath(String path) {
 
-		DecimalFormat formatter = new DecimalFormat( "####.###" );
-		return formatter.format( x );
+        Path get = null;
 
-	}
+        try {
 
-	public static BufferedReader getBufferedReader( String path ) {
+            get = Paths.get(
+                    Objects.requireNonNull(Utilities.class.getClassLoader().getResource(path))
+                            .toURI());
 
-		return new BufferedReader(
-				new InputStreamReader( ClassLoader.getSystemClassLoader().getResourceAsStream( path ) ) );
+        } catch (URISyntaxException e) {
 
-	}
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-	public static long getCurrentTimeMillis() {
+        return get;
+    }
 
-		return System.currentTimeMillis();
+    public static InputStream getResourceAsStream(String path) {
 
-	}
+        return Utilities.class.getResourceAsStream(path);
+    }
 
-	public static String getCurrentTimeMillisTxt() {
+    public static StreamSource getResourceAsStreamSource(String path) {
 
-		StringBuilder sb = new StringBuilder();
-		sb.append( System.currentTimeMillis() );
-		sb.setLength( sb.length() - 3 );
-		return sb.toString();
+        InputStream is = Utilities.class.getResourceAsStream(path);
+        return new StreamSource(is);
+    }
 
-	}
+    public static String getResourceAsString(String path) {
 
-	public static Dimension getDimension( Integer width, Integer height ) {
+        InputStream is = Utilities.class.getResourceAsStream(path);
+        StringBuilder sb = new StringBuilder();
+        InputStreamReader isr = new InputStreamReader(is);
 
-		return new Dimension( width, height );
+        try {
 
-	}
+            int i;
 
-	public static File getResourceAsFile( String path ) {
+            while ((i = isr.read()) != -1) {
 
-		return new File( Utilities.class.getClassLoader().getResource( path ).getFile() );
+                sb.append((char) i);
+            }
 
-	}
+            isr.close();
 
-	public static Path getResourceAsPath( String path ) {
+        } catch (IOException e) {
 
-		Path get = null;
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		try {
+        return sb.toString();
+    }
 
-			get = Paths.get( Objects.requireNonNull( Utilities.class.getClassLoader().getResource( path ) ).toURI() );
+    public static URL getResourceAsUrl(String resource_path) {
 
-		} catch (URISyntaxException e) {
+        return Utilities.class.getResource(resource_path);
+    }
 
-			LoggerImpl.INSTANCE.logProblem( e );
+    public static boolean isDoubleEqual(double value, double dot_product) {
 
-		}
+        boolean flag = false;
+        double epsilon = 0.000001d;
 
-		return get;
+        if (Precision.equals(value, dot_product, epsilon)) {
 
-	}
+            flag = true;
+        }
 
-	public static InputStream getResourceAsStream( String path ) {
+        return flag;
+    }
 
-		return Utilities.class.getResourceAsStream( path );
+    public static void openUrl(String url) {
 
-	}
+        try {
 
-	public static StreamSource getResourceAsStreamSource( String path ) {
+            Desktop.getDesktop().browse(URI.create(url));
 
-		InputStream is = Utilities.class.getResourceAsStream( path );
-		return new StreamSource( is );
+        } catch (Exception e) {
 
-	}
+        }
+    }
 
-	public static String getResourceAsString( String path ) {
+    public static String printDoubleArray(double[] array) {
 
-		InputStream is = Utilities.class.getResourceAsStream( path );
-		StringBuilder sb = new StringBuilder();
-		InputStreamReader isr = new InputStreamReader( is );
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
 
-		try {
+        for (double element : array) {
 
-			int i;
+            sb.append(element);
+            sb.append(", ");
+        }
 
-			while ( (i = isr.read()) != -1 ) {
+        sb.setLength(sb.length() - 2);
+        sb.append("]");
+        return sb.toString();
+    }
 
-				sb.append( ( char ) i );
+    public static String printIntArray(int[] array) {
 
-			}
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
 
-			isr.close();
+        for (int element : array) {
 
-		} catch (IOException e) {
+            sb.append(element);
+            sb.append(", ");
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
+        sb.setLength(sb.length() - 2);
+        sb.append("]");
+        return sb.toString();
+    }
 
-		}
+    public static String random() {
 
-		return sb.toString();
+        StringBuilder sb = new StringBuilder();
 
-	}
+        for (int i = 0; i < 8; i++) {
 
-	public static URL getResourceAsUrl( String resource_path ) {
+            sb.append(Math.random());
+        }
 
-		return Utilities.class.getResource( resource_path );
+        String replace = sb.toString().replace(".", "");
+        return replace.substring(0, 128);
+    }
 
-	}
+    public static String sha256HashToHex(String s) {
 
-	public static boolean isDoubleEqual( double value, double dot_product ) {
+        StringBuilder sb = null;
 
-		boolean flag = false;
-		double epsilon = 0.000001d;
+        try {
 
-		if ( Precision.equals( value, dot_product, epsilon ) ) {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedhash = digest.digest(s.getBytes(StandardCharsets.UTF_8));
+            sb = new StringBuilder(2 * encodedhash.length);
 
-			flag = true;
+            for (byte b : encodedhash) {
 
-		}
+                sb.append(String.format("%02x", b));
+            }
 
-		return flag;
+        } catch (NoSuchAlgorithmException ex) {
 
-	}
+        }
 
-	public static void openUrl( String url ) {
+        return sb.toString();
+    }
 
-		try {
+    public static void write(String filePath, String str) {
 
-			Desktop.getDesktop().browse( URI.create( url ) );
+        PrintWriter writer = null;
 
-		} catch (Exception e) {
+        try {
 
-		}
+            writer = new PrintWriter(filePath);
+            writer.println(str);
+            writer.flush();
+            writer.close();
 
-	}
+        } catch (FileNotFoundException e) {
 
-	public static String printDoubleArray( double[] array ) {
+            LoggerImpl.INSTANCE.logProblem(e);
 
-		StringBuilder sb = new StringBuilder();
-		sb.append( "[" );
+        } finally {
 
-		for ( double element : array ) {
+            writer.close();
+        }
+    }
 
-			sb.append( element );
-			sb.append( ", " );
+    public static boolean lessThanOrEqualTo(BigDecimal n1, BigDecimal n2) {
 
-		}
+        // if valueAt is less than 0.0 then it is -1
+        return n1.compareTo(n2) <= 0;
+    }
 
-		sb.setLength( sb.length() - 2 );
-		sb.append( "]" );
-		return sb.toString();
+    public static boolean moreThanOrEqualTo(BigDecimal n1, BigDecimal n2) {
 
-	}
+        // if valueAt is less than 0.0 then it is -1
+        return n1.compareTo(n2) >= 0;
+    }
 
-	public static String printIntArray( int[] array ) {
+    public static boolean lessThan(BigDecimal n1, BigDecimal n2) {
 
-		StringBuilder sb = new StringBuilder();
-		sb.append( "[" );
+        // if valueAt is less than 0.0 then it is -1
+        return n1.compareTo(n2) < 0;
+    }
 
-		for ( int element : array ) {
+    public static boolean moreThan(BigDecimal n1, BigDecimal n2) {
 
-			sb.append( element );
-			sb.append( ", " );
+        // if valueAt is less than 0.0 then it is -1
+        return n1.compareTo(n2) > 0;
+    }
 
-		}
+    public static boolean equalTo(BigDecimal n1, BigDecimal n2) {
 
-		sb.setLength( sb.length() - 2 );
-		sb.append( "]" );
-		return sb.toString();
+        // if valueAt is less than 0.0 then it is -1
+        return n1.compareTo(n2) == 0;
+    }
 
-	}
+    public static String trim(BigDecimal n) {
 
-	public static String random() {
+        return n.toPlainString().trim();
+    }
 
-		StringBuilder sb = new StringBuilder();
+    public static String strip(BigDecimal n) {
 
-		for ( int i = 0; i < 8; i++ ) {
+        return n.stripTrailingZeros().toPlainString();
+    }
 
-			sb.append( Math.random() );
+    public static List<MixDO> createMixDOList(List<List> data) {
 
-		}
-
-		String replace = sb.toString().replace( ".", "" );
-		return replace.substring( 0, 128 );
-
-	}
-
-	public static String sha256HashToHex( String s ) {
-
-		StringBuilder sb = null;
-
-		try {
-
-			MessageDigest digest = MessageDigest.getInstance( "SHA-256" );
-			byte[] encodedhash = digest.digest( s.getBytes( StandardCharsets.UTF_8 ) );
-			sb = new StringBuilder( 2 * encodedhash.length );
-
-			for ( byte b : encodedhash ) {
-
-				sb.append( String.format( "%02x", b ) );
-
-			}
-
-		} catch (NoSuchAlgorithmException ex) {
-
-		}
-
-		return sb.toString();
-
-	}
-
-	public static void write( String filePath, String str ) {
-
-		PrintWriter writer = null;
-
-		try {
-
-			writer = new PrintWriter( filePath );
-			writer.println( str );
-			writer.flush();
-			writer.close();
-
-		} catch (FileNotFoundException e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		} finally {
-
-			writer.close();
-
-		}
-
-	}
-
-	public static boolean lessThanOrEqualTo( BigDecimal n1, BigDecimal n2 ) {
-
-		// if valueAt is less than 0.0 then it is -1
-		return n1.compareTo( n2 ) <= 0;
-
-	}
-
-	public static boolean moreThanOrEqualTo( BigDecimal n1, BigDecimal n2 ) {
-
-		// if valueAt is less than 0.0 then it is -1
-		return n1.compareTo( n2 ) >= 0;
-
-	}
-
-	public static boolean lessThan( BigDecimal n1, BigDecimal n2 ) {
-
-		// if valueAt is less than 0.0 then it is -1
-		return n1.compareTo( n2 ) < 0;
-
-	}
-
-	public static boolean moreThan( BigDecimal n1, BigDecimal n2 ) {
-
-		// if valueAt is less than 0.0 then it is -1
-		return n1.compareTo( n2 ) > 0;
-
-	}
-
-	public static boolean equalTo( BigDecimal n1, BigDecimal n2 ) {
-
-		// if valueAt is less than 0.0 then it is -1
-		return n1.compareTo( n2 ) == 0;
-
-	}
-
-	public static String trim( BigDecimal n ) {
-
-		return n.toPlainString().trim();
-
-	}
-
-	public static String strip( BigDecimal n ) {
-
-		return n.stripTrailingZeros().toPlainString();
-
-	}
-
-	public static List<MixDO> createMixDOList( List<List> data ) {
-
-		List<MixDO> list = new ArrayList<>();
-		data.forEach( row -> {
-
-			MixDO mix = new MixDO();
-			mix.setMixid( ( String ) row.get( 0 ) );
-			mix.setName( ( String ) row.get( 1 ) );
-			mix.setLifestageid( ( Integer ) row.get( 2 ) );
-			mix.setModel( ( String ) row.get( 3 ) );
-			BigDecimal cost = ( BigDecimal ) row.get( 4 );
-			mix.setCost( ( BigDecimal ) row.get( 4 ) );
-			mix.setDeficiency( ( BigDecimal ) row.get( 5 ) );
-			mix.setExcess( ( BigDecimal ) row.get( 6 ) );
-			list.add( mix );
-
-		} );
-		return list;
-
-	}
-
+        List<MixDO> list = new ArrayList<>();
+        data.forEach(row -> {
+            MixDO mix = new MixDO();
+            mix.setMixid((String) row.get(0));
+            mix.setName((String) row.get(1));
+            mix.setLifestageid((Integer) row.get(2));
+            mix.setModel((String) row.get(3));
+            BigDecimal cost = (BigDecimal) row.get(4);
+            mix.setCost((BigDecimal) row.get(4));
+            mix.setDeficiency((BigDecimal) row.get(5));
+            mix.setExcess((BigDecimal) row.get(6));
+            list.add(mix);
+        });
+        return list;
+    }
 }

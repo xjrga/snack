@@ -12,38 +12,34 @@ import java.util.concurrent.Callable;
  */
 public class UpdateFoodTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String foodid;
-	private final String foodname;
+    private final Connection connection;
+    private final String foodid;
+    private final String foodname;
 
-	public UpdateFoodTask( String foodid, String foodname ) {
+    public UpdateFoodTask(String foodid, String foodname) {
 
-		connection = Connect.getInstance().getConnection();
-		this.foodid = foodid;
-		this.foodname = foodname;
+        connection = Connect.getInstance().getConnection();
+        this.foodid = foodid;
+        this.foodname = foodname;
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        Boolean completed = false;
 
-		Boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Food_Update( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Food_Update( ?, ? )}" ) ) {
+            proc.setString(1, foodid);
+            proc.setString(2, foodname);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, foodid );
-			proc.setString( 2, foodname );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

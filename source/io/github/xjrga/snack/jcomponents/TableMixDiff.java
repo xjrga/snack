@@ -27,486 +27,418 @@ import javax.swing.table.TableRowSorter;
  */
 public class TableMixDiff extends JTable {
 
-	private TableRowSorter sorter;
-	private JTextField searchField;
-	private DataModel dm;
+    private TableRowSorter sorter;
+    private JTextField searchField;
+    private DataModel dm;
 
-	public TableMixDiff() {
+    public TableMixDiff() {
 
-		searchField = new JTextField();
-		dm = new DataModel();
-		dm.addColumn( "Category" );
-		dm.addColumn( "Nutrient" );
-		dm.addColumn( "Mix A" );
-		dm.addColumn( "Mix B" );
-		dm.addColumn( "Diff" );
-		setModel( dm );
-		setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		setFillsViewportHeight( true );
-		setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
-		getTableHeader().setReorderingAllowed( false );
-		sorter = new TableRowSorter<>( dm );
-		setRowSorter( sorter );
-		searchField.getDocument().addDocumentListener( new DocumentListener() {
-			@Override
-			public void changedUpdate( DocumentEvent e ) {
+        searchField = new JTextField();
+        dm = new DataModel();
+        dm.addColumn("Category");
+        dm.addColumn("Nutrient");
+        dm.addColumn("Mix A");
+        dm.addColumn("Mix B");
+        dm.addColumn("Diff");
+        setModel(dm);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setFillsViewportHeight(true);
+        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        getTableHeader().setReorderingAllowed(false);
+        sorter = new TableRowSorter<>(dm);
+        setRowSorter(sorter);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
 
-				filter();
+                filter();
+            }
 
-			}
+            @Override
+            public void insertUpdate(DocumentEvent e) {
 
-			@Override
-			public void insertUpdate( DocumentEvent e ) {
+                filter();
+            }
 
-				filter();
+            @Override
+            public void removeUpdate(DocumentEvent e) {
 
-			}
+                filter();
+            }
 
-			@Override
-			public void removeUpdate( DocumentEvent e ) {
+            private void filter() {
 
-				filter();
+                RowFilter<Object, Object> rf = null;
 
-			}
+                try {
 
-			private void filter() {
+                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 1));
+                    rf = RowFilter.orFilter(filters);
 
-				RowFilter<Object, Object> rf = null;
+                } catch (java.util.regex.PatternSyntaxException e) {
 
-				try {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
 
-					List<RowFilter<Object, Object>> filters = new ArrayList<>();
-					filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 1 ) );
-					rf = RowFilter.orFilter( filters );
+                sorter.setRowFilter(rf);
+            }
+        });
+        adjustColumnWidth();
+    }
 
-				} catch (java.util.regex.PatternSyntaxException e) {
+    public boolean isSelectionEmpty() {
 
-					LoggerImpl.INSTANCE.logProblem( e );
+        int[] rows = getSelectedRows();
+        return rows.length == 0;
+    }
 
-				}
+    public boolean isEmpty() {
 
-				sorter.setRowFilter( rf );
+        return !(getRowCount() > 0);
+    }
 
-			}
-		} );
-		adjustColumnWidth();
+    @Override
+    public void setValueAt(Object aValue, int row, int column) {
 
-	}
+        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    }
 
-	public boolean isSelectionEmpty() {
+    public void selectRow(int RowNo) {
 
-		int[] rows = getSelectedRows();
-		return rows.length == 0;
+        setRowSelectionInterval(RowNo, RowNo);
+    }
 
-	}
+    public void showRow(int RowNo) {
 
-	public boolean isEmpty() {
+        Rectangle rect = getCellRect(RowNo, 0, true);
+        scrollRectToVisible(rect);
+    }
 
-		return !(getRowCount() > 0);
+    public Row getSelectedValue() {
 
-	}
+        if (isEmpty()) {
 
-	@Override
-	public void setValueAt( Object aValue, int row, int column ) {
+            return new NullRow();
+        }
 
-		dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
+        if (isSelectionEmpty()) {
 
-	}
+            return new NullRow();
+        }
 
-	public void selectRow( int RowNo ) {
+        return getRow(getSelectedRow());
+    }
 
-		setRowSelectionInterval( RowNo, RowNo );
+    public List<Row> getSelectedValues() {
 
-	}
+        ArrayList<Row> results = new ArrayList<Row>();
 
-	public void showRow( int RowNo ) {
+        if (isSelectionEmpty()) {
 
-		Rectangle rect = getCellRect( RowNo, 0, true );
-		scrollRectToVisible( rect );
+            return results;
+        }
 
-	}
+        int[] rows = this.getSelectedRows();
 
-	public Row getSelectedValue() {
+        for (int i = 0; i < rows.length; i++) {
 
-		if ( isEmpty() ) {
+            Row foodfacts = getRow(i);
+            results.add(foodfacts);
+        }
 
-			return new NullRow();
+        return results;
+    }
 
-		}
+    private Row getRow(int selectedRowNo) {
 
-		if ( isSelectionEmpty() ) {
+        String category = (String) getValueAt(selectedRowNo, 0);
+        String nutrient = (String) getValueAt(selectedRowNo, 1);
+        BigDecimal mixaq = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal mixbq = (BigDecimal) getValueAt(selectedRowNo, 3);
+        BigDecimal diff = (BigDecimal) getValueAt(selectedRowNo, 4);
+        Row row = new Row();
+        row.setCategory(category);
+        row.setNutrient(nutrient);
+        row.setMixaq(mixaq);
+        row.setMixbq(mixbq);
+        row.setDiff(diff);
+        return row;
+    }
 
-			return new NullRow();
+    public JTextField getSearchField() {
 
-		}
+        return searchField;
+    }
 
-		return getRow( getSelectedRow() );
+    public void reload(List<List> data) {
 
-	}
+        dm.clear();
+        dm.reload(data);
+        adjustColumnWidth();
+    }
 
-	public List<Row> getSelectedValues() {
+    public void clear() {
 
-		ArrayList<Row> results = new ArrayList<Row>();
+        dm.clear();
+    }
 
-		if ( isSelectionEmpty() ) {
+    private void adjustColumnWidth() {
 
-			return results;
+        getColumnModel().getColumn(0).setPreferredWidth(120);
+        getColumnModel().getColumn(1).setPreferredWidth(300);
 
-		}
+        for (int i = 2; i < 5; i++) {
 
-		int[] rows = this.getSelectedRows();
+            getColumnModel().getColumn(i).setPreferredWidth(75);
+        }
+    }
 
-		for ( int i = 0; i < rows.length; i++ ) {
+    public int find(String id) {
 
-			Row foodfacts = getRow( i );
-			results.add( foodfacts );
+        int index = 0;
+        int r = this.getRowCount();
 
-		}
+        for (int j = 0; j < r; j++) {
 
-		return results;
+            if (id.equals(getValueAt(j, 1))) {
 
-	}
+                index = j;
+            }
+        }
 
-	private Row getRow( int selectedRowNo ) {
+        return index;
+    }
 
-		String category = ( String ) getValueAt( selectedRowNo, 0 );
-		String nutrient = ( String ) getValueAt( selectedRowNo, 1 );
-		BigDecimal mixaq = ( BigDecimal ) getValueAt( selectedRowNo, 2 );
-		BigDecimal mixbq = ( BigDecimal ) getValueAt( selectedRowNo, 3 );
-		BigDecimal diff = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
-		Row row = new Row();
-		row.setCategory( category );
-		row.setNutrient( nutrient );
-		row.setMixaq( mixaq );
-		row.setMixbq( mixbq );
-		row.setDiff( diff );
-		return row;
+    public void roundUp() {
 
-	}
+        RoundUpRenderer renderer = new RoundUpRenderer();
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        getColumnModel().getColumn(4).setCellRenderer(new RoundUpRendererNE());
+        revalidate();
+        repaint();
+    }
 
-	public JTextField getSearchField() {
+    public void roundDown() {
 
-		return searchField;
+        RoundDownRenderer renderer = new RoundDownRenderer();
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        getColumnModel().getColumn(4).setCellRenderer(new RoundDownRendererNE());
+        revalidate();
+        repaint();
+    }
 
-	}
+    public class Row {
 
-	public void reload( List<List> data ) {
+        private String category;
+        private String nutrient;
+        private BigDecimal mixaq;
+        private BigDecimal mixbq;
+        private BigDecimal diff;
 
-		dm.clear();
-		dm.reload( data );
-		adjustColumnWidth();
+        public Row() {
 
-	}
+            category = "";
+            nutrient = "";
+            mixaq = new BigDecimal("0.0");
+            mixbq = new BigDecimal("0.0");
+            diff = new BigDecimal("0.0");
+        }
 
-	public void clear() {
+        public String getCategory() {
 
-		dm.clear();
+            return category;
+        }
 
-	}
+        public void setCategory(String category) {
 
-	private void adjustColumnWidth() {
+            this.category = category;
+        }
 
-		getColumnModel().getColumn( 0 ).setPreferredWidth( 120 );
-		getColumnModel().getColumn( 1 ).setPreferredWidth( 300 );
+        public String getNutrient() {
 
-		for ( int i = 2; i < 5; i++ ) {
+            return nutrient;
+        }
 
-			getColumnModel().getColumn( i ).setPreferredWidth( 75 );
+        public void setNutrient(String nutrient) {
 
-		}
+            this.nutrient = nutrient;
+        }
 
-	}
+        public BigDecimal getMixaq() {
 
-	public int find( String id ) {
+            return mixaq;
+        }
 
-		int index = 0;
-		int r = this.getRowCount();
+        public void setMixaq(BigDecimal mixaq) {
 
-		for ( int j = 0; j < r; j++ ) {
+            this.mixaq = mixaq;
+        }
 
-			if ( id.equals( getValueAt( j, 1 ) ) ) {
+        public BigDecimal getMixbq() {
 
-				index = j;
+            return mixbq;
+        }
 
-			}
+        public void setMixbq(BigDecimal mixbq) {
 
-		}
+            this.mixbq = mixbq;
+        }
 
-		return index;
+        public BigDecimal getDiff() {
 
-	}
+            return diff;
+        }
 
-	public void roundUp() {
+        public void setDiff(BigDecimal diff) {
 
-		RoundUpRenderer renderer = new RoundUpRenderer();
-		getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 4 ).setCellRenderer( new RoundUpRendererNE() );
-		revalidate();
-		repaint();
+            this.diff = diff;
+        }
 
-	}
+        public boolean isNull() {
 
-	public void roundDown() {
+            return false;
+        }
+    }
 
-		RoundDownRenderer renderer = new RoundDownRenderer();
-		getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 4 ).setCellRenderer( new RoundDownRendererNE() );
-		revalidate();
-		repaint();
+    public class NullRow extends Row {
 
-	}
+        public boolean isNull() {
 
-	public class Row {
+            return true;
+        }
+    }
 
-		private String category;
-		private String nutrient;
-		private BigDecimal mixaq;
-		private BigDecimal mixbq;
-		private BigDecimal diff;
+    private class DataModel extends AbstractTableModel implements Reload {
 
-		public Row() {
+        private List<List> data;
+        private List<String> columns;
+        private int rowcount;
 
-			category = "";
-			nutrient = "";
-			mixaq = new BigDecimal( "0.0" );
-			mixbq = new BigDecimal( "0.0" );
-			diff = new BigDecimal( "0.0" );
+        public DataModel() {
 
-		}
+            data = new ArrayList<List>();
+            columns = new ArrayList<String>();
+            setRowCount();
+        }
 
-		public String getCategory() {
+        public void addColumn(String col) {
 
-			return category;
+            columns.add(col);
+        }
 
-		}
+        @Override
+        public void addTableModelListener(TableModelListener l) {
 
-		public void setCategory( String category ) {
+            super.addTableModelListener(l);
+        }
 
-			this.category = category;
+        @Override
+        public Class<?> getColumnClass(int c) {
 
-		}
+            Class columnClass = BigDecimal.class;
 
-		public String getNutrient() {
+            switch (c) {
+                case 0, 1 -> {
+                    columnClass = String.class;
+                }
+            }
 
-			return nutrient;
+            return columnClass;
+        }
 
-		}
+        @Override
+        public int getColumnCount() {
 
-		public void setNutrient( String nutrient ) {
+            return columns.size();
+        }
 
-			this.nutrient = nutrient;
+        @Override
+        public String getColumnName(int c) {
 
-		}
+            return columns.get(c);
+        }
 
-		public BigDecimal getMixaq() {
+        @Override
+        public int getRowCount() {
 
-			return mixaq;
+            return rowcount;
+        }
 
-		}
+        @Override
+        public Object getValueAt(int r, int c) {
 
-		public void setMixaq( BigDecimal mixaq ) {
+            if (data.isEmpty()) {
 
-			this.mixaq = mixaq;
+                return "";
+            }
 
-		}
+            return data.get(r).get(c);
+        }
 
-		public BigDecimal getMixbq() {
+        @Override
+        public boolean isCellEditable(int r, int c) {
 
-			return mixbq;
+            return false;
+        }
 
-		}
+        @Override
+        public void removeTableModelListener(TableModelListener l) {
 
-		public void setMixbq( BigDecimal mixbq ) {
+            super.removeTableModelListener(l);
+        }
 
-			this.mixbq = mixbq;
+        @Override
+        public void setValueAt(Object o, int r, int c) {
 
-		}
+            data.get(r).set(c, o);
+            fireTableDataChanged();
+        }
 
-		public BigDecimal getDiff() {
+        public void reload(List<List> data) {
 
-			return diff;
+            this.data = data;
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		}
+        @Override
+        public void clear() {
 
-		public void setDiff( BigDecimal diff ) {
+            data.clear();
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-			this.diff = diff;
+        private void setRowCount() {
 
-		}
+            rowcount = data.size();
+        }
+    }
 
-		public boolean isNull() {
+    @Override
+    protected JTableHeader createDefaultTableHeader() {
 
-			return false;
+        return new JTableHeader(columnModel) {
+            @Override
+            public String getToolTipText(MouseEvent e) {
 
-		}
+                java.awt.Point p = e.getPoint();
+                int index = columnModel.getColumnIndexAtX(p.x);
 
-	}
+                if (index == -1) {
 
-	public class NullRow extends Row {
+                    return "";
+                }
 
-		public boolean isNull() {
+                int realIndex = columnModel.getColumn(index).getModelIndex();
+                return columnToolTips[realIndex];
+            }
+        };
+    }
 
-			return true;
-
-		}
-
-	}
-
-	private class DataModel extends AbstractTableModel implements Reload {
-
-		private List<List> data;
-		private List<String> columns;
-		private int rowcount;
-
-		public DataModel() {
-
-			data = new ArrayList<List>();
-			columns = new ArrayList<String>();
-			setRowCount();
-
-		}
-
-		public void addColumn( String col ) {
-
-			columns.add( col );
-
-		}
-
-		@Override
-		public void addTableModelListener( TableModelListener l ) {
-
-			super.addTableModelListener( l );
-
-		}
-
-		@Override
-		public Class<?> getColumnClass( int c ) {
-
-			Class columnClass = BigDecimal.class;
-
-			switch ( c ) {
-
-			case 0, 1 -> {
-
-				columnClass = String.class;
-
-			}
-
-			}
-
-			return columnClass;
-
-		}
-
-		@Override
-		public int getColumnCount() {
-
-			return columns.size();
-
-		}
-
-		@Override
-		public String getColumnName( int c ) {
-
-			return columns.get( c );
-
-		}
-
-		@Override
-		public int getRowCount() {
-
-			return rowcount;
-
-		}
-
-		@Override
-		public Object getValueAt( int r, int c ) {
-
-			if ( data.isEmpty() ) {
-
-				return "";
-
-			}
-
-			return data.get( r ).get( c );
-
-		}
-
-		@Override
-		public boolean isCellEditable( int r, int c ) {
-
-			return false;
-
-		}
-
-		@Override
-		public void removeTableModelListener( TableModelListener l ) {
-
-			super.removeTableModelListener( l );
-
-		}
-
-		@Override
-		public void setValueAt( Object o, int r, int c ) {
-
-			data.get( r ).set( c, o );
-			fireTableDataChanged();
-
-		}
-
-		public void reload( List<List> data ) {
-
-			this.data = data;
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		@Override
-		public void clear() {
-
-			data.clear();
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		private void setRowCount() {
-
-			rowcount = data.size();
-
-		}
-
-	}
-
-	@Override
-	protected JTableHeader createDefaultTableHeader() {
-
-		return new JTableHeader( columnModel ) {
-			@Override
-			public String getToolTipText( MouseEvent e ) {
-
-				java.awt.Point p = e.getPoint();
-				int index = columnModel.getColumnIndexAtX( p.x );
-
-				if ( index == -1 ) {
-
-					return "";
-
-				}
-
-				int realIndex = columnModel.getColumn( index ).getModelIndex();
-				return columnToolTips[realIndex];
-
-			}
-		};
-
-	}
-
-	protected String[] columnToolTips = new String[] {
-			"Food Category", "Nutrient", "Mix A", "Mix B", "Nutrient Amount Difference"
-	};
-
+    protected String[] columnToolTips =
+            new String[] {"Food Category", "Nutrient", "Mix A", "Mix B", "Nutrient Amount Difference"};
 }

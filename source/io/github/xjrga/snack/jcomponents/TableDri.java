@@ -29,531 +29,460 @@ import javax.swing.table.TableRowSorter;
  */
 public class TableDri extends JTable {
 
-	private TableRowSorter sorter;
-	private JTextField searchField;
-	private DataModel dm;
+    private TableRowSorter sorter;
+    private JTextField searchField;
+    private DataModel dm;
 
-	public TableDri() {
+    public TableDri() {
 
-		searchField = new JTextField();
-		dm = new DataModel();
-		dm.addColumn( "NutrientId" );
-		dm.addColumn( "Nutrient" );
-		dm.addColumn( "Mix" );
-		dm.addColumn( "DRI" );
-		dm.addColumn( "%DRI" );
-		dm.addColumn( "UL" );
-		dm.addColumn( "%UL" );
-		setModel( dm );
-		setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		setFillsViewportHeight( true );
-		setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
-		getTableHeader().setReorderingAllowed( false );
-		sorter = new TableRowSorter<>( dm );
-		setRowSorter( sorter );
-		searchField.getDocument().addDocumentListener( new DocumentListener() {
-			@Override
-			public void changedUpdate( DocumentEvent e ) {
+        searchField = new JTextField();
+        dm = new DataModel();
+        dm.addColumn("NutrientId");
+        dm.addColumn("Nutrient");
+        dm.addColumn("Mix");
+        dm.addColumn("DRI");
+        dm.addColumn("%DRI");
+        dm.addColumn("UL");
+        dm.addColumn("%UL");
+        setModel(dm);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setFillsViewportHeight(true);
+        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        getTableHeader().setReorderingAllowed(false);
+        sorter = new TableRowSorter<>(dm);
+        setRowSorter(sorter);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
 
-				filter();
+                filter();
+            }
 
-			}
+            @Override
+            public void insertUpdate(DocumentEvent e) {
 
-			@Override
-			public void insertUpdate( DocumentEvent e ) {
+                filter();
+            }
 
-				filter();
+            @Override
+            public void removeUpdate(DocumentEvent e) {
 
-			}
+                filter();
+            }
 
-			@Override
-			public void removeUpdate( DocumentEvent e ) {
+            private void filter() {
 
-				filter();
+                RowFilter<Object, Object> rf = null;
 
-			}
+                try {
 
-			private void filter() {
+                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 0));
+                    rf = RowFilter.orFilter(filters);
 
-				RowFilter<Object, Object> rf = null;
+                } catch (java.util.regex.PatternSyntaxException e) {
 
-				try {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
 
-					List<RowFilter<Object, Object>> filters = new ArrayList<>();
-					filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 0 ) );
-					rf = RowFilter.orFilter( filters );
+                sorter.setRowFilter(rf);
+            }
+        });
+        adjustColumnWidth();
+    }
 
-				} catch (java.util.regex.PatternSyntaxException e) {
+    public boolean isSelectionEmpty() {
 
-					LoggerImpl.INSTANCE.logProblem( e );
+        int[] rows = getSelectedRows();
+        return rows.length == 0;
+    }
 
-				}
+    public boolean isEmpty() {
 
-				sorter.setRowFilter( rf );
+        return !(getRowCount() > 0);
+    }
 
-			}
-		} );
-		adjustColumnWidth();
+    @Override
+    public void setValueAt(Object aValue, int row, int column) {
 
-	}
+        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    }
 
-	public boolean isSelectionEmpty() {
+    public void selectRow(int RowNo) {
 
-		int[] rows = getSelectedRows();
-		return rows.length == 0;
+        setRowSelectionInterval(RowNo, RowNo);
+    }
 
-	}
+    public void showRow(int RowNo) {
 
-	public boolean isEmpty() {
+        Rectangle rect = getCellRect(RowNo, 0, true);
+        scrollRectToVisible(rect);
+    }
 
-		return !(getRowCount() > 0);
+    public Row getSelectedValue() {
 
-	}
+        if (isEmpty()) {
 
-	@Override
-	public void setValueAt( Object aValue, int row, int column ) {
+            return new NullRow();
+        }
 
-		dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
+        if (isSelectionEmpty()) {
 
-	}
+            return new NullRow();
+        }
 
-	public void selectRow( int RowNo ) {
+        return getRow(getSelectedRow());
+    }
 
-		setRowSelectionInterval( RowNo, RowNo );
+    public List<Row> getSelectedValues() {
 
-	}
+        ArrayList<Row> results = new ArrayList<Row>();
 
-	public void showRow( int RowNo ) {
+        if (isSelectionEmpty()) {
 
-		Rectangle rect = getCellRect( RowNo, 0, true );
-		scrollRectToVisible( rect );
+            return results;
+        }
 
-	}
+        int[] rows = this.getSelectedRows();
 
-	public Row getSelectedValue() {
+        for (int i = 0; i < rows.length; i++) {
 
-		if ( isEmpty() ) {
+            Row foodfacts = getRow(i);
+            results.add(foodfacts);
+        }
 
-			return new NullRow();
+        return results;
+    }
 
-		}
+    private Row getRow(int selectedRowNo) {
 
-		if ( isSelectionEmpty() ) {
+        String nutrientid = (String) getValueAt(selectedRowNo, 0);
+        String nutrient = (String) getValueAt(selectedRowNo, 1);
+        BigDecimal mix = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal dri = (BigDecimal) getValueAt(selectedRowNo, 3);
+        BigDecimal pctdri = (BigDecimal) getValueAt(selectedRowNo, 4);
+        BigDecimal ul = (BigDecimal) getValueAt(selectedRowNo, 5);
+        BigDecimal pctul = (BigDecimal) getValueAt(selectedRowNo, 6);
+        Row row = new Row();
+        row.setNutrientid(nutrientid);
+        row.setNutrient(nutrient);
+        row.setMix(mix);
+        row.setDri(dri);
+        row.setPctdri(pctdri);
+        row.setUl(ul);
+        row.setPctul(pctul);
+        return row;
+    }
 
-			return new NullRow();
+    public JTextField getSearchField() {
 
-		}
+        return searchField;
+    }
 
-		return getRow( getSelectedRow() );
+    public void reload(List<List> data) {
 
-	}
+        dm.clear();
+        dm.reload(data);
+        adjustColumnWidth();
+    }
 
-	public List<Row> getSelectedValues() {
+    public void clear() {
 
-		ArrayList<Row> results = new ArrayList<Row>();
+        dm.clear();
+    }
 
-		if ( isSelectionEmpty() ) {
+    private void adjustColumnWidth() {
 
-			return results;
+        getColumnModel().getColumn(0).setMinWidth(0);
+        getColumnModel().getColumn(0).setMaxWidth(0);
+        getColumnModel().getColumn(1).setMinWidth(310);
 
-		}
+        for (int i = 2; i < 7; i++) {
 
-		int[] rows = this.getSelectedRows();
+            getColumnModel().getColumn(i).setMinWidth(70);
+        }
+    }
 
-		for ( int i = 0; i < rows.length; i++ ) {
+    public int find(String foodid) {
 
-			Row foodfacts = getRow( i );
-			results.add( foodfacts );
+        int index = 0;
+        int r = this.getRowCount();
 
-		}
+        for (int j = 0; j < r; j++) {
 
-		return results;
+            if (foodid.equals(getValueAt(j, 1))) {
 
-	}
+                index = j;
+            }
+        }
 
-	private Row getRow( int selectedRowNo ) {
+        return index;
+    }
 
-		String nutrientid = ( String ) getValueAt( selectedRowNo, 0 );
-		String nutrient = ( String ) getValueAt( selectedRowNo, 1 );
-		BigDecimal mix = ( BigDecimal ) getValueAt( selectedRowNo, 2 );
-		BigDecimal dri = ( BigDecimal ) getValueAt( selectedRowNo, 3 );
-		BigDecimal pctdri = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
-		BigDecimal ul = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
-		BigDecimal pctul = ( BigDecimal ) getValueAt( selectedRowNo, 6 );
-		Row row = new Row();
-		row.setNutrientid( nutrientid );
-		row.setNutrient( nutrient );
-		row.setMix( mix );
-		row.setDri( dri );
-		row.setPctdri( pctdri );
-		row.setUl( ul );
-		row.setPctul( pctul );
-		return row;
+    public void roundUp() {
 
-	}
+        RoundUpRenderer renderer = new RoundUpRenderer();
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        getColumnModel().getColumn(4).setCellRenderer(new DriUpRenderer());
+        getColumnModel().getColumn(5).setCellRenderer(renderer);
+        getColumnModel().getColumn(6).setCellRenderer(new UpperLimitUpRenderer());
+        revalidate();
+        repaint();
+    }
 
-	public JTextField getSearchField() {
+    public void roundDown() {
 
-		return searchField;
+        RoundDownRenderer renderer = new RoundDownRenderer();
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        getColumnModel().getColumn(4).setCellRenderer(new DriDownRenderer());
+        getColumnModel().getColumn(5).setCellRenderer(renderer);
+        getColumnModel().getColumn(6).setCellRenderer(new UpperLimitDownRenderer());
+        revalidate();
+        repaint();
+    }
 
-	}
+    public class Row {
 
-	public void reload( List<List> data ) {
+        private String nutrientid;
+        private String nutrient;
+        private BigDecimal mix;
+        private BigDecimal dri;
+        private BigDecimal pctdri;
+        private BigDecimal ul;
+        private BigDecimal pctul;
 
-		dm.clear();
-		dm.reload( data );
-		adjustColumnWidth();
+        public Row() {
 
-	}
+            nutrientid = "";
+            nutrient = "";
+            mix = new BigDecimal("0.0");
+            dri = new BigDecimal("0.0");
+            pctdri = new BigDecimal("0.0");
+            ul = new BigDecimal("0.0");
+            pctul = new BigDecimal("0.0");
+        }
 
-	public void clear() {
+        public String getNutrientid() {
 
-		dm.clear();
+            return nutrientid;
+        }
 
-	}
+        public void setNutrientid(String nutrientid) {
 
-	private void adjustColumnWidth() {
+            this.nutrientid = nutrientid;
+        }
 
-		getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-		getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
-		getColumnModel().getColumn( 1 ).setMinWidth( 310 );
+        public String getNutrient() {
 
-		for ( int i = 2; i < 7; i++ ) {
+            return nutrient;
+        }
 
-			getColumnModel().getColumn( i ).setMinWidth( 70 );
+        public void setNutrient(String nutrient) {
 
-		}
+            this.nutrient = nutrient;
+        }
 
-	}
+        public BigDecimal getMix() {
 
-	public int find( String foodid ) {
+            return mix;
+        }
 
-		int index = 0;
-		int r = this.getRowCount();
+        public void setMix(BigDecimal mix) {
 
-		for ( int j = 0; j < r; j++ ) {
+            this.mix = mix;
+        }
 
-			if ( foodid.equals( getValueAt( j, 1 ) ) ) {
+        public BigDecimal getDri() {
 
-				index = j;
+            return dri;
+        }
 
-			}
+        public void setDri(BigDecimal dri) {
 
-		}
+            this.dri = dri;
+        }
 
-		return index;
+        public BigDecimal getPctdri() {
 
-	}
+            return pctdri;
+        }
 
-	public void roundUp() {
+        public void setPctdri(BigDecimal pctdri) {
 
-		RoundUpRenderer renderer = new RoundUpRenderer();
-		getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 4 ).setCellRenderer( new DriUpRenderer() );
-		getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 6 ).setCellRenderer( new UpperLimitUpRenderer() );
-		revalidate();
-		repaint();
+            this.pctdri = pctdri;
+        }
 
-	}
+        public BigDecimal getUl() {
 
-	public void roundDown() {
+            return ul;
+        }
 
-		RoundDownRenderer renderer = new RoundDownRenderer();
-		getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 4 ).setCellRenderer( new DriDownRenderer() );
-		getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 6 ).setCellRenderer( new UpperLimitDownRenderer() );
-		revalidate();
-		repaint();
+        public void setUl(BigDecimal ul) {
 
-	}
+            this.ul = ul;
+        }
 
-	public class Row {
+        public BigDecimal getPctul() {
 
-		private String nutrientid;
-		private String nutrient;
-		private BigDecimal mix;
-		private BigDecimal dri;
-		private BigDecimal pctdri;
-		private BigDecimal ul;
-		private BigDecimal pctul;
+            return pctul;
+        }
 
-		public Row() {
+        public void setPctul(BigDecimal pctul) {
 
-			nutrientid = "";
-			nutrient = "";
-			mix = new BigDecimal( "0.0" );
-			dri = new BigDecimal( "0.0" );
-			pctdri = new BigDecimal( "0.0" );
-			ul = new BigDecimal( "0.0" );
-			pctul = new BigDecimal( "0.0" );
+            this.pctul = pctul;
+        }
 
-		}
+        public boolean isNull() {
 
-		public String getNutrientid() {
+            return false;
+        }
+    }
 
-			return nutrientid;
+    public class NullRow extends Row {
 
-		}
+        public boolean isNull() {
 
-		public void setNutrientid( String nutrientid ) {
+            return true;
+        }
+    }
 
-			this.nutrientid = nutrientid;
+    private class DataModel extends AbstractTableModel implements Reload {
 
-		}
+        private List<List> data;
+        private List<String> columns;
+        private int rowcount;
 
-		public String getNutrient() {
+        public DataModel() {
 
-			return nutrient;
+            data = new ArrayList<List>();
+            columns = new ArrayList<String>();
+            setRowCount();
+        }
 
-		}
+        public void addColumn(String col) {
 
-		public void setNutrient( String nutrient ) {
+            columns.add(col);
+        }
 
-			this.nutrient = nutrient;
+        @Override
+        public void addTableModelListener(TableModelListener l) {
 
-		}
+            super.addTableModelListener(l);
+        }
 
-		public BigDecimal getMix() {
+        @Override
+        public Class<?> getColumnClass(int c) {
 
-			return mix;
+            Class columnClass = BigDecimal.class;
 
-		}
+            switch (c) {
+                case 0, 1, 2 -> {
+                    columnClass = String.class;
+                }
+            }
 
-		public void setMix( BigDecimal mix ) {
+            return columnClass;
+        }
 
-			this.mix = mix;
+        @Override
+        public int getColumnCount() {
 
-		}
+            return columns.size();
+        }
 
-		public BigDecimal getDri() {
+        @Override
+        public String getColumnName(int c) {
 
-			return dri;
+            return columns.get(c);
+        }
 
-		}
+        @Override
+        public int getRowCount() {
 
-		public void setDri( BigDecimal dri ) {
+            return rowcount;
+        }
 
-			this.dri = dri;
+        @Override
+        public Object getValueAt(int r, int c) {
 
-		}
+            if (data.isEmpty()) {
 
-		public BigDecimal getPctdri() {
+                return "";
+            }
 
-			return pctdri;
+            return data.get(r).get(c);
+        }
 
-		}
+        @Override
+        public boolean isCellEditable(int r, int c) {
 
-		public void setPctdri( BigDecimal pctdri ) {
+            return false;
+        }
 
-			this.pctdri = pctdri;
+        @Override
+        public void removeTableModelListener(TableModelListener l) {
 
-		}
+            super.removeTableModelListener(l);
+        }
 
-		public BigDecimal getUl() {
+        @Override
+        public void setValueAt(Object o, int r, int c) {
 
-			return ul;
+            data.get(r).set(c, o);
+            fireTableDataChanged();
+        }
 
-		}
+        public void reload(List<List> data) {
 
-		public void setUl( BigDecimal ul ) {
+            this.data = data;
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-			this.ul = ul;
+        @Override
+        public void clear() {
 
-		}
+            data.clear();
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		public BigDecimal getPctul() {
+        private void setRowCount() {
 
-			return pctul;
+            rowcount = data.size();
+        }
+    }
 
-		}
+    @Override
+    protected JTableHeader createDefaultTableHeader() {
 
-		public void setPctul( BigDecimal pctul ) {
+        return new JTableHeader(columnModel) {
+            @Override
+            public String getToolTipText(MouseEvent e) {
 
-			this.pctul = pctul;
+                java.awt.Point p = e.getPoint();
+                int index = columnModel.getColumnIndexAtX(p.x);
 
-		}
+                if (index == -1) {
 
-		public boolean isNull() {
+                    return "";
+                }
 
-			return false;
+                int realIndex = columnModel.getColumn(index).getModelIndex();
+                return columnToolTips[realIndex];
+            }
+        };
+    }
 
-		}
-
-	}
-
-	public class NullRow extends Row {
-
-		public boolean isNull() {
-
-			return true;
-
-		}
-
-	}
-
-	private class DataModel extends AbstractTableModel implements Reload {
-
-		private List<List> data;
-		private List<String> columns;
-		private int rowcount;
-
-		public DataModel() {
-
-			data = new ArrayList<List>();
-			columns = new ArrayList<String>();
-			setRowCount();
-
-		}
-
-		public void addColumn( String col ) {
-
-			columns.add( col );
-
-		}
-
-		@Override
-		public void addTableModelListener( TableModelListener l ) {
-
-			super.addTableModelListener( l );
-
-		}
-
-		@Override
-		public Class<?> getColumnClass( int c ) {
-
-			Class columnClass = BigDecimal.class;
-
-			switch ( c ) {
-
-			case 0, 1, 2 -> {
-
-				columnClass = String.class;
-
-			}
-
-			}
-
-			return columnClass;
-
-		}
-
-		@Override
-		public int getColumnCount() {
-
-			return columns.size();
-
-		}
-
-		@Override
-		public String getColumnName( int c ) {
-
-			return columns.get( c );
-
-		}
-
-		@Override
-		public int getRowCount() {
-
-			return rowcount;
-
-		}
-
-		@Override
-		public Object getValueAt( int r, int c ) {
-
-			if ( data.isEmpty() ) {
-
-				return "";
-
-			}
-
-			return data.get( r ).get( c );
-
-		}
-
-		@Override
-		public boolean isCellEditable( int r, int c ) {
-
-			return false;
-
-		}
-
-		@Override
-		public void removeTableModelListener( TableModelListener l ) {
-
-			super.removeTableModelListener( l );
-
-		}
-
-		@Override
-		public void setValueAt( Object o, int r, int c ) {
-
-			data.get( r ).set( c, o );
-			fireTableDataChanged();
-
-		}
-
-		public void reload( List<List> data ) {
-
-			this.data = data;
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		@Override
-		public void clear() {
-
-			data.clear();
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		private void setRowCount() {
-
-			rowcount = data.size();
-
-		}
-
-	}
-
-	@Override
-	protected JTableHeader createDefaultTableHeader() {
-
-		return new JTableHeader( columnModel ) {
-			@Override
-			public String getToolTipText( MouseEvent e ) {
-
-				java.awt.Point p = e.getPoint();
-				int index = columnModel.getColumnIndexAtX( p.x );
-
-				if ( index == -1 ) {
-
-					return "";
-
-				}
-
-				int realIndex = columnModel.getColumn( index ).getModelIndex();
-				return columnToolTips[realIndex];
-
-			}
-		};
-
-	}
-
-	protected String[] columnToolTips = new String[] {
-			"NutrientId",
-			"Nutrient",
-			"Mix",
-			"Dietary Reference Intake",
-			"Percent Dietary Reference Intake",
-			"Tolerable Upper Intake Level",
-			"Percent Tolerable Upper Intake Level"
-	};
-
+    protected String[] columnToolTips = new String[] {
+        "NutrientId",
+        "Nutrient",
+        "Mix",
+        "Dietary Reference Intake",
+        "Percent Dietary Reference Intake",
+        "Tolerable Upper Intake Level",
+        "Percent Tolerable Upper Intake Level"
+    };
 }

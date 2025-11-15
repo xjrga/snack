@@ -8,52 +8,43 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class MixFoodDOFinder {
 
-	private MixFoodDOFinder() {
+    private MixFoodDOFinder() {}
 
-	}
+    public static int find(String foodid, DefaultComboBoxModel model) {
 
-	public static int find( String foodid, DefaultComboBoxModel model ) {
+        int index = 0;
+        int size = model.getSize();
 
-		int index = 0;
-		int size = model.getSize();
+        for (int i = 0; i < size; i++) {
 
-		for ( int i = 0; i < size; i++ ) {
+            MixFoodDO elementAt = (MixFoodDO) model.getElementAt(i);
 
-			MixFoodDO elementAt = ( MixFoodDO ) model.getElementAt( i );
+            if (elementAt.getFoodId().equals(foodid)) {
 
-			if ( elementAt.getFoodId().equals( foodid ) ) {
+                index = i;
+                break;
+            }
+        }
 
-				index = i;
-				break;
+        return index;
+    }
 
-			}
+    public static int find(String foodid, ComboBox<MixFoodDO> cmb) {
 
-		}
+        int index = 0;
+        int size = cmb.getItemCount();
 
-		return index;
+        for (int i = 0; i < size; i++) {
 
-	}
+            MixFoodDO elementAt = (MixFoodDO) cmb.getElementAt(i);
 
-	public static int find( String foodid, ComboBox<MixFoodDO> cmb ) {
+            if (elementAt.getFoodId().equals(foodid)) {
 
-		int index = 0;
-		int size = cmb.getItemCount();
+                index = i;
+                break;
+            }
+        }
 
-		for ( int i = 0; i < size; i++ ) {
-
-			MixFoodDO elementAt = ( MixFoodDO ) cmb.getElementAt( i );
-
-			if ( elementAt.getFoodId().equals( foodid ) ) {
-
-				index = i;
-				break;
-
-			}
-
-		}
-
-		return index;
-
-	}
-
+        return index;
+    }
 }

@@ -5,37 +5,32 @@ import java.text.DecimalFormat;
 
 public class Formatted {
 
-	private String fx = null;
+    private String fx = null;
 
-	public Formatted( double x, int precision ) {
+    public Formatted(double x, int precision) {
 
-		DecimalFormat formatter = new DecimalFormat();
-		formatter.setRoundingMode( RoundingMode.HALF_UP );
-		StringBuilder sb = new StringBuilder();
-		sb.append( "#####" );
+        DecimalFormat formatter = new DecimalFormat();
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        StringBuilder sb = new StringBuilder();
+        sb.append("#####");
 
-		if ( precision > 0 ) {
+        if (precision > 0) {
 
-			sb.append( "." );
+            sb.append(".");
+        }
 
-		}
+        for (int i = 0; i < precision; i++) {
 
-		for ( int i = 0; i < precision; i++ ) {
+            sb.append("#");
+        }
 
-			sb.append( "#" );
+        formatter.applyPattern(sb.toString());
+        fx = formatter.format(x);
+    }
 
-		}
+    @Override
+    public String toString() {
 
-		formatter.applyPattern( sb.toString() );
-		fx = formatter.format( x );
-
-	}
-
-	@Override
-	public String toString() {
-
-		return fx;
-
-	}
-
+        return fx;
+    }
 }

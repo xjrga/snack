@@ -25,53 +25,46 @@ import javax.swing.tree.DefaultTreeModel;
 
 public class TreeModelFood extends DefaultTreeModel {
 
-	private DefaultMutableTreeNode node;
+    private DefaultMutableTreeNode node;
 
-	public TreeModelFood() {
+    public TreeModelFood() {
 
-		super( null );
-		node = new DefaultMutableTreeNode( "Food" );
-		this.setRoot( node );
+        super(null);
+        node = new DefaultMutableTreeNode("Food");
+        this.setRoot(node);
+    }
 
-	}
+    public void reload(List<Map<String, Object>> list) {
 
-	public void reload( List<Map<String, Object>> list ) {
+        HashMap hm = new HashMap();
+        node = new DefaultMutableTreeNode("Food");
+        list.forEach(row -> {
+            String categoryName = (String) row.get("CATEGORY");
+            String foodid = (String) row.get("FOODID");
+            String foodName = (String) row.get("FOOD");
+            String foodcategoryid = (String) row.get("FOODCATEGORYID");
+            DefaultMutableTreeNode category = new DefaultMutableTreeNode(categoryName);
+            MixFoodDO foodobject = new MixFoodDO(foodid, foodName);
+            DefaultMutableTreeNode food = new DefaultMutableTreeNode(foodobject);
 
-		HashMap hm = new HashMap();
-		node = new DefaultMutableTreeNode( "Food" );
-		list.forEach( row -> {
+            if (hm.containsKey(foodcategoryid)) {
 
-			String categoryName = ( String ) row.get( "CATEGORY" );
-			String foodid = ( String ) row.get( "FOODID" );
-			String foodName = ( String ) row.get( "FOOD" );
-			String foodcategoryid = ( String ) row.get( "FOODCATEGORYID" );
-			DefaultMutableTreeNode category = new DefaultMutableTreeNode( categoryName );
-			MixFoodDO foodobject = new MixFoodDO( foodid, foodName );
-			DefaultMutableTreeNode food = new DefaultMutableTreeNode( foodobject );
+                category = (DefaultMutableTreeNode) hm.get(foodcategoryid);
 
-			if ( hm.containsKey( foodcategoryid ) ) {
+            } else {
 
-				category = ( DefaultMutableTreeNode ) hm.get( foodcategoryid );
+                hm.put(foodcategoryid, category);
+                node.add(category);
+            }
 
-			} else {
+            category.add(food);
+        });
+        this.setRoot(node);
+    }
 
-				hm.put( foodcategoryid, category );
-				node.add( category );
+    public void clear() {
 
-			}
-
-			category.add( food );
-
-		} );
-		this.setRoot( node );
-
-	}
-
-	public void clear() {
-
-		node = new DefaultMutableTreeNode( "Food" );
-		this.setRoot( node );
-
-	}
-
+        node = new DefaultMutableTreeNode("Food");
+        this.setRoot(node);
+    }
 }

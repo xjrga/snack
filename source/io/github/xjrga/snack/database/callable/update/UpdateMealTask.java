@@ -12,44 +12,40 @@ import java.util.concurrent.Callable;
  */
 public class UpdateMealTask implements Callable<Boolean> {
 
-	private final Connection connection;
-	private final String mixid;
-	private final Integer mealid;
-	private final String mealname;
-	private final Integer mealorder;
+    private final Connection connection;
+    private final String mixid;
+    private final Integer mealid;
+    private final String mealname;
+    private final Integer mealorder;
 
-	public UpdateMealTask( String mixid, Integer mealid, String mealname, Integer mealorder ) {
+    public UpdateMealTask(String mixid, Integer mealid, String mealname, Integer mealorder) {
 
-		connection = Connect.getInstance().getConnection();
-		this.mixid = mixid;
-		this.mealid = mealid;
-		this.mealname = mealname;
-		this.mealorder = mealorder;
+        connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.mealid = mealid;
+        this.mealname = mealname;
+        this.mealorder = mealorder;
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        Boolean completed = false;
 
-		Boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Meal_update( ?, ?, ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Meal_update( ?, ?, ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setInt(2, mealid);
+            proc.setString(3, mealname);
+            proc.setInt(4, mealorder);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.setInt( 2, mealid );
-			proc.setString( 3, mealname );
-			proc.setInt( 4, mealorder );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

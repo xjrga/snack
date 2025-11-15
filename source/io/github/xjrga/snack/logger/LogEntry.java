@@ -7,124 +7,108 @@ import java.util.Objects;
  */
 public class LogEntry {
 
-	private final int stackElement;
-	private final String callerClassName;
-	private final String callerClassPackage;
-	private final String callerSimpleClassName;
-	private final String callerMethodName;
-	private final int callerLineNum;
+    private final int stackElement;
+    private final String callerClassName;
+    private final String callerClassPackage;
+    private final String callerSimpleClassName;
+    private final String callerMethodName;
+    private final int callerLineNum;
 
-	public LogEntry( int stackElement, String callerClassName, String callerMethodName, int callerLineNum ) {
+    public LogEntry(int stackElement, String callerClassName, String callerMethodName, int callerLineNum) {
 
-		this.stackElement = stackElement;
-		this.callerClassName = callerClassName;
-		this.callerClassPackage = callerClassName.substring( 0, callerClassName.lastIndexOf( "." ) );
-		this.callerSimpleClassName = callerClassName.replace( callerClassPackage + ".", "" );
-		this.callerMethodName = callerMethodName;
-		this.callerLineNum = callerLineNum;
+        this.stackElement = stackElement;
+        this.callerClassName = callerClassName;
+        this.callerClassPackage = callerClassName.substring(0, callerClassName.lastIndexOf("."));
+        this.callerSimpleClassName = callerClassName.replace(callerClassPackage + ".", "");
+        this.callerMethodName = callerMethodName;
+        this.callerLineNum = callerLineNum;
+    }
 
-	}
+    public int getStackElement() {
 
-	public int getStackElement() {
+        return stackElement;
+    }
 
-		return stackElement;
+    public String getCallerClassName() {
 
-	}
+        return callerClassName;
+    }
 
-	public String getCallerClassName() {
+    public String getCallerClassPackage() {
 
-		return callerClassName;
+        return callerClassPackage;
+    }
 
-	}
+    public String getCallerSimpleClassName() {
 
-	public String getCallerClassPackage() {
+        return callerSimpleClassName;
+    }
 
-		return callerClassPackage;
+    public String getCallerMethodName() {
 
-	}
+        return callerMethodName;
+    }
 
-	public String getCallerSimpleClassName() {
+    public int getCallerLineNum() {
 
-		return callerSimpleClassName;
+        return callerLineNum;
+    }
 
-	}
+    @Override
+    public int hashCode() {
 
-	public String getCallerMethodName() {
+        int hash = 7;
+        hash = 11 * hash + this.stackElement;
+        hash = 11 * hash + Objects.hashCode(this.callerClassName);
+        hash = 11 * hash + Objects.hashCode(this.callerMethodName);
+        hash = 11 * hash + this.callerLineNum;
+        return hash;
+    }
 
-		return callerMethodName;
+    @Override
+    public boolean equals(Object obj) {
 
-	}
+        if (this == obj) {
 
-	public int getCallerLineNum() {
+            return true;
+        }
 
-		return callerLineNum;
+        if (obj == null) {
 
-	}
+            return false;
+        }
 
-	@Override
-	public int hashCode() {
+        if (getClass() != obj.getClass()) {
 
-		int hash = 7;
-		hash = 11 * hash + this.stackElement;
-		hash = 11 * hash + Objects.hashCode( this.callerClassName );
-		hash = 11 * hash + Objects.hashCode( this.callerMethodName );
-		hash = 11 * hash + this.callerLineNum;
-		return hash;
+            return false;
+        }
 
-	}
+        final LogEntry other = (LogEntry) obj;
 
-	@Override
-	public boolean equals( Object obj ) {
+        if (this.stackElement != other.stackElement) {
 
-		if ( this == obj ) {
+            return false;
+        }
 
-			return true;
+        if (this.callerLineNum != other.callerLineNum) {
 
-		}
+            return false;
+        }
 
-		if ( obj == null ) {
+        if (!Objects.equals(this.callerClassName, other.callerClassName)) {
 
-			return false;
+            return false;
+        }
 
-		}
+        return Objects.equals(this.callerMethodName, other.callerMethodName);
+    }
 
-		if ( getClass() != obj.getClass() ) {
+    @Override
+    public String toString() {
 
-			return false;
-
-		}
-
-		final LogEntry other = ( LogEntry ) obj;
-
-		if ( this.stackElement != other.stackElement ) {
-
-			return false;
-
-		}
-
-		if ( this.callerLineNum != other.callerLineNum ) {
-
-			return false;
-
-		}
-
-		if ( !Objects.equals( this.callerClassName, other.callerClassName ) ) {
-
-			return false;
-
-		}
-
-		return Objects.equals( this.callerMethodName, other.callerMethodName );
-
-	}
-
-	@Override
-	public String toString() {
-
-		String record = String.format( "%1$2s - %2$s - %3$s - %4$s - %5$s", stackElement, callerClassPackage,
-				callerSimpleClassName, callerMethodName, callerLineNum );
-		return record;
-
-	}
-
+        String record = String.format(
+                "%1$2s - %2$s - %3$s - %4$s - %5$s",
+                stackElement, callerClassPackage, callerSimpleClassName, callerMethodName, callerLineNum);
+        return record;
+    }
 }

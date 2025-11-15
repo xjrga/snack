@@ -9,43 +9,40 @@ import java.util.concurrent.Callable;
 
 public class InsertMealTask implements Callable<Boolean> {
 
-	private final String mixid;
-	private final Integer mealid;
-	private final String name;
-	private final Integer order;
-	private final Connection connection;
+    private final String mixid;
+    private final Integer mealid;
+    private final String name;
+    private final Integer order;
+    private final Connection connection;
 
-	public InsertMealTask( String mixid, Integer mealid, String name, Integer order ) {
+    public InsertMealTask(String mixid, Integer mealid, String name, Integer order) {
 
-		this.mixid = mixid;
-		this.mealid = mealid;
-		this.name = name;
-		this.order = order;
-		connection = Connect.getInstance().getConnection();
+        this.mixid = mixid;
+        this.mealid = mealid;
+        this.name = name;
+        this.order = order;
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public Boolean call() throws Exception {
 
-	@Override
-	public Boolean call() throws Exception {
+        boolean completed = false;
 
-		boolean completed = false;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Meal_insert_02( ?, ?, ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.Meal_insert_02( ?, ?, ?, ? )}" ) ) {
+            proc.setString(1, mixid);
+            proc.setInt(2, mealid);
+            proc.setString(3, name);
+            proc.setInt(4, order);
+            proc.execute();
+            completed = true;
 
-			proc.setString( 1, mixid );
-			proc.setInt( 2, mealid );
-			proc.setString( 3, name );
-			proc.setInt( 4, order );
-			proc.execute();
-			completed = true;
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            // LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-			// LoggerImpl.INSTANCE.logProblem(e);
-		}
-
-		return completed;
-
-	}
-
+        return completed;
+    }
 }

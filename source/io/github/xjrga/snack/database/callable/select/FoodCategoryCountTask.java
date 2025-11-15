@@ -10,42 +10,39 @@ import java.util.concurrent.Callable;
 
 public class FoodCategoryCountTask implements Callable<Integer> {
 
-	private Connection connection;
-	private final String foodid;
-	private final String foodcategoryid;
+    private Connection connection;
+    private final String foodid;
+    private final String foodcategoryid;
 
-	public FoodCategoryCountTask( String foodid, String foodcategoryid ) {
+    public FoodCategoryCountTask(String foodid, String foodcategoryid) {
 
-		connection = Connect.getInstance().getConnection();
-		this.foodid = foodid;
-		this.foodcategoryid = foodcategoryid;
+        connection = Connect.getInstance().getConnection();
+        this.foodid = foodid;
+        this.foodcategoryid = foodcategoryid;
+    }
 
-	}
+    @Override
+    public Integer call() throws Exception {
 
-	@Override
-	public Integer call() throws Exception {
+        Integer out = 0;
 
-		Integer out = 0;
+        try (CallableStatement proc = connection.prepareCall("{CALL public.CategoryLink_Count( ?, ? )}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.CategoryLink_Count( ?, ? )}" ) ) {
+            proc.setString(1, foodid);
+            proc.setString(2, foodcategoryid);
+            proc.execute();
+            ResultSet resultSet = proc.getResultSet();
+            resultSet.next();
+            out = resultSet.getInt(1);
 
-			proc.setString( 1, foodid );
-			proc.setString( 2, foodcategoryid );
-			proc.execute();
-			ResultSet resultSet = proc.getResultSet();
-			resultSet.next();
-			out = resultSet.getInt( 1 );
+        } catch (SQLException e) {
 
-		} catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
 
-			LoggerImpl.INSTANCE.logProblem( e );
+        } finally {
 
-		} finally {
+        }
 
-		}
-
-		return out;
-
-	}
-
+        return out;
+    }
 }

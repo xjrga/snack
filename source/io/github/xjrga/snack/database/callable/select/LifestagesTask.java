@@ -16,38 +16,33 @@ import java.util.concurrent.Callable;
  */
 public class LifestagesTask implements Callable<List<LifeStageDO>> {
 
-	private final Connection connection;
+    private final Connection connection;
 
-	public LifestagesTask() {
+    public LifestagesTask() {
 
-		connection = Connect.getInstance().getConnection();
+        connection = Connect.getInstance().getConnection();
+    }
 
-	}
+    @Override
+    public List<LifeStageDO> call() {
 
-	@Override
-	public List<LifeStageDO> call() {
+        ArrayList<LifeStageDO> list = new ArrayList();
 
-		ArrayList<LifeStageDO> list = new ArrayList();
+        try (CallableStatement proc = connection.prepareCall("{CALL public.RdaLifeStage_Select_All()}")) {
 
-		try ( CallableStatement proc = connection.prepareCall( "{CALL public.RdaLifeStage_Select_All()}" ) ) {
+            ResultSet rs = proc.executeQuery();
 
-			ResultSet rs = proc.executeQuery();
+            while (rs.next()) {
 
-			while ( rs.next() ) {
+                LifeStageDO lifestage = new LifeStageDO(rs.getInt(1), rs.getString(2));
+                list.add(lifestage);
+            }
 
-				LifeStageDO lifestage = new LifeStageDO( rs.getInt( 1 ), rs.getString( 2 ) );
-				list.add( lifestage );
+        } catch (SQLException e) {
 
-			}
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
 
-		} catch (SQLException e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-		return list;
-
-	}
-
+        return list;
+    }
 }

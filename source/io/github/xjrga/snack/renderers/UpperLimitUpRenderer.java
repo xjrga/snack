@@ -12,59 +12,52 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class UpperLimitUpRenderer extends DefaultTableCellRenderer {
 
-	private String txt;
+    private String txt;
 
-	@Override
-	public void setHorizontalAlignment( int alignment ) {
+    @Override
+    public void setHorizontalAlignment(int alignment) {
 
-		super.setHorizontalAlignment( SwingConstants.RIGHT );
+        super.setHorizontalAlignment(SwingConstants.RIGHT);
+    }
 
-	}
+    @Override
+    protected void setValue(Object value) {
 
-	@Override
-	protected void setValue( Object value ) {
+        if (value == null) {
 
-		if ( value == null ) {
+            super.setValue(txt);
+            return;
+        }
 
-			super.setValue( txt );
-			return;
+        DecimalFormat df = new DecimalFormat("###0.0");
+        BigDecimal d = (BigDecimal) value;
+        txt = df.format(d);
 
-		}
+        if (Utilities.moreThan(d, new BigDecimal("99.99999"))) {
 
-		DecimalFormat df = new DecimalFormat( "###0.0" );
-		BigDecimal d = ( BigDecimal ) value;
-		txt = df.format( d );
+            setForeground(Color.PINK);
 
-		if ( Utilities.moreThan( d, new BigDecimal( "99.99999" ) ) ) {
+        } else {
 
-			setForeground( Color.PINK );
+            setForeground(Color.decode("0xbec6cc"));
+        }
 
-		} else {
+        super.setValue(txt);
+    }
 
-			setForeground( Color.decode( "0xbec6cc" ) );
+    @Override
+    public Component getTableCellRendererComponent(
+            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
-		}
+        JLabel c = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-		super.setValue( txt );
+        if (value == null) {
 
-	}
+            return c;
+        }
 
-	@Override
-	public Component getTableCellRendererComponent(
-			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
+        c.setToolTipText((new DecimalFormat("######0.0#################")).format(value));
 
-		JLabel c = ( JLabel ) super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
-
-		if ( value == null ) {
-
-			return c;
-
-		}
-
-		c.setToolTipText( (new DecimalFormat( "######0.0#################" )).format( value ) );
-
-		return c;
-
-	}
-
+        return c;
+    }
 }

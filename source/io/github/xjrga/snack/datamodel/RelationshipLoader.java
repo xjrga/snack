@@ -27,49 +27,40 @@ import java.util.concurrent.Future;
 
 public class RelationshipLoader implements Reload {
 
-	private ArrayList<RelationshipDO> relationship_list;
+    private ArrayList<RelationshipDO> relationship_list;
 
-	public RelationshipLoader() {
+    public RelationshipLoader() {}
 
-	}
+    public ArrayList<RelationshipDO> get() {
 
-	public ArrayList<RelationshipDO> get() {
+        return relationship_list;
+    }
 
-		return relationship_list;
+    @Override
+    public void reload() {
 
-	}
+        relationship_list = new ArrayList();
 
-	@Override
-	public void reload() {
+        try {
 
-		relationship_list = new ArrayList();
+            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new RelationshipsTask());
+            List<Map<String, Object>> list = task.get();
 
-		try {
+            if (list.isEmpty()) {
 
-			Future<List<Map<String, Object>>> task = BackgroundExec.submit( new RelationshipsTask() );
-			List<Map<String, Object>> list = task.get();
+                return;
+            }
 
-			if ( list.isEmpty() ) {
+            list.forEach(row -> {
+                int relationshipid = (int) row.get("RELATIONSHIPID");
+                String name = (String) row.get("NAME");
+                RelationshipDO relationshipDataObject = new RelationshipDO(relationshipid, name);
+                relationship_list.add(relationshipDataObject);
+            });
 
-				return;
+        } catch (Exception e) {
 
-			}
-
-			list.forEach( row -> {
-
-				int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
-				String name = ( String ) row.get( "NAME" );
-				RelationshipDO relationshipDataObject = new RelationshipDO( relationshipid, name );
-				relationship_list.add( relationshipDataObject );
-
-			} );
-
-		} catch (Exception e) {
-
-			LoggerImpl.INSTANCE.logProblem( e );
-
-		}
-
-	}
-
+            LoggerImpl.INSTANCE.logProblem(e);
+        }
+    }
 }

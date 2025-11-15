@@ -26,482 +26,378 @@ import javax.swing.table.TableRowSorter;
  */
 public class TableNutrientLookup extends JTable {
 
-	private TableRowSorter sorter;
-	private JTextField searchField;
-	private final DataModel dm;
+    private TableRowSorter sorter;
+    private JTextField searchField;
+    private final DataModel dm;
 
-	public TableNutrientLookup() {
+    public TableNutrientLookup() {
 
-		searchField = new JTextField();
-		dm = new DataModel();
-		dm.addColumn( "CategoryId" );
-		dm.addColumn( "FoodId" );
-		dm.addColumn( "Category" );
-		dm.addColumn( "Food" );
-		dm.addColumn( "Calories" );
-		dm.addColumn( "Amount" );
-		setModel( dm );
-		setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		setFillsViewportHeight( true );
-		setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS );
-		getTableHeader().setReorderingAllowed( false );
-		sorter = new TableRowSorter<>( dm );
-		setRowSorter( sorter );
-		searchField.getDocument().addDocumentListener( new DocumentListener() {
-			@Override
-			public void changedUpdate( DocumentEvent e ) {
+        searchField = new JTextField();
+        dm = new DataModel();
+        dm.addColumn("Food Id");
+        dm.addColumn("Food Name");
+        dm.addColumn("Food Quantity");
+        dm.addColumn("Food Calories");
+        setModel(dm);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setFillsViewportHeight(true);
+        setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        getTableHeader().setReorderingAllowed(false);
+        sorter = new TableRowSorter<>(dm);
+        setRowSorter(sorter);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
 
-				filter();
+                filter();
+            }
 
-			}
+            @Override
+            public void insertUpdate(DocumentEvent e) {
 
-			@Override
-			public void insertUpdate( DocumentEvent e ) {
+                filter();
+            }
 
-				filter();
+            @Override
+            public void removeUpdate(DocumentEvent e) {
 
-			}
+                filter();
+            }
 
-			@Override
-			public void removeUpdate( DocumentEvent e ) {
+            private void filter() {
 
-				filter();
+                RowFilter<Object, Object> rf = null;
 
-			}
+                try {
 
-			private void filter() {
+                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 0));
+                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 1));
+                    rf = RowFilter.orFilter(filters);
 
-				RowFilter<Object, Object> rf = null;
+                } catch (java.util.regex.PatternSyntaxException e) {
 
-				try {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
 
-					List<RowFilter<Object, Object>> filters = new ArrayList<>();
-					filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 2 ) );
-					filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 3 ) );
-					rf = RowFilter.orFilter( filters );
+                sorter.setRowFilter(rf);
+            }
+        });
+        adjustColumnWidth();
+    }
 
-				} catch (java.util.regex.PatternSyntaxException e) {
+    @Override
+    public void setValueAt(Object aValue, int row, int column) {
 
-					LoggerImpl.INSTANCE.logProblem( e );
+        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    }
 
-				}
+    public void selectRow(int RowNo) {
 
-				sorter.setRowFilter( rf );
+        setRowSelectionInterval(RowNo, RowNo);
+    }
 
-			}
-		} );
-		adjustColumnWidth();
+    public void showRow(int RowNo) {
 
-	}
+        Rectangle rect = getCellRect(RowNo, 0, true);
+        scrollRectToVisible(rect);
+    }
 
-	@Override
-	public void setValueAt( Object aValue, int row, int column ) {
+    public boolean isSelectionEmpty() {
 
-		dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
+        int[] rows = getSelectedRows();
+        return rows.length == 0;
+    }
 
-	}
+    public boolean isEmpty() {
 
-	public void selectRow( int RowNo ) {
+        return !(getRowCount() > 0);
+    }
 
-		setRowSelectionInterval( RowNo, RowNo );
+    public Row getSelectedValue() {
 
-	}
+        if (isEmpty()) {
 
-	public void showRow( int RowNo ) {
+            return new NullRow();
+        }
 
-		Rectangle rect = getCellRect( RowNo, 0, true );
-		scrollRectToVisible( rect );
+        if (isSelectionEmpty()) {
 
-	}
+            return new NullRow();
+        }
 
-	public boolean isSelectionEmpty() {
+        int row = getSelectedRow();
+        return getRow(row);
+    }
 
-		int[] rows = getSelectedRows();
-		return rows.length == 0;
+    public List<Row> getSelectedValues() {
 
-	}
+        int[] selectedRows = getSelectedRows();
+        ArrayList<Row> rows = new ArrayList<>();
 
-	public boolean isEmpty() {
+        if (getSelectedRowCount() == 0) {
 
-		return !(getRowCount() > 0);
+            return rows;
+        }
 
-	}
+        for (int i = 0; i < selectedRows.length; i++) {
 
-	public Row getSelectedValue() {
+            Row row = getRow(selectedRows[i]);
+            rows.add(row);
+        }
 
-		if ( isEmpty() ) {
+        return rows;
+    }
 
-			return new NullRow();
+    private Row getRow(int selectedRowNo) {
 
-		}
+        String foodid = (String) getValueAt(selectedRowNo, 0);
+        String food = (String) getValueAt(selectedRowNo, 1);
+        BigDecimal calories = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal amount = (BigDecimal) getValueAt(selectedRowNo, 3);
+        Row row = new Row();
+        row.setFoodid(foodid);
+        row.setFood(food);
+        row.setCalories(calories);
+        row.setAmount(amount);
+        return row;
+    }
 
-		if ( isSelectionEmpty() ) {
+    public JTextField getSearchField() {
 
-			return new NullRow();
+        return searchField;
+    }
 
-		}
+    public void reload(List<List> data) {
 
-		int row = getSelectedRow();
-		return getRow( row );
+        dm.clear();
+        dm.reload(data);
+        adjustColumnWidth();
+    }
 
-	}
+    public void clear() {
 
-	public List<Row> getSelectedValues() {
+        dm.clear();
+    }
 
-		int[] selectedRows = getSelectedRows();
-		ArrayList<Row> rows = new ArrayList<>();
+    private void adjustColumnWidth() {}
 
-		if ( getSelectedRowCount() == 0 ) {
+    public void roundUp() {
 
-			return rows;
+        roundQuantity(new RoundUpRenderer());
+    }
 
-		}
+    public void roundDown() {
 
-		for ( int i = 0; i < selectedRows.length; i++ ) {
+        roundQuantity(new RoundDownRenderer());
+    }
 
-			Row row = getRow( selectedRows[i] );
-			rows.add( row );
+    private void roundQuantity(DefaultTableCellRenderer renderer) {
 
-		}
+        getColumnModel().getColumn(2).setCellRenderer(renderer);
+        getColumnModel().getColumn(3).setCellRenderer(renderer);
+        revalidate();
+        repaint();
+    }
 
-		return rows;
+    public class Row {
 
-	}
+        private String foodid;
+        private String food;
+        private BigDecimal calories;
+        private BigDecimal amount;
 
-	private Row getRow( int selectedRowNo ) {
+        public Row() {
 
-		String categoryid = ( String ) getValueAt( selectedRowNo, 0 );
-		String foodid = ( String ) getValueAt( selectedRowNo, 1 );
-		String category = ( String ) getValueAt( selectedRowNo, 2 );
-		String food = ( String ) getValueAt( selectedRowNo, 3 );
-		BigDecimal calories = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
-		BigDecimal amount = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
-		Row row = new Row();
-		row.setFoodcategoryid( categoryid );
-		row.setFoodid( foodid );
-		row.setCategory( category );
-		row.setFood( food );
-		row.setCalories( calories );
-		row.setAmount( amount );
-		return row;
+            foodid = "";
+            food = "";
+            calories = new BigDecimal("0.0");
+            amount = new BigDecimal("0.0");
+        }
 
-	}
+        public String getFoodid() {
 
-	public JTextField getSearchField() {
+            return foodid;
+        }
 
-		return searchField;
+        public void setFoodid(String foodid) {
 
-	}
+            this.foodid = foodid;
+        }
 
-	public void reload( List<List> data ) {
+        public String getFood() {
 
-		dm.clear();
-		dm.reload( data );
-		adjustColumnWidth();
+            return food;
+        }
 
-	}
+        public void setFood(String food) {
 
-	public void clear() {
+            this.food = food;
+        }
 
-		dm.clear();
+        public BigDecimal getCalories() {
 
-	}
+            return calories;
+        }
 
-	private void adjustColumnWidth() {
+        public void setCalories(BigDecimal calories) {
 
-		getColumnModel().getColumn( 0 ).setMinWidth( 0 );
-		getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
-		getColumnModel().getColumn( 1 ).setMinWidth( 0 );
-		getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
+            this.calories = calories;
+        }
 
-	}
+        public BigDecimal getAmount() {
 
-	public void roundUp() {
+            return amount;
+        }
 
-		roundQuantity( new RoundUpRenderer() );
+        public void setAmount(BigDecimal amount) {
 
-	}
+            this.amount = amount;
+        }
 
-	public void roundDown() {
+        public boolean isNull() {
 
-		roundQuantity( new RoundDownRenderer() );
+            return false;
+        }
+    }
 
-	}
+    public class NullRow extends Row {
 
-	private void roundQuantity( DefaultTableCellRenderer renderer ) {
+        @Override
+        public boolean isNull() {
 
-		getColumnModel().getColumn( 4 ).setCellRenderer( renderer );
-		getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
-		revalidate();
-		repaint();
+            return true;
+        }
+    }
 
-	}
+    private class DataModel extends AbstractTableModel implements Reload {
 
-	public class Row {
+        private List<List> data;
+        private final List<String> columns;
+        private int rowcount;
 
-		private String foodcategoryid;
-		private String foodid;
-		private String category;
-		private String food;
-		private BigDecimal calories;
-		private BigDecimal amount;
+        public DataModel() {
 
-		public Row() {
+            data = new ArrayList<>();
+            columns = new ArrayList<>();
+            setRowCount();
+        }
 
-			foodcategoryid = "";
-			foodid = "";
-			category = "";
-			food = "";
-			calories = new BigDecimal( "0.0" );
-			amount = new BigDecimal( "0.0" );
+        public void addColumn(String col) {
 
-		}
+            columns.add(col);
+        }
 
-		public String getFoodcategoryid() {
+        @Override
+        public void addTableModelListener(TableModelListener l) {
 
-			return foodcategoryid;
+            super.addTableModelListener(l);
+        }
 
-		}
+        @Override
+        public Class<?> getColumnClass(int c) {
 
-		public void setFoodcategoryid( String foodcategoryid ) {
+            Class columnClass = String.class;
 
-			this.foodcategoryid = foodcategoryid;
+            switch (c) {
+                case 2, 3 -> {
+                    columnClass = BigDecimal.class;
+                }
+            }
 
-		}
+            return columnClass;
+        }
 
-		public String getFoodid() {
+        @Override
+        public int getColumnCount() {
 
-			return foodid;
+            return columns.size();
+        }
 
-		}
+        @Override
+        public String getColumnName(int c) {
 
-		public void setFoodid( String foodid ) {
+            return columns.get(c);
+        }
 
-			this.foodid = foodid;
+        @Override
+        public int getRowCount() {
 
-		}
+            return rowcount;
+        }
 
-		public String getCategory() {
+        @Override
+        public Object getValueAt(int r, int c) {
 
-			return category;
+            if (data.isEmpty()) {
 
-		}
+                return "";
+            }
 
-		public void setCategory( String category ) {
+            return data.get(r).get(c);
+        }
 
-			this.category = category;
+        @Override
+        public boolean isCellEditable(int r, int c) {
 
-		}
+            return false;
+        }
 
-		public String getFood() {
+        @Override
+        public void removeTableModelListener(TableModelListener l) {
 
-			return food;
+            super.removeTableModelListener(l);
+        }
 
-		}
+        @Override
+        public void setValueAt(Object o, int r, int c) {
 
-		public void setFood( String food ) {
+            data.get(r).set(c, o);
+            fireTableCellUpdated(r, c);
+        }
 
-			this.food = food;
+        @Override
+        public void reload(List<List> data) {
 
-		}
+            this.data = data;
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		public BigDecimal getCalories() {
+        @Override
+        public void clear() {
 
-			return calories;
+            data.clear();
+            setRowCount();
+            fireTableDataChanged();
+        }
 
-		}
+        private void setRowCount() {
 
-		public void setCalories( BigDecimal calories ) {
+            rowcount = data.size();
+        }
+    }
 
-			this.calories = calories;
+    @Override
+    protected JTableHeader createDefaultTableHeader() {
 
-		}
+        return new JTableHeader(columnModel) {
+            @Override
+            public String getToolTipText(MouseEvent e) {
 
-		public BigDecimal getAmount() {
+                java.awt.Point p = e.getPoint();
+                int index = columnModel.getColumnIndexAtX(p.x);
 
-			return amount;
+                if (index == -1) {
 
-		}
+                    return "";
+                }
 
-		public void setAmount( BigDecimal amount ) {
+                int realIndex = columnModel.getColumn(index).getModelIndex();
+                return columnToolTips[realIndex];
+            }
+        };
+    }
 
-			this.amount = amount;
-
-		}
-
-		public boolean isNull() {
-
-			return false;
-
-		}
-
-	}
-
-	public class NullRow extends Row {
-
-		@Override
-		public boolean isNull() {
-
-			return true;
-
-		}
-
-	}
-
-	private class DataModel extends AbstractTableModel implements Reload {
-
-		private List<List> data;
-		private final List<String> columns;
-		private int rowcount;
-
-		public DataModel() {
-
-			data = new ArrayList<>();
-			columns = new ArrayList<>();
-			setRowCount();
-
-		}
-
-		public void addColumn( String col ) {
-
-			columns.add( col );
-
-		}
-
-		@Override
-		public void addTableModelListener( TableModelListener l ) {
-
-			super.addTableModelListener( l );
-
-		}
-
-		@Override
-		public Class<?> getColumnClass( int c ) {
-
-			Class columnClass = String.class;
-
-			switch ( c ) {
-
-			case 4, 5 -> {
-
-				columnClass = BigDecimal.class;
-
-			}
-
-			}
-
-			return columnClass;
-
-		}
-
-		@Override
-		public int getColumnCount() {
-
-			return columns.size();
-
-		}
-
-		@Override
-		public String getColumnName( int c ) {
-
-			return columns.get( c );
-
-		}
-
-		@Override
-		public int getRowCount() {
-
-			return rowcount;
-
-		}
-
-		@Override
-		public Object getValueAt( int r, int c ) {
-
-			if ( data.isEmpty() ) {
-
-				return "";
-
-			}
-
-			return data.get( r ).get( c );
-
-		}
-
-		@Override
-		public boolean isCellEditable( int r, int c ) {
-
-			return false;
-
-		}
-
-		@Override
-		public void removeTableModelListener( TableModelListener l ) {
-
-			super.removeTableModelListener( l );
-
-		}
-
-		@Override
-		public void setValueAt( Object o, int r, int c ) {
-
-			data.get( r ).set( c, o );
-			fireTableCellUpdated( r, c );
-
-		}
-
-		@Override
-		public void reload( List<List> data ) {
-
-			this.data = data;
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		@Override
-		public void clear() {
-
-			data.clear();
-			setRowCount();
-			fireTableDataChanged();
-
-		}
-
-		private void setRowCount() {
-
-			rowcount = data.size();
-
-		}
-
-	}
-
-	@Override
-	protected JTableHeader createDefaultTableHeader() {
-
-		return new JTableHeader( columnModel ) {
-			@Override
-			public String getToolTipText( MouseEvent e ) {
-
-				java.awt.Point p = e.getPoint();
-				int index = columnModel.getColumnIndexAtX( p.x );
-
-				if ( index == -1 ) {
-
-					return "";
-
-				}
-
-				int realIndex = columnModel.getColumn( index ).getModelIndex();
-				return columnToolTips[realIndex];
-
-			}
-		};
-
-	}
-
-	protected String[] columnToolTips = new String[] {
-			"CategoryId", "FoodId", "Category", "Food", "Calories (Kcal)", "Amount (g)"
-	};
-
+    protected String[] columnToolTips = new String[] {"Food Id", "Food Name", "Quantity", "Calories (Kcal)"};
 }

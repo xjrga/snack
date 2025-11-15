@@ -7,93 +7,79 @@ import java.util.Objects;
  */
 public class MixFoodDO {
 
-	private String foodid;
-	private String foodname;
+    private String foodid;
+    private String foodname;
 
-	public MixFoodDO() {
+    public MixFoodDO() {
 
-		foodid = "";
-		foodname = "";
+        foodid = "";
+        foodname = "";
+    }
 
-	}
+    public MixFoodDO(String foodid, String foodname) {
 
-	public MixFoodDO( String foodid, String foodname ) {
+        this.setFoodId(foodid);
+        this.setFoodName(foodname);
+    }
 
-		this.setFoodId( foodid );
-		this.setFoodName( foodname );
+    public String getFoodId() {
 
-	}
+        return foodid;
+    }
 
-	public String getFoodId() {
+    public String getFoodName() {
 
-		return foodid;
+        return foodname;
+    }
 
-	}
+    public void setFoodId(String foodid) {
 
-	public String getFoodName() {
+        this.foodid = foodid;
+    }
 
-		return foodname;
+    public void setFoodName(String foodname) {
 
-	}
+        this.foodname = foodname;
+    }
 
-	public void setFoodId( String foodid ) {
+    @Override
+    public String toString() {
 
-		this.foodid = foodid;
+        return getFoodName();
+    }
 
-	}
+    public boolean isNull() {
 
-	public void setFoodName( String foodname ) {
+        return false;
+    }
 
-		this.foodname = foodname;
+    @Override
+    public int hashCode() {
 
-	}
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.foodid);
+        return hash;
+    }
 
-	@Override
-	public String toString() {
+    @Override
+    public boolean equals(Object obj) {
 
-		return getFoodName();
+        if (this == obj) {
 
-	}
+            return true;
+        }
 
-	public boolean isNull() {
+        if (obj == null) {
 
-		return false;
+            return false;
+        }
 
-	}
+        if (getClass() != obj.getClass()) {
 
-	@Override
-	public int hashCode() {
+            return false;
+        }
 
-		int hash = 5;
-		hash = 23 * hash + Objects.hashCode( this.foodid );
-		return hash;
-
-	}
-
-	@Override
-	public boolean equals( Object obj ) {
-
-		if ( this == obj ) {
-
-			return true;
-
-		}
-
-		if ( obj == null ) {
-
-			return false;
-
-		}
-
-		if ( getClass() != obj.getClass() ) {
-
-			return false;
-
-		}
-
-		final MixFoodDO other = ( MixFoodDO ) obj;
-		return Objects.equals( this.foodid, other.foodid );
-
-	}
-
+        final MixFoodDO other = (MixFoodDO) obj;
+        return Objects.equals(this.foodid, other.foodid);
+    }
 }

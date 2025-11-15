@@ -14,91 +14,84 @@ import javax.imageio.ImageIO;
 
 public class ImageUtilities {
 
-	static BufferedImage copyImage( BufferedImage source ) {
+    static BufferedImage copyImage(BufferedImage source) {
 
-		BufferedImage b = new BufferedImage( source.getWidth(), source.getHeight(), source.getType() );
-		Graphics g = b.getGraphics();
-		g.drawImage( source, 0, 0, null );
-		g.dispose();
-		return b;
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
+    }
 
-	}
+    static BufferedImage makeBufferedImage(BufferedImage image) {
 
-	static BufferedImage makeBufferedImage( BufferedImage image ) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage subimage = image.getSubimage(0, 0, w, h);
+        Graphics2D g2 = subimage.createGraphics();
+        Rectangle2D tr = new Rectangle2D.Double(0, 0, w, h);
+        new TexturePaint(subimage, tr);
+        g2.setStroke(new BasicStroke(5));
+        g2.setPaint(Color.BLACK);
+        // g.fill(tr);
+        g2.draw(tr);
+        g2.dispose();
+        return subimage;
+    }
 
-		int w = image.getWidth();
-		int h = image.getHeight();
-		BufferedImage subimage = image.getSubimage( 0, 0, w, h );
-		Graphics2D g2 = subimage.createGraphics();
-		Rectangle2D tr = new Rectangle2D.Double( 0, 0, w, h );
-		new TexturePaint( subimage, tr );
-		g2.setStroke( new BasicStroke( 5 ) );
-		g2.setPaint( Color.BLACK );
-		// g.fill(tr);
-		g2.draw( tr );
-		g2.dispose();
-		return subimage;
+    static TexturePaint makeTexturePaint(BufferedImage image, Color color) {
 
-	}
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage subimage = image.getSubimage(0, 0, w, h);
+        Graphics2D g2 = subimage.createGraphics();
+        Rectangle2D tr = new Rectangle2D.Double(0, 0, w, h);
+        TexturePaint tp = new TexturePaint(subimage, tr);
+        g2.setStroke(new BasicStroke(5));
+        g2.setPaint(color);
+        g2.draw(tr);
+        g2.dispose();
+        return tp;
+    }
 
-	static TexturePaint makeTexturePaint( BufferedImage image, Color color ) {
+    public static BufferedImage readImageFromFile(String pathname) {
 
-		int w = image.getWidth();
-		int h = image.getHeight();
-		BufferedImage subimage = image.getSubimage( 0, 0, w, h );
-		Graphics2D g2 = subimage.createGraphics();
-		Rectangle2D tr = new Rectangle2D.Double( 0, 0, w, h );
-		TexturePaint tp = new TexturePaint( subimage, tr );
-		g2.setStroke( new BasicStroke( 5 ) );
-		g2.setPaint( color );
-		g2.draw( tr );
-		g2.dispose();
-		return tp;
+        BufferedImage img = null;
 
-	}
+        try {
 
-	public static BufferedImage readImageFromFile( String pathname ) {
+            img = ImageIO.read(new File(pathname));
 
-		BufferedImage img = null;
+        } catch (IOException e) {
 
-		try {
+        }
 
-			img = ImageIO.read( new File( pathname ) );
+        return img;
+    }
 
-		} catch (IOException e) {
+    public static BufferedImage readImageFromUrl(URL input) {
 
-		}
+        BufferedImage img = null;
 
-		return img;
+        try {
 
-	}
+            img = ImageIO.read(input);
 
-	public static BufferedImage readImageFromUrl( URL input ) {
+        } catch (IOException e) {
 
-		BufferedImage img = null;
+        }
 
-		try {
+        return img;
+    }
 
-			img = ImageIO.read( input );
+    static void writeBufferedImage(BufferedImage subimage, String format, String pathname) {
 
-		} catch (IOException e) {
+        try {
 
-		}
+            ImageIO.write(subimage, format, new File(pathname));
 
-		return img;
+        } catch (IOException e) {
 
-	}
-
-	static void writeBufferedImage( BufferedImage subimage, String format, String pathname ) {
-
-		try {
-
-			ImageIO.write( subimage, format, new File( pathname ) );
-
-		} catch (IOException e) {
-
-		}
-
-	}
-
+        }
+    }
 }
