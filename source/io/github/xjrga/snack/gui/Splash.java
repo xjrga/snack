@@ -1,6 +1,5 @@
 package io.github.xjrga.snack.gui;
 
-import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.ElapsedTime;
 import java.awt.Dimension;
 import javax.swing.JFrame;

@@ -143,6 +143,22 @@ public class TableFood extends JTable {
         return rows;
     }
 
+    public int find(String id) {
+
+        int index = 0;
+        int r = this.getRowCount();
+
+        for (int j = 0; j < r; j++) {
+
+            if (id.equals(getValueAt(j, 0))) {
+
+                index = j;
+            }
+        }
+
+        return index;
+    }
+
     private Row getRow(int selectedRowNo) {
 
         String foodid = (String) getValueAt(selectedRowNo, 0);

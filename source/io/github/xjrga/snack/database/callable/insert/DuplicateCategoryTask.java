@@ -9,13 +9,13 @@ import java.util.concurrent.Callable;
 /**
  * @author jr
  */
-public class InsertCategoryTask implements Callable<String> {
+public class DuplicateCategoryTask implements Callable<String> {
 
     private final Connection connection;
     private final String categoryname;
     private String out;
 
-    public InsertCategoryTask(String categoryname) {
+    public DuplicateCategoryTask(String categoryname) {
 
         connection = Connect.getInstance().getConnection();
         this.categoryname = categoryname;
@@ -24,7 +24,7 @@ public class InsertCategoryTask implements Callable<String> {
     @Override
     public String call() throws Exception {
 
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodCategory_Insert_2( ?, ? )}")) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.duplicateCategory( ?, ? )}")) {
 
             proc.registerOutParameter(1, Types.LONGNVARCHAR);
             proc.setString(2, categoryname);

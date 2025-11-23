@@ -33,6 +33,7 @@ import io.github.xjrga.snack.database.callable.delete.DeleteNutrientQuantityCons
 import io.github.xjrga.snack.database.callable.delete.DeleteNutrientRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.CreateMealTask;
 import io.github.xjrga.snack.database.callable.insert.CreateMixTask;
+import io.github.xjrga.snack.database.callable.insert.DuplicateCategoryTask;
 import io.github.xjrga.snack.database.callable.insert.InsertAndCalculateFoodPortionTask;
 import io.github.xjrga.snack.database.callable.insert.InsertCategoryTask;
 import io.github.xjrga.snack.database.callable.insert.InsertFoodCategoryLinkTask;
@@ -198,8 +199,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -392,11 +391,6 @@ public class Main {
     private TablePortion tblMealPortions;
     private TablePortionMeals tblMeals;
     private TableLog tblLog;
-    private List<List> foods;
-    private List<List> categories;
-    private LinkedList<HashMap> treeFoods;
-    private List<List> mixDri;
-    private List<List> foodDiffList;
     private final Connection connection;
     private int minimizationOption;
     private NutrientCategorySelector selectorMixResultsTable;
@@ -1263,98 +1257,103 @@ public class Main {
         scrAllFoodCategories.setBorder(new TitledBorder("Categories"));
         JScrollPane scrFoodsInCategory = new JScrollPane(tblFoodsInCategory);
         JScrollPane scrParentCategories = new JScrollPane(tblParentCategories);
+        JTextField txtSearchCategories = tblAllFoodCategories.getTxtSearch();
         JTextField txtSearchAllFoods = tblAllFoods.getTxtSearch();
         JTextField txtSearchFoodsInCategory = tblFoodsInCategory.getTxtSearch();
         JPanel pnlMain = new JPanel();
+        JPanel pnlCategories = new JPanel();
         JPanel pnlAllFoods = new JPanel();
-        JPanel pnlAllFoodCategories = new JPanel();
-        JPanel pnlFoodsInCategory = new JPanel();
-        JPanel pnlAllFoodCategoriesButtons = new JPanel();
-        JPanel pnlFoodsInCategoryButtons = new JPanel();
-        JSplitPane spl = new JSplitPane();
+        JPanel pnlCategoryFoods = new JPanel();
+        JPanel pnlCategoryButtons = new JPanel();
+        JPanel pnlFoodButtons = new JPanel();
+        JPanel pnlButtons = new JPanel();
         FormLayout lyoMain = new FormLayout(
-                "m:grow,m:grow", // columns
-                "fill:min:grow" // rows
+                "m:grow,8px,m:grow", // columns
+                "fill:200px,8px,fill:min:grow,min" // rows
                 );
-        FormLayout lyoAllFoodCategories = new FormLayout(
-                "min:grow", // columns
-                "fill:min:grow,min" // rows
+        FormLayout lyoCategories = new FormLayout(
+                "min,min:grow", // columns
+                "8px,fill:28px,fill:min:grow" // rows
                 );
         FormLayout lyoAllFoods = new FormLayout(
                 "min,min:grow", // columns
                 "fill:28px,fill:min:grow" // rows
                 );
-        FormLayout lyoAllFoodCategoriesButtons = new FormLayout(
-                "min:grow,min,min,min,min,min:grow", // columns
-                "min" // rows
-                );
-        FormLayout lyoFoodsInCategoryButtons = new FormLayout(
-                "min:grow,min,min,min:grow", // columns
-                "fill:min:grow" // rows
-                );
-        FormLayout lyoFoodsInCategory = new FormLayout(
+        FormLayout lyoCategoryFoods = new FormLayout(
                 "min,min:grow", // columns
-                "fill:28px,fill:min:grow,min" // rows
+                "fill:28px,fill:min:grow" // rows
                 );
-        pnlFoodsInCategory.setLayout(lyoFoodsInCategory);
+        FormLayout lyoButtons = new FormLayout(
+                "m:grow,300px,150px,m:grow", // columns
+                "min,8px" // rows
+                );
+        JLabel lblSearchCategories = new JLabel("Search: ");
+        JLabel lblSearchAllFoods = new JLabel("Search: ");
+        JLabel lblSearchFoodsInCategory = new JLabel("Search: ");
         JButton btnAddCategory = new JButton("+");
         JButton btnDeleteCategory = new JButton("-");
         JButton btnRenameCategory = new JButton("r");
+        JButton btnDuplicateCategory = new JButton("d");
         JButton btnExportCategory = new JButton("e");
-        JLabel lblSearchAllFoods = new JLabel("Search: ");
+        JButton btnAddFoodToCategory = new JButton("+");
+        JButton btnDeleteFoodFromCategory = new JButton("-");
+        JPopupMenu pmn = new JPopupMenu();
+        JMenuItem mniFoodCategories = new JMenuItem("Show food categories");
+
+        pnlCategories.setLayout(lyoCategories);
+        pnlCategoryFoods.setLayout(lyoCategoryFoods);
+        lblSearchCategories.setToolTipText(
+                "Search field input should be a valid regex expression (case insensitive match)");
         lblSearchAllFoods.setToolTipText(
                 "Search field input should be a valid regex expression (case insensitive match)");
-        JLabel lblSearchFoodsInCategory = new JLabel("Search: ");
         lblSearchFoodsInCategory.setToolTipText(
                 "Search field input should be a valid regex expression (case insensitive match)");
-        JButton btnAddFood = new JButton("+");
-        JButton btnDeleteFood = new JButton("-");
+        pnlCategoryButtons.add(btnAddCategory);
+        pnlCategoryButtons.add(btnDeleteCategory);
+        pnlCategoryButtons.add(btnRenameCategory);
+        pnlCategoryButtons.add(btnDuplicateCategory);
+        pnlCategoryButtons.add(btnExportCategory);
+        pnlCategoryButtons.setBorder(new TitledBorder("Category"));
+        pnlButtons.setLayout(lyoButtons);
+        pnlButtons.add(pnlCategoryButtons, cc.xy(2, 1));
+        pnlButtons.add(pnlFoodButtons, cc.xy(3, 1));
+        pnlFoodButtons.add(btnAddFoodToCategory);
+        pnlFoodButtons.add(btnDeleteFoodFromCategory);
+        pnlFoodButtons.setBorder(new TitledBorder("Food"));
         btnAddCategory.setToolTipText("Create category");
         btnDeleteCategory.setToolTipText("Delete category");
         btnRenameCategory.setToolTipText("Rename category");
+        btnDuplicateCategory.setToolTipText("Duplicate category");
         btnExportCategory.setToolTipText("Export category");
-        btnAddFood.setToolTipText("Add food item to category");
-        btnDeleteFood.setToolTipText("Remove food item from category");
-        scrFoodsInCategory.setBorder(new TitledBorder("Foods"));
-        lyoMain.setColumnGroups(new int[][] {{1, 2}});
+        btnAddFoodToCategory.setToolTipText("Add food item to category");
+        btnDeleteFoodFromCategory.setToolTipText("Remove food item from category");
+        scrFoodsInCategory.setBorder(new TitledBorder("Category Foods"));
         pnlMain.setLayout(lyoMain);
-        pnlAllFoodCategoriesButtons.setLayout(lyoAllFoodCategoriesButtons);
-        pnlFoodsInCategoryButtons.setLayout(lyoFoodsInCategoryButtons);
         pnlAllFoods.setLayout(lyoAllFoods);
-        pnlAllFoodCategories.setLayout(lyoAllFoodCategories);
-        pnlFoodsInCategory.add(lblSearchFoodsInCategory, cc.xy(1, 1));
-        pnlFoodsInCategory.add(txtSearchFoodsInCategory, cc.xy(2, 1));
-        pnlFoodsInCategory.add(scrFoodsInCategory, cc.xyw(1, 2, 2));
-        pnlFoodsInCategory.add(pnlFoodsInCategoryButtons, cc.xyw(1, 3, 2));
-        pnlAllFoodCategoriesButtons.add(btnAddCategory, cc.xy(2, 1));
-        pnlAllFoodCategoriesButtons.add(btnDeleteCategory, cc.xy(3, 1));
-        pnlAllFoodCategoriesButtons.add(btnRenameCategory, cc.xy(4, 1));
-        pnlAllFoodCategoriesButtons.add(btnExportCategory, cc.xy(5, 1));
+        pnlCategories.add(lblSearchCategories, cc.xy(1, 2));
+        pnlCategories.add(txtSearchCategories, cc.xy(2, 2));
+        pnlCategories.add(scrAllFoodCategories, cc.xyw(1, 3, 2));
+        pnlCategoryFoods.add(lblSearchFoodsInCategory, cc.xy(1, 1));
+        pnlCategoryFoods.add(txtSearchFoodsInCategory, cc.xy(2, 1));
+        pnlCategoryFoods.add(scrFoodsInCategory, cc.xyw(1, 2, 2));
         pnlAllFoods.add(lblSearchAllFoods, cc.xy(1, 1));
         pnlAllFoods.add(txtSearchAllFoods, cc.xy(2, 1));
         pnlAllFoods.add(scrAllFoods, cc.xyw(1, 2, 2));
-        pnlFoodsInCategoryButtons.add(btnAddFood, cc.xy(2, 1));
-        pnlFoodsInCategoryButtons.add(btnDeleteFood, cc.xy(3, 1));
-        pnlAllFoodCategories.add(scrAllFoodCategories, cc.xy(1, 1));
-        pnlAllFoodCategories.add(pnlAllFoodCategoriesButtons, cc.xy(1, 2));
-        spl.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        spl.setDividerLocation(200);
-        spl.setTopComponent(pnlAllFoodCategories);
-        spl.setBottomComponent(pnlFoodsInCategory);
-        pnlMain.add(pnlAllFoods, cc.xy(1, 1));
-        pnlMain.add(spl, cc.xy(2, 1));
+        pnlMain.add(pnlCategories, cc.xyw(1, 1, 3));
+        pnlMain.add(pnlAllFoods, cc.xy(1, 3));
+        pnlMain.add(pnlCategoryFoods, cc.xy(3, 3));
+        pnlMain.add(pnlButtons, cc.xyw(1, 4, 3));
 
         try {
 
             Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-            List<List> categories = task.get();
-            tblAllFoodCategories.reload(categories);
+            List<List> foodcategories = task.get();
+            tblAllFoodCategories.reload(foodcategories);
 
         } catch (Exception e) {
 
             LoggerImpl.INSTANCE.logProblem(e);
         }
-
         btnAddCategory.addActionListener((ActionEvent evt) -> {
             addCategory();
         });
@@ -1363,6 +1362,9 @@ public class Main {
         });
         btnDeleteCategory.addActionListener((ActionEvent evt) -> {
             deleteCategory();
+        });
+        btnDuplicateCategory.addActionListener((ActionEvent evt) -> {
+            duplicateCategory();
         });
         btnExportCategory.addActionListener((ActionEvent evt) -> {
             exportCategory();
@@ -1391,14 +1393,12 @@ public class Main {
                 LoggerImpl.INSTANCE.logProblem(e);
             }
         });
-        btnAddFood.addActionListener((ActionEvent evt) -> {
+        btnAddFoodToCategory.addActionListener((ActionEvent evt) -> {
             addFoodToCategory();
         });
-        btnDeleteFood.addActionListener((ActionEvent evt) -> {
+        btnDeleteFoodFromCategory.addActionListener((ActionEvent evt) -> {
             removeFoodFromCategory();
         });
-        JPopupMenu pmn = new JPopupMenu();
-        JMenuItem mniFoodCategories = new JMenuItem("Show food categories");
         pmn.add(mniFoodCategories);
         mniFoodCategories.addActionListener((ActionEvent evt) -> {
             if (!tblAllFoods.isSelectionEmpty()) {
@@ -1662,10 +1662,7 @@ public class Main {
                 return;
             }
 
-            if (tblFoodFacts.isSelectionEmpty()) {
-
-                return;
-            }
+            if (tblFoodFacts.isSelectionEmpty()) {}
         });
         JPopupMenu pmn = new JPopupMenu();
         JMenuItem mniFoodStats = new JMenuItem("Show food statistics");
@@ -2325,8 +2322,6 @@ public class Main {
                 (new Shutdown()).execute();
 
             } catch (Exception e) {
-
-                e.printStackTrace();
 
             } finally {
 
@@ -3086,29 +3081,51 @@ public class Main {
 
                 try {
 
-                    Future<Boolean> task = BackgroundExec.submit(new InsertCategoryTask(categoryname));
-                    Boolean completed = task.get();
+                    Future<String> task00 = BackgroundExec.submit(new InsertCategoryTask(categoryname));
+                    String id = task00.get();
 
-                    if (!completed) {
+                    if (task00.isDone()) {
 
-                        return;
+                        Future<List<List>> task02 = BackgroundExec.submit(new FoodCategoriesTask());
+                        List<List> categories = task02.get();
+                        tblAllFoodCategories.reload(categories);
+                        int rowIndex = tblAllFoodCategories.find(id);
+                        tblAllFoodCategories.selectRow(rowIndex);
+                        tblAllFoodCategories.showRow(rowIndex);
                     }
 
                 } catch (Exception e) {
 
                     LoggerImpl.INSTANCE.logProblem(e);
                 }
+            }
+        }
+    }
 
-                try {
+    private void duplicateCategory() {
 
-                    Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
-                    List<List> categories = task.get();
+        if (!tblAllFoodCategories.isSelectionEmpty()) {
+
+            TableCategory.Row category = tblAllFoodCategories.getSelectedValue();
+
+            try {
+
+                Future<String> task00 = BackgroundExec.submit(new DuplicateCategoryTask(category.getCategoryid()));
+                String id = task00.get();
+
+                if (task00.isDone()) {
+
+                    Future<List<List>> task02 = BackgroundExec.submit(new FoodCategoriesTask());
+                    List<List> categories = task02.get();
                     tblAllFoodCategories.reload(categories);
-
-                } catch (Exception e) {
-
-                    LoggerImpl.INSTANCE.logProblem(e);
+                    int rowIndex = tblAllFoodCategories.find(id);
+                    tblAllFoodCategories.selectRow(rowIndex);
+                    tblAllFoodCategories.showRow(rowIndex);
                 }
+
+            } catch (Exception e) {
+
+                LoggerImpl.INSTANCE.logProblem(e);
             }
         }
     }
@@ -3182,11 +3199,6 @@ public class Main {
                                 BackgroundExec.submit(new UpdateCategoryTask(category.getCategoryid(), categoryname));
                         Boolean completed = task.get();
 
-                        if (!completed) {
-
-                            return;
-                        }
-
                     } catch (Exception e) {
 
                         LoggerImpl.INSTANCE.logProblem(e);
@@ -3197,6 +3209,9 @@ public class Main {
                         Future<List<List>> task = BackgroundExec.submit(new FoodCategoriesTask());
                         List<List> categories = task.get();
                         tblAllFoodCategories.reload(categories);
+                        int rowIndex = tblAllFoodCategories.find(category.getCategoryid());
+                        tblAllFoodCategories.selectRow(rowIndex);
+                        tblAllFoodCategories.showRow(rowIndex);
 
                     } catch (Exception e) {
 
@@ -3287,6 +3302,10 @@ public class Main {
                         }
 
                         executeFoodsInCategoryTasks(category);
+
+                        int rowIndex = tblFoodsInCategory.find(food.getFoodid());
+                        tblFoodsInCategory.selectRow(rowIndex);
+                        tblFoodsInCategory.showRow(rowIndex);
                     }
 
                 } catch (Exception e) {
@@ -6675,7 +6694,6 @@ public class Main {
 
                 } catch (Exception e) {
 
-                    e.printStackTrace();
                     LoggerImpl.INSTANCE.logProblem(e);
                 }
             });
@@ -6691,7 +6709,6 @@ public class Main {
 
         try {
 
-            StringBuilder sb = new StringBuilder();
             Future<LhsContainer> taskLhs = BackgroundExec.submit(new DriDevSumDeficiencyLhsTask(mixid, lifestyleid));
             LhsContainer container = taskLhs.get();
             double[] coefficients = container.getCoefficients();
@@ -6713,7 +6730,6 @@ public class Main {
 
         try {
 
-            StringBuilder sb = new StringBuilder();
             Future<LhsContainer> taskLhs = BackgroundExec.submit(new DriDevSumExcessLhsTask(mixid, lifestyleid));
             LhsContainer container = taskLhs.get();
             double[] coefficients = container.getCoefficients();
@@ -6740,6 +6756,7 @@ public class Main {
         // Food variables + 8 dri deficiency + 8 dri excess + 1 avg dri deficiency + 1
         // avg dri excess +
         // 8 UL deficiency + 8 UL excess + 1 avg UL deficiency + 1 avg UL excess
+
         try {
 
             StringBuilder sb = new StringBuilder();

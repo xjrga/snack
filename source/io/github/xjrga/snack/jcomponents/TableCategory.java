@@ -151,7 +151,7 @@ public class TableCategory extends JTable {
         return category;
     }
 
-    public JTextField getSearchTextField() {
+    public JTextField getTxtSearch() {
 
         return searchTextField;
     }
@@ -340,6 +340,22 @@ public class TableCategory extends JTable {
                 return columnToolTips[realIndex];
             }
         };
+    }
+
+    public int find(String id) {
+
+        int index = 0;
+        int r = this.getRowCount();
+
+        for (int j = 0; j < r; j++) {
+
+            if (id.equals(getValueAt(j, 0))) {
+
+                index = j;
+            }
+        }
+
+        return index;
     }
 
     protected String[] columnToolTips = new String[] {"Category Id", "Category Name"};

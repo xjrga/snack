@@ -460,3 +460,8 @@
   * Removed category field from nutrient search results and added foodid field
   * Added "Search food by id" on food list and on category foods list
   * Added "Show food categories" popup menu on category foods list
+
+### 1600 - December 23, 2025
+
+  * Added "duplicate food category" process
+  * Modified food categories gui
