@@ -8,18 +8,16 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.concurrent.Callable;
 
-public class FoodQuantityLhsTask implements Callable<double[]> {
+public class NutrientLhsTask implements Callable<double[]> {
 
     private final String mixid;
-    private final String foodid;
     private final String nutrientid;
     private final Integer relationshipid;
     private final Connection connection;
 
-    public FoodQuantityLhsTask(String mixid, String foodid, String nutrientid, Integer relationshipid) {
+    public NutrientLhsTask(String mixid, String nutrientid, Integer relationshipid) {
 
         this.mixid = mixid;
-        this.foodid = foodid;
         this.nutrientid = nutrientid;
         this.relationshipid = relationshipid;
         connection = Connect.getInstance().getConnection();
@@ -30,19 +28,17 @@ public class FoodQuantityLhsTask implements Callable<double[]> {
 
         double[] coefficients = null;
 
-        try (CallableStatement proc = connection.prepareCall("{CALL public.foodnutrient_lhs( ?, ?, ?, ? )}")) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.nutrient_lhs( ?, ?, ? )}")) {
 
             proc.setString(1, mixid);
-            proc.setString(2, foodid);
-            proc.setString(3, nutrientid);
-            proc.setInt(4, relationshipid);
+            proc.setString(2, nutrientid);
+            proc.setInt(3, relationshipid);
             ResultSet rs = proc.executeQuery();
             LinkedList<Double> list = new LinkedList<>();
 
             while (rs.next()) {
 
-                // String foodid = rs.getString(1);
-                double c = rs.getDouble(3);
+                double c = rs.getDouble(2);
                 list.add(c);
             }
 

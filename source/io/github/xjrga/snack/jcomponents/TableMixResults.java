@@ -53,7 +53,7 @@ public class TableMixResults extends JTable implements ShowCategory {
         dm.addColumn("Alcohol");
         dm.addColumn("eProtein");
         dm.addColumn("Protein");
-        dm.addColumn("ProteinComplete");
+        dm.addColumn("Complete");
         dm.addColumn("eFat");
         dm.addColumn("Fats");
         dm.addColumn("MUFA");

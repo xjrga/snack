@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-public class NutrientQuantityRhsTask implements Callable<List<Map<String, Object>>> {
+public class NutrientRhsTask implements Callable<List<Map<String, Object>>> {
 
     private final List<Map<String, Object>> lst;
     private final String mixid;
     private final Connection connection;
 
-    public NutrientQuantityRhsTask(String mixid) {
+    public NutrientRhsTask(String mixid) {
 
         this.mixid = mixid;
         lst = new ArrayList();

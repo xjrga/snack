@@ -1,44 +1,44 @@
-package io.github.xjrga.snack.database.callable.delete;
+package io.github.xjrga.snack.database.callable.insert;
 
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.logger.LoggerImpl;
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
-/**
- * @author jr
- */
-public class DeleteNutrientQuantityConstraintTask implements Callable<Boolean> {
+public class MergeNutrientConstraintTask implements Callable<Boolean> {
 
-    private final Connection connection;
     private final String mixid;
     private final String nutrientid;
     private final Integer relationshipid;
+    private final BigDecimal b;
+    private final Connection connection;
 
-    public DeleteNutrientQuantityConstraintTask(String mixid, String nutrientid, Integer relationshipid) {
+    public MergeNutrientConstraintTask(String mixid, String nutrientid, Integer relationshipid, BigDecimal b) {
 
-        connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.nutrientid = nutrientid;
         this.relationshipid = relationshipid;
+        this.b = b;
+        connection = Connect.getInstance().getConnection();
     }
 
     @Override
     public Boolean call() throws Exception {
 
-        Boolean completed = false;
+        boolean completed = false;
 
-        try (CallableStatement proc = connection.prepareCall("{CALL public.NutrientConstraint_Delete( ?, ?, ? )}")) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.NutrientConstraint_Merge( ?, ?, ?, ? )}")) {
 
             proc.setString(1, mixid);
             proc.setString(2, nutrientid);
             proc.setInt(3, relationshipid);
+            proc.setBigDecimal(4, b);
             proc.execute();
             completed = true;
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
 
             LoggerImpl.INSTANCE.logProblem(e);
         }

@@ -12,12 +12,12 @@ import java.util.concurrent.Callable;
 /**
  * @author jr
  */
-public class FoodQuantityConstraintsTask implements Callable<List<List>> {
+public class NutrientConstraintsTask implements Callable<List<List>> {
 
     private final Connection connection;
     private final String mixid;
 
-    public FoodQuantityConstraintsTask(String mixid) {
+    public NutrientConstraintsTask(String mixid) {
 
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
@@ -28,7 +28,7 @@ public class FoodQuantityConstraintsTask implements Callable<List<List>> {
 
         ArrayList<List> table = new ArrayList();
 
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodNutrientConstraint_Select( ? )}")) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.NutrientConstraint_Select( ? )}")) {
 
             proc.setString(1, mixid);
             ResultSet rs = proc.executeQuery();
@@ -38,12 +38,10 @@ public class FoodQuantityConstraintsTask implements Callable<List<List>> {
                 ArrayList row = new ArrayList();
                 row.add(rs.getString(1));
                 row.add(rs.getString(2));
-                row.add(rs.getString(3));
-                row.add(rs.getInt(4));
+                row.add(rs.getInt(3));
+                row.add(rs.getString(4));
                 row.add(rs.getString(5));
-                row.add(rs.getString(6));
-                row.add(rs.getString(7));
-                row.add(rs.getBigDecimal(8));
+                row.add(rs.getBigDecimal(6));
                 table.add(row);
             }
 

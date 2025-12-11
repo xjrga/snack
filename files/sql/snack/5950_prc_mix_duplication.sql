@@ -30,6 +30,12 @@ CALL meal_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_food_portion_copy(v_MixId_Old,v_MixId_New);
 --
+CALL Group_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL GroupList_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL GroupConstraint_Copy(v_MixId_Old,v_MixId_New);
+--
 SET newid = v_MixId_New;
 --
 END;

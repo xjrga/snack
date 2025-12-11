@@ -226,7 +226,7 @@ CREATE TABLE FoodFactCoefficient
 /
 CREATE TABLE FoodGroupList
 (
-        GroupId INTEGER,
+        GroupId LONGVARCHAR,
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         CONSTRAINT FoodGroupList_primary_key PRIMARY KEY (
@@ -239,7 +239,7 @@ CREATE TABLE FoodGroupList
 CREATE TABLE FoodGroupQuantityC
 (
         MixId LONGVARCHAR,
-        GroupId INTEGER,
+        GroupId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
         b DECIMAL(25,18),
@@ -254,9 +254,9 @@ CREATE TABLE FoodGroupQuantityC
 CREATE TABLE FoodGroupRatioC
 (
         MixId LONGVARCHAR,
-        Group_Id_1 INTEGER,
+        Group_Id_1 LONGVARCHAR,
         Nutrient_Id_1 LONGVARCHAR,
-        Group_Id_2 INTEGER,
+        Group_Id_2 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
         A DECIMAL(25,18),
@@ -361,7 +361,7 @@ CREATE TABLE MixFood
 CREATE TABLE MixFoodGroup
 (
         MixId LONGVARCHAR,
-        GroupId INTEGER,
+        GroupId LONGVARCHAR,
         Name LONGVARCHAR,
         CONSTRAINT MixFoodGroup_primary_key PRIMARY KEY (
         MixId,

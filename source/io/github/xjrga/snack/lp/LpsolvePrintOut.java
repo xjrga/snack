@@ -15,6 +15,7 @@ public class LpsolvePrintOut {
     private final StringBuilder nutrientRatio;
     private final StringBuilder foodQuantity;
     private final StringBuilder foodRatio;
+    private final StringBuilder groupQuantity;
     private Boolean isFeasible;
     private String model;
 
@@ -30,6 +31,7 @@ public class LpsolvePrintOut {
         nutrientRatio = new StringBuilder();
         foodQuantity = new StringBuilder();
         foodRatio = new StringBuilder();
+        groupQuantity = new StringBuilder();
         isFeasible = Boolean.TRUE;
         model = "";
         objFunction.append("\n");
@@ -53,6 +55,9 @@ public class LpsolvePrintOut {
         foodRatio.append("\n");
         foodRatio.append("/* ----- FOOD RATIO CONSTRAINTS ----- */");
         foodRatio.append("\n\n");
+        groupQuantity.append("\n");
+        groupQuantity.append("/* ----- GROUP QUANTITY CONSTRAINTS ----- */");
+        groupQuantity.append("\n\n");
     }
 
     public void addMixLegend(String mix) {
@@ -121,7 +126,7 @@ public class LpsolvePrintOut {
         setConstraintCoefficients(driDevSumQuantity, coefficients, rel, value);
     }
 
-    public void addNutrientQuantityConstraint(double[] coefficients, int rel, double value, String name) {
+    public void addNutrientConstraint(double[] coefficients, int rel, double value, String name) {
 
         nutrientQuantity.append("/* ");
         nutrientQuantity.append(name);
@@ -139,7 +144,7 @@ public class LpsolvePrintOut {
         setConstraintCoefficients(nutrientRatio, coefficients, rel, value);
     }
 
-    public void addFoodQuantityConstraint(double[] coefficients, int rel, double value, String name) {
+    public void addFoodConstraint(double[] coefficients, int rel, double value, String name) {
 
         foodQuantity.append("/* ");
         foodQuantity.append(name);
@@ -157,6 +162,15 @@ public class LpsolvePrintOut {
         setConstraintCoefficients(foodRatio, coefficients, rel, value);
     }
 
+    public void addGroupQuantityConstraint(double[] coefficients, int rel, double value, String name) {
+
+        groupQuantity.append("/* ");
+        groupQuantity.append(name);
+        groupQuantity.append(" */");
+        groupQuantity.append("\n\n");
+        setConstraintCoefficients(groupQuantity, coefficients, rel, value);
+    }
+
     public void feasible() {
 
         isFeasible = Boolean.TRUE;
@@ -170,6 +184,7 @@ public class LpsolvePrintOut {
         sb.append(nutrientRatio);
         sb.append(foodQuantity);
         sb.append(foodRatio);
+        sb.append(groupQuantity);
         sb.append("\n");
         sb.append("/* Model is feasible. A solution exists which satisfies all the constraints. */");
         sb.append("\n");
@@ -190,6 +205,7 @@ public class LpsolvePrintOut {
         sb.append(nutrientRatio);
         sb.append(foodQuantity);
         sb.append(foodRatio);
+        sb.append(groupQuantity);
         sb.append("\n");
         sb.append("/* Model is infeasible. No solution exists which satisfies all the constraints. */");
         sb.append("\n");

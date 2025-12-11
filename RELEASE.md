@@ -461,7 +461,11 @@
   * Added "Search food by id" on food list and on category foods list
   * Added "Show food categories" popup menu on category foods list
 
-### 1600 - December 23, 2025
+### 1600 - November 23, 2025
 
   * Added "duplicate food category" process
   * Modified food categories gui
+
+### 1610 - December 12, 2025
+
+  * Added food groups and food group constraints

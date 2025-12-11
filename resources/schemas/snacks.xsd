@@ -6,7 +6,7 @@
                 Data Exchange Document Schema For Snack Software
                 Snack: Learning Software For Nutrition
                 Author: Jorge Rolando Garcia de Alba
-                Version: 02
+                Version: 03
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
@@ -27,6 +27,12 @@
                 <xsd:element name="meal_list" type="meal_list" minOccurs="0" maxOccurs="1"/>
                 <!-- meal food portion list -->
                 <xsd:element name="meal_food_portion_list" type="meal_food_portion_list" minOccurs="0" maxOccurs="1"/>
+                <!-- group list -->
+                <xsd:element name="group_list" type="group_list" minOccurs="0" maxOccurs="1"/>
+                <!-- groupfood list -->
+                <xsd:element name="groupfood_list" type="groupfood_list" minOccurs="0" maxOccurs="1"/>
+                <!-- group quantity -->
+                <xsd:element name="group_quantity_list" type="group_quantity_list" minOccurs="0" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
         <xsd:unique name="Uniquely_Specified_Food">
@@ -77,6 +83,12 @@
             <xsd:field xpath="mix-id"/>
             <xsd:field xpath="meal-id"/>
             <xsd:field xpath="food-id"/>
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Group_Quantity">
+            <xsd:selector xpath="group_quantity_list/group_quantity"/>
+            <xsd:field xpath="group-id"/>
+            <xsd:field xpath="nutrient-id"/>
+            <xsd:field xpath="relationship-id"/>
         </xsd:unique>
     </xsd:element>
     <!-- mix -->
@@ -193,4 +205,49 @@
             <xsd:element name="actual-wt" type="xsd:double" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
+    
+    <!-- group list -->
+    <xsd:complexType name="group_list">
+        <xsd:sequence>
+            <xsd:element name="group" type="group" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- group -->
+    <xsd:complexType name="group">
+        <xsd:sequence>
+            <xsd:element name="mix-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="group-id" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="group-name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- groupfood list -->
+    <xsd:complexType name="groupfood_list">
+        <xsd:sequence>
+            <xsd:element name="groupfood" type="groupfood" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- groupfood -->
+    <xsd:complexType name="groupfood">
+        <xsd:sequence>
+            <xsd:element name="mix-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="group-id" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="food-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>            
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- group quantity list -->
+    <xsd:complexType name="group_quantity_list">
+        <xsd:sequence>
+            <xsd:element name="group_quantity" type="group_quantity" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- group quantity -->
+    <xsd:complexType name="group_quantity">
+        <xsd:sequence>
+            <xsd:element name="group-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrient-id" type="constraint-metric" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationship-id" type="relationship-id" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
 </xsd:schema>

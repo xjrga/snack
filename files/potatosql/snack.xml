@@ -173,7 +173,7 @@
             <table_id>1857</table_id>
             <key_id>6899</key_id>
             <key_name>GroupId</key_name>
-            <datatype_id>2</datatype_id>
+            <datatype_id>9</datatype_id>
             <key_order>2</key_order>
             <is_primary_key>true </is_primary_key>
             <is_foreign_key>false</is_foreign_key>
@@ -1273,7 +1273,7 @@
             <table_id>24093</table_id>
             <key_id>32131</key_id>
             <key_name>Group_Id_1</key_name>
-            <datatype_id>2</datatype_id>
+            <datatype_id>9</datatype_id>
             <key_order>2</key_order>
             <is_primary_key>true </is_primary_key>
             <is_foreign_key>true </is_foreign_key>
@@ -1293,7 +1293,7 @@
             <table_id>24093</table_id>
             <key_id>61893</key_id>
             <key_name>Group_Id_2</key_name>
-            <datatype_id>2</datatype_id>
+            <datatype_id>9</datatype_id>
             <key_order>4</key_order>
             <is_primary_key>true </is_primary_key>
             <is_foreign_key>true </is_foreign_key>
@@ -1363,7 +1363,7 @@
             <table_id>26755</table_id>
             <key_id>40350</key_id>
             <key_name>GroupId</key_name>
-            <datatype_id>2</datatype_id>
+            <datatype_id>9</datatype_id>
             <key_order>2</key_order>
             <is_primary_key>true </is_primary_key>
             <is_foreign_key>true </is_foreign_key>
@@ -1733,7 +1733,7 @@
             <table_id>58446</table_id>
             <key_id>68270</key_id>
             <key_name>GroupId</key_name>
-            <datatype_id>2</datatype_id>
+            <datatype_id>9</datatype_id>
             <key_order>1</key_order>
             <is_primary_key>true </is_primary_key>
             <is_foreign_key>true </is_foreign_key>

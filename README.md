@@ -1,23 +1,23 @@
 #### Snack: Learning Software For Nutrition
- 
+
  Snack's ultimate purpose is to empower its users to make better nutrition
 decisions that will improve their diet, nutrition, health and quality of life.
-	 
+
  It is a user-friendly software application that calculates the nutritional value
 of food mixtures.
-	
+
  It is also a meal design tool and calculator that could facilitate achieving
-your health goals and objectives by first helping you understand your food intake 
-and second by allowing you to create new food combinations that meet specific 
-dietary requirements. 
-	
- It is also a training program designed to find food combinations that minimize 
-nutritional deficiencies. It lets you inexpensively experiment to get faster and 
+your health goals and objectives by first helping you understand your food intake
+and second by allowing you to create new food combinations that meet specific
+dietary requirements.
+
+ It is also a training program designed to find food combinations that minimize
+nutritional deficiencies. It lets you inexpensively experiment to get faster and
 better results so you can rapidly learn and improve.
-	
+
  Its intended audience is anyone with interest in nutrition.
- 
- We would like to invite all nutrition scientists, registered dietitians and 
+
+ We would like to invite all nutrition scientists, registered dietitians and
 nutrition / food / animal science students and food producers to use the application
 and share their insight.
 
@@ -43,7 +43,7 @@ and share their insight.
   * Convert percent daily value (%DV) of a nutrient to grams
   * Exchange mix, food and meal plan data easily through simple text document (xml)
   * Easily generate reports and export them to text file (csv)
-  * Generate linear programming model files for lpsolve solver  
+  * Generate linear programming model files for lpsolve solver
   * Facilitate learning/teaching anyone with interest in nutrition
   * Create food demand forecasts
   * Is free and open source
@@ -51,7 +51,7 @@ and share their insight.
 
 #### Build
 
-1580
+1610
 
 #### User Guide
 

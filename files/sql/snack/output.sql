@@ -229,7 +229,7 @@ CREATE TABLE FoodFactCoefficient
 /
 CREATE TABLE FoodGroupList
 (
-        GroupId INTEGER,
+        GroupId LONGVARCHAR,
         MixId LONGVARCHAR,
         FoodId LONGVARCHAR,
         CONSTRAINT FoodGroupList_primary_key PRIMARY KEY (
@@ -242,7 +242,7 @@ CREATE TABLE FoodGroupList
 CREATE TABLE FoodGroupQuantityC
 (
         MixId LONGVARCHAR,
-        GroupId INTEGER,
+        GroupId LONGVARCHAR,
         NutrientId LONGVARCHAR,
         RelationshipId INTEGER,
         b DECIMAL(25,18),
@@ -257,9 +257,9 @@ CREATE TABLE FoodGroupQuantityC
 CREATE TABLE FoodGroupRatioC
 (
         MixId LONGVARCHAR,
-        Group_Id_1 INTEGER,
+        Group_Id_1 LONGVARCHAR,
         Nutrient_Id_1 LONGVARCHAR,
-        Group_Id_2 INTEGER,
+        Group_Id_2 LONGVARCHAR,
         Nutrient_Id_2 LONGVARCHAR,
         RelationshipId INTEGER,
         A DECIMAL(25,18),
@@ -364,7 +364,7 @@ CREATE TABLE MixFood
 CREATE TABLE MixFoodGroup
 (
         MixId LONGVARCHAR,
-        GroupId INTEGER,
+        GroupId LONGVARCHAR,
         Name LONGVARCHAR,
         CONSTRAINT MixFoodGroup_primary_key PRIMARY KEY (
         MixId,
@@ -1061,6 +1061,29 @@ v_FoodId
 END;
 /
 
+CREATE PROCEDURE FoodGroupList_Insert (
+--
+IN v_GroupId LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_FoodId LONGVARCHAR
+--
+
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+INSERT INTO FoodGroupList (
+GroupId,
+MixId,
+FoodId
+) VALUES (
+v_GroupId,
+v_MixId,
+v_FoodId
+);
+END;
+/
+
 CREATE FUNCTION countFood(
 --
 IN v_FoodId LONGVARCHAR
@@ -1267,6 +1290,43 @@ AND a.foodid = b.foodid
 AND a.nutrientid = c.nutrientid
 AND a.relationshipid = d.relationshipid
 ORDER BY foodid;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE foodgroup_rhs (
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+
+SELECT mixid,
+       groupid,
+       nutrientid,
+       relationshipid,
+       b,
+       b.name AS groups,
+       c.name AS nutrient,
+       d.name AS eq
+FROM FoodGroupQuantityC a,
+     mixfoodgroup b,
+     nutrient c,
+     relationship d
+WHERE mixid = v_mixid
+AND   a.mixid = b.mixid
+AND   a.groupid = b.groupid
+AND   a.nutrientid = c.nutrientid
+AND   a.relationshipid = d.relationshipid
+ORDER BY groupid;
 --
 OPEN result;
 --
@@ -2014,6 +2074,32 @@ END;
 /
 
 
+CREATE PROCEDURE FoodGroupList_Delete (
+--
+IN v_groupid LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_foodid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DELETE FROM
+--
+FoodGroupList
+--
+WHERE
+--
+groupid = v_groupid
+AND mixid = v_mixid
+AND foodid = v_foodid;
+--
+END;
+/
+
+
 CREATE PROCEDURE FoodNutrientConstraint_Copy (
 --
 IN v_MixId_Old LONGVARCHAR,
@@ -2040,6 +2126,90 @@ SELECT v_MixId_New,
 FROM FoodQuantityC
 WHERE mixid = v_MixId_Old;
 
+--
+END;
+/
+
+
+CREATE PROCEDURE GroupConstraint_Copy (
+--
+IN v_MixId_Old LONGVARCHAR,
+--
+IN v_MixId_New LONGVARCHAR
+--
+)
+--
+modifies sql data BEGIN atomic
+--
+INSERT INTO FoodGroupQuantityC
+(
+  mixid,
+  groupid,
+  nutrientid,
+  relationshipid,
+  b
+)
+SELECT v_MixId_New,
+       groupid,
+       nutrientid,
+       relationshipid,
+       b
+FROM FoodGroupQuantityC
+WHERE mixid = v_MixId_Old;
+
+--
+END;
+/
+
+
+CREATE PROCEDURE Group_Copy (
+--
+IN v_MixId_Old LONGVARCHAR,
+--
+IN v_MixId_New LONGVARCHAR
+--
+)
+--
+modifies sql data BEGIN atomic
+--
+INSERT INTO MixFoodGroup
+(
+  mixid,
+  groupid,
+  name
+)
+SELECT v_MixId_New,
+       groupid,
+       name
+FROM MixFoodGroup
+WHERE mixid = v_MixId_Old;
+
+--
+END;
+/
+
+
+CREATE PROCEDURE GroupList_Copy (
+--
+IN v_MixId_Old LONGVARCHAR,
+--
+IN v_MixId_New LONGVARCHAR
+--
+)
+--
+modifies sql data BEGIN atomic
+--
+INSERT INTO FoodGroupList
+(
+  mixid,
+  groupid,
+  foodid
+)
+SELECT v_MixId_New,
+       groupid,
+       foodid
+FROM FoodGroupList
+WHERE mixid = v_MixId_Old;
 --
 END;
 /
@@ -2293,6 +2463,27 @@ END;
 /
 
 
+CREATE PROCEDURE FoodGroupQuantityConstraint_Delete (
+IN v_MixId LONGVARCHAR,
+IN v_GroupId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
+IN v_RelationshipId INTEGER
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+DELETE FROM
+FoodGroupQuantityC
+WHERE
+MixId = v_MixId
+AND
+GroupId = v_GroupId
+AND
+NutrientId = v_NutrientId
+AND
+RelationshipId = v_RelationshipId;
+END;
+/
+
+
 CREATE PROCEDURE FoodNutrientConstraint_Merge (
 IN v_MixId LONGVARCHAR,
 IN v_FoodId LONGVARCHAR,
@@ -2321,6 +2512,41 @@ b = v_b
 WHEN NOT MATCHED THEN INSERT VALUES
 v_MixId,
 v_FoodId,
+v_NutrientId,
+v_RelationshipId,
+v_b;
+END;
+/
+
+
+CREATE PROCEDURE FoodGroupConstraint_Merge (
+IN v_MixId LONGVARCHAR,
+IN v_GroupId LONGVARCHAR,
+IN v_NutrientId LONGVARCHAR,
+IN v_RelationshipId INTEGER,
+IN v_b DOUBLE
+)
+MODIFIES SQL DATA BEGIN ATOMIC
+MERGE INTO FoodGroupQuantityC USING ( VALUES (
+v_MixId,
+v_GroupId,
+v_NutrientId,
+v_RelationshipId,
+v_b
+) ) ON (
+MixId = v_MixId
+AND
+GroupId = v_GroupId
+AND
+NutrientId = v_NutrientId
+AND
+RelationshipId = v_RelationshipId
+)
+WHEN MATCHED THEN UPDATE SET
+b = v_b
+WHEN NOT MATCHED THEN INSERT VALUES
+v_MixId,
+v_GroupId,
 v_NutrientId,
 v_RelationshipId,
 v_b;
@@ -2378,6 +2604,41 @@ a.NutrientId = c.NutrientId
 AND
 a.RelationshipId = d.RelationshipId
 ORDER BY a.MixId,b.Name,c.Name,d.Name;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE FoodGroupConstraint_Select (
+IN v_MixId LONGVARCHAR
+)
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+DECLARE result CURSOR
+FOR
+SELECT
+a.MixId,
+a.GroupId,
+a.NutrientId,
+a.RelationshipId,
+e.Name as Groups,
+c.Name as Nutrient,
+d.Name as Relationship,
+CASE WHEN a.b IS NULL THEN 0 ELSE a.b END
+FROM FoodGroupQuantityC a,
+     Nutrient c,
+     Relationship d,
+     MixFoodGroup e
+WHERE a.MixId = v_MixId
+AND   a.mixid = e.mixid
+AND   e.GroupId = a.GroupId
+AND   c.NutrientId = a.NutrientId
+AND   d.RelationshipId = a.RelationshipId
+ORDER BY a.MixId,
+         e.Name,
+         c.Name,
+         d.Name;
 --
 OPEN result;
 --
@@ -2444,6 +2705,41 @@ ORDER BY b.name;
 --
          OPEN result;
 
+--
+END;
+/
+
+CREATE PROCEDURE FoodGroupList_Select (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_groupid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT
+--
+b.foodid,
+b.name
+--
+FROM
+--
+FoodGroupList a,
+Food b
+--
+WHERE 
+--
+a.mixid = v_mixid AND
+a.groupid = v_groupid AND
+a.foodid = b.foodid
+--
+ORDER BY b.name;
+--
+OPEN result;
 --
 END;
 /
@@ -2822,6 +3118,24 @@ FoodCategoryId = v_FoodCategoryId;
 END;
 /
 
+CREATE PROCEDURE FoodGroup_Delete (
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_GroupId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DELETE FROM
+MixFoodGroup
+WHERE
+MixId = v_MixId AND GroupId = v_GroupId;
+--
+END;
+/
+
 CREATE PROCEDURE foodnutrientratio_rhs (
 --
 IN v_MixId LONGVARCHAR
@@ -2907,6 +3221,63 @@ SET newid = v_id;
 END;
 /
 
+CREATE PROCEDURE FoodGroup_Insert (
+--
+OUT newid LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_Name LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_groupid LONGVARCHAR;
+--
+SELECT generateId() INTO v_groupid FROM (VALUES(0));
+--
+INSERT INTO MixFoodGroup (
+MixId,
+GroupId,
+Name
+) VALUES (
+v_MixId,
+v_groupid,
+v_Name
+);
+--
+SET newid = v_groupid;
+--
+END;
+/
+
+CREATE PROCEDURE Group_Insert (
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_GroupId LONGVARCHAR,
+--
+IN v_Name LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+INSERT INTO MixFoodGroup (
+MixId,
+GroupId,
+Name
+) VALUES (
+v_MixId,
+v_GroupId,
+v_Name
+);
+--
+END;
+/
+
 CREATE PROCEDURE duplicateCategory (
 --
 OUT newid LONGVARCHAR,
@@ -2938,6 +3309,41 @@ END;
 /
 
 
+CREATE PROCEDURE duplicateFoodGroup (
+--
+OUT newid LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_GroupId LONGVARCHAR
+--
+
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+DECLARE v_name LONGVARCHAR;
+DECLARE v_id LONGVARCHAR;
+--
+SELECT name INTO v_name FROM MixFoodGroup WHERE mixid = v_MixId AND groupid = v_GroupId;
+--
+CALL FoodGroup_Insert(v_id,v_MixId,'Duplicate Of '||v_name);
+--
+INSERT INTO FoodGroupList (
+GroupId,
+MixId,
+FoodId
+)
+SELECT v_id,MixId,FoodId
+FROM FoodGroupList
+WHERE mixid = v_MixId AND groupid = v_GroupId;
+--
+SET newid = v_id;
+--
+END;
+/
+
+
 CREATE PROCEDURE FoodCategory_Select_All ()
 --
 MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
@@ -2949,6 +3355,31 @@ FoodCategoryId,
 Name 
 FROM
 FoodCategory
+Order by Name;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE FoodGroup_Select_All (
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT
+GroupId,
+Name 
+FROM
+MixFoodGroup
+WHERE 
+mixid = v_mixid
 Order by Name;
 --
 OPEN result;
@@ -3000,6 +3431,28 @@ FoodCategoryId = v_FoodCategoryId;
 END;
 /
 
+CREATE PROCEDURE FoodGroup_Update (
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_GroupId LONGVARCHAR,
+--
+IN v_Name LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA BEGIN ATOMIC
+--
+UPDATE
+MixFoodGroup
+SET
+Name = v_Name
+WHERE
+MixId = v_MixId AND GroupId = v_GroupId;
+--
+END;
+/
+
 CREATE PROCEDURE foodnutrient_lhs (
 --
 IN v_MixId LONGVARCHAR,
@@ -3047,6 +3500,44 @@ ORDER BY mixid,
          food_id_b,
          nutrientid;
 --	    
+OPEN result;
+--
+END
+/
+
+CREATE PROCEDURE foodgroup_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_groupid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR,
+--
+IN v_relationshipid INTEGER
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+--
+SELECT a.foodid AS name,
+       IFNULL(b.c,0) AS c
+FROM (SELECT foodid FROM mixfood WHERE mixid = v_mixid) a
+  LEFT JOIN (SELECT mixid,
+                    foodid,
+                    c
+             FROM foodgrouplist a,
+                  foodfactcoefficient b
+             WHERE a.foodid = b.foodid
+             AND   a.mixid = v_mixid
+             AND   a.groupid = v_groupid
+             AND   b.nutrientid = v_nutrientid) b ON a.foodid = b.foodid
+ORDER BY a.foodid;
+--
 OPEN result;
 --
 END
@@ -5252,6 +5743,49 @@ END
 /
 
 
+CREATE PROCEDURE Select_group_constraint_list_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_mixid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC 
+--
+DECLARE doc LONGVARCHAR;
+--
+DECLARE counter INTEGER;
+--
+SET doc = '';
+--
+SET counter = 0;
+--
+SELECT count(groupid, nutrientid, relationshipid, b) INTO counter FROM foodgroupquantityc a WHERE a.mixid = v_mixid;
+--
+IF counter > 0 THEN
+--
+SET doc = doc + '<group_quantity_list>' + CHAR (10);
+--
+FOR SELECT groupid, nutrientid, relationshipid, b FROM foodgroupquantityc a WHERE a.mixid = v_mixid DO
+--
+SET doc = doc + '<group_quantity>' + CHAR (10) + '<group-id>' + groupid + '</group-id>' + CHAR (10) + '<nutrient-id>' + nutrientid + '</nutrient-id>' + CHAR (10) + '<relationship-id>'+relationshipid +'</relationship-id>' + CHAR (10) + '<b>'+ b +'</b>' + CHAR (10) + '</group_quantity>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</group_quantity_list>';
+--
+END IF;
+--
+SET v_doc = doc;
+--
+END
+/
+
+
 CREATE PROCEDURE fill_DnMixResult (
 --
 IN v_MixId LONGVARCHAR
@@ -6637,10 +7171,70 @@ SET v_doc = doc;
 END
 /
 
+CREATE PROCEDURE Select_group_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+--
+BEGIN ATOMIC
+--
+DECLARE doc LONGVARCHAR;
+--
+SET doc = CHAR(10) + '<group_list>' + CHAR(10);
+--
+FOR select mixid, groupid, name from mixfoodgroup where mixid = v_MixId order by name DO
+--
+SET doc = doc +  '<group>' + CHAR(10) + '<mix-id>' + mixid + '</mix-id>' + CHAR(10)  + '<group-id>' + groupid + '</group-id>' + CHAR(10) + '<group-name>' + escape_xml_element_data(name) + '</group-name>' + CHAR(10)  + '</group>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</group_list>';
+--
+SET v_doc = doc;
+--
+END
+/
+
+
+CREATE PROCEDURE Select_groupfood_as_xml (
+--
+OUT v_doc LONGVARCHAR,
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+--
+BEGIN ATOMIC
+--
+DECLARE doc LONGVARCHAR;
+--
+SET doc = CHAR(10) + '<groupfood_list>' + CHAR(10);
+--
+FOR select mixid, groupid, foodid from foodgrouplist WHERE mixid = v_MixId DO
+--
+SET doc = doc +  '<groupfood>' + CHAR(10) + '<mix-id>' + mixid + '</mix-id>' + CHAR(10)  + '<group-id>' + groupid + '</group-id>' + CHAR(10) + '<food-id>' + foodid + '</food-id>' + CHAR(10)  + '</groupfood>' + CHAR (10);
+--
+END FOR;
+--
+SET doc = doc + '</groupfood_list>';
+--
+SET v_doc = doc;
+--
+END
+/
+
+
 CREATE PROCEDURE exportMixModel (IN v_MixId LONGVARCHAR)
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1
---
+MODIFIES SQL DATA
+DYNAMIC RESULT SETS 1
 BEGIN ATOMIC
 --
 DECLARE TABLE temp ( txt LONGVARCHAR);
@@ -6648,7 +7242,7 @@ DECLARE doc LONGVARCHAR;
 DECLARE doc2 LONGVARCHAR;
 --
 SET doc = '';
---SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + 'xsi:noNamespaceSchemaLocation=''https://xjrga.github.io/schemas/snack_v8.xsd''>' + CHAR (10);
+--
 SET doc2 = '<snack' + CHAR(10) + 'xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''' + CHAR(10) + '>';
 --
 call Select_mix_as_xml (doc,v_MixId);
@@ -6680,6 +7274,18 @@ call Select_meal_as_xml (doc,v_MixId);
 SET doc2 = doc2  + doc;
 --
 call Select_meal_food_portion_as_xml (doc,v_MixId);
+--
+SET doc2 = doc2  + doc;
+--
+call Select_group_as_xml(doc,v_MixId);
+--
+SET doc2 = doc2  + doc;
+--
+call Select_groupfood_as_xml(doc,v_MixId);
+--
+SET doc2 = doc2  + doc;
+--
+call Select_group_constraint_list_as_xml(doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --
@@ -6817,6 +7423,12 @@ CALL DnMixResult_copy(v_MixId_Old,v_MixId_New);
 CALL meal_copy(v_MixId_Old,v_MixId_New);
 --
 CALL meal_food_portion_copy(v_MixId_Old,v_MixId_New);
+--
+CALL Group_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL GroupList_Copy(v_MixId_Old,v_MixId_New);
+--
+CALL GroupConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
 SET newid = v_MixId_New;
 --

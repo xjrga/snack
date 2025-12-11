@@ -1,7 +1,6 @@
 package io.github.xjrga.snack.database.callable.insert;
 
 import io.github.xjrga.snack.database.Connect;
-import io.github.xjrga.snack.logger.LoggerImpl;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;

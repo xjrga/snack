@@ -8,20 +8,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
-public class MergeFoodQuantityConstraintTask implements Callable<Boolean> {
+public class MergeGroupConstraintTask implements Callable<Boolean> {
 
     private final String mixid;
-    private final String foodid;
+    private final String groupid;
     private final String nutrientid;
     private final Integer relationshipid;
     private final BigDecimal b;
     private final Connection connection;
 
-    public MergeFoodQuantityConstraintTask(
-            String mixid, String foodid, String nutrientid, Integer relationshipid, BigDecimal b) {
+    public MergeGroupConstraintTask(
+            String mixid, String groupid, String nutrientid, Integer relationshipid, BigDecimal b) {
 
         this.mixid = mixid;
-        this.foodid = foodid;
+        this.groupid = groupid;
         this.nutrientid = nutrientid;
         this.relationshipid = relationshipid;
         this.b = b;
@@ -34,10 +34,10 @@ public class MergeFoodQuantityConstraintTask implements Callable<Boolean> {
         boolean completed = false;
 
         try (CallableStatement proc =
-                connection.prepareCall("{CALL public.FoodNutrientConstraint_Merge( ?, ?, ?, ?, ? )}")) {
+                connection.prepareCall("{CALL public.FoodGroupConstraint_Merge( ?, ?, ?, ?, ? )}")) {
 
             proc.setString(1, mixid);
-            proc.setString(2, foodid);
+            proc.setString(2, groupid);
             proc.setString(3, nutrientid);
             proc.setInt(4, relationshipid);
             proc.setBigDecimal(5, b);

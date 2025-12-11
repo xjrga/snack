@@ -11,13 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
-public class DriDevNutrientQuantityLhsTask implements Callable<LhsContainer> {
+public class DriDevNutrientLhsTask implements Callable<LhsContainer> {
 
     private final String mixid;
     private final String nutrientid;
     private final Connection connection;
 
-    public DriDevNutrientQuantityLhsTask(String mixid, String nutrientid) {
+    public DriDevNutrientLhsTask(String mixid, String nutrientid) {
 
         this.mixid = mixid;
         this.nutrientid = nutrientid;
