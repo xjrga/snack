@@ -14,28 +14,19 @@ public class DeleteAllFoodCategoriesTask implements Callable<Boolean> {
     private final Connection connection;
 
     public DeleteAllFoodCategoriesTask() {
-
         connection = Connect.getInstance().getConnection();
     }
 
     @Override
     public Boolean call() throws Exception {
-
         boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.deleteAllFoodCategories()}")) {
-
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.deleteAllFoodCategories()}" ) ) {
             proc.execute();
             completed = true;
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         } finally {
-
         }
-
         return completed;
     }
 }

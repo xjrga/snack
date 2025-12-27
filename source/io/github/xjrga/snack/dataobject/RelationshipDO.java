@@ -21,66 +21,52 @@ public class RelationshipDO {
     private String name;
     private Integer relationshipid;
 
-    public RelationshipDO(int relationshipid, String name) {
-
-        this.setRelationshipid(relationshipid);
-        this.setName(name);
+    public RelationshipDO( int relationshipid, String name ) {
+        this.setRelationshipid( relationshipid );
+        this.setName( name );
     }
 
     public String getName() {
-
         return name;
     }
 
     public Integer getRelationshipid() {
-
         return relationshipid;
     }
 
-    public void setName(String name) {
-
+    public void setName( String name ) {
         this.name = name;
     }
 
-    public void setRelationshipid(int relationshipid) {
-
+    public void setRelationshipid( int relationshipid ) {
         this.relationshipid = relationshipid;
     }
 
     @Override
     public String toString() {
-
         // return "{"+relationshipid+":"+name+"}";
         return name;
     }
 
     @Override
     public int hashCode() {
-
         int hash = 3;
         hash = 67 * hash + this.relationshipid;
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-
-        if (this == obj) {
-
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
             return true;
         }
-
-        if (obj == null) {
-
+        if ( obj == null ) {
             return false;
         }
-
-        if (getClass() != obj.getClass()) {
-
+        if ( getClass() != obj.getClass() ) {
             return false;
         }
-
-        final RelationshipDO other = (RelationshipDO) obj;
-        return relationshipid.compareTo(other.relationshipid) == 0;
+        final RelationshipDO other = ( RelationshipDO ) obj;
+        return relationshipid.compareTo( other.relationshipid ) == 0;
     }
 }

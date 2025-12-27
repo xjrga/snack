@@ -16,38 +16,28 @@ public class DriDevObjectiveLhsTask implements Callable<LhsContainer> {
     private final String mixid;
     private final Connection connection;
 
-    public DriDevObjectiveLhsTask(String mixid) {
-
+    public DriDevObjectiveLhsTask( String mixid ) {
         this.mixid = mixid;
         connection = Connect.getInstance().getConnection();
     }
 
     @Override
     public LhsContainer call() {
-
         LhsContainer container = new LhsContainer();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_objective_lhs( ? )}")) {
-
-            proc.setString(1, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.dridev_objective_lhs( ? )}" ) ) {
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
-                Integer rownum = rs.getInt(1);
-                String name = rs.getString(2);
-                BigDecimal c = rs.getBigDecimal(3);
-                Lhs lhs = new Lhs(rownum, name, c);
-                container.add(lhs);
+            while ( rs.next() ) {
+                Integer rownum = rs.getInt( 1 );
+                String name = rs.getString( 2 );
+                BigDecimal c = rs.getBigDecimal( 3 );
+                Lhs lhs = new Lhs( rownum, name, c );
+                container.add( lhs );
             }
-
             proc.close();
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return container;
     }
 }

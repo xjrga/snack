@@ -16,8 +16,7 @@ public class MergeMealPlanUsageTask implements Callable<Boolean> {
     private final String mixid;
     private final Double days;
 
-    public MergeMealPlanUsageTask(String mixid, Double days) {
-
+    public MergeMealPlanUsageTask( String mixid, Double days ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.days = days;
@@ -25,21 +24,15 @@ public class MergeMealPlanUsageTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         Boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{call MixInventory_merge(?,?)}")) {
-
-            proc.setString(1, mixid);
-            proc.setDouble(2, days);
+        try ( CallableStatement proc = connection.prepareCall( "{call MixInventory_merge(?,?)}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setDouble( 2, days );
             proc.execute();
             completed = true;
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

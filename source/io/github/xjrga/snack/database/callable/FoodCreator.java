@@ -21,8 +21,7 @@ public class FoodCreator {
     private final Iterator<Category> categoryIterator;
     private final Connection connection;
 
-    public FoodCreator(Food food) {
-
+    public FoodCreator( Food food ) {
         this.food = food;
         foodid = food.getCheckSum();
         foodname = food.getFoodName();
@@ -31,7 +30,6 @@ public class FoodCreator {
     }
 
     public boolean create() {
-
         Future<Boolean> task0;
         Future<Boolean> task1;
         Future<Boolean> task2;
@@ -43,39 +41,28 @@ public class FoodCreator {
         Boolean task2Completed = false;
         Boolean task3Completed = false;
         Boolean task4Completed = false;
-
         try {
-
-            task0 = BackgroundExec.submit(new InsertFoodTask(foodid, foodname));
+            task0 = BackgroundExec.submit( new InsertFoodTask( foodid, foodname ) );
             task0Completed = task0.get();
-
-            if (task0Completed) {
-
-                task1 = BackgroundExec.submit(new InsertFoodFactTask(food));
+            if ( task0Completed ) {
+                task1 = BackgroundExec.submit( new InsertFoodFactTask( food ) );
                 task1Completed = task1.get();
             }
-
             String categoryid;
-
-            while (categoryIterator.hasNext()) {
-
+            while ( categoryIterator.hasNext() ) {
                 Category next = categoryIterator.next();
                 categoryid = next.getCategoryId();
-                task2 = BackgroundExec.submit(new InsertFoodCategoryTask(categoryid, next.getCategoryName()));
+                task2 = BackgroundExec.submit( new InsertFoodCategoryTask( categoryid, next.getCategoryName() ) );
                 task2Completed = task2.get();
-                task3 = BackgroundExec.submit(new InsertFoodCategoryLinkTask(categoryid, foodid));
+                task3 = BackgroundExec.submit( new InsertFoodCategoryLinkTask( categoryid, foodid ) );
                 task3Completed = task3.get();
             }
-
-            task4 = BackgroundExec.submit(new PrepareFoodDataTask(foodid));
+            task4 = BackgroundExec.submit( new PrepareFoodDataTask( foodid ) );
             task4Completed = task4.get();
             completed = true;
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

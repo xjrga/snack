@@ -6,5 +6,5 @@ package io.github.xjrga.snack.interfaces;
  */
 public interface ShowCategory {
 
-    void showCategory(int option);
+    void showCategory( int option );
 }

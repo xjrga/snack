@@ -35,39 +35,31 @@ public class Connect {
     private static Properties prop = null;
 
     public static Connect getInstance() {
-
         return instance;
     }
 
-    private Connect() {}
-
-    public Connection getConnection() {
-
-        try {
-
-            if (connection != null && !connection.isClosed()) {
-
-                return connection;
-            }
-
-            prop = new Properties();
-            input = new FileInputStream("config/connection.properties");
-            prop.load(input);
-            JDBC_DRIVER = prop.getProperty("jdbc.driver");
-            DB_URL = prop.getProperty("jdbc.url");
-            DB_USER = prop.getProperty("jdbc.username");
-            DB_PASS = prop.getProperty("jdbc.password");
-            Class.forName(JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-        }
-
-        return connection;
+    private Connect() {
     }
 
+    public Connection getConnection() {
+        try {
+            if ( connection != null && !connection.isClosed() ) {
+                return connection;
+            }
+            prop = new Properties();
+            input = new FileInputStream( "config/connection.properties" );
+            prop.load( input );
+            JDBC_DRIVER = prop.getProperty( "jdbc.driver" );
+            DB_URL = prop.getProperty( "jdbc.url" );
+            DB_USER = prop.getProperty( "jdbc.username" );
+            DB_PASS = prop.getProperty( "jdbc.password" );
+            Class.forName( JDBC_DRIVER );
+            connection = DriverManager.getConnection( DB_URL, DB_USER, DB_PASS );
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
+        }
+        return connection;
+    }
     // public Connection getConnection() {
     // USER_HOME = System.getProperty("user.home");
     // StringBuilder sb = new StringBuilder();

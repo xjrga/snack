@@ -18,8 +18,7 @@ public class NutrientRatioRhsTask implements Callable<List<Map<String, Object>>>
     private final String mixid;
     private final Connection connection;
 
-    public NutrientRatioRhsTask(String mixid) {
-
+    public NutrientRatioRhsTask( String mixid ) {
         this.mixid = mixid;
         lst = new ArrayList();
         connection = Connect.getInstance().getConnection();
@@ -27,44 +26,35 @@ public class NutrientRatioRhsTask implements Callable<List<Map<String, Object>>>
 
     @Override
     public List<Map<String, Object>> call() {
-
         try {
-
-            CallableStatement proc = connection.prepareCall("{CALL public.nutrientratio_rhs( ? )}");
-            proc.setString(1, mixid);
+            CallableStatement proc = connection.prepareCall( "{CALL public.nutrientratio_rhs( ? )}" );
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 HashMap<String, Object> row = new HashMap();
                 // Integer mixid = rs.getString(1);
-                String nutrient_id_1 = rs.getString(2);
-                String nutrient_id_2 = rs.getString(3);
-                Integer relationshipid = rs.getInt(4);
-                BigDecimal a = rs.getBigDecimal(5);
-                BigDecimal b = rs.getBigDecimal(6);
-                String nutrient1 = rs.getString(7);
-                String nutrient2 = rs.getString(8);
-                String eq = rs.getString(9);
-                row.put("NUTRIENT_ID_1", nutrient_id_1);
-                row.put("NUTRIENT_ID_2", nutrient_id_2);
-                row.put("RELATIONSHIPID", relationshipid);
-                row.put("A", a);
-                row.put("B", b);
-                row.put("NUTRIENT1", nutrient1);
-                row.put("NUTRIENT2", nutrient2);
-                row.put("EQ", eq);
-                lst.add(row);
+                String nutrient_id_1 = rs.getString( 2 );
+                String nutrient_id_2 = rs.getString( 3 );
+                Integer relationshipid = rs.getInt( 4 );
+                BigDecimal a = rs.getBigDecimal( 5 );
+                BigDecimal b = rs.getBigDecimal( 6 );
+                String nutrient1 = rs.getString( 7 );
+                String nutrient2 = rs.getString( 8 );
+                String eq = rs.getString( 9 );
+                row.put( "NUTRIENT_ID_1", nutrient_id_1 );
+                row.put( "NUTRIENT_ID_2", nutrient_id_2 );
+                row.put( "RELATIONSHIPID", relationshipid );
+                row.put( "A", a );
+                row.put( "B", b );
+                row.put( "NUTRIENT1", nutrient1 );
+                row.put( "NUTRIENT2", nutrient2 );
+                row.put( "EQ", eq );
+                lst.add( row );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         } finally {
-
         }
-
         return lst;
     }
 }

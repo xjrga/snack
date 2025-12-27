@@ -7,67 +7,53 @@ public class LifeStageDO {
     private String Label = "";
     private Integer LifeStageId = -1;
 
-    public LifeStageDO(Integer LifeStageId, String Label) {
-
+    public LifeStageDO( Integer LifeStageId, String Label ) {
         this.LifeStageId = LifeStageId;
         this.Label = Label;
     }
 
     public String getLabel() {
-
         return Label;
     }
 
     public Integer getLifeStageId() {
-
         return LifeStageId;
     }
 
-    public void setLabel(String Label) {
-
+    public void setLabel( String Label ) {
         this.Label = Label;
     }
 
-    public void setLifeStageId(Integer LifeStageId) {
-
+    public void setLifeStageId( Integer LifeStageId ) {
         this.LifeStageId = LifeStageId;
     }
 
     @Override
     public int hashCode() {
-
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.LifeStageId);
+        hash = 97 * hash + Objects.hashCode( this.LifeStageId );
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-
-        if (this == obj) {
-
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
             return true;
         }
-
-        if (obj == null) {
-
+        if ( obj == null ) {
             return false;
         }
-
-        if (getClass() != obj.getClass()) {
-
+        if ( getClass() != obj.getClass() ) {
             return false;
         }
-
-        final LifeStageDO other = (LifeStageDO) obj;
-        return Objects.equals(this.LifeStageId, other.LifeStageId);
+        final LifeStageDO other = ( LifeStageDO ) obj;
+        return Objects.equals( this.LifeStageId, other.LifeStageId );
     }
 
     @Override
     public String toString() {
-
         StringBuilder sb = new StringBuilder();
-        sb.append(Label);
+        sb.append( Label );
         return sb.toString();
     }
 }

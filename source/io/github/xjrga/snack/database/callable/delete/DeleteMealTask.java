@@ -16,8 +16,7 @@ public class DeleteMealTask implements Callable<Boolean> {
     private final String MixId;
     private final Integer MealId;
 
-    public DeleteMealTask(String MixId, Integer MealId) {
-
+    public DeleteMealTask( String MixId, Integer MealId ) {
         connection = Connect.getInstance().getConnection();
         this.MixId = MixId;
         this.MealId = MealId;
@@ -25,21 +24,15 @@ public class DeleteMealTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         Boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.Meal_Delete( ?, ? )}")) {
-
-            proc.setString(1, MixId);
-            proc.setInt(2, MealId);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.Meal_Delete( ?, ? )}" ) ) {
+            proc.setString( 1, MixId );
+            proc.setInt( 2, MealId );
             proc.execute();
             completed = true;
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

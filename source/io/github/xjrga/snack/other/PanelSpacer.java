@@ -7,14 +7,13 @@ import javax.swing.JPanel;
 
 public class PanelSpacer extends JPanel {
 
-    public PanelSpacer(JComponent panel) {
-
+    public PanelSpacer( JComponent panel ) {
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout(
                 "4dlu,CENTER:p:grow,4dlu", // columns
                 "8dlu,FILL:p:GROW,4dlu" // rows
-                );
-        setLayout(layout);
-        add(panel, cc.xy(2, 2));
+        );
+        setLayout( layout );
+        add( panel, cc.xy( 2, 2 ) );
     }
 }

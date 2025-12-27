@@ -16,8 +16,7 @@ public class FoodLhsTask implements Callable<double[]> {
     private final Integer relationshipid;
     private final Connection connection;
 
-    public FoodLhsTask(String mixid, String foodid, String nutrientid, Integer relationshipid) {
-
+    public FoodLhsTask( String mixid, String foodid, String nutrientid, Integer relationshipid ) {
         this.mixid = mixid;
         this.foodid = foodid;
         this.nutrientid = nutrientid;
@@ -27,38 +26,27 @@ public class FoodLhsTask implements Callable<double[]> {
 
     @Override
     public double[] call() {
-
         double[] coefficients = null;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.foodnutrient_lhs( ?, ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, foodid);
-            proc.setString(3, nutrientid);
-            proc.setInt(4, relationshipid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.foodnutrient_lhs( ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, foodid );
+            proc.setString( 3, nutrientid );
+            proc.setInt( 4, relationshipid );
             ResultSet rs = proc.executeQuery();
             LinkedList<Double> list = new LinkedList<>();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 // String foodid = rs.getString(1);
-                double c = rs.getDouble(3);
-                list.add(c);
+                double c = rs.getDouble( 3 );
+                list.add( c );
             }
-
             proc.close();
             int size = list.size();
-            coefficients = new double[size];
-
-            for (int i = 0; i < size; i++) {
-
-                coefficients[i] = list.get(i);
+            coefficients = new double[ size ];
+            for ( int i = 0; i < size; i++ ) {
+                coefficients[ i ] = list.get( i );
             }
-
-        } catch (SQLException e) {
-
+        } catch ( SQLException e ) {
         }
-
         return coefficients;
     }
 }

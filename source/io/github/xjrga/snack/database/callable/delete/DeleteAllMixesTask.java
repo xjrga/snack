@@ -15,28 +15,19 @@ public class DeleteAllMixesTask implements Callable<Boolean> {
     private final Connection connection;
 
     public DeleteAllMixesTask() {
-
         connection = Connect.getInstance().getConnection();
     }
 
     @Override
     public Boolean call() throws Exception {
-
         boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.deleteAllMixes()}")) {
-
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.deleteAllMixes()}" ) ) {
             proc.execute();
             completed = true;
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         } finally {
-
         }
-
         return completed;
     }
 }

@@ -9,5 +9,5 @@ public interface Reload {
 
     void clear();
 
-    void reload(List<List> data);
+    void reload( List<List> data );
 }

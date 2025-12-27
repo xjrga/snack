@@ -5,14 +5,12 @@ public class GlycemicLoad {
     private final Double digestibleCarbs;
     private final Double glycemicIndex;
 
-    public GlycemicLoad(Double glycemicIndex, Double digestibleCarbs) {
-
+    public GlycemicLoad( Double glycemicIndex, Double digestibleCarbs ) {
         this.glycemicIndex = glycemicIndex;
         this.digestibleCarbs = digestibleCarbs;
     }
 
     public double getGlycemicLoad() {
-
-        return (glycemicIndex * digestibleCarbs) / 100;
+        return ( glycemicIndex * digestibleCarbs ) / 100;
     }
 }

@@ -469,3 +469,7 @@
 ### 1610 - December 12, 2025
 
   * Added food groups and food group constraints
+
+### 1620 - December 28, 2025
+
+  * Added food tree search feature

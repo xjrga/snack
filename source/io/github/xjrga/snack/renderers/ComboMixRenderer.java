@@ -7,7 +7,6 @@ public class ComboMixRenderer extends DefaultListCellRenderer {
 
     @Override
     public Dimension getPreferredSize() {
-
-        return new Dimension(0, 28);
+        return new Dimension( 0, 28 );
     }
 }

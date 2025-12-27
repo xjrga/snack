@@ -16,8 +16,7 @@ public class InsertFoodGroupTask implements Callable<String> {
     private final String name;
     private String out;
 
-    public InsertFoodGroupTask(String mixid, String name) {
-
+    public InsertFoodGroupTask( String mixid, String name ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.name = name;
@@ -25,19 +24,14 @@ public class InsertFoodGroupTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroup_Insert( ?, ?, ? )}")) {
-
-            proc.registerOutParameter(1, Types.LONGNVARCHAR);
-            proc.setString(2, mixid);
-            proc.setString(3, name);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroup_Insert( ?, ?, ? )}" ) ) {
+            proc.registerOutParameter( 1, Types.LONGNVARCHAR );
+            proc.setString( 2, mixid );
+            proc.setString( 3, name );
             proc.execute();
-            out = proc.getString(1);
-
-        } catch (Exception e) {
-
+            out = proc.getString( 1 );
+        } catch ( Exception e ) {
         }
-
         return out;
     }
 }

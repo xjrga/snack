@@ -28,58 +28,50 @@ public class MealPlanPortionsReport {
     }
 
     public MealPlanPortionsReport() {
-
         //
     }
 
-    public void create(MixDO mixDataObject) {
-
-        try (FileWriter fileWriter = new FileWriter("models/mealplanportions.csv")) {
-
+    public void create( MixDO mixDataObject ) {
+        try ( FileWriter fileWriter = new FileWriter( "models/mealplanportions.csv" ) ) {
             StringBuilder comment = new StringBuilder();
-            comment.append("For ");
-            comment.append(mixDataObject.getName());
+            comment.append( "For " );
+            comment.append( mixDataObject.getName() );
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
-                    .setCommentMarker('#')
-                    .setHeaderComments("Meal Plan Portions Report", comment.toString(), LocalDateTime.now())
-                    .setHeader(Headers.class)
+                    .setCommentMarker( '#' )
+                    .setHeaderComments( "Meal Plan Portions Report", comment.toString(), LocalDateTime.now() )
+                    .setHeader( Headers.class )
                     .get();
-            CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
-            Future<List<List>> task = BackgroundExec.submit(new MealPlanPortionsTask(mixDataObject.getMixid()));
+            CSVPrinter csvPrinter = new CSVPrinter( fileWriter, csvFormat );
+            Future<List<List>> task = BackgroundExec.submit( new MealPlanPortionsTask( mixDataObject.getMixid() ) );
             List<List> portions = task.get();
-            portions.forEach(row -> {
+            portions.forEach( row -> {
                 try {
-
-                    String mixid = (String) row.get(0);
-                    Integer mealid = (Integer) row.get(1);
-                    String foodid = (String) row.get(2);
-                    String meal = (String) row.get(3);
-                    String food = (String) row.get(4);
-                    BigDecimal pct = (BigDecimal) row.get(5);
-                    BigDecimal expectedwt = (BigDecimal) row.get(6);
-                    BigDecimal actualwt = (BigDecimal) row.get(7);
-                    Integer mealorder = (Integer) row.get(8);
+                    String mixid = ( String ) row.get( 0 );
+                    Integer mealid = ( Integer ) row.get( 1 );
+                    String foodid = ( String ) row.get( 2 );
+                    String meal = ( String ) row.get( 3 );
+                    String food = ( String ) row.get( 4 );
+                    BigDecimal pct = ( BigDecimal ) row.get( 5 );
+                    BigDecimal expectedwt = ( BigDecimal ) row.get( 6 );
+                    BigDecimal actualwt = ( BigDecimal ) row.get( 7 );
+                    Integer mealorder = ( Integer ) row.get( 8 );
                     csvPrinter.printRecord(
                             mixid,
                             mealid,
                             foodid,
                             meal,
                             food,
-                            Utilities.strip(pct),
-                            Utilities.strip(expectedwt),
-                            Utilities.strip(actualwt),
-                            mealorder);
-
-                } catch (Exception e) {
-
-                    LoggerImpl.INSTANCE.logProblem(e);
+                            Utilities.strip( pct ),
+                            Utilities.strip( expectedwt ),
+                            Utilities.strip( actualwt ),
+                            mealorder );
+                } catch ( Exception e ) {
+                    LoggerImpl.INSTANCE.logProblem( e );
                 }
-            });
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+            } );
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
     }
 }

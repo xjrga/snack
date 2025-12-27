@@ -18,35 +18,26 @@ public class FoodGroupsTaskGroupDO implements Callable<List<GroupDO>> {
     private final Connection connection;
     private final String mixid;
 
-    public FoodGroupsTaskGroupDO(String mixid) {
-
+    public FoodGroupsTaskGroupDO( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
 
     @Override
     public List<GroupDO> call() {
-
         ArrayList<GroupDO> list = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroup_Select_All( ? )}")) {
-
-            proc.setString(1, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroup_Select_All( ? )}" ) ) {
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 GroupDO group = new GroupDO();
-                group.setGroupid(rs.getString(1));
-                group.setGroupname(rs.getString(2));
-                list.add(group);
+                group.setGroupid( rs.getString( 1 ) );
+                group.setGroupname( rs.getString( 2 ) );
+                list.add( group );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return list;
     }
 }

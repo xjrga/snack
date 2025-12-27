@@ -32,211 +32,172 @@ public class TablePortion extends JTable {
     private DataModel dm;
 
     public TablePortion() {
-
         searchField = new JTextField();
         dm = new DataModel();
-        dm.addColumn("MixId");
-        dm.addColumn("MealId");
-        dm.addColumn("FoodId");
-        dm.addColumn("Meal");
-        dm.addColumn("Food");
-        dm.addColumn("Pct");
-        dm.addColumn("Expected");
-        dm.addColumn("Actual");
-        setModel(dm);
+        dm.addColumn( "MixId" );
+        dm.addColumn( "MealId" );
+        dm.addColumn( "FoodId" );
+        dm.addColumn( "Meal" );
+        dm.addColumn( "Food" );
+        dm.addColumn( "Pct" );
+        dm.addColumn( "Expected" );
+        dm.addColumn( "Actual" );
+        setModel( dm );
         ListSelectionModel selectionModel = new DefaultListSelectionModel();
-        setSelectionMode(selectionModel.MULTIPLE_INTERVAL_SELECTION);
-        setFillsViewportHeight(true);
-        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        getTableHeader().setReorderingAllowed(false);
-        sorter = new TableRowSorter<>(dm);
-        setRowSorter(sorter);
-        searchField.getDocument().addDocumentListener(new DocumentListener() {
+        setSelectionMode( selectionModel.MULTIPLE_INTERVAL_SELECTION );
+        setFillsViewportHeight( true );
+        setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        getTableHeader().setReorderingAllowed( false );
+        sorter = new TableRowSorter<>( dm );
+        setRowSorter( sorter );
+        searchField.getDocument().addDocumentListener( new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {
-
+            public void changedUpdate( DocumentEvent e ) {
                 filter();
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-
+            public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-
+            public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
 
             private void filter() {
-
                 RowFilter<Object, Object> rf = null;
-
                 try {
-
                     List<RowFilter<Object, Object>> filters = new ArrayList<>();
-                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 3));
-                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 4));
-                    rf = RowFilter.orFilter(filters);
-
-                } catch (java.util.regex.PatternSyntaxException e) {
-
-                    LoggerImpl.INSTANCE.logProblem(e);
+                    filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 3 ) );
+                    filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 4 ) );
+                    rf = RowFilter.orFilter( filters );
+                } catch ( java.util.regex.PatternSyntaxException e ) {
+                    LoggerImpl.INSTANCE.logProblem( e );
                 }
-
-                sorter.setRowFilter(rf);
+                sorter.setRowFilter( rf );
             }
-        });
+        } );
         adjustColumnWidth();
     }
 
     @Override
-    public void setValueAt(Object aValue, int row, int column) {
-
-        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    public void setValueAt( Object aValue, int row, int column ) {
+        dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
-    public void selectRow(int RowNo) {
-
-        setRowSelectionInterval(RowNo, RowNo);
+    public void selectRow( int RowNo ) {
+        setRowSelectionInterval( RowNo, RowNo );
     }
 
-    public void showRow(int RowNo) {
-
-        Rectangle rect = getCellRect(RowNo, 0, true);
-        scrollRectToVisible(rect);
+    public void showRow( int RowNo ) {
+        Rectangle rect = getCellRect( RowNo, 0, true );
+        scrollRectToVisible( rect );
     }
 
     public boolean isSelectionEmpty() {
-
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
     public boolean isEmpty() {
-
-        return !(getRowCount() > 0);
+        return !( getRowCount() > 0 );
     }
 
     public Row getSelectedValue() {
-
-        if (isEmpty()) {
-
+        if ( isEmpty() ) {
             return new NullRow();
         }
-
-        if (isSelectionEmpty()) {
-
+        if ( isSelectionEmpty() ) {
             return new NullRow();
         }
-
         int row = getSelectedRow();
-        return getRow(row);
+        return getRow( row );
     }
 
     public List<Row> getSelectedValues() {
-
         int[] selectedRows = getSelectedRows();
         ArrayList<Row> rows = new ArrayList<Row>();
-
-        if (getSelectedRowCount() == 0) {
-
+        if ( getSelectedRowCount() == 0 ) {
             return rows;
         }
-
-        for (int i = 0; i < selectedRows.length; i++) {
-
-            Row row = getRow(selectedRows[i]);
-            rows.add(row);
+        for ( int i = 0; i < selectedRows.length; i++ ) {
+            Row row = getRow( selectedRows[ i ] );
+            rows.add( row );
         }
-
         return rows;
     }
 
-    private Row getRow(int selectedRowNo) {
-
-        String mixid = (String) getValueAt(selectedRowNo, 0);
-        Integer mealid = (Integer) getValueAt(selectedRowNo, 1);
-        String foodid = (String) getValueAt(selectedRowNo, 2);
-        String meal = (String) getValueAt(selectedRowNo, 3);
-        String food = (String) getValueAt(selectedRowNo, 4);
-        BigDecimal pct = (BigDecimal) getValueAt(selectedRowNo, 5);
-        BigDecimal actual = (BigDecimal) getValueAt(selectedRowNo, 6);
-        BigDecimal expected = (BigDecimal) getValueAt(selectedRowNo, 7);
+    private Row getRow( int selectedRowNo ) {
+        String mixid = ( String ) getValueAt( selectedRowNo, 0 );
+        Integer mealid = ( Integer ) getValueAt( selectedRowNo, 1 );
+        String foodid = ( String ) getValueAt( selectedRowNo, 2 );
+        String meal = ( String ) getValueAt( selectedRowNo, 3 );
+        String food = ( String ) getValueAt( selectedRowNo, 4 );
+        BigDecimal pct = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
+        BigDecimal actual = ( BigDecimal ) getValueAt( selectedRowNo, 6 );
+        BigDecimal expected = ( BigDecimal ) getValueAt( selectedRowNo, 7 );
         Row row = new Row();
-        row.setMixid(mixid);
-        row.setMealid(mealid);
-        row.setFoodid(foodid);
-        row.setMeal(meal);
-        row.setFood(food);
-        row.setPct(pct);
-        row.setActual(actual);
-        row.setExpected(expected);
+        row.setMixid( mixid );
+        row.setMealid( mealid );
+        row.setFoodid( foodid );
+        row.setMeal( meal );
+        row.setFood( food );
+        row.setPct( pct );
+        row.setActual( actual );
+        row.setExpected( expected );
         return row;
     }
 
     public JTextField getSearchField() {
-
         return searchField;
     }
 
-    public void reload(List<List> data) {
-
+    public void reload( List<List> data ) {
         dm.clear();
-        dm.reload(data);
+        dm.reload( data );
         adjustColumnWidth();
     }
 
     public void clear() {
-
         dm.clear();
     }
 
     private void adjustColumnWidth() {
-
-        getColumnModel().getColumn(0).setMinWidth(0);
-        getColumnModel().getColumn(0).setMaxWidth(0);
-        getColumnModel().getColumn(1).setMinWidth(0);
-        getColumnModel().getColumn(1).setMaxWidth(0);
-        getColumnModel().getColumn(2).setMinWidth(0);
-        getColumnModel().getColumn(2).setMaxWidth(0);
-        getColumnModel().getColumn(3).setMinWidth(200);
-        getColumnModel().getColumn(4).setMinWidth(600);
+        getColumnModel().getColumn( 0 ).setMinWidth( 0 );
+        getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
+        getColumnModel().getColumn( 1 ).setMinWidth( 0 );
+        getColumnModel().getColumn( 1 ).setMaxWidth( 0 );
+        getColumnModel().getColumn( 2 ).setMinWidth( 0 );
+        getColumnModel().getColumn( 2 ).setMaxWidth( 0 );
+        getColumnModel().getColumn( 3 ).setMinWidth( 200 );
+        getColumnModel().getColumn( 4 ).setMinWidth( 600 );
     }
 
-    public int find(String id) {
-
+    public int find( String id ) {
         int index = 0;
         int r = this.getRowCount();
-
-        for (int j = 0; j < r; j++) {
-
-            if (id.equals(getValueAt(j, 1))) {
-
+        for ( int j = 0; j < r; j++ ) {
+            if ( id.equals( getValueAt( j, 1 ) ) ) {
                 index = j;
             }
         }
-
         return index;
     }
 
     public void roundUp() {
-
-        roundQuantity(new RoundUpRenderer());
+        roundQuantity( new RoundUpRenderer() );
     }
 
     public void roundDown() {
-
-        roundQuantity(new RoundDownRenderer());
+        roundQuantity( new RoundDownRenderer() );
     }
 
-    private void roundQuantity(DefaultTableCellRenderer renderer) {
-
-        getColumnModel().getColumn(5).setCellRenderer(renderer);
-        getColumnModel().getColumn(6).setCellRenderer(renderer);
-        getColumnModel().getColumn(7).setCellRenderer(renderer);
+    private void roundQuantity( DefaultTableCellRenderer renderer ) {
+        getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 6 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 7 ).setCellRenderer( renderer );
         revalidate();
         repaint();
     }
@@ -253,116 +214,97 @@ public class TablePortion extends JTable {
         private BigDecimal expected;
 
         public Row() {
-
             mixid = "";
             mealid = -1;
             foodid = "";
             meal = "";
             food = "";
-            pct = new BigDecimal("0.0");
-            actual = new BigDecimal("0.0");
-            expected = new BigDecimal("0.0");
+            pct = new BigDecimal( "0.0" );
+            actual = new BigDecimal( "0.0" );
+            expected = new BigDecimal( "0.0" );
         }
 
         public String getMixid() {
-
             return mixid;
         }
 
-        public void setMixid(String mixid) {
-
+        public void setMixid( String mixid ) {
             this.mixid = mixid;
         }
 
         public Integer getMealid() {
-
             return mealid;
         }
 
-        public void setMealid(Integer mealid) {
-
+        public void setMealid( Integer mealid ) {
             this.mealid = mealid;
         }
 
         public String getFoodid() {
-
             return foodid;
         }
 
-        public void setFoodid(String foodid) {
-
+        public void setFoodid( String foodid ) {
             this.foodid = foodid;
         }
 
         public String getMeal() {
-
             return meal;
         }
 
-        public void setMeal(String meal) {
-
+        public void setMeal( String meal ) {
             this.meal = meal;
         }
 
         public String getFood() {
-
             return food;
         }
 
-        public void setFood(String food) {
-
+        public void setFood( String food ) {
             this.food = food;
         }
 
         public BigDecimal getPct() {
-
             return pct;
         }
 
-        public void setPct(BigDecimal pct) {
-
+        public void setPct( BigDecimal pct ) {
             this.pct = pct;
         }
 
         public BigDecimal getActual() {
-
             return actual;
         }
 
-        public void setActual(BigDecimal actual) {
-
+        public void setActual( BigDecimal actual ) {
             this.actual = actual;
         }
 
         public BigDecimal getExpected() {
-
             return expected;
         }
 
-        public void setExpected(BigDecimal expected) {
-
+        public void setExpected( BigDecimal expected ) {
             this.expected = expected;
         }
 
         @Override
         public String toString() {
-
             StringBuilder sb = new StringBuilder();
-            sb.append("Row{");
-            sb.append("mixid=").append(mixid);
-            sb.append(", mealid=").append(mealid);
-            sb.append(", foodid=").append(foodid);
-            sb.append(", meal=").append(meal);
-            sb.append(", food=").append(food);
-            sb.append(", pct=").append(pct);
-            sb.append(", actual=").append(actual);
-            sb.append(", expected=").append(expected);
-            sb.append('}');
+            sb.append( "Row{" );
+            sb.append( "mixid=" ).append( mixid );
+            sb.append( ", mealid=" ).append( mealid );
+            sb.append( ", foodid=" ).append( foodid );
+            sb.append( ", meal=" ).append( meal );
+            sb.append( ", food=" ).append( food );
+            sb.append( ", pct=" ).append( pct );
+            sb.append( ", actual=" ).append( actual );
+            sb.append( ", expected=" ).append( expected );
+            sb.append( '}' );
             return sb.toString();
         }
 
         public boolean isNull() {
-
             return false;
         }
     }
@@ -370,7 +312,6 @@ public class TablePortion extends JTable {
     public class NullRow extends Row {
 
         public boolean isNull() {
-
             return true;
         }
     }
@@ -382,29 +323,24 @@ public class TablePortion extends JTable {
         private int rowcount;
 
         public DataModel() {
-
             data = new ArrayList<List>();
             columns = new ArrayList<String>();
             setRowCount();
         }
 
-        public void addColumn(String col) {
-
-            columns.add(col);
+        public void addColumn( String col ) {
+            columns.add( col );
         }
 
         @Override
-        public void addTableModelListener(TableModelListener l) {
-
-            super.addTableModelListener(l);
+        public void addTableModelListener( TableModelListener l ) {
+            super.addTableModelListener( l );
         }
 
         @Override
-        public Class<?> getColumnClass(int c) {
-
+        public Class<?> getColumnClass( int c ) {
             Class columnClass = BigDecimal.class;
-
-            switch (c) {
+            switch ( c ) {
                 case 0, 2, 3, 4 -> {
                     columnClass = String.class;
                 }
@@ -412,74 +348,58 @@ public class TablePortion extends JTable {
                     columnClass = Integer.class;
                 }
             }
-
             return columnClass;
         }
 
         @Override
         public int getColumnCount() {
-
             return columns.size();
         }
 
         @Override
-        public String getColumnName(int c) {
-
-            return columns.get(c);
+        public String getColumnName( int c ) {
+            return columns.get( c );
         }
 
         @Override
         public int getRowCount() {
-
             return rowcount;
         }
 
         @Override
-        public Object getValueAt(int r, int c) {
-
-            if (data.isEmpty()) {
-
+        public Object getValueAt( int r, int c ) {
+            if ( data.isEmpty() ) {
                 return "";
             }
-
-            return data.get(r).get(c);
+            return data.get( r ).get( c );
         }
 
         @Override
-        public boolean isCellEditable(int r, int c) {
-
+        public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
         @Override
-        public void removeTableModelListener(TableModelListener l) {
-
-            super.removeTableModelListener(l);
+        public void removeTableModelListener( TableModelListener l ) {
+            super.removeTableModelListener( l );
         }
 
         public boolean isSelectionEmpty() {
-
             int selectedRowNo = getSelectedRow();
-
-            if (selectedRowNo == -1) {
-
+            if ( selectedRowNo == -1 ) {
                 return true;
-
             } else {
-
                 return false;
             }
         }
 
         @Override
-        public void setValueAt(Object o, int r, int c) {
-
-            data.get(r).set(c, o);
+        public void setValueAt( Object o, int r, int c ) {
+            data.get( r ).set( c, o );
             fireTableDataChanged();
         }
 
-        public void reload(List<List> data) {
-
+        public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
@@ -487,39 +407,31 @@ public class TablePortion extends JTable {
 
         @Override
         public void clear() {
-
             data.clear();
             setRowCount();
             fireTableDataChanged();
         }
 
         private void setRowCount() {
-
             rowcount = data.size();
         }
     }
 
     @Override
     protected JTableHeader createDefaultTableHeader() {
-
-        return new JTableHeader(columnModel) {
+        return new JTableHeader( columnModel ) {
             @Override
-            public String getToolTipText(MouseEvent e) {
-
+            public String getToolTipText( MouseEvent e ) {
                 java.awt.Point p = e.getPoint();
-                int index = columnModel.getColumnIndexAtX(p.x);
-
-                if (index == -1) {
-
+                int index = columnModel.getColumnIndexAtX( p.x );
+                if ( index == -1 ) {
                     return "";
                 }
-
-                int realIndex = columnModel.getColumn(index).getModelIndex();
-                return columnToolTips[realIndex];
+                int realIndex = columnModel.getColumn( index ).getModelIndex();
+                return columnToolTips[ realIndex ];
             }
         };
     }
-
-    protected String[] columnToolTips =
-            new String[] {"MixId", "MealId", "FoodId", "Meal", "Food", "Pct", "Expected", "Actual"};
+    protected String[] columnToolTips
+            = new String[]{ "MixId", "MealId", "FoodId", "Meal", "Food", "Pct", "Expected", "Actual" };
 }

@@ -17,8 +17,7 @@ public class DriDevNutrientLhsTask implements Callable<LhsContainer> {
     private final String nutrientid;
     private final Connection connection;
 
-    public DriDevNutrientLhsTask(String mixid, String nutrientid) {
-
+    public DriDevNutrientLhsTask( String mixid, String nutrientid ) {
         this.mixid = mixid;
         this.nutrientid = nutrientid;
         connection = Connect.getInstance().getConnection();
@@ -26,31 +25,22 @@ public class DriDevNutrientLhsTask implements Callable<LhsContainer> {
 
     @Override
     public LhsContainer call() {
-
         LhsContainer container = new LhsContainer();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_nutrientquantity_lhs( ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, nutrientid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.dridev_nutrientquantity_lhs( ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, nutrientid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
-                Integer rownum = rs.getInt(1);
-                String name = rs.getString(2);
-                BigDecimal c = rs.getBigDecimal(3);
-                Lhs lhs = new Lhs(rownum, name, c);
-                container.add(lhs);
+            while ( rs.next() ) {
+                Integer rownum = rs.getInt( 1 );
+                String name = rs.getString( 2 );
+                BigDecimal c = rs.getBigDecimal( 3 );
+                Lhs lhs = new Lhs( rownum, name, c );
+                container.add( lhs );
             }
-
             proc.close();
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return container;
     }
 }

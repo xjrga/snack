@@ -26,8 +26,7 @@ public class DeleteFoodRatioConstraintTask implements Callable<Boolean> {
             String Nutrient_Id_1,
             String Food_Id_2,
             String Nutrient_Id_2,
-            Integer RelationshipId) {
-
+            Integer RelationshipId ) {
         connection = Connect.getInstance().getConnection();
         this.MixId = MixId;
         this.Food_Id_1 = Food_Id_1;
@@ -39,26 +38,20 @@ public class DeleteFoodRatioConstraintTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         Boolean completed = false;
-
-        try (CallableStatement proc =
-                connection.prepareCall("{CALL public.FoodNutrientRatio_Delete( ?, ?, ?, ?, ?, ? )}")) {
-
-            proc.setString(1, MixId);
-            proc.setString(2, Food_Id_1);
-            proc.setString(3, Nutrient_Id_1);
-            proc.setString(4, Food_Id_2);
-            proc.setString(5, Nutrient_Id_2);
-            proc.setInt(6, RelationshipId);
+        try ( CallableStatement proc
+                = connection.prepareCall( "{CALL public.FoodNutrientRatio_Delete( ?, ?, ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, MixId );
+            proc.setString( 2, Food_Id_1 );
+            proc.setString( 3, Nutrient_Id_1 );
+            proc.setString( 4, Food_Id_2 );
+            proc.setString( 5, Nutrient_Id_2 );
+            proc.setInt( 6, RelationshipId );
             proc.execute();
             completed = true;
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

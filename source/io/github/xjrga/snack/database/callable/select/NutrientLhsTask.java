@@ -15,8 +15,7 @@ public class NutrientLhsTask implements Callable<double[]> {
     private final Integer relationshipid;
     private final Connection connection;
 
-    public NutrientLhsTask(String mixid, String nutrientid, Integer relationshipid) {
-
+    public NutrientLhsTask( String mixid, String nutrientid, Integer relationshipid ) {
         this.mixid = mixid;
         this.nutrientid = nutrientid;
         this.relationshipid = relationshipid;
@@ -25,36 +24,25 @@ public class NutrientLhsTask implements Callable<double[]> {
 
     @Override
     public double[] call() {
-
         double[] coefficients = null;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.nutrient_lhs( ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, nutrientid);
-            proc.setInt(3, relationshipid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.nutrient_lhs( ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, nutrientid );
+            proc.setInt( 3, relationshipid );
             ResultSet rs = proc.executeQuery();
             LinkedList<Double> list = new LinkedList<>();
-
-            while (rs.next()) {
-
-                double c = rs.getDouble(2);
-                list.add(c);
+            while ( rs.next() ) {
+                double c = rs.getDouble( 2 );
+                list.add( c );
             }
-
             proc.close();
             int size = list.size();
-            coefficients = new double[size];
-
-            for (int i = 0; i < size; i++) {
-
-                coefficients[i] = list.get(i);
+            coefficients = new double[ size ];
+            for ( int i = 0; i < size; i++ ) {
+                coefficients[ i ] = list.get( i );
             }
-
-        } catch (SQLException e) {
-
+        } catch ( SQLException e ) {
         }
-
         return coefficients;
     }
 }

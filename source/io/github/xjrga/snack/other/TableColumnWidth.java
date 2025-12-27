@@ -1,21 +1,18 @@
 package io.github.xjrga.snack.other;
 
 public enum TableColumnWidth {
-    Food(550),
-    Nutrient(350),
-    Quantity(90),
-    Relationship(21),
-    Scrollbar(28);
-
+    Food( 550 ),
+    Nutrient( 350 ),
+    Quantity( 90 ),
+    Relationship( 21 ),
+    Scrollbar( 28 );
     private final Integer width;
 
-    TableColumnWidth(Integer width) {
-
+    TableColumnWidth( Integer width ) {
         this.width = width;
     }
 
     public Integer getWidth() {
-
         return width;
     }
 }

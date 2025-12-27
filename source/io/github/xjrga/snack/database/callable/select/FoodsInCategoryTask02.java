@@ -18,35 +18,26 @@ public class FoodsInCategoryTask02 implements Callable<List<List>> {
     private final Connection connection;
     private final String foodid;
 
-    public FoodsInCategoryTask02(String foodid) {
-
+    public FoodsInCategoryTask02( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
 
     @Override
     public List<List> call() {
-
         List<List> table = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodCategory_Select( ? )}")) {
-
-            proc.setString(1, foodid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodCategory_Select( ? )}" ) ) {
+            proc.setString( 1, foodid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 ArrayList row = new ArrayList();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                table.add(row);
+                row.add( rs.getString( 1 ) );
+                row.add( rs.getString( 2 ) );
+                table.add( row );
             }
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return table;
     }
 }

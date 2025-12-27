@@ -17,8 +17,7 @@ public class FoodRhsTask implements Callable<List<Map<String, Object>>> {
     private final String mixid;
     private final Connection connection;
 
-    public FoodRhsTask(String mixid) {
-
+    public FoodRhsTask( String mixid ) {
         this.mixid = mixid;
         lst = new ArrayList();
         connection = Connect.getInstance().getConnection();
@@ -26,42 +25,33 @@ public class FoodRhsTask implements Callable<List<Map<String, Object>>> {
 
     @Override
     public List<Map<String, Object>> call() {
-
         try {
-
-            CallableStatement proc = connection.prepareCall("{CALL public.foodnutrient_rhs( ? )}");
-            proc.setString(1, mixid);
+            CallableStatement proc = connection.prepareCall( "{CALL public.foodnutrient_rhs( ? )}" );
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 HashMap<String, Object> row = new HashMap();
                 // Integer mixid = rs.getString(1);
-                String foodid = rs.getString(2);
-                String nutrientid = rs.getString(3);
-                Integer relationshipid = rs.getInt(4);
-                Double b = rs.getDouble(5);
-                String food = rs.getString(6);
-                String nutrient = rs.getString(7);
-                String eq = rs.getString(8);
-                row.put("FOODID", foodid);
-                row.put("NUTRIENTID", nutrientid);
-                row.put("RELATIONSHIPID", relationshipid);
-                row.put("B", b);
-                row.put("FOOD", food);
-                row.put("NUTRIENT", nutrient);
-                row.put("EQ", eq);
-                lst.add(row);
+                String foodid = rs.getString( 2 );
+                String nutrientid = rs.getString( 3 );
+                Integer relationshipid = rs.getInt( 4 );
+                Double b = rs.getDouble( 5 );
+                String food = rs.getString( 6 );
+                String nutrient = rs.getString( 7 );
+                String eq = rs.getString( 8 );
+                row.put( "FOODID", foodid );
+                row.put( "NUTRIENTID", nutrientid );
+                row.put( "RELATIONSHIPID", relationshipid );
+                row.put( "B", b );
+                row.put( "FOOD", food );
+                row.put( "NUTRIENT", nutrient );
+                row.put( "EQ", eq );
+                lst.add( row );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         } finally {
-
         }
-
         return lst;
     }
 }

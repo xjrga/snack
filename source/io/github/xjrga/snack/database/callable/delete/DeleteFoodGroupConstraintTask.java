@@ -19,8 +19,7 @@ public class DeleteFoodGroupConstraintTask implements Callable<Boolean> {
     private final Integer relationshipid;
 
     public DeleteFoodGroupConstraintTask(
-            String mixid, String groupid, String nutrientid, Integer relationshipid) {
-
+            String mixid, String groupid, String nutrientid, Integer relationshipid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
@@ -30,24 +29,18 @@ public class DeleteFoodGroupConstraintTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         Boolean completed = false;
-
-        try (CallableStatement proc =
-                connection.prepareCall("{CALL public.FoodGroupQuantityConstraint_Delete( ?, ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, groupid);
-            proc.setString(3, nutrientid);
-            proc.setInt(4, relationshipid);
+        try ( CallableStatement proc
+                = connection.prepareCall( "{CALL public.FoodGroupQuantityConstraint_Delete( ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, groupid );
+            proc.setString( 3, nutrientid );
+            proc.setInt( 4, relationshipid );
             proc.execute();
             completed = true;
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

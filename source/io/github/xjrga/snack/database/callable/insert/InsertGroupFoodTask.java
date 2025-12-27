@@ -14,8 +14,7 @@ public class InsertGroupFoodTask implements Callable<String> {
     private final String groupid;
     private final String foodid;
 
-    public InsertGroupFoodTask(String mixid, String groupid, String foodid) {
-
+    public InsertGroupFoodTask( String mixid, String groupid, String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
@@ -24,19 +23,14 @@ public class InsertGroupFoodTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroupList_Insert( ?, ?, ? )}")) {
-
-            proc.setString(1, groupid);
-            proc.setString(2, mixid);
-            proc.setString(3, foodid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroupList_Insert( ?, ?, ? )}" ) ) {
+            proc.setString( 1, groupid );
+            proc.setString( 2, mixid );
+            proc.setString( 3, foodid );
             proc.execute();
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return foodid;
     }
 }

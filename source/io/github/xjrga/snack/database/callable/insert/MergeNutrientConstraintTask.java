@@ -15,8 +15,7 @@ public class MergeNutrientConstraintTask implements Callable<Boolean> {
     private final BigDecimal b;
     private final Connection connection;
 
-    public MergeNutrientConstraintTask(String mixid, String nutrientid, Integer relationshipid, BigDecimal b) {
-
+    public MergeNutrientConstraintTask( String mixid, String nutrientid, Integer relationshipid, BigDecimal b ) {
         this.mixid = mixid;
         this.nutrientid = nutrientid;
         this.relationshipid = relationshipid;
@@ -26,23 +25,17 @@ public class MergeNutrientConstraintTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.NutrientConstraint_Merge( ?, ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, nutrientid);
-            proc.setInt(3, relationshipid);
-            proc.setBigDecimal(4, b);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.NutrientConstraint_Merge( ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, nutrientid );
+            proc.setInt( 3, relationshipid );
+            proc.setBigDecimal( 4, b );
             proc.execute();
             completed = true;
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

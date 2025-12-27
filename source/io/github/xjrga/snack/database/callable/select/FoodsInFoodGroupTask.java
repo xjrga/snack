@@ -19,8 +19,7 @@ public class FoodsInFoodGroupTask implements Callable<List<List>> {
     private final String mixid;
     private final String groupid;
 
-    public FoodsInFoodGroupTask(String mixid, String groupid) {
-
+    public FoodsInFoodGroupTask( String mixid, String groupid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
@@ -28,28 +27,20 @@ public class FoodsInFoodGroupTask implements Callable<List<List>> {
 
     @Override
     public List<List> call() {
-
         List<List> table = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroupList_Select( ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, groupid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroupList_Select( ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, groupid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 ArrayList row = new ArrayList();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                table.add(row);
+                row.add( rs.getString( 1 ) );
+                row.add( rs.getString( 2 ) );
+                table.add( row );
             }
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return table;
     }
 }

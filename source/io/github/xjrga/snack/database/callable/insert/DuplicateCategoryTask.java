@@ -15,26 +15,20 @@ public class DuplicateCategoryTask implements Callable<String> {
     private final String categoryname;
     private String out;
 
-    public DuplicateCategoryTask(String categoryname) {
-
+    public DuplicateCategoryTask( String categoryname ) {
         connection = Connect.getInstance().getConnection();
         this.categoryname = categoryname;
     }
 
     @Override
     public String call() throws Exception {
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.duplicateCategory( ?, ? )}")) {
-
-            proc.registerOutParameter(1, Types.LONGNVARCHAR);
-            proc.setString(2, categoryname);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.duplicateCategory( ?, ? )}" ) ) {
+            proc.registerOutParameter( 1, Types.LONGNVARCHAR );
+            proc.setString( 2, categoryname );
             proc.execute();
-            out = proc.getString(1);
-
-        } catch (Exception e) {
-
+            out = proc.getString( 1 );
+        } catch ( Exception e ) {
         }
-
         return out;
     }
 }

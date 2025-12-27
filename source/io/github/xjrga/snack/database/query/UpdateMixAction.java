@@ -26,8 +26,7 @@ public class UpdateMixAction {
             String model,
             BigDecimal cost,
             BigDecimal deficiency,
-            BigDecimal excess) {
-
+            BigDecimal excess ) {
         this.mixid = mixid;
         this.lifestageid = lifestageid;
         this.model = model;
@@ -38,20 +37,16 @@ public class UpdateMixAction {
     }
 
     public void execute() {
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.updateMix( ?, ?, ?, ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setInt(2, lifestageid);
-            proc.setString(3, model);
-            proc.setBigDecimal(4, cost);
-            proc.setBigDecimal(5, deficiency);
-            proc.setBigDecimal(6, excess);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.updateMix( ?, ?, ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setInt( 2, lifestageid );
+            proc.setString( 3, model );
+            proc.setBigDecimal( 4, cost );
+            proc.setBigDecimal( 5, deficiency );
+            proc.setBigDecimal( 6, excess );
             proc.execute();
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
     }
 }

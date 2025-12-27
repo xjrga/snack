@@ -17,8 +17,7 @@ public class UnallocatedFoodPercentageTask implements Callable<BigDecimal> {
     private final String foodid;
     private final Connection connection;
 
-    public UnallocatedFoodPercentageTask(String mixid, String foodid) {
-
+    public UnallocatedFoodPercentageTask( String mixid, String foodid ) {
         this.mixid = mixid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
@@ -26,22 +25,16 @@ public class UnallocatedFoodPercentageTask implements Callable<BigDecimal> {
 
     @Override
     public BigDecimal call() throws Exception {
-
         BigDecimal out = null;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.calculate_remaining_percentage( ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, foodid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.calculate_remaining_percentage( ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, foodid );
             proc.execute();
             ResultSet resultSet = proc.getResultSet();
             resultSet.next();
-            out = resultSet.getBigDecimal(1);
-
-        } catch (SQLException e) {
-
+            out = resultSet.getBigDecimal( 1 );
+        } catch ( SQLException e ) {
         }
-
         return out;
     }
 }

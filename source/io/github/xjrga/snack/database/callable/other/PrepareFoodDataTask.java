@@ -11,28 +11,21 @@ public class PrepareFoodDataTask implements Callable<Boolean> {
     private final Connection connection;
     private final String foodid;
 
-    public PrepareFoodDataTask(String foodid) {
-
+    public PrepareFoodDataTask( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
 
     @Override
     public Boolean call() throws Exception {
-
         boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.preparefooddata( ? )}")) {
-
-            proc.setString(1, foodid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.preparefooddata( ? )}" ) ) {
+            proc.setString( 1, foodid );
             proc.execute();
             completed = true;
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

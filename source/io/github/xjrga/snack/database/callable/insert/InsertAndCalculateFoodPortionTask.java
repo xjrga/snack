@@ -19,8 +19,7 @@ public class InsertAndCalculateFoodPortionTask implements Callable<Boolean> {
     private final String foodid;
     private final Double pct;
 
-    public InsertAndCalculateFoodPortionTask(String mixid, Integer mealid, String foodid, Double pct) {
-
+    public InsertAndCalculateFoodPortionTask( String mixid, Integer mealid, String foodid, Double pct ) {
         this.mixid = mixid;
         this.mealid = mealid;
         this.foodid = foodid;
@@ -30,24 +29,18 @@ public class InsertAndCalculateFoodPortionTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         boolean execute = false;
-
-        try (CallableStatement proc =
-                connection.prepareCall("{CALL public.MealFoodPortion_insert_and_calculate( ?, ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setInt(2, mealid);
-            proc.setString(3, foodid);
-            proc.setDouble(4, pct);
+        try ( CallableStatement proc
+                = connection.prepareCall( "{CALL public.MealFoodPortion_insert_and_calculate( ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setInt( 2, mealid );
+            proc.setString( 3, foodid );
+            proc.setDouble( 4, pct );
             proc.execute();
             execute = true;
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return execute;
     }
 }

@@ -16,8 +16,7 @@ public class UpdateFoodGroupTask implements Callable<Boolean> {
     private final String foodgroupid;
     private final String foodgroupname;
 
-    public UpdateFoodGroupTask(String mixid, String categoryid, String categoryname) {
-
+    public UpdateFoodGroupTask( String mixid, String categoryid, String categoryname ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.foodgroupid = categoryid;
@@ -26,21 +25,15 @@ public class UpdateFoodGroupTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         Boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroup_Update( ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, foodgroupid);
-            proc.setString(3, foodgroupname);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroup_Update( ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, foodgroupid );
+            proc.setString( 3, foodgroupname );
             proc.execute();
             completed = true;
-
-        } catch (SQLException e) {
-
+        } catch ( SQLException e ) {
         }
-
         return completed;
     }
 }

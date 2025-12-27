@@ -17,8 +17,7 @@ public class UpdateMixFoodAction {
     private final String foodid;
     private final BigDecimal x;
 
-    public UpdateMixFoodAction(String mixid, String foodid, BigDecimal x) {
-
+    public UpdateMixFoodAction( String mixid, String foodid, BigDecimal x ) {
         this.mixid = mixid;
         this.foodid = foodid;
         this.x = x;
@@ -26,17 +25,13 @@ public class UpdateMixFoodAction {
     }
 
     public void execute() {
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.MixFood_Update( ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setString(2, foodid);
-            proc.setBigDecimal(3, x);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.MixFood_Update( ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, foodid );
+            proc.setBigDecimal( 3, x );
             proc.execute();
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
     }
 }

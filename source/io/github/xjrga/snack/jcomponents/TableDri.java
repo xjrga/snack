@@ -2,12 +2,12 @@ package io.github.xjrga.snack.jcomponents;
 
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
-import io.github.xjrga.snack.renderers.RoundDownRenderer;
-import io.github.xjrga.snack.renderers.UpperLimitDownRenderer;
 import io.github.xjrga.snack.renderers.DriDownRenderer;
-import io.github.xjrga.snack.renderers.RoundUpRenderer;
-import io.github.xjrga.snack.renderers.UpperLimitUpRenderer;
 import io.github.xjrga.snack.renderers.DriUpRenderer;
+import io.github.xjrga.snack.renderers.RoundDownRenderer;
+import io.github.xjrga.snack.renderers.RoundUpRenderer;
+import io.github.xjrga.snack.renderers.UpperLimitDownRenderer;
+import io.github.xjrga.snack.renderers.UpperLimitUpRenderer;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -34,211 +34,170 @@ public class TableDri extends JTable {
     private DataModel dm;
 
     public TableDri() {
-
         searchField = new JTextField();
         dm = new DataModel();
-        dm.addColumn("NutrientId");
-        dm.addColumn("Nutrient");
-        dm.addColumn("Mix");
-        dm.addColumn("DRI");
-        dm.addColumn("%DRI");
-        dm.addColumn("UL");
-        dm.addColumn("%UL");
-        setModel(dm);
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setFillsViewportHeight(true);
-        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        getTableHeader().setReorderingAllowed(false);
-        sorter = new TableRowSorter<>(dm);
-        setRowSorter(sorter);
-        searchField.getDocument().addDocumentListener(new DocumentListener() {
+        dm.addColumn( "NutrientId" );
+        dm.addColumn( "Nutrient" );
+        dm.addColumn( "Mix" );
+        dm.addColumn( "DRI" );
+        dm.addColumn( "%DRI" );
+        dm.addColumn( "UL" );
+        dm.addColumn( "%UL" );
+        setModel( dm );
+        setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        setFillsViewportHeight( true );
+        setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+        getTableHeader().setReorderingAllowed( false );
+        sorter = new TableRowSorter<>( dm );
+        setRowSorter( sorter );
+        searchField.getDocument().addDocumentListener( new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {
-
+            public void changedUpdate( DocumentEvent e ) {
                 filter();
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-
+            public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-
+            public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
 
             private void filter() {
-
                 RowFilter<Object, Object> rf = null;
-
                 try {
-
                     List<RowFilter<Object, Object>> filters = new ArrayList<>();
-                    filters.add(RowFilter.regexFilter("(?i)" + searchField.getText(), 0));
-                    rf = RowFilter.orFilter(filters);
-
-                } catch (java.util.regex.PatternSyntaxException e) {
-
-                    LoggerImpl.INSTANCE.logProblem(e);
+                    filters.add( RowFilter.regexFilter( "(?i)" + searchField.getText(), 0 ) );
+                    rf = RowFilter.orFilter( filters );
+                } catch ( java.util.regex.PatternSyntaxException e ) {
+                    LoggerImpl.INSTANCE.logProblem( e );
                 }
-
-                sorter.setRowFilter(rf);
+                sorter.setRowFilter( rf );
             }
-        });
+        } );
         adjustColumnWidth();
     }
 
     public boolean isSelectionEmpty() {
-
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
     public boolean isEmpty() {
-
-        return !(getRowCount() > 0);
+        return !( getRowCount() > 0 );
     }
 
     @Override
-    public void setValueAt(Object aValue, int row, int column) {
-
-        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    public void setValueAt( Object aValue, int row, int column ) {
+        dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
-    public void selectRow(int RowNo) {
-
-        setRowSelectionInterval(RowNo, RowNo);
+    public void selectRow( int RowNo ) {
+        setRowSelectionInterval( RowNo, RowNo );
     }
 
-    public void showRow(int RowNo) {
-
-        Rectangle rect = getCellRect(RowNo, 0, true);
-        scrollRectToVisible(rect);
+    public void showRow( int RowNo ) {
+        Rectangle rect = getCellRect( RowNo, 0, true );
+        scrollRectToVisible( rect );
     }
 
     public Row getSelectedValue() {
-
-        if (isEmpty()) {
-
+        if ( isEmpty() ) {
             return new NullRow();
         }
-
-        if (isSelectionEmpty()) {
-
+        if ( isSelectionEmpty() ) {
             return new NullRow();
         }
-
-        return getRow(getSelectedRow());
+        return getRow( getSelectedRow() );
     }
 
     public List<Row> getSelectedValues() {
-
         ArrayList<Row> results = new ArrayList<Row>();
-
-        if (isSelectionEmpty()) {
-
+        if ( isSelectionEmpty() ) {
             return results;
         }
-
         int[] rows = this.getSelectedRows();
-
-        for (int i = 0; i < rows.length; i++) {
-
-            Row foodfacts = getRow(i);
-            results.add(foodfacts);
+        for ( int i = 0; i < rows.length; i++ ) {
+            Row foodfacts = getRow( i );
+            results.add( foodfacts );
         }
-
         return results;
     }
 
-    private Row getRow(int selectedRowNo) {
-
-        String nutrientid = (String) getValueAt(selectedRowNo, 0);
-        String nutrient = (String) getValueAt(selectedRowNo, 1);
-        BigDecimal mix = (BigDecimal) getValueAt(selectedRowNo, 2);
-        BigDecimal dri = (BigDecimal) getValueAt(selectedRowNo, 3);
-        BigDecimal pctdri = (BigDecimal) getValueAt(selectedRowNo, 4);
-        BigDecimal ul = (BigDecimal) getValueAt(selectedRowNo, 5);
-        BigDecimal pctul = (BigDecimal) getValueAt(selectedRowNo, 6);
+    private Row getRow( int selectedRowNo ) {
+        String nutrientid = ( String ) getValueAt( selectedRowNo, 0 );
+        String nutrient = ( String ) getValueAt( selectedRowNo, 1 );
+        BigDecimal mix = ( BigDecimal ) getValueAt( selectedRowNo, 2 );
+        BigDecimal dri = ( BigDecimal ) getValueAt( selectedRowNo, 3 );
+        BigDecimal pctdri = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
+        BigDecimal ul = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
+        BigDecimal pctul = ( BigDecimal ) getValueAt( selectedRowNo, 6 );
         Row row = new Row();
-        row.setNutrientid(nutrientid);
-        row.setNutrient(nutrient);
-        row.setMix(mix);
-        row.setDri(dri);
-        row.setPctdri(pctdri);
-        row.setUl(ul);
-        row.setPctul(pctul);
+        row.setNutrientid( nutrientid );
+        row.setNutrient( nutrient );
+        row.setMix( mix );
+        row.setDri( dri );
+        row.setPctdri( pctdri );
+        row.setUl( ul );
+        row.setPctul( pctul );
         return row;
     }
 
     public JTextField getSearchField() {
-
         return searchField;
     }
 
-    public void reload(List<List> data) {
-
+    public void reload( List<List> data ) {
         dm.clear();
-        dm.reload(data);
+        dm.reload( data );
         adjustColumnWidth();
     }
 
     public void clear() {
-
         dm.clear();
     }
 
     private void adjustColumnWidth() {
-
-        getColumnModel().getColumn(0).setMinWidth(0);
-        getColumnModel().getColumn(0).setMaxWidth(0);
-        getColumnModel().getColumn(1).setMinWidth(310);
-
-        for (int i = 2; i < 7; i++) {
-
-            getColumnModel().getColumn(i).setMinWidth(70);
+        getColumnModel().getColumn( 0 ).setMinWidth( 0 );
+        getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
+        getColumnModel().getColumn( 1 ).setMinWidth( 310 );
+        for ( int i = 2; i < 7; i++ ) {
+            getColumnModel().getColumn( i ).setMinWidth( 70 );
         }
     }
 
-    public int find(String foodid) {
-
+    public int find( String foodid ) {
         int index = 0;
         int r = this.getRowCount();
-
-        for (int j = 0; j < r; j++) {
-
-            if (foodid.equals(getValueAt(j, 1))) {
-
+        for ( int j = 0; j < r; j++ ) {
+            if ( foodid.equals( getValueAt( j, 1 ) ) ) {
                 index = j;
             }
         }
-
         return index;
     }
 
     public void roundUp() {
-
         RoundUpRenderer renderer = new RoundUpRenderer();
-        getColumnModel().getColumn(2).setCellRenderer(renderer);
-        getColumnModel().getColumn(3).setCellRenderer(renderer);
-        getColumnModel().getColumn(4).setCellRenderer(new DriUpRenderer());
-        getColumnModel().getColumn(5).setCellRenderer(renderer);
-        getColumnModel().getColumn(6).setCellRenderer(new UpperLimitUpRenderer());
+        getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 4 ).setCellRenderer( new DriUpRenderer() );
+        getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 6 ).setCellRenderer( new UpperLimitUpRenderer() );
         revalidate();
         repaint();
     }
 
     public void roundDown() {
-
         RoundDownRenderer renderer = new RoundDownRenderer();
-        getColumnModel().getColumn(2).setCellRenderer(renderer);
-        getColumnModel().getColumn(3).setCellRenderer(renderer);
-        getColumnModel().getColumn(4).setCellRenderer(new DriDownRenderer());
-        getColumnModel().getColumn(5).setCellRenderer(renderer);
-        getColumnModel().getColumn(6).setCellRenderer(new UpperLimitDownRenderer());
+        getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 3 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 4 ).setCellRenderer( new DriDownRenderer() );
+        getColumnModel().getColumn( 5 ).setCellRenderer( renderer );
+        getColumnModel().getColumn( 6 ).setCellRenderer( new UpperLimitDownRenderer() );
         revalidate();
         repaint();
     }
@@ -254,88 +213,72 @@ public class TableDri extends JTable {
         private BigDecimal pctul;
 
         public Row() {
-
             nutrientid = "";
             nutrient = "";
-            mix = new BigDecimal("0.0");
-            dri = new BigDecimal("0.0");
-            pctdri = new BigDecimal("0.0");
-            ul = new BigDecimal("0.0");
-            pctul = new BigDecimal("0.0");
+            mix = new BigDecimal( "0.0" );
+            dri = new BigDecimal( "0.0" );
+            pctdri = new BigDecimal( "0.0" );
+            ul = new BigDecimal( "0.0" );
+            pctul = new BigDecimal( "0.0" );
         }
 
         public String getNutrientid() {
-
             return nutrientid;
         }
 
-        public void setNutrientid(String nutrientid) {
-
+        public void setNutrientid( String nutrientid ) {
             this.nutrientid = nutrientid;
         }
 
         public String getNutrient() {
-
             return nutrient;
         }
 
-        public void setNutrient(String nutrient) {
-
+        public void setNutrient( String nutrient ) {
             this.nutrient = nutrient;
         }
 
         public BigDecimal getMix() {
-
             return mix;
         }
 
-        public void setMix(BigDecimal mix) {
-
+        public void setMix( BigDecimal mix ) {
             this.mix = mix;
         }
 
         public BigDecimal getDri() {
-
             return dri;
         }
 
-        public void setDri(BigDecimal dri) {
-
+        public void setDri( BigDecimal dri ) {
             this.dri = dri;
         }
 
         public BigDecimal getPctdri() {
-
             return pctdri;
         }
 
-        public void setPctdri(BigDecimal pctdri) {
-
+        public void setPctdri( BigDecimal pctdri ) {
             this.pctdri = pctdri;
         }
 
         public BigDecimal getUl() {
-
             return ul;
         }
 
-        public void setUl(BigDecimal ul) {
-
+        public void setUl( BigDecimal ul ) {
             this.ul = ul;
         }
 
         public BigDecimal getPctul() {
-
             return pctul;
         }
 
-        public void setPctul(BigDecimal pctul) {
-
+        public void setPctul( BigDecimal pctul ) {
             this.pctul = pctul;
         }
 
         public boolean isNull() {
-
             return false;
         }
     }
@@ -343,7 +286,6 @@ public class TableDri extends JTable {
     public class NullRow extends Row {
 
         public boolean isNull() {
-
             return true;
         }
     }
@@ -355,87 +297,71 @@ public class TableDri extends JTable {
         private int rowcount;
 
         public DataModel() {
-
             data = new ArrayList<List>();
             columns = new ArrayList<String>();
             setRowCount();
         }
 
-        public void addColumn(String col) {
-
-            columns.add(col);
+        public void addColumn( String col ) {
+            columns.add( col );
         }
 
         @Override
-        public void addTableModelListener(TableModelListener l) {
-
-            super.addTableModelListener(l);
+        public void addTableModelListener( TableModelListener l ) {
+            super.addTableModelListener( l );
         }
 
         @Override
-        public Class<?> getColumnClass(int c) {
-
+        public Class<?> getColumnClass( int c ) {
             Class columnClass = BigDecimal.class;
-
-            switch (c) {
+            switch ( c ) {
                 case 0, 1, 2 -> {
                     columnClass = String.class;
                 }
             }
-
             return columnClass;
         }
 
         @Override
         public int getColumnCount() {
-
             return columns.size();
         }
 
         @Override
-        public String getColumnName(int c) {
-
-            return columns.get(c);
+        public String getColumnName( int c ) {
+            return columns.get( c );
         }
 
         @Override
         public int getRowCount() {
-
             return rowcount;
         }
 
         @Override
-        public Object getValueAt(int r, int c) {
-
-            if (data.isEmpty()) {
-
+        public Object getValueAt( int r, int c ) {
+            if ( data.isEmpty() ) {
                 return "";
             }
-
-            return data.get(r).get(c);
+            return data.get( r ).get( c );
         }
 
         @Override
-        public boolean isCellEditable(int r, int c) {
-
+        public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
         @Override
-        public void removeTableModelListener(TableModelListener l) {
-
-            super.removeTableModelListener(l);
+        public void removeTableModelListener( TableModelListener l ) {
+            super.removeTableModelListener( l );
         }
 
         @Override
-        public void setValueAt(Object o, int r, int c) {
-
-            data.get(r).set(c, o);
+        public void setValueAt( Object o, int r, int c ) {
+            data.get( r ).set( c, o );
             fireTableDataChanged();
         }
 
-        public void reload(List<List> data) {
-
+        public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
@@ -443,40 +369,32 @@ public class TableDri extends JTable {
 
         @Override
         public void clear() {
-
             data.clear();
             setRowCount();
             fireTableDataChanged();
         }
 
         private void setRowCount() {
-
             rowcount = data.size();
         }
     }
 
     @Override
     protected JTableHeader createDefaultTableHeader() {
-
-        return new JTableHeader(columnModel) {
+        return new JTableHeader( columnModel ) {
             @Override
-            public String getToolTipText(MouseEvent e) {
-
+            public String getToolTipText( MouseEvent e ) {
                 java.awt.Point p = e.getPoint();
-                int index = columnModel.getColumnIndexAtX(p.x);
-
-                if (index == -1) {
-
+                int index = columnModel.getColumnIndexAtX( p.x );
+                if ( index == -1 ) {
                     return "";
                 }
-
-                int realIndex = columnModel.getColumn(index).getModelIndex();
-                return columnToolTips[realIndex];
+                int realIndex = columnModel.getColumn( index ).getModelIndex();
+                return columnToolTips[ realIndex ];
             }
         };
     }
-
-    protected String[] columnToolTips = new String[] {
+    protected String[] columnToolTips = new String[]{
         "NutrientId",
         "Nutrient",
         "Mix",

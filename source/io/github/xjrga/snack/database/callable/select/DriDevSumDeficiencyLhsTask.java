@@ -17,8 +17,7 @@ public class DriDevSumDeficiencyLhsTask implements Callable<LhsContainer> {
     private final Integer lifestageid;
     private final Connection connection;
 
-    public DriDevSumDeficiencyLhsTask(String mixid, Integer lifestageid) {
-
+    public DriDevSumDeficiencyLhsTask( String mixid, Integer lifestageid ) {
         this.mixid = mixid;
         this.lifestageid = lifestageid;
         connection = Connect.getInstance().getConnection();
@@ -26,31 +25,22 @@ public class DriDevSumDeficiencyLhsTask implements Callable<LhsContainer> {
 
     @Override
     public LhsContainer call() {
-
         LhsContainer container = new LhsContainer();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_sum_deficiency_lhs( ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setInt(2, lifestageid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.dridev_sum_deficiency_lhs( ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setInt( 2, lifestageid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
-                Integer rownum = rs.getInt(1);
-                String name = rs.getString(2);
-                BigDecimal c = rs.getBigDecimal(3);
-                Lhs lhs = new Lhs(rownum, name, c);
-                container.add(lhs);
+            while ( rs.next() ) {
+                Integer rownum = rs.getInt( 1 );
+                String name = rs.getString( 2 );
+                BigDecimal c = rs.getBigDecimal( 3 );
+                Lhs lhs = new Lhs( rownum, name, c );
+                container.add( lhs );
             }
-
             proc.close();
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return container;
     }
 }

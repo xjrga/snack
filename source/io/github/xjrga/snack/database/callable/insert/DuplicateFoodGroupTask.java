@@ -16,8 +16,7 @@ public class DuplicateFoodGroupTask implements Callable<String> {
     private final String foodgroupid;
     private String out;
 
-    public DuplicateFoodGroupTask(String mixid, String foodgroupid) {
-
+    public DuplicateFoodGroupTask( String mixid, String foodgroupid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.foodgroupid = foodgroupid;
@@ -25,19 +24,14 @@ public class DuplicateFoodGroupTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.duplicateFoodGroup( ?, ?, ? )}")) {
-
-            proc.registerOutParameter(1, Types.LONGNVARCHAR);
-            proc.setString(2, mixid);
-            proc.setString(3, foodgroupid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.duplicateFoodGroup( ?, ?, ? )}" ) ) {
+            proc.registerOutParameter( 1, Types.LONGNVARCHAR );
+            proc.setString( 2, mixid );
+            proc.setString( 3, foodgroupid );
             proc.execute();
-            out = proc.getString(1);
-
-        } catch (Exception e) {
-
+            out = proc.getString( 1 );
+        } catch ( Exception e ) {
         }
-
         return out;
     }
 }

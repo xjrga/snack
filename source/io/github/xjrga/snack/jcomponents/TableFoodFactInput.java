@@ -33,207 +33,163 @@ public class TableFoodFactInput extends JTable {
     private final DataModel dm;
 
     public TableFoodFactInput() {
-
         txtSearch = new JTextField();
         dm = new DataModel();
-        dm.addColumn("NutrientId");
-        dm.addColumn("Category");
-        dm.addColumn("Nutrient");
-        dm.addColumn("Weight");
-        setModel(dm);
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setFillsViewportHeight(true);
-        setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        getTableHeader().setReorderingAllowed(false);
-        sorter = new TableRowSorter<>(dm);
-        setRowSorter(sorter);
-
-        txtSearch.getDocument().addDocumentListener(new DocumentListener() {
+        dm.addColumn( "NutrientId" );
+        dm.addColumn( "Category" );
+        dm.addColumn( "Nutrient" );
+        dm.addColumn( "Weight" );
+        setModel( dm );
+        setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        setFillsViewportHeight( true );
+        setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS );
+        getTableHeader().setReorderingAllowed( false );
+        sorter = new TableRowSorter<>( dm );
+        setRowSorter( sorter );
+        txtSearch.getDocument().addDocumentListener( new DocumentListener() {
             @Override
-            public void changedUpdate(DocumentEvent e) {
-
+            public void changedUpdate( DocumentEvent e ) {
                 filter();
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-
+            public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-
+            public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
 
             private void filter() {
-
                 RowFilter<Object, Object> rf = null;
-
                 try {
-
                     List<RowFilter<Object, Object>> filters = new ArrayList<>();
-                    filters.add(RowFilter.regexFilter("(?i)" + txtSearch.getText(), 1));
-                    filters.add(RowFilter.regexFilter("(?i)" + txtSearch.getText(), 2));
-                    rf = RowFilter.orFilter(filters);
-
-                } catch (java.util.regex.PatternSyntaxException e) {
-
-                    LoggerImpl.INSTANCE.logProblem(e);
+                    filters.add( RowFilter.regexFilter( "(?i)" + txtSearch.getText(), 1 ) );
+                    filters.add( RowFilter.regexFilter( "(?i)" + txtSearch.getText(), 2 ) );
+                    rf = RowFilter.orFilter( filters );
+                } catch ( java.util.regex.PatternSyntaxException e ) {
+                    LoggerImpl.INSTANCE.logProblem( e );
                 }
-
-                sorter.setRowFilter(rf);
+                sorter.setRowFilter( rf );
             }
-        });
-
+        } );
         adjustColumnWidth();
     }
 
     public boolean isSelectionEmpty() {
-
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
     public boolean isEmpty() {
-
-        return !(getRowCount() > 0);
+        return !( getRowCount() > 0 );
     }
 
     @Override
-    public void setValueAt(Object aValue, int row, int column) {
-
-        dm.setValueAt(aValue, convertRowIndexToModel(row), convertColumnIndexToModel(column));
+    public void setValueAt( Object aValue, int row, int column ) {
+        dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
-    public void selectRow(int RowNo) {
-
-        setRowSelectionInterval(RowNo, RowNo);
+    public void selectRow( int RowNo ) {
+        setRowSelectionInterval( RowNo, RowNo );
     }
 
-    public void showRow(int RowNo) {
-
-        Rectangle rect = getCellRect(RowNo, 0, true);
-        scrollRectToVisible(rect);
+    public void showRow( int RowNo ) {
+        Rectangle rect = getCellRect( RowNo, 0, true );
+        scrollRectToVisible( rect );
     }
 
     public Row getSelectedValue() {
-
-        if (isEmpty()) {
-
+        if ( isEmpty() ) {
             return new NullRow();
         }
-
-        if (isSelectionEmpty()) {
-
+        if ( isSelectionEmpty() ) {
             return new NullRow();
         }
-
-        return getRow(getSelectedRow());
+        return getRow( getSelectedRow() );
     }
 
     public List<Row> getSelectedValues() {
-
         ArrayList<Row> foods = new ArrayList<>();
-
-        if (isSelectionEmpty()) {
-
+        if ( isSelectionEmpty() ) {
             return foods;
         }
-
         int[] rows = this.getSelectedRows();
-
-        for (int i = 0; i < rows.length; i++) {
-
-            Row food = getRow(i);
-            foods.add(food);
+        for ( int i = 0; i < rows.length; i++ ) {
+            Row food = getRow( i );
+            foods.add( food );
         }
-
         return foods;
     }
 
-    private Row getRow(int selectedRowNo) {
-
-        String nutrientid = (String) getValueAt(selectedRowNo, 0);
-        String category = (String) getValueAt(selectedRowNo, 1);
-        String nutrient = (String) getValueAt(selectedRowNo, 2);
-        String weight = (String) getValueAt(selectedRowNo, 3);
+    private Row getRow( int selectedRowNo ) {
+        String nutrientid = ( String ) getValueAt( selectedRowNo, 0 );
+        String category = ( String ) getValueAt( selectedRowNo, 1 );
+        String nutrient = ( String ) getValueAt( selectedRowNo, 2 );
+        String weight = ( String ) getValueAt( selectedRowNo, 3 );
         Row foodfact = new Row();
-        foodfact.setNutrientid(nutrientid);
-        foodfact.setCategory(category);
-        foodfact.setNutrient(nutrient);
-        foodfact.setWeight(weight);
-
+        foodfact.setNutrientid( nutrientid );
+        foodfact.setCategory( category );
+        foodfact.setNutrient( nutrient );
+        foodfact.setWeight( weight );
         return foodfact;
     }
 
     public JTextField getTxtSearch() {
-
         return txtSearch;
     }
 
-    public void reload(List<List> data) {
-
+    public void reload( List<List> data ) {
         dm.clear();
-        dm.reload(data);
+        dm.reload( data );
         adjustColumnWidth();
     }
 
     public void clear() {
-
         dm.clear();
     }
 
-    public int find(String id) {
-
+    public int find( String id ) {
         int index = 0;
         int r = this.getRowCount();
-
-        for (int j = 0; j < r; j++) {
-
-            if (id.equals(getValueAt(j, 0))) {
-
+        for ( int j = 0; j < r; j++ ) {
+            if ( id.equals( getValueAt( j, 0 ) ) ) {
                 index = j;
             }
         }
-
         return index;
     }
 
     private void adjustColumnWidth() {
-
-        getColumnModel().getColumn(0).setMinWidth(0);
-        getColumnModel().getColumn(0).setMaxWidth(0);
-        getColumnModel().getColumn(1).setMinWidth(150);
-        getColumnModel().getColumn(2).setMinWidth(300);
+        getColumnModel().getColumn( 0 ).setMinWidth( 0 );
+        getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
+        getColumnModel().getColumn( 1 ).setMinWidth( 150 );
+        getColumnModel().getColumn( 2 ).setMinWidth( 300 );
     }
 
     public void roundUp() {
-
-        getColumnModel().getColumn(3).setCellRenderer(new RoundUpRenderer());
+        getColumnModel().getColumn( 3 ).setCellRenderer( new RoundUpRenderer() );
         revalidate();
         repaint();
     }
 
     public void roundDown() {
-
-        getColumnModel().getColumn(3).setCellRenderer(new RoundDownRenderer());
+        getColumnModel().getColumn( 3 ).setCellRenderer( new RoundDownRenderer() );
         revalidate();
         repaint();
     }
 
     @Override
-    public void editingStopped(ChangeEvent e) {
-
-        String nutrientValue =
-                (new DecimalFormat("###0.0")).format(getCellEditor().getCellEditorValue());
-        txtNutrientValueDisplay.setText(nutrientValue);
-        super.editingStopped(e);
+    public void editingStopped( ChangeEvent e ) {
+        String nutrientValue
+                = ( new DecimalFormat( "###0.0" ) ).format( getCellEditor().getCellEditorValue() );
+        txtNutrientValueDisplay.setText( nutrientValue );
+        super.editingStopped( e );
     }
 
-    public void updateNutrientValue(JTextField txtfld) {
-
+    public void updateNutrientValue( JTextField txtfld ) {
         txtNutrientValueDisplay = txtfld;
     }
 
@@ -244,50 +200,42 @@ public class TableFoodFactInput extends JTable {
         private String nutrient;
         private String weight;
 
-        public Row() {}
+        public Row() {
+        }
 
         public String getNutrientid() {
-
             return nutrientid;
         }
 
-        public void setNutrientid(String nutrientid) {
-
+        public void setNutrientid( String nutrientid ) {
             this.nutrientid = nutrientid;
         }
 
         public String getCategory() {
-
             return category;
         }
 
-        public void setCategory(String category) {
-
+        public void setCategory( String category ) {
             this.category = category;
         }
 
         public String getNutrient() {
-
             return nutrient;
         }
 
-        public void setNutrient(String nutrient) {
-
+        public void setNutrient( String nutrient ) {
             this.nutrient = nutrient;
         }
 
         public String getWeight() {
-
             return weight;
         }
 
-        public void setWeight(String weight) {
-
+        public void setWeight( String weight ) {
             this.weight = weight;
         }
 
         public boolean isNull() {
-
             return false;
         }
     }
@@ -296,7 +244,6 @@ public class TableFoodFactInput extends JTable {
 
         @Override
         public boolean isNull() {
-
             return true;
         }
     }
@@ -308,87 +255,70 @@ public class TableFoodFactInput extends JTable {
         private int rowcount;
 
         public DataModel() {
-
             data = new ArrayList<>();
             columns = new ArrayList<>();
             setRowCount();
         }
 
-        public void addColumn(String col) {
-
-            columns.add(col);
+        public void addColumn( String col ) {
+            columns.add( col );
         }
 
         @Override
-        public void addTableModelListener(TableModelListener l) {
-
-            super.addTableModelListener(l);
+        public void addTableModelListener( TableModelListener l ) {
+            super.addTableModelListener( l );
         }
 
         @Override
-        public Class<?> getColumnClass(int c) {
-
+        public Class<?> getColumnClass( int c ) {
             Class returnValue = String.class;
-
-            if (c == 3) {
-
+            if ( c == 3 ) {
                 returnValue = BigDecimal.class;
             }
-
             return returnValue;
         }
 
         @Override
         public int getColumnCount() {
-
             return columns.size();
         }
 
         @Override
-        public String getColumnName(int c) {
-
-            return columns.get(c);
+        public String getColumnName( int c ) {
+            return columns.get( c );
         }
 
         @Override
         public int getRowCount() {
-
             return rowcount;
         }
 
         @Override
-        public Object getValueAt(int r, int c) {
-
-            if (data.isEmpty()) {
-
+        public Object getValueAt( int r, int c ) {
+            if ( data.isEmpty() ) {
                 return "";
             }
-
-            return data.get(r).get(c);
+            return data.get( r ).get( c );
         }
 
         @Override
-        public boolean isCellEditable(int r, int c) {
-
+        public boolean isCellEditable( int r, int c ) {
             return true;
         }
 
         @Override
-        public void removeTableModelListener(TableModelListener l) {
-
-            super.removeTableModelListener(l);
+        public void removeTableModelListener( TableModelListener l ) {
+            super.removeTableModelListener( l );
         }
 
         @Override
-        public void setValueAt(Object o, int r, int c) {
-
-            data.get(r).set(c, o);
+        public void setValueAt( Object o, int r, int c ) {
+            data.get( r ).set( c, o );
             fireTableDataChanged();
         }
 
         @Override
-        public void reload(List<List> data) {
-
+        public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
@@ -396,38 +326,30 @@ public class TableFoodFactInput extends JTable {
 
         @Override
         public void clear() {
-
             data.clear();
             setRowCount();
             fireTableDataChanged();
         }
 
         private void setRowCount() {
-
             rowcount = data.size();
         }
     }
 
     @Override
     protected JTableHeader createDefaultTableHeader() {
-
-        return new JTableHeader(columnModel) {
+        return new JTableHeader( columnModel ) {
             @Override
-            public String getToolTipText(MouseEvent e) {
-
+            public String getToolTipText( MouseEvent e ) {
                 java.awt.Point p = e.getPoint();
-                int index = columnModel.getColumnIndexAtX(p.x);
-
-                if (index == -1) {
-
+                int index = columnModel.getColumnIndexAtX( p.x );
+                if ( index == -1 ) {
                     return "";
                 }
-
-                int realIndex = columnModel.getColumn(index).getModelIndex();
-                return columnToolTips[realIndex];
+                int realIndex = columnModel.getColumn( index ).getModelIndex();
+                return columnToolTips[ realIndex ];
             }
         };
     }
-
-    protected String[] columnToolTips = new String[] {"NutrientId", "Category", "Nutrient", "Weight"};
+    protected String[] columnToolTips = new String[]{ "NutrientId", "Category", "Nutrient", "Weight" };
 }

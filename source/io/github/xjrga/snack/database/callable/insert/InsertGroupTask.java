@@ -17,7 +17,7 @@ public class InsertGroupTask implements Callable<String> {
     private final String groupid;
     private final String name;
 
-    public InsertGroupTask(String mixid, String groupid, String name) {
+    public InsertGroupTask( String mixid, String groupid, String name ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
@@ -26,16 +26,14 @@ public class InsertGroupTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-        try (CallableStatement proc = connection.prepareCall("{CALL public.Group_Insert( ?, ?, ? )}")) {
-            proc.setString(1, mixid);
-            proc.setString(2, groupid);
-            proc.setString(3, name);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.Group_Insert( ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setString( 2, groupid );
+            proc.setString( 3, name );
             proc.execute();
-
-        } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return groupid;
     }
 }

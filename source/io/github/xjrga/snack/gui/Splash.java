@@ -18,45 +18,35 @@ public class Splash extends JFrame {
     private Thread t;
 
     public Splash() {
-
-        setSize(new Dimension(300, 50));
+        setSize( new Dimension( 300, 50 ) );
         lbl = new JLabel();
-        lbl.setHorizontalAlignment(JLabel.CENTER);
-        add(lbl);
-        setTitle(" Snack is loading your food items");
-        setVisible(true);
-        BufferedImage logo = ImageUtilities.readImageFromUrl(Utilities.getResourceAsUrl("/resources/images/logo.png"));
-        setIconImage(logo);
+        lbl.setHorizontalAlignment( JLabel.CENTER );
+        add( lbl );
+        setTitle( " Snack is loading your food items" );
+        setVisible( true );
+        BufferedImage logo = ImageUtilities.readImageFromUrl( Utilities.getResourceAsUrl( "/resources/images/logo.png" ) );
+        setIconImage( logo );
         toFront();
     }
 
     public void initiate() {
-
         ElapsedTime startupTime = new ElapsedTime();
         startupTime.start();
         Runnable r = () -> {
             startupTime.end();
-            lbl.setText(String.format("%,.0f s", startupTime.getElapsedTimeInSeconds()));
+            lbl.setText( String.format( "%,.0f s", startupTime.getElapsedTimeInSeconds() ) );
         };
         t = new Thread() {
             @Override
             public void run() {
-
-                while (!isInterrupted()) {
-
-                    if (startupTime.getElapsedTimeInSeconds() > 30) {
-
+                while ( !isInterrupted() ) {
+                    if ( startupTime.getElapsedTimeInSeconds() > 30 ) {
                         halt();
                     }
-
-                    SwingUtilities.invokeLater(r);
-
+                    SwingUtilities.invokeLater( r );
                     try {
-
-                        Thread.sleep(1000L);
-
-                    } catch (InterruptedException e) {
-
+                        Thread.sleep( 1000L );
+                    } catch ( InterruptedException e ) {
                         Thread.currentThread().interrupt();
                     }
                 }
@@ -66,7 +56,6 @@ public class Splash extends JFrame {
     }
 
     public void halt() {
-
         dispose();
         t.interrupt();
     }

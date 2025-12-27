@@ -47,81 +47,70 @@ public class LinearProgram {
     private double[] point;
 
     public LinearProgram() {
-
         flag = false;
         constraints = new ArrayList();
     }
 
-    public void addConstraint(double[] coefficients, int rel, double amount) {
-
+    public void addConstraint( double[] coefficients, int rel, double amount ) {
         Relationship relationship = null;
-        relationship = switch (rel) {
-            case LinearProgram.GEQ -> Relationship.GEQ;
-            case LinearProgram.LEQ -> Relationship.LEQ;
-            case LinearProgram.EQ -> Relationship.EQ;
-            default -> Relationship.GEQ;
+        relationship = switch ( rel ) {
+            case LinearProgram.GEQ ->
+                Relationship.GEQ;
+            case LinearProgram.LEQ ->
+                Relationship.LEQ;
+            case LinearProgram.EQ ->
+                Relationship.EQ;
+            default ->
+                Relationship.GEQ;
         };
         // Linear Constraint
-        LinearConstraint c = new LinearConstraint(coefficients, relationship, amount);
-        constraints.add(c);
+        LinearConstraint c = new LinearConstraint( coefficients, relationship, amount );
+        constraints.add( c );
     }
 
-    public void addObjectiveFunction(double[] coefficients) {
-
+    public void addObjectiveFunction( double[] coefficients ) {
         byte constantTerm = 0;
-        linearObjectiveFunction = new LinearObjectiveFunction(coefficients, constantTerm);
+        linearObjectiveFunction = new LinearObjectiveFunction( coefficients, constantTerm );
     }
 
     public Collection<LinearConstraint> getConstraints() {
-
         return linearConstraintSet.getConstraints();
     }
 
     public double getCost() {
-
         return cost;
     }
 
     public double[] getPoint() {
-
         return point;
     }
 
     public boolean isSolved() {
-
         return flag;
     }
 
-    public void setComponent(JPanel component) {
-
+    public void setComponent( JPanel component ) {
         this.component = component;
     }
 
     public boolean solve() {
-
         try {
-
             // Constraint Set
-            linearConstraintSet = new LinearConstraintSet(constraints);
-
+            linearConstraintSet = new LinearConstraintSet( constraints );
             // Solution
-            if (!linearConstraintSet.getConstraints().isEmpty()) {
-
+            if ( !linearConstraintSet.getConstraints().isEmpty() ) {
                 GoalType minimize = GoalType.MINIMIZE;
-                NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint(true);
-                PointValuePair solution = (new SimplexSolver())
-                        .optimize(linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint);
+                NonNegativeConstraint nonNegativeConstraint = new NonNegativeConstraint( true );
+                PointValuePair solution = ( new SimplexSolver() )
+                        .optimize( linearObjectiveFunction, linearConstraintSet, minimize, nonNegativeConstraint );
                 point = solution.getPoint();
                 cost = solution.getSecond();
                 flag = true;
             }
-
-        } catch (Exception e) {
-
-            JComponent[] inputs = {component};
-            Message.showMessage(inputs, "No Feasible Solution");
+        } catch ( Exception e ) {
+            JComponent[] inputs = { component };
+            Message.showMessage( inputs, "No Feasible Solution" );
         }
-
         return flag;
     }
 }

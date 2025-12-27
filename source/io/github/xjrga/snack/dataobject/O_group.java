@@ -10,13 +10,14 @@ public class O_group {
     private String groupid;
     private String name;
 
-    public O_group() {}
+    public O_group() {
+    }
 
     public String getMixid() {
         return mixid;
     }
 
-    public void setMixid(String mixid) {
+    public void setMixid( String mixid ) {
         this.mixid = mixid;
     }
 
@@ -24,7 +25,7 @@ public class O_group {
         return groupid;
     }
 
-    public void setGroupid(String groupid) {
+    public void setGroupid( String groupid ) {
         this.groupid = groupid;
     }
 
@@ -32,7 +33,7 @@ public class O_group {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 

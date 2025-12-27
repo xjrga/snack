@@ -17,35 +17,26 @@ public class FoodGroupsTask implements Callable<List<List>> {
     private final Connection connection;
     private final String mixid;
 
-    public FoodGroupsTask(String mixid) {
-
+    public FoodGroupsTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
 
     @Override
     public List<List> call() {
-
         ArrayList<List> list = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroup_Select_All( ? )}")) {
-
-            proc.setString(1, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroup_Select_All( ? )}" ) ) {
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 ArrayList row = new ArrayList();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                list.add(row);
+                row.add( rs.getString( 1 ) );
+                row.add( rs.getString( 2 ) );
+                list.add( row );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return list;
     }
 }

@@ -18,33 +18,24 @@ public class MealPlanUsageTask implements Callable<List<List>> {
     private final Connection connection;
 
     public MealPlanUsageTask() {
-
         connection = Connect.getInstance().getConnection();
     }
 
     @Override
     public List<List> call() {
-
         ArrayList<List> table = new ArrayList();
-
-        try (PreparedStatement proc = connection.prepareStatement("select * from MixInventoryDays")) {
-
+        try ( PreparedStatement proc = connection.prepareStatement( "select * from MixInventoryDays" ) ) {
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 ArrayList row = new ArrayList();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                row.add(rs.getBigDecimal(3));
-                table.add(row);
+                row.add( rs.getString( 1 ) );
+                row.add( rs.getString( 2 ) );
+                row.add( rs.getBigDecimal( 3 ) );
+                table.add( row );
             }
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return table;
     }
 }

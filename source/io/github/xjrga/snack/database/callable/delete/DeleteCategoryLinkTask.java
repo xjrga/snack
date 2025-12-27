@@ -16,8 +16,7 @@ public class DeleteCategoryLinkTask implements Callable<Boolean> {
     private final String categoryid;
     private final String foodid;
 
-    public DeleteCategoryLinkTask(String categoryid, String foodid) {
-
+    public DeleteCategoryLinkTask( String categoryid, String foodid ) {
         this.categoryid = categoryid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
@@ -25,21 +24,15 @@ public class DeleteCategoryLinkTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         boolean completed = false;
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.CategoryLink_Delete( ?, ? )}")) {
-
-            proc.setString(1, categoryid);
-            proc.setString(2, foodid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.CategoryLink_Delete( ?, ? )}" ) ) {
+            proc.setString( 1, categoryid );
+            proc.setString( 2, foodid );
             proc.execute();
             completed = true;
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

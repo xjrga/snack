@@ -17,29 +17,22 @@ public class DuplicateMixTask implements Callable<MixDO> {
     private final Connection connection;
     private final String mixid;
 
-    public DuplicateMixTask(String mixid) {
-
+    public DuplicateMixTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
 
     @Override
     public MixDO call() throws Exception {
-
         String out = "";
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.Mix_Duplicate( ?, ? )}")) {
-
-            proc.registerOutParameter(1, Types.LONGVARCHAR);
-            proc.setString(2, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.Mix_Duplicate( ?, ? )}" ) ) {
+            proc.registerOutParameter( 1, Types.LONGVARCHAR );
+            proc.setString( 2, mixid );
             proc.execute();
-            out = proc.getString(1);
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+            out = proc.getString( 1 );
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
-        return new MixDO(out);
+        return new MixDO( out );
     }
 }

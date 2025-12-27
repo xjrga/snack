@@ -18,37 +18,28 @@ public class MixFoodFactsTask implements Callable<List<List>> {
     private final Connection connection;
     private final String mixid;
 
-    public MixFoodFactsTask(String mixid) {
-
+    public MixFoodFactsTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
 
     @Override
     public List<List> call() {
-
         List<List> table = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.getFoodFactsForMixItem( ? )}")) {
-
-            proc.setString(1, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.getFoodFactsForMixItem( ? )}" ) ) {
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 ArrayList row = new ArrayList();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                row.add(rs.getString(3));
-                row.add(rs.getBigDecimal(4));
-                table.add(row);
+                row.add( rs.getString( 1 ) );
+                row.add( rs.getString( 2 ) );
+                row.add( rs.getString( 3 ) );
+                row.add( rs.getBigDecimal( 4 ) );
+                table.add( row );
             }
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return table;
     }
 }

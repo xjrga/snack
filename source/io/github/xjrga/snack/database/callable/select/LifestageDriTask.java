@@ -19,8 +19,7 @@ public class LifestageDriTask implements Callable<List<DriDO>> {
     private final String nutrientId;
     private final Integer lifestageId;
 
-    public LifestageDriTask(String nutrientId, Integer lifestageId) {
-
+    public LifestageDriTask( String nutrientId, Integer lifestageId ) {
         connection = Connect.getInstance().getConnection();
         this.nutrientId = nutrientId;
         this.lifestageId = lifestageId;
@@ -28,32 +27,24 @@ public class LifestageDriTask implements Callable<List<DriDO>> {
 
     @Override
     public List<DriDO> call() {
-
         List<DriDO> table = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.getDri( ?, ? )}")) {
-
-            proc.setString(1, nutrientId);
-            proc.setInt(2, lifestageId);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.getDri( ?, ? )}" ) ) {
+            proc.setString( 1, nutrientId );
+            proc.setInt( 2, lifestageId );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 DriDO o = new DriDO(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getInt(4),
-                        rs.getString(5),
-                        rs.getBigDecimal(6));
-                table.add(o);
+                        rs.getString( 1 ),
+                        rs.getString( 2 ),
+                        rs.getString( 3 ),
+                        rs.getInt( 4 ),
+                        rs.getString( 5 ),
+                        rs.getBigDecimal( 6 ) );
+                table.add( o );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return table;
     }
 }

@@ -20,35 +20,26 @@ public class NamedMixFoodSortedByIdTask implements Callable<List<Map<String, Str
     private final Connection connection;
     private final String mixid;
 
-    public NamedMixFoodSortedByIdTask(String mixid) {
-
+    public NamedMixFoodSortedByIdTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
 
     @Override
     public List<Map<String, String>> call() {
-
         ArrayList<Map<String, String>> list = new ArrayList<>();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.MixFood_Select_All_By_FoodId(?)}")) {
-
-            proc.setString(1, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.MixFood_Select_All_By_FoodId(?)}" ) ) {
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 Map<String, String> row = new HashMap<>();
-                row.put("FOODID", rs.getString(1));
-                row.put("NAME", rs.getString(2));
-                list.add(row);
+                row.put( "FOODID", rs.getString( 1 ) );
+                row.put( "NAME", rs.getString( 2 ) );
+                list.add( row );
             }
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return list;
     }
 }

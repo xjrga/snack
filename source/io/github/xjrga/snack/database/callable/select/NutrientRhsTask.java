@@ -17,8 +17,7 @@ public class NutrientRhsTask implements Callable<List<Map<String, Object>>> {
     private final String mixid;
     private final Connection connection;
 
-    public NutrientRhsTask(String mixid) {
-
+    public NutrientRhsTask( String mixid ) {
         this.mixid = mixid;
         lst = new ArrayList();
         connection = Connect.getInstance().getConnection();
@@ -26,38 +25,29 @@ public class NutrientRhsTask implements Callable<List<Map<String, Object>>> {
 
     @Override
     public List<Map<String, Object>> call() {
-
         try {
-
-            CallableStatement proc = connection.prepareCall("{CALL public.nutrient_rhs( ? )}");
-            proc.setString(1, mixid);
+            CallableStatement proc = connection.prepareCall( "{CALL public.nutrient_rhs( ? )}" );
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 HashMap<String, Object> row = new HashMap();
                 // Integer mixid = rs.getString(1);
-                String nutrientid = rs.getString(2);
-                Integer relationshipid = rs.getInt(3);
-                Double b = rs.getDouble(4);
-                String nutrient = rs.getString(5);
-                String eq = rs.getString(6);
-                row.put("NUTRIENTID", nutrientid);
-                row.put("RELATIONSHIPID", relationshipid);
-                row.put("B", b);
-                row.put("NUTRIENT", nutrient);
-                row.put("EQ", eq);
-                lst.add(row);
+                String nutrientid = rs.getString( 2 );
+                Integer relationshipid = rs.getInt( 3 );
+                Double b = rs.getDouble( 4 );
+                String nutrient = rs.getString( 5 );
+                String eq = rs.getString( 6 );
+                row.put( "NUTRIENTID", nutrientid );
+                row.put( "RELATIONSHIPID", relationshipid );
+                row.put( "B", b );
+                row.put( "NUTRIENT", nutrient );
+                row.put( "EQ", eq );
+                lst.add( row );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         } finally {
-
         }
-
         return lst;
     }
 }

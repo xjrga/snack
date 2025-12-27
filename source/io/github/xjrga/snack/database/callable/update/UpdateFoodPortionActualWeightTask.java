@@ -18,8 +18,7 @@ public class UpdateFoodPortionActualWeightTask implements Callable<Boolean> {
     private final String foodid;
     private final BigDecimal actualwt;
 
-    public UpdateFoodPortionActualWeightTask(String mixid, Integer mealid, String foodid, BigDecimal actualwt) {
-
+    public UpdateFoodPortionActualWeightTask( String mixid, Integer mealid, String foodid, BigDecimal actualwt ) {
         this.mixid = mixid;
         this.mealid = mealid;
         this.foodid = foodid;
@@ -29,24 +28,18 @@ public class UpdateFoodPortionActualWeightTask implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-
         boolean completed = false;
-
-        try (CallableStatement proc =
-                connection.prepareCall("{CALL public.MealFoodPortion_update_actualwt( ?, ?, ?, ? )}")) {
-
-            proc.setString(1, mixid);
-            proc.setInt(2, mealid);
-            proc.setString(3, foodid);
-            proc.setBigDecimal(4, actualwt);
+        try ( CallableStatement proc
+                = connection.prepareCall( "{CALL public.MealFoodPortion_update_actualwt( ?, ?, ?, ? )}" ) ) {
+            proc.setString( 1, mixid );
+            proc.setInt( 2, mealid );
+            proc.setString( 3, foodid );
+            proc.setBigDecimal( 4, actualwt );
             proc.execute();
             completed = true;
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return completed;
     }
 }

@@ -18,38 +18,27 @@ public class MixFoodsQuery {
     private final Connection connection;
     private final String mixid;
 
-    public MixFoodsQuery(String mixid) {
-
+    public MixFoodsQuery( String mixid ) {
         this.mixid = mixid;
         connection = Connect.getInstance().getConnection();
     }
 
     public List<Map> get() {
-
         List<Map> list = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.MixFood_Select( ? )}")) {
-
-            proc.setString(1, mixid);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.MixFood_Select( ? )}" ) ) {
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 Map<String, Object> row = new HashMap<>();
-                row.put("MIXID", rs.getObject(1));
-                row.put("FOODID", rs.getObject(2));
-                row.put("X", rs.getObject(3));
-                list.add(row);
+                row.put( "MIXID", rs.getObject( 1 ) );
+                row.put( "FOODID", rs.getObject( 2 ) );
+                row.put( "X", rs.getObject( 3 ) );
+                list.add( row );
             }
-
-        } catch (Exception e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
-
+        } catch ( Exception e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         } finally {
-
         }
-
         return list;
     }
 }

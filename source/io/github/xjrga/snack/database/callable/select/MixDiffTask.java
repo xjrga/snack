@@ -16,8 +16,7 @@ public class MixDiffTask implements Callable<List<List>> {
     private final String mixid1;
     private final String mixid2;
 
-    public MixDiffTask(String mixdiffida, String mixdiffidb) {
-
+    public MixDiffTask( String mixdiffida, String mixdiffidb ) {
         connection = Connect.getInstance().getConnection();
         this.mixid1 = mixdiffida;
         this.mixid2 = mixdiffidb;
@@ -25,31 +24,23 @@ public class MixDiffTask implements Callable<List<List>> {
 
     @Override
     public List<List> call() {
-
         ArrayList<List> table = new ArrayList();
-
-        try (CallableStatement proc = connection.prepareCall("{CALL public.compareMixes( ?, ? )}")) {
-
-            proc.setString(1, mixid1);
-            proc.setString(2, mixid2);
+        try ( CallableStatement proc = connection.prepareCall( "{CALL public.compareMixes( ?, ? )}" ) ) {
+            proc.setString( 1, mixid1 );
+            proc.setString( 2, mixid2 );
             ResultSet rs = proc.executeQuery();
-
-            while (rs.next()) {
-
+            while ( rs.next() ) {
                 ArrayList row = new ArrayList();
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                row.add(rs.getBigDecimal(3));
-                row.add(rs.getBigDecimal(4));
-                row.add(rs.getBigDecimal(5));
-                table.add(row);
+                row.add( rs.getString( 1 ) );
+                row.add( rs.getString( 2 ) );
+                row.add( rs.getBigDecimal( 3 ) );
+                row.add( rs.getBigDecimal( 4 ) );
+                row.add( rs.getBigDecimal( 5 ) );
+                table.add( row );
             }
-
-        } catch (SQLException e) {
-
-            LoggerImpl.INSTANCE.logProblem(e);
+        } catch ( SQLException e ) {
+            LoggerImpl.INSTANCE.logProblem( e );
         }
-
         return table;
     }
 }
