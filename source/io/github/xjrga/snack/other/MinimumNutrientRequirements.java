@@ -4,9 +4,11 @@ public class MinimumNutrientRequirements {
 
     private final Double weightinlbs;
 
+
     public MinimumNutrientRequirements( Double weightinlbs ) {
         this.weightinlbs = weightinlbs;
     }
+
 
     public double getCarbohydrateHigh() {
 
@@ -17,6 +19,7 @@ public class MinimumNutrientRequirements {
          */
         return 150.0D;
     }
+
 
     /*
      * Bistrian, Bruce R. "Clinical use of a protein-sparing modified fast." JAMA
@@ -38,6 +41,7 @@ public class MinimumNutrientRequirements {
         return 50.0D;
     }
 
+
     public double getCarbohydrateMedium() {
 
         /* Amount of Carbohydrate Needed to Appreciably Reduce Ketosis */
@@ -53,6 +57,7 @@ public class MinimumNutrientRequirements {
          */
         return 100.0D;
     }
+
 
     public double getProtein() {
 

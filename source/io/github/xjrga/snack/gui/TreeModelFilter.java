@@ -21,6 +21,7 @@ public final class TreeModelFilter {
     private final DefaultMutableTreeNode oldRoot;
     private final DefaultMutableTreeNode newRoot;
 
+
     public TreeModelFilter( DefaultTreeModel model, String txt ) {
         oldRoot = ( DefaultMutableTreeNode ) model.getRoot();
         oldModel = model;
@@ -29,6 +30,7 @@ public final class TreeModelFilter {
         filter = txt;
     }
 
+
     public TreeModel model() {
         hm = new HashMap<>();
         lst = new ArrayList<>();
@@ -36,6 +38,7 @@ public final class TreeModelFilter {
         populateNew();
         return newModel;
     }
+
 
     private void traverseOld( TreeNode parent, int level ) {
         for ( int i = 0; i < parent.getChildCount(); i++ ) {
@@ -47,6 +50,7 @@ public final class TreeModelFilter {
         }
     }
 
+
     private DefaultMutableTreeNode[] convertTreePath( TreeNode[] pathToRoot ) {
         DefaultMutableTreeNode[] newPathToRoot = new DefaultMutableTreeNode[ pathToRoot.length ];
         for ( int j = 0; j < pathToRoot.length; j++ ) {
@@ -55,6 +59,7 @@ public final class TreeModelFilter {
         }
         return newPathToRoot;
     }
+
 
     private void populateNew() {
         hm.put( newRoot.hashCode(), newRoot );

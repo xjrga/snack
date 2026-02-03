@@ -18,10 +18,12 @@ public class FoodsInCategoryTask implements Callable<List<List>> {
     private final Connection connection;
     private final String categoryid;
 
+
     public FoodsInCategoryTask( String categoryid ) {
         connection = Connect.getInstance().getConnection();
         this.categoryid = categoryid;
     }
+
 
     @Override
     public List<List> call() {

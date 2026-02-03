@@ -17,12 +17,14 @@ public class CreateMealTask implements Callable<Integer> {
     private final String name;
     private final Integer order;
 
+
     public CreateMealTask( String mixid, String name, Integer order ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.name = name;
         this.order = order;
     }
+
 
     @Override
     public Integer call() throws Exception {

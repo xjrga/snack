@@ -46,10 +46,12 @@ public class LinearProgram {
     private LinearObjectiveFunction linearObjectiveFunction;
     private double[] point;
 
+
     public LinearProgram() {
         flag = false;
         constraints = new ArrayList();
     }
+
 
     public void addConstraint( double[] coefficients, int rel, double amount ) {
         Relationship relationship = null;
@@ -68,30 +70,37 @@ public class LinearProgram {
         constraints.add( c );
     }
 
+
     public void addObjectiveFunction( double[] coefficients ) {
         byte constantTerm = 0;
         linearObjectiveFunction = new LinearObjectiveFunction( coefficients, constantTerm );
     }
 
+
     public Collection<LinearConstraint> getConstraints() {
         return linearConstraintSet.getConstraints();
     }
+
 
     public double getCost() {
         return cost;
     }
 
+
     public double[] getPoint() {
         return point;
     }
+
 
     public boolean isSolved() {
         return flag;
     }
 
+
     public void setComponent( JPanel component ) {
         this.component = component;
     }
+
 
     public boolean solve() {
         try {

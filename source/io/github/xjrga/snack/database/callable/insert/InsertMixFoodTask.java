@@ -15,11 +15,13 @@ public class InsertMixFoodTask implements Callable<Boolean> {
     private final String foodid;
     private final String mixid;
 
+
     public InsertMixFoodTask( String mixid, String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.foodid = foodid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

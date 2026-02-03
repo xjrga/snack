@@ -19,10 +19,12 @@ public class MixStatsTask implements Callable<List<Map<String, Object>>> {
     private final Connection connection;
     private final String mixid;
 
+
     public MixStatsTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public List<Map<String, Object>> call() {

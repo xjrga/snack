@@ -9,9 +9,11 @@ public class Shutdown {
 
     private final Connection connection;
 
+
     public Shutdown() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void execute() {
         String sql = "SHUTDOWN;";

@@ -27,9 +27,11 @@ public class MealPlanPortionsReport {
         MealOrder
     }
 
+
     public MealPlanPortionsReport() {
         //
     }
+
 
     public void create( MixDO mixDataObject ) {
         try ( FileWriter fileWriter = new FileWriter( "models/mealplanportions.csv" ) ) {

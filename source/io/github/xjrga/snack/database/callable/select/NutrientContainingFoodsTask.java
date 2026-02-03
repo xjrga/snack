@@ -19,11 +19,13 @@ public class NutrientContainingFoodsTask implements Callable<List<List>> {
     private final String nutrientid;
     private final BigDecimal value;
 
+
     public NutrientContainingFoodsTask( String nutrientid, BigDecimal value ) {
         connection = Connect.getInstance().getConnection();
         this.nutrientid = nutrientid;
         this.value = value;
     }
+
 
     @Override
     public List<List> call() {

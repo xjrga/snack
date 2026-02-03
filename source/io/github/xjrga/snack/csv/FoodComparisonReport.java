@@ -20,8 +20,10 @@ public class FoodComparisonReport {
         Difference
     }
 
+
     public FoodComparisonReport() {
     }
+
 
     public void create( TableFoodDiff modelTableFoodDiff, TableFood tableCompareA, TableFood tableCompareB ) {
         try ( FileWriter fileWriter = new FileWriter( "models/foodcomparison.csv" ) ) {

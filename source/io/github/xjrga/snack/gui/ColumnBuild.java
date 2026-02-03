@@ -21,9 +21,11 @@ public class ColumnBuild {
     }
     private final StringBuilder columns;
 
+
     public ColumnBuild() {
         columns = new StringBuilder();
     }
+
 
     // Using component size
     public void add( columnAlignment alignment, componentSize size ) {
@@ -32,6 +34,7 @@ public class ColumnBuild {
         columns.append( size );
         columns.append( "," );
     }
+
 
     public void add( columnAlignment alignment, componentSize size, resizeBehavior behavior ) {
         columns.append( alignment.name() );
@@ -42,6 +45,7 @@ public class ColumnBuild {
         columns.append( "," );
     }
 
+
     public void add( columnAlignment alignment, Integer pixels ) {
         columns.append( alignment.name() );
         columns.append( ":" );
@@ -49,6 +53,7 @@ public class ColumnBuild {
         columns.append( "px" );
         columns.append( "," );
     }
+
 
     public void add( columnAlignment alignment, Integer pixels, resizeBehavior behavior ) {
         columns.append( alignment.name() );
@@ -60,10 +65,12 @@ public class ColumnBuild {
         columns.append( "," );
     }
 
+
     public void add( componentSize size ) {
         columns.append( size );
         columns.append( "," );
     }
+
 
     public void add( componentSize size, resizeBehavior behavior ) {
         columns.append( size );
@@ -72,12 +79,14 @@ public class ColumnBuild {
         columns.append( "," );
     }
 
+
     // Using constant size
     public void add( Integer pixels ) {
         columns.append( pixels );
         columns.append( "px" );
         columns.append( "," );
     }
+
 
     public void add( Integer pixels, resizeBehavior behavior ) {
         columns.append( pixels );
@@ -87,10 +96,12 @@ public class ColumnBuild {
         columns.append( "," );
     }
 
+
     public void add( String columnSpec ) {
         columns.append( columnSpec );
         columns.append( "," );
     }
+
 
     public String get() {
         return columns.toString().substring( 0, columns.toString().length() - 1 );

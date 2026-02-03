@@ -14,6 +14,7 @@ public class InsertMealTask implements Callable<Boolean> {
     private final Integer order;
     private final Connection connection;
 
+
     public InsertMealTask( String mixid, Integer mealid, String name, Integer order ) {
         this.mixid = mixid;
         this.mealid = mealid;
@@ -21,6 +22,7 @@ public class InsertMealTask implements Callable<Boolean> {
         this.order = order;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

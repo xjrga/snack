@@ -16,9 +16,11 @@ public class AllFoodsReport1 {
 
     private final Connection connection;
 
+
     public AllFoodsReport1() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void create() {
         try ( FileWriter fileWriter = new FileWriter( "models/allfoods1.csv" ) ) {

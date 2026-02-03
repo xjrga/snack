@@ -17,11 +17,13 @@ public class ULDevSumExcessLhsTask implements Callable<LhsContainer> {
     private final Integer lifestageid;
     private final Connection connection;
 
+
     public ULDevSumExcessLhsTask( String mixid, Integer lifestageid ) {
         this.mixid = mixid;
         this.lifestageid = lifestageid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public LhsContainer call() {

@@ -19,9 +19,11 @@ public class FoodsTask implements Callable<List<Map<String, Object>>> {
 
     private final Connection connection;
 
+
     public FoodsTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<Map<String, Object>> call() {

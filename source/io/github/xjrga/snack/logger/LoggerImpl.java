@@ -12,10 +12,12 @@ public enum LoggerImpl implements Logger {
     private String regex;
     public List<LogEntry> records;
 
+
     LoggerImpl() {
         regex = ".*";
         records = new ArrayList();
     }
+
 
     @Override
     public void logProblem( Throwable t ) {
@@ -44,6 +46,7 @@ public enum LoggerImpl implements Logger {
                     System.out.println( record );
                 } );
     }
+
 
     public void filter( String regex ) {
         this.regex = regex;

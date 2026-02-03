@@ -2,7 +2,6 @@ package io.github.xjrga.snack.database.callable.update;
 
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import java.lang.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,11 +16,13 @@ public class UpdateNameOnMixTask implements Callable<Boolean> {
     private final String mixid;
     private final String mixname;
 
+
     public UpdateNameOnMixTask( String mixid, String mixname ) {
         this.mixid = mixid;
         this.mixname = mixname;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

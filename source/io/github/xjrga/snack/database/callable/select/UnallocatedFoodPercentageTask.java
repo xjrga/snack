@@ -17,11 +17,13 @@ public class UnallocatedFoodPercentageTask implements Callable<BigDecimal> {
     private final String foodid;
     private final Connection connection;
 
+
     public UnallocatedFoodPercentageTask( String mixid, String foodid ) {
         this.mixid = mixid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public BigDecimal call() throws Exception {

@@ -15,6 +15,7 @@ public class InsertMixTask implements Callable<Boolean> {
     private final Integer lifestageid;
     private final String model;
 
+
     public InsertMixTask( MixDO mix ) {
         this.mixid = mix.getMixid();
         this.name = mix.getName();
@@ -22,6 +23,7 @@ public class InsertMixTask implements Callable<Boolean> {
         this.model = mix.getModel();
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

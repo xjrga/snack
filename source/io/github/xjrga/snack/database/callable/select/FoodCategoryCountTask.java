@@ -14,11 +14,13 @@ public class FoodCategoryCountTask implements Callable<Integer> {
     private final String foodid;
     private final String foodcategoryid;
 
+
     public FoodCategoryCountTask( String foodid, String foodcategoryid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
         this.foodcategoryid = foodcategoryid;
     }
+
 
     @Override
     public Integer call() throws Exception {

@@ -27,8 +27,10 @@ public class DriDO {
     private String lifestageLabel;
     private BigDecimal nutrientQ;
 
+
     public DriDO() {
     }
+
 
     public DriDO(
             String nutrientId,
@@ -45,49 +47,61 @@ public class DriDO {
         this.nutrientQ = nutrientQ;
     }
 
+
     public String getNutrientId() {
         return nutrientId;
     }
+
 
     public void setNutrientId( String nutrientId ) {
         this.nutrientId = nutrientId;
     }
 
+
     public String getNutrientName() {
         return nutrientName;
     }
+
 
     public void setNutrientName( String nutrientName ) {
         this.nutrientName = nutrientName;
     }
 
+
     public String getNutrientUnits() {
         return nutrientUnits;
     }
+
 
     public void setNutrientUnits( String nutrientUnits ) {
         this.nutrientUnits = nutrientUnits;
     }
 
+
     public Integer getLifestageId() {
         return lifestageId;
     }
+
 
     public void setLifestageId( Integer lifestageId ) {
         this.lifestageId = lifestageId;
     }
 
+
     public String getLifestageLabel() {
         return lifestageLabel;
     }
+
 
     public void setLifestageLabel( String lifestageLabel ) {
         this.lifestageLabel = lifestageLabel;
     }
 
+
     public BigDecimal getNutrientQ() {
         return nutrientQ;
     }
+
 
     public void setNutrientQ( BigDecimal nutrientQ ) {
         this.nutrientQ = nutrientQ;

@@ -29,9 +29,11 @@ public class MealPlanCaloriesReport {
         eAlcohol
     }
 
+
     public MealPlanCaloriesReport() {
         //
     }
+
 
     public void create( MixDO mixDataObject ) {
         try ( FileWriter fileWriter = new FileWriter( "models/mealplancalories.csv" ) ) {

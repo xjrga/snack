@@ -16,11 +16,13 @@ public class MergeMealPlanUsageTask implements Callable<Boolean> {
     private final String mixid;
     private final Double days;
 
+
     public MergeMealPlanUsageTask( String mixid, Double days ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.days = days;
     }
+
 
     @Override
     public Boolean call() throws Exception {

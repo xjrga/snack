@@ -15,10 +15,12 @@ public class InsertCategoryTask implements Callable<String> {
     private final String categoryname;
     private String out;
 
+
     public InsertCategoryTask( String categoryname ) {
         connection = Connect.getInstance().getConnection();
         this.categoryname = categoryname;
     }
+
 
     @Override
     public String call() throws Exception {

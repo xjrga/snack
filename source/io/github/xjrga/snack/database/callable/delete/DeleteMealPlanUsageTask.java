@@ -14,10 +14,12 @@ public class DeleteMealPlanUsageTask implements Callable<Boolean> {
     private final Connection connection;
     private final String mixid;
 
+
     public DeleteMealPlanUsageTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

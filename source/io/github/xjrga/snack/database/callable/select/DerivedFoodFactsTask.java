@@ -18,10 +18,12 @@ public class DerivedFoodFactsTask implements Callable<List<List>> {
     private final Connection connection;
     private final String foodid;
 
+
     public DerivedFoodFactsTask( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
+
 
     @Override
     public List<List> call() {

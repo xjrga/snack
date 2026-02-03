@@ -32,6 +32,7 @@ public class ConstraintChooser {
     private final CellConstraints cc;
     private final List<JCheckBox> chkBoxes;
 
+
     public ConstraintChooser() {
         cc = new CellConstraints();
         chkBoxes = new ArrayList();
@@ -56,6 +57,7 @@ public class ConstraintChooser {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     public void show() {
         JComponent[] inputs = { panel() };
@@ -88,6 +90,7 @@ public class ConstraintChooser {
         } );
     }
 
+
     private JPanel panel() {
         JPanel pnl = new JPanel();
         FormLayout lyo = new FormLayout(
@@ -116,6 +119,7 @@ public class ConstraintChooser {
         }
         return pnl;
     }
+
 
     private JPanel radioButtons() {
         JPanel pnl = new JPanel();
@@ -146,6 +150,7 @@ public class ConstraintChooser {
         } );
         return pnl;
     }
+
 
     private int createDialog( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION );

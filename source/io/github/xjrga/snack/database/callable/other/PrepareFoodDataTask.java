@@ -11,10 +11,12 @@ public class PrepareFoodDataTask implements Callable<Boolean> {
     private final Connection connection;
     private final String foodid;
 
+
     public PrepareFoodDataTask( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

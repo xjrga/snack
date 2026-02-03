@@ -30,6 +30,7 @@ public class TableMealCalories extends JTable {
     private JTextField searchField;
     private DataModel dm;
 
+
     public TableMealCalories() {
         searchField = new JTextField();
         dm = new DataModel();
@@ -55,15 +56,18 @@ public class TableMealCalories extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -80,28 +84,34 @@ public class TableMealCalories extends JTable {
         adjustColumnWidth();
     }
 
+
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -113,6 +123,7 @@ public class TableMealCalories extends JTable {
         int row = getSelectedRow();
         return getRow( row );
     }
+
 
     public List<Row> getSelectedValues() {
         int[] selectedRows = getSelectedRows();
@@ -126,6 +137,7 @@ public class TableMealCalories extends JTable {
         }
         return rows;
     }
+
 
     private Row getRow( int selectedRowNo ) {
         String meal = ( String ) getValueAt( selectedRowNo, 0 );
@@ -150,9 +162,11 @@ public class TableMealCalories extends JTable {
         return row;
     }
 
+
     public JTextField getSearchField() {
         return searchField;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
@@ -160,21 +174,26 @@ public class TableMealCalories extends JTable {
         adjustColumnWidth();
     }
 
+
     public void clear() {
         dm.clear();
     }
+
 
     private void adjustColumnWidth() {
         getColumnModel().getColumn( 0 ).setMinWidth( 200 );
     }
 
+
     public void roundUp() {
         roundQuantity( new RoundUpRenderer() );
     }
 
+
     public void roundDown() {
         roundQuantity( new RoundDownRenderer() );
     }
+
 
     private void roundQuantity( DefaultTableCellRenderer renderer ) {
         getColumnModel().getColumn( 1 ).setCellRenderer( renderer );
@@ -201,6 +220,7 @@ public class TableMealCalories extends JTable {
         private BigDecimal eprotein;
         private BigDecimal ealcohol;
 
+
         public Row() {
             meal = null;
             weight = null;
@@ -213,77 +233,96 @@ public class TableMealCalories extends JTable {
             ealcohol = null;
         }
 
+
         public String getMeal() {
             return meal;
         }
+
 
         public void setMeal( String meal ) {
             this.meal = meal;
         }
 
+
         public BigDecimal getWeight() {
             return weight;
         }
+
 
         public void setWeight( BigDecimal weight ) {
             this.weight = weight;
         }
 
+
         public BigDecimal getEgross() {
             return egross;
         }
+
 
         public void setEgross( BigDecimal egross ) {
             this.egross = egross;
         }
 
+
         public BigDecimal getEdigest() {
             return edigest;
         }
+
 
         public void setEdigest( BigDecimal edigest ) {
             this.edigest = edigest;
         }
 
+
         public BigDecimal getEfat() {
             return efat;
         }
+
 
         public void setEfat( BigDecimal efat ) {
             this.efat = efat;
         }
 
+
         public BigDecimal getEcarbs() {
             return ecarbs;
         }
+
 
         public void setEcarbs( BigDecimal ecarbs ) {
             this.ecarbs = ecarbs;
         }
 
+
         public BigDecimal getEfatplus() {
             return efatplus;
         }
+
 
         public void setEfatplus( BigDecimal efatplus ) {
             this.efatplus = efatplus;
         }
 
+
         public BigDecimal getEprotein() {
             return eprotein;
         }
+
 
         public void setEprotein( BigDecimal eprotein ) {
             this.eprotein = eprotein;
         }
 
+
         public BigDecimal getEalcohol() {
             return ealcohol;
         }
 
+
         public void setEalcohol( BigDecimal ealcohol ) {
             this.ealcohol = ealcohol;
         }
+
 
         public boolean isNull() {
             return false;
@@ -303,20 +342,24 @@ public class TableMealCalories extends JTable {
         private List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<List>();
             columns = new ArrayList<String>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -329,20 +372,24 @@ public class TableMealCalories extends JTable {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -352,15 +399,18 @@ public class TableMealCalories extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
+
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
+
 
         @Override
         public void setValueAt( Object o, int r, int c ) {
@@ -369,12 +419,14 @@ public class TableMealCalories extends JTable {
             ;
         }
 
+
         @Override
         public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
         }
+
 
         @Override
         public void clear() {
@@ -383,10 +435,12 @@ public class TableMealCalories extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {

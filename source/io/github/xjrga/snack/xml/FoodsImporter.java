@@ -21,6 +21,7 @@ public class FoodsImporter {
     public FoodsImporter() {
     }
 
+
     public boolean importFoodListUsingFile( String xml_doc_path, String xsd_doc_path ) {
         boolean completed = false;
         try {
@@ -45,6 +46,7 @@ public class FoodsImporter {
         }
         return completed;
     }
+
 
     public boolean importFoodListUsingUrl( String foodListSchema, String xml_doc_path ) {
         // String foodListSchema = "http://localhost:8080/schemas/foods.xsd";
@@ -71,6 +73,7 @@ public class FoodsImporter {
         }
         return completed;
     }
+
 
     public boolean importFoodListUsingResource( String foodListSchema, String xml_doc_path ) {
         Schema schema = null;
@@ -104,6 +107,7 @@ public class FoodsImporter {
         }
         return flag;
     }
+
 
     public boolean importFoodList( String xml_doc_path ) {
         boolean completed = false;

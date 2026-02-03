@@ -17,12 +17,14 @@ public class InsertGroupTask implements Callable<String> {
     private final String groupid;
     private final String name;
 
+
     public InsertGroupTask( String mixid, String groupid, String name ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
         this.name = name;
     }
+
 
     @Override
     public String call() throws Exception {

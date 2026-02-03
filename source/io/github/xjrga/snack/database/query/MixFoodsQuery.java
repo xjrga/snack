@@ -18,10 +18,12 @@ public class MixFoodsQuery {
     private final Connection connection;
     private final String mixid;
 
+
     public MixFoodsQuery( String mixid ) {
         this.mixid = mixid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     public List<Map> get() {
         List<Map> list = new ArrayList();

@@ -26,6 +26,7 @@ public class TableGroups extends JTable {
     private JTextField searchTextField;
     private DataModel dm;
 
+
     public TableGroups() {
         searchTextField = new JTextField();
         dm = new DataModel();
@@ -44,15 +45,18 @@ public class TableGroups extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -70,28 +74,34 @@ public class TableGroups extends JTable {
         adjustColumnWidth();
     }
 
+
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -103,6 +113,7 @@ public class TableGroups extends JTable {
         int row = getSelectedRow();
         return getRow( row );
     }
+
 
     public List<Row> getSelectedValues() {
         int[] selectedRows = getSelectedRows();
@@ -117,6 +128,7 @@ public class TableGroups extends JTable {
         return rows;
     }
 
+
     private Row getRow( int selectedRowNo ) {
         String groupid = ( String ) getValueAt( selectedRowNo, 0 );
         String groupname = ( String ) getValueAt( selectedRowNo, 1 );
@@ -124,9 +136,11 @@ public class TableGroups extends JTable {
         return group;
     }
 
+
     public JTextField getTxtSearch() {
         return searchTextField;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
@@ -134,10 +148,12 @@ public class TableGroups extends JTable {
         adjustColumnWidth();
     }
 
+
     private void adjustColumnWidth() {
         getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
     }
+
 
     public void clear() {
         dm.clear();
@@ -148,27 +164,33 @@ public class TableGroups extends JTable {
         private final String groupid;
         private final String groupname;
 
+
         public Row() {
             groupid = "";
             groupname = "";
         }
+
 
         public Row( String foodgroupid, String foodgroupname ) {
             this.groupid = foodgroupid;
             this.groupname = foodgroupname;
         }
 
+
         public String getGroupid() {
             return groupid;
         }
+
 
         public String getGroupname() {
             return groupname;
         }
 
+
         public boolean isNull() {
             return false;
         }
+
 
         @Override
         public String toString() {
@@ -190,20 +212,24 @@ public class TableGroups extends JTable {
         private final List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<>();
             columns = new ArrayList<>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -211,20 +237,24 @@ public class TableGroups extends JTable {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -234,21 +264,25 @@ public class TableGroups extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
+
 
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
 
+
         @Override
         public void setValueAt( Object o, int r, int c ) {
             data.get( r ).set( c, o );
             fireTableDataChanged();
         }
+
 
         @Override
         public void reload( List<List> data ) {
@@ -257,6 +291,7 @@ public class TableGroups extends JTable {
             fireTableDataChanged();
         }
 
+
         @Override
         public void clear() {
             data.clear();
@@ -264,10 +299,12 @@ public class TableGroups extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {
@@ -284,6 +321,7 @@ public class TableGroups extends JTable {
             }
         };
     }
+
 
     public int find( String groupid ) {
         int index = 0;

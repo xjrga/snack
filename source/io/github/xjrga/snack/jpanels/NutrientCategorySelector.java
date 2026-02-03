@@ -47,6 +47,7 @@ public class NutrientCategorySelector extends JPanel {
         Other
     }
 
+
     public NutrientCategorySelector() {
         cc = new CellConstraints();
         text = new String[]{
@@ -204,18 +205,22 @@ public class NutrientCategorySelector extends JPanel {
         } );
     }
 
+
     public NutrientCategorySelector( ShowCategory component ) {
         this();
         tbl = component;
     }
 
+
     public Nutrients getOption() {
         return option;
     }
 
+
     public String getOptionText() {
         return option.name();
     }
+
 
     public void setSelected( Nutrients option ) {
         switch ( option ) {
@@ -246,6 +251,7 @@ public class NutrientCategorySelector extends JPanel {
             }
         }
     }
+
 
     public int getCount() {
         return text.length;

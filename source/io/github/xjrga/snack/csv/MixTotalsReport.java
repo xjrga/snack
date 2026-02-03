@@ -20,9 +20,11 @@ public class MixTotalsReport {
 
     private final Connection connection;
 
+
     public MixTotalsReport() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void create( MixDO mixDataObject ) {
         try {

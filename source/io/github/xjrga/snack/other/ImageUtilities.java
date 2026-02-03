@@ -22,6 +22,7 @@ public class ImageUtilities {
         return b;
     }
 
+
     static BufferedImage makeBufferedImage( BufferedImage image ) {
         int w = image.getWidth();
         int h = image.getHeight();
@@ -37,6 +38,7 @@ public class ImageUtilities {
         return subimage;
     }
 
+
     static TexturePaint makeTexturePaint( BufferedImage image, Color color ) {
         int w = image.getWidth();
         int h = image.getHeight();
@@ -51,6 +53,7 @@ public class ImageUtilities {
         return tp;
     }
 
+
     public static BufferedImage readImageFromFile( String pathname ) {
         BufferedImage img = null;
         try {
@@ -60,6 +63,7 @@ public class ImageUtilities {
         return img;
     }
 
+
     public static BufferedImage readImageFromUrl( URL input ) {
         BufferedImage img = null;
         try {
@@ -68,6 +72,7 @@ public class ImageUtilities {
         }
         return img;
     }
+
 
     static void writeBufferedImage( BufferedImage subimage, String format, String pathname ) {
         try {

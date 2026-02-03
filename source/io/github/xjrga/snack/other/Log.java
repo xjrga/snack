@@ -5,17 +5,21 @@ public enum Log {
     Log2;
     private final StringBuilder error_log_builder;
 
+
     private Log() {
         error_log_builder = new StringBuilder();
     }
+
 
     public void append( String text ) {
         error_log_builder.append( text );
     }
 
+
     public void clear() {
         error_log_builder.setLength( 0 );
     }
+
 
     public String get_text() {
         return error_log_builder.toString();

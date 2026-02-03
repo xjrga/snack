@@ -15,10 +15,12 @@ public class DeleteFoodTask implements Callable<Boolean> {
     private final Connection connection;
     private final String foodid;
 
+
     public DeleteFoodTask( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

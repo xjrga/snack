@@ -14,6 +14,7 @@ public class LogEntry {
     private final String callerMethodName;
     private final int callerLineNum;
 
+
     public LogEntry( int stackElement, String callerClassName, String callerMethodName, int callerLineNum ) {
         this.stackElement = stackElement;
         this.callerClassName = callerClassName;
@@ -23,29 +24,36 @@ public class LogEntry {
         this.callerLineNum = callerLineNum;
     }
 
+
     public int getStackElement() {
         return stackElement;
     }
+
 
     public String getCallerClassName() {
         return callerClassName;
     }
 
+
     public String getCallerClassPackage() {
         return callerClassPackage;
     }
+
 
     public String getCallerSimpleClassName() {
         return callerSimpleClassName;
     }
 
+
     public String getCallerMethodName() {
         return callerMethodName;
     }
 
+
     public int getCallerLineNum() {
         return callerLineNum;
     }
+
 
     @Override
     public int hashCode() {
@@ -56,6 +64,7 @@ public class LogEntry {
         hash = 11 * hash + this.callerLineNum;
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {
@@ -80,6 +89,7 @@ public class LogEntry {
         }
         return Objects.equals( this.callerMethodName, other.callerMethodName );
     }
+
 
     @Override
     public String toString() {

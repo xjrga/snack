@@ -16,10 +16,12 @@ public class ExportMixTask implements Callable<String> {
     private final Connection connection;
     private final String mixid;
 
+
     public ExportMixTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public String call() throws Exception {

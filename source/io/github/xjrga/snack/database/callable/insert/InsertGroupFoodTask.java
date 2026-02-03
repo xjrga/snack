@@ -14,12 +14,14 @@ public class InsertGroupFoodTask implements Callable<String> {
     private final String groupid;
     private final String foodid;
 
+
     public InsertGroupFoodTask( String mixid, String groupid, String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
         this.foodid = foodid;
     }
+
 
     @Override
     public String call() throws Exception {

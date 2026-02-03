@@ -9,6 +9,7 @@ public class ResultsByMealIndexer {
     private List<Integer> indexes;
     private HashMap<String, Integer> map;
 
+
     public ResultsByMealIndexer() {
         indexes = new ArrayList();
         map = new HashMap();
@@ -31,73 +32,91 @@ public class ResultsByMealIndexer {
         map.put( "potassium", 16 );
     }
 
+
     public void setName() {
         indexes.add( map.get( "name" ) );
     }
+
 
     public void setWeight() {
         indexes.add( map.get( "weight" ) );
     }
 
+
     public void setEgross() {
         indexes.add( map.get( "egross" ) );
     }
+
 
     public void setEdigest() {
         indexes.add( map.get( "edigest" ) );
     }
 
+
     public void setEfat() {
         indexes.add( map.get( "efat" ) );
     }
+
 
     public void setEcarbs() {
         indexes.add( map.get( "ecarbs" ) );
     }
 
+
     public void setEfatcarbs() {
         indexes.add( map.get( "efatcarbs" ) );
     }
+
 
     public void setEprotein() {
         indexes.add( map.get( "eprotein" ) );
     }
 
+
     public void setEalcohol() {
         indexes.add( map.get( "ealcohol" ) );
     }
+
 
     public void setFat() {
         indexes.add( map.get( "fat" ) );
     }
 
+
     public void setCarbs() {
         indexes.add( map.get( "carbs" ) );
     }
+
 
     public void setProtein() {
         indexes.add( map.get( "protein" ) );
     }
 
+
     public void setComplete() {
         indexes.add( map.get( "complete" ) );
     }
+
 
     public void setAlcohol() {
         indexes.add( map.get( "alcohol" ) );
     }
 
+
     public void setFiber() {
         indexes.add( map.get( "fiber" ) );
     }
+
 
     public void setSodium() {
         indexes.add( map.get( "sodium" ) );
     }
 
+
     public void setPotassium() {
         indexes.add( map.get( "potassium" ) );
     }
+
 
     public List<Integer> get() {
         return indexes;

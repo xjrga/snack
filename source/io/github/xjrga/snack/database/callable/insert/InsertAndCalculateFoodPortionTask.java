@@ -2,7 +2,6 @@ package io.github.xjrga.snack.database.callable.insert;
 
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import java.lang.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,6 +18,7 @@ public class InsertAndCalculateFoodPortionTask implements Callable<Boolean> {
     private final String foodid;
     private final Double pct;
 
+
     public InsertAndCalculateFoodPortionTask( String mixid, Integer mealid, String foodid, Double pct ) {
         this.mixid = mixid;
         this.mealid = mealid;
@@ -26,6 +26,7 @@ public class InsertAndCalculateFoodPortionTask implements Callable<Boolean> {
         this.pct = pct;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

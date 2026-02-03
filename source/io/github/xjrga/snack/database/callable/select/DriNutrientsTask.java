@@ -19,9 +19,11 @@ public class DriNutrientsTask implements Callable<List<NutrientDO>> {
 
     private final Connection connection;
 
+
     public DriNutrientsTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<NutrientDO> call() {

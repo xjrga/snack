@@ -3,7 +3,6 @@ package io.github.xjrga.snack.database.callable.insert;
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import java.lang.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,10 +17,12 @@ public class CreateMixTask implements Callable<MixDO> {
     private final Connection connection;
     private final String _mixName;
 
+
     public CreateMixTask( String mixName ) {
         _mixName = mixName;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public MixDO call() throws Exception {

@@ -18,11 +18,13 @@ public class NutrientRatioRhsTask implements Callable<List<Map<String, Object>>>
     private final String mixid;
     private final Connection connection;
 
+
     public NutrientRatioRhsTask( String mixid ) {
         this.mixid = mixid;
         lst = new ArrayList();
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<Map<String, Object>> call() {

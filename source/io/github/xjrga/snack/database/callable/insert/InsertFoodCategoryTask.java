@@ -11,11 +11,13 @@ public class InsertFoodCategoryTask implements Callable<Boolean> {
     private final String categoryid;
     private final String categoryname;
 
+
     public InsertFoodCategoryTask( String categoryid, String categoryname ) {
         connection = Connect.getInstance().getConnection();
         this.categoryid = categoryid;
         this.categoryname = categoryname;
     }
+
 
     @Override
     public Boolean call() throws Exception {

@@ -9,12 +9,15 @@ public class StringCheck {
 
     List<String> names = new LinkedList();
 
+
     public StringCheck() {
     }
+
 
     public void addUncheckedList( String s ) {
         names.add( s );
     }
+
 
     private boolean checkNames() {
         boolean pass = true;
@@ -26,6 +29,7 @@ public class StringCheck {
         }
         return pass;
     }
+
 
     private boolean checkStringIsValid( String s ) {
         boolean pass = false;
@@ -39,6 +43,7 @@ public class StringCheck {
         }
         return pass;
     }
+
 
     public boolean pass() {
         boolean pass = false;

@@ -26,6 +26,7 @@ public class TableCategory extends JTable {
     private JTextField searchTextField;
     private DataModel dm;
 
+
     public TableCategory() {
         searchTextField = new JTextField();
         dm = new DataModel();
@@ -44,15 +45,18 @@ public class TableCategory extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -70,28 +74,34 @@ public class TableCategory extends JTable {
         adjustColumnWidth();
     }
 
+
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -103,6 +113,7 @@ public class TableCategory extends JTable {
         int row = getSelectedRow();
         return getRow( row );
     }
+
 
     public List<Row> getSelectedValues() {
         int[] selectedRows = getSelectedRows();
@@ -117,6 +128,7 @@ public class TableCategory extends JTable {
         return rows;
     }
 
+
     private Row getRow( int selectedRowNo ) {
         String foodid = ( String ) getValueAt( selectedRowNo, 0 );
         String foodname = ( String ) getValueAt( selectedRowNo, 1 );
@@ -124,9 +136,11 @@ public class TableCategory extends JTable {
         return category;
     }
 
+
     public JTextField getTxtSearch() {
         return searchTextField;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
@@ -134,10 +148,12 @@ public class TableCategory extends JTable {
         adjustColumnWidth();
     }
 
+
     private void adjustColumnWidth() {
         getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
     }
+
 
     public void clear() {
         dm.clear();
@@ -148,27 +164,33 @@ public class TableCategory extends JTable {
         private String categoryid;
         private String categoryname;
 
+
         public Row() {
             categoryid = "";
             categoryname = "";
         }
+
 
         public Row( String foodid, String foodname ) {
             this.categoryid = foodid;
             this.categoryname = foodname;
         }
 
+
         public String getCategoryid() {
             return categoryid;
         }
+
 
         public String getCategoryname() {
             return categoryname;
         }
 
+
         public boolean isNull() {
             return false;
         }
+
 
         @Override
         public String toString() {
@@ -189,20 +211,24 @@ public class TableCategory extends JTable {
         private List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<List>();
             columns = new ArrayList<String>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -210,20 +236,24 @@ public class TableCategory extends JTable {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -233,15 +263,18 @@ public class TableCategory extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
+
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
+
 
         @Override
         public void setValueAt( Object o, int r, int c ) {
@@ -249,11 +282,13 @@ public class TableCategory extends JTable {
             fireTableDataChanged();
         }
 
+
         public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
         }
+
 
         @Override
         public void clear() {
@@ -262,10 +297,12 @@ public class TableCategory extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {
@@ -282,6 +319,7 @@ public class TableCategory extends JTable {
             }
         };
     }
+
 
     public int find( String id ) {
         int index = 0;

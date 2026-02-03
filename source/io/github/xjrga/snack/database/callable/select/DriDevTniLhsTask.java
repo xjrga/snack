@@ -17,11 +17,13 @@ public class DriDevTniLhsTask implements Callable<LhsContainer> {
     private final String nutrientid;
     private final Connection connection;
 
+
     public DriDevTniLhsTask( String mixid, String nutrientid ) {
         this.mixid = mixid;
         this.nutrientid = nutrientid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public LhsContainer call() {

@@ -473,3 +473,7 @@
 ### 1620 - December 28, 2025
 
   * Added food tree search feature
+
+### 1630 - February 03, 2026
+
+  * Fixed block group action on group constraints

@@ -17,6 +17,7 @@ public final class TheFont {
     private Font font;
     private float size = 13f;
 
+
     /**
      * TheFont constructor
      *
@@ -27,6 +28,7 @@ public final class TheFont {
         set_font_file_path( path );
     }
 
+
     /**
      * @return A Font object
      * @see java.awt.Font
@@ -34,6 +36,7 @@ public final class TheFont {
     public Font get_font() {
         return font;
     }
+
 
     /**
      * @param path Path to truetype font
@@ -46,6 +49,7 @@ public final class TheFont {
         }
     }
 
+
     /**
      * @param fontStream InputStream
      */
@@ -56,6 +60,7 @@ public final class TheFont {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     /**
      * @param size Font size

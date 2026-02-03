@@ -32,6 +32,7 @@ public class TableFoodFactInput extends JTable {
     private JTextField txtSearch;
     private final DataModel dm;
 
+
     public TableFoodFactInput() {
         txtSearch = new JTextField();
         dm = new DataModel();
@@ -52,15 +53,18 @@ public class TableFoodFactInput extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -78,28 +82,34 @@ public class TableFoodFactInput extends JTable {
         adjustColumnWidth();
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -110,6 +120,7 @@ public class TableFoodFactInput extends JTable {
         }
         return getRow( getSelectedRow() );
     }
+
 
     public List<Row> getSelectedValues() {
         ArrayList<Row> foods = new ArrayList<>();
@@ -124,6 +135,7 @@ public class TableFoodFactInput extends JTable {
         return foods;
     }
 
+
     private Row getRow( int selectedRowNo ) {
         String nutrientid = ( String ) getValueAt( selectedRowNo, 0 );
         String category = ( String ) getValueAt( selectedRowNo, 1 );
@@ -137,9 +149,11 @@ public class TableFoodFactInput extends JTable {
         return foodfact;
     }
 
+
     public JTextField getTxtSearch() {
         return txtSearch;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
@@ -147,9 +161,11 @@ public class TableFoodFactInput extends JTable {
         adjustColumnWidth();
     }
 
+
     public void clear() {
         dm.clear();
     }
+
 
     public int find( String id ) {
         int index = 0;
@@ -162,6 +178,7 @@ public class TableFoodFactInput extends JTable {
         return index;
     }
 
+
     private void adjustColumnWidth() {
         getColumnModel().getColumn( 0 ).setMinWidth( 0 );
         getColumnModel().getColumn( 0 ).setMaxWidth( 0 );
@@ -169,17 +186,20 @@ public class TableFoodFactInput extends JTable {
         getColumnModel().getColumn( 2 ).setMinWidth( 300 );
     }
 
+
     public void roundUp() {
         getColumnModel().getColumn( 3 ).setCellRenderer( new RoundUpRenderer() );
         revalidate();
         repaint();
     }
 
+
     public void roundDown() {
         getColumnModel().getColumn( 3 ).setCellRenderer( new RoundDownRenderer() );
         revalidate();
         repaint();
     }
+
 
     @Override
     public void editingStopped( ChangeEvent e ) {
@@ -188,6 +208,7 @@ public class TableFoodFactInput extends JTable {
         txtNutrientValueDisplay.setText( nutrientValue );
         super.editingStopped( e );
     }
+
 
     public void updateNutrientValue( JTextField txtfld ) {
         txtNutrientValueDisplay = txtfld;
@@ -200,40 +221,50 @@ public class TableFoodFactInput extends JTable {
         private String nutrient;
         private String weight;
 
+
         public Row() {
         }
+
 
         public String getNutrientid() {
             return nutrientid;
         }
 
+
         public void setNutrientid( String nutrientid ) {
             this.nutrientid = nutrientid;
         }
+
 
         public String getCategory() {
             return category;
         }
 
+
         public void setCategory( String category ) {
             this.category = category;
         }
+
 
         public String getNutrient() {
             return nutrient;
         }
 
+
         public void setNutrient( String nutrient ) {
             this.nutrient = nutrient;
         }
+
 
         public String getWeight() {
             return weight;
         }
 
+
         public void setWeight( String weight ) {
             this.weight = weight;
         }
+
 
         public boolean isNull() {
             return false;
@@ -254,20 +285,24 @@ public class TableFoodFactInput extends JTable {
         private final List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<>();
             columns = new ArrayList<>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -278,20 +313,24 @@ public class TableFoodFactInput extends JTable {
             return returnValue;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -301,21 +340,25 @@ public class TableFoodFactInput extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return true;
         }
+
 
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
 
+
         @Override
         public void setValueAt( Object o, int r, int c ) {
             data.get( r ).set( c, o );
             fireTableDataChanged();
         }
+
 
         @Override
         public void reload( List<List> data ) {
@@ -324,6 +367,7 @@ public class TableFoodFactInput extends JTable {
             fireTableDataChanged();
         }
 
+
         @Override
         public void clear() {
             data.clear();
@@ -331,10 +375,12 @@ public class TableFoodFactInput extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {

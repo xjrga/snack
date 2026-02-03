@@ -11,9 +11,11 @@ public class RegexCheck {
 
     private final String regex;
 
+
     public RegexCheck( String regex ) {
         this.regex = regex;
     }
+
 
     public boolean pass() {
         boolean valid = false;

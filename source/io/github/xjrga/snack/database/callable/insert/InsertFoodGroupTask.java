@@ -16,11 +16,13 @@ public class InsertFoodGroupTask implements Callable<String> {
     private final String name;
     private String out;
 
+
     public InsertFoodGroupTask( String mixid, String name ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.name = name;
     }
+
 
     @Override
     public String call() throws Exception {

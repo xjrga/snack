@@ -20,10 +20,12 @@ public class NamedMixFoodSortedByIdTask implements Callable<List<Map<String, Str
     private final Connection connection;
     private final String mixid;
 
+
     public NamedMixFoodSortedByIdTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public List<Map<String, String>> call() {

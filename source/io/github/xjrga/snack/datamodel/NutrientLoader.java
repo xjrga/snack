@@ -29,12 +29,15 @@ public class NutrientLoader implements Reload {
 
     private ArrayList<NutrientDO> nutrient_list;
 
+
     public NutrientLoader() {
     }
+
 
     public ArrayList<NutrientDO> getList() {
         return nutrient_list;
     }
+
 
     @Override
     public void reload() {

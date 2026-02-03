@@ -7,6 +7,7 @@ public class Formatted {
 
     private String fx = null;
 
+
     public Formatted( double x, int precision ) {
         DecimalFormat formatter = new DecimalFormat();
         formatter.setRoundingMode( RoundingMode.HALF_UP );
@@ -21,6 +22,7 @@ public class Formatted {
         formatter.applyPattern( sb.toString() );
         fx = formatter.format( x );
     }
+
 
     @Override
     public String toString() {

@@ -15,10 +15,12 @@ public class PinAndKeepTask implements Callable<Boolean> {
     private final Connection connection;
     private final String mixid;
 
+
     public PinAndKeepTask( String mixid ) {
         this.mixid = mixid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

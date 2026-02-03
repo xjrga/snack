@@ -30,6 +30,7 @@ public class MixDO implements Comparator {
     private BigDecimal deficiency;
     private BigDecimal excess;
 
+
     public MixDO() {
         this.mixid = "";
         this.name = "";
@@ -39,6 +40,7 @@ public class MixDO implements Comparator {
         this.deficiency = new BigDecimal( "1.0" );
         this.excess = new BigDecimal( "1.0" );
     }
+
 
     public MixDO( String mixid, String name ) {
         this.mixid = mixid;
@@ -50,6 +52,7 @@ public class MixDO implements Comparator {
         this.excess = new BigDecimal( "1.0" );
     }
 
+
     public MixDO( String mixid ) {
         this.mixid = mixid;
         this.model = "";
@@ -59,61 +62,76 @@ public class MixDO implements Comparator {
         this.excess = new BigDecimal( "1.0" );
     }
 
+
     public String getMixid() {
         return mixid;
     }
+
 
     public String getModel() {
         return model;
     }
 
+
     public String getName() {
         return name;
     }
+
 
     public Integer getLifestageid() {
         return lifestageid;
     }
 
+
     public void setMixid( String mixid ) {
         this.mixid = mixid;
     }
+
 
     public void setModel( String model ) {
         this.model = model;
     }
 
+
     public void setName( String name ) {
         this.name = name;
     }
+
 
     public void setLifestageid( Integer lifestageid ) {
         this.lifestageid = lifestageid;
     }
 
+
     public BigDecimal getCost() {
         return cost;
     }
+
 
     public void setCost( BigDecimal cost ) {
         this.cost = cost;
     }
 
+
     public BigDecimal getDeficiency() {
         return deficiency;
     }
+
 
     public void setDeficiency( BigDecimal deficiency ) {
         this.deficiency = deficiency;
     }
 
+
     public BigDecimal getExcess() {
         return excess;
     }
 
+
     public void setExcess( BigDecimal excess ) {
         this.excess = excess;
     }
+
 
     @Override
     public String toString() {
@@ -122,12 +140,14 @@ public class MixDO implements Comparator {
         return sb.toString();
     }
 
+
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 67 * hash + Objects.hashCode( this.mixid );
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {
@@ -143,6 +163,7 @@ public class MixDO implements Comparator {
         final MixDO other = ( MixDO ) obj;
         return this.mixid.equals( other.mixid );
     }
+
 
     @Override
     public int compare( Object o1, Object o2 ) {

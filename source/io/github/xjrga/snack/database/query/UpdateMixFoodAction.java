@@ -17,12 +17,14 @@ public class UpdateMixFoodAction {
     private final String foodid;
     private final BigDecimal x;
 
+
     public UpdateMixFoodAction( String mixid, String foodid, BigDecimal x ) {
         this.mixid = mixid;
         this.foodid = foodid;
         this.x = x;
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void execute() {
         try ( CallableStatement proc = connection.prepareCall( "{CALL public.MixFood_Update( ?, ?, ? )}" ) ) {

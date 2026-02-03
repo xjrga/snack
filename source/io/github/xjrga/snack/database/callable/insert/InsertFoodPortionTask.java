@@ -17,6 +17,7 @@ public class InsertFoodPortionTask implements Callable<Boolean> {
     private final BigDecimal actualwt;
     private final Connection connection;
 
+
     public InsertFoodPortionTask(
             String mixid, Integer mealid, String foodid, BigDecimal pct, BigDecimal expectedwt, BigDecimal actualwt ) {
         this.mixid = mixid;
@@ -27,6 +28,7 @@ public class InsertFoodPortionTask implements Callable<Boolean> {
         this.actualwt = actualwt;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

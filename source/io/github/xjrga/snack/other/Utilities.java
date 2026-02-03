@@ -50,10 +50,12 @@ public class Utilities {
         }
     }
 
+
     public static double calculateDotProduct( RealVector v, double[] point ) {
         ArrayRealVector rvpoint = new ArrayRealVector( point );
         return v.dotProduct( rvpoint );
     }
+
 
     public static String convertFileToString( String path ) {
         String str = "";
@@ -64,6 +66,7 @@ public class Utilities {
         return str;
     }
 
+
     public static double[] doubleArray( int[] array ) {
         double[] darray = new double[ array.length ];
         for ( int i = 0; i < array.length; i++ ) {
@@ -71,6 +74,7 @@ public class Utilities {
         }
         return darray;
     }
+
 
     public static double[] doubleArray( List<Double> list ) {
         double[] arr = new double[ list.size() ];
@@ -80,6 +84,7 @@ public class Utilities {
         return arr;
     }
 
+
     public static int[] intArray( List<Integer> list ) {
         int[] arr = new int[ list.size() ];
         for ( int i = 0; i < arr.length; i++ ) {
@@ -87,6 +92,7 @@ public class Utilities {
         }
         return arr;
     }
+
 
     public static String formatXmlDoc( String xml ) {
         String str = "";
@@ -109,25 +115,30 @@ public class Utilities {
         return str;
     }
 
+
     public static String formatDate( Date date ) {
         String pattern = "EEEE, MMMMM dd, yyyy' at 'HH:mm:ss";
         SimpleDateFormat dateFormat = new SimpleDateFormat( pattern );
         return dateFormat.format( date );
     }
 
+
     public static String formatDecimal( Double x ) {
         DecimalFormat formatter = new DecimalFormat( "####.###" );
         return formatter.format( x );
     }
+
 
     public static BufferedReader getBufferedReader( String path ) {
         return new BufferedReader(
                 new InputStreamReader( ClassLoader.getSystemClassLoader().getResourceAsStream( path ) ) );
     }
 
+
     public static long getCurrentTimeMillis() {
         return System.currentTimeMillis();
     }
+
 
     public static String getCurrentTimeMillisTxt() {
         StringBuilder sb = new StringBuilder();
@@ -136,13 +147,16 @@ public class Utilities {
         return sb.toString();
     }
 
+
     public static Dimension getDimension( Integer width, Integer height ) {
         return new Dimension( width, height );
     }
 
+
     public static File getResourceAsFile( String path ) {
         return new File( Utilities.class.getClassLoader().getResource( path ).getFile() );
     }
+
 
     public static Path getResourceAsPath( String path ) {
         Path get = null;
@@ -156,14 +170,17 @@ public class Utilities {
         return get;
     }
 
+
     public static InputStream getResourceAsStream( String path ) {
         return Utilities.class.getResourceAsStream( path );
     }
+
 
     public static StreamSource getResourceAsStreamSource( String path ) {
         InputStream is = Utilities.class.getResourceAsStream( path );
         return new StreamSource( is );
     }
+
 
     public static String getResourceAsString( String path ) {
         InputStream is = Utilities.class.getResourceAsStream( path );
@@ -181,9 +198,11 @@ public class Utilities {
         return sb.toString();
     }
 
+
     public static URL getResourceAsUrl( String resource_path ) {
         return Utilities.class.getResource( resource_path );
     }
+
 
     public static boolean isDoubleEqual( double value, double dot_product ) {
         boolean flag = false;
@@ -194,12 +213,14 @@ public class Utilities {
         return flag;
     }
 
+
     public static void openUrl( String url ) {
         try {
             Desktop.getDesktop().browse( URI.create( url ) );
         } catch ( Exception e ) {
         }
     }
+
 
     public static String printDoubleArray( double[] array ) {
         StringBuilder sb = new StringBuilder();
@@ -213,6 +234,7 @@ public class Utilities {
         return sb.toString();
     }
 
+
     public static String printIntArray( int[] array ) {
         StringBuilder sb = new StringBuilder();
         sb.append( "[" );
@@ -225,6 +247,7 @@ public class Utilities {
         return sb.toString();
     }
 
+
     public static String random() {
         StringBuilder sb = new StringBuilder();
         for ( int i = 0; i < 8; i++ ) {
@@ -233,6 +256,7 @@ public class Utilities {
         String replace = sb.toString().replace( ".", "" );
         return replace.substring( 0, 128 );
     }
+
 
     public static String sha256HashToHex( String s ) {
         StringBuilder sb = null;
@@ -248,6 +272,7 @@ public class Utilities {
         return sb.toString();
     }
 
+
     public static void write( String filePath, String str ) {
         PrintWriter writer = null;
         try {
@@ -262,38 +287,46 @@ public class Utilities {
         }
     }
 
+
     public static boolean lessThanOrEqualTo( BigDecimal n1, BigDecimal n2 ) {
         // if valueAt is less than 0.0 then it is -1
         return n1.compareTo( n2 ) <= 0;
     }
+
 
     public static boolean moreThanOrEqualTo( BigDecimal n1, BigDecimal n2 ) {
         // if valueAt is less than 0.0 then it is -1
         return n1.compareTo( n2 ) >= 0;
     }
 
+
     public static boolean lessThan( BigDecimal n1, BigDecimal n2 ) {
         // if valueAt is less than 0.0 then it is -1
         return n1.compareTo( n2 ) < 0;
     }
+
 
     public static boolean moreThan( BigDecimal n1, BigDecimal n2 ) {
         // if valueAt is less than 0.0 then it is -1
         return n1.compareTo( n2 ) > 0;
     }
 
+
     public static boolean equalTo( BigDecimal n1, BigDecimal n2 ) {
         // if valueAt is less than 0.0 then it is -1
         return n1.compareTo( n2 ) == 0;
     }
 
+
     public static String trim( BigDecimal n ) {
         return n.toPlainString().trim();
     }
 
+
     public static String strip( BigDecimal n ) {
         return n.stripTrailingZeros().toPlainString();
     }
+
 
     public static List<MixDO> createMixDOList( List<List> data ) {
         List<MixDO> list = new ArrayList<>();

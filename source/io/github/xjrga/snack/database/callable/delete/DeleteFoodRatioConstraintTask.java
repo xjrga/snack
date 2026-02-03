@@ -20,6 +20,7 @@ public class DeleteFoodRatioConstraintTask implements Callable<Boolean> {
     private final String Nutrient_Id_2;
     private final Integer RelationshipId;
 
+
     public DeleteFoodRatioConstraintTask(
             String MixId,
             String Food_Id_1,
@@ -35,6 +36,7 @@ public class DeleteFoodRatioConstraintTask implements Callable<Boolean> {
         this.Nutrient_Id_2 = Nutrient_Id_2;
         this.RelationshipId = RelationshipId;
     }
+
 
     @Override
     public Boolean call() throws Exception {

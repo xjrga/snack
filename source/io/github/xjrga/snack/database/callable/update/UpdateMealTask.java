@@ -18,6 +18,7 @@ public class UpdateMealTask implements Callable<Boolean> {
     private final String mealname;
     private final Integer mealorder;
 
+
     public UpdateMealTask( String mixid, Integer mealid, String mealname, Integer mealorder ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
@@ -25,6 +26,7 @@ public class UpdateMealTask implements Callable<Boolean> {
         this.mealname = mealname;
         this.mealorder = mealorder;
     }
+
 
     @Override
     public Boolean call() throws Exception {

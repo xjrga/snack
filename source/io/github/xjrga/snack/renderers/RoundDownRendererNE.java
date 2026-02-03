@@ -15,10 +15,12 @@ public class RoundDownRendererNE extends DefaultTableCellRenderer {
     private String txt;
     private BigDecimal bigDecimal;
 
+
     @Override
     public void setHorizontalAlignment( int alignment ) {
         super.setHorizontalAlignment( SwingConstants.RIGHT );
     }
+
 
     @Override
     protected void setValue( Object value ) {
@@ -36,6 +38,7 @@ public class RoundDownRendererNE extends DefaultTableCellRenderer {
         }
         super.setValue( txt );
     }
+
 
     @Override
     public Component getTableCellRendererComponent(

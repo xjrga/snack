@@ -17,6 +17,7 @@ public class Splash extends JFrame {
     private final JLabel lbl;
     private Thread t;
 
+
     public Splash() {
         setSize( new Dimension( 300, 50 ) );
         lbl = new JLabel();
@@ -28,6 +29,7 @@ public class Splash extends JFrame {
         setIconImage( logo );
         toFront();
     }
+
 
     public void initiate() {
         ElapsedTime startupTime = new ElapsedTime();
@@ -54,6 +56,7 @@ public class Splash extends JFrame {
         };
         t.start();
     }
+
 
     public void halt() {
         dispose();

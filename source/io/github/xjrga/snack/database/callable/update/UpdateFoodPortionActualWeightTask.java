@@ -18,6 +18,7 @@ public class UpdateFoodPortionActualWeightTask implements Callable<Boolean> {
     private final String foodid;
     private final BigDecimal actualwt;
 
+
     public UpdateFoodPortionActualWeightTask( String mixid, Integer mealid, String foodid, BigDecimal actualwt ) {
         this.mixid = mixid;
         this.mealid = mealid;
@@ -25,6 +26,7 @@ public class UpdateFoodPortionActualWeightTask implements Callable<Boolean> {
         this.actualwt = actualwt;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

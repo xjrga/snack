@@ -16,9 +16,11 @@ public class MealPlanUsageResultsTask implements Callable<List<List>> {
 
     private final Connection connection;
 
+
     public MealPlanUsageResultsTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<List> call() {

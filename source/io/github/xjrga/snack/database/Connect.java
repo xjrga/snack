@@ -34,12 +34,15 @@ public class Connect {
     private static String JDBC_DRIVER = "";
     private static Properties prop = null;
 
+
     public static Connect getInstance() {
         return instance;
     }
 
+
     private Connect() {
     }
+
 
     public Connection getConnection() {
         try {

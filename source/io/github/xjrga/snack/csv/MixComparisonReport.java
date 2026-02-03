@@ -20,8 +20,10 @@ public class MixComparisonReport {
         Difference
     }
 
+
     public MixComparisonReport() {
     }
+
 
     public void create( TableMixDiff tblMixDiff, TableMix tblMixA, TableMix tblMixB ) {
         try ( FileWriter fileWriter = new FileWriter( "models/mixcomparison.csv" ) ) {

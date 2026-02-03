@@ -18,10 +18,12 @@ public class FoodGroupsTaskGroupDO implements Callable<List<GroupDO>> {
     private final Connection connection;
     private final String mixid;
 
+
     public FoodGroupsTaskGroupDO( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public List<GroupDO> call() {

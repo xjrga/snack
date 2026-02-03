@@ -18,9 +18,11 @@ public class LifestagesTask implements Callable<List<LifeStageDO>> {
 
     private final Connection connection;
 
+
     public LifestagesTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<LifeStageDO> call() {

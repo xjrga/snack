@@ -19,11 +19,13 @@ public class LifestageDriTask implements Callable<List<DriDO>> {
     private final String nutrientId;
     private final Integer lifestageId;
 
+
     public LifestageDriTask( String nutrientId, Integer lifestageId ) {
         connection = Connect.getInstance().getConnection();
         this.nutrientId = nutrientId;
         this.lifestageId = lifestageId;
     }
+
 
     @Override
     public List<DriDO> call() {

@@ -15,10 +15,12 @@ public class DenormalizeFoodFactsTask implements Callable<Boolean> {
     private final Connection connection;
     private final String foodid;
 
+
     public DenormalizeFoodFactsTask( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

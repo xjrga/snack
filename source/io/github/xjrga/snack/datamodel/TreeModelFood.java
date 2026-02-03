@@ -27,11 +27,13 @@ public class TreeModelFood extends DefaultTreeModel {
 
     private DefaultMutableTreeNode node;
 
+
     public TreeModelFood() {
         super( null );
         node = new DefaultMutableTreeNode( "Food" );
         this.setRoot( node );
     }
+
 
     public void reload( List<Map<String, Object>> list ) {
         HashMap hm = new HashMap();
@@ -54,6 +56,7 @@ public class TreeModelFood extends DefaultTreeModel {
         } );
         this.setRoot( node );
     }
+
 
     public void clear() {
         node = new DefaultMutableTreeNode( "Food" );

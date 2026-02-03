@@ -15,12 +15,14 @@ public class NutrientLhsTask implements Callable<double[]> {
     private final Integer relationshipid;
     private final Connection connection;
 
+
     public NutrientLhsTask( String mixid, String nutrientid, Integer relationshipid ) {
         this.mixid = mixid;
         this.nutrientid = nutrientid;
         this.relationshipid = relationshipid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public double[] call() {

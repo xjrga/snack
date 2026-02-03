@@ -30,9 +30,11 @@ public class MealPlanMacronutrientsReport {
         Potassium
     }
 
+
     public MealPlanMacronutrientsReport() {
         //
     }
+
 
     public void create( MixDO mixDataObject ) {
         try ( FileWriter fileWriter = new FileWriter( "models/mealplanmacronutrients.csv" ) ) {

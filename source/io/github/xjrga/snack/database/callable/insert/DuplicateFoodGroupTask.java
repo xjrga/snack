@@ -16,11 +16,13 @@ public class DuplicateFoodGroupTask implements Callable<String> {
     private final String foodgroupid;
     private String out;
 
+
     public DuplicateFoodGroupTask( String mixid, String foodgroupid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.foodgroupid = foodgroupid;
     }
+
 
     @Override
     public String call() throws Exception {

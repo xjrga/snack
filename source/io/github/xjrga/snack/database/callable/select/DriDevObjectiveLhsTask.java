@@ -16,10 +16,12 @@ public class DriDevObjectiveLhsTask implements Callable<LhsContainer> {
     private final String mixid;
     private final Connection connection;
 
+
     public DriDevObjectiveLhsTask( String mixid ) {
         this.mixid = mixid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public LhsContainer call() {

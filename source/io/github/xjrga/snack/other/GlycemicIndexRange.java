@@ -4,9 +4,11 @@ public class GlycemicIndexRange {
 
     private final Integer glycemicIndex;
 
+
     public GlycemicIndexRange( Integer glycemicIndex ) {
         this.glycemicIndex = glycemicIndex;
     }
+
 
     public String getGlycemicIndexRange() {
 

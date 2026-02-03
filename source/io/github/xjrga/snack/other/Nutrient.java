@@ -83,19 +83,23 @@ public enum Nutrient {
     private final String Name;
     private final String Number;
 
+
     Nutrient( String number, String name, String label ) {
         Number = number;
         Name = name;
         Label = label;
     }
 
+
     public String getLabel() {
         return Label;
     }
 
+
     public String getName() {
         return Name;
     }
+
 
     public String getNumber() {
         return Number;

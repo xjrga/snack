@@ -2,7 +2,6 @@ package io.github.xjrga.snack.database.callable.select;
 
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import java.lang.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,11 +18,13 @@ public class DriDiffTask implements Callable<List<List>> {
     private final String mixid;
     private final Integer lifestage;
 
+
     public DriDiffTask( String mixid, Integer lifestage ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.lifestage = lifestage;
     }
+
 
     @Override
     public List<List> call() {

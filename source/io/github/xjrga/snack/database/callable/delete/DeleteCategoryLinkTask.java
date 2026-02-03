@@ -16,11 +16,13 @@ public class DeleteCategoryLinkTask implements Callable<Boolean> {
     private final String categoryid;
     private final String foodid;
 
+
     public DeleteCategoryLinkTask( String categoryid, String foodid ) {
         this.categoryid = categoryid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

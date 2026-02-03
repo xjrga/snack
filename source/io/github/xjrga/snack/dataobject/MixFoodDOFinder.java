@@ -11,6 +11,7 @@ public class MixFoodDOFinder {
     private MixFoodDOFinder() {
     }
 
+
     public static int find( String foodid, DefaultComboBoxModel model ) {
         int index = 0;
         int size = model.getSize();
@@ -23,6 +24,7 @@ public class MixFoodDOFinder {
         }
         return index;
     }
+
 
     public static int find( String foodid, ComboBox<MixFoodDO> cmb ) {
         int index = 0;

@@ -16,10 +16,12 @@ public class SendCategoryToXmlTask implements Callable<String> {
     private final Connection connection;
     private final String categoryid;
 
+
     public SendCategoryToXmlTask( String categoryid ) {
         this.categoryid = categoryid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public String call() throws Exception {

@@ -15,10 +15,12 @@ public class InsertFoodFactTask implements Callable<Boolean> {
     private final Food food;
     private CallableStatement proc = null;
 
+
     public InsertFoodFactTask( Food food ) {
         connection = Connect.getInstance().getConnection();
         this.food = food;
     }
+
 
     @Override
     public Boolean call() throws Exception {
@@ -138,6 +140,7 @@ public class InsertFoodFactTask implements Callable<Boolean> {
         }
         return completed;
     }
+
 
     private void execute( String foodid, String nutr_no, BigDecimal quantity ) {
         try {

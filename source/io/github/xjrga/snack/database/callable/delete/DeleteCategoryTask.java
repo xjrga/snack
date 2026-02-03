@@ -14,10 +14,12 @@ public class DeleteCategoryTask implements Callable<Boolean> {
     private final Connection connection;
     private final String categoryid;
 
+
     public DeleteCategoryTask( String categoryid ) {
         connection = Connect.getInstance().getConnection();
         this.categoryid = categoryid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

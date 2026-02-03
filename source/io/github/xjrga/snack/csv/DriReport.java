@@ -18,9 +18,11 @@ public class DriReport {
 
     private final Connection connection;
 
+
     public DriReport() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void create( MixDO mixDataObject, LifeStageDO obj ) {
         try ( FileWriter fileWriter = new FileWriter( "models/dri.csv" ) ) {

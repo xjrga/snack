@@ -9,13 +9,16 @@ public class LhsContainer {
 
     private final ArrayList<Lhs> list;
 
+
     public LhsContainer() {
         list = new ArrayList();
     }
 
+
     public void add( Lhs lhs ) {
         list.add( lhs );
     }
+
 
     public double[] getCoefficients() {
         int size = list.size();

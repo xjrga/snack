@@ -31,6 +31,7 @@ public class TableFoodRatioConstraint extends JTable {
     private JTextField searchField;
     private DataModel dm;
 
+
     public TableFoodRatioConstraint() {
         searchField = new JTextField();
         dm = new DataModel();
@@ -60,15 +61,18 @@ public class TableFoodRatioConstraint extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -88,28 +92,34 @@ public class TableFoodRatioConstraint extends JTable {
         adjustColumnWidth();
     }
 
+
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -121,6 +131,7 @@ public class TableFoodRatioConstraint extends JTable {
         int row = getSelectedRow();
         return getRow( row );
     }
+
 
     public List<Row> getSelectedValues() {
         int[] selectedRows = getSelectedRows();
@@ -134,6 +145,7 @@ public class TableFoodRatioConstraint extends JTable {
         }
         return rows;
     }
+
 
     private Row getRow( int selectedRowNo ) {
         String mixid = ( String ) getValueAt( selectedRowNo, 0 );
@@ -166,18 +178,22 @@ public class TableFoodRatioConstraint extends JTable {
         return row;
     }
 
+
     public JTextField getSearchField() {
         return searchField;
     }
+
 
     public void reload( List<List> data ) {
         dm.reload( data );
         adjustColumnWidth();
     }
 
+
     public void clear() {
         dm.clear();
     }
+
 
     private void adjustColumnWidth() {
         for ( int i = 0; i < 6; i++ ) {
@@ -200,13 +216,16 @@ public class TableFoodRatioConstraint extends JTable {
         // getColumnModel().getColumn(12).setMaxWidth(90);
     }
 
+
     public void roundUp() {
         roundQuantity( new RoundUpRenderer() );
     }
 
+
     public void roundDown() {
         roundQuantity( new RoundDownRenderer() );
     }
+
 
     private void roundQuantity( DefaultTableCellRenderer renderer ) {
         getColumnModel().getColumn( 8 ).setCellRenderer( renderer );
@@ -214,6 +233,7 @@ public class TableFoodRatioConstraint extends JTable {
         revalidate();
         repaint();
     }
+
 
     public Stream getStream() {
         return dm.getStream();
@@ -235,6 +255,7 @@ public class TableFoodRatioConstraint extends JTable {
         private String nutrientb;
         private BigDecimal b;
 
+
         public Row() {
             mixid = null;
             foodida = null;
@@ -251,109 +272,136 @@ public class TableFoodRatioConstraint extends JTable {
             b = null;
         }
 
+
         public String getMixid() {
             return mixid;
         }
+
 
         public void setMixid( String mixid ) {
             this.mixid = mixid;
         }
 
+
         public String getFoodida() {
             return foodida;
         }
+
 
         public void setFoodida( String foodida ) {
             this.foodida = foodida;
         }
 
+
         public String getNutrientida() {
             return nutrientida;
         }
+
 
         public void setNutrientida( String nutrientida ) {
             this.nutrientida = nutrientida;
         }
 
+
         public String getFoodidb() {
             return foodidb;
         }
+
 
         public void setFoodidb( String foodidb ) {
             this.foodidb = foodidb;
         }
 
+
         public String getNutrientidb() {
             return nutrientidb;
         }
+
 
         public void setNutrientidb( String nutrientidb ) {
             this.nutrientidb = nutrientidb;
         }
 
+
         public Integer getRelationshipid() {
             return relationshipid;
         }
+
 
         public void setRelationshipid( Integer relationshipid ) {
             this.relationshipid = relationshipid;
         }
 
+
         public String getFooda() {
             return fooda;
         }
+
 
         public void setFooda( String fooda ) {
             this.fooda = fooda;
         }
 
+
         public String getNutrienta() {
             return nutrienta;
         }
+
 
         public void setNutrienta( String nutrienta ) {
             this.nutrienta = nutrienta;
         }
 
+
         public BigDecimal getA() {
             return a;
         }
+
 
         public void setA( BigDecimal a ) {
             this.a = a;
         }
 
+
         public String getRelationship() {
             return relationship;
         }
+
 
         public void setRelationship( String relationship ) {
             this.relationship = relationship;
         }
 
+
         public String getFoodb() {
             return foodb;
         }
+
 
         public void setFoodb( String foodb ) {
             this.foodb = foodb;
         }
 
+
         public String getNutrientb() {
             return nutrientb;
         }
+
 
         public void setNutrientb( String nutrientb ) {
             this.nutrientb = nutrientb;
         }
 
+
         public BigDecimal getB() {
             return b;
         }
 
+
         public void setB( BigDecimal b ) {
             this.b = b;
         }
+
 
         public boolean isNull() {
             return false;
@@ -373,20 +421,24 @@ public class TableFoodRatioConstraint extends JTable {
         private List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<List>();
             columns = new ArrayList<String>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -402,20 +454,24 @@ public class TableFoodRatioConstraint extends JTable {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -425,15 +481,18 @@ public class TableFoodRatioConstraint extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
+
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
+
 
         @Override
         public void setValueAt( Object o, int r, int c ) {
@@ -442,11 +501,13 @@ public class TableFoodRatioConstraint extends JTable {
             ;
         }
 
+
         public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
         }
+
 
         @Override
         public void clear() {
@@ -455,14 +516,17 @@ public class TableFoodRatioConstraint extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
+
 
         public Stream getStream() {
             return data.stream();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {

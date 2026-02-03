@@ -16,6 +16,7 @@ public class GroupLhsTask implements Callable<double[]> {
     private final Integer relationshipid;
     private final Connection connection;
 
+
     public GroupLhsTask( String mixid, String groupid, String nutrientid, Integer relationshipid ) {
         this.mixid = mixid;
         this.groupid = groupid;
@@ -23,6 +24,7 @@ public class GroupLhsTask implements Callable<double[]> {
         this.relationshipid = relationshipid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public double[] call() {

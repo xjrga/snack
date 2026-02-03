@@ -16,9 +16,11 @@ public class FoodCategoriesTask implements Callable<List<List>> {
 
     private final Connection connection;
 
+
     public FoodCategoriesTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<List> call() {

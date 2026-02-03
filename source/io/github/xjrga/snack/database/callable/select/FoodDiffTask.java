@@ -19,11 +19,13 @@ public class FoodDiffTask implements Callable<List<List>> {
     private final String foodida;
     private final String foodidb;
 
+
     public FoodDiffTask( String foodida, String foodidb ) {
         connection = Connect.getInstance().getConnection();
         this.foodida = foodida;
         this.foodidb = foodidb;
     }
+
 
     @Override
     public List<List> call() {

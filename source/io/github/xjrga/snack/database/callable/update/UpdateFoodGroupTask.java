@@ -16,12 +16,14 @@ public class UpdateFoodGroupTask implements Callable<Boolean> {
     private final String foodgroupid;
     private final String foodgroupname;
 
+
     public UpdateFoodGroupTask( String mixid, String categoryid, String categoryname ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.foodgroupid = categoryid;
         this.foodgroupname = categoryname;
     }
+
 
     @Override
     public Boolean call() throws Exception {

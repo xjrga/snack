@@ -16,11 +16,13 @@ public class UpdateFoodTask implements Callable<Boolean> {
     private final String foodid;
     private final String foodname;
 
+
     public UpdateFoodTask( String foodid, String foodname ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
         this.foodname = foodname;
     }
+
 
     @Override
     public Boolean call() throws Exception {

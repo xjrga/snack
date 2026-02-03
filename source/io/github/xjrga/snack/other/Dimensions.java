@@ -9,18 +9,22 @@ public enum Dimensions {
     private final Integer height;
     private final Integer width;
 
+
     Dimensions( Integer width, Integer height ) {
         this.width = width;
         this.height = height;
     }
 
+
     public Dimension get() {
         return new Dimension( width, height );
     }
 
+
     public Integer getHeight() {
         return height;
     }
+
 
     public Integer getWidth() {
         return width;

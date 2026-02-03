@@ -24,9 +24,11 @@ public class MixResultsReport2 {
     }
     private final Connection connection;
 
+
     public MixResultsReport2() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void create( MixDO mixDataObject ) {
         try ( FileWriter fileWriter = new FileWriter( "models/mixresults2.csv" ) ) {

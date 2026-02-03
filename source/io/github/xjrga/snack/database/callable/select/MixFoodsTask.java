@@ -19,10 +19,12 @@ public class MixFoodsTask implements Callable<List<Map>> {
     private final Connection connection;
     private final String mixid;
 
+
     public MixFoodsTask( String mixid ) {
         this.mixid = mixid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<Map> call() {

@@ -15,12 +15,14 @@ public class Message {
     private static final BufferedImage logo
             = ImageUtilities.readImageFromUrl( Utilities.getResourceAsUrl( "/resources/images/logo.png" ) );
 
+
     public static void showMessage( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
         JDialog dialog = optionPane.createDialog( " " + title );
         dialog.setIconImage( logo );
         dialog.setVisible( true );
     }
+
 
     public static void showMessage( String message ) {
         JOptionPane optionPane = new JOptionPane( message, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
@@ -29,12 +31,14 @@ public class Message {
         dialog.setVisible( true );
     }
 
+
     public static void showMessage( String title, String message ) {
         JOptionPane optionPane = new JOptionPane( message, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
         JDialog dialog = optionPane.createDialog( " " + title );
         dialog.setIconImage( logo );
         dialog.setVisible( true );
     }
+
 
     public static void showMessagePad( Integer width, Integer height, String title, String text ) {
         JTextArea pad = new JTextArea();
@@ -46,13 +50,16 @@ public class Message {
         showOptionDialog( inputs, " " + title );
     }
 
+
     public static void showMessagePadW510( Integer height, String title, String text ) {
         showMessagePad( 510, height, " " + title, text );
     }
 
+
     public static void showMessagePadW510H150( String title, String text ) {
         showMessagePad( 510, 150, " " + title, text );
     }
+
 
     public static int showOptionDialog( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION );
@@ -70,6 +77,7 @@ public class Message {
         return value;
     }
 
+
     public static int showOptionDialogOkCancel( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
         JDialog dialog = optionPane.createDialog( " " + title );
@@ -86,6 +94,7 @@ public class Message {
         return value;
     }
 
+
     public static int showOptionDialogYesNo( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_OPTION );
         JDialog dialog = optionPane.createDialog( " " + title );
@@ -101,6 +110,7 @@ public class Message {
         }
         return value;
     }
+
 
     public Message() {
     }

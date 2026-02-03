@@ -20,6 +20,7 @@ public class UpdateMixAction {
     private final BigDecimal deficiency;
     private final BigDecimal excess;
 
+
     public UpdateMixAction(
             String mixid,
             Integer lifestageid,
@@ -35,6 +36,7 @@ public class UpdateMixAction {
         this.excess = excess;
         connection = Connect.getInstance().getConnection();
     }
+
 
     public void execute() {
         try ( CallableStatement proc = connection.prepareCall( "{CALL public.updateMix( ?, ?, ?, ?, ?, ? )}" ) ) {

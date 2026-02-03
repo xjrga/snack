@@ -13,12 +13,15 @@ public class FoodStats implements ReloadMixid {
 
     private StringBuilder sb;
 
+
     public FoodStats() {
     }
+
 
     public String get_stats() {
         return sb.toString();
     }
+
 
     @Override
     public void reload( String foodid ) {

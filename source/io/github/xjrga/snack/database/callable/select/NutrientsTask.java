@@ -18,9 +18,11 @@ public class NutrientsTask implements Callable<List<Map<String, Object>>> {
 
     private final Connection connection;
 
+
     public NutrientsTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<Map<String, Object>> call() {

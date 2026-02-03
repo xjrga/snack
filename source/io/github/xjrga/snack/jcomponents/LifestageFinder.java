@@ -12,6 +12,7 @@ public class LifestageFinder {
         //
     }
 
+
     public static LifeStageDO find( List<?> list, int LifeStageId ) {
         LifeStageDO o = null;
         for ( int i = 0; i < list.size(); i++ ) {

@@ -17,12 +17,14 @@ public class DeleteFoodInFoodGroupTask implements Callable<Boolean> {
     private final String mixid;
     private final String foodid;
 
+
     public DeleteFoodInFoodGroupTask( String groupid, String mixid, String foodid ) {
         this.groupid = groupid;
         this.mixid = mixid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

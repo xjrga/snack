@@ -79,8 +79,10 @@ public class MixImporter {
     private String startEvent;
     private StartElement startElement;
 
+
     public MixImporter() {
     }
+
 
     public MixDO receive( String path ) {
         MixDO mix = new MixDO( "" );
@@ -90,6 +92,7 @@ public class MixImporter {
         mix = parseMixDocument( path );
         return mix;
     }
+
 
     private boolean validateMixSchema( String path ) {
         boolean validated = true;
@@ -114,6 +117,7 @@ public class MixImporter {
         }
         return validated;
     }
+
 
     private MixDO parseMixDocument( String path ) {
         MixDO mix = new MixDO();

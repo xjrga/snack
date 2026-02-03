@@ -45,6 +45,7 @@ public class FoodFactInputPanel {
     private JPanel panel;
     private JTextField txtFoodName;
 
+
     public FoodFactInputPanel( TableFoodFactInput table ) {
         this.tbl = table;
         tbl.roundUp();
@@ -144,9 +145,11 @@ public class FoodFactInputPanel {
         tbl.showRow( index );
     }
 
+
     public JPanel getPanel() {
         return panel;
     }
+
 
     private void fillWaterAmount() {
         JLabel lblMC = new JLabel( "Adjust moisture content to: " );
@@ -224,6 +227,7 @@ public class FoodFactInputPanel {
         }
     }
 
+
     private JPanel getWizardPanel() {
         JPanel wizardPanel = new JPanel();
         FormLayout layout = new FormLayout(
@@ -270,6 +274,7 @@ public class FoodFactInputPanel {
         } );
         return wizardPanel;
     }
+
 
     private void fillCompleteProteinAmount() {
         JTextField txtProtein = new JTextField();
@@ -319,6 +324,7 @@ public class FoodFactInputPanel {
             }
         }
     }
+
 
     private void fillFatAmount() {
         JLabel lblFat = new JLabel( "Total Fat (g): " );
@@ -398,6 +404,7 @@ public class FoodFactInputPanel {
         }
     }
 
+
     private void fillVitaminAmount() {
         FormLayout lyo = new FormLayout(
                 "min:grow,min,30dlu", // columns
@@ -470,6 +477,7 @@ public class FoodFactInputPanel {
         }
     }
 
+
     private void fillCostAmount() {
         JLabel lblPrice = new JLabel( "Product price ($): " );
         JLabel lblWeight = new JLabel( "Product net weight (g): " );
@@ -515,6 +523,7 @@ public class FoodFactInputPanel {
             }
         }
     }
+
 
     public Food getFood() {
         Food food = new Food();
@@ -805,9 +814,11 @@ public class FoodFactInputPanel {
         return food;
     }
 
+
     public void setFoodName( String name ) {
         txtFoodName.setText( name );
     }
+
 
     private void standardizeTo100g() {
         int columnIndex = 3;

@@ -18,6 +18,7 @@ public class DeleteNutrientRatioConstraintTask implements Callable<Boolean> {
     private final String nutrientid2;
     private final Integer relationshipid;
 
+
     public DeleteNutrientRatioConstraintTask(
             String mixid, String nutrientid1, String nutrientid2, Integer relationshipid ) {
         connection = Connect.getInstance().getConnection();
@@ -26,6 +27,7 @@ public class DeleteNutrientRatioConstraintTask implements Callable<Boolean> {
         this.nutrientid2 = nutrientid2;
         this.relationshipid = relationshipid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

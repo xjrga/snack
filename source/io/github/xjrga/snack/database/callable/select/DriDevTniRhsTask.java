@@ -18,12 +18,14 @@ public class DriDevTniRhsTask implements Callable<List<Map<String, Object>>> {
     private final Integer lifestyleid;
     private final Connection connection;
 
+
     public DriDevTniRhsTask( String mixid, Integer lifestyleid ) {
         this.mixid = mixid;
         this.lifestyleid = lifestyleid;
         lst = new ArrayList();
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<Map<String, Object>> call() {

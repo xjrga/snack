@@ -24,8 +24,10 @@ public class MealPlanUsageReport {
         Kilograms
     }
 
+
     public MealPlanUsageReport() {
     }
+
 
     public void create() {
         try ( FileWriter fileWriter = new FileWriter( "models/mealplanusage.csv" ) ) {

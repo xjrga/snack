@@ -15,10 +15,12 @@ public class DuplicateCategoryTask implements Callable<String> {
     private final String categoryname;
     private String out;
 
+
     public DuplicateCategoryTask( String categoryname ) {
         connection = Connect.getInstance().getConnection();
         this.categoryname = categoryname;
     }
+
 
     @Override
     public String call() throws Exception {

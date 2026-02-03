@@ -14,10 +14,12 @@ public class RoundUpRendererNE extends DefaultTableCellRenderer {
 
     private String txt;
 
+
     @Override
     public void setHorizontalAlignment( int alignment ) {
         super.setHorizontalAlignment( SwingConstants.RIGHT );
     }
+
 
     @Override
     protected void setValue( Object value ) {
@@ -35,6 +37,7 @@ public class RoundUpRendererNE extends DefaultTableCellRenderer {
         }
         super.setValue( txt );
     }
+
 
     @Override
     public Component getTableCellRendererComponent(

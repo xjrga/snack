@@ -20,10 +20,12 @@ public class FoodStatisticsTask implements Callable<List<Map<String, BigDecimal>
     private final Connection connection;
     private final String foodid;
 
+
     public FoodStatisticsTask( String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
+
 
     @Override
     public List<Map<String, BigDecimal>> call() {

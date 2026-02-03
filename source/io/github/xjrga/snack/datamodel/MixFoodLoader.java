@@ -28,12 +28,15 @@ public class MixFoodLoader implements ReloadMixid {
 
     private ArrayList<MixFoodDO> food_list;
 
+
     public MixFoodLoader() {
     }
+
 
     public ArrayList<MixFoodDO> get() {
         return food_list;
     }
+
 
     @Override
     public void reload( String mixid ) {

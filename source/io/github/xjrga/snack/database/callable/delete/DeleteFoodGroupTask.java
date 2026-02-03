@@ -15,11 +15,13 @@ public class DeleteFoodGroupTask implements Callable<Boolean> {
     private final String mixid;
     private final String groupid;
 
+
     public DeleteFoodGroupTask( String mixid, String groupid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

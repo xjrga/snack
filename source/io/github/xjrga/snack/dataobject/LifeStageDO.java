@@ -7,26 +7,32 @@ public class LifeStageDO {
     private String Label = "";
     private Integer LifeStageId = -1;
 
+
     public LifeStageDO( Integer LifeStageId, String Label ) {
         this.LifeStageId = LifeStageId;
         this.Label = Label;
     }
 
+
     public String getLabel() {
         return Label;
     }
+
 
     public Integer getLifeStageId() {
         return LifeStageId;
     }
 
+
     public void setLabel( String Label ) {
         this.Label = Label;
     }
 
+
     public void setLifeStageId( Integer LifeStageId ) {
         this.LifeStageId = LifeStageId;
     }
+
 
     @Override
     public int hashCode() {
@@ -34,6 +40,7 @@ public class LifeStageDO {
         hash = 97 * hash + Objects.hashCode( this.LifeStageId );
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {
@@ -49,6 +56,7 @@ public class LifeStageDO {
         final LifeStageDO other = ( LifeStageDO ) obj;
         return Objects.equals( this.LifeStageId, other.LifeStageId );
     }
+
 
     @Override
     public String toString() {

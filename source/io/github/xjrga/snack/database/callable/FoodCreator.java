@@ -21,6 +21,7 @@ public class FoodCreator {
     private final Iterator<Category> categoryIterator;
     private final Connection connection;
 
+
     public FoodCreator( Food food ) {
         this.food = food;
         foodid = food.getCheckSum();
@@ -28,6 +29,7 @@ public class FoodCreator {
         categoryIterator = food.getCategoryIterator();
         connection = Connect.getInstance().getConnection();
     }
+
 
     public boolean create() {
         Future<Boolean> task0;

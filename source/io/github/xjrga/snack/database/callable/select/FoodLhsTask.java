@@ -16,6 +16,7 @@ public class FoodLhsTask implements Callable<double[]> {
     private final Integer relationshipid;
     private final Connection connection;
 
+
     public FoodLhsTask( String mixid, String foodid, String nutrientid, Integer relationshipid ) {
         this.mixid = mixid;
         this.foodid = foodid;
@@ -23,6 +24,7 @@ public class FoodLhsTask implements Callable<double[]> {
         this.relationshipid = relationshipid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public double[] call() {

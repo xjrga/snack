@@ -17,12 +17,14 @@ public class DeleteFoodPortionTask implements Callable<Boolean> {
     private final Integer mealid;
     private final String foodid;
 
+
     public DeleteFoodPortionTask( String mixid, Integer mealid, String foodid ) {
         this.mixid = mixid;
         this.mealid = mealid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

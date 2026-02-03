@@ -12,11 +12,13 @@ public class InsertFoodCategoryLinkTask implements Callable<Boolean> {
     private final String categoryid;
     private final String foodid;
 
+
     public InsertFoodCategoryLinkTask( String categoryid, String foodid ) {
         connection = Connect.getInstance().getConnection();
         this.categoryid = categoryid;
         this.foodid = foodid;
     }
+
 
     @Override
     public Boolean call() throws Exception {

@@ -14,9 +14,11 @@ public class CreateAllFoodsReport2Task implements Runnable {
 
     private final JFrame frm;
 
+
     public CreateAllFoodsReport2Task( JFrame frm ) {
         this.frm = frm;
     }
+
 
     @Override
     public void run() {

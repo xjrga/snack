@@ -12,6 +12,7 @@ public class Reloader {
         return indexes.stream().map( i -> list.get( i ) ).collect( toList() );
     }
 
+
     public static List<List> getEnergy( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -28,6 +29,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getMass( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -41,6 +43,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getProtein( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -52,6 +55,7 @@ public class Reloader {
         indexes.setProtein_complete();
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
+
 
     public static List<List> getFat( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
@@ -68,6 +72,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getSaturatedFat( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -83,6 +88,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getPolyunsaturatedFat( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -97,6 +103,7 @@ public class Reloader {
         indexes.setFats_lcn3pufa();
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
+
 
     public static List<List> getCarbohydrates( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
@@ -120,6 +127,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getVitamins( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -142,6 +150,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getMinerals( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -159,6 +168,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getElectrolytes( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -170,6 +180,7 @@ public class Reloader {
         indexes.setMinerals_sodium();
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
+
 
     public static List<List> getPhytonutrients( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
@@ -194,6 +205,7 @@ public class Reloader {
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
 
+
     public static List<List> getCost( List list ) {
         FoodFactIndexer indexes = new FoodFactIndexer();
         indexes.setMixid();
@@ -203,6 +215,7 @@ public class Reloader {
         indexes.setOther_cost();
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
+
 
     public static List<List> getMealPlanCalories( List list ) {
         ResultsByMealIndexer indexes = new ResultsByMealIndexer();
@@ -217,6 +230,7 @@ public class Reloader {
         indexes.setEalcohol();
         return ( List ) list.stream().map( o -> getValueAt( ( List ) o, indexes.get() ) ).collect( toList() );
     }
+
 
     public static List<List> getMealPlanMacronutrients( List list ) {
         ResultsByMealIndexer indexes = new ResultsByMealIndexer();

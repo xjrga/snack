@@ -17,10 +17,12 @@ public class DuplicateMixTask implements Callable<MixDO> {
     private final Connection connection;
     private final String mixid;
 
+
     public DuplicateMixTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public MixDO call() throws Exception {

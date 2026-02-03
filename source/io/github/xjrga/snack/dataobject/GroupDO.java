@@ -10,40 +10,49 @@ public final class GroupDO {
     private String groupid;
     private String groupname;
 
+
     public GroupDO() {
         groupid = "";
         groupname = "";
     }
+
 
     public GroupDO( String groupid, String groupname ) {
         setGroupid( groupid );
         setGroupname( groupname );
     }
 
+
     public String getGroupid() {
         return groupid;
     }
+
 
     public void setGroupid( String groupid ) {
         this.groupid = groupid;
     }
 
+
     public String getGroupname() {
         return groupname;
     }
 
+
     public void setGroupname( String groupname ) {
         this.groupname = groupname;
     }
+
 
     @Override
     public String toString() {
         return groupname;
     }
 
+
     public boolean isNull() {
         return false;
     }
+
 
     @Override
     public int hashCode() {
@@ -51,6 +60,7 @@ public final class GroupDO {
         hash = 23 * hash + Objects.hashCode( this.groupid );
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {

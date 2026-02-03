@@ -16,9 +16,11 @@ public class MixesTask implements Callable<List<List>> {
 
     private final Connection connection;
 
+
     public MixesTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public List<List> call() {

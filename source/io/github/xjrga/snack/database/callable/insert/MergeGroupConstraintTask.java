@@ -17,6 +17,7 @@ public class MergeGroupConstraintTask implements Callable<Boolean> {
     private final BigDecimal b;
     private final Connection connection;
 
+
     public MergeGroupConstraintTask(
             String mixid, String groupid, String nutrientid, Integer relationshipid, BigDecimal b ) {
         this.mixid = mixid;
@@ -26,6 +27,7 @@ public class MergeGroupConstraintTask implements Callable<Boolean> {
         this.b = b;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

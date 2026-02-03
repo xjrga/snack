@@ -33,6 +33,7 @@ public class TableDri extends JTable {
     private JTextField searchField;
     private DataModel dm;
 
+
     public TableDri() {
         searchField = new JTextField();
         dm = new DataModel();
@@ -56,15 +57,18 @@ public class TableDri extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -81,28 +85,34 @@ public class TableDri extends JTable {
         adjustColumnWidth();
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -113,6 +123,7 @@ public class TableDri extends JTable {
         }
         return getRow( getSelectedRow() );
     }
+
 
     public List<Row> getSelectedValues() {
         ArrayList<Row> results = new ArrayList<Row>();
@@ -126,6 +137,7 @@ public class TableDri extends JTable {
         }
         return results;
     }
+
 
     private Row getRow( int selectedRowNo ) {
         String nutrientid = ( String ) getValueAt( selectedRowNo, 0 );
@@ -146,9 +158,11 @@ public class TableDri extends JTable {
         return row;
     }
 
+
     public JTextField getSearchField() {
         return searchField;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
@@ -156,9 +170,11 @@ public class TableDri extends JTable {
         adjustColumnWidth();
     }
 
+
     public void clear() {
         dm.clear();
     }
+
 
     private void adjustColumnWidth() {
         getColumnModel().getColumn( 0 ).setMinWidth( 0 );
@@ -168,6 +184,7 @@ public class TableDri extends JTable {
             getColumnModel().getColumn( i ).setMinWidth( 70 );
         }
     }
+
 
     public int find( String foodid ) {
         int index = 0;
@@ -180,6 +197,7 @@ public class TableDri extends JTable {
         return index;
     }
 
+
     public void roundUp() {
         RoundUpRenderer renderer = new RoundUpRenderer();
         getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
@@ -190,6 +208,7 @@ public class TableDri extends JTable {
         revalidate();
         repaint();
     }
+
 
     public void roundDown() {
         RoundDownRenderer renderer = new RoundDownRenderer();
@@ -212,6 +231,7 @@ public class TableDri extends JTable {
         private BigDecimal ul;
         private BigDecimal pctul;
 
+
         public Row() {
             nutrientid = "";
             nutrient = "";
@@ -222,61 +242,76 @@ public class TableDri extends JTable {
             pctul = new BigDecimal( "0.0" );
         }
 
+
         public String getNutrientid() {
             return nutrientid;
         }
+
 
         public void setNutrientid( String nutrientid ) {
             this.nutrientid = nutrientid;
         }
 
+
         public String getNutrient() {
             return nutrient;
         }
+
 
         public void setNutrient( String nutrient ) {
             this.nutrient = nutrient;
         }
 
+
         public BigDecimal getMix() {
             return mix;
         }
+
 
         public void setMix( BigDecimal mix ) {
             this.mix = mix;
         }
 
+
         public BigDecimal getDri() {
             return dri;
         }
+
 
         public void setDri( BigDecimal dri ) {
             this.dri = dri;
         }
 
+
         public BigDecimal getPctdri() {
             return pctdri;
         }
+
 
         public void setPctdri( BigDecimal pctdri ) {
             this.pctdri = pctdri;
         }
 
+
         public BigDecimal getUl() {
             return ul;
         }
+
 
         public void setUl( BigDecimal ul ) {
             this.ul = ul;
         }
 
+
         public BigDecimal getPctul() {
             return pctul;
         }
 
+
         public void setPctul( BigDecimal pctul ) {
             this.pctul = pctul;
         }
+
 
         public boolean isNull() {
             return false;
@@ -296,20 +331,24 @@ public class TableDri extends JTable {
         private List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<List>();
             columns = new ArrayList<String>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -322,20 +361,24 @@ public class TableDri extends JTable {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -345,15 +388,18 @@ public class TableDri extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
+
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
+
 
         @Override
         public void setValueAt( Object o, int r, int c ) {
@@ -361,11 +407,13 @@ public class TableDri extends JTable {
             fireTableDataChanged();
         }
 
+
         public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
         }
+
 
         @Override
         public void clear() {
@@ -374,10 +422,12 @@ public class TableDri extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {

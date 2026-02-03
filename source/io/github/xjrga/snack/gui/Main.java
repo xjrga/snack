@@ -436,6 +436,7 @@ public class Main {
     private BigDecimal selectedMixExcess;
     private Integer selectedMixLifeStageId;
 
+
     public Main( Splash splash ) {
         LoggerImpl.INSTANCE.filter( "io.github.xjrga.*" );
         logo = ImageUtilities.readImageFromUrl( Utilities.getResourceAsUrl( "/resources/images/logo.png" ) );
@@ -656,6 +657,7 @@ public class Main {
         splash.halt();
     }
 
+
     private void reloadFoods() {
         try {
             Future<List<List>> task = BackgroundExec.submit( new FoodFactsTask() );
@@ -692,6 +694,7 @@ public class Main {
         }
     }
 
+
     private void clearMixesView() {
         // Mixes List
         cmbMixes.clear();
@@ -727,6 +730,7 @@ public class Main {
         tblMealPlanUsageResults.clear();
     }
 
+
     private void clearFoodsView() {
         treeModel.clear();
         tblMixFood.clear();
@@ -742,6 +746,7 @@ public class Main {
         cmbFoodRatioFoodB.clear();
         tblFoodDiff.clear();
     }
+
 
     private void deleteFoodItem( String foodId ) {
         try {
@@ -762,6 +767,7 @@ public class Main {
         setQuantityScale();
     }
 
+
     private void addMealPlanUsage() {
         if ( tblMealPlanUsageMixes.isSelectionEmpty() ) {
             return;
@@ -779,6 +785,7 @@ public class Main {
         }
     }
 
+
     private void deleteMealPlanUsage() {
         if ( tblMealPlanUsage.isSelectionEmpty() ) {
             return;
@@ -792,6 +799,7 @@ public class Main {
         }
     }
 
+
     private void expandTree( JTree tree, int startingIndex, int rowCount ) {
         for ( int i = startingIndex; i < rowCount; ++i ) {
             tree.expandRow( i );
@@ -800,6 +808,7 @@ public class Main {
             expandTree( tree, rowCount, tree.getRowCount() );
         }
     }
+
 
     private JTabbedPane getConstraintsPanel() {
         JTabbedPane tab = new JTabbedPane();
@@ -831,6 +840,7 @@ public class Main {
         return tab;
     }
 
+
     private JPanel getEditorPanel() {
         JPanel pnl = new JPanel();
         FormLayout lyo = new FormLayout(
@@ -848,6 +858,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private JPanel getMealPlanPanel() {
         JPanel pnl = new JPanel();
@@ -871,6 +882,7 @@ public class Main {
         pnl.add( tab, cc.xy( 1, 1 ) );
         return pnl;
     }
+
 
     private JPanel getEditorTopPanel() {
         cmbMixes = new ComboBox<>();
@@ -907,6 +919,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getEditorModel() {
         JPanel pnl = new JPanel();
         FormLayout lyo = new FormLayout(
@@ -928,6 +941,7 @@ public class Main {
         }
         return pnl;
     }
+
 
     private JPanel getEditorDri( TableDri tblDri ) {
         JScrollPane scr = new JScrollPane( tblDri );
@@ -1026,6 +1040,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private JSplitPane getModelPanel() {
         JPanel pnlMain = new JPanel();
@@ -1137,9 +1152,11 @@ public class Main {
                 }
             }
 
+
             @Override
             public void keyReleased( KeyEvent e ) {
             }
+
 
             @Override
             public void keyTyped( KeyEvent e ) {
@@ -1181,6 +1198,7 @@ public class Main {
         return splMain;
     }
 
+
     private JTabbedPane getEditorBottomPanel() {
         JTabbedPane tab = new JTabbedPane();
         tab.setTabPlacement( SwingConstants.BOTTOM );
@@ -1196,6 +1214,7 @@ public class Main {
         tab.setToolTipTextAt( 2, "This is where you create food groups that participate in the mix." );
         return tab;
     }
+
 
     private JPanel getFoodCategoriesPanel() {
         tblAllFoods = new TableFood();
@@ -1370,6 +1389,7 @@ public class Main {
         return pnlMain;
     }
 
+
     private JPanel getFoodComparisonPanel() {
         JPanel pnl = new JPanel();
         tblFoodDiffA = new TableFood();
@@ -1430,6 +1450,7 @@ public class Main {
         return pnl;
     }
 
+
     private void calculateFoodDifference( ListSelectionEvent e ) {
         if ( e.getValueIsAdjusting() ) {
             return;
@@ -1452,6 +1473,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( ex );
         }
     }
+
 
     private JPanel getFoodQuantityConstraint() {
         JPanel pnl = new JPanel();
@@ -1525,6 +1547,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private JPanel getFoodList() {
         JPanel pnl = new JPanel();
@@ -1612,6 +1635,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getFoodRatioPanel() {
         JPanel pnl = new JPanel();
         tblFoodRatioConstraint = new TableFoodRatioConstraint();
@@ -1669,6 +1693,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getMealPlanUsagePanel() {
         JPanel pnl = new JPanel();
         FormLayout lyo = new FormLayout(
@@ -1687,6 +1712,7 @@ public class Main {
         return pnl;
     }
 
+
     private void exectureMealPlanUsageTasks() {
         try {
             Future<List<List>> task = BackgroundExec.submit( new MealPlanUsageTask() );
@@ -1703,6 +1729,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private JPanel getMealsPanel() {
         JPanel pnl = new JPanel();
@@ -1736,6 +1763,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getMealCaloriesPanel() {
         JPanel pnl = new JPanel();
         ColumnBuild columns = new ColumnBuild();
@@ -1750,6 +1778,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getMealMacronutrientsPanel() {
         JPanel pnl = new JPanel();
         ColumnBuild columns = new ColumnBuild();
@@ -1763,6 +1792,7 @@ public class Main {
         pnl.add( spTable, cc.xy( 1, 1 ) );
         return pnl;
     }
+
 
     private JPanel getMealPortionsPanel() {
         JPanel pnl = new JPanel();
@@ -1844,6 +1874,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private JMenuBar getMenuBar() {
         JMenuBar mnuBar = new JMenuBar();
@@ -2166,6 +2197,7 @@ public class Main {
         return mnuBar;
     }
 
+
     private void exit() {
         mniExit.setEnabled( false );
         frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
@@ -2179,6 +2211,7 @@ public class Main {
             }
         } );
     }
+
 
     private JPanel getMixComparisonPanel() {
         JPanel pnl = new JPanel();
@@ -2221,6 +2254,7 @@ public class Main {
         return pnl;
     }
 
+
     private void calculateMixDifference( ListSelectionEvent e ) {
         if ( e.getValueIsAdjusting() ) {
             return;
@@ -2241,6 +2275,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( ex );
         }
     }
+
 
     private JPanel getMixFoodPanel() {
         JPanel pnl = new JPanel();
@@ -2311,15 +2346,18 @@ public class Main {
                         createTreeModel();
                     }
 
+
                     @Override
                     public void removeUpdate( final DocumentEvent e ) {
                         createTreeModel();
                     }
 
+
                     @Override
                     public void changedUpdate( final DocumentEvent e ) {
                         createTreeModel();
                     }
+
 
                     public void createTreeModel() {
                         if ( txtSearch.getText().isEmpty() ) {
@@ -2344,6 +2382,7 @@ public class Main {
         return pnl;
     }
 
+
     private String getRegex( String regex ) {
         StringBuilder sb = new StringBuilder();
         // sb.append("(?i)");
@@ -2353,11 +2392,13 @@ public class Main {
         return sb.toString();
     }
 
+
     private void expandTree( JTree tree ) {
         for ( int i = 0; i < tree.getRowCount(); i++ ) {
             tree.expandRow( i );
         }
     }
+
 
     private Double getMixUsageInputForInventory() {
         Double days = 1.0;
@@ -2381,6 +2422,7 @@ public class Main {
         return days;
     }
 
+
     private JPanel getMealPlanUsageDaysPanel() {
         JPanel pnl = new JPanel();
         pnl.setBorder( new TitledBorder( "Meal Plan Usage" ) );
@@ -2394,6 +2436,7 @@ public class Main {
         pnl.add( getMealPlanUsageButtonsPanel(), cc.xy( 1, 2 ) );
         return pnl;
     }
+
 
     private JPanel getMealPlanUsageButtonsPanel() {
         JPanel pnl = new JPanel();
@@ -2414,6 +2457,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getMealPlanUsageMixesPanel() {
         JPanel pnl = new JPanel();
         pnl.setBorder( new TitledBorder( "Mix" ) );
@@ -2425,6 +2469,7 @@ public class Main {
         pnl.add( new JScrollPane( tblMealPlanUsageMixes ), cc.xy( 1, 1 ) );
         return pnl;
     }
+
 
     private JPanel getMealPlanUsageResultPanel() {
         JPanel pnl = new JPanel();
@@ -2438,6 +2483,7 @@ public class Main {
         pnl.add( new JScrollPane( tblMealPlanUsageResults ), cc.xy( 1, 1 ) );
         return pnl;
     }
+
 
     private JPanel getNoSolutionPanel() {
         FormLayout lyo = new FormLayout(
@@ -2455,6 +2501,7 @@ public class Main {
         pnl.add( new JScrollPane( txa ), cc.xy( 1, 1 ) );
         return pnl;
     }
+
 
     private JPanel getNutrientQuantityConstraintPanel() {
         JPanel pnl = new JPanel();
@@ -2502,6 +2549,7 @@ public class Main {
         return pnl;
     }
 
+
     private JPanel getNutrientSearchPanel() {
         JPanel pnl = new JPanel();
         JPanel pnl01 = new JPanel();
@@ -2541,6 +2589,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private JPanel getNutrientRatioPanel() {
         JPanel pnl = new JPanel();
@@ -2596,17 +2645,21 @@ public class Main {
         return pnl;
     }
 
+
     private String getFoodConstraintCount() {
         return String.format( "%1$ 2d", tblFoodQuantityConstraint.getRowCount() );
     }
+
 
     private String getFoodRatioConstraintCount() {
         return String.format( "%1$ 2d", tblFoodRatioConstraint.getRowCount() );
     }
 
+
     private String getGroupConstraintCount() {
         return String.format( "%1$ 2d", tblGroupQuantityConstraint.getRowCount() );
     }
+
 
     private String getNoFeasibleSolutionText() {
         StringBuilder sb = new StringBuilder();
@@ -2640,13 +2693,16 @@ public class Main {
         return sb.toString();
     }
 
+
     private String getNutrientQuantityConstraintCount() {
         return String.format( "%1$ 2d", tblNutrientQuantityConstraint.getRowCount() );
     }
 
+
     private String getNutrientRatioConstraintCount() {
         return String.format( "%1$ 2d", tblNutrientRatio.getRowCount() );
     }
+
 
     private Boolean checkFoodConstraint() {
         boolean flag_isReady = false;
@@ -2679,6 +2735,7 @@ public class Main {
         }
         return flag_isReady;
     }
+
 
     private Boolean checkFoodRatioConstraint() {
         boolean flag_isReady = false;
@@ -2729,6 +2786,7 @@ public class Main {
         return flag_isReady;
     }
 
+
     private Boolean checkNutrientQuantityConstraint() {
         boolean flag_isReady = false;
         boolean flag_listNutrient = false;
@@ -2754,6 +2812,7 @@ public class Main {
         }
         return flag_isReady;
     }
+
 
     private Boolean checkNutrientRatioConstraint() {
         boolean flag_isReady = false;
@@ -2786,6 +2845,7 @@ public class Main {
         }
         return flag_isReady;
     }
+
 
     private void convertMixToFood() {
         TableFoodFactInput tbl = new TableFoodFactInput();
@@ -2832,6 +2892,7 @@ public class Main {
         }
     }
 
+
     private void addCategory() {
         JTextField txtInput = new JTextField();
         JComponent[] inputs = { new JLabel( "What is your new category name?" ), txtInput };
@@ -2857,6 +2918,7 @@ public class Main {
         }
     }
 
+
     private void duplicateCategory() {
         if ( !tblAllFoodCategories.isSelectionEmpty() ) {
             TableCategory.Row category = tblAllFoodCategories.getSelectedValue();
@@ -2876,6 +2938,7 @@ public class Main {
             }
         }
     }
+
 
     private void deleteCategory() {
         if ( !tblAllFoodCategories.isSelectionEmpty() ) {
@@ -2906,6 +2969,7 @@ public class Main {
             tblFoodsInCategory.clear();
         }
     }
+
 
     private void renameCategory() {
         if ( !tblAllFoodCategories.isSelectionEmpty() ) {
@@ -2945,6 +3009,7 @@ public class Main {
         }
     }
 
+
     public void exportCategory() {
         if ( tblAllFoodCategories.isSelectionEmpty() ) {
             return;
@@ -2975,6 +3040,7 @@ public class Main {
         }
     }
 
+
     private void addFoodToCategory() {
         if ( !tblAllFoodCategories.isSelectionEmpty() ) {
             if ( !tblAllFoods.isSelectionEmpty() ) {
@@ -3003,6 +3069,7 @@ public class Main {
         }
     }
 
+
     private void executeFoodsInCategoryTasks( TableCategory.Row category ) {
         try {
             Future<List<List>> task3 = BackgroundExec.submit( new FoodsInCategoryTask( ( category.getCategoryid() ) ) );
@@ -3019,6 +3086,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void removeFoodFromCategory() {
         if ( !tblAllFoodCategories.isSelectionEmpty() ) {
@@ -3037,6 +3105,7 @@ public class Main {
             }
         }
     }
+
 
     private void addFoodToDatabase() {
         TableFoodFactInput tbl = new TableFoodFactInput();
@@ -3073,6 +3142,7 @@ public class Main {
         }
     }
 
+
     private void addDerivativeFoodToDatabase() {
         if ( !tblFoodFacts.isSelectionEmpty() ) {
             TableFoodFacts.Row foodfact = tblFoodFacts.getSelectedValue();
@@ -3104,6 +3174,7 @@ public class Main {
         }
     }
 
+
     private void removeFoodFromDatabase() {
         if ( !tblFoodFacts.isSelectionEmpty() ) {
             TableFoodFacts.Row food = tblFoodFacts.getSelectedValue();
@@ -3115,6 +3186,7 @@ public class Main {
             setConstraintCounts();
         }
     }
+
 
     private void renameFood() {
         if ( !tblFoodFacts.isSelectionEmpty() ) {
@@ -3178,6 +3250,7 @@ public class Main {
         }
     }
 
+
     private void addFoodQuantityConstraint() {
         if ( checkFoodConstraint() ) {
             NumberCheck numberCheck = new NumberCheck();
@@ -3193,6 +3266,7 @@ public class Main {
             }
         }
     }
+
 
     private void executeMergeFoodQuantityConstraintTasks(
             MixDO mix, MixFoodDO foodDO, NutrientDO nutrientDO, RelationshipDO relationshipDO, BigDecimal b ) {
@@ -3236,6 +3310,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void deleteFoodQuantityConstraint() {
         if ( !tblFoodQuantityConstraint.isSelectionEmpty() ) {
@@ -3281,6 +3356,7 @@ public class Main {
         }
     }
 
+
     private void blockFood() {
         MixFoodDO foodDO = cmbFoodQuantityFood.getSelectedItem();
         NutrientDO nutrientDO = new NutrientDO( "10000", "Other, Weight (g)", new BigDecimal( "-1" ) );
@@ -3288,6 +3364,16 @@ public class Main {
         BigDecimal b = new BigDecimal( "0.0" );
         executeMergeFoodQuantityConstraintTasks( selectedMix, foodDO, nutrientDO, relationshipDO, b );
     }
+
+
+    private void blockGroup() {
+        GroupDO groupDO = cmbFoodGroup.getSelectedItem();
+        NutrientDO nutrientDO = new NutrientDO( "10000", "Other, Weight (g)", new BigDecimal( "-1" ) );
+        RelationshipDO relationshipDO = new RelationshipDO( 3, "=" );
+        BigDecimal b = new BigDecimal( "0.0" );
+        executeMergeGroupQuantityConstraintTasks( selectedMix, groupDO, nutrientDO, relationshipDO, b );
+    }
+
 
     private void addFoodRatioConstraint() {
         if ( checkFoodRatioConstraint() ) {
@@ -3356,6 +3442,7 @@ public class Main {
         }
     }
 
+
     private void deleteFoodRatioConstraint() {
         if ( !tblFoodRatioConstraint.isSelectionEmpty() ) {
             TableFoodRatioConstraint.Row row = tblFoodRatioConstraint.getSelectedValue();
@@ -3409,6 +3496,7 @@ public class Main {
         }
     }
 
+
     private void addFoodPortion() {
         NumberCheck checkNumber = new NumberCheck();
         Double pcti = Double.NaN;
@@ -3436,6 +3524,7 @@ public class Main {
             Message.showMessage( "Character must be number." );
         }
     }
+
 
     private void executeMealPlanPortionsTasks( MixDO mix ) {
         try {
@@ -3469,6 +3558,7 @@ public class Main {
         }
     }
 
+
     private void deleteFoodPortion() {
         if ( !tblMealPortions.isSelectionEmpty() ) {
             try {
@@ -3492,6 +3582,7 @@ public class Main {
             Message.showMessage( "Please select row or rows." );
         }
     }
+
 
     private void updateFoodPortionWeight() {
         JTextField txtInput = new JTextField();
@@ -3522,6 +3613,7 @@ public class Main {
             }
         }
     }
+
 
     private void addMeal() {
         JTextField txtMealName = new JTextField();
@@ -3566,6 +3658,7 @@ public class Main {
         }
     }
 
+
     private void deleteMeal() {
         if ( !tblMeals.isSelectionEmpty() ) {
             Row meal = tblMeals.getSelectedValue();
@@ -3588,6 +3681,7 @@ public class Main {
             executeMealPlanPortionsTasks( selectedMix );
         }
     }
+
 
     private void updateMeal() {
         JTextField txtMealName = new JTextField();
@@ -3645,6 +3739,7 @@ public class Main {
         }
     }
 
+
     private void addMixFood() {
         DefaultMutableTreeNode node = ( DefaultMutableTreeNode ) tree.getLastSelectedPathComponent();
         if ( node == null ) {
@@ -3677,12 +3772,14 @@ public class Main {
         }
     }
 
+
     private void collapseFoods() {
         int rowCount = tree.getRowCount();
         for ( int i = 1; i < rowCount; i++ ) {
             tree.collapseRow( i );
         }
     }
+
 
     private void deleteMixFood() {
         TableFood.Row food = tblMixFood.getSelectedValue();
@@ -3745,10 +3842,12 @@ public class Main {
         }
     }
 
+
     private void expandFoods() {
         int rowCount = tree.getRowCount();
         expandTree( tree, 0, rowCount );
     }
+
 
     private void addNutrientQuantityConstraint() {
         if ( checkNutrientQuantityConstraint() ) {
@@ -3798,6 +3897,7 @@ public class Main {
         }
     }
 
+
     private void deleteNutrientQuantityConstraint() {
         TableNutrientQuantity.Row row = tblNutrientQuantityConstraint.getSelectedValue();
         String mixid = String.valueOf( row.getMixid() );
@@ -3837,6 +3937,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void addNutrientRatioConstraint() {
         if ( checkNutrientRatioConstraint() ) {
@@ -3897,6 +3998,7 @@ public class Main {
         }
     }
 
+
     private void deleteNutrientRatioConstraint() {
         TableNutrientRatioConstraint.Row row = tblNutrientRatio.getSelectedValue();
         String mixid = row.getMixid();
@@ -3941,6 +4043,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private Boolean solveModel( MixDO mix ) {
         Boolean solutionFound = false;
@@ -4036,9 +4139,11 @@ public class Main {
         return solutionFound;
     }
 
+
     public double calculateTni( Double avgDeficiency ) {
         return ( 1 - avgDeficiency ) * 100.0;
     }
+
 
     private void addLogEntries( MixDO mix, String lifestage, Double score ) {
         addLogEntry( mix.getName(), "Add", "Lifestage", lifestage, mix.getMixid(), "", "", "", "", null, null, null );
@@ -4070,6 +4175,7 @@ public class Main {
                 null );
     }
 
+
     private void minimizeDRIDeficiency(
             String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid ) {
         // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency -----
@@ -4089,6 +4195,7 @@ public class Main {
         // ----- GROUP CONSTRAINTS -----
         createGroupConstraint( mixid, program, print );
     }
+
 
     private void minimizeDRIDeficiencyAndULExcess(
             String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid ) {
@@ -4112,6 +4219,7 @@ public class Main {
         createGroupConstraint( mixid, program, print );
     }
 
+
     private void minimizeDRIDeficiencyAndDRIExcess(
             String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid ) {
         // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and DRI Excess -----
@@ -4134,11 +4242,13 @@ public class Main {
         createGroupConstraint( mixid, program, print );
     }
 
+
     private void setTheHighScore( Double tni ) {
         listModelHighScore.addElement( ( new DecimalFormat( "###0.00000" ) ).format( tni ) );
         lstHighScore.ensureIndexIsVisible( listModelHighScore.getSize() - 1 );
         lstHighScore.setSelectedIndex( lstHighScore.getLastVisibleIndex() );
     }
+
 
     private String createFoodLegend( String mixid ) {
         StringBuilder sb = new StringBuilder();
@@ -4167,6 +4277,7 @@ public class Main {
         return sb.toString();
     }
 
+
     private void createDeficiencyObjectiveFunction( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
         try {
             Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevObjectiveDeficiencyLhsTask( mixid ) );
@@ -4178,6 +4289,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void createDeficiencyAndExcessObjectiveFunction(
             String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
@@ -4191,6 +4303,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void createNutrientConstraints( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
         try {
@@ -4223,6 +4336,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void createNutrientRatioConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
         try {
@@ -4263,6 +4377,7 @@ public class Main {
         }
     }
 
+
     private void createFoodConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
         try {
             Future<List<Map<String, Object>>> task = BackgroundExec.submit( new FoodRhsTask( mixid ) );
@@ -4298,6 +4413,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void createFoodRatioConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
         try {
@@ -4346,6 +4462,7 @@ public class Main {
         }
     }
 
+
     private void createGroupConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
         try {
             Future<List<Map<String, Object>>> task = BackgroundExec.submit( new GroupRhsTask( mixid ) );
@@ -4382,6 +4499,7 @@ public class Main {
         }
     }
 
+
     private void calculateRemainingFoodAllocationPercentage() {
         if ( !cmbPortionFood.isSelectionEmpty() ) {
             try {
@@ -4398,9 +4516,11 @@ public class Main {
         }
     }
 
+
     private void clearHighscore() {
         listModelHighScore.clear();
     }
+
 
     private void showPopup( MouseEvent e, JPopupMenu pmn ) {
         if ( SwingUtilities.isRightMouseButton( e ) ) {
@@ -4408,6 +4528,7 @@ public class Main {
             pmn.show( component, e.getX(), e.getY() );
         }
     }
+
 
     private void showAbout() {
         JTextPane txp = new JTextPane();
@@ -4429,6 +4550,7 @@ public class Main {
         JComponent[] inputs = { scr };
         Message.showOptionDialog( inputs, "About" );
     }
+
 
     private void moveFoodPortion() {
         if ( !tblMealPortions.isSelectionEmpty() ) {
@@ -4459,6 +4581,7 @@ public class Main {
             }
         }
     }
+
 
     private void calculateBmr() {
         JTextField txtInput = new JTextField();
@@ -4493,6 +4616,7 @@ public class Main {
             }
         }
     }
+
 
     private void convertMicronutrient() {
         FormLayout lyo = new FormLayout(
@@ -4570,6 +4694,7 @@ public class Main {
         }
     }
 
+
     private void calculateDigestibleCarbs() {
         FormLayout lyo = new FormLayout(
                 "min,30dlu", // columns
@@ -4613,52 +4738,64 @@ public class Main {
         }
     }
 
+
     private void createFoodComparisonReport() {
         FoodComparisonReport csv = new FoodComparisonReport();
         csv.create( tblFoodDiff, tblFoodDiffA, tblFoodDiffB );
     }
+
 
     private void createAllFoodsReport1() {
         frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
         BackgroundExec.execute( new CreateAllFoodsReport1Task( frm ) );
     }
 
+
     private void createAllFoodsReport2() {
         frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
         BackgroundExec.execute( new CreateAllFoodsReport2Task( frm ) );
     }
 
+
     private void createMealPlanCaloriesReport() {
         ( new MealPlanCaloriesReport() ).create( selectedMix );
     }
+
 
     private void createMealPlanMacronutrientsReport() {
         ( new MealPlanMacronutrientsReport() ).create( selectedMix );
     }
 
+
     private void createMealPlanPortionsReport() {
         ( new MealPlanPortionsReport() ).create( selectedMix );
     }
+
 
     private void createMealPlanUsageReport() {
         ( new MealPlanUsageReport() ).create();
     }
 
+
     private void createMixComparisonReport() {
         ( new MixComparisonReport() ).create( tblMixDiff, tblMixDiffA, tblMixDiffB );
     }
+
 
     private void createMixTotalsReport() {
         ( new MixTotalsReport() ).create( selectedMix );
     }
 
+
     private void createMixResultsReport1() {
         ( new MixResultsReport() ).create( selectedMix );
     }
 
+
     private void createMixResultsReport2() {
         ( new MixResultsReport2() ).create( selectedMix );
     }
+
 
     private void exportMix() {
         int returnVal = fch.showSaveDialog( frm );
@@ -4687,14 +4824,17 @@ public class Main {
         }
     }
 
+
     private void createNutrientContentReport() {
         ( new NutrientContentReport() ).create( txtNutrientSearchQuantity, cmbNutrientContentNutrient );
     }
+
 
     private void createDriReport() {
         LifeStageDO lifestage = ( LifeStageDO ) cmbLifestage.getSelectedItem();
         ( new DriReport() ).create( selectedMix, lifestage );
     }
+
 
     private void calculateGlycemicIndexRange() {
         JTextField txtInput = new JTextField();
@@ -4721,6 +4861,7 @@ public class Main {
             }
         }
     }
+
 
     private void calculateGlycemicLoad() {
         FormLayout lyo = new FormLayout(
@@ -4764,6 +4905,7 @@ public class Main {
         }
     }
 
+
     private void showKetosis() {
         // If you want the bibliography for these facts, ask.
         StringBuilder sb = new StringBuilder();
@@ -4782,6 +4924,7 @@ public class Main {
         sb.append( "\n" );
         Message.showMessagePadW510H150( "Carbohydrate Required to Inhibit Ketosis", sb.toString() );
     }
+
 
     private void deleteMix() {
         JComponent[] inputs = { new JLabel( "Would you like to delete mix?" ) };
@@ -4813,6 +4956,7 @@ public class Main {
             cmbMixes.setSelectedIndex( 0 );
         }
     }
+
 
     private void createMix() {
         JTextField txtInput = new JTextField();
@@ -4848,6 +4992,7 @@ public class Main {
         }
     }
 
+
     private void duplicateMix() {
         JComponent[] inputs = { new JLabel( "Would you like to duplicate mix?" ) };
         int optionValue = Message.showOptionDialogOkCancel( inputs, "Duplicate Mix" );
@@ -4874,6 +5019,7 @@ public class Main {
             }
         }
     }
+
 
     private void pinAndDelete() {
         try {
@@ -5013,6 +5159,7 @@ public class Main {
         }
     }
 
+
     private void pinAndKeep() {
         try {
             Future<Boolean> task = BackgroundExec.submit( new PinAndKeepTask( selectedMixId ) );
@@ -5073,6 +5220,7 @@ public class Main {
         }
     }
 
+
     private void renameMix() {
         JTextField txtInput = new JTextField();
         JComponent[] inputs = { new JLabel( "What is your new mix name?" ), txtInput };
@@ -5111,6 +5259,7 @@ public class Main {
         }
     }
 
+
     private void calculateN3FattyAcidRequired() {
         JTextField txtInput = new JTextField();
         JPanel pnl = new JPanel();
@@ -5143,6 +5292,7 @@ public class Main {
         }
     }
 
+
     private void calculateProteinNeededForNitrogenBalance() {
         JTextField textFieldLbs = new JTextField();
         textFieldLbs.setPreferredSize( new Dimension( 50, 25 ) );
@@ -5173,6 +5323,7 @@ public class Main {
         }
     }
 
+
     private void calculateNutrientContent() {
         TableDri.Row row = tblDri.getSelectedValue();
         String nutrientid = row.getNutrientid();
@@ -5191,6 +5342,7 @@ public class Main {
         tabMain.setSelectedIndex( 4 );
     }
 
+
     private void setFoodQuantityConstraintGuiValues() {
         TableFoodQuantityConstraint.Row row = tblFoodQuantityConstraint.getSelectedValue();
         String foodid = row.getFoodid();
@@ -5205,6 +5357,7 @@ public class Main {
         cmbFoodQuantityRelationship.setSelectedIndex( relationshipIndex );
         txtFoodQuantityValue.setText( ( new DecimalFormat( "###0.000" ) ).format( q ) );
     }
+
 
     private void setFoodRatioConstraintGuiValues() {
         TableFoodRatioConstraint.Row row = tblFoodRatioConstraint.getSelectedValue();
@@ -5229,6 +5382,7 @@ public class Main {
         cmbFoodRatioRelationship.setSelectedIndex( relationshipindex );
     }
 
+
     private void setNutrientQuantityConstraintGuiValues() {
         TableNutrientQuantity.Row row = tblNutrientQuantityConstraint.getSelectedValue();
         String nutrientid = row.getNutrientid();
@@ -5240,6 +5394,7 @@ public class Main {
         cmbNutrientQuantityRelationship.setSelectedIndex( relationshipindex );
         txtNutrientQuantityValue.setText( ( new DecimalFormat( "###0.000" ) ).format( q ) );
     }
+
 
     private void setNutrientRatioConstraintGuiValues() {
         TableNutrientRatioConstraint.Row row = tblNutrientRatio.getSelectedValue();
@@ -5258,6 +5413,7 @@ public class Main {
         cmbNutrientRatioRelationship.setSelectedIndex( relationshipindex );
     }
 
+
     private void reloadFoodComboBoxes( String mixid ) {
         cmbFoodRatioFoodA.clear();
         cmbFoodRatioFoodB.clear();
@@ -5271,6 +5427,7 @@ public class Main {
             cmbPortionFood.reload( mixFoodLoader.get() );
         }
     }
+
 
     private void reloadCbNutrientData() {
         cmbNutrientQuantityNutrient.clear();
@@ -5299,6 +5456,7 @@ public class Main {
         cmbFoodRatioNutrientB.setSelectedIndex( 46 );
     }
 
+
     private void reloadCbRelationshipData() {
         relationshipLoader.reload();
         cmbNutrientQuantityRelationship.clear();
@@ -5317,6 +5475,7 @@ public class Main {
         cmbGroupRelationship.setSelectedIndex( 2 );
         cmbFoodRatioRelationship.setSelectedIndex( 2 );
     }
+
 
     private void reloadMixConstraints( String mixid ) {
         try {
@@ -5349,6 +5508,7 @@ public class Main {
         }
     }
 
+
     private void reload_tblmdl_nutrient_lookup() {
         NutrientDO nutrientDO = ( NutrientDO ) cmbNutrientContentNutrient.getSelectedItem();
         if ( nutrientDO == null ) {
@@ -5371,6 +5531,7 @@ public class Main {
             Message.showMessage( "Character must be number." );
         }
     }
+
 
     private void roundDown() {
         // Mix Results
@@ -5401,9 +5562,12 @@ public class Main {
         tblFoodQuantityConstraint.roundDown();
         // Food Ratio Constraints
         tblFoodRatioConstraint.roundDown();
+        // Group Quantity Constraints
+        tblGroupQuantityConstraint.roundDown();
         // Meal Portions
         tblMealPortions.roundDown();
     }
+
 
     private void roundUp() {
         // Mix Results
@@ -5434,9 +5598,12 @@ public class Main {
         tblFoodQuantityConstraint.roundUp();
         // Food Ratio Constraints
         tblFoodRatioConstraint.roundUp();
+        // Group Quantity Constraints
+        tblGroupQuantityConstraint.roundUp();
         // Meal Portions
         tblMealPortions.roundUp();
     }
+
 
     private void loadSelectedMix() {
         selectedMix = cmbMixes.getSelectedItem();
@@ -5463,6 +5630,7 @@ public class Main {
         reloadResults( selectedMix );
         reloadGroups( selectedMixId );
     }
+
 
     private void reloadResults( MixDO mix ) {
         String mixid = mix.getMixid();
@@ -5499,6 +5667,7 @@ public class Main {
         setQuantityScale();
     }
 
+
     private void clearMixResults() {
         tblMixResults.clear();
         tblDri.clear();
@@ -5514,6 +5683,7 @@ public class Main {
         tblGroupQuantityConstraint.clear();
     }
 
+
     private void setConstraintCounts() {
         lblNutrientRatioCount.setText( getNutrientRatioConstraintCount() );
         lblFoodRatioCount.setText( getFoodRatioConstraintCount() );
@@ -5523,9 +5693,11 @@ public class Main {
         // lblGroupRatioCount.setText("Fix");
     }
 
+
     private void setSplitPanelDivider() {
         splMain.setDividerLocation( 410 );
     }
+
 
     private void setQuantityScale() {
         if ( chkResultRoundUp.isSelected() ) {
@@ -5535,10 +5707,12 @@ public class Main {
         }
     }
 
+
     private void showFoodStats( String foodid ) {
         foodStats.reload( foodid );
         Message.showMessagePadW510( 230, "Food Statistics", foodStats.get_stats() );
     }
+
 
     private void showMessageSent( String path ) {
         JTextArea txa = new JTextArea();
@@ -5550,6 +5724,7 @@ public class Main {
         JComponent[] inputs = { txa };
         Message.showOptionDialog( inputs, "Document Export" );
     }
+
 
     private void showMixStats() {
         try {
@@ -5624,6 +5799,7 @@ public class Main {
         }
     }
 
+
     private void deleteAllMixes() {
         JLabel lbl = new JLabel( "DO YOU WANT TO DELETE ALL MIXES?" );
         JPanel pnl = new JPanel();
@@ -5643,6 +5819,7 @@ public class Main {
             }
         }
     }
+
 
     private void deleteAll() {
         JLabel lbl = new JLabel( "DO YOU WANT TO DELETE ALL MIXES AND ALL FOOD ITEMS?" );
@@ -5671,6 +5848,7 @@ public class Main {
         }
     }
 
+
     public static void main( String[] args ) {
         try {
             URL url = Utilities.getResourceAsUrl( "/resources/fonts/inconsolata.ttf" );
@@ -5690,6 +5868,7 @@ public class Main {
         f.initiate();
         new Main( f );
     }
+
 
     private void createDriDeviationTniConstraint(
             String mixid, Integer lifestageId, LinearProgram program, LpsolvePrintOut print ) {
@@ -5720,6 +5899,7 @@ public class Main {
         }
     }
 
+
     private void createDriDeviationSumDeficiencyConstraint(
             String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print ) {
         try {
@@ -5737,6 +5917,7 @@ public class Main {
         }
     }
 
+
     private void createDriDeviationSumExcessConstraint(
             String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print ) {
         try {
@@ -5753,6 +5934,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void createULDeviationSumExcessConstraint(
             String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print ) {
@@ -5779,6 +5961,7 @@ public class Main {
         }
     }
 
+
     private JPanel getModelLogPanel() {
         JPanel pnl = new JPanel();
         FormLayout lyo = new FormLayout(
@@ -5800,9 +5983,11 @@ public class Main {
                 }
             }
 
+
             @Override
             public void keyReleased( KeyEvent keyEvent ) {
             }
+
 
             @Override
             public void keyTyped( KeyEvent keyEvent ) {
@@ -5810,6 +5995,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private void addLogEntry(
             String mix,
@@ -5843,6 +6029,7 @@ public class Main {
         row.add( B );
         tblLog.addRow( row );
     }
+
 
     private JPanel getFoodGroupsPanel() {
         tblSelectedFoods = new TableFood();
@@ -5971,6 +6158,7 @@ public class Main {
         return pnlMain;
     }
 
+
     private void addFoodGroup() {
         JTextField txtInput = new JTextField();
         JComponent[] inputs = { new JLabel( "What is your new food group name?" ), txtInput };
@@ -5994,6 +6182,7 @@ public class Main {
         }
     }
 
+
     private void deleteFoodGroup() {
         if ( !tblFoodGroups.isSelectionEmpty() ) {
             TableGroups.Row foodgroup = tblFoodGroups.getSelectedValue();
@@ -6014,6 +6203,7 @@ public class Main {
             }
         }
     }
+
 
     private void renameFoodGroup() {
         if ( !tblFoodGroups.isSelectionEmpty() ) {
@@ -6046,6 +6236,7 @@ public class Main {
         }
     }
 
+
     private void duplicateFoodGroup() {
         if ( !tblFoodGroups.isSelectionEmpty() ) {
             TableGroups.Row foodgroup = tblFoodGroups.getSelectedValue();
@@ -6065,6 +6256,7 @@ public class Main {
         }
     }
 
+
     private void reloadGroups( String mixid ) {
         try {
             Future<List<List>> task1 = BackgroundExec.submit( new FoodGroupsTask( mixid ) );
@@ -6077,6 +6269,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private void addFoodToFoodGroup() {
         if ( tblSelectedFoods.isSelectionEmpty() ) {
@@ -6103,6 +6296,7 @@ public class Main {
         }
     }
 
+
     private void removeFoodFromFoodGroup() {
         if ( tblFoodGroups.isSelectionEmpty() ) {
             return;
@@ -6124,6 +6318,7 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem( e );
         }
     }
+
 
     private JPanel getGroupQuantityConstraint() {
         JPanel pnl = new JPanel();
@@ -6167,7 +6362,7 @@ public class Main {
             deleteFoodGroupQuantityConstraint();
         } );
         btnGroupBlock.addActionListener( ( ActionEvent evt ) -> {
-            blockFood();
+            blockGroup();
         } );
         tblGroupQuantityConstraint.getSelectionModel().addListSelectionListener( ( ListSelectionEvent e ) -> {
             if ( e.getValueIsAdjusting() ) {
@@ -6180,6 +6375,7 @@ public class Main {
         } );
         return pnl;
     }
+
 
     private Double plusQuantity( Double oldq ) {
         Double total = 0.0;
@@ -6207,6 +6403,7 @@ public class Main {
         return total;
     }
 
+
     private void addGroupQuantityConstraint() {
         if ( checkFoodGroupConstraint() ) {
             NumberCheck numberCheck = new NumberCheck();
@@ -6222,6 +6419,7 @@ public class Main {
             }
         }
     }
+
 
     private void executeMergeGroupQuantityConstraintTasks(
             MixDO mix, GroupDO groupDO, NutrientDO nutrientDO, RelationshipDO relationshipDO, BigDecimal b ) {
@@ -6263,6 +6461,7 @@ public class Main {
         }
     }
 
+
     private Boolean checkFoodGroupConstraint() {
         boolean flag_isReady = false;
         boolean flag_listGroup = false;
@@ -6295,6 +6494,7 @@ public class Main {
         return flag_isReady;
     }
 
+
     private void setFoodGroupQuantityConstraintGuiValues() {
         TableGroupQuantityConstraint.Row row = tblGroupQuantityConstraint.getSelectedValue();
         String groupid = row.getGroupid();
@@ -6309,6 +6509,7 @@ public class Main {
         cmbGroupRelationship.setSelectedIndex( relationshipIndex );
         txtGroupQuantityValue.setText( ( new DecimalFormat( "###0.000" ) ).format( q ) );
     }
+
 
     private void deleteFoodGroupQuantityConstraint() {
         if ( !tblGroupQuantityConstraint.isSelectionEmpty() ) {

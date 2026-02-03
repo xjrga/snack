@@ -29,6 +29,7 @@ public class TableLog extends JTable {
     private JTextField searchField;
     private DataModel dm;
 
+
     public TableLog() {
         searchField = new JTextField();
         dm = new DataModel();
@@ -58,15 +59,18 @@ public class TableLog extends JTable {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -87,33 +91,40 @@ public class TableLog extends JTable {
         adjustColumnWidth();
     }
 
+
     @Override
     public boolean isCellEditable( int row, int col ) {
         return true;
     }
+
 
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -125,6 +136,7 @@ public class TableLog extends JTable {
         int row = getSelectedRow();
         return getRow( row );
     }
+
 
     public List<Row> getSelectedValues() {
         int[] selectedRows = getSelectedRows();
@@ -138,6 +150,7 @@ public class TableLog extends JTable {
         }
         return rows;
     }
+
 
     private Row getRow( int selectedRowNo ) {
         String fnow = ( String ) getValueAt( selectedRowNo, 0 );
@@ -172,13 +185,16 @@ public class TableLog extends JTable {
         return row;
     }
 
+
     public void addRow( List row ) {
         dm.addRow( row );
     }
 
+
     public JTextField getSearchField() {
         return searchField;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
@@ -186,9 +202,11 @@ public class TableLog extends JTable {
         adjustColumnWidth();
     }
 
+
     public void clear() {
         dm.clear();
     }
+
 
     private void adjustColumnWidth() {
         getColumnModel().getColumn( 0 ).setMinWidth( 140 );
@@ -228,6 +246,7 @@ public class TableLog extends JTable {
         private BigDecimal A;
         private BigDecimal B;
 
+
         public Row() {
             timestamp = LocalDateTime.now();
             mix = "";
@@ -244,109 +263,136 @@ public class TableLog extends JTable {
             B = new BigDecimal( "0.0" );
         }
 
+
         public LocalDateTime getTimestamp() {
             return timestamp;
         }
+
 
         public void setTimestamp( LocalDateTime timestamp ) {
             this.timestamp = timestamp;
         }
 
+
         public String getMix() {
             return mix;
         }
+
 
         public void setMix( String mixname ) {
             this.mix = mixname;
         }
 
+
         public String getAction() {
             return action;
         }
+
 
         public void setAction( String action ) {
             this.action = action;
         }
 
+
         public String getType() {
             return type;
         }
+
 
         public void setType( String type ) {
             this.type = type;
         }
 
+
         public String getObject() {
             return object;
         }
+
 
         public void setObject( String object ) {
             this.object = object;
         }
 
+
         public String getMixid() {
             return mixid;
         }
+
 
         public void setMixid( String mixid ) {
             this.mixid = mixid;
         }
 
+
         public String getFoodidA() {
             return foodidA;
         }
+
 
         public void setFoodidA( String foodidA ) {
             this.foodidA = foodidA;
         }
 
+
         public String getNutrientidA() {
             return nutrientidA;
         }
+
 
         public void setNutrientidA( String nutrientidA ) {
             this.nutrientidA = nutrientidA;
         }
 
+
         public String getFoodidB() {
             return foodidB;
         }
+
 
         public void setFoodidB( String foodidB ) {
             this.foodidB = foodidB;
         }
 
+
         public String getNutrientidB() {
             return nutrientidB;
         }
+
 
         public void setNutrientidB( String nutrientidB ) {
             this.nutrientidB = nutrientidB;
         }
 
+
         public Integer getRelationshipid() {
             return relationshipid;
         }
+
 
         public void setRelationshipid( Integer relationshipid ) {
             this.relationshipid = relationshipid;
         }
 
+
         public BigDecimal getA() {
             return A;
         }
+
 
         public void setA( BigDecimal A ) {
             this.A = A;
         }
 
+
         public BigDecimal getB() {
             return B;
         }
 
+
         public void setB( BigDecimal B ) {
             this.B = B;
         }
+
 
         public boolean isNull() {
             return false;
@@ -367,20 +413,24 @@ public class TableLog extends JTable {
         private final List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<>();
             columns = new ArrayList<>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -399,20 +449,24 @@ public class TableLog extends JTable {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -422,15 +476,18 @@ public class TableLog extends JTable {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
+
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
+
 
         @Override
         public void setValueAt( Object o, int r, int c ) {
@@ -438,11 +495,13 @@ public class TableLog extends JTable {
             fireTableCellUpdated( r, c );
         }
 
+
         public void addRow( List row ) {
             data.add( row );
             setRowCount();
             fireTableDataChanged();
         }
+
 
         @Override
         public void reload( List<List> data ) {
@@ -451,6 +510,7 @@ public class TableLog extends JTable {
             fireTableDataChanged();
         }
 
+
         @Override
         public void clear() {
             data.clear();
@@ -458,10 +518,12 @@ public class TableLog extends JTable {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {

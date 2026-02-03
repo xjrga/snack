@@ -18,6 +18,7 @@ public class MergeNutrientRatioConstraintTask implements Callable<Boolean> {
     private final BigDecimal B;
     private final Connection connection;
 
+
     public MergeNutrientRatioConstraintTask(
             String mixid, String nutrientid1, String nutrientid2, Integer relationshipid, BigDecimal A, BigDecimal B ) {
         this.mixid = mixid;
@@ -28,6 +29,7 @@ public class MergeNutrientRatioConstraintTask implements Callable<Boolean> {
         this.B = B;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

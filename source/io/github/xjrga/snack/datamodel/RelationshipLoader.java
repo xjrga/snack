@@ -29,12 +29,15 @@ public class RelationshipLoader implements Reload {
 
     private ArrayList<RelationshipDO> relationship_list;
 
+
     public RelationshipLoader() {
     }
+
 
     public ArrayList<RelationshipDO> get() {
         return relationship_list;
     }
+
 
     @Override
     public void reload() {

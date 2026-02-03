@@ -16,11 +16,13 @@ public class MixDiffTask implements Callable<List<List>> {
     private final String mixid1;
     private final String mixid2;
 
+
     public MixDiffTask( String mixdiffida, String mixdiffidb ) {
         connection = Connect.getInstance().getConnection();
         this.mixid1 = mixdiffida;
         this.mixid2 = mixdiffidb;
     }
+
 
     @Override
     public List<List> call() {

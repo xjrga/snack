@@ -13,11 +13,13 @@ public final class TreeModelRegexHighlighter extends DefaultTreeCellRenderer {
     private final String txt;
     private final String regex;
 
+
     public TreeModelRegexHighlighter( TreeCellRenderer renderer, String txt ) {
         this.renderer = renderer;
         this.txt = txt;
         this.regex = getRegex( txt );
     }
+
 
     @Override
     public Component getTreeCellRendererComponent(
@@ -30,6 +32,7 @@ public final class TreeModelRegexHighlighter extends DefaultTreeCellRenderer {
         }
         return c;
     }
+
 
     private String getRegex( String txt ) {
         StringBuilder sb = new StringBuilder();

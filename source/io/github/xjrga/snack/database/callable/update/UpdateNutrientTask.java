@@ -16,11 +16,13 @@ public class UpdateNutrientTask implements Callable<Boolean> {
     private final String nutrientid;
     private final Integer visible;
 
+
     public UpdateNutrientTask( String nutrientid, Integer visible ) {
         connection = Connect.getInstance().getConnection();
         this.nutrientid = nutrientid;
         this.visible = visible;
     }
+
 
     @Override
     public Boolean call() throws Exception {

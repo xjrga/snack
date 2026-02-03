@@ -10,40 +10,49 @@ public class MixFoodDO {
     private String foodid;
     private String foodname;
 
+
     public MixFoodDO() {
         foodid = "";
         foodname = "";
     }
+
 
     public MixFoodDO( String foodid, String foodname ) {
         this.setFoodId( foodid );
         this.setFoodName( foodname );
     }
 
+
     public String getFoodId() {
         return foodid;
     }
+
 
     public String getFoodName() {
         return foodname;
     }
 
+
     public void setFoodId( String foodid ) {
         this.foodid = foodid;
     }
 
+
     public void setFoodName( String foodname ) {
         this.foodname = foodname;
     }
+
 
     @Override
     public String toString() {
         return getFoodName();
     }
 
+
     public boolean isNull() {
         return false;
     }
+
 
     @Override
     public int hashCode() {
@@ -51,6 +60,7 @@ public class MixFoodDO {
         hash = 23 * hash + Objects.hashCode( this.foodid );
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {

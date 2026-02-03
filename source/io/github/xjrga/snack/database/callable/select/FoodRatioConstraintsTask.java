@@ -17,10 +17,12 @@ public class FoodRatioConstraintsTask implements Callable<List<List>> {
     private final Connection connection;
     private final String mixid;
 
+
     public FoodRatioConstraintsTask( String mixid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
     }
+
 
     @Override
     public List<List> call() {

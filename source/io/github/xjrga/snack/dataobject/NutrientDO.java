@@ -25,35 +25,43 @@ public class NutrientDO {
     private String nutrdesc;
     private BigDecimal q;
 
+
     public NutrientDO( String nutrientid, String nutrdesc, BigDecimal q ) {
         this.setNutr_no( nutrientid );
         this.setNutrdesc( nutrdesc );
         this.setQ( q );
     }
 
+
     public String getNutr_no() {
         return nutr_no;
     }
+
 
     public String getNutrdesc() {
         return nutrdesc;
     }
 
+
     public BigDecimal getQ() {
         return q;
     }
+
 
     public void setNutr_no( String nutr_no ) {
         this.nutr_no = nutr_no;
     }
 
+
     public void setNutrdesc( String nutrdesc ) {
         this.nutrdesc = nutrdesc;
     }
 
+
     public void setQ( BigDecimal q ) {
         this.q = q;
     }
+
 
     @Override
     public String toString() {
@@ -61,12 +69,14 @@ public class NutrientDO {
         return nutrdesc;
     }
 
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 23 * hash + Objects.hashCode( this.nutr_no );
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {

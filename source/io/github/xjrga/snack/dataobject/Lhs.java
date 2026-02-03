@@ -12,28 +12,34 @@ public class Lhs {
     private final String name;
     private final BigDecimal coefficient;
 
+
     public Lhs( Integer rownum, String name, BigDecimal c ) {
         this.rownum = rownum;
         this.name = name;
         this.coefficient = c;
     }
 
+
     public Integer getRownum() {
         return rownum;
     }
+
 
     public String getName() {
         return name;
     }
 
+
     public BigDecimal getCoefficient() {
         return coefficient;
     }
+
 
     @Override
     public String toString() {
         return "Lhs{" + "rownum=" + rownum + ", name=" + name + ", c=" + coefficient + '}';
     }
+
 
     @Override
     public int hashCode() {
@@ -41,6 +47,7 @@ public class Lhs {
         hash = 73 * hash + Objects.hashCode( this.rownum );
         return hash;
     }
+
 
     @Override
     public boolean equals( Object obj ) {

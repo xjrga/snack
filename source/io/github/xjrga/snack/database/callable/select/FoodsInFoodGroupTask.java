@@ -19,11 +19,13 @@ public class FoodsInFoodGroupTask implements Callable<List<List>> {
     private final String mixid;
     private final String groupid;
 
+
     public FoodsInFoodGroupTask( String mixid, String groupid ) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
     }
+
 
     @Override
     public List<List> call() {

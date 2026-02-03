@@ -20,6 +20,7 @@ public class MergeFoodRatioConstraintTask implements Callable<Boolean> {
     private final BigDecimal B;
     private final Connection connection;
 
+
     public MergeFoodRatioConstraintTask(
             String mixid,
             String foodid1,
@@ -39,6 +40,7 @@ public class MergeFoodRatioConstraintTask implements Callable<Boolean> {
         this.B = B;
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

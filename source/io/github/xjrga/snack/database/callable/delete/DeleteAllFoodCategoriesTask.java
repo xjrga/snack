@@ -13,9 +13,11 @@ public class DeleteAllFoodCategoriesTask implements Callable<Boolean> {
 
     private final Connection connection;
 
+
     public DeleteAllFoodCategoriesTask() {
         connection = Connect.getInstance().getConnection();
     }
+
 
     @Override
     public Boolean call() throws Exception {

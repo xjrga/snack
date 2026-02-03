@@ -32,6 +32,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
     private JTextField txtSearch;
     private final DataModel dm;
 
+
     public TableFoodFacts() {
         txtSearch = new JTextField();
         dm = new DataModel();
@@ -137,15 +138,18 @@ public class TableFoodFacts extends JTable implements ShowCategory {
                 filter();
             }
 
+
             @Override
             public void insertUpdate( DocumentEvent e ) {
                 filter();
             }
 
+
             @Override
             public void removeUpdate( DocumentEvent e ) {
                 filter();
             }
+
 
             private void filter() {
                 RowFilter<Object, Object> rf = null;
@@ -162,28 +166,34 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         } );
     }
 
+
     public boolean isSelectionEmpty() {
         int[] rows = getSelectedRows();
         return rows.length == 0;
     }
 
+
     public boolean isEmpty() {
         return !( getRowCount() > 0 );
     }
+
 
     @Override
     public void setValueAt( Object aValue, int row, int column ) {
         dm.setValueAt( aValue, convertRowIndexToModel( row ), convertColumnIndexToModel( column ) );
     }
 
+
     public void selectRow( int RowNo ) {
         setRowSelectionInterval( RowNo, RowNo );
     }
+
 
     public void showRow( int RowNo ) {
         Rectangle rect = getCellRect( RowNo, 0, true );
         scrollRectToVisible( rect );
     }
+
 
     public Row getSelectedValue() {
         if ( isEmpty() ) {
@@ -194,6 +204,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         }
         return getRow( getSelectedRow() );
     }
+
 
     public List<Row> getSelectedValues() {
         ArrayList<Row> row = new ArrayList<>();
@@ -207,6 +218,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         }
         return row;
     }
+
 
     private Row getRow( int selectedRowNo ) {
         String id_food_id = ( String ) getValueAt( selectedRowNo, 0 );
@@ -391,18 +403,22 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         return row;
     }
 
+
     public JTextField getTxtSearch() {
         return txtSearch;
     }
+
 
     public void reload( List<List> data ) {
         dm.clear();
         dm.reload( data );
     }
 
+
     public void clear() {
         dm.clear();
     }
+
 
     public int find( String id ) {
         int index = 0;
@@ -415,13 +431,16 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         return index;
     }
 
+
     public void roundUp() {
         roundQuantity( new RoundUpRenderer() );
     }
 
+
     public void roundDown() {
         roundQuantity( new RoundDownRenderer() );
     }
+
 
     private void roundQuantity( DefaultTableCellRenderer renderer ) {
         getColumnModel().getColumn( 2 ).setCellRenderer( renderer );
@@ -515,6 +534,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         repaint();
     }
 
+
     @Override
     public void showCategory( int ordinal ) {
         switch ( ordinal ) {
@@ -547,6 +567,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
             }
         }
     }
+
 
     private void adjustWidth( int start, int end ) {
         TableColumnModel colModel = getColumnModel();
@@ -662,6 +683,7 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         private BigDecimal other_other_cost;
         private BigDecimal other_other_water;
 
+
         public Row() {
             id_food_id = "";
             id_food_name = "";
@@ -754,722 +776,901 @@ public class TableFoodFacts extends JTable implements ShowCategory {
             other_other_water = new BigDecimal( "0.0" );
         }
 
+
         public String getId_food_id() {
             return id_food_id;
         }
+
 
         public void setId_food_id( String id_food_id ) {
             this.id_food_id = id_food_id;
         }
 
+
         public String getId_food_name() {
             return id_food_name;
         }
+
 
         public void setId_food_name( String id_food_name ) {
             this.id_food_name = id_food_name;
         }
 
+
         public BigDecimal getId_other_weight() {
             return id_other_weight;
         }
+
 
         public void setId_other_weight( BigDecimal id_other_weight ) {
             this.id_other_weight = id_other_weight;
         }
 
+
         public BigDecimal getEnergy_energy_gross() {
             return energy_energy_gross;
         }
+
 
         public void setEnergy_energy_gross( BigDecimal energy_energy_gross ) {
             this.energy_energy_gross = energy_energy_gross;
         }
 
+
         public BigDecimal getEnergy_energy_digestible() {
             return energy_energy_digestible;
         }
+
 
         public void setEnergy_energy_digestible( BigDecimal energy_energy_digestible ) {
             this.energy_energy_digestible = energy_energy_digestible;
         }
 
+
         public BigDecimal getEnergy_energy_fat() {
             return energy_energy_fat;
         }
+
 
         public void setEnergy_energy_fat( BigDecimal energy_energy_fat ) {
             this.energy_energy_fat = energy_energy_fat;
         }
 
+
         public BigDecimal getEnergy_energy_carbohydrate() {
             return energy_energy_carbohydrate;
         }
+
 
         public void setEnergy_energy_carbohydrate( BigDecimal energy_energy_carbohydrate ) {
             this.energy_energy_carbohydrate = energy_energy_carbohydrate;
         }
 
+
         public BigDecimal getEnergy_energy_fat_and_carbohydrate() {
             return energy_energy_fat_and_carbohydrate;
         }
+
 
         public void setEnergy_energy_fat_and_carbohydrate( BigDecimal energy_energy_fat_and_carbohydrate ) {
             this.energy_energy_fat_and_carbohydrate = energy_energy_fat_and_carbohydrate;
         }
 
+
         public BigDecimal getEnergy_energy_protein() {
             return energy_energy_protein;
         }
+
 
         public void setEnergy_energy_protein( BigDecimal energy_energy_protein ) {
             this.energy_energy_protein = energy_energy_protein;
         }
 
+
         public BigDecimal getEnergy_energy_alcohol() {
             return energy_energy_alcohol;
         }
+
 
         public void setEnergy_energy_alcohol( BigDecimal energy_energy_alcohol ) {
             this.energy_energy_alcohol = energy_energy_alcohol;
         }
 
+
         public BigDecimal getMacronutrients_fats_total() {
             return macronutrients_fats_total;
         }
+
 
         public void setMacronutrients_fats_total( BigDecimal macronutrients_fats_total ) {
             this.macronutrients_fats_total = macronutrients_fats_total;
         }
 
+
         public BigDecimal getMacronutrients_carbohydrates_digestible() {
             return macronutrients_carbohydrates_digestible;
         }
+
 
         public void setMacronutrients_carbohydrates_digestible( BigDecimal macronutrients_carbohydrates_digestible ) {
             this.macronutrients_carbohydrates_digestible = macronutrients_carbohydrates_digestible;
         }
 
+
         public BigDecimal getMacronutrients_protein_total() {
             return macronutrients_protein_total;
         }
+
 
         public void setMacronutrients_protein_total( BigDecimal macronutrients_protein_total ) {
             this.macronutrients_protein_total = macronutrients_protein_total;
         }
 
+
         public BigDecimal getMacronutrients_other_alcohol() {
             return macronutrients_other_alcohol;
         }
+
 
         public void setMacronutrients_other_alcohol( BigDecimal macronutrients_other_alcohol ) {
             this.macronutrients_other_alcohol = macronutrients_other_alcohol;
         }
 
+
         public BigDecimal getProtein_energy_protein() {
             return protein_energy_protein;
         }
+
 
         public void setProtein_energy_protein( BigDecimal protein_energy_protein ) {
             this.protein_energy_protein = protein_energy_protein;
         }
 
+
         public BigDecimal getProtein_protein_total() {
             return protein_protein_total;
         }
+
 
         public void setProtein_protein_total( BigDecimal protein_protein_total ) {
             this.protein_protein_total = protein_protein_total;
         }
 
+
         public BigDecimal getProtein_protein_complete() {
             return protein_protein_complete;
         }
+
 
         public void setProtein_protein_complete( BigDecimal protein_protein_complete ) {
             this.protein_protein_complete = protein_protein_complete;
         }
 
+
         public BigDecimal getFats_energy_fat() {
             return fats_energy_fat;
         }
+
 
         public void setFats_energy_fat( BigDecimal fats_energy_fat ) {
             this.fats_energy_fat = fats_energy_fat;
         }
 
+
         public BigDecimal getFats_fats_total() {
             return fats_fats_total;
         }
+
 
         public void setFats_fats_total( BigDecimal fats_fats_total ) {
             this.fats_fats_total = fats_fats_total;
         }
 
+
         public BigDecimal getFats_fats_monounsaturated() {
             return fats_fats_monounsaturated;
         }
+
 
         public void setFats_fats_monounsaturated( BigDecimal fats_fats_monounsaturated ) {
             this.fats_fats_monounsaturated = fats_fats_monounsaturated;
         }
 
+
         public BigDecimal getFats_fats_polyunsaturated() {
             return fats_fats_polyunsaturated;
         }
+
 
         public void setFats_fats_polyunsaturated( BigDecimal fats_fats_polyunsaturated ) {
             this.fats_fats_polyunsaturated = fats_fats_polyunsaturated;
         }
 
+
         public BigDecimal getFats_fats_saturated() {
             return fats_fats_saturated;
         }
+
 
         public void setFats_fats_saturated( BigDecimal fats_fats_saturated ) {
             this.fats_fats_saturated = fats_fats_saturated;
         }
 
+
         public BigDecimal getFats_fats_cholesterol() {
             return fats_fats_cholesterol;
         }
+
 
         public void setFats_fats_cholesterol( BigDecimal fats_fats_cholesterol ) {
             this.fats_fats_cholesterol = fats_fats_cholesterol;
         }
 
+
         public BigDecimal getSfa_fats_saturated() {
             return sfa_fats_saturated;
         }
+
 
         public void setSfa_fats_saturated( BigDecimal sfa_fats_saturated ) {
             this.sfa_fats_saturated = sfa_fats_saturated;
         }
 
+
         public BigDecimal getSfa_fats_hcsfa() {
             return sfa_fats_hcsfa;
         }
+
 
         public void setSfa_fats_hcsfa( BigDecimal sfa_fats_hcsfa ) {
             this.sfa_fats_hcsfa = sfa_fats_hcsfa;
         }
 
+
         public BigDecimal getSfa_fats_lauric() {
             return sfa_fats_lauric;
         }
+
 
         public void setSfa_fats_lauric( BigDecimal sfa_fats_lauric ) {
             this.sfa_fats_lauric = sfa_fats_lauric;
         }
 
+
         public BigDecimal getSfa_fats_myristic() {
             return sfa_fats_myristic;
         }
+
 
         public void setSfa_fats_myristic( BigDecimal sfa_fats_myristic ) {
             this.sfa_fats_myristic = sfa_fats_myristic;
         }
 
+
         public BigDecimal getSfa_fats_palmitic() {
             return sfa_fats_palmitic;
         }
+
 
         public void setSfa_fats_palmitic( BigDecimal sfa_fats_palmitic ) {
             this.sfa_fats_palmitic = sfa_fats_palmitic;
         }
 
+
         public BigDecimal getSfa_fats_stearic() {
             return sfa_fats_stearic;
         }
+
 
         public void setSfa_fats_stearic( BigDecimal sfa_fats_stearic ) {
             this.sfa_fats_stearic = sfa_fats_stearic;
         }
 
+
         public BigDecimal getSfa_fats_cholesterol() {
             return sfa_fats_cholesterol;
         }
+
 
         public void setSfa_fats_cholesterol( BigDecimal sfa_fats_cholesterol ) {
             this.sfa_fats_cholesterol = sfa_fats_cholesterol;
         }
 
+
         public BigDecimal getPufa_fats_polyunsaturated() {
             return pufa_fats_polyunsaturated;
         }
+
 
         public void setPufa_fats_polyunsaturated( BigDecimal pufa_fats_polyunsaturated ) {
             this.pufa_fats_polyunsaturated = pufa_fats_polyunsaturated;
         }
 
+
         public BigDecimal getPufa_fats_linoleic() {
             return pufa_fats_linoleic;
         }
+
 
         public void setPufa_fats_linoleic( BigDecimal pufa_fats_linoleic ) {
             this.pufa_fats_linoleic = pufa_fats_linoleic;
         }
 
+
         public BigDecimal getPufa_fats_linolenic() {
             return pufa_fats_linolenic;
         }
+
 
         public void setPufa_fats_linolenic( BigDecimal pufa_fats_linolenic ) {
             this.pufa_fats_linolenic = pufa_fats_linolenic;
         }
 
+
         public BigDecimal getPufa_fats_epa() {
             return pufa_fats_epa;
         }
+
 
         public void setPufa_fats_epa( BigDecimal pufa_fats_epa ) {
             this.pufa_fats_epa = pufa_fats_epa;
         }
 
+
         public BigDecimal getPufa_fats_dha() {
             return pufa_fats_dha;
         }
+
 
         public void setPufa_fats_dha( BigDecimal pufa_fats_dha ) {
             this.pufa_fats_dha = pufa_fats_dha;
         }
 
+
         public BigDecimal getPufa_fats_lcn3pufa() {
             return pufa_fats_lcn3pufa;
         }
+
 
         public void setPufa_fats_lcn3pufa( BigDecimal pufa_fats_lcn3pufa ) {
             this.pufa_fats_lcn3pufa = pufa_fats_lcn3pufa;
         }
 
+
         public BigDecimal getCarbs_energy_carbohydrate() {
             return carbs_energy_carbohydrate;
         }
+
 
         public void setCarbs_energy_carbohydrate( BigDecimal carbs_energy_carbohydrate ) {
             this.carbs_energy_carbohydrate = carbs_energy_carbohydrate;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_carbs_by_diff() {
             return carbs_carbohydrates_carbs_by_diff;
         }
+
 
         public void setCarbs_carbohydrates_carbs_by_diff( BigDecimal carbs_carbohydrates_carbs_by_diff ) {
             this.carbs_carbohydrates_carbs_by_diff = carbs_carbohydrates_carbs_by_diff;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_fiber() {
             return carbs_carbohydrates_fiber;
         }
+
 
         public void setCarbs_carbohydrates_fiber( BigDecimal carbs_carbohydrates_fiber ) {
             this.carbs_carbohydrates_fiber = carbs_carbohydrates_fiber;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_fiber_insoluble() {
             return carbs_carbohydrates_fiber_insoluble;
         }
+
 
         public void setCarbs_carbohydrates_fiber_insoluble( BigDecimal carbs_carbohydrates_fiber_insoluble ) {
             this.carbs_carbohydrates_fiber_insoluble = carbs_carbohydrates_fiber_insoluble;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_fiber_soluble() {
             return carbs_carbohydrates_fiber_soluble;
         }
+
 
         public void setCarbs_carbohydrates_fiber_soluble( BigDecimal carbs_carbohydrates_fiber_soluble ) {
             this.carbs_carbohydrates_fiber_soluble = carbs_carbohydrates_fiber_soluble;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_digestible() {
             return carbs_carbohydrates_digestible;
         }
+
 
         public void setCarbs_carbohydrates_digestible( BigDecimal carbs_carbohydrates_digestible ) {
             this.carbs_carbohydrates_digestible = carbs_carbohydrates_digestible;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_starch() {
             return carbs_carbohydrates_starch;
         }
+
 
         public void setCarbs_carbohydrates_starch( BigDecimal carbs_carbohydrates_starch ) {
             this.carbs_carbohydrates_starch = carbs_carbohydrates_starch;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_sugars() {
             return carbs_carbohydrates_sugars;
         }
+
 
         public void setCarbs_carbohydrates_sugars( BigDecimal carbs_carbohydrates_sugars ) {
             this.carbs_carbohydrates_sugars = carbs_carbohydrates_sugars;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_sucrose() {
             return carbs_carbohydrates_sucrose;
         }
+
 
         public void setCarbs_carbohydrates_sucrose( BigDecimal carbs_carbohydrates_sucrose ) {
             this.carbs_carbohydrates_sucrose = carbs_carbohydrates_sucrose;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_lactose() {
             return carbs_carbohydrates_lactose;
         }
+
 
         public void setCarbs_carbohydrates_lactose( BigDecimal carbs_carbohydrates_lactose ) {
             this.carbs_carbohydrates_lactose = carbs_carbohydrates_lactose;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_fructose() {
             return carbs_carbohydrates_fructose;
         }
+
 
         public void setCarbs_carbohydrates_fructose( BigDecimal carbs_carbohydrates_fructose ) {
             this.carbs_carbohydrates_fructose = carbs_carbohydrates_fructose;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_glucose() {
             return carbs_carbohydrates_glucose;
         }
+
 
         public void setCarbs_carbohydrates_glucose( BigDecimal carbs_carbohydrates_glucose ) {
             this.carbs_carbohydrates_glucose = carbs_carbohydrates_glucose;
         }
 
+
         public BigDecimal getCarbs_carbohydrates_glycemic_load() {
             return carbs_carbohydrates_glycemic_load;
         }
+
 
         public void setCarbs_carbohydrates_glycemic_load( BigDecimal carbs_carbohydrates_glycemic_load ) {
             this.carbs_carbohydrates_glycemic_load = carbs_carbohydrates_glycemic_load;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_a() {
             return vitamins_vitamins_vitamin_a;
         }
+
 
         public void setVitamins_vitamins_vitamin_a( BigDecimal vitamins_vitamins_vitamin_a ) {
             this.vitamins_vitamins_vitamin_a = vitamins_vitamins_vitamin_a;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_d() {
             return vitamins_vitamins_vitamin_d;
         }
+
 
         public void setVitamins_vitamins_vitamin_d( BigDecimal vitamins_vitamins_vitamin_d ) {
             this.vitamins_vitamins_vitamin_d = vitamins_vitamins_vitamin_d;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_e() {
             return vitamins_vitamins_vitamin_e;
         }
+
 
         public void setVitamins_vitamins_vitamin_e( BigDecimal vitamins_vitamins_vitamin_e ) {
             this.vitamins_vitamins_vitamin_e = vitamins_vitamins_vitamin_e;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_c() {
             return vitamins_vitamins_vitamin_c;
         }
+
 
         public void setVitamins_vitamins_vitamin_c( BigDecimal vitamins_vitamins_vitamin_c ) {
             this.vitamins_vitamins_vitamin_c = vitamins_vitamins_vitamin_c;
         }
 
+
         public BigDecimal getVitamins_vitamins_thiamin() {
             return vitamins_vitamins_thiamin;
         }
+
 
         public void setVitamins_vitamins_thiamin( BigDecimal vitamins_vitamins_thiamin ) {
             this.vitamins_vitamins_thiamin = vitamins_vitamins_thiamin;
         }
 
+
         public BigDecimal getVitamins_vitamins_riboflavin() {
             return vitamins_vitamins_riboflavin;
         }
+
 
         public void setVitamins_vitamins_riboflavin( BigDecimal vitamins_vitamins_riboflavin ) {
             this.vitamins_vitamins_riboflavin = vitamins_vitamins_riboflavin;
         }
 
+
         public BigDecimal getVitamins_vitamins_niacin() {
             return vitamins_vitamins_niacin;
         }
+
 
         public void setVitamins_vitamins_niacin( BigDecimal vitamins_vitamins_niacin ) {
             this.vitamins_vitamins_niacin = vitamins_vitamins_niacin;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_b6() {
             return vitamins_vitamins_vitamin_b6;
         }
+
 
         public void setVitamins_vitamins_vitamin_b6( BigDecimal vitamins_vitamins_vitamin_b6 ) {
             this.vitamins_vitamins_vitamin_b6 = vitamins_vitamins_vitamin_b6;
         }
 
+
         public BigDecimal getVitamins_vitamins_folate() {
             return vitamins_vitamins_folate;
         }
+
 
         public void setVitamins_vitamins_folate( BigDecimal vitamins_vitamins_folate ) {
             this.vitamins_vitamins_folate = vitamins_vitamins_folate;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_b12() {
             return vitamins_vitamins_vitamin_b12;
         }
+
 
         public void setVitamins_vitamins_vitamin_b12( BigDecimal vitamins_vitamins_vitamin_b12 ) {
             this.vitamins_vitamins_vitamin_b12 = vitamins_vitamins_vitamin_b12;
         }
 
+
         public BigDecimal getVitamins_vitamins_vitamin_k() {
             return vitamins_vitamins_vitamin_k;
         }
+
 
         public void setVitamins_vitamins_vitamin_k( BigDecimal vitamins_vitamins_vitamin_k ) {
             this.vitamins_vitamins_vitamin_k = vitamins_vitamins_vitamin_k;
         }
 
+
         public BigDecimal getVitamins_vitamins_pantothenic_acid() {
             return vitamins_vitamins_pantothenic_acid;
         }
+
 
         public void setVitamins_vitamins_pantothenic_acid( BigDecimal vitamins_vitamins_pantothenic_acid ) {
             this.vitamins_vitamins_pantothenic_acid = vitamins_vitamins_pantothenic_acid;
         }
 
+
         public BigDecimal getVitamins_vitamins_choline() {
             return vitamins_vitamins_choline;
         }
+
 
         public void setVitamins_vitamins_choline( BigDecimal vitamins_vitamins_choline ) {
             this.vitamins_vitamins_choline = vitamins_vitamins_choline;
         }
 
+
         public BigDecimal getMinerals_minerals_calcium() {
             return minerals_minerals_calcium;
         }
+
 
         public void setMinerals_minerals_calcium( BigDecimal minerals_minerals_calcium ) {
             this.minerals_minerals_calcium = minerals_minerals_calcium;
         }
 
+
         public BigDecimal getMinerals_minerals_phosphorus() {
             return minerals_minerals_phosphorus;
         }
+
 
         public void setMinerals_minerals_phosphorus( BigDecimal minerals_minerals_phosphorus ) {
             this.minerals_minerals_phosphorus = minerals_minerals_phosphorus;
         }
 
+
         public BigDecimal getMinerals_minerals_magnesium() {
             return minerals_minerals_magnesium;
         }
+
 
         public void setMinerals_minerals_magnesium( BigDecimal minerals_minerals_magnesium ) {
             this.minerals_minerals_magnesium = minerals_minerals_magnesium;
         }
 
+
         public BigDecimal getMinerals_minerals_iron() {
             return minerals_minerals_iron;
         }
+
 
         public void setMinerals_minerals_iron( BigDecimal minerals_minerals_iron ) {
             this.minerals_minerals_iron = minerals_minerals_iron;
         }
 
+
         public BigDecimal getMinerals_minerals_zinc() {
             return minerals_minerals_zinc;
         }
+
 
         public void setMinerals_minerals_zinc( BigDecimal minerals_minerals_zinc ) {
             this.minerals_minerals_zinc = minerals_minerals_zinc;
         }
 
+
         public BigDecimal getMinerals_minerals_copper() {
             return minerals_minerals_copper;
         }
+
 
         public void setMinerals_minerals_copper( BigDecimal minerals_minerals_copper ) {
             this.minerals_minerals_copper = minerals_minerals_copper;
         }
 
+
         public BigDecimal getMinerals_minerals_manganese() {
             return minerals_minerals_manganese;
         }
+
 
         public void setMinerals_minerals_manganese( BigDecimal minerals_minerals_manganese ) {
             this.minerals_minerals_manganese = minerals_minerals_manganese;
         }
 
+
         public BigDecimal getMinerals_minerals_selenium() {
             return minerals_minerals_selenium;
         }
+
 
         public void setMinerals_minerals_selenium( BigDecimal minerals_minerals_selenium ) {
             this.minerals_minerals_selenium = minerals_minerals_selenium;
         }
 
+
         public BigDecimal getElectrolytes_minerals_potassium() {
             return electrolytes_minerals_potassium;
         }
+
 
         public void setElectrolytes_minerals_potassium( BigDecimal electrolytes_minerals_potassium ) {
             this.electrolytes_minerals_potassium = electrolytes_minerals_potassium;
         }
 
+
         public BigDecimal getElectrolytes_minerals_sodium() {
             return electrolytes_minerals_sodium;
         }
+
 
         public void setElectrolytes_minerals_sodium( BigDecimal electrolytes_minerals_sodium ) {
             this.electrolytes_minerals_sodium = electrolytes_minerals_sodium;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_flavonoids() {
             return phytonutrients_phytonutrients_flavonoids;
         }
+
 
         public void setPhytonutrients_phytonutrients_flavonoids( BigDecimal phytonutrients_phytonutrients_flavonoids ) {
             this.phytonutrients_phytonutrients_flavonoids = phytonutrients_phytonutrients_flavonoids;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_anthocyanins() {
             return phytonutrients_phytonutrients_anthocyanins;
         }
+
 
         public void setPhytonutrients_phytonutrients_anthocyanins(
                 BigDecimal phytonutrients_phytonutrients_anthocyanins ) {
             this.phytonutrients_phytonutrients_anthocyanins = phytonutrients_phytonutrients_anthocyanins;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_carotenoids() {
             return phytonutrients_phytonutrients_carotenoids;
         }
+
 
         public void setPhytonutrients_phytonutrients_carotenoids( BigDecimal phytonutrients_phytonutrients_carotenoids ) {
             this.phytonutrients_phytonutrients_carotenoids = phytonutrients_phytonutrients_carotenoids;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_flavanols() {
             return phytonutrients_phytonutrients_flavanols;
         }
+
 
         public void setPhytonutrients_phytonutrients_flavanols( BigDecimal phytonutrients_phytonutrients_flavanols ) {
             this.phytonutrients_phytonutrients_flavanols = phytonutrients_phytonutrients_flavanols;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_flavanones() {
             return phytonutrients_phytonutrients_flavanones;
         }
+
 
         public void setPhytonutrients_phytonutrients_flavanones( BigDecimal phytonutrients_phytonutrients_flavanones ) {
             this.phytonutrients_phytonutrients_flavanones = phytonutrients_phytonutrients_flavanones;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_flavones() {
             return phytonutrients_phytonutrients_flavones;
         }
+
 
         public void setPhytonutrients_phytonutrients_flavones( BigDecimal phytonutrients_phytonutrients_flavones ) {
             this.phytonutrients_phytonutrients_flavones = phytonutrients_phytonutrients_flavones;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_flavonols() {
             return phytonutrients_phytonutrients_flavonols;
         }
+
 
         public void setPhytonutrients_phytonutrients_flavonols( BigDecimal phytonutrients_phytonutrients_flavonols ) {
             this.phytonutrients_phytonutrients_flavonols = phytonutrients_phytonutrients_flavonols;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_isoflavones() {
             return phytonutrients_phytonutrients_isoflavones;
         }
+
 
         public void setPhytonutrients_phytonutrients_isoflavones( BigDecimal phytonutrients_phytonutrients_isoflavones ) {
             this.phytonutrients_phytonutrients_isoflavones = phytonutrients_phytonutrients_isoflavones;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_phytosterols() {
             return phytonutrients_phytonutrients_phytosterols;
         }
+
 
         public void setPhytonutrients_phytonutrients_phytosterols(
                 BigDecimal phytonutrients_phytonutrients_phytosterols ) {
             this.phytonutrients_phytonutrients_phytosterols = phytonutrients_phytonutrients_phytosterols;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_beta_carotene() {
             return phytonutrients_phytonutrients_beta_carotene;
         }
+
 
         public void setPhytonutrients_phytonutrients_beta_carotene(
                 BigDecimal phytonutrients_phytonutrients_beta_carotene ) {
             this.phytonutrients_phytonutrients_beta_carotene = phytonutrients_phytonutrients_beta_carotene;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_lutein_zeaxanthin() {
             return phytonutrients_phytonutrients_lutein_zeaxanthin;
         }
+
 
         public void setPhytonutrients_phytonutrients_lutein_zeaxanthin(
                 BigDecimal phytonutrients_phytonutrients_lutein_zeaxanthin ) {
             this.phytonutrients_phytonutrients_lutein_zeaxanthin = phytonutrients_phytonutrients_lutein_zeaxanthin;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_lycopene() {
             return phytonutrients_phytonutrients_lycopene;
         }
+
 
         public void setPhytonutrients_phytonutrients_lycopene( BigDecimal phytonutrients_phytonutrients_lycopene ) {
             this.phytonutrients_phytonutrients_lycopene = phytonutrients_phytonutrients_lycopene;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_caffeine() {
             return phytonutrients_phytonutrients_caffeine;
         }
+
 
         public void setPhytonutrients_phytonutrients_caffeine( BigDecimal phytonutrients_phytonutrients_caffeine ) {
             this.phytonutrients_phytonutrients_caffeine = phytonutrients_phytonutrients_caffeine;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_theobromine() {
             return phytonutrients_phytonutrients_theobromine;
         }
+
 
         public void setPhytonutrients_phytonutrients_theobromine( BigDecimal phytonutrients_phytonutrients_theobromine ) {
             this.phytonutrients_phytonutrients_theobromine = phytonutrients_phytonutrients_theobromine;
         }
 
+
         public BigDecimal getPhytonutrients_phytonutrients_gamma_tocopherol() {
             return phytonutrients_phytonutrients_gamma_tocopherol;
         }
+
 
         public void setPhytonutrients_phytonutrients_gamma_tocopherol(
                 BigDecimal phytonutrients_phytonutrients_gamma_tocopherol ) {
             this.phytonutrients_phytonutrients_gamma_tocopherol = phytonutrients_phytonutrients_gamma_tocopherol;
         }
 
+
         public BigDecimal getOther_other_cost() {
             return other_other_cost;
         }
+
 
         public void setOther_other_cost( BigDecimal other_other_cost ) {
             this.other_other_cost = other_other_cost;
         }
 
+
         public BigDecimal getOther_other_water() {
             return other_other_water;
         }
 
+
         public void setOther_other_water( BigDecimal other_other_water ) {
             this.other_other_water = other_other_water;
         }
+
 
         public boolean isNull() {
             return false;
@@ -1490,20 +1691,24 @@ public class TableFoodFacts extends JTable implements ShowCategory {
         private final List<String> columns;
         private int rowcount;
 
+
         public DataModel() {
             data = new ArrayList<>();
             columns = new ArrayList<>();
             setRowCount();
         }
 
+
         public void addColumn( String col ) {
             columns.add( col );
         }
+
 
         @Override
         public void addTableModelListener( TableModelListener l ) {
             super.addTableModelListener( l );
         }
+
 
         @Override
         public Class<?> getColumnClass( int c ) {
@@ -1516,20 +1721,24 @@ public class TableFoodFacts extends JTable implements ShowCategory {
             return columnClass;
         }
 
+
         @Override
         public int getColumnCount() {
             return columns.size();
         }
+
 
         @Override
         public String getColumnName( int c ) {
             return columns.get( c );
         }
 
+
         @Override
         public int getRowCount() {
             return rowcount;
         }
+
 
         @Override
         public Object getValueAt( int r, int c ) {
@@ -1539,15 +1748,18 @@ public class TableFoodFacts extends JTable implements ShowCategory {
             return data.get( r ).get( c );
         }
 
+
         @Override
         public boolean isCellEditable( int r, int c ) {
             return false;
         }
 
+
         @Override
         public void removeTableModelListener( TableModelListener l ) {
             super.removeTableModelListener( l );
         }
+
 
         @Override
         public void setValueAt( Object o, int r, int c ) {
@@ -1555,11 +1767,13 @@ public class TableFoodFacts extends JTable implements ShowCategory {
             fireTableDataChanged();
         }
 
+
         public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
             fireTableDataChanged();
         }
+
 
         @Override
         public void clear() {
@@ -1568,10 +1782,12 @@ public class TableFoodFacts extends JTable implements ShowCategory {
             fireTableDataChanged();
         }
 
+
         private void setRowCount() {
             rowcount = data.size();
         }
     }
+
 
     @Override
     protected JTableHeader createDefaultTableHeader() {

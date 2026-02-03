@@ -8,9 +8,11 @@ public enum TableColumnWidth {
     Scrollbar( 28 );
     private final Integer width;
 
+
     TableColumnWidth( Integer width ) {
         this.width = width;
     }
+
 
     public Integer getWidth() {
         return width;

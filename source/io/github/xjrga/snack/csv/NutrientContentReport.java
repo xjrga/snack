@@ -25,8 +25,10 @@ public class NutrientContentReport {
         Calories
     }
 
+
     public NutrientContentReport() {
     }
+
 
     public void create( JTextField textFieldNutrientLookup, JComboBox comboBoxNutrientLookupListNutrient ) {
         try ( FileWriter fileWriter = new FileWriter( "models/nutrientcontent.csv" ) ) {
