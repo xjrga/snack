@@ -136,7 +136,7 @@ public class FoodFactInputPanel {
                 String nutrient = ( String ) tbl.getValueAt( selectedRowNo, 2 );
                 Object valueAt = tbl.getValueAt( selectedRowNo, 3 );
                 BigDecimal weight = ( BigDecimal ) valueAt;
-                txtNutrientValue.setText( ( new DecimalFormat( "######0.0#################" ) ).format( weight ) );
+                txtNutrientValue.setText( ( new DecimalFormat( "######0.##################" ) ).format( weight ) );
                 labelNutrientWeight.setText( nutrient );
             }
         } );
@@ -298,8 +298,8 @@ public class FoodFactInputPanel {
         int completeProteinIndex = tbl.find( "10001" );
         BigDecimal protein = ( BigDecimal ) tbl.getValueAt( proteinIndex, columnIndex );
         BigDecimal completeProtein = ( BigDecimal ) tbl.getValueAt( completeProteinIndex, columnIndex );
-        txtProtein.setText( ( new DecimalFormat( "######0.0#################" ) ).format( protein ) );
-        txtCompleteProtein.setText( ( new DecimalFormat( "######0.0#################" ) ).format( completeProtein ) );
+        txtProtein.setText( ( new DecimalFormat( "######0.##################" ) ).format( protein ) );
+        txtCompleteProtein.setText( ( new DecimalFormat( "######0.##################" ) ).format( completeProtein ) );
         pnl.setLayout( lyo );
         pnl.add( lblProtein, cc.xy( 1, 1 ) );
         pnl.add( txtProtein, cc.xy( 2, 1 ) );
@@ -361,10 +361,10 @@ public class FoodFactInputPanel {
         BigDecimal sfa = ( BigDecimal ) tbl.getValueAt( sfaIndex, columnIndex );
         BigDecimal mufa = ( BigDecimal ) tbl.getValueAt( mufaIndex, columnIndex );
         BigDecimal pufa = ( BigDecimal ) tbl.getValueAt( pufaIndex, columnIndex );
-        txtFat.setText( ( new DecimalFormat( "######0.0#################" ) ).format( fat ) );
-        txtSfa.setText( ( new DecimalFormat( "######0.0#################" ) ).format( sfa ) );
-        txtMufa.setText( ( new DecimalFormat( "######0.0#################" ) ).format( mufa ) );
-        txtPufa.setText( ( new DecimalFormat( "######0.0#################" ) ).format( pufa ) );
+        txtFat.setText( ( new DecimalFormat( "######0.##################" ) ).format( fat ) );
+        txtSfa.setText( ( new DecimalFormat( "######0.##################" ) ).format( sfa ) );
+        txtMufa.setText( ( new DecimalFormat( "######0.##################" ) ).format( mufa ) );
+        txtPufa.setText( ( new DecimalFormat( "######0.##################" ) ).format( pufa ) );
         pnl.setLayout( lyo );
         pnl.add( lblFat, cc.xy( 1, 1 ) );
         pnl.add( txtFat, cc.xy( 2, 1 ) );
@@ -528,6 +528,7 @@ public class FoodFactInputPanel {
     public Food getFood() {
         Food food = new Food();
         food.setFoodName( txtFoodName.getText() );
+        tbl.clearSearch();
         int rowNo = tbl.getRowCount();
         for ( int j = 0; j < rowNo; j++ ) {
             String nutrientid = ( String ) tbl.getValueAt( j, 0 );

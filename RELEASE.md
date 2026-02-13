@@ -477,3 +477,10 @@
 ### 1630 - February 03, 2026
 
   * Fixed block group action on group constraints
+
+### 1640 - February 12, 2026
+
+  * Bug fixes
+    - Fixed "new food item not saved" when foodfact input table is filtered
+    - Fixed "group constraints not deleted" during "pin mix and delete constraint" action
+  * Changed fat ratio calculations at both "show mix statistics" and "show food statistics" actions.

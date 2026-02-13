@@ -3,11 +3,10 @@ package io.github.xjrga.snack.jcomponents;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
 import io.github.xjrga.snack.renderers.RoundDownRenderer;
-import io.github.xjrga.snack.renderers.RoundUpRenderer;
+import io.github.xjrga.snack.renderers.RoundUpRenderer2;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
@@ -188,7 +187,7 @@ public class TableFoodFactInput extends JTable {
 
 
     public void roundUp() {
-        getColumnModel().getColumn( 3 ).setCellRenderer( new RoundUpRenderer() );
+        getColumnModel().getColumn( 3 ).setCellRenderer(new RoundUpRenderer2() );
         revalidate();
         repaint();
     }
@@ -203,9 +202,7 @@ public class TableFoodFactInput extends JTable {
 
     @Override
     public void editingStopped( ChangeEvent e ) {
-        String nutrientValue
-                = ( new DecimalFormat( "###0.0" ) ).format( getCellEditor().getCellEditorValue() );
-        txtNutrientValueDisplay.setText( nutrientValue );
+        txtNutrientValueDisplay.setText( ( ( BigDecimal ) getCellEditor().getCellEditorValue() ).toPlainString() );
         super.editingStopped( e );
     }
 
@@ -398,4 +395,9 @@ public class TableFoodFactInput extends JTable {
         };
     }
     protected String[] columnToolTips = new String[]{ "NutrientId", "Category", "Nutrient", "Weight" };
+
+
+    public void clearSearch() {
+        txtSearch.setText( "" );
+    }
 }

@@ -1,267 +1,262 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project.name" basedir="." default="">
-  <tstamp>
-    <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
-  </tstamp>
-  <tstamp>
-    <format property="backup_timestamp" pattern="yyyy_MM_dd_HH_mm_ss"/>
-  </tstamp>
-  <path id="libraries">
-    <fileset dir="libraries">
-      <include name="**/*.jar"/>
-    </fileset>
-  </path>
-  <path id="libraries">
-    <fileset dir="libraries">
-      <include name="**/*.jar"/>
-    </fileset>
-  </path>
-  <target name="read-properties">
-    <property file="config/build.properties"/>
-  </target>
-  <target name="application-clean" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <delete dir="distribution"/>
-  </target>
-  <!-->Create thin application</-->
-  <target name="application-thin" depends="read-properties,application-clean">
-    <echo>${timestamp}</echo>
-    <manifestclasspath property="manifest-classpath" jarfile="${project.package.jar}.jar">
-      <classpath refid="libraries"/>
-    </manifestclasspath>
-    <jar destfile="distribution/${project.package.name}/${project.package.jar}.jar" basedir="build/main/classes" excludes="">
-      <manifest>
-        <attribute name="Created-By" value="${project.creator}"/>
-        <attribute name="Main-Class" value="${project.class}"/>
-        <attribute name="Class-Path" value="${manifest-classpath}"/>
-      </manifest>
-    </jar>
-    <copy todir="distribution/${project.package.name}/libraries">
-      <fileset dir="libraries">
-        <include name="**/*.jar"/>
-      </fileset>
-    </copy>
-    <copy todir="distribution/${project.package.name}/config">
-      <fileset dir="config">
-        <include name="**/*.*"/>
-        <exclude name="build.properties*"/>
-      </fileset>
-    </copy>
-    <copy todir="distribution/${project.package.name}/database">
-      <fileset dir="database">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-    <copy todir="distribution/${project.package.name}/models">
-      <fileset dir="models">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-  </target>
-  <!-->Create fat application</-->
-  <target name="application-fat" depends="read-properties,application-clean">
-    <echo>${timestamp}</echo>
-    <unzip dest="build/main/classes" overwrite="true">
-      <fileset dir="libraries">
-        <include name="**/*.jar"/>
-      </fileset>
-    </unzip>
-    <manifestclasspath property="manifest-classpath" jarfile="build/${project.package.jar}.jar">
-      <classpath refid="libraries"/>
-    </manifestclasspath>
-    <jar destfile="distribution/${project.package.name}/${project.package.jar}.jar" basedir="build/main/classes" excludes="">
-      <manifest>
-        <attribute name="Created-By" value="${project.creator}"/>
-        <attribute name="Main-Class" value="${project.class}"/>
-        <attribute name="Class-Path" value="${manifest-classpath}"/>
-      </manifest>
-    </jar>
-    <copy todir="distribution/${project.package.name}/config">
-      <fileset dir="config">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-    <copy todir="distribution/${project.package.name}/database">
-      <fileset dir="database">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-    <copy todir="distribution/${project.package.name}/models">
-      <fileset dir="models">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-  </target>
-  <target name="application-zip" depends="read-properties">
-    <zip destfile="distribution/${project.package.name}.zip" basedir="distribution" includes="${project.package.name}/**"/>
-  </target>
-  <target name="zipped-application-sign" depends="read-properties">
-    <exec executable="gpg">
-      <arg line="--output"/>
-      <arg line="distribution/${project.package.name}.zip.asc"/>
-      <arg line="--detach-sig"/>
-      <arg line="distribution/${project.package.name}.zip"/>
-    </exec>
-  </target>
-  <target name="zipped-application-verify" depends="read-properties">
-    <exec executable="gpg">
-      <arg line="--verify"/>
-      <arg line="distribution/${project.package.name}.zip.asc"/>
-      <arg line="distribution/${project.package.name}.zip"/>
-    </exec>
-  </target>
-  <target name="application-run" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <java jar="distribution/${project.package.name}/${project.package.jar}.jar" fork="true" dir="distribution/${project.package.name}" failonerror="false" maxmemory="2g"/>
-  </target>
-  <target name="application-debug" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <java jar="distribution/${project.package.name}/${project.package.jar}.jar" fork="true" dir="distribution/${project.package.name}" failonerror="false" maxmemory="2g">
-      <arg line="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"/>
-      <jvmarg value="-agentlib:jdwp=transport=dt_socket,address=${project.jpda.address}"/>
-    </java>
-    <exec executable="jdb">
-      <arg line="-sourcepath source -classpath build/main/classes:libraries io.github.xjrga.snack.gui.Main"/>
-    </exec>
-  </target>
-  <target name="source-clean" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <delete dir="build"/>
-  </target>
-  <target name="source-build" depends="read-properties,source-clean">
-    <echo>${timestamp}</echo>
-    <!--> Build main classes </-->
-    <mkdir dir="build/main/classes"/>
-    <javac release="17" includeantruntime="false" srcdir="source" destdir="build/main/classes" debug="true">
-      <classpath refid="libraries"/>
-    </javac>
-    <!--> Build test classes </-->
-    <mkdir dir="build/test/classes"/>
-    <mkdir dir="distribution"/>
-    <javac release="17" includeAntRuntime="false" srcdir="test" destdir="build/test/classes" debug="true">
-      <classpath>
-        <path>
-          <fileset dir="libraries">
+    <tstamp>
+        <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+    <tstamp>
+        <format property="backup_timestamp" pattern="yyyy_MM_dd_HH_mm_ss"/>
+    </tstamp>
+    <path id="libraries">
+        <fileset dir="libraries">
             <include name="**/*.jar"/>
-          </fileset>
-        </path>
-        <pathelement location="build/main/classes"/>
-      </classpath>
-    </javac>
-    <!--> Copy resources </-->
-    <mkdir dir="build/main/classes/resources"/>
-    <copy todir="build/main/classes/resources">
-      <fileset dir="resources">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-    <copy todir="build/main/classes">
-      <fileset dir=".">
-        <include name="**/*.md"/>
-      </fileset>
-    </copy>
-  </target>
-  <target name="source-run" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <java classname="${project.class}" fork="true" failonerror="true">
-      <classpath>
-        <path>
-          <fileset dir="libraries">
+        </fileset>
+    </path>
+    <path id="libraries">
+        <fileset dir="libraries">
             <include name="**/*.jar"/>
-          </fileset>
-        </path>
-        <pathelement location="build/main/classes"/>
-      </classpath>
-    </java>
-  </target>
-  <target name="source-info" depends="read-properties">
-    <echo>Date: ${timestamp}</echo>
-    <echo>Name: ${ant.project.name}</echo>
-    <echo>Directory:${basedir}</echo>
-    <echo>Java version: ${ant.java.version}</echo>
-    <echo>Java classpath: "${java.class.path}</echo>
-  </target>
-  <target name="source-backup" depends="read-properties,source-clean,application-clean">
-    <echo>Backup files to ${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz</echo>
-    <exec executable="tar">
-      <arg line="czfv"/>
-      <arg line="${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz"/>
-      <arg line="."/>
-    </exec>
-    <echo>Backup files to ${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz</echo>
-  </target>
-  <target name="source-javadoc" depends="read-properties">
-    <javadoc destdir="docs/html" author="true" version="true" use="true">
-      <fileset dir="source" defaultexcludes="yes">
-        <include name="io/github/xjrga/**"/>
-        <!--<exclude name="io/github/xjrga/MyTest*"/>-->
-      </fileset>
-      <classpath>
-        <path>
-          <fileset dir="libraries">
-            <include name="**/*.jar"/>
-          </fileset>
-        </path>
-        <pathelement location="build/main/classes"/>
-      </classpath>
-    </javadoc>
-  </target>
-  <target name="source-test" depends="read-properties,source-clean,source-build">
-    <junit printsummary="true" fork="true" dir=".">
-      <classpath>
-        <path>
-          <fileset dir="libraries">
-            <include name="**/*.jar"/>
-          </fileset>
-        </path>
-        <pathelement location="build/main/classes"/>
-        <pathelement location="build/test/classes"/>
-      </classpath>
-      <formatter type="plain" usefile="false"/>
-      <batchtest todir="build/test/data">
-        <fileset dir="build/test/classes"/>
-      </batchtest>
-    </junit>
-  </target>
-  <target name="zipped-application-site" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <copy file="distribution/${project.package.name}.zip" todir="${project.site.dir}" overwrite="true"/>
-    <copy file="distribution/${project.package.name}.zip.asc" todir="${project.site.dir}" overwrite="true"/>
-  </target>
-  <target name="all" depends="read-properties,source-build,application-thin,application-run,application-zip,zipped-application-sign,zipped-application-verify,zipped-application-site">
-    <echo>${timestamp}</echo>
-  </target>
-  <target name="all - unsigned" depends="read-properties,source-build,application-thin,application-zip">
-    <echo>${timestamp}</echo>
-  </target>
-  <target name="app-build-create-run" depends="source-build,application-thin,source-zip,application-run">
-    <echo>${timestamp}</echo>
-  </target>
-  <target name="app-build-create-zip" depends="source-build,application-thin,source-zip,application-zip">
-    <echo>${timestamp}</echo>
-  </target>
-  <target name="source-zip" depends="read-properties">
-    <echo>${timestamp}</echo>
-    <zip destfile="distribution/${project.package.name}-sources.zip" basedir="source" includes="**/*.java"/>
-  </target>
-  <target name="create-directory-structure" depends="">
-    <echo>${timestamp}</echo>
-    <mkdir dir="build/main/classes"/>
-    <mkdir dir="build/main/classes/resources"/>
-    <mkdir dir="build/test/classes"/>
-    <mkdir dir="build/test/data"/>
-    <mkdir dir="build/test/classes/resources"/>
-    <mkdir dir="database"/>
-    <mkdir dir="database/sql"/>
-    <mkdir dir="distribution"/>
-    <mkdir dir="docs/html"/>
-    <mkdir dir="libraries"/>
-    <mkdir dir="resources"/>
-    <mkdir dir="test"/>
-    <mkdir dir="source"/>
-  </target>
-  <!-- Compound Targets -->
-  <target name="source-build-and-run" depends="read-properties,source-build,source-run">
-    <echo>${timestamp}</echo>
-  </target>
+        </fileset>
+    </path>
+    <target name="read-properties">
+        <property file="config/build.properties"/>
+    </target>
+    <target name="app-clean" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <delete dir="distribution"/>
+    </target>
+    <!-->Create thin application</-->
+    <target name="app-thin" depends="read-properties,app-clean">
+        <echo>${timestamp}</echo>
+        <manifestclasspath property="manifest-classpath" jarfile="${project.package.jar}.jar">
+            <classpath refid="libraries"/>
+        </manifestclasspath>
+        <jar destfile="distribution/${project.package.name}/${project.package.jar}.jar" basedir="build/main/classes" excludes="">
+            <manifest>
+                <attribute name="Created-By" value="${project.creator}"/>
+                <attribute name="Main-Class" value="${project.class}"/>
+                <attribute name="Class-Path" value="${manifest-classpath}"/>
+            </manifest>
+        </jar>
+        <copy todir="distribution/${project.package.name}/libraries">
+            <fileset dir="libraries">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="distribution/${project.package.name}/config">
+            <fileset dir="config">
+                <include name="**/*.*"/>
+                <exclude name="build.properties*"/>
+            </fileset>
+        </copy>
+        <copy todir="distribution/${project.package.name}/database">
+            <fileset dir="database">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <copy todir="distribution/${project.package.name}/models">
+            <fileset dir="models">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+    <!-->Create fat application</-->
+    <target name="app-fat" depends="read-properties,app-clean">
+        <echo>${timestamp}</echo>
+        <unzip dest="build/main/classes" overwrite="true">
+            <fileset dir="libraries">
+                <include name="**/*.jar"/>
+            </fileset>
+        </unzip>
+        <manifestclasspath property="manifest-classpath" jarfile="build/${project.package.jar}.jar">
+            <classpath refid="libraries"/>
+        </manifestclasspath>
+        <jar destfile="distribution/${project.package.name}/${project.package.jar}.jar" basedir="build/main/classes" excludes="">
+            <manifest>
+                <attribute name="Created-By" value="${project.creator}"/>
+                <attribute name="Main-Class" value="${project.class}"/>
+                <attribute name="Class-Path" value="${manifest-classpath}"/>
+            </manifest>
+        </jar>
+        <copy todir="distribution/${project.package.name}/config">
+            <fileset dir="config">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <copy todir="distribution/${project.package.name}/database">
+            <fileset dir="database">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <copy todir="distribution/${project.package.name}/models">
+            <fileset dir="models">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="app-zip" depends="read-properties">
+        <zip destfile="distribution/${project.package.name}.zip" basedir="distribution" includes="${project.package.name}/**"/>
+    </target>
+    <target name="app-sign" depends="read-properties">
+        <exec executable="gpg">
+            <arg line="--output"/>
+            <arg line="distribution/${project.package.name}.zip.asc"/>
+            <arg line="--detach-sig"/>
+            <arg line="distribution/${project.package.name}.zip"/>
+        </exec>
+    </target>
+    <target name="app-verify" depends="read-properties">
+        <exec executable="gpg">
+            <arg line="--verify"/>
+            <arg line="distribution/${project.package.name}.zip.asc"/>
+            <arg line="distribution/${project.package.name}.zip"/>
+        </exec>
+    </target>
+    <target name="app-run" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <java jar="distribution/${project.package.name}/${project.package.jar}.jar" fork="true" dir="distribution/${project.package.name}" failonerror="false" maxmemory="2g"/>
+    </target>
+    <target name="app-debug" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <java jar="distribution/${project.package.name}/${project.package.jar}.jar" fork="true" dir="distribution/${project.package.name}" failonerror="false" maxmemory="2g">
+            <arg line="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"/>
+            <jvmarg value="-agentlib:jdwp=transport=dt_socket,address=${project.jpda.address}"/>
+        </java>
+        <exec executable="jdb">
+            <arg line="-sourcepath source -classpath build/main/classes:libraries io.github.xjrga.snack.gui.Main"/>
+        </exec>
+    </target>
+    <target name="source-clean" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <delete dir="build"/>
+    </target>
+    <target name="source-build" depends="read-properties,source-clean">
+        <echo>${timestamp}</echo>
+        <!--> Build main classes </-->
+        <mkdir dir="build/main/classes"/>
+        <javac release="17" includeantruntime="false" srcdir="source" destdir="build/main/classes" debug="true">
+            <classpath refid="libraries"/>
+        </javac>
+        <!--> Build test classes </-->
+        <mkdir dir="build/test/classes"/>
+        <mkdir dir="distribution"/>
+        <javac release="17" includeAntRuntime="false" srcdir="test" destdir="build/test/classes" debug="true">
+            <classpath>
+                <path>
+                    <fileset dir="libraries">
+                        <include name="**/*.jar"/>
+                    </fileset>
+                </path>
+                <pathelement location="build/main/classes"/>
+            </classpath>
+        </javac>
+        <!--> Copy resources </-->
+        <mkdir dir="build/main/classes/resources"/>
+        <copy todir="build/main/classes/resources">
+            <fileset dir="resources">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <copy todir="build/main/classes">
+            <fileset dir=".">
+                <include name="**/*.md"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="source-run" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <java classname="${project.class}" fork="true" failonerror="true">
+            <classpath>
+                <path>
+                    <fileset dir="libraries">
+                        <include name="**/*.jar"/>
+                    </fileset>
+                </path>
+                <pathelement location="build/main/classes"/>
+            </classpath>
+        </java>
+    </target>
+    <target name="source-info" depends="read-properties">
+        <echo>Date: ${timestamp}</echo>
+        <echo>Name: ${ant.project.name}</echo>
+        <echo>Directory:${basedir}</echo>
+        <echo>Java version: ${ant.java.version}</echo>
+        <echo>Java classpath: "${java.class.path}</echo>
+    </target>
+    <target name="source-backup" depends="read-properties,source-clean,app-clean">
+        <echo>Backup files to ${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz</echo>
+        <exec executable="tar">
+            <arg line="czfv"/>
+            <arg line="${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz"/>
+            <arg line="."/>
+        </exec>
+        <echo>Backup files to ${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz</echo>
+    </target>
+    <target name="source-javadoc" depends="read-properties">
+        <javadoc destdir="docs/html" author="true" version="true" use="true">
+            <fileset dir="source" defaultexcludes="yes">
+                <include name="io/github/xjrga/**"/>
+                <!--<exclude name="io/github/xjrga/MyTest*"/>-->
+            </fileset>
+            <classpath>
+                <path>
+                    <fileset dir="libraries">
+                        <include name="**/*.jar"/>
+                    </fileset>
+                </path>
+                <pathelement location="build/main/classes"/>
+            </classpath>
+        </javadoc>
+    </target>
+    <target name="source-test" depends="read-properties,source-clean,source-build">
+        <junit printsummary="true" fork="true" dir=".">
+            <classpath>
+                <path>
+                    <fileset dir="libraries">
+                        <include name="**/*.jar"/>
+                    </fileset>
+                </path>
+                <pathelement location="build/main/classes"/>
+                <pathelement location="build/test/classes"/>
+            </classpath>
+            <formatter type="plain" usefile="false"/>
+            <batchtest todir="build/test/data">
+                <fileset dir="build/test/classes"/>
+            </batchtest>
+        </junit>
+    </target>
+    <target name="app-site" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <copy file="distribution/${project.package.name}-sources.zip" todir="${project.site.dir}" overwrite="true"/>
+        <copy file="distribution/${project.package.name}.zip" todir="${project.site.dir}" overwrite="true"/>
+        <copy file="distribution/${project.package.name}.zip.asc" todir="${project.site.dir}" overwrite="true"/>
+    </target>
+    <target name="app-thin-and-run" depends="source-build,app-thin,app-run,source-zip">
+        <echo>${timestamp}</echo>
+    </target>
+    <target name="app-thin-and-zip" depends="source-build,app-thin,app-zip,source-zip">
+        <echo>${timestamp}</echo>
+    </target>
+    <target name="source-zip" depends="read-properties">
+        <echo>${timestamp}</echo>
+        <zip destfile="distribution/${project.package.name}-sources.zip" basedir="source" includes="**/*.java"/>
+    </target>
+    <target name="dir-create" depends="">
+        <echo>${timestamp}</echo>
+        <mkdir dir="build/main/classes"/>
+        <mkdir dir="build/main/classes/resources"/>
+        <mkdir dir="build/test/classes"/>
+        <mkdir dir="build/test/data"/>
+        <mkdir dir="build/test/classes/resources"/>
+        <mkdir dir="database"/>
+        <mkdir dir="database/sql"/>
+        <mkdir dir="distribution"/>
+        <mkdir dir="docs/html"/>
+        <mkdir dir="libraries"/>
+        <mkdir dir="resources"/>
+        <mkdir dir="test"/>
+        <mkdir dir="source"/>
+    </target>
+    <!-- Compound Targets -->
+    <target name="source-build-and-run" depends="read-properties,source-build,source-run">
+        <echo>${timestamp}</echo>
+    </target>
 </project>

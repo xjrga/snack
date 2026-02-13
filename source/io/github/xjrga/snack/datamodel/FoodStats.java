@@ -29,7 +29,7 @@ public class FoodStats implements ReloadMixid {
         try {
             Future<List<Map<String, BigDecimal>>> task = BackgroundExec.submit( new FoodStatisticsTask( foodid ) );
             List<Map<String, BigDecimal>> stats = task.get();
-            DecimalFormat df = new DecimalFormat( "####.#" );
+            DecimalFormat df = new DecimalFormat( "####.##" );
             stats.forEach( row -> {
                 BigDecimal fatpct = row.get( "FATPCT" );
                 BigDecimal carbpct = row.get( "CARBPCT" );
@@ -43,8 +43,9 @@ public class FoodStats implements ReloadMixid {
                 BigDecimal electrolyteratio = row.get( "ELECTROLYTERATIO" );
                 BigDecimal lapct = row.get( "LAPCT" );
                 BigDecimal alapct = row.get( "ALAPCT" );
-                BigDecimal psratio = row.get( "PSRATIO" );
-                BigDecimal msratio = row.get( "MSRATIO" );
+                BigDecimal sratio = row.get( "SRATIO" );
+                BigDecimal pratio = row.get( "PRATIO" );
+                BigDecimal mratio = row.get( "MRATIO" );
                 sb.append( "Fat: " );
                 sb.append( df.format( fatpct ) );
                 sb.append( "%\n" );
@@ -72,11 +73,14 @@ public class FoodStats implements ReloadMixid {
                 sb.append( "Alpha-linolenic Acid: " );
                 sb.append( df.format( alapct ) );
                 sb.append( "%\n" );
-                sb.append( "Ratio PUFA/SFA: " );
-                sb.append( df.format( psratio ) );
+                sb.append( "Ratio SFA/TF: " );
+                sb.append( df.format( sratio ) );
                 sb.append( "\n" );
-                sb.append( "Ratio MUFA/SFA: " );
-                sb.append( df.format( msratio ) );
+                sb.append( "Ratio PUFA/TF: " );
+                sb.append( df.format( pratio ) );
+                sb.append( "\n" );
+                sb.append( "Ratio MUFA/TF: " );
+                sb.append( df.format( mratio ) );
                 sb.append( "\n" );
                 sb.append( "Ratio LA/ALA: " );
                 sb.append( df.format( essentialfatratio ) );

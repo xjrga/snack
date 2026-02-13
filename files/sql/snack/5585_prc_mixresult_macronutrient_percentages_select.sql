@@ -22,8 +22,9 @@ SELECT
        get_electrolyte_ratio(v_MixId) AS electrolyteratio,
        CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_linoleic*9) / SUM(energy_digestible)*100) AS linoleicacidpct,
        CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_linolenic*9) / SUM(energy_digestible)*100) AS alphalinolenicacidpct,
-       get_polyufat_ratio(v_MixId) AS psratio,
-       get_monoufat_ratio(v_MixId) AS msratio
+       get_polyufat_ratio(v_MixId) AS pratio,
+       get_monoufat_ratio(v_MixId) AS mratio,
+       get_satfat_ratio(v_MixId) AS sratio
 FROM DnMixResult
 WHERE mix_id = v_MixId;
 --

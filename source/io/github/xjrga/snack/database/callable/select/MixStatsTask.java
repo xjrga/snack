@@ -47,8 +47,9 @@ public class MixStatsTask implements Callable<List<Map<String, Object>>> {
                 row.put( "ELECTROLYTERATIO", rs.getBigDecimal( 11 ) );
                 row.put( "LAPCT", rs.getBigDecimal( 12 ) );
                 row.put( "ALAPCT", rs.getBigDecimal( 13 ) );
-                row.put( "PSRATIO", rs.getBigDecimal( 14 ) );
-                row.put( "MSRATIO", rs.getBigDecimal( 15 ) );
+                row.put( "PRATIO", rs.getBigDecimal( 14 ) );
+                row.put( "MRATIO", rs.getBigDecimal( 15 ) );
+                row.put( "SRATIO", rs.getBigDecimal( 16 ) );
                 list.add( row );
             }
         } catch ( Exception e ) {

@@ -27,10 +27,12 @@ CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'645')*9
 CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'618')*9 / get_foodfact (v_foodid,'10009'))*100) AS elapct,
 --eAlphaLinolenicAcidPct
 CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'619')*9 / get_foodfact (v_foodid,'10009'))*100) AS ealapct,
---pufa/sfa
-CASEWHEN(get_foodfact (v_foodid,'606') <= 0,0,get_foodfact (v_foodid,'646') / get_foodfact (v_foodid,'606')) AS pufa_sfa,
---mufa/sfa
-CASEWHEN(get_foodfact (v_foodid,'606') <= 0,0,get_foodfact (v_foodid,'645') / get_foodfact (v_foodid,'606')) AS mufa_sfa,
+--sfa/tf
+CASEWHEN(get_foodfact (v_foodid,'204') <= 0,0,get_foodfact (v_foodid,'606') / get_foodfact (v_foodid,'204')) AS sfa_tf,
+--pufa/tf
+CASEWHEN(get_foodfact (v_foodid,'204') <= 0,0,get_foodfact (v_foodid,'646') / get_foodfact (v_foodid,'204')) AS pufa_tf,
+--mufa/tf
+CASEWHEN(get_foodfact (v_foodid,'204') <= 0,0,get_foodfact (v_foodid,'645') / get_foodfact (v_foodid,'204')) AS mufa_tf,
 --la/ala
 CASEWHEN(get_foodfact (v_foodid,'619') <= 0,0,get_foodfact (v_foodid,'618') / get_foodfact (v_foodid,'619')) AS la_ala,
 --k/na

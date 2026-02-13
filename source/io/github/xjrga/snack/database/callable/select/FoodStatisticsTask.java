@@ -44,11 +44,12 @@ public class FoodStatisticsTask implements Callable<List<Map<String, BigDecimal>
                 row.put( "MONOUFATPCT", rs.getBigDecimal( 7 ) );
                 row.put( "LAPCT", rs.getBigDecimal( 8 ) );
                 row.put( "ALAPCT", rs.getBigDecimal( 9 ) );
-                row.put( "PSRATIO", rs.getBigDecimal( 10 ) );
-                row.put( "MSRATIO", rs.getBigDecimal( 11 ) );
-                row.put( "ESSENTIALFATRATIO", rs.getBigDecimal( 12 ) );
-                row.put( "ELECTROLYTERATIO", rs.getBigDecimal( 13 ) );
-                row.put( "FQ", rs.getBigDecimal( 14 ) );
+                row.put( "SRATIO", rs.getBigDecimal( 10 ) );
+                row.put( "PRATIO", rs.getBigDecimal( 11 ) );
+                row.put( "MRATIO", rs.getBigDecimal( 12 ) );
+                row.put( "ESSENTIALFATRATIO", rs.getBigDecimal( 13 ) );
+                row.put( "ELECTROLYTERATIO", rs.getBigDecimal( 14 ) );
+                row.put( "FQ", rs.getBigDecimal( 15 ) );
                 list.add( row );
             }
         } catch ( Exception e ) {

@@ -630,7 +630,7 @@ BEGIN ATOMIC
 --
 DECLARE ratio DECIMAL(25, 18);
 --
-SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_polyunsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
+SELECT CASEWHEN (SUM(fats_total) <= 0,0,SUM(fats_polyunsaturated) / SUM(fats_total)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --
@@ -645,7 +645,22 @@ BEGIN ATOMIC
 --
 DECLARE ratio DECIMAL(25, 18);
 --
-SELECT CASEWHEN (SUM(fats_saturated) <= 0,0,SUM(fats_monounsaturated) / SUM(fats_saturated)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
+SELECT CASEWHEN (SUM(fats_total) <= 0,0,SUM(fats_monounsaturated) / SUM(fats_total)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
+--
+RETURN ratio;
+--
+END;
+/
+
+
+CREATE FUNCTION get_satfat_ratio (IN v_MixId LONGVARCHAR) RETURNS DOUBLE
+--
+READS SQL DATA
+BEGIN ATOMIC
+--
+DECLARE ratio DECIMAL(25, 18);
+--
+SELECT CASEWHEN (SUM(fats_total) <= 0,0,SUM(fats_saturated) / SUM(fats_total)) INTO ratio FROM DnMixResult WHERE mix_id = v_MixId;
 --
 RETURN ratio;
 --
@@ -1009,10 +1024,12 @@ CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'645')*9
 CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'618')*9 / get_foodfact (v_foodid,'10009'))*100) AS elapct,
 --eAlphaLinolenicAcidPct
 CASEWHEN(get_foodfact (v_foodid,'10009') <= 0,0,(get_foodfact (v_foodid,'619')*9 / get_foodfact (v_foodid,'10009'))*100) AS ealapct,
---pufa/sfa
-CASEWHEN(get_foodfact (v_foodid,'606') <= 0,0,get_foodfact (v_foodid,'646') / get_foodfact (v_foodid,'606')) AS pufa_sfa,
---mufa/sfa
-CASEWHEN(get_foodfact (v_foodid,'606') <= 0,0,get_foodfact (v_foodid,'645') / get_foodfact (v_foodid,'606')) AS mufa_sfa,
+--sfa/tf
+CASEWHEN(get_foodfact (v_foodid,'204') <= 0,0,get_foodfact (v_foodid,'606') / get_foodfact (v_foodid,'204')) AS sfa_tf,
+--pufa/tf
+CASEWHEN(get_foodfact (v_foodid,'204') <= 0,0,get_foodfact (v_foodid,'646') / get_foodfact (v_foodid,'204')) AS pufa_tf,
+--mufa/tf
+CASEWHEN(get_foodfact (v_foodid,'204') <= 0,0,get_foodfact (v_foodid,'645') / get_foodfact (v_foodid,'204')) AS mufa_tf,
 --la/ala
 CASEWHEN(get_foodfact (v_foodid,'619') <= 0,0,get_foodfact (v_foodid,'618') / get_foodfact (v_foodid,'619')) AS la_ala,
 --k/na
@@ -4518,8 +4535,9 @@ SELECT
        get_electrolyte_ratio(v_MixId) AS electrolyteratio,
        CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_linoleic*9) / SUM(energy_digestible)*100) AS linoleicacidpct,
        CASEWHEN (SUM(energy_digestible) <= 0,0,SUM(fats_linolenic*9) / SUM(energy_digestible)*100) AS alphalinolenicacidpct,
-       get_polyufat_ratio(v_MixId) AS psratio,
-       get_monoufat_ratio(v_MixId) AS msratio
+       get_polyufat_ratio(v_MixId) AS pratio,
+       get_monoufat_ratio(v_MixId) AS mratio,
+       get_satfat_ratio(v_MixId) AS sratio
 FROM DnMixResult
 WHERE mix_id = v_MixId;
 --
@@ -6855,6 +6873,7 @@ DELETE FROM NutrientQuantityC WHERE MixId = v_mixid;
 DELETE FROM FoodQuantityC WHERE MixId = v_mixid;
 DELETE FROM FoodRatioC WHERE MixId = v_mixid;
 DELETE FROM NutrientRatioC WHERE MixId = v_mixid;
+DELETE FROM FoodGroupQuantityC WHERE MixId = v_mixid;
 INSERT INTO FoodQuantityC
 SELECT mixid,foodid,'10000' as nutrientid,3 as relationshipid,x as b
 FROM mixfood
