@@ -10,13 +10,13 @@ public class GoldenRatio {
 
     public static Integer getLongSide( Integer length ) {
         BigDecimal v = new BigDecimal( length ).multiply( goldenRatio );
-        v.setScale( 2, RoundingMode.HALF_UP );
+        v.setScale( 2, RoundingMode.HALF_EVEN );
         return v.intValue();
     }
 
 
     public static Integer getShortSide( Integer length ) {
-        BigDecimal v = new BigDecimal( length ).divide( goldenRatio, 2, RoundingMode.HALF_UP );
+        BigDecimal v = new BigDecimal( length ).divide( goldenRatio, 2, RoundingMode.HALF_EVEN );
         return v.intValue();
     }
 

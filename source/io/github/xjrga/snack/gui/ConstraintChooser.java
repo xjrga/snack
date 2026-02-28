@@ -100,7 +100,7 @@ public class ConstraintChooser {
         JPanel pnl01 = new JPanel();
         FormLayout lyo01 = new FormLayout(
                 "min,min", // columns
-                "min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min" // rows
+                "min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min,min" // rows
         );
         pnl.setLayout( lyo );
         JScrollPane scr = new JScrollPane( pnl01 );
@@ -155,7 +155,7 @@ public class ConstraintChooser {
     private int createDialog( JComponent[] inputs, String title ) {
         JOptionPane optionPane = new JOptionPane( inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
         JDialog dialog = optionPane.createDialog( title );
-        dialog.setMinimumSize( new Dimension( 400, 600 ) );
+        dialog.setMinimumSize( new Dimension( 450, 600 ) );
         dialog.setLocation( 550, 50 );
         dialog.setVisible( true );
         // 0 - Ok

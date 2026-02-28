@@ -132,13 +132,13 @@
         <echo>${timestamp}</echo>
         <!--> Build main classes </-->
         <mkdir dir="build/main/classes"/>
-        <javac release="17" includeantruntime="false" srcdir="source" destdir="build/main/classes" debug="true">
+        <javac release="21" includeantruntime="false" srcdir="source" destdir="build/main/classes" debug="true">
             <classpath refid="libraries"/>
         </javac>
         <!--> Build test classes </-->
         <mkdir dir="build/test/classes"/>
         <mkdir dir="distribution"/>
-        <javac release="17" includeAntRuntime="false" srcdir="test" destdir="build/test/classes" debug="true">
+        <javac release="21" includeAntRuntime="false" srcdir="test" destdir="build/test/classes" debug="true">
             <classpath>
                 <path>
                     <fileset dir="libraries">

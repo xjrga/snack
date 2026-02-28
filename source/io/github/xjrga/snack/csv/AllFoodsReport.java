@@ -12,18 +12,18 @@ import java.time.LocalDateTime;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-public class AllFoodsReport1 {
+public class AllFoodsReport {
 
     private final Connection connection;
 
 
-    public AllFoodsReport1() {
+    public AllFoodsReport() {
         connection = Connect.getInstance().getConnection();
     }
 
 
     public void create() {
-        try ( FileWriter fileWriter = new FileWriter( "models/allfoods1.csv" ) ) {
+        try ( FileWriter fileWriter = new FileWriter( "models/allfoods.csv" ) ) {
             CallableStatement proc = connection.prepareCall( "{CALL public.getNutrients()}" );
             ResultSet rs = proc.executeQuery();
             StringBuilder comment = new StringBuilder();
@@ -31,7 +31,7 @@ public class AllFoodsReport1 {
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
                     .setCommentMarker( '#' )
-                    .setHeaderComments( "All Foods Report #1", comment.toString(), LocalDateTime.now() )
+                    .setHeaderComments( "All Foods Report", comment.toString(), LocalDateTime.now() )
                     .setHeader( rs )
                     .get();
             CSVPrinter csvPrinter = new CSVPrinter( fileWriter, csvFormat );
@@ -43,7 +43,8 @@ public class AllFoodsReport1 {
                 BigDecimal q = rs.getBigDecimal( 5 );
                 String units = rs.getString( 6 );
                 Integer dri = rs.getInt( 7 );
-                csvPrinter.printRecord( foodid, nutrientid, food, nutrient, Utilities.strip( q ), units, dri );
+                Integer calculated = rs.getInt( 8 );
+                csvPrinter.printRecord( foodid, nutrientid, food, nutrient, Utilities.strip( q ), units, dri, calculated );
             }
         } catch ( Exception e ) {
             LoggerImpl.INSTANCE.logProblem( e );

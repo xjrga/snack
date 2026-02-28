@@ -4,13 +4,14 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import io.github.xjrga.snack.csv.DriReport;
 import io.github.xjrga.snack.csv.FoodComparisonReport;
+import io.github.xjrga.snack.csv.MD5MixResults;
 import io.github.xjrga.snack.csv.MealPlanCaloriesReport;
 import io.github.xjrga.snack.csv.MealPlanMacronutrientsReport;
 import io.github.xjrga.snack.csv.MealPlanPortionsReport;
 import io.github.xjrga.snack.csv.MealPlanUsageReport;
 import io.github.xjrga.snack.csv.MixComparisonReport;
 import io.github.xjrga.snack.csv.MixResultsReport;
-import io.github.xjrga.snack.csv.MixResultsReport2;
+import io.github.xjrga.snack.csv.MixResultsReportDn;
 import io.github.xjrga.snack.csv.MixTotalsReport;
 import io.github.xjrga.snack.csv.NutrientContentReport;
 import io.github.xjrga.snack.database.Connect;
@@ -119,8 +120,8 @@ import io.github.xjrga.snack.database.query.AllocateAction;
 import io.github.xjrga.snack.database.query.MixFoodsQuery;
 import io.github.xjrga.snack.database.query.UpdateMixAction;
 import io.github.xjrga.snack.database.query.UpdateMixFoodAction;
-import io.github.xjrga.snack.database.runnable.CreateAllFoodsReport1Task;
-import io.github.xjrga.snack.database.runnable.CreateAllFoodsReport2Task;
+import io.github.xjrga.snack.database.runnable.CreateAllFoodsReportDnTask;
+import io.github.xjrga.snack.database.runnable.CreateAllFoodsReportTask;
 import io.github.xjrga.snack.datamodel.FoodStats;
 import io.github.xjrga.snack.datamodel.MixFoodLoader;
 import io.github.xjrga.snack.datamodel.NutrientLoader;
@@ -180,6 +181,8 @@ import io.github.xjrga.snack.other.ImageUtilities;
 import io.github.xjrga.snack.other.KatchMcArdleFormula;
 import io.github.xjrga.snack.other.MinimumNutrientRequirements;
 import io.github.xjrga.snack.other.NumberCheck;
+import io.github.xjrga.snack.other.Objective;
+import io.github.xjrga.snack.other.ObjectiveFormatter;
 import io.github.xjrga.snack.other.PanelSpacer;
 import io.github.xjrga.snack.other.RegexCheck;
 import io.github.xjrga.snack.other.Shutdown;
@@ -189,6 +192,7 @@ import io.github.xjrga.snack.other.Utilities;
 import io.github.xjrga.snack.renderers.ComboMixRenderer;
 import io.github.xjrga.snack.xml.FoodsImporter;
 import io.github.xjrga.snack.xml.MixImporter;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -231,6 +235,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -240,6 +247,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -342,8 +351,8 @@ public class Main {
     private final JMenuItem mniCalculateProteinRequired;
     private final JMenuItem mniConvertDRI;
     private final JMenuItem mniConvertMix;
-    private final JMenuItem mniCreateAllFoodsReport1;
-    private final JMenuItem mniCreateAllFoodsReport2;
+    private final JMenuItem mniCreateAllFoodsReport;
+    private final JMenuItem mniCreateAllFoodsReportDn;
     private final JMenuItem mniCreateMixDriReport;
     private final JMenuItem mniCreateFoodComparisonReport;
     private final JMenuItem mniCreateMealPlanUsageReport;
@@ -353,9 +362,10 @@ public class Main {
     private final JMenuItem mniCreateMix;
     private final JMenuItem mniCreateMixComparisonReport;
     private final JMenuItem mniCreateMixTotalsReport;
-    private final JMenuItem mniCreateMixResultsReport1;
-    private final JMenuItem mniCreateMixResultsReport2;
+    private final JMenuItem mniCreateMixResultsReportDn;
+    private final JMenuItem mniCreateMixResultsReport;
     private final JMenuItem mniCreateNutrientSearchReport;
+    private final JMenuItem mniCreateMD5MixResultsReport;
     private final JMenuItem mniDELETEALL;
     private final JMenuItem mniDELETEMIXES;
     private final JMenuItem mniDeleteMix;
@@ -393,7 +403,7 @@ public class Main {
     private final TreeModelFood treeModel;
     private ComboBox<LifeStageDO> cmbLifestage;
     private Spinner<LifeStageDO> spnLifestage;
-    private Spinner<String> spnMinimizationOption;
+    private Spinner<Objective> spnMinimizationOption;
     private ComboBox<MixDO> cmbMixes;
     private TableCategory tblAllFoodCategories;
     private TableGroups tblFoodGroups;
@@ -425,7 +435,7 @@ public class Main {
     private TablePortionMeals tblMeals;
     private TableLog tblLog;
     private final Connection connection;
-    private int minimizationOption;
+    private Objective minimizationOption;
     private NutrientCategorySelector selectorMixResultsTable;
     private MixDO selectedMix;
     private String selectedMixId;
@@ -438,6 +448,7 @@ public class Main {
 
 
     public Main( Splash splash ) {
+        selectedMixId = "";
         LoggerImpl.INSTANCE.filter( "io.github.xjrga.*" );
         logo = ImageUtilities.readImageFromUrl( Utilities.getResourceAsUrl( "/resources/images/logo.png" ) );
         cc = new CellConstraints();
@@ -515,8 +526,8 @@ public class Main {
         mniCalculateProteinRequired = new JMenuItem();
         mniConvertDRI = new JMenuItem();
         mniConvertMix = new JMenuItem();
-        mniCreateAllFoodsReport1 = new JMenuItem();
-        mniCreateAllFoodsReport2 = new JMenuItem();
+        mniCreateAllFoodsReport = new JMenuItem();
+        mniCreateAllFoodsReportDn = new JMenuItem();
         mniCreateMixDriReport = new JMenuItem();
         mniCreateFoodComparisonReport = new JMenuItem();
         mniCreateMealPlanUsageReport = new JMenuItem();
@@ -526,9 +537,10 @@ public class Main {
         mniCreateMix = new JMenuItem();
         mniCreateMixComparisonReport = new JMenuItem();
         mniCreateMixTotalsReport = new JMenuItem();
-        mniCreateMixResultsReport1 = new JMenuItem();
-        mniCreateMixResultsReport2 = new JMenuItem();
+        mniCreateMixResultsReportDn = new JMenuItem();
+        mniCreateMixResultsReport = new JMenuItem();
         mniCreateNutrientSearchReport = new JMenuItem();
+        mniCreateMD5MixResultsReport = new JMenuItem();
         mniDELETEALL = new JMenuItem();
         mniDELETEMIXES = new JMenuItem();
         mniDeleteMix = new JMenuItem();
@@ -564,7 +576,7 @@ public class Main {
         relationshipLoader = new RelationshipLoader();
         tblMealPlanUsageMixes = new TableMix();
         treeModel = new TreeModelFood();
-        minimizationOption = 0;
+        minimizationOption = Objective.DRIUL;
         txtMinimization.setText( "DRI Deficiency" );
         txtMinimization.setLineWrap( true );
         txtMinimization.setEditable( false );
@@ -649,6 +661,7 @@ public class Main {
         LifeStageDO lifestage8 = new LifeStageDO( 8, "Males (51-70 y)" );
         cmbLifestage.setSelectedItem( lifestage8 );
         spnLifestage.setSelectedItem( lifestage8 );
+        spnMinimizationOption.setSelectedItem( Objective.DRIUL );
         if ( !cmbMixes.isEmpty() ) {
             cmbMixes.setSelectedIndex( 0 );
         }
@@ -1087,10 +1100,16 @@ public class Main {
         tblDri = new TableDri();
         spnLifestage = new Spinner<>();
         spnMinimizationOption = new Spinner<>();
+        JFormattedTextField txtLifestage = ( ( DefaultEditor ) spnLifestage.getEditor() ).getTextField();
+        JFormattedTextField txtMinimizationOption = ( ( DefaultEditor ) spnMinimizationOption.getEditor() ).getTextField();
+        txtLifestage.setEditable( false );
+        txtLifestage.setCaretColor( new Color( 95, 99, 102 ) );
+        txtMinimizationOption.setEditable( false );
+        txtMinimizationOption.setCaretColor( new Color( 95, 99, 102 ) );
         ArrayList list = new ArrayList();
-        list.add( "DRI Deficiency" );
-        list.add( "DRI Deficiency And UL Excess" );
-        list.add( "DRI Deficiency And DRI Excess" );
+        list.add( Objective.DRI );
+        list.add( Objective.DRIUL );
+        list.add( Objective.DRIDRI );
         spnMinimizationOption.reload( list );
         lblNutrient.setHorizontalAlignment( SwingConstants.RIGHT );
         lblFood.setHorizontalAlignment( SwingConstants.RIGHT );
@@ -1193,7 +1212,14 @@ public class Main {
             cmbLifestage.setSelectedItem( lifestage );
         } );
         spnMinimizationOption.addChangeListener( ( ChangeEvent e ) -> {
-            minimizationOption = spnMinimizationOption.getSelectedIndex();
+            minimizationOption = spnMinimizationOption.getSelectedItem();
+            txtMinimizationOption.setFormatterFactory( new AbstractFormatterFactory() {
+                @Override
+                public AbstractFormatter getFormatter( JFormattedTextField tf ) {
+                    return new ObjectiveFormatter();
+                }
+            } );
+            txtMinimizationOption.setToolTipText( minimizationOption.tooltip() );
         } );
         return splMain;
     }
@@ -1895,21 +1921,26 @@ public class Main {
         mnuTools.add( mniCalculateGIRange );
         mnuTools.add( mniCalculateALARequired );
         mnuData.add( mnuFoodsData );
+        mnuData.add( new JSeparator() );
         mnuData.add( mnuMixModel );
+        mnuData.add( new JSeparator() );
         mnuData.add( mnuDELETE );
-        mnuReport.add( mniCreateMixTotalsReport );
-        mnuReport.add( mniCreateMixResultsReport1 );
-        mnuReport.add( mniCreateMixResultsReport2 );
-        mnuReport.add( mniCreateMixDriReport );
-        mnuReport.add( mniCreateMixComparisonReport );
-        mnuReport.add( mniCreateMealPlanPortionsReport );
+        mnuReport.add( mniCreateFoodComparisonReport );
         mnuReport.add( mniCreateMealPlanCaloriesReport );
         mnuReport.add( mniCreateMealPlanMacronutrientsReport );
+        mnuReport.add( mniCreateMealPlanPortionsReport );
         mnuReport.add( mniCreateMealPlanUsageReport );
+        mnuReport.add( mniCreateMixComparisonReport );
+        mnuReport.add( mniCreateMixDriReport );
+        mnuReport.add( mniCreateMixResultsReportDn );
+        mnuReport.add( mniCreateMixResultsReport );
+        mnuReport.add( mniCreateMixTotalsReport );
         mnuReport.add( mniCreateNutrientSearchReport );
-        mnuReport.add( mniCreateFoodComparisonReport );
-        mnuReport.add( mniCreateAllFoodsReport1 );
-        mnuReport.add( mniCreateAllFoodsReport2 );
+        mnuReport.add( new JSeparator() );
+        mnuReport.add( mniCreateAllFoodsReportDn );
+        mnuReport.add( mniCreateAllFoodsReport );
+        //mnuReport.add( new JSeparator() );
+        //mnuReport.add( this.mniCreateMD5MixResultsReport );
         mnuDELETE.add( mniDELETEMIXES );
         mnuDELETE.add( mniDELETEALL );
         mnuMixModel.add( mniImportMixModel );
@@ -1947,19 +1978,20 @@ public class Main {
         mnuMixModel.setText( "Model" );
         mnuMixResult.setText( "Result" );
         mnuFoodsData.setText( "Food" );
-        mniCreateAllFoodsReport1.setText( "All Foods #1" );
-        mniCreateAllFoodsReport2.setText( "All Foods #2" );
+        mniCreateAllFoodsReportDn.setText( "All Foods" );
+        mniCreateAllFoodsReport.setText( "All Foods Normalized" );
         mniCreateFoodComparisonReport.setText( "Food Comparison" );
         mniCreateMixDriReport.setText( "Mix Daily Reference Intake" );
         mniCreateMixComparisonReport.setText( "Mix Comparison" );
         mniCreateMixTotalsReport.setText( "Mix Totals" );
-        mniCreateMixResultsReport1.setText( "Mix Results #1" );
-        mniCreateMixResultsReport2.setText( "Mix Results #2" );
+        mniCreateMixResultsReportDn.setText( "Mix Results" );
+        mniCreateMixResultsReport.setText( "Mix Results Normalized" );
         mniCreateNutrientSearchReport.setText( "Nutrient Search" );
         mniCreateMealPlanCaloriesReport.setText( "Meal Plan Calories" );
         mniCreateMealPlanMacronutrientsReport.setText( "Meal Plan Macronutrients" );
         mniCreateMealPlanPortionsReport.setText( "Meal Plan Portions" );
         mniCreateMealPlanUsageReport.setText( "Meal Plan Usage" );
+        mniCreateMD5MixResultsReport.setText( "MD5 Mix Results" );
         mniImportMixModel.setText( "Import" );
         mniExportMixModel.setText( "Export" );
         mniImportFoods.setText( "Import" );
@@ -2006,11 +2038,11 @@ public class Main {
         mniCalculateGIRange.addActionListener( ( ActionEvent evt ) -> {
             calculateGlycemicIndexRange();
         } );
-        mniCreateAllFoodsReport1.addActionListener( ( ActionEvent evt ) -> {
-            createAllFoodsReport1();
+        mniCreateAllFoodsReport.addActionListener( ( ActionEvent evt ) -> {
+            createAllFoodsReport();
         } );
-        mniCreateAllFoodsReport2.addActionListener( ( ActionEvent evt ) -> {
-            createAllFoodsReport2();
+        mniCreateAllFoodsReportDn.addActionListener( ( ActionEvent evt ) -> {
+            createAllFoodsReportDn();
         } );
         mniCreateFoodComparisonReport.addActionListener( ( ActionEvent evt ) -> {
             if ( tblFoodDiffA.isSelectionEmpty() || tblFoodDiffB.isSelectionEmpty() ) {
@@ -2032,13 +2064,13 @@ public class Main {
             createMixTotalsReport();
             Message.showMessage( "Mix Totals Report appended." );
         } );
-        mniCreateMixResultsReport1.addActionListener( ( ActionEvent evt ) -> {
-            createMixResultsReport1();
-            Message.showMessage( "Mix Results Report #1 created." );
+        mniCreateMixResultsReportDn.addActionListener( ( ActionEvent evt ) -> {
+            createMixResultsReportDn();
+            Message.showMessage( "Mix Results Report Denormalized created." );
         } );
-        mniCreateMixResultsReport2.addActionListener( ( ActionEvent evt ) -> {
-            createMixResultsReport2();
-            Message.showMessage( "Mix Results Report #2 created." );
+        mniCreateMixResultsReport.addActionListener( ( ActionEvent evt ) -> {
+            createMixResultsReport();
+            Message.showMessage( "Mix Results Report created." );
         } );
         mniCreateMixDriReport.addActionListener( ( ActionEvent evt ) -> {
             createDriReport();
@@ -2083,6 +2115,14 @@ public class Main {
             }
             createMealPlanUsageReport();
             Message.showMessage( "Meal Plan Usage Report created." );
+        } );
+        mniCreateMD5MixResultsReport.addActionListener( ( ActionEvent evt ) -> {
+            if ( tblMixResults.isEmpty() ) {
+                Message.showMessage( "There are no results." );
+                return;
+            }
+            createMD5MixResultsReport();
+            Message.showMessage( "MD5 Mix Results Report created." );
         } );
         mniDELETEMIXES.addActionListener( ( ActionEvent evt ) -> {
             deleteAllMixes();
@@ -2330,13 +2370,22 @@ public class Main {
         buttonCollapseMixFood.setToolTipText( "Collapse Food List" );
         buttonAddMixFood.addActionListener( e -> {
             if ( cmbMixes.isEmpty() ) {
-                Message.showMessage( "Please create new mix." );
+                Message.showMessage( "Create or import mix." );
             }
             addMixFood();
         } );
-        buttonDeleteMixFood.addActionListener( e -> deleteMixFood() );
-        buttonExpandMixFood.addActionListener( e -> expandFoods() );
-        buttonCollapseMixFood.addActionListener( e -> collapseFoods() );
+        buttonDeleteMixFood.addActionListener( e -> {
+            if ( cmbMixes.isEmpty() ) {
+                Message.showMessage( "Create or import mix." );
+            }
+            deleteMixFood();
+        } );
+        buttonExpandMixFood.addActionListener( e -> {
+            expandFoods();
+        } );
+        buttonCollapseMixFood.addActionListener( e -> {
+            collapseFoods();
+        } );
         txtSearch
                 .getDocument()
                 .addDocumentListener(
@@ -2367,7 +2416,7 @@ public class Main {
                         if ( txtSearch.getText().length() < 2 ) {
                             return;
                         }
-                        String regex = getRegex( txtSearch.getText() );
+                        String regex = getRegex( "(?i)" + txtSearch.getText() );
                         RegexCheck check = new RegexCheck( regex );
                         if ( !check.pass() ) {
                             return;
@@ -2706,10 +2755,16 @@ public class Main {
 
     private Boolean checkFoodConstraint() {
         boolean flag_isReady = false;
+        boolean flag_mix = false;
         boolean flag_listFood = false;
         boolean flag_listNutrient = false;
         boolean flag_listRelationship = false;
         boolean flag_quantity = false;
+        if ( !selectedMixId.isEmpty() ) {
+            flag_mix = true;
+        } else {
+            Message.showMessage( "Create or import mix" );
+        }
         if ( !cmbFoodQuantityFood.isSelectionEmpty() ) {
             flag_listFood = true;
         } else {
@@ -2739,12 +2794,18 @@ public class Main {
 
     private Boolean checkFoodRatioConstraint() {
         boolean flag_isReady = false;
+        boolean flag_mix = false;
         boolean flag_listFoodA = false;
         boolean flag_listNutrientA = false;
         boolean flag_quantityA = false;
         boolean flag_listFoodB = false;
         boolean flag_listNutrientB = false;
         boolean flag_quantityB = false;
+        if ( !selectedMixId.isEmpty() ) {
+            flag_mix = true;
+        } else {
+            Message.showMessage( "Create or import mix" );
+        }
         if ( !cmbFoodRatioFoodA.isSelectionEmpty() ) {
             flag_listFoodA = true;
         } else {
@@ -2789,9 +2850,15 @@ public class Main {
 
     private Boolean checkNutrientQuantityConstraint() {
         boolean flag_isReady = false;
+        boolean flag_mix = false;
         boolean flag_listNutrient = false;
         boolean flag_listNutrientRelationship = false;
         boolean flag_textFieldNutrientConstraint = false;
+        if ( !selectedMixId.isEmpty() ) {
+            flag_mix = true;
+        } else {
+            Message.showMessage( "Create or import mix" );
+        }
         if ( !cmbNutrientQuantityNutrient.isSelectionEmpty() ) {
             flag_listNutrient = true;
         } else {
@@ -2816,10 +2883,16 @@ public class Main {
 
     private Boolean checkNutrientRatioConstraint() {
         boolean flag_isReady = false;
+        boolean flag_mix = false;
         boolean flag_listNutrientA = false;
         boolean flag_listNutrientB = false;
         boolean flag_quantityA = false;
         boolean flag_quantityB = false;
+        if ( !selectedMixId.isEmpty() ) {
+            flag_mix = true;
+        } else {
+            Message.showMessage( "Create or import mix" );
+        }
         if ( !cmbNutrientRatioNutrientA.isSelectionEmpty() ) {
             flag_listNutrientA = true;
         } else {
@@ -3288,7 +3361,7 @@ public class Main {
             sb.append( " " );
             sb.append( relationshipDO.getName() );
             sb.append( " " );
-            sb.append( ( new DecimalFormat( "###0.0" ) ).format( b ) );
+            sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( b ) );
             addLogEntry(
                     selectedMixName,
                     "Add",
@@ -3332,7 +3405,7 @@ public class Main {
                 sb.append( " " );
                 sb.append( row.getRelationship() );
                 sb.append( " " );
-                sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getB() ) );
+                sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getB() ) );
                 addLogEntry(
                         selectedMixName,
                         "Delete",
@@ -3413,9 +3486,9 @@ public class Main {
                     sb.append( " " );
                     sb.append( relationshipDO.getName() );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( a ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( a ) );
                     sb.append( " / " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( b ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( b ) );
                     addLogEntry(
                             selectedMixName,
                             "Add",
@@ -3470,9 +3543,9 @@ public class Main {
                 sb.append( " " );
                 sb.append( row.getRelationship() );
                 sb.append( " " );
-                sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getA() ) );
+                sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getA() ) );
                 sb.append( " / " );
-                sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getB() ) );
+                sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getB() ) );
                 addLogEntry(
                         selectedMixName,
                         "Delete",
@@ -3633,28 +3706,32 @@ public class Main {
         pnl.add( lblMealOrder, cc.xy( 1, 3 ) );
         pnl.add( txtMealOrder, cc.xy( 2, 3 ) );
         JComponent[] inputs = { pnl };
-        int optionValue = Message.showOptionDialogOkCancel( inputs, "Add Meal" );
-        if ( optionValue == 0 ) {
-            NumberCheck checkNumber = new NumberCheck();
-            checkNumber.addToUncheckedList( txtMealOrder.getText() );
-            if ( checkNumber.pass() ) {
-                String mealname = txtMealName.getText();
-                Integer mealorder = Integer.valueOf( txtMealOrder.getText() );
-                try {
-                    Future<Integer> task
-                            = BackgroundExec.submit( new CreateMealTask( selectedMixId, mealname, mealorder ) );
-                    Integer mealid = task.get();
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-                try {
-                    Future<List<List>> task = BackgroundExec.submit( new MealPlanMealsTask( selectedMixId ) );
-                    List<List> meals = task.get();
-                    tblMeals.reload( meals );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
+        if ( !selectedMixId.isEmpty() ) {
+            int optionValue = Message.showOptionDialogOkCancel( inputs, "Add Meal" );
+            if ( optionValue == 0 ) {
+                NumberCheck checkNumber = new NumberCheck();
+                checkNumber.addToUncheckedList( txtMealOrder.getText() );
+                if ( checkNumber.pass() ) {
+                    String mealname = txtMealName.getText();
+                    Integer mealorder = Integer.valueOf( txtMealOrder.getText() );
+                    try {
+                        Future<Integer> task
+                                = BackgroundExec.submit( new CreateMealTask( selectedMixId, mealname, mealorder ) );
+                        Integer mealid = task.get();
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                    try {
+                        Future<List<List>> task = BackgroundExec.submit( new MealPlanMealsTask( selectedMixId ) );
+                        List<List> meals = task.get();
+                        tblMeals.reload( meals );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
                 }
             }
+        } else {
+            Message.showMessage( "Create or import mix" );
         }
     }
 
@@ -3869,7 +3946,7 @@ public class Main {
                     sb.append( " " );
                     sb.append( relationshipDO.getName() );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( b ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( b ) );
                     addLogEntry(
                             selectedMixName,
                             "Add",
@@ -3915,7 +3992,7 @@ public class Main {
             sb.append( " " );
             sb.append( row.getRelationship() );
             sb.append( " " );
-            sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getB() ) );
+            sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getB() ) );
             addLogEntry(
                     selectedMixName,
                     "Delete",
@@ -3969,9 +4046,9 @@ public class Main {
                     sb.append( " " );
                     sb.append( relationshipDO.getName() );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( A ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( A ) );
                     sb.append( " / " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( B ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( B ) );
                     addLogEntry(
                             selectedMixName,
                             "Add",
@@ -4019,9 +4096,9 @@ public class Main {
             sb.append( " " );
             sb.append( row.getRelationship() );
             sb.append( " " );
-            sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getA() ) );
+            sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getA() ) );
             sb.append( " / " );
-            sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getB() ) );
+            sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getB() ) );
             addLogEntry(
                     selectedMixName,
                     "Delete",
@@ -4057,14 +4134,12 @@ public class Main {
             program.setComponent( getNoSolutionPanel() );
             // ----- MINIMIZATION OPTION -----
             switch ( minimizationOption ) {
-                case 0 ->
+                case Objective.DRI ->
                     minimizeDRIDeficiency( mixid, program, print, lifestageid );
-                case 1 ->
-                    minimizeDRIDeficiencyAndULExcess( mixid, program, print, lifestageid );
-                case 2 ->
+                case Objective.DRIDRI ->
                     minimizeDRIDeficiencyAndDRIExcess( mixid, program, print, lifestageid );
-                default ->
-                    minimizeDRIDeficiency( mixid, program, print, lifestageid );
+                case Objective.DRIUL ->
+                    minimizeDRIDeficiencyAndULExcess( mixid, program, print, lifestageid );
             }
             // ----- LEGENDS -----
             print.addMixLegend( mixname );
@@ -4244,7 +4319,7 @@ public class Main {
 
 
     private void setTheHighScore( Double tni ) {
-        listModelHighScore.addElement( ( new DecimalFormat( "###0.00000" ) ).format( tni ) );
+        listModelHighScore.addElement( ( new DecimalFormat( "######0.0####" ) ).format( tni ) );
         lstHighScore.ensureIndexIsVisible( listModelHighScore.getSize() - 1 );
         lstHighScore.setSelectedIndex( lstHighScore.getLastVisibleIndex() );
     }
@@ -4508,7 +4583,7 @@ public class Main {
                 String foodid = food.getFoodId();
                 Future<BigDecimal> task = BackgroundExec.submit( new UnallocatedFoodPercentageTask( mixid, foodid ) );
                 BigDecimal remaining = task.get();
-                String fRemaining = ( new DecimalFormat( "###0.0" ) ).format( remaining );
+                String fRemaining = ( new DecimalFormat( "######0.0#################" ) ).format( remaining );
                 txtTotalPct.setText( fRemaining );
             } catch ( Exception e ) {
                 LoggerImpl.INSTANCE.logProblem( e );
@@ -4745,15 +4820,15 @@ public class Main {
     }
 
 
-    private void createAllFoodsReport1() {
+    private void createAllFoodsReport() {
         frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-        BackgroundExec.execute( new CreateAllFoodsReport1Task( frm ) );
+        BackgroundExec.execute( new CreateAllFoodsReportTask( frm ) );
     }
 
 
-    private void createAllFoodsReport2() {
+    private void createAllFoodsReportDn() {
         frm.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-        BackgroundExec.execute( new CreateAllFoodsReport2Task( frm ) );
+        BackgroundExec.execute( new CreateAllFoodsReportDnTask( frm ) );
     }
 
 
@@ -4787,13 +4862,18 @@ public class Main {
     }
 
 
-    private void createMixResultsReport1() {
+    private void createMixResultsReportDn() {
+        ( new MixResultsReportDn() ).create( selectedMix );
+    }
+
+
+    private void createMixResultsReport() {
         ( new MixResultsReport() ).create( selectedMix );
     }
 
 
-    private void createMixResultsReport2() {
-        ( new MixResultsReport2() ).create( selectedMix );
+    private void createMD5MixResultsReport() {
+        ( new MD5MixResults() ).create( tblMixResults );
     }
 
 
@@ -5033,7 +5113,7 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 4 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 5 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 5 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Delete",
@@ -5057,9 +5137,9 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 6 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 5 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 5 ) ) );
                     sb.append( " / " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 8 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 8 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Delete",
@@ -5083,7 +5163,7 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 6 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 7 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 7 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Delete",
@@ -5111,9 +5191,9 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 9 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 8 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 8 ) ) );
                     sb.append( " / " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 12 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 12 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Delete",
@@ -5138,7 +5218,7 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 6 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 7 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 7 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Add",
@@ -5174,7 +5254,7 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 6 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 7 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 7 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Delete",
@@ -5199,7 +5279,7 @@ public class Main {
                     sb.append( " " );
                     sb.append( row.get( 6 ) );
                     sb.append( " " );
-                    sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.get( 7 ) ) );
+                    sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.get( 7 ) ) );
                     addLogEntry(
                             selectedMixName,
                             "Add",
@@ -5280,9 +5360,9 @@ public class Main {
                     BigDecimal alaLow = n3_fatty_acid_recommendation.get_low_in_grams();
                     BigDecimal alaHigh = n3_fatty_acid_recommendation.get_high_in_grams();
                     sb.append( "Alpha-linolenic Acid required is between " );
-                    sb.append( alaLow.setScale( 1, RoundingMode.HALF_UP ) );
+                    sb.append( alaLow.setScale( 1, RoundingMode.HALF_EVEN ) );
                     sb.append( " and " );
-                    sb.append( alaHigh.setScale( 1, RoundingMode.HALF_UP ) );
+                    sb.append( alaHigh.setScale( 1, RoundingMode.HALF_EVEN ) );
                     sb.append( " grams." );
                     Message.showMessagePadW510H150( "Alpha-linolenic Acid, ALA, 18:3 n-3", sb.toString() );
                 } else {
@@ -5355,7 +5435,7 @@ public class Main {
         cmbFoodQuantityFood.setSelectedIndex( foodIndex );
         cmbFoodQuantityNutrient.setSelectedIndex( nutrientIndex );
         cmbFoodQuantityRelationship.setSelectedIndex( relationshipIndex );
-        txtFoodQuantityValue.setText( ( new DecimalFormat( "###0.000" ) ).format( q ) );
+        txtFoodQuantityValue.setText( ( new DecimalFormat( "######0.0#################" ) ).format( q ) );
     }
 
 
@@ -5376,9 +5456,9 @@ public class Main {
         cmbFoodRatioFoodA.setSelectedIndex( foodAIndex );
         cmbFoodRatioFoodB.setSelectedIndex( foodBIndex );
         cmbFoodRatioNutrientA.setSelectedIndex( nutrientAindex );
-        txtFoodNutrientRatioQuantityA.setText( ( new DecimalFormat( "###0.000" ) ).format( qA ) );
+        txtFoodNutrientRatioQuantityA.setText( ( new DecimalFormat( "######0.0#################" ) ).format( qA ) );
         cmbFoodRatioNutrientB.setSelectedIndex( nutrientBindex );
-        txtFoodNutrientRatioQuantityB.setText( ( new DecimalFormat( "###0.000" ) ).format( qB ) );
+        txtFoodNutrientRatioQuantityB.setText( ( new DecimalFormat( "######0.0#################" ) ).format( qB ) );
         cmbFoodRatioRelationship.setSelectedIndex( relationshipindex );
     }
 
@@ -5392,7 +5472,7 @@ public class Main {
         int relationshipindex = cmbNutrientQuantityRelationship.index( new RelationshipDO( relationshipid, "" ) );
         cmbNutrientQuantityNutrient.setSelectedIndex( nutrientindex );
         cmbNutrientQuantityRelationship.setSelectedIndex( relationshipindex );
-        txtNutrientQuantityValue.setText( ( new DecimalFormat( "###0.000" ) ).format( q ) );
+        txtNutrientQuantityValue.setText( ( new DecimalFormat( "######0.0#################" ) ).format( q ) );
     }
 
 
@@ -5407,9 +5487,9 @@ public class Main {
         int nutrientBindex = cmbNutrientRatioNutrientB.index( new NutrientDO( nutrientidb, "", new BigDecimal( "-1" ) ) );
         int relationshipindex = cmbNutrientRatioRelationship.index( new RelationshipDO( relationshipid, "" ) );
         cmbNutrientRatioNutrientA.setSelectedIndex( nutrientAindex );
-        txtNutrientRatioNutrientA.setText( ( new DecimalFormat( "###0.000" ) ).format( qA ) );
+        txtNutrientRatioNutrientA.setText( ( new DecimalFormat( "######0.0#################" ) ).format( qA ) );
         cmbNutrientRatioNutrientB.setSelectedIndex( nutrientBindex );
-        txtNutrientRatioNutrientB.setText( ( new DecimalFormat( "###0.000" ) ).format( qB ) );
+        txtNutrientRatioNutrientB.setText( ( new DecimalFormat( "######0.0#################" ) ).format( qB ) );
         cmbNutrientRatioRelationship.setSelectedIndex( relationshipindex );
     }
 
@@ -5447,13 +5527,15 @@ public class Main {
         cmbFoodRatioNutrientA.reload( nutrientLoader.getList() );
         cmbFoodRatioNutrientB.reload( nutrientLoader.getList() );
         cmbNutrientContentNutrient.reload( nutrientLoader.getList() );
-        cmbNutrientQuantityNutrient.setSelectedIndex( 13 );
-        cmbNutrientRatioNutrientA.setSelectedIndex( 0 );
-        cmbNutrientRatioNutrientB.setSelectedIndex( 0 );
-        cmbFoodQuantityNutrient.setSelectedIndex( 46 );
-        cmbGroupNutrient.setSelectedIndex( 46 );
-        cmbFoodRatioNutrientA.setSelectedIndex( 46 );
-        cmbFoodRatioNutrientB.setSelectedIndex( 46 );
+        int index_for_energy_digestible = 13;
+        int index_for_weight = 56;
+        cmbNutrientQuantityNutrient.setSelectedIndex( index_for_energy_digestible );
+        cmbFoodQuantityNutrient.setSelectedIndex( index_for_weight );
+        cmbNutrientRatioNutrientA.setSelectedIndex( index_for_weight );
+        cmbNutrientRatioNutrientB.setSelectedIndex( index_for_weight );
+        cmbFoodRatioNutrientA.setSelectedIndex( index_for_weight );
+        cmbFoodRatioNutrientB.setSelectedIndex( index_for_weight );
+        cmbGroupNutrient.setSelectedIndex( index_for_weight );
     }
 
 
@@ -5614,7 +5696,8 @@ public class Main {
         selectedMixDeficiency = selectedMix.getDeficiency();
         selectedMixExcess = selectedMix.getExcess();
         selectedMixLifeStageId = selectedMix.getLifestageid();
-        Double tni = calculateTni( selectedMixCost.doubleValue() );
+        double theAvgDeficiency = selectedMixDeficiency.doubleValue();
+        double tni = calculateTni( theAvgDeficiency );
         setTheHighScore( tni );
         tblMixFood.clear();
         tblSelectedFoods.clear();
@@ -5752,49 +5835,49 @@ public class Main {
                 BigDecimal mratio = ( BigDecimal ) row.get( "MRATIO" );
                 BigDecimal sratio = ( BigDecimal ) row.get( "SRATIO" );
                 sb.append( "Fat: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( fatpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( fatpct ) );
                 sb.append( "%\n" );
                 sb.append( "Carbohydrate: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( carbpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( carbpct ) );
                 sb.append( "%\n" );
                 sb.append( "Protein: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( proteinpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( proteinpct ) );
                 sb.append( "%\n" );
                 sb.append( "Alcohol: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( alcoholpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( alcoholpct ) );
                 sb.append( "%\n" );
                 sb.append( "Saturated Fat: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( satfatpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( satfatpct ) );
                 sb.append( "%\n" );
                 sb.append( "Polyunsaturated Fat: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( polyufatpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( polyufatpct ) );
                 sb.append( "%\n" );
                 sb.append( "Monounsaturated Fat: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( monoufatpct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( monoufatpct ) );
                 sb.append( "%\n" );
                 sb.append( "Linoleic Acid: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( lapct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( lapct ) );
                 sb.append( "%\n" );
                 sb.append( "Alpha-linolenic Acid: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( alapct ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( alapct ) );
                 sb.append( "%\n" );
                 sb.append( "Ratio SFA/TF: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( sratio ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( sratio ) );
                 sb.append( "\n" );
                 sb.append( "Ratio PUFA/TF: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( pratio ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( pratio ) );
                 sb.append( "\n" );
                 sb.append( "Ratio MUFA/TF: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( mratio ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( mratio ) );
                 sb.append( "\n" );
                 sb.append( "Ratio LA/ALA: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( essentialfatratio ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( essentialfatratio ) );
                 sb.append( "\n" );
                 sb.append( "Ratio K/Na: " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( electrolyteratio ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( electrolyteratio ) );
                 sb.append( "\n" );
                 sb.append( "Food Quotient (FQ): " );
-                sb.append( ( new DecimalFormat( "###0.00" ) ).format( fq ) );
+                sb.append( ( new DecimalFormat( "######0.0#" ) ).format( fq ) );
                 sb.append( "\n" );
             } );
             Message.showMessagePadW510( 230, "Mix Statistics", sb.toString() );
@@ -6166,23 +6249,27 @@ public class Main {
     private void addFoodGroup() {
         JTextField txtInput = new JTextField();
         JComponent[] inputs = { new JLabel( "What is your new food group name?" ), txtInput };
-        int optionValue = Message.showOptionDialogOkCancel( inputs, "New Food Group" );
-        if ( optionValue == 0 ) {
-            String foodgroupname = txtInput.getText();
-            if ( foodgroupname != null && foodgroupname.length() > 0 ) {
-                try {
-                    Future<String> task = BackgroundExec.submit( new InsertFoodGroupTask( selectedMixId, foodgroupname ) );
-                    String groupid = task.get();
-                    if ( task.isDone() ) {
-                        reloadGroups( selectedMixId );
-                        int rowIndex = tblFoodGroups.find( groupid );
-                        tblFoodGroups.selectRow( rowIndex );
-                        tblFoodGroups.showRow( rowIndex );
+        if ( !selectedMixId.isEmpty() ) {
+            int optionValue = Message.showOptionDialogOkCancel( inputs, "New Food Group" );
+            if ( optionValue == 0 ) {
+                String foodgroupname = txtInput.getText();
+                if ( foodgroupname != null && foodgroupname.length() > 0 ) {
+                    try {
+                        Future<String> task = BackgroundExec.submit( new InsertFoodGroupTask( selectedMixId, foodgroupname ) );
+                        String groupid = task.get();
+                        if ( task.isDone() ) {
+                            reloadGroups( selectedMixId );
+                            int rowIndex = tblFoodGroups.find( groupid );
+                            tblFoodGroups.selectRow( rowIndex );
+                            tblFoodGroups.showRow( rowIndex );
+                        }
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
                     }
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
                 }
             }
+        } else {
+            Message.showMessage( "Create or import mix" );
         }
     }
 
@@ -6442,7 +6529,7 @@ public class Main {
             sb.append( " " );
             sb.append( relationshipDO.getName() );
             sb.append( " " );
-            sb.append( ( new DecimalFormat( "###0.0" ) ).format( b ) );
+            sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( b ) );
             addLogEntry(
                     selectedMixName,
                     "Add",
@@ -6468,10 +6555,16 @@ public class Main {
 
     private Boolean checkFoodGroupConstraint() {
         boolean flag_isReady = false;
+        boolean flag_mix = false;
         boolean flag_listGroup = false;
         boolean flag_listNutrient = false;
         boolean flag_listRelationship = false;
         boolean flag_quantity = false;
+        if ( !selectedMixId.isEmpty() ) {
+            flag_mix = true;
+        } else {
+            Message.showMessage( "Create or import mix" );
+        }
         if ( !this.cmbFoodGroup.isSelectionEmpty() ) {
             flag_listGroup = true;
         } else {
@@ -6511,7 +6604,7 @@ public class Main {
         cmbFoodGroup.setSelectedIndex( groupIndex );
         cmbGroupNutrient.setSelectedIndex( nutrientIndex );
         cmbGroupRelationship.setSelectedIndex( relationshipIndex );
-        txtGroupQuantityValue.setText( ( new DecimalFormat( "###0.000" ) ).format( q ) );
+        txtGroupQuantityValue.setText( ( new DecimalFormat( "######0.0#################" ) ).format( q ) );
     }
 
 
@@ -6535,7 +6628,7 @@ public class Main {
                 sb.append( " " );
                 sb.append( row.getRelationship() );
                 sb.append( " " );
-                sb.append( ( new DecimalFormat( "###0.0" ) ).format( row.getB() ) );
+                sb.append( ( new DecimalFormat( "######0.0#################" ) ).format( row.getB() ) );
                 addLogEntry(
                         selectedMixName,
                         "Delete",

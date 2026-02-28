@@ -831,7 +831,7 @@ public class FoodFactInputPanel {
         int rows = tbl.getModel().getRowCount();
         for ( int i = 0; i < rows; i++ ) {
             BigDecimal value = ( BigDecimal ) tbl.getValueAt( i, columnIndex );
-            BigDecimal result = value.divide( weight, 18, RoundingMode.HALF_UP ).multiply( new BigDecimal( "100" ) );
+            BigDecimal result = value.divide( weight, 18, RoundingMode.HALF_EVEN ).multiply( new BigDecimal( "100" ) );
             tbl.setValueAt( result, i, columnIndex );
         }
         tbl.showRow( weightIndex );

@@ -10,7 +10,7 @@ public class Formatted {
 
     public Formatted( double x, int precision ) {
         DecimalFormat formatter = new DecimalFormat();
-        formatter.setRoundingMode( RoundingMode.HALF_UP );
+        formatter.setRoundingMode( RoundingMode.HALF_EVEN );
         StringBuilder sb = new StringBuilder();
         sb.append( "#####" );
         if ( precision > 0 ) {

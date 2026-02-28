@@ -1,7 +1,9 @@
 package io.github.xjrga.snack.csv;
 
 import io.github.xjrga.snack.database.Connect;
+import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
+import io.github.xjrga.snack.other.Utilities;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -11,33 +13,35 @@ import java.time.LocalDateTime;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-public class AllFoodsReport2 {
+public class MixResultsReportDn {
 
     private final Connection connection;
 
 
-    public AllFoodsReport2() {
+    public MixResultsReportDn() {
         connection = Connect.getInstance().getConnection();
     }
 
 
-    public void create() {
-        try ( FileWriter fileWriter = new FileWriter( "models/allfoods2.csv" ) ) {
-            CallableStatement proc = connection.prepareCall( "{CALL public.Food_Select_Details()}" );
+    public void create( MixDO mixDataObject ) {
+        try ( FileWriter fileWriter = new FileWriter( "models/mixresultsdn.csv" ) ) {
+            String mixid = mixDataObject.getMixid();
+            CallableStatement proc = connection.prepareCall( "{CALL public.MixResult_Select_Exp( ? )}" );
+            proc.setString( 1, mixid );
             ResultSet rs = proc.executeQuery();
             StringBuilder comment = new StringBuilder();
-            comment.append( "Nutritional Values For Common Foods And Products" );
+            comment.append( "" );
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
                     .setCommentMarker( '#' )
-                    .setHeaderComments( "All Foods Report #2", comment.toString(), LocalDateTime.now() )
+                    .setHeaderComments( "Mix Results Report Denormalized", comment.toString(), LocalDateTime.now() )
                     .setHeader( rs )
                     .get();
             CSVPrinter csvPrinter = new CSVPrinter( fileWriter, csvFormat );
             while ( rs.next() ) {
-                String x1 = rs.getString( 1 );
-                String x2 = rs.getString( 2 );
-                BigDecimal x3 = rs.getBigDecimal( 3 );
+                String x1 = rs.getString( 1 ); // mixid
+                String x2 = rs.getString( 2 ); // foodid
+                String x3 = rs.getString( 3 ); // foodname
                 BigDecimal x4 = rs.getBigDecimal( 4 );
                 BigDecimal x5 = rs.getBigDecimal( 5 );
                 BigDecimal x6 = rs.getBigDecimal( 6 );
@@ -123,12 +127,102 @@ public class AllFoodsReport2 {
                 BigDecimal x86 = rs.getBigDecimal( 86 );
                 BigDecimal x87 = rs.getBigDecimal( 87 );
                 BigDecimal x88 = rs.getBigDecimal( 88 );
+                BigDecimal x89 = rs.getBigDecimal( 89 );
+                BigDecimal x90 = rs.getBigDecimal( 90 );
+                BigDecimal x91 = rs.getBigDecimal( 91 );
                 csvPrinter.printRecord(
-                        x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, x21,
-                        x22, x23, x24, x25, x26, x27, x28, x29, x30, x31, x32, x33, x34, x35, x36, x37, x38, x39, x40,
-                        x41, x42, x43, x44, x45, x46, x47, x48, x49, x50, x51, x52, x53, x54, x55, x56, x57, x58, x59,
-                        x60, x61, x62, x63, x64, x65, x66, x67, x68, x69, x70, x71, x72, x73, x74, x75, x76, x77, x78,
-                        x79, x80, x81, x82, x83, x84, x85, x86, x87, x88 );
+                        x1,
+                        x2,
+                        x3,
+                        Utilities.strip( x4 ),
+                        Utilities.strip( x5 ),
+                        Utilities.strip( x6 ),
+                        Utilities.strip( x7 ),
+                        Utilities.strip( x8 ),
+                        Utilities.strip( x9 ),
+                        Utilities.strip( x10 ),
+                        Utilities.strip( x11 ),
+                        Utilities.strip( x12 ),
+                        Utilities.strip( x13 ),
+                        Utilities.strip( x14 ),
+                        Utilities.strip( x15 ),
+                        Utilities.strip( x16 ),
+                        Utilities.strip( x17 ),
+                        Utilities.strip( x18 ),
+                        Utilities.strip( x19 ),
+                        Utilities.strip( x20 ),
+                        Utilities.strip( x21 ),
+                        Utilities.strip( x22 ),
+                        Utilities.strip( x23 ),
+                        Utilities.strip( x24 ),
+                        Utilities.strip( x25 ),
+                        Utilities.strip( x26 ),
+                        Utilities.strip( x27 ),
+                        Utilities.strip( x28 ),
+                        Utilities.strip( x29 ),
+                        Utilities.strip( x30 ),
+                        Utilities.strip( x31 ),
+                        Utilities.strip( x32 ),
+                        Utilities.strip( x33 ),
+                        Utilities.strip( x34 ),
+                        Utilities.strip( x35 ),
+                        Utilities.strip( x36 ),
+                        Utilities.strip( x37 ),
+                        Utilities.strip( x38 ),
+                        Utilities.strip( x39 ),
+                        Utilities.strip( x40 ),
+                        Utilities.strip( x41 ),
+                        Utilities.strip( x42 ),
+                        Utilities.strip( x43 ),
+                        Utilities.strip( x44 ),
+                        Utilities.strip( x45 ),
+                        Utilities.strip( x46 ),
+                        Utilities.strip( x47 ),
+                        Utilities.strip( x48 ),
+                        Utilities.strip( x49 ),
+                        Utilities.strip( x50 ),
+                        Utilities.strip( x51 ),
+                        Utilities.strip( x52 ),
+                        Utilities.strip( x53 ),
+                        Utilities.strip( x54 ),
+                        Utilities.strip( x55 ),
+                        Utilities.strip( x56 ),
+                        Utilities.strip( x57 ),
+                        Utilities.strip( x58 ),
+                        Utilities.strip( x59 ),
+                        Utilities.strip( x60 ),
+                        Utilities.strip( x61 ),
+                        Utilities.strip( x62 ),
+                        Utilities.strip( x63 ),
+                        Utilities.strip( x64 ),
+                        Utilities.strip( x65 ),
+                        Utilities.strip( x66 ),
+                        Utilities.strip( x67 ),
+                        Utilities.strip( x68 ),
+                        Utilities.strip( x69 ),
+                        Utilities.strip( x70 ),
+                        Utilities.strip( x71 ),
+                        Utilities.strip( x72 ),
+                        Utilities.strip( x73 ),
+                        Utilities.strip( x74 ),
+                        Utilities.strip( x75 ),
+                        Utilities.strip( x76 ),
+                        Utilities.strip( x77 ),
+                        Utilities.strip( x78 ),
+                        Utilities.strip( x79 ),
+                        Utilities.strip( x80 ),
+                        Utilities.strip( x81 ),
+                        Utilities.strip( x82 ),
+                        Utilities.strip( x83 ),
+                        Utilities.strip( x84 ),
+                        Utilities.strip( x85 ),
+                        Utilities.strip( x86 ),
+                        Utilities.strip( x87 ),
+                        Utilities.strip( x88 ),
+                        Utilities.strip( x89 ),
+                        Utilities.strip( x90 ),
+                        Utilities.strip( x91 )
+                );
             }
         } catch ( Exception e ) {
             LoggerImpl.INSTANCE.logProblem( e );

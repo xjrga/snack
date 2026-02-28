@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.database.runnable;
 
-import io.github.xjrga.snack.csv.AllFoodsReport1;
+import io.github.xjrga.snack.csv.AllFoodsReportDn;
 import io.github.xjrga.snack.gui.Message;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import java.awt.Cursor;
@@ -10,12 +10,12 @@ import javax.swing.SwingUtilities;
 /**
  * @author jr
  */
-public class CreateAllFoodsReport1Task implements Runnable {
+public class CreateAllFoodsReportDnTask implements Runnable {
 
     private final JFrame frm;
 
 
-    public CreateAllFoodsReport1Task( JFrame frm ) {
+    public CreateAllFoodsReportDnTask( JFrame frm ) {
         this.frm = frm;
     }
 
@@ -23,13 +23,13 @@ public class CreateAllFoodsReport1Task implements Runnable {
     @Override
     public void run() {
         try {
-            ( new AllFoodsReport1() ).create();
+            ( new AllFoodsReportDn() ).create();
         } catch ( Exception e ) {
             LoggerImpl.INSTANCE.logProblem( e );
         } finally {
             Runnable r = () -> {
                 frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-                Message.showMessage( "All Foods Report #1 created." );
+                Message.showMessage( "All Foods Report Denormalized created." );
             };
             SwingUtilities.invokeLater( r );
         }

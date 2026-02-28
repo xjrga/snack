@@ -36,30 +36,33 @@ public class TableMixResults extends JTable implements ShowCategory {
     public TableMixResults() {
         txtSearch = new JTextField();
         dm = new DataModel();
+        //Mix
         dm.addColumn( "MixId" );
         dm.addColumn( "Food Id" );
         dm.addColumn( "Food Name" );
         dm.addColumn( "Weight" );
+        //Calories
         dm.addColumn( "eGross" );
         dm.addColumn( "eDigestible" );
         dm.addColumn( "eFat" );
         dm.addColumn( "eCarbs" );
-        dm.addColumn( "eFat+" );
         dm.addColumn( "eProtein" );
         dm.addColumn( "eAlcohol" );
+        //Macronutrients
         dm.addColumn( "Fats" );
         dm.addColumn( "Carbs" );
         dm.addColumn( "Protein" );
         dm.addColumn( "Alcohol" );
-        dm.addColumn( "eProtein" );
+        //Protein
         dm.addColumn( "Protein" );
         dm.addColumn( "Complete" );
-        dm.addColumn( "eFat" );
+        //Fats
         dm.addColumn( "Fats" );
         dm.addColumn( "MUFA" );
         dm.addColumn( "PUFA" );
         dm.addColumn( "SFA" );
         dm.addColumn( "Cholesterol" );
+        //Saturated Fat
         dm.addColumn( "SFA" );
         dm.addColumn( "HCSFA" );
         dm.addColumn( "Lauric" );
@@ -67,13 +70,14 @@ public class TableMixResults extends JTable implements ShowCategory {
         dm.addColumn( "Palmitic" );
         dm.addColumn( "Stearic" );
         dm.addColumn( "Cholesterol" );
+        //Polyunsaturated Fat
         dm.addColumn( "PUFA" );
         dm.addColumn( "LA" );
         dm.addColumn( "ALA" );
         dm.addColumn( "EPA" );
         dm.addColumn( "DHA" );
         dm.addColumn( "LCN3PUFA" );
-        dm.addColumn( "eCarbs" );
+        //Carbohydrates
         dm.addColumn( "CarbsByDiff" );
         dm.addColumn( "Fiber" );
         dm.addColumn( "FiberIns" );
@@ -86,6 +90,7 @@ public class TableMixResults extends JTable implements ShowCategory {
         dm.addColumn( "Fructose" );
         dm.addColumn( "Glucose" );
         dm.addColumn( "GL" );
+        //Vitamins
         dm.addColumn( "A" );
         dm.addColumn( "D" );
         dm.addColumn( "E" );
@@ -99,6 +104,7 @@ public class TableMixResults extends JTable implements ShowCategory {
         dm.addColumn( "K" );
         dm.addColumn( "Pantothenic" );
         dm.addColumn( "Choline" );
+        //Minerals
         dm.addColumn( "Calcium" );
         dm.addColumn( "Phosphorus" );
         dm.addColumn( "Magnesium" );
@@ -107,23 +113,26 @@ public class TableMixResults extends JTable implements ShowCategory {
         dm.addColumn( "Copper" );
         dm.addColumn( "Manganese" );
         dm.addColumn( "Selenium" );
+        //Electrolytes
         dm.addColumn( "Potassium" );
         dm.addColumn( "Sodium" );
+        //Phytonutrients
         dm.addColumn( "Flavonoids" );
-        dm.addColumn( "Anthocyanins" );
         dm.addColumn( "Carotenoids" );
+        dm.addColumn( "Phytosterols" );
+        dm.addColumn( "Anthocyanins" );
         dm.addColumn( "Flavanols" );
         dm.addColumn( "Flavanones" );
         dm.addColumn( "Flavones" );
         dm.addColumn( "Flavonols" );
         dm.addColumn( "Isoflavones" );
-        dm.addColumn( "Phytosterols" );
         dm.addColumn( "BetaCarotene" );
         dm.addColumn( "Lutein+" );
         dm.addColumn( "Lycopene" );
         dm.addColumn( "Caffeine" );
         dm.addColumn( "Theobromine" );
         dm.addColumn( "GammaTocopherol" );
+        //Cost
         dm.addColumn( "Cost" );
         dm.addColumn( "Water" );
         setModel( dm );
@@ -221,117 +230,123 @@ public class TableMixResults extends JTable implements ShowCategory {
 
 
     private Row getRow( int selectedRowNo ) {
+        //Mix
         String id_mix_id = ( String ) getValueAt( selectedRowNo, 0 );
         String id_food_id = ( String ) getValueAt( selectedRowNo, 1 );
         String id_food_name = ( String ) getValueAt( selectedRowNo, 2 );
         BigDecimal id_other_weight = ( BigDecimal ) getValueAt( selectedRowNo, 3 );
+        //Calories
         BigDecimal energy_energy_gross = ( BigDecimal ) getValueAt( selectedRowNo, 4 );
         BigDecimal energy_energy_digestible = ( BigDecimal ) getValueAt( selectedRowNo, 5 );
         BigDecimal energy_energy_fat = ( BigDecimal ) getValueAt( selectedRowNo, 6 );
         BigDecimal energy_energy_carbohydrate = ( BigDecimal ) getValueAt( selectedRowNo, 7 );
-        BigDecimal energy_energy_fat_and_carbohydrate = ( BigDecimal ) getValueAt( selectedRowNo, 8 );
-        BigDecimal energy_energy_protein = ( BigDecimal ) getValueAt( selectedRowNo, 9 );
-        BigDecimal energy_energy_alcohol = ( BigDecimal ) getValueAt( selectedRowNo, 10 );
-        BigDecimal macronutrients_fats_total = ( BigDecimal ) getValueAt( selectedRowNo, 11 );
-        BigDecimal macronutrients_carbohydrates_digestible = ( BigDecimal ) getValueAt( selectedRowNo, 12 );
-        BigDecimal macronutrients_protein_total = ( BigDecimal ) getValueAt( selectedRowNo, 13 );
-        BigDecimal macronutrients_other_alcohol = ( BigDecimal ) getValueAt( selectedRowNo, 14 );
-        BigDecimal protein_energy_protein = ( BigDecimal ) getValueAt( selectedRowNo, 15 );
-        BigDecimal protein_protein_total = ( BigDecimal ) getValueAt( selectedRowNo, 16 );
-        BigDecimal protein_protein_complete = ( BigDecimal ) getValueAt( selectedRowNo, 17 );
-        BigDecimal fats_energy_fat = ( BigDecimal ) getValueAt( selectedRowNo, 18 );
-        BigDecimal fats_fats_total = ( BigDecimal ) getValueAt( selectedRowNo, 19 );
-        BigDecimal fats_fats_monounsaturated = ( BigDecimal ) getValueAt( selectedRowNo, 20 );
-        BigDecimal fats_fats_polyunsaturated = ( BigDecimal ) getValueAt( selectedRowNo, 21 );
-        BigDecimal fats_fats_saturated = ( BigDecimal ) getValueAt( selectedRowNo, 22 );
-        BigDecimal fats_fats_cholesterol = ( BigDecimal ) getValueAt( selectedRowNo, 23 );
-        BigDecimal sfa_fats_saturated = ( BigDecimal ) getValueAt( selectedRowNo, 24 );
-        BigDecimal sfa_fats_hcsfa = ( BigDecimal ) getValueAt( selectedRowNo, 25 );
-        BigDecimal sfa_fats_lauric = ( BigDecimal ) getValueAt( selectedRowNo, 26 );
-        BigDecimal sfa_fats_myristic = ( BigDecimal ) getValueAt( selectedRowNo, 27 );
-        BigDecimal sfa_fats_palmitic = ( BigDecimal ) getValueAt( selectedRowNo, 28 );
-        BigDecimal sfa_fats_stearic = ( BigDecimal ) getValueAt( selectedRowNo, 29 );
-        BigDecimal sfa_fats_cholesterol = ( BigDecimal ) getValueAt( selectedRowNo, 30 ); // <---
-        BigDecimal pufa_fats_polyunsaturated = ( BigDecimal ) getValueAt( selectedRowNo, 31 );
-        BigDecimal pufa_fats_linoleic = ( BigDecimal ) getValueAt( selectedRowNo, 32 );
-        BigDecimal pufa_fats_linolenic = ( BigDecimal ) getValueAt( selectedRowNo, 33 );
-        BigDecimal pufa_fats_epa = ( BigDecimal ) getValueAt( selectedRowNo, 34 );
-        BigDecimal pufa_fats_dha = ( BigDecimal ) getValueAt( selectedRowNo, 35 );
-        BigDecimal pufa_fats_lcn3pufa = ( BigDecimal ) getValueAt( selectedRowNo, 36 );
-        BigDecimal carbs_energy_carbohydrate = ( BigDecimal ) getValueAt( selectedRowNo, 37 );
-        BigDecimal carbs_carbohydrates_carbs_by_diff = ( BigDecimal ) getValueAt( selectedRowNo, 38 );
-        BigDecimal carbs_carbohydrates_fiber = ( BigDecimal ) getValueAt( selectedRowNo, 39 );
-        BigDecimal carbs_carbohydrates_fiber_insoluble = ( BigDecimal ) getValueAt( selectedRowNo, 40 );
-        BigDecimal carbs_carbohydrates_fiber_soluble = ( BigDecimal ) getValueAt( selectedRowNo, 41 );
-        BigDecimal carbs_carbohydrates_digestible = ( BigDecimal ) getValueAt( selectedRowNo, 42 );
-        BigDecimal carbs_carbohydrates_starch = ( BigDecimal ) getValueAt( selectedRowNo, 43 );
-        BigDecimal carbs_carbohydrates_sugars = ( BigDecimal ) getValueAt( selectedRowNo, 44 );
-        BigDecimal carbs_carbohydrates_sucrose = ( BigDecimal ) getValueAt( selectedRowNo, 45 );
-        BigDecimal carbs_carbohydrates_lactose = ( BigDecimal ) getValueAt( selectedRowNo, 46 );
-        BigDecimal carbs_carbohydrates_fructose = ( BigDecimal ) getValueAt( selectedRowNo, 47 );
-        BigDecimal carbs_carbohydrates_glucose = ( BigDecimal ) getValueAt( selectedRowNo, 48 );
-        BigDecimal carbs_carbohydrates_glycemic_load = ( BigDecimal ) getValueAt( selectedRowNo, 49 );
-        BigDecimal vitamins_vitamins_vitamin_a = ( BigDecimal ) getValueAt( selectedRowNo, 50 );
-        BigDecimal vitamins_vitamins_vitamin_d = ( BigDecimal ) getValueAt( selectedRowNo, 51 );
-        BigDecimal vitamins_vitamins_vitamin_e = ( BigDecimal ) getValueAt( selectedRowNo, 52 );
-        BigDecimal vitamins_vitamins_vitamin_c = ( BigDecimal ) getValueAt( selectedRowNo, 53 );
-        BigDecimal vitamins_vitamins_thiamin = ( BigDecimal ) getValueAt( selectedRowNo, 54 );
-        BigDecimal vitamins_vitamins_riboflavin = ( BigDecimal ) getValueAt( selectedRowNo, 55 );
-        BigDecimal vitamins_vitamins_niacin = ( BigDecimal ) getValueAt( selectedRowNo, 56 );
-        BigDecimal vitamins_vitamins_vitamin_b6 = ( BigDecimal ) getValueAt( selectedRowNo, 57 );
-        BigDecimal vitamins_vitamins_folate = ( BigDecimal ) getValueAt( selectedRowNo, 58 );
-        BigDecimal vitamins_vitamins_vitamin_b12 = ( BigDecimal ) getValueAt( selectedRowNo, 59 );
-        BigDecimal vitamins_vitamins_vitamin_k = ( BigDecimal ) getValueAt( selectedRowNo, 60 );
-        BigDecimal vitamins_vitamins_pantothenic_acid = ( BigDecimal ) getValueAt( selectedRowNo, 61 );
-        BigDecimal vitamins_vitamins_choline = ( BigDecimal ) getValueAt( selectedRowNo, 62 );
-        BigDecimal minerals_minerals_calcium = ( BigDecimal ) getValueAt( selectedRowNo, 63 );
-        BigDecimal minerals_minerals_phosphorus = ( BigDecimal ) getValueAt( selectedRowNo, 64 );
-        BigDecimal minerals_minerals_magnesium = ( BigDecimal ) getValueAt( selectedRowNo, 65 );
-        BigDecimal minerals_minerals_iron = ( BigDecimal ) getValueAt( selectedRowNo, 66 );
-        BigDecimal minerals_minerals_zinc = ( BigDecimal ) getValueAt( selectedRowNo, 67 );
-        BigDecimal minerals_minerals_copper = ( BigDecimal ) getValueAt( selectedRowNo, 68 );
-        BigDecimal minerals_minerals_manganese = ( BigDecimal ) getValueAt( selectedRowNo, 69 );
-        BigDecimal minerals_minerals_selenium = ( BigDecimal ) getValueAt( selectedRowNo, 70 );
-        BigDecimal electrolytes_minerals_potassium = ( BigDecimal ) getValueAt( selectedRowNo, 71 );
-        BigDecimal electrolytes_minerals_sodium = ( BigDecimal ) getValueAt( selectedRowNo, 72 );
-        BigDecimal phytonutrients_phytonutrients_flavonoids = ( BigDecimal ) getValueAt( selectedRowNo, 73 );
-        BigDecimal phytonutrients_phytonutrients_anthocyanins = ( BigDecimal ) getValueAt( selectedRowNo, 74 );
-        BigDecimal phytonutrients_phytonutrients_carotenoids = ( BigDecimal ) getValueAt( selectedRowNo, 75 );
-        BigDecimal phytonutrients_phytonutrients_flavanols = ( BigDecimal ) getValueAt( selectedRowNo, 76 );
-        BigDecimal phytonutrients_phytonutrients_flavanones = ( BigDecimal ) getValueAt( selectedRowNo, 77 );
-        BigDecimal phytonutrients_phytonutrients_flavones = ( BigDecimal ) getValueAt( selectedRowNo, 78 );
-        BigDecimal phytonutrients_phytonutrients_flavonols = ( BigDecimal ) getValueAt( selectedRowNo, 79 );
-        BigDecimal phytonutrients_phytonutrients_isoflavones = ( BigDecimal ) getValueAt( selectedRowNo, 80 );
-        BigDecimal phytonutrients_phytonutrients_phytosterols = ( BigDecimal ) getValueAt( selectedRowNo, 81 );
-        BigDecimal phytonutrients_phytonutrients_beta_carotene = ( BigDecimal ) getValueAt( selectedRowNo, 82 );
-        BigDecimal phytonutrients_phytonutrients_lutein_zeaxanthin = ( BigDecimal ) getValueAt( selectedRowNo, 83 );
-        BigDecimal phytonutrients_phytonutrients_lycopene = ( BigDecimal ) getValueAt( selectedRowNo, 84 );
-        BigDecimal phytonutrients_phytonutrients_caffeine = ( BigDecimal ) getValueAt( selectedRowNo, 85 );
-        BigDecimal phytonutrients_phytonutrients_theobromine = ( BigDecimal ) getValueAt( selectedRowNo, 86 );
-        BigDecimal phytonutrients_phytonutrients_gamma_tocopherol = ( BigDecimal ) getValueAt( selectedRowNo, 87 );
-        BigDecimal other_other_cost = ( BigDecimal ) getValueAt( selectedRowNo, 88 );
-        BigDecimal other_other_water = ( BigDecimal ) getValueAt( selectedRowNo, 89 );
+        BigDecimal energy_energy_protein = ( BigDecimal ) getValueAt( selectedRowNo, 8 );
+        BigDecimal energy_energy_alcohol = ( BigDecimal ) getValueAt( selectedRowNo, 9 );
+        //Macronutrients
+        BigDecimal macronutrients_fats_total = ( BigDecimal ) getValueAt( selectedRowNo, 10 );
+        BigDecimal macronutrients_carbohydrates_digestible = ( BigDecimal ) getValueAt( selectedRowNo, 11 );
+        BigDecimal macronutrients_protein_total = ( BigDecimal ) getValueAt( selectedRowNo, 12 );
+        BigDecimal macronutrients_other_alcohol = ( BigDecimal ) getValueAt( selectedRowNo, 13 );
+        //Protein
+        BigDecimal protein_protein_total = ( BigDecimal ) getValueAt( selectedRowNo, 14 );
+        BigDecimal protein_protein_complete = ( BigDecimal ) getValueAt( selectedRowNo, 15 );
+        //Fats
+        BigDecimal fats_fats_total = ( BigDecimal ) getValueAt( selectedRowNo, 16 );
+        BigDecimal fats_fats_monounsaturated = ( BigDecimal ) getValueAt( selectedRowNo, 17 );
+        BigDecimal fats_fats_polyunsaturated = ( BigDecimal ) getValueAt( selectedRowNo, 18 );
+        BigDecimal fats_fats_saturated = ( BigDecimal ) getValueAt( selectedRowNo, 19 );
+        BigDecimal fats_fats_cholesterol = ( BigDecimal ) getValueAt( selectedRowNo, 20 );
+        //Saturated Fat
+        BigDecimal sfa_fats_saturated = ( BigDecimal ) getValueAt( selectedRowNo, 21 );
+        BigDecimal sfa_fats_hcsfa = ( BigDecimal ) getValueAt( selectedRowNo, 22 );
+        BigDecimal sfa_fats_lauric = ( BigDecimal ) getValueAt( selectedRowNo, 23 );
+        BigDecimal sfa_fats_myristic = ( BigDecimal ) getValueAt( selectedRowNo, 24 );
+        BigDecimal sfa_fats_palmitic = ( BigDecimal ) getValueAt( selectedRowNo, 25 );
+        BigDecimal sfa_fats_stearic = ( BigDecimal ) getValueAt( selectedRowNo, 26 );
+        BigDecimal sfa_fats_cholesterol = ( BigDecimal ) getValueAt( selectedRowNo, 27 );
+        //Polyunsaturated Fat
+        BigDecimal pufa_fats_polyunsaturated = ( BigDecimal ) getValueAt( selectedRowNo, 28 );
+        BigDecimal pufa_fats_linoleic = ( BigDecimal ) getValueAt( selectedRowNo, 29 );
+        BigDecimal pufa_fats_linolenic = ( BigDecimal ) getValueAt( selectedRowNo, 30 );
+        BigDecimal pufa_fats_epa = ( BigDecimal ) getValueAt( selectedRowNo, 31 );
+        BigDecimal pufa_fats_dha = ( BigDecimal ) getValueAt( selectedRowNo, 32 );
+        BigDecimal pufa_fats_lcn3pufa = ( BigDecimal ) getValueAt( selectedRowNo, 33 );
+        //Carbohydrates
+        BigDecimal carbs_carbohydrates_carbs_by_diff = ( BigDecimal ) getValueAt( selectedRowNo, 34 );
+        BigDecimal carbs_carbohydrates_fiber = ( BigDecimal ) getValueAt( selectedRowNo, 35 );
+        BigDecimal carbs_carbohydrates_fiber_insoluble = ( BigDecimal ) getValueAt( selectedRowNo, 36 );
+        BigDecimal carbs_carbohydrates_fiber_soluble = ( BigDecimal ) getValueAt( selectedRowNo, 37 );
+        BigDecimal carbs_carbohydrates_digestible = ( BigDecimal ) getValueAt( selectedRowNo, 38 );
+        BigDecimal carbs_carbohydrates_starch = ( BigDecimal ) getValueAt( selectedRowNo, 39 );
+        BigDecimal carbs_carbohydrates_sugars = ( BigDecimal ) getValueAt( selectedRowNo, 40 );
+        BigDecimal carbs_carbohydrates_sucrose = ( BigDecimal ) getValueAt( selectedRowNo, 41 );
+        BigDecimal carbs_carbohydrates_lactose = ( BigDecimal ) getValueAt( selectedRowNo, 42 );
+        BigDecimal carbs_carbohydrates_fructose = ( BigDecimal ) getValueAt( selectedRowNo, 43 );
+        BigDecimal carbs_carbohydrates_glucose = ( BigDecimal ) getValueAt( selectedRowNo, 44 );
+        BigDecimal carbs_carbohydrates_glycemic_load = ( BigDecimal ) getValueAt( selectedRowNo, 45 );
+        //Vitamins
+        BigDecimal vitamins_vitamins_vitamin_a = ( BigDecimal ) getValueAt( selectedRowNo, 46 );
+        BigDecimal vitamins_vitamins_vitamin_d = ( BigDecimal ) getValueAt( selectedRowNo, 47 );
+        BigDecimal vitamins_vitamins_vitamin_e = ( BigDecimal ) getValueAt( selectedRowNo, 48 );
+        BigDecimal vitamins_vitamins_vitamin_c = ( BigDecimal ) getValueAt( selectedRowNo, 49 );
+        BigDecimal vitamins_vitamins_thiamin = ( BigDecimal ) getValueAt( selectedRowNo, 50 );
+        BigDecimal vitamins_vitamins_riboflavin = ( BigDecimal ) getValueAt( selectedRowNo, 51 );
+        BigDecimal vitamins_vitamins_niacin = ( BigDecimal ) getValueAt( selectedRowNo, 52 );
+        BigDecimal vitamins_vitamins_vitamin_b6 = ( BigDecimal ) getValueAt( selectedRowNo, 53 );
+        BigDecimal vitamins_vitamins_folate = ( BigDecimal ) getValueAt( selectedRowNo, 54 );
+        BigDecimal vitamins_vitamins_vitamin_b12 = ( BigDecimal ) getValueAt( selectedRowNo, 55 );
+        BigDecimal vitamins_vitamins_vitamin_k = ( BigDecimal ) getValueAt( selectedRowNo, 56 );
+        BigDecimal vitamins_vitamins_pantothenic_acid = ( BigDecimal ) getValueAt( selectedRowNo, 57 );
+        BigDecimal vitamins_vitamins_choline = ( BigDecimal ) getValueAt( selectedRowNo, 58 );
+        //
+        BigDecimal minerals_minerals_calcium = ( BigDecimal ) getValueAt( selectedRowNo, 59 );
+        BigDecimal minerals_minerals_phosphorus = ( BigDecimal ) getValueAt( selectedRowNo, 60 );
+        BigDecimal minerals_minerals_magnesium = ( BigDecimal ) getValueAt( selectedRowNo, 61 );
+        BigDecimal minerals_minerals_iron = ( BigDecimal ) getValueAt( selectedRowNo, 62 );
+        BigDecimal minerals_minerals_zinc = ( BigDecimal ) getValueAt( selectedRowNo, 63 );
+        BigDecimal minerals_minerals_copper = ( BigDecimal ) getValueAt( selectedRowNo, 64 );
+        BigDecimal minerals_minerals_manganese = ( BigDecimal ) getValueAt( selectedRowNo, 65 );
+        BigDecimal minerals_minerals_selenium = ( BigDecimal ) getValueAt( selectedRowNo, 66 );
+        //Electrolytes
+        BigDecimal electrolytes_minerals_potassium = ( BigDecimal ) getValueAt( selectedRowNo, 67 );
+        BigDecimal electrolytes_minerals_sodium = ( BigDecimal ) getValueAt( selectedRowNo, 68 );
+        //Electrolytes
+        BigDecimal phytonutrients_phytonutrients_flavonoids = ( BigDecimal ) getValueAt( selectedRowNo, 69 );
+        BigDecimal phytonutrients_phytonutrients_carotenoids = ( BigDecimal ) getValueAt( selectedRowNo, 70 );
+        BigDecimal phytonutrients_phytonutrients_phytosterols = ( BigDecimal ) getValueAt( selectedRowNo, 71 );
+        BigDecimal phytonutrients_phytonutrients_anthocyanins = ( BigDecimal ) getValueAt( selectedRowNo, 72 );
+        BigDecimal phytonutrients_phytonutrients_flavanols = ( BigDecimal ) getValueAt( selectedRowNo, 73 );
+        BigDecimal phytonutrients_phytonutrients_flavanones = ( BigDecimal ) getValueAt( selectedRowNo, 74 );
+        BigDecimal phytonutrients_phytonutrients_flavones = ( BigDecimal ) getValueAt( selectedRowNo, 75 );
+        BigDecimal phytonutrients_phytonutrients_flavonols = ( BigDecimal ) getValueAt( selectedRowNo, 76 );
+        BigDecimal phytonutrients_phytonutrients_isoflavones = ( BigDecimal ) getValueAt( selectedRowNo, 77 );
+        BigDecimal phytonutrients_phytonutrients_beta_carotene = ( BigDecimal ) getValueAt( selectedRowNo, 78 );
+        BigDecimal phytonutrients_phytonutrients_lutein_zeaxanthin = ( BigDecimal ) getValueAt( selectedRowNo, 79 );
+        BigDecimal phytonutrients_phytonutrients_lycopene = ( BigDecimal ) getValueAt( selectedRowNo, 80 );
+        BigDecimal phytonutrients_phytonutrients_caffeine = ( BigDecimal ) getValueAt( selectedRowNo, 81 );
+        BigDecimal phytonutrients_phytonutrients_theobromine = ( BigDecimal ) getValueAt( selectedRowNo, 82 );
+        BigDecimal phytonutrients_phytonutrients_gamma_tocopherol = ( BigDecimal ) getValueAt( selectedRowNo, 83 );
+        //Cost
+        BigDecimal other_other_cost = ( BigDecimal ) getValueAt( selectedRowNo, 84 );
+        BigDecimal other_other_water = ( BigDecimal ) getValueAt( selectedRowNo, 85 );
+        //
         Row row = new Row();
         row.setId_mix_id( id_mix_id );
         row.setId_food_id( id_food_id );
-        row.setId_food_name( id_food_name );
         row.setId_food_name( id_food_name );
         row.setId_other_weight( id_other_weight );
         row.setEnergy_energy_gross( energy_energy_gross );
         row.setEnergy_energy_digestible( energy_energy_digestible );
         row.setEnergy_energy_fat( energy_energy_fat );
         row.setEnergy_energy_carbohydrate( energy_energy_carbohydrate );
-        row.setEnergy_energy_fat_and_carbohydrate( energy_energy_fat_and_carbohydrate );
         row.setEnergy_energy_protein( energy_energy_protein );
         row.setEnergy_energy_alcohol( energy_energy_alcohol );
         row.setMacronutrients_fats_total( macronutrients_fats_total );
         row.setMacronutrients_carbohydrates_digestible( macronutrients_carbohydrates_digestible );
         row.setMacronutrients_protein_total( macronutrients_protein_total );
         row.setMacronutrients_other_alcohol( macronutrients_other_alcohol );
-        row.setProtein_energy_protein( protein_energy_protein );
         row.setProtein_protein_total( protein_protein_total );
         row.setProtein_protein_complete( protein_protein_complete );
-        row.setFats_energy_fat( fats_energy_fat );
         row.setFats_fats_total( fats_fats_total );
         row.setFats_fats_monounsaturated( fats_fats_monounsaturated );
         row.setFats_fats_polyunsaturated( fats_fats_polyunsaturated );
@@ -350,7 +365,6 @@ public class TableMixResults extends JTable implements ShowCategory {
         row.setPufa_fats_epa( pufa_fats_epa );
         row.setPufa_fats_dha( pufa_fats_dha );
         row.setPufa_fats_lcn3pufa( pufa_fats_lcn3pufa );
-        row.setCarbs_energy_carbohydrate( carbs_energy_carbohydrate );
         row.setCarbs_carbohydrates_carbs_by_diff( carbs_carbohydrates_carbs_by_diff );
         row.setCarbs_carbohydrates_fiber( carbs_carbohydrates_fiber );
         row.setCarbs_carbohydrates_fiber_insoluble( carbs_carbohydrates_fiber_insoluble );
@@ -387,14 +401,14 @@ public class TableMixResults extends JTable implements ShowCategory {
         row.setElectrolytes_minerals_potassium( electrolytes_minerals_potassium );
         row.setElectrolytes_minerals_sodium( electrolytes_minerals_sodium );
         row.setPhytonutrients_phytonutrients_flavonoids( phytonutrients_phytonutrients_flavonoids );
-        row.setPhytonutrients_phytonutrients_anthocyanins( phytonutrients_phytonutrients_anthocyanins );
         row.setPhytonutrients_phytonutrients_carotenoids( phytonutrients_phytonutrients_carotenoids );
+        row.setPhytonutrients_phytonutrients_phytosterols( phytonutrients_phytonutrients_phytosterols );
+        row.setPhytonutrients_phytonutrients_anthocyanins( phytonutrients_phytonutrients_anthocyanins );
         row.setPhytonutrients_phytonutrients_flavanols( phytonutrients_phytonutrients_flavanols );
         row.setPhytonutrients_phytonutrients_flavanones( phytonutrients_phytonutrients_flavanones );
         row.setPhytonutrients_phytonutrients_flavones( phytonutrients_phytonutrients_flavones );
         row.setPhytonutrients_phytonutrients_flavonols( phytonutrients_phytonutrients_flavonols );
         row.setPhytonutrients_phytonutrients_isoflavones( phytonutrients_phytonutrients_isoflavones );
-        row.setPhytonutrients_phytonutrients_phytosterols( phytonutrients_phytonutrients_phytosterols );
         row.setPhytonutrients_phytonutrients_beta_carotene( phytonutrients_phytonutrients_beta_carotene );
         row.setPhytonutrients_phytonutrients_lutein_zeaxanthin( phytonutrients_phytonutrients_lutein_zeaxanthin );
         row.setPhytonutrients_phytonutrients_lycopene( phytonutrients_phytonutrients_lycopene );
@@ -529,10 +543,6 @@ public class TableMixResults extends JTable implements ShowCategory {
         getColumnModel().getColumn( 83 ).setCellRenderer( renderer );
         getColumnModel().getColumn( 84 ).setCellRenderer( renderer );
         getColumnModel().getColumn( 85 ).setCellRenderer( renderer );
-        getColumnModel().getColumn( 86 ).setCellRenderer( renderer );
-        getColumnModel().getColumn( 87 ).setCellRenderer( renderer );
-        getColumnModel().getColumn( 88 ).setCellRenderer( renderer );
-        getColumnModel().getColumn( 89 ).setCellRenderer( renderer );
         revalidate();
         repaint();
     }
@@ -542,29 +552,29 @@ public class TableMixResults extends JTable implements ShowCategory {
     public void showCategory( int ordinal ) {
         switch ( ordinal ) {
             case 0 ->
-                adjustWidth( 4, 10 );
+                adjustWidth( 3, 9 );
             case 1 ->
-                adjustWidth( 11, 14 );
+                adjustWidth( 10, 13 );
             case 2 ->
-                adjustWidth( 15, 17 );
+                adjustWidth( 14, 15 );
             case 3 ->
-                adjustWidth( 18, 23 );
+                adjustWidth( 16, 20 );
             case 4 ->
-                adjustWidth( 24, 30 );
+                adjustWidth( 21, 27 );
             case 5 ->
-                adjustWidth( 31, 36 );
+                adjustWidth( 28, 33 );
             case 6 ->
-                adjustWidth( 37, 49 );
+                adjustWidth( 34, 45 );
             case 7 ->
-                adjustWidth( 50, 62 );
+                adjustWidth( 46, 58 );
             case 8 ->
-                adjustWidth( 63, 70 );
+                adjustWidth( 59, 66 );
             case 9 ->
-                adjustWidth( 71, 72 );
+                adjustWidth( 67, 68 );
             case 10 ->
-                adjustWidth( 73, 87 );
+                adjustWidth( 69, 83 );
             case 11 ->
-                adjustWidth( 88, 89 );
+                adjustWidth( 84, 85 );
             default -> {
                 System.out.println( "Default Option at TableMixResults" );
             }
@@ -604,14 +614,12 @@ public class TableMixResults extends JTable implements ShowCategory {
         private BigDecimal energy_energy_digestible;
         private BigDecimal energy_energy_fat;
         private BigDecimal energy_energy_carbohydrate;
-        private BigDecimal energy_energy_fat_and_carbohydrate;
         private BigDecimal energy_energy_protein;
         private BigDecimal energy_energy_alcohol;
         private BigDecimal macronutrients_fats_total;
         private BigDecimal macronutrients_carbohydrates_digestible;
         private BigDecimal macronutrients_protein_total;
         private BigDecimal macronutrients_other_alcohol;
-        private BigDecimal protein_energy_protein;
         private BigDecimal protein_protein_total;
         private BigDecimal protein_protein_complete;
         private BigDecimal fats_energy_fat;
@@ -633,7 +641,6 @@ public class TableMixResults extends JTable implements ShowCategory {
         private BigDecimal pufa_fats_epa;
         private BigDecimal pufa_fats_dha;
         private BigDecimal pufa_fats_lcn3pufa;
-        private BigDecimal carbs_energy_carbohydrate;
         private BigDecimal carbs_carbohydrates_carbs_by_diff;
         private BigDecimal carbs_carbohydrates_fiber;
         private BigDecimal carbs_carbohydrates_fiber_insoluble;
@@ -670,14 +677,14 @@ public class TableMixResults extends JTable implements ShowCategory {
         private BigDecimal electrolytes_minerals_potassium;
         private BigDecimal electrolytes_minerals_sodium;
         private BigDecimal phytonutrients_phytonutrients_flavonoids;
-        private BigDecimal phytonutrients_phytonutrients_anthocyanins;
         private BigDecimal phytonutrients_phytonutrients_carotenoids;
+        private BigDecimal phytonutrients_phytonutrients_phytosterols;
+        private BigDecimal phytonutrients_phytonutrients_anthocyanins;
         private BigDecimal phytonutrients_phytonutrients_flavanols;
         private BigDecimal phytonutrients_phytonutrients_flavanones;
         private BigDecimal phytonutrients_phytonutrients_flavones;
         private BigDecimal phytonutrients_phytonutrients_flavonols;
         private BigDecimal phytonutrients_phytonutrients_isoflavones;
-        private BigDecimal phytonutrients_phytonutrients_phytosterols;
         private BigDecimal phytonutrients_phytonutrients_beta_carotene;
         private BigDecimal phytonutrients_phytonutrients_lutein_zeaxanthin;
         private BigDecimal phytonutrients_phytonutrients_lycopene;
@@ -697,14 +704,12 @@ public class TableMixResults extends JTable implements ShowCategory {
             energy_energy_digestible = new BigDecimal( "0.0" );
             energy_energy_fat = new BigDecimal( "0.0" );
             energy_energy_carbohydrate = new BigDecimal( "0.0" );
-            energy_energy_fat_and_carbohydrate = new BigDecimal( "0.0" );
             energy_energy_protein = new BigDecimal( "0.0" );
             energy_energy_alcohol = new BigDecimal( "0.0" );
             macronutrients_fats_total = new BigDecimal( "0.0" );
             macronutrients_carbohydrates_digestible = new BigDecimal( "0.0" );
             macronutrients_protein_total = new BigDecimal( "0.0" );
             macronutrients_other_alcohol = new BigDecimal( "0.0" );
-            protein_energy_protein = new BigDecimal( "0.0" );
             protein_protein_total = new BigDecimal( "0.0" );
             protein_protein_complete = new BigDecimal( "0.0" );
             fats_energy_fat = new BigDecimal( "0.0" );
@@ -726,7 +731,6 @@ public class TableMixResults extends JTable implements ShowCategory {
             pufa_fats_epa = new BigDecimal( "0.0" );
             pufa_fats_dha = new BigDecimal( "0.0" );
             pufa_fats_lcn3pufa = new BigDecimal( "0.0" );
-            carbs_energy_carbohydrate = new BigDecimal( "0.0" );
             carbs_carbohydrates_carbs_by_diff = new BigDecimal( "0.0" );
             carbs_carbohydrates_fiber = new BigDecimal( "0.0" );
             carbs_carbohydrates_fiber_insoluble = new BigDecimal( "0.0" );
@@ -763,14 +767,14 @@ public class TableMixResults extends JTable implements ShowCategory {
             electrolytes_minerals_potassium = new BigDecimal( "0.0" );
             electrolytes_minerals_sodium = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_flavonoids = new BigDecimal( "0.0" );
-            phytonutrients_phytonutrients_anthocyanins = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_carotenoids = new BigDecimal( "0.0" );
+            phytonutrients_phytonutrients_phytosterols = new BigDecimal( "0.0" );
+            phytonutrients_phytonutrients_anthocyanins = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_flavanols = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_flavanones = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_flavones = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_flavonols = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_isoflavones = new BigDecimal( "0.0" );
-            phytonutrients_phytonutrients_phytosterols = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_beta_carotene = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_lutein_zeaxanthin = new BigDecimal( "0.0" );
             phytonutrients_phytonutrients_lycopene = new BigDecimal( "0.0" );
@@ -862,16 +866,6 @@ public class TableMixResults extends JTable implements ShowCategory {
         }
 
 
-        public BigDecimal getEnergy_energy_fat_and_carbohydrate() {
-            return energy_energy_fat_and_carbohydrate;
-        }
-
-
-        public void setEnergy_energy_fat_and_carbohydrate( BigDecimal energy_energy_fat_and_carbohydrate ) {
-            this.energy_energy_fat_and_carbohydrate = energy_energy_fat_and_carbohydrate;
-        }
-
-
         public BigDecimal getEnergy_energy_protein() {
             return energy_energy_protein;
         }
@@ -929,16 +923,6 @@ public class TableMixResults extends JTable implements ShowCategory {
 
         public void setMacronutrients_other_alcohol( BigDecimal macronutrients_other_alcohol ) {
             this.macronutrients_other_alcohol = macronutrients_other_alcohol;
-        }
-
-
-        public BigDecimal getProtein_energy_protein() {
-            return protein_energy_protein;
-        }
-
-
-        public void setProtein_energy_protein( BigDecimal protein_energy_protein ) {
-            this.protein_energy_protein = protein_energy_protein;
         }
 
 
@@ -1149,16 +1133,6 @@ public class TableMixResults extends JTable implements ShowCategory {
 
         public void setPufa_fats_lcn3pufa( BigDecimal pufa_fats_lcn3pufa ) {
             this.pufa_fats_lcn3pufa = pufa_fats_lcn3pufa;
-        }
-
-
-        public BigDecimal getCarbs_energy_carbohydrate() {
-            return carbs_energy_carbohydrate;
-        }
-
-
-        public void setCarbs_energy_carbohydrate( BigDecimal carbs_energy_carbohydrate ) {
-            this.carbs_energy_carbohydrate = carbs_energy_carbohydrate;
         }
 
 
@@ -1783,7 +1757,6 @@ public class TableMixResults extends JTable implements ShowCategory {
         }
 
 
-        @Override
         public void reload( List<List> data ) {
             this.data = data;
             setRowCount();
@@ -1824,92 +1797,88 @@ public class TableMixResults extends JTable implements ShowCategory {
         "Mix Id",
         "Food Id",
         "Food Name",
-        "Other, Weight (g), 10000, other-weight",
-        "Energy, Gross (kcal), 208, energy-gross",
-        "Energy, digestible (kcal), 10009, energy-digestible",
-        "Energy, Fat (kcal), 10013, energy-fat",
-        "Energy, Carbohydrate (kcal), 10011, energy-carbohydrate",
-        "Energy, Fat and Carbohydrate (kcal), 10010, energy-fat_and_carbohydrate",
-        "Energy, Protein (kcal), 10012, energy-protein",
-        "Energy, alcohol (kcal), 10014, energy-alcohol",
-        "Fats, Total Fat (g), 204, fats-total",
-        "Carbohydrates, digestible (g), 10003, carbohydrates-digestible",
-        "Protein, Total Protein (g), 203, protein-total",
-        "Other, Alcohol (g), 221, other-alcohol",
-        "Energy, Protein (kcal), 10012, energy-protein",
-        "Protein, Total Protein (g), 203, protein-total",
-        "Protein, Complete Protein (g), 10001, protein-complete",
-        "Energy, Fat (kcal), 10013, energy-fat",
-        "Fats, Total Fat (g), 204, fats-total",
-        "Fats, Monounsaturated Fat, MUFA (g), 645, fats-monounsaturated",
-        "Fats, Polyunsaturated Fat, PUFA (g), 646, fats-polyunsaturated",
-        "Fats, Saturated Fat, SFA (g), 606, fats-saturated",
-        "Fats, Cholesterol (mg), 601, fats-cholesterol",
-        "Fats, Saturated Fat, SFA (g), 606, fats-saturated",
-        "Fats, Hypercholesterolemic Fat (g), 10015, fats-hcsfa",
-        "Fats, Lauric Acid, 12:0 (g), 611, fats-lauric",
-        "Fats, Myristic Acid, 14:0 (g), 612, fats-myristic",
-        "Fats, Palmitic Acid, 16:0 (g), 613, fats-palmitic",
-        "Fats, Stearic Acid, 18:0 (g), 614, fats-stearic",
-        "Fats, Cholesterol (mg), 601, fats-cholesterol",
-        "Fats, Polyunsaturated Fat, PUFA (g), 646, fats-polyunsaturated",
-        "Fats, Linoleic Acid, LA, 18:2 n-6 (g), 618, fats-linoleic",
-        "Fats, Linolenic Acid, ALA, 18:3 n-3 (g), 619, fats-linolenic",
-        "Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g), 629, fats-epa",
-        "Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g), 621, fats-dha",
-        "Fats, Long Chain n-3 PUFA (g), 10016, fats-lcn3pufa",
-        "Energy, Carbohydrate (kcal), 10011, energy-carbohydrate",
-        "Carbohydrates, By Difference (g), 205, carbohydrates-carbs_by_diff",
-        "Carbohydrates, Fiber (g), 291, carbohydrates-fiber",
-        "Carbohydrates, Fiber, Insoluble (g), 10018, carbohydrates-fiber_insoluble",
-        "Carbohydrates, Fiber, Soluble (g), 10017, carbohydrates-fiber_soluble",
-        "Carbohydrates, digestible (g), 10003, carbohydrates-digestible",
-        "Carbohydrates, Starch (g), 209, carbohydrates-starch",
-        "Carbohydrates, Sugars (g), 269, carbohydrates-sugars",
-        "Carbohydrates, Sucrose (g), 210, carbohydrates-sucrose",
-        "Carbohydrates, Lactose (g), 213, carbohydrates-lactose",
-        "Carbohydrates, Fructose (g), 212, carbohydrates-fructose",
-        "Carbohydrates, Glucose (g), 211, carbohydrates-glucose",
-        "Carbohydrates, Glycemic Load (g), 10006, carbohydrates-glycemic_load",
-        "Vitamins, A, RAE (mcg), 320, vitamins-vitamin_a",
-        "Vitamins, D (mcg), 328, vitamins-vitamin_d",
-        "Vitamins, E (mg), 323, vitamins-vitamin_e",
-        "Vitamins, C (mg), 401, vitamins-vitamin_c",
-        "Vitamins, Thiamin (mg), 404, vitamins-thiamin",
-        "Vitamins, Riboflavin (mg), 405, vitamins-riboflavin",
-        "Vitamins, Niacin (mg), 406, vitamins-niacin",
-        "Vitamins, B6 (mg), 415, vitamins-vitamin_b6",
-        "Vitamins, Folate, DFE (mcg), 435, vitamins-folate",
-        "Vitamins, B12 (mcg), 418, vitamins-vitamin_b12",
-        "Vitamins, K (mcg), 430, vitamins-vitamin_k",
-        "Vitamins, Pantothenic Acid (mg), 410, vitamins-pantothenic_acid",
-        "Vitamins, Choline (mg), 421, vitamins-choline",
-        "Minerals, Calcium (mg), 301, minerals-calcium",
-        "Minerals, Phosphorus (mg), 305, minerals-phosphorus",
-        "Minerals, Magnesium (mg), 304, minerals-magnesium",
-        "Minerals, Iron (mg), 303, minerals-iron",
-        "Minerals, Zinc (mg), 309, minerals-zinc",
-        "Minerals, Copper (mg), 312, minerals-copper",
-        "Minerals, Manganese (mg), 315, minerals-manganese",
-        "Minerals, Selenium (mcg), 317, minerals-selenium",
-        "Minerals, Potassium (mg), 306, minerals-potassium",
-        "Minerals, Sodium (mg), 307, minerals-sodium",
-        "Phytonutrients, Flavonoids (mg), 10026, phytonutrients-flavonoids",
-        "Phytonutrients, Anthocyanins (mg), 10024, phytonutrients-anthocyanins",
-        "Phytonutrients, Carotenoids (mcg), 10019, phytonutrients-carotenoids",
-        "Phytonutrients, Flavanols (mg), 10022, phytonutrients-flavanols",
-        "Phytonutrients, Flavanones (mg), 10023, phytonutrients-flavanones",
-        "Phytonutrients, Flavones (mg), 10021, phytonutrients-flavones",
-        "Phytonutrients, Flavonols (mg), 10020, phytonutrients-flavonols",
-        "Phytonutrients, Isoflavones (mg), 10025, phytonutrients-isoflavones",
-        "Phytonutrients, Phytosterols (mg), 636, phytonutrients-phytosterols",
-        "Phytonutrients, Carotene, beta (mcg), 321, phytonutrients-beta_carotene",
-        "Phytonutrients, Lutein + zeaxanthin (mcg), 338, phytonutrients-lutein_zeaxanthin",
-        "Phytonutrients, Lycopene (mcg), 337, phytonutrients-lycopene",
-        "Phytonutrients, Caffeine (mg), 262, phytonutrients-caffeine",
-        "Phytonutrients, Theobromine (mg), 263, phytonutrients-theobromine",
-        "Phytonutrients, Tocopherol, gamma (mg), 342, phytonutrients-gamma_tocopherol",
-        "Other, Cost ($), 10005, other-cost",
-        "Other, Water (g), 255, other-water"
+        "Other, other-weight",
+        "Energy, Gross (kcal), energy-gross",
+        "Energy, digestible (kcal), energy-digestible",
+        "Energy, Fat (kcal), energy-fat",
+        "Energy, Carbohydrate (kcal), energy-carbohydrate",
+        "Energy, Protein (kcal), energy-protein",
+        "Energy, alcohol (kcal), energy-alcohol",
+        "Fats, Total Fat (g), fats-total",
+        "Carbohydrates, digestible (g), carbohydrates-digestible",
+        "Protein, Total Protein (g), protein-total",
+        "Other, Alcohol (g), other-alcohol",
+        "Protein, Total Protein (g), protein-total",
+        "Protein, Complete Protein (g), protein-complete",
+        "Fats, Total Fat (g), fats-total",
+        "Fats, Monounsaturated Fat, MUFA (g), fats-monounsaturated",
+        "Fats, Polyunsaturated Fat, PUFA (g), fats-polyunsaturated",
+        "Fats, Saturated Fat, SFA (g), fats-saturated",
+        "Fats, Cholesterol (mg), fats-cholesterol",
+        "Fats, Saturated Fat, SFA (g), fats-saturated",
+        "Fats, Hypercholesterolemic Fat (g), fats-hcsfa",
+        "Fats, Lauric Acid, 12:0 (g), fats-lauric",
+        "Fats, Myristic Acid, 14:0 (g), fats-myristic",
+        "Fats, Palmitic Acid, 16:0 (g), fats-palmitic",
+        "Fats, Stearic Acid, 18:0 (g), fats-stearic",
+        "Fats, Cholesterol (mg), fats-cholesterol",
+        "Fats, Polyunsaturated Fat, PUFA (g), fats-polyunsaturated",
+        "Fats, Linoleic Acid, LA, 18:2 n-6 (g), fats-linoleic",
+        "Fats, Linolenic Acid, ALA, 18:3 n-3 (g), fats-linolenic",
+        "Fats, Eicosapentaenoic Acid, EPA, 20:5 n-3 (g), fats-epa",
+        "Fats, Docosahexaenoic Acid, DHA, 22:6 n-3 (g), fats-dha",
+        "Fats, Long Chain n-3 PUFA (g), fats-lcn3pufa",
+        "Carbohydrates, By Difference (g), carbohydrates-carbs_by_diff",
+        "Carbohydrates, Fiber (g), carbohydrates-fiber",
+        "Carbohydrates, Fiber, Insoluble (g), carbohydrates-fiber_insoluble",
+        "Carbohydrates, Fiber, Soluble (g), carbohydrates-fiber_soluble",
+        "Carbohydrates, digestible (g), carbohydrates-digestible",
+        "Carbohydrates, Starch (g), carbohydrates-starch",
+        "Carbohydrates, Sugars (g), carbohydrates-sugars",
+        "Carbohydrates, Sucrose (g), carbohydrates-sucrose",
+        "Carbohydrates, Lactose (g), carbohydrates-lactose",
+        "Carbohydrates, Fructose (g), carbohydrates-fructose",
+        "Carbohydrates, Glucose (g), carbohydrates-glucose",
+        "Carbohydrates, Glycemic Load (g), carbohydrates-glycemic_load",
+        "Vitamins, A, RAE (mcg), vitamins-vitamin_a",
+        "Vitamins, D (mcg), vitamins-vitamin_d",
+        "Vitamins, E (mg), vitamins-vitamin_e",
+        "Vitamins, C (mg), vitamins-vitamin_c",
+        "Vitamins, Thiamin (mg), vitamins-thiamin",
+        "Vitamins, Riboflavin (mg), vitamins-riboflavin",
+        "Vitamins, Niacin (mg), vitamins-niacin",
+        "Vitamins, B6 (mg), vitamins-vitamin_b6",
+        "Vitamins, Folate, DFE (mcg), vitamins-folate",
+        "Vitamins, B12 (mcg), vitamins-vitamin_b12",
+        "Vitamins, K (mcg), vitamins-vitamin_k",
+        "Vitamins, Pantothenic Acid (mg), vitamins-pantothenic_acid",
+        "Vitamins, Choline (mg), vitamins-choline",
+        "Minerals, Calcium (mg), minerals-calcium",
+        "Minerals, Phosphorus (mg), minerals-phosphorus",
+        "Minerals, Magnesium (mg), minerals-magnesium",
+        "Minerals, Iron (mg), minerals-iron",
+        "Minerals, Zinc (mg), minerals-zinc",
+        "Minerals, Copper (mg), minerals-copper",
+        "Minerals, Manganese (mg), minerals-manganese",
+        "Minerals, Selenium (mcg), minerals-selenium",
+        "Minerals, Potassium (mg), minerals-potassium",
+        "Minerals, Sodium (mg), minerals-sodium",
+        "Phytonutrients, Flavonoids (mg), phytonutrients-flavonoids",
+        "Phytonutrients, Carotenoids (mcg), phytonutrients-carotenoids",
+        "Phytonutrients, Phytosterols (mg), phytonutrients-phytosterols",
+        "Phytonutrients, Anthocyanins (mg), phytonutrients-anthocyanins",
+        "Phytonutrients, Flavanols (mg), phytonutrients-flavanols",
+        "Phytonutrients, Flavanones (mg), phytonutrients-flavanones",
+        "Phytonutrients, Flavones (mg), phytonutrients-flavones",
+        "Phytonutrients, Flavonols (mg), phytonutrients-flavonols",
+        "Phytonutrients, Isoflavones (mg), phytonutrients-isoflavones",
+        "Phytonutrients, Carotene, beta (mcg), phytonutrients-beta_carotene",
+        "Phytonutrients, Lutein + zeaxanthin (mcg), phytonutrients-lutein_zeaxanthin",
+        "Phytonutrients, Lycopene (mcg), phytonutrients-lycopene",
+        "Phytonutrients, Caffeine (mg), phytonutrients-caffeine",
+        "Phytonutrients, Theobromine (mg), phytonutrients-theobromine",
+        "Phytonutrients, Tocopherol, gamma (mg), phytonutrients-gamma_tocopherol",
+        "Other, Cost ($), other-cost",
+        "Other, Water (g), other-water"
     };
 }

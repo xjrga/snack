@@ -1,103 +1,115 @@
-CREATE PROCEDURE CopyFoodFactsToDenormalizedTable (
+CREATE PROCEDURE CopyFoodFactsToDenormalizedTableExp (
 --
 IN v_foodId LONGVARCHAR
 --
 )
 --
-MODIFIES SQL DATA
-BEGIN ATOMIC
+MODIFIES SQL DATA BEGIN ATOMIC
 --
 DELETE FROM DnFoodFact
 WHERE food_id = v_FoodId;
+
 --
-INSERT INTO DnFoodFact (
-food_id,
-food_name,
-carbohydrates_carbs_by_diff,
-carbohydrates_fiber_insoluble,
-carbohydrates_fiber_soluble,
-carbohydrates_fiber,
-carbohydrates_fructose,
-carbohydrates_glucose,
-carbohydrates_glycemic_load,
-carbohydrates_lactose,
-carbohydrates_starch,
-carbohydrates_sucrose,
-carbohydrates_sugars,
-energy_gross,
-fats_cholesterol,
-fats_dha,
-fats_epa,
-fats_lauric,
-fats_linoleic,
-fats_linolenic,
-fats_monounsaturated,
-fats_myristic,
-fats_palmitic,
-fats_polyunsaturated,
-fats_saturated,
-fats_stearic,
-fats_total,
-minerals_calcium,
-minerals_copper,
-minerals_iron,
-minerals_magnesium,
-minerals_manganese,
-minerals_phosphorus,
-minerals_potassium,
-minerals_selenium,
-minerals_sodium,
-minerals_zinc,
-other_alcohol,
-other_cost,
-other_water,
-other_weight,
-phytonutrients_anthocyanins,
-phytonutrients_caffeine,
-phytonutrients_beta_carotene,
-phytonutrients_carotenoids,
-phytonutrients_flavanols,
-phytonutrients_flavanones,
-phytonutrients_flavones,
-phytonutrients_flavonoids,
-phytonutrients_flavonols,
-phytonutrients_isoflavones,
-phytonutrients_lutein_zeaxanthin,
-phytonutrients_lycopene,
-phytonutrients_phytosterols,
-phytonutrients_theobromine,
-phytonutrients_gamma_tocopherol,
-protein_complete,
-protein_total,
-vitamins_vitamin_a,
-vitamins_vitamin_b12,
-vitamins_vitamin_b6,
-vitamins_vitamin_c,
-vitamins_choline,
-vitamins_vitamin_d,
-vitamins_vitamin_e,
-vitamins_folate,
-vitamins_vitamin_k,
-vitamins_niacin,
-vitamins_pantothenic_acid,
-vitamins_riboflavin,
-vitamins_thiamin,
-carbohydrates_digestible,
-energy_carbohydrate,
-energy_fat,
-energy_fat_and_carbohydrate,
-energy_protein,
-energy_alcohol,
-energy_digestible,
-fats_hcsfa,
-fats_lcn3pufa
+INSERT INTO DnFoodFact
+(
+  food_id,
+  food_name,
+  carbohydrates_carbs_by_diff,
+  carbohydrates_digestible,
+  carbohydrates_fiber,
+  carbohydrates_fiber_insoluble,
+  carbohydrates_fiber_soluble,
+  carbohydrates_fructose,
+  carbohydrates_glucose,
+  carbohydrates_glycemic_load,
+  carbohydrates_lactose,
+  carbohydrates_starch,
+  carbohydrates_sucrose,
+  carbohydrates_sugars,
+  energy_alcohol,
+  energy_carbohydrate,
+  energy_dha,
+  energy_digestible,
+  energy_epa,
+  energy_fat,
+  energy_fat_and_carbohydrate,
+  energy_gross,
+  energy_hcsfa,
+  energy_lcn3pufa,
+  energy_linoleic,
+  energy_linolenic,
+  energy_monounsaturated,
+  energy_polyunsaturated,
+  energy_protein,
+  energy_protein_and_carbohydrate,
+  energy_saturated,
+  fats_cholesterol,
+  fats_dha,
+  fats_epa,
+  fats_hcsfa,
+  fats_lauric,
+  fats_lcn3pufa,
+  fats_linoleic,
+  fats_linolenic,
+  fats_monounsaturated,
+  fats_myristic,
+  fats_palmitic,
+  fats_polyunsaturated,
+  fats_saturated,
+  fats_stearic,
+  fats_total,
+  minerals_calcium,
+  minerals_copper,
+  minerals_iron,
+  minerals_magnesium,
+  minerals_manganese,
+  minerals_phosphorus,
+  minerals_potassium,
+  minerals_selenium,
+  minerals_sodium,
+  minerals_zinc,
+  other_alcohol,
+  other_cost,
+  other_water,
+  other_weight,
+  phytonutrients_anthocyanins,
+  phytonutrients_beta_carotene,
+  phytonutrients_caffeine,
+  phytonutrients_carotenoids,
+  phytonutrients_flavanols,
+  phytonutrients_flavanones,
+  phytonutrients_flavones,
+  phytonutrients_flavonoids,
+  phytonutrients_flavonols,
+  phytonutrients_gamma_tocopherol,
+  phytonutrients_isoflavones,
+  phytonutrients_lutein_zeaxanthin,
+  phytonutrients_lycopene,
+  phytonutrients_phytosterols,
+  phytonutrients_theobromine,
+  protein_complete,
+  protein_total,
+  vitamins_choline,
+  vitamins_folate,
+  vitamins_niacin,
+  vitamins_pantothenic_acid,
+  vitamins_riboflavin,
+  vitamins_thiamin,
+  vitamins_vitamin_a,
+  vitamins_vitamin_b6,
+  vitamins_vitamin_b12,
+  vitamins_vitamin_c,
+  vitamins_vitamin_d,
+  vitamins_vitamin_e,
+  vitamins_vitamin_k
 )
 SELECT x0.foodid,
        x0.name,
        x205.q AS carbohydrates_carbs_by_diff,
+       x10003.q AS carbohydrates_digestible,
+       x291.q AS carbohydrates_fiber,
        x10018.q AS carbohydrates_fiber_insoluble,
        x10017.q AS carbohydrates_fiber_soluble,
-       x291.q AS carbohydrates_fiber,
        x212.q AS carbohydrates_fructose,
        x211.q AS carbohydrates_glucose,
        x10006.q AS carbohydrates_glycemic_load,
@@ -105,11 +117,29 @@ SELECT x0.foodid,
        x209.q AS carbohydrates_starch,
        x210.q AS carbohydrates_sucrose,
        x269.q AS carbohydrates_sugars,
+       x10014.q AS energy_alcohol,
+       x10011.q AS energy_carbohydrate,
+       x10033.q AS energy_dha,
+       x10009.q AS energy_digestible,
+       x10034.q AS energy_epa,
+       x10013.q AS energy_fat,
+       x10010.q AS energy_fat_and_carbohydrate,
        x208.q AS energy_gross,
+       x10036.q AS energy_hcsfa,
+       x10035.q AS energy_lcn3pufa,
+       x10027.q AS energy_linoleic,
+       x10028.q AS energy_linolenic,
+       x10030.q AS energy_monounsaturated,
+       x10031.q AS energy_polyunsaturated,
+       x10012.q AS energy_protein,
+       x10032.q AS energy_protein_and_carbohydrate,
+       x10029.q AS energy_saturated,
        x601.q AS fats_cholesterol,
        x621.q AS fats_dha,
        x629.q AS fats_epa,
+       x10015.q AS fats_hcsfa,
        x611.q AS fats_lauric,
+       x10016.q AS fats_lcn3pufa,
        x618.q AS fats_linoleic,
        x619.q AS fats_linolenic,
        x645.q AS fats_monounsaturated,
@@ -134,44 +164,35 @@ SELECT x0.foodid,
        x255.q AS other_water,
        x10000.q AS other_weight,
        x10024.q AS phytonutrients_anthocyanins,
-       x262.q AS phytonutrients_caffeine,
        x321.q AS phytonutrients_beta_carotene,
+       x262.q AS phytonutrients_caffeine,
        x10019.q AS phytonutrients_carotenoids,
        x10022.q AS phytonutrients_flavanols,
        x10023.q AS phytonutrients_flavanones,
        x10021.q AS phytonutrients_flavones,
        x10026.q AS phytonutrients_flavonoids,
        x10020.q AS phytonutrients_flavonols,
+       x342.q AS phytonutrients_gamma_tocopherol,
        x10025.q AS phytonutrients_isoflavones,
        x338.q AS phytonutrients_lutein_zeaxanthin,
        x337.q AS phytonutrients_lycopene,
        x636.q AS phytonutrients_phytosterols,
        x263.q AS phytonutrients_theobromine,
-       x342.q AS phytonutrients_gamma_tocopherol,
        x10001.q AS protein_complete,
        x203.q AS protein_total,
-       x320.q AS vitamins_vitamin_a,
-       x418.q AS vitamins_vitamin_b12,
-       x415.q AS vitamins_vitamin_b6,
-       x401.q AS vitamins_vitamin_c,
        x421.q AS vitamins_choline,
-       x328.q AS vitamins_vitamin_d,
-       x323.q AS vitamins_vitamin_e,
        x435.q AS vitamins_folate,
-       x430.q AS vitamins_vitamin_k,
        x406.q AS vitamins_niacin,
        x410.q AS vitamins_pantothenic_acid,
        x405.q AS vitamins_riboflavin,
        x404.q AS vitamins_thiamin,
-       x10003.q AS carbohydrates_digestible,
-       x10011.q AS energy_carbohydrate,
-       x10013.q AS energy_fat,
-       x10010.q AS energy_fat_and_carbohydrate,
-       x10012.q AS energy_protein,
-       x10014.q AS energy_alcohol,
-       x10009.q AS energy_digestible,
-       x10015.q AS fats_hcsfa,
-       x10016.q AS fats_lcn3pufa
+       x320.q AS vitamins_vitamin_a,
+       x415.q AS vitamins_vitamin_b6,
+       x418.q AS vitamins_vitamin_b12,
+       x401.q AS vitamins_vitamin_c,
+       x328.q AS vitamins_vitamin_d,
+       x323.q AS vitamins_vitamin_e,
+       x430.q AS vitamins_vitamin_k
 FROM
 --foodid , name
 (SELECT foodid, name FROM food WHERE foodid = v_foodId) x0,
@@ -642,7 +663,78 @@ FROM
         q
  FROM foodfact
  WHERE nutrientid = '10016'
- AND   foodid = v_foodId) x10016;
+ AND   foodid = v_foodId) x10016,
+     --10033, energy_dha
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10033'
+ AND   foodid = v_foodId) x10033,
+     --
+--10034, energy_epa
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10034'
+ AND   foodid = v_foodId) x10034,
+     --
+--10036, energy_hcsfa
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10036'
+ AND   foodid = v_foodId) x10036,
+     --10035, energy_lcn3pufa
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10035'
+ AND   foodid = v_foodId) x10035,
+     --10027, energy_linoleic
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10027'
+ AND   foodid = v_foodId) x10027,
+     --10028, energy_linolenic
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10028'
+ AND   foodid = v_foodId) x10028,
+     --10030, energy_monounsaturated
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10030'
+ AND   foodid = v_foodId) x10030,
+     --10031, energy_polyunsaturated
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10031'
+ AND   foodid = v_foodId) x10031,
+     --10032, energy_protein_and_carbohydrate
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10032'
+ AND   foodid = v_foodId) x10032,
+     --10029, energy_saturated
+--
+(SELECT foodid,
+        q
+ FROM foodfact
+ WHERE nutrientid = '10029'
+ AND   foodid = v_foodId) x10029;
+
 --
 END;
 /

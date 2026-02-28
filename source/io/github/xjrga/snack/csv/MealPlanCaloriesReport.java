@@ -24,7 +24,6 @@ public class MealPlanCaloriesReport {
         eDigestible,
         eFat,
         eCarbs,
-        eFatPlus,
         eProtein,
         eAlcohol
     }
@@ -59,7 +58,6 @@ public class MealPlanCaloriesReport {
                         BigDecimal eDigestible = ( BigDecimal ) row.get( 3 );
                         BigDecimal eFat = ( BigDecimal ) row.get( 4 );
                         BigDecimal eCarbs = ( BigDecimal ) row.get( 5 );
-                        BigDecimal eFatPlus = ( BigDecimal ) row.get( 6 );
                         BigDecimal eProtein = ( BigDecimal ) row.get( 7 );
                         BigDecimal eAlcohol = ( BigDecimal ) row.get( 8 );
                         csvPrinter.printRecord(
@@ -69,7 +67,6 @@ public class MealPlanCaloriesReport {
                                 Utilities.strip( eDigestible ),
                                 Utilities.strip( eFat ),
                                 Utilities.strip( eCarbs ),
-                                Utilities.strip( eFatPlus ),
                                 Utilities.strip( eProtein ),
                                 Utilities.strip( eAlcohol ) );
                     } catch ( Exception e ) {

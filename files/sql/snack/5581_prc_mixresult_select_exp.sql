@@ -1,4 +1,4 @@
-CREATE PROCEDURE MixResult_Select (
+CREATE PROCEDURE MixResult_Select_Exp (
 --
 IN v_MixId LONGVARCHAR
 --
@@ -28,10 +28,21 @@ SELECT mix_id,
        carbohydrates_sugars,
        energy_alcohol,
        energy_carbohydrate,
+       energy_dha,--
        energy_digestible,
+       energy_epa,--
        energy_fat,
+       energy_fat_and_carbohydrate,
        energy_gross,
+       energy_hcsfa,--
+       energy_lcn3pufa,--
+       energy_linoleic,--
+       energy_linolenic,--
+       energy_monounsaturated,--
+       energy_polyunsaturated,--
        energy_protein,
+       energy_protein_and_carbohydrate,--
+       energy_saturated,--
        fats_cholesterol,
        fats_dha,
        fats_epa,
@@ -85,8 +96,8 @@ SELECT mix_id,
        vitamins_riboflavin,
        vitamins_thiamin,
        vitamins_vitamin_a,
-       vitamins_vitamin_b12,
        vitamins_vitamin_b6,
+       vitamins_vitamin_b12,
        vitamins_vitamin_c,
        vitamins_vitamin_d,
        vitamins_vitamin_e,
@@ -113,10 +124,21 @@ SELECT a.mix_id,
        SUM(carbohydrates_sugars),
        SUM(energy_alcohol),
        SUM(energy_carbohydrate),
+       SUM(energy_dha),--
        SUM(energy_digestible),
+       SUM(energy_epa),--
        SUM(energy_fat),
+       SUM(energy_fat_and_carbohydrate),
        SUM(energy_gross),
+       SUM(energy_hcsfa),--
+       SUM(energy_lcn3pufa),--
+       SUM(energy_linoleic),--
+       SUM(energy_linolenic),--
+       SUM(energy_monounsaturated),--
+       SUM(energy_polyunsaturated),--
        SUM(energy_protein),
+       SUM(energy_protein_and_carbohydrate),--
+       SUM(energy_saturated),--
        SUM(fats_cholesterol),
        SUM(fats_dha),
        SUM(fats_epa),
@@ -170,8 +192,8 @@ SELECT a.mix_id,
        SUM(vitamins_riboflavin),
        SUM(vitamins_thiamin),
        SUM(vitamins_vitamin_a),
-       SUM(vitamins_vitamin_b12),
        SUM(vitamins_vitamin_b6),
+       SUM(vitamins_vitamin_b12),
        SUM(vitamins_vitamin_c),
        SUM(vitamins_vitamin_d),
        SUM(vitamins_vitamin_e),

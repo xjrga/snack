@@ -9,7 +9,7 @@ public class AlphaLinolenicRequired {
 
     public AlphaLinolenicRequired( Double energy ) {
         BigDecimal q = new BigDecimal( energy );
-        // .setScale(scale, RoundingMode.HALF_UP)
+        // .setScale(scale, RoundingMode.HALF_EVEN)
         this.energy = q;
     }
 

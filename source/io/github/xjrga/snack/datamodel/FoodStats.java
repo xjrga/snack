@@ -29,7 +29,7 @@ public class FoodStats implements ReloadMixid {
         try {
             Future<List<Map<String, BigDecimal>>> task = BackgroundExec.submit( new FoodStatisticsTask( foodid ) );
             List<Map<String, BigDecimal>> stats = task.get();
-            DecimalFormat df = new DecimalFormat( "####.##" );
+            DecimalFormat df = new DecimalFormat( "######0.0#" );
             stats.forEach( row -> {
                 BigDecimal fatpct = row.get( "FATPCT" );
                 BigDecimal carbpct = row.get( "CARBPCT" );

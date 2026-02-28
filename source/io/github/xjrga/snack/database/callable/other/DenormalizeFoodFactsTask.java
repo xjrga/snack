@@ -25,7 +25,7 @@ public class DenormalizeFoodFactsTask implements Callable<Boolean> {
     @Override
     public Boolean call() throws Exception {
         Boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL CopyFoodFactsToDenormalizedTable( ? )}" ) ) {
+        try ( CallableStatement proc = connection.prepareCall( "{CALL CopyFoodFactsToDenormalizedTableExp( ? )}" ) ) {
             proc.setString( 1, foodid );
             proc.execute();
             completed = true;

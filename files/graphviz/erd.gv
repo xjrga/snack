@@ -1,7 +1,7 @@
 digraph erd {
 
     labelloc = "t";
-    label = "";
+    label = "SNACK: LEARNING SOFTWARE FOR NUTRITION";
     fontsize = 20;
     fontname = "Liberation Mono Bold"
     size = "100,100";
@@ -15,14 +15,17 @@ CategoryLink [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>CategoryLink</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodCategoryId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
         </table>
     >]
 DnFoodFact [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>DnFoodFact</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>               
+               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">food_name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">...</td></tr>
+               
         </table>
     >]
 DnMixResult [shape=Mrecord, label=<
@@ -30,14 +33,16 @@ DnMixResult [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>DnMixResult</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">mix_id: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>               
+               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">food_name: LONGVARCHAR</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">...</td></tr>               
         </table>
     >]
 Food [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>Food</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
@@ -45,7 +50,7 @@ FoodCategory [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>FoodCategory</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodCategoryId: LONGVARCHAR </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
@@ -54,7 +59,7 @@ FoodFact [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>FoodFact</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
         </table>
     >]
@@ -63,40 +68,40 @@ FoodFactCoefficient [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>FoodFactCoefficient</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">c: DECIMAL(11,5)</td></tr>
         </table>
     >]
 FoodGroupList [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>FoodGroupList</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">GroupId: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">GroupId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
         </table>
     >]
 FoodGroupQuantityC [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>FoodGroupQuantityC</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">GroupId: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">GroupId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
 FoodGroupRatioC [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>FoodGroupRatioC</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">Group_Id_1: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Group_Id_1: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">Group_Id_2: INTEGER (FK)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Group_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">A: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">B: DECIMAL(11,5)</td></tr>
         </table>
@@ -108,7 +113,7 @@ FoodQuantityC [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
@@ -121,7 +126,7 @@ FoodRatioC [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Food_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">A: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">B: DECIMAL(11,5)</td></tr>
         </table>
@@ -131,7 +136,7 @@ Meal [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>Meal</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MealId: INTEGER </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MealOrder: INTEGER</td></tr>
         </table>
@@ -142,7 +147,7 @@ MealFoodPortion [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MealId: INTEGER (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Pct: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">ExpectedWt: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">ActualWt: DECIMAL(11,5)</td></tr>
@@ -152,7 +157,7 @@ Mix [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>Mix</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Model: LONGVARCHAR</td></tr>
@@ -166,7 +171,7 @@ MixFood [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>MixFood</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">x: DECIMAL(11,5)</td></tr>
         </table>
     >]
@@ -174,8 +179,8 @@ MixFoodGroup [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>MixFoodGroup</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">GroupId: INTEGER </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+               <tr><td bgcolor="#ECEEE9" align="left">GroupId: LONGVARCHAR </td></tr>
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
@@ -183,7 +188,7 @@ MixInventory [shape=Mrecord, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>MixInventory</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Days: DECIMAL(11,5)</td></tr>
         </table>
     >]
@@ -193,7 +198,7 @@ MixResult [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">FoodId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
         </table>
     >]
@@ -201,20 +206,21 @@ Nutrient [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>Nutrient</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Visible: INTEGER</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientCategoryId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Label: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Units: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Dri: INTEGER</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Calculated: INTEGER</td></tr>
         </table>
     >]
 NutrientCategory [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>NutrientCategory</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientCategoryId: LONGVARCHAR </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
@@ -224,7 +230,7 @@ NutrientQuantityC [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">b: DECIMAL(11,5)</td></tr>
         </table>
     >]
@@ -235,7 +241,7 @@ NutrientRatioC [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_1: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Nutrient_Id_2: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">A: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">B: DECIMAL(11,5)</td></tr>
         </table>
@@ -245,7 +251,7 @@ Rda [shape=Mrecord, label=<
             <tr><td bgcolor="#CECFC3"><b>Rda</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">NutrientId: LONGVARCHAR (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER (FK)</td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">UL: DECIMAL(11,5)</td></tr>
         </table>
@@ -254,7 +260,7 @@ RdaLifeStage [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>RdaLifeStage</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Label: LONGVARCHAR</td></tr>
         </table>
     >]
@@ -262,7 +268,7 @@ Relationship [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>Relationship</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">RelationshipId: INTEGER </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
         </table>
     >]
@@ -270,7 +276,7 @@ Units [shape=record, label=<
         <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
             <tr><td bgcolor="#CECFC3"><b>Units</b></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">UnitId: INTEGER </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>              
+              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Factor: DECIMAL(11,5)</td></tr>
         </table>

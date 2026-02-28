@@ -12,7 +12,8 @@ SELECT a.foodid,
        b.name AS nutrient,
        a.q,
        b.units,
-       b.dri
+       b.dri,
+       b.calculated
 FROM foodfact a,
      nutrient b,
      food c
