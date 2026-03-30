@@ -1,5 +1,11 @@
 ### Release Notes
 
+### 1660 - March 30, 2026
+
+  * Added tni nutrient food items
+  * Added new option to export all food items to xml
+  * Bug fixes
+
 ### 1650 - March 01, 2026
 
   * Added new metrics such as

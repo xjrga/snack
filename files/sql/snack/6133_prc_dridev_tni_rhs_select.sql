@@ -21,7 +21,7 @@ FROM nutrient b,
      relationship c,
      rda d
 WHERE relationshipid = 3
-AND   (b.nutrientid = '301' OR b.nutrientid = '304' OR b.nutrientid = '306' OR b.nutrientid = '320' OR b.nutrientid = '323' OR b.nutrientid = '328' OR b.nutrientid = '401' OR b.nutrientid = '421')
+AND b.tni = 1
 AND b.nutrientid = d.nutrientid
 AND d.lifestageid = v_lifestageid
 ORDER BY nutrientid;

@@ -1,0 +1,17 @@
+CREATE PROCEDURE getFoodList()
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT foodid,
+       name
+FROM food
+ORDER BY name;
+--
+OPEN result;
+--
+END;
+/

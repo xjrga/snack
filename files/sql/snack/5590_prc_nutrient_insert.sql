@@ -6,7 +6,8 @@ IN v_NutrientCategoryId LONGVARCHAR,
 IN v_Label LONGVARCHAR,
 IN v_Units LONGVARCHAR,
 IN v_Dri INTEGER,
-IN v_Calculated INTEGER
+IN v_Calculated INTEGER,
+IN v_Tni INTEGER
 --
 )
 --
@@ -20,7 +21,8 @@ NutrientCategoryId,
 Label,
 Units,
 Dri,
-Calculated
+Calculated,
+Tni
 ) VALUES (
 v_NutrientId,
 v_Name,
@@ -28,7 +30,8 @@ v_NutrientCategoryId,
 v_Label,
 v_Units,
 v_Dri,
-v_Calculated
+v_Calculated,
+v_Tni
 );
 --
 END;

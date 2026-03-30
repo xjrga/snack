@@ -5,6 +5,7 @@ import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
 import io.github.xjrga.snack.renderers.RoundDownRenderer;
 import io.github.xjrga.snack.renderers.RoundUpRenderer;
+import io.github.xjrga.snack.renderers.RoundUpRenderer2;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -456,6 +457,7 @@ public class TableMixResults extends JTable implements ShowCategory {
 
     public void roundDown() {
         roundQuantity( new RoundDownRenderer() );
+        getColumnModel().getColumn( 3 ).setCellRenderer( new RoundUpRenderer2() );
     }
 
 
@@ -1797,7 +1799,7 @@ public class TableMixResults extends JTable implements ShowCategory {
         "Mix Id",
         "Food Id",
         "Food Name",
-        "Other, other-weight",
+        "Other (g), other-weight",
         "Energy, Gross (kcal), energy-gross",
         "Energy, digestible (kcal), energy-digestible",
         "Energy, Fat (kcal), energy-fat",

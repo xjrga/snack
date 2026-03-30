@@ -358,6 +358,7 @@ CREATE TABLE Nutrient
   Units                LONGVARCHAR,
   Dri                  INTEGER,
   Calculated           INTEGER,
+  Tni                  INTEGER,
   CONSTRAINT Nutrient_primary_key PRIMARY KEY (NutrientId)
 );
 /
@@ -4550,7 +4551,8 @@ IN v_NutrientCategoryId LONGVARCHAR,
 IN v_Label LONGVARCHAR,
 IN v_Units LONGVARCHAR,
 IN v_Dri INTEGER,
-IN v_Calculated INTEGER
+IN v_Calculated INTEGER,
+IN v_Tni INTEGER
 --
 )
 --
@@ -4564,7 +4566,8 @@ NutrientCategoryId,
 Label,
 Units,
 Dri,
-Calculated
+Calculated,
+Tni
 ) VALUES (
 v_NutrientId,
 v_Name,
@@ -4572,7 +4575,8 @@ v_NutrientCategoryId,
 v_Label,
 v_Units,
 v_Dri,
-v_Calculated
+v_Calculated,
+v_Tni
 );
 --
 END;
@@ -6951,11 +6955,11 @@ FROM (SELECT a.name AS category,
                          b.value AS food_b,
                          a.value - b.value AS diff
                   FROM (SELECT nutrientid,
-                               q / get_foodfact(v_food_a,'10009') * 100 AS value
+                               CASEWHEN (get_foodfact(v_food_a,'10009') <= 0,0,q / get_foodfact(v_food_a,'10009') * 100) AS value
                         FROM foodfact
                         WHERE foodid = v_food_a) a,
                        (SELECT nutrientid,
-                               q / get_foodfact(v_food_b,'10009') * 100 AS value
+                               CASEWHEN (get_foodfact(v_food_b,'10009') <= 0,0,q / get_foodfact(v_food_b,'10009') * 100) AS value
                         FROM foodfact
                         WHERE foodid = v_food_b) b
                   WHERE a.nutrientid = b.nutrientid) a,
@@ -8159,9 +8163,9 @@ CALL foodfact_merge (v_foodid,'10036',v_hcsfa * 9);
 END;
 /
 
-CREATE PROCEDURE exportCategoryToXml(
+CREATE PROCEDURE getFoodXml(
 --
-IN vFoodCategoryId LONGVARCHAR
+IN v_foodid LONGVARCHAR
 --
 )
 --
@@ -8171,42 +8175,42 @@ BEGIN ATOMIC
 --
 DECLARE TABLE temp ( txt LONGVARCHAR);
 DECLARE doc LONGVARCHAR;
-DECLARE doc2 LONGVARCHAR;
+DECLARE xml LONGVARCHAR;
 --
 SET doc = '';
-SET doc2 = '';
---
-SET doc2 = '<foods xmlns:xsi=''http://www.w3.org/2001/XMLSchema-instance''>' + CHAR(10);
+SET xml = '';
 ------------------------------------------------------------
-FOR SELECT a.foodid AS id, a.name, c.foodcategoryid as categoryid, c.name as categoryname FROM food a, categorylink b, foodcategory c WHERE a.foodid = b.foodid AND b.foodcategoryid = c.foodcategoryid AND c.foodcategoryid = vFoodCategoryId DO
+FOR SELECT foodid as id, name FROM food WHERE foodid = v_foodid DO
 --
 SET doc = '<food>' +CHAR(10)+'<food-id>'+id +'</food-id>' +CHAR (10) + '<food-name>'+ escape_xml_element_data(name) +'</food-name>' +CHAR (10);
 --
-SET doc2 = doc2 + doc;
+SET xml = xml + doc;
 --
 FOR SELECT * FROM (SELECT NUTRIENTID, LABEL, UNITS, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND Y.NUTRIENTID = Z.NUTRIENTID AND Z.CALCULATED = 0) ORDER BY LABEL DO
 --
 SET doc = '<'+label +' '+'units="'+units+'" '+'nutr_no="'+nutrientid+'" '+'>'+ q +'</'+label +'>' + CHAR (10);
 --
-SET doc2 = doc2 + doc;
+SET xml = xml + doc;
 --
 END FOR;
 --
-SET doc2 = doc2 + '<category-list>'+ CHAR (10);
+SET xml = xml + '<category-list>'+ CHAR (10);
+--
+FOR SELECT c.foodcategoryid as categoryid, b.name as categoryname FROM foodcategory b, categorylink c WHERE  b.foodcategoryid = c.foodcategoryid AND c.foodid = id DO
 --
 SET doc = '<category>'+ CHAR (10) + '<category-id>' + categoryid + '</category-id>' + CHAR (10) + '<category-name>' + categoryname + '</category-name>' + CHAR (10) + '</category>' + CHAR (10);
 --
-SET doc2 = doc2 + doc;
---
-SET doc2 = doc2 + '</category-list>'+ CHAR (10);
---
-SET doc2 = doc2 + '</food>' + CHAR (10);
+SET xml = xml + doc;
 --
 END FOR;
 --
-SET doc2 = doc2 + '</foods>';
+SET xml = xml + '</category-list>'+ CHAR (10);
 --
-INSERT INTO temp (txt) VALUES (doc2);
+SET xml = xml + '</food>' + CHAR (10);
+--
+END FOR;
+---------------------------------------------------
+INSERT INTO temp (txt) VALUES (xml);
 --
 BEGIN ATOMIC
 --
@@ -8220,6 +8224,116 @@ OPEN result;
 END;
 --
 END
+/
+
+
+CREATE PROCEDURE getFoodList()
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT foodid,
+       name
+FROM food
+ORDER BY name;
+--
+OPEN result;
+--
+END;
+/
+
+
+CREATE PROCEDURE getFoodXmlFixedCategory(
+--
+IN v_foodId LONGVARCHAR,
+--
+IN v_categoryId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC
+--
+DECLARE TABLE temp ( txt LONGVARCHAR);
+DECLARE doc LONGVARCHAR;
+DECLARE xml LONGVARCHAR;
+--
+SET doc = '';
+SET xml = '';
+------------------------------------------------------------
+FOR SELECT foodid as id, name FROM food WHERE foodid = v_foodId DO
+--
+SET doc = '<food>' +CHAR(10)+'<food-id>'+id +'</food-id>' +CHAR (10) + '<food-name>'+ escape_xml_element_data(name) +'</food-name>' +CHAR (10);
+--
+SET xml = xml + doc;
+--
+FOR SELECT * FROM (SELECT NUTRIENTID, LABEL, UNITS, Q FROM FOODFACT Y,NUTRIENT Z WHERE Y.FOODID = id AND Y.NUTRIENTID = Z.NUTRIENTID AND Z.CALCULATED = 0) ORDER BY LABEL DO
+--
+SET doc = '<'+label +' '+'units="'+units+'" '+'nutr_no="'+nutrientid+'" '+'>'+ q +'</'+label +'>' + CHAR (10);
+--
+SET xml = xml + doc;
+--
+END FOR;
+--
+SET xml = xml + '<category-list>'+ CHAR (10);
+--
+FOR SELECT c.foodcategoryid as categoryid, b.name as categoryname FROM foodcategory b, categorylink c WHERE  b.foodcategoryid = c.foodcategoryid AND c.foodid = id AND b.foodcategoryid = v_categoryId DO
+--
+SET doc = '<category>'+ CHAR (10) + '<category-id>' + categoryid + '</category-id>' + CHAR (10) + '<category-name>' + categoryname + '</category-name>' + CHAR (10) + '</category>' + CHAR (10);
+--
+SET xml = xml + doc;
+--
+END FOR;
+--
+SET xml = xml + '</category-list>'+ CHAR (10);
+--
+SET xml = xml + '</food>' + CHAR (10);
+--
+END FOR;
+---------------------------------------------------
+INSERT INTO temp (txt) VALUES (xml);
+--
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT *
+FROM temp;
+--
+OPEN result;
+--
+END;
+--
+END
+/
+
+
+CREATE PROCEDURE getFoodListForCategory(
+--
+IN vFoodCategoryId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
+BEGIN ATOMIC
+--
+DECLARE result CURSOR
+FOR
+SELECT a.foodid, a.name
+FROM food a, categorylink b, foodcategory c
+WHERE a.foodid = b.foodid
+AND b.foodcategoryid = c.foodcategoryid
+AND c.foodcategoryid = vFoodCategoryId
+ORDER BY name;
+--
+OPEN result;
+--
+END;
 /
 
 
@@ -8761,7 +8875,7 @@ END;
 /
 
 
-CREATE VIEW tninutrients 
+CREATE VIEW tninutrients
 (
   nutrientid,
   name,
@@ -8774,7 +8888,7 @@ SELECT nutrientid,
        label,
        units
 FROM public.nutrient
-WHERE (nutrientid = '301' OR nutrientid = '304' OR nutrientid = '306' OR nutrientid = '320' OR nutrientid = '323' OR nutrientid = '328' OR nutrientid = '401' OR nutrientid = '421');
+WHERE tni = 1;
 /
 
 
@@ -8919,7 +9033,7 @@ FROM nutrient b,
      relationship c,
      rda d
 WHERE relationshipid = 3
-AND   (b.nutrientid = '301' OR b.nutrientid = '304' OR b.nutrientid = '306' OR b.nutrientid = '320' OR b.nutrientid = '323' OR b.nutrientid = '328' OR b.nutrientid = '401' OR b.nutrientid = '421')
+AND b.tni = 1
 AND b.nutrientid = d.nutrientid
 AND d.lifestageid = v_lifestageid
 ORDER BY nutrientid;

@@ -1,7 +1,8 @@
 package io.github.xjrga.snack.jcomponents;
 
+import io.github.xjrga.snack.datamodel.TableCategoryDataModel;
+import io.github.xjrga.snack.records.TableCategoryRow;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Reload;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
@@ -24,14 +23,12 @@ public class TableCategory extends JTable {
 
     private TableRowSorter sorter;
     private JTextField searchTextField;
-    private DataModel dm;
+    private TableCategoryDataModel dm;
 
 
     public TableCategory() {
         searchTextField = new JTextField();
-        dm = new DataModel();
-        dm.addColumn( "Id" );
-        dm.addColumn( "Category" );
+        dm = new TableCategoryDataModel();
         setModel( dm );
         setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         setFillsViewportHeight( true );
@@ -103,36 +100,36 @@ public class TableCategory extends JTable {
     }
 
 
-    public Row getSelectedValue() {
+    public TableCategoryRow getSelectedValue() {
         if ( isEmpty() ) {
-            return new NullRow();
+            return new TableCategoryRow( "", "" );
         }
         if ( isSelectionEmpty() ) {
-            return new NullRow();
+            return new TableCategoryRow( "", "" );
         }
         int row = getSelectedRow();
         return getRow( row );
     }
 
 
-    public List<Row> getSelectedValues() {
+    public List<TableCategoryRow> getSelectedValues() {
         int[] selectedRows = getSelectedRows();
-        ArrayList<Row> rows = new ArrayList<Row>();
+        ArrayList<TableCategoryRow> rows = new ArrayList<TableCategoryRow>();
         if ( getSelectedRowCount() == 0 ) {
             return rows;
         }
         for ( int i = 0; i < selectedRows.length; i++ ) {
-            Row row = getRow( selectedRows[ i ] );
+            TableCategoryRow row = getRow( selectedRows[ i ] );
             rows.add( row );
         }
         return rows;
     }
 
 
-    private Row getRow( int selectedRowNo ) {
+    private TableCategoryRow getRow( int selectedRowNo ) {
         String foodid = ( String ) getValueAt( selectedRowNo, 0 );
         String foodname = ( String ) getValueAt( selectedRowNo, 1 );
-        Row category = new Row( foodid, foodname );
+        TableCategoryRow category = new TableCategoryRow( foodid, foodname );
         return category;
     }
 
@@ -142,7 +139,7 @@ public class TableCategory extends JTable {
     }
 
 
-    public void reload( List<List> data ) {
+    public void reload( List<TableCategoryRow> data ) {
         dm.clear();
         dm.reload( data );
         adjustColumnWidth();
@@ -157,150 +154,6 @@ public class TableCategory extends JTable {
 
     public void clear() {
         dm.clear();
-    }
-
-    public class Row {
-
-        private String categoryid;
-        private String categoryname;
-
-
-        public Row() {
-            categoryid = "";
-            categoryname = "";
-        }
-
-
-        public Row( String foodid, String foodname ) {
-            this.categoryid = foodid;
-            this.categoryname = foodname;
-        }
-
-
-        public String getCategoryid() {
-            return categoryid;
-        }
-
-
-        public String getCategoryname() {
-            return categoryname;
-        }
-
-
-        public boolean isNull() {
-            return false;
-        }
-
-
-        @Override
-        public String toString() {
-            return "Row{" + "categoryid=" + categoryid + ", categoryname=" + categoryname + '}';
-        }
-    }
-
-    public class NullRow extends Row {
-
-        public boolean isNull() {
-            return true;
-        }
-    }
-
-    public class DataModel extends AbstractTableModel implements Reload {
-
-        private List<List> data;
-        private List<String> columns;
-        private int rowcount;
-
-
-        public DataModel() {
-            data = new ArrayList<List>();
-            columns = new ArrayList<String>();
-            setRowCount();
-        }
-
-
-        public void addColumn( String col ) {
-            columns.add( col );
-        }
-
-
-        @Override
-        public void addTableModelListener( TableModelListener l ) {
-            super.addTableModelListener( l );
-        }
-
-
-        @Override
-        public Class<?> getColumnClass( int c ) {
-            Class columnClass = String.class;
-            return columnClass;
-        }
-
-
-        @Override
-        public int getColumnCount() {
-            return columns.size();
-        }
-
-
-        @Override
-        public String getColumnName( int c ) {
-            return columns.get( c );
-        }
-
-
-        @Override
-        public int getRowCount() {
-            return rowcount;
-        }
-
-
-        @Override
-        public Object getValueAt( int r, int c ) {
-            if ( data.isEmpty() ) {
-                return "";
-            }
-            return data.get( r ).get( c );
-        }
-
-
-        @Override
-        public boolean isCellEditable( int r, int c ) {
-            return false;
-        }
-
-
-        @Override
-        public void removeTableModelListener( TableModelListener l ) {
-            super.removeTableModelListener( l );
-        }
-
-
-        @Override
-        public void setValueAt( Object o, int r, int c ) {
-            data.get( r ).set( c, o );
-            fireTableDataChanged();
-        }
-
-
-        public void reload( List<List> data ) {
-            this.data = data;
-            setRowCount();
-            fireTableDataChanged();
-        }
-
-
-        @Override
-        public void clear() {
-            data.clear();
-            setRowCount();
-            fireTableDataChanged();
-        }
-
-
-        private void setRowCount() {
-            rowcount = data.size();
-        }
     }
 
 

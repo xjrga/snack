@@ -30,11 +30,11 @@ FROM (SELECT a.name AS category,
                          b.value AS food_b,
                          a.value - b.value AS diff
                   FROM (SELECT nutrientid,
-                               q / get_foodfact(v_food_a,'10009') * 100 AS value
+                               CASEWHEN (get_foodfact(v_food_a,'10009') <= 0,0,q / get_foodfact(v_food_a,'10009') * 100) AS value
                         FROM foodfact
                         WHERE foodid = v_food_a) a,
                        (SELECT nutrientid,
-                               q / get_foodfact(v_food_b,'10009') * 100 AS value
+                               CASEWHEN (get_foodfact(v_food_b,'10009') <= 0,0,q / get_foodfact(v_food_b,'10009') * 100) AS value
                         FROM foodfact
                         WHERE foodid = v_food_b) b
                   WHERE a.nutrientid = b.nutrientid) a,

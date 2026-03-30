@@ -73,6 +73,19 @@ public class LpsolvePrintOut {
     }
 
 
+    public void addMixLegend( String mixname, String optionDescription ) {
+        String date = Utilities.formatDate( new Date() );
+        mixLegend.append( "/*\n" );
+        mixLegend.append( String.format( " %1$11s %2$s", "PROBLEM:", mixname ) );
+        mixLegend.append( "\n" );
+        mixLegend.append( String.format( " %1$11s %2$s", "DATE:", date ) );
+        mixLegend.append( "\n" );
+        mixLegend.append(optionDescription );
+        mixLegend.append( "\n*/" );
+        mixLegend.append( "\n\n" );
+    }
+
+
     public void addFoodLegend( String legend ) {
         foodLegend.append( "/*\n" );
         foodLegend.append( "VARIABLES\n\n" );

@@ -25,7 +25,7 @@ public class RoundDownRenderer extends DefaultTableCellRenderer {
             super.setValue( txt );
             return;
         }
-        DecimalFormat df = new DecimalFormat( "###0.000" );
+        DecimalFormat df = new DecimalFormat( "###0.00000" );
         txt = df.format( ( BigDecimal ) value );
         super.setValue( txt );
     }

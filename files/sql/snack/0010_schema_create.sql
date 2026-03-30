@@ -355,6 +355,7 @@ CREATE TABLE Nutrient
   Units                LONGVARCHAR,
   Dri                  INTEGER,
   Calculated           INTEGER,
+  Tni                  INTEGER,
   CONSTRAINT Nutrient_primary_key PRIMARY KEY (NutrientId)
 );
 /

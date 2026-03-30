@@ -1771,6 +1771,26 @@
         <table_key>
             <schema_id>29685</schema_id>
             <table_id>73516</table_id>
+            <key_id>30851</key_id>
+            <key_name>Tni</key_name>
+            <datatype_id>2</datatype_id>
+            <key_order>9</key_order>
+            <is_primary_key>false</is_primary_key>
+            <is_foreign_key>false</is_foreign_key>
+        </table_key>
+        <table_key>
+            <schema_id>29685</schema_id>
+            <table_id>73516</table_id>
+            <key_id>41180</key_id>
+            <key_name>Calculated</key_name>
+            <datatype_id>2</datatype_id>
+            <key_order>8</key_order>
+            <is_primary_key>false</is_primary_key>
+            <is_foreign_key>false</is_foreign_key>
+        </table_key>
+        <table_key>
+            <schema_id>29685</schema_id>
+            <table_id>73516</table_id>
             <key_id>56031</key_id>
             <key_name>Dri</key_name>
             <datatype_id>2</datatype_id>
@@ -3621,6 +3641,16 @@
             <schema_id>29685</schema_id>
             <table_id>73516</table_id>
             <key_id>29370</key_id>
+        </data_key>
+        <data_key>
+            <schema_id>29685</schema_id>
+            <table_id>73516</table_id>
+            <key_id>30851</key_id>
+        </data_key>
+        <data_key>
+            <schema_id>29685</schema_id>
+            <table_id>73516</table_id>
+            <key_id>41180</key_id>
         </data_key>
         <data_key>
             <schema_id>29685</schema_id>
