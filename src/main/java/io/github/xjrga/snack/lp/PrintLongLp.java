@@ -1,9 +1,10 @@
 package io.github.xjrga.snack.lp;
 
 import io.github.xjrga.snack.other.Utilities;
+import java.math.BigDecimal;
 import java.util.Date;
 
-public class LpsolvePrintOut {
+public class PrintLongLp {
 
     private final StringBuilder sb;
     private final StringBuilder mixLegend;
@@ -20,7 +21,7 @@ public class LpsolvePrintOut {
     private String model;
 
 
-    public LpsolvePrintOut() {
+    public PrintLongLp() {
         sb = new StringBuilder();
         mixLegend = new StringBuilder();
         foodLegend = new StringBuilder();
@@ -38,10 +39,10 @@ public class LpsolvePrintOut {
         objFunction.append( "/* ----- OBJECTIVE FUNCTION ----- */" );
         objFunction.append( "\n\n" );
         driDevQuantity.append( "\n" );
-        driDevQuantity.append( "/* ----- DRI DEVIATION QUANTITY CONSTRAINTS ----- */" );
+        driDevQuantity.append( "/* ----- NUTRIENT DEFICIENCY AND EXCESS CONSTRAINTS ----- */" );
         driDevQuantity.append( "\n\n" );
         driDevSumQuantity.append( "\n" );
-        driDevSumQuantity.append( "/* ----- DRI DEVIATION SUM QUANTITY CONSTRAINTS ----- */" );
+        driDevSumQuantity.append( "/* ----- NUTRIENT AVERAGE DEFICIENCY AND EXCESS CONSTRAINTS ----- */" );
         driDevSumQuantity.append( "\n\n" );
         nutrientQuantity.append( "\n" );
         nutrientQuantity.append( "/* ----- NUTRIENT QUANTITY CONSTRAINTS ----- */" );
@@ -80,7 +81,7 @@ public class LpsolvePrintOut {
         mixLegend.append( "\n" );
         mixLegend.append( String.format( " %1$11s %2$s", "DATE:", date ) );
         mixLegend.append( "\n" );
-        mixLegend.append(optionDescription );
+        mixLegend.append( optionDescription );
         mixLegend.append( "\n*/" );
         mixLegend.append( "\n\n" );
     }
@@ -101,14 +102,21 @@ public class LpsolvePrintOut {
         objFunction.append( "\n\n" );
         objFunction.append( "min:" );
         objFunction.append( "\n" );
+        StringBuilder isb = new StringBuilder();
         for ( int i = 0; i < coefficients.length; i++ ) {
             double c = coefficients[ i ];
+            String cst = BigDecimal.valueOf( Math.abs( c ) )
+                    .stripTrailingZeros()
+                    .toPlainString();
             if ( c < 0 ) {
-                objFunction.append( String.format( " - %1$ 11.5f X%2$02d", c, i + 1 ) );
+                isb.append( String.format( " - %1$s x%2$02d", cst, i + 1 ) );
             } else {
-                objFunction.append( String.format( " + %1$ 11.5f X%2$02d", Math.abs( c ), i + 1 ) );
+                isb.append( String.format( " + %1$s x%2$02d", cst, i + 1 ) );
             }
         }
+        String constraint = isb.toString();
+        objFunction.append( constraint.replaceFirst( "\\+", "" ) );
+        objFunction.append( " " );
         objFunction.append( ";" );
         objFunction.append( "\n" );
     }
@@ -226,14 +234,20 @@ public class LpsolvePrintOut {
 
     private void setConstraintCoefficients( StringBuilder sb, double[] coefficients, int rel, double value ) {
         String relationship = LpUtilities.getRelationship( rel );
+        StringBuilder isb = new StringBuilder();
         for ( int i = 0; i < coefficients.length; i++ ) {
             double c = coefficients[ i ];
+            String cst = BigDecimal.valueOf( Math.abs( c ) )
+                    .stripTrailingZeros()
+                    .toPlainString();
             if ( c < 0 ) {
-                sb.append( String.format( " - %1$ 11.5f X%2$02d", Math.abs( c ), i + 1 ) );
+                isb.append( String.format( " - %1$s x%2$02d", cst, i + 1 ) );
             } else {
-                sb.append( String.format( " + %1$ 11.5f X%2$02d", c, i + 1 ) );
+                isb.append( String.format( " + %1$s x%2$02d", cst, i + 1 ) );
             }
         }
+        String constraint = isb.toString();
+        sb.append( constraint.replaceFirst( "\\+", "" ) );
         sb.append( " " );
         sb.append( String.format( "%1$2s %2$ 11.5f", relationship, value ) );
         sb.append( ";" );

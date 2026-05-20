@@ -10,7 +10,7 @@ if [ $count != 0 ]
 then
 
 for model in `ls snack_lpsolve_*.lp`; do
-if !(lp_solve -piv1 -s1 -S3 $model 1>>temp.txt 2>&1)
+if !(lp_solve -S3 $model 1>>temp.txt 2>&1)
 then
 	echo "-----------------------------------------------------------------" >> errors.txt
         echo "`date`" >> errors.txt

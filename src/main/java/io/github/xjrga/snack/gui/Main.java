@@ -171,7 +171,8 @@ import io.github.xjrga.snack.jpanels.NutrientCategorySelector;
 import io.github.xjrga.snack.jpanels.NutrientCategorySelector.Nutrients;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.lp.LinearProgram;
-import io.github.xjrga.snack.lp.LpsolvePrintOut;
+import io.github.xjrga.snack.lp.PrintLongLp;
+import io.github.xjrga.snack.lp.PrintShortLp;
 import io.github.xjrga.snack.other.AlphaLinolenicRequired;
 import io.github.xjrga.snack.other.CunninghamFormula;
 import io.github.xjrga.snack.other.DigestibleCarbohydrate;
@@ -325,7 +326,8 @@ public class Main {
     private final JButton btnUpdatePortionWeight;
     private final JButton btnBlock;
     private final JButton btnGroupBlock;
-    private final JCheckBox chkLpsolve;
+    private final JCheckBox cbPrintLongLp;
+    private final JCheckBox cbPrintShortLp;
     private final JCheckBox chkResultRoundUp;
     private final JFileChooser fch;
     private final JFrame frm;
@@ -501,7 +503,8 @@ public class Main {
         btnUpdatePortionWeight = new JButton( "w" );
         btnBlock = new JButton( "Block" );
         btnGroupBlock = new JButton( "Block" );
-        chkLpsolve = new JCheckBox();
+        cbPrintLongLp = new JCheckBox();
+        cbPrintShortLp = new JCheckBox();
         chkResultRoundUp = new JCheckBox();
         fch = new JFileChooser();
         frm = new JFrame();
@@ -1651,7 +1654,8 @@ public class Main {
         mniFoodStats.addActionListener( ( ActionEvent evt ) -> {
             if ( !tblFoodFacts.isSelectionEmpty() ) {
                 TableFoodFacts.Row food = tblFoodFacts.getSelectedValue();
-                showFoodStats( food.getId_food_id() );
+                foodStats.reload( food.getId_food_id() );
+                Message.showMessage( foodStats.get_stats() );
             } else {
                 Message.showMessage( "Please select food item" );
             }
@@ -1961,7 +1965,8 @@ public class Main {
         mnuFoodsData.add( mniExportFoods );
         mnuHelp.add( mniAbout );
         mnuSettings.add( chkResultRoundUp );
-        mnuSettings.add( chkLpsolve );
+        mnuSettings.add( cbPrintLongLp );
+        mnuSettings.add( cbPrintShortLp );
         mnuSettings.add( mniSetConstraints );
         mnuMix.add( mniCreateMix );
         mnuMix.add( mniDeleteMix );
@@ -2010,7 +2015,8 @@ public class Main {
         mniImportFoods.setText( "Import" );
         mniExportFoods.setText( "Export" );
         chkResultRoundUp.setText( "Round up result values" );
-        chkLpsolve.setText( "Write model in LPSOLVE format" );
+        cbPrintLongLp.setText( "Write long model to file" );
+        cbPrintShortLp.setText( "Write short model to file" );
         mniSetConstraints.setText( "Choose constraints" );
         mniAbout.setText( "About" );
         mniCreateMix.setText( "Create mix" );
@@ -4197,41 +4203,334 @@ public class Main {
 
     private Boolean solveModel( MixDO mix ) {
         Boolean solutionFound = false;
-        LpsolvePrintOut print = new LpsolvePrintOut();
-        LinearProgram program = new LinearProgram();
+        PrintLongLp printLongLp = new PrintLongLp();
+        PrintShortLp printShortLp = new PrintShortLp();
+        LinearProgram lpmodel = new LinearProgram();
         String mixid = mix.getMixid();
         String mixName = mix.getName();
         Integer lifestageid = mix.getLifestageid();
         String lifestage = spnLifestage.getSelectedItem().getLabel();
         try {
-            program.setComponent( getNoSolutionPanel() );
+            lpmodel.setComponent( getNoSolutionPanel() );
             // ----- MINIMIZATION OPTION -----
             String optionDescription = "";
             switch ( minimizationOption ) {
                 case Objective.DRI -> {
-                    minimizeDRIDeficiency( mixid, program, print, lifestageid );
+                    // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency -----
+                    try {
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevObjectiveDeficiencyLhsTask( mixid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        lpmodel.addObjectiveFunction( coefficients );
+                        printLongLp.addObjectiveFunction( coefficients, "Minimize" );
+                        printShortLp.addObjectiveFunction( coefficients, "Minimize" );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
                     optionDescription = String.format( " %1$11s %2$s", "OBJECTIVE:", "Minimize DRI deficiency" );
                 }
                 case Objective.DRIDRI -> {
-                    minimizeDRIDeficiencyAndDRIExcess( mixid, program, print, lifestageid );
+                    // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and DRI Excess -----
+                    try {
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevObjectiveLhsTask( mixid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        lpmodel.addObjectiveFunction( coefficients );
+                        printLongLp.addObjectiveFunction( coefficients, "Minimize" );
+                        printShortLp.addObjectiveFunction( coefficients, "Minimize" );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
                     optionDescription = String.format( " %1$11s %2$s", "OBJECTIVE:", "Minimize DRI deficiency and excess" );
+                    // ----- DRI DEVIATION SUM EXCESS CONSTRAINT -----
+                    try {
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevSumExcessLhsTask( mixid, lifestageid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        int relationshipid = 3;
+                        int b = 0;
+                        lpmodel.addConstraint( coefficients, relationshipid, 0 );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName.append( "Dri Excess" );
+                        printLongLp.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                        printShortLp.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
                 }
                 case Objective.DRIUL -> {
-                    minimizeDRIDeficiencyAndULExcess( mixid, program, print, lifestageid );
+                    // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and UL Excess -----
+                    try {
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevObjectiveLhsTask( mixid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        lpmodel.addObjectiveFunction( coefficients );
+                        printLongLp.addObjectiveFunction( coefficients, "Minimize" );
+                        printShortLp.addObjectiveFunction( coefficients, "Minimize" );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
                     optionDescription = String.format( " %1$11s %2$s", "OBJECTIVE:", "Minimize DRI deficiency and UL excess" );
+                    // ----- UL EXCESS AVERAGE CONSTRAINT -----
+                    try {
+                        StringBuilder sb = new StringBuilder();
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new ULDevSumExcessLhsTask( mixid, lifestageid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        int relationshipid = 3;
+                        int b = 0;
+                        lpmodel.addConstraint( coefficients, relationshipid, 0 );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName.append( "UL Excess Average" );
+                        printLongLp.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                        printShortLp.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
                 }
             }
+            // ***********
+            // ----- DRI DEFICIENCY AND EXCESS CONSTRAINTS -----
+            try {
+                Future<List<Map<String, Object>>> taskRhs = BackgroundExec.submit( new DriDevTniRhsTask( mixid, lifestageid ) );
+                List<Map<String, Object>> lst = taskRhs.get();
+                lst.forEach( ( row ) -> {
+                    try {
+                        String nutrientid = ( String ) row.get( "NUTRIENTID" );
+                        Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
+                        Double b = ( Double ) row.get( "B" );
+                        String nutrient = ( String ) row.get( "NUTRIENT" );
+                        String nutrientlabel = ( String ) row.get( "NUTRIENTLABEL" );
+                        String eq = ( String ) row.get( "EQ" );
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevTniLhsTask( mixid, nutrientid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        lpmodel.addConstraint( coefficients, relationshipid, b );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName.append( "Dri Deficiency and Excess For " ).append( nutrient );
+                        printLongLp.addDriDevQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                        printShortLp.addDriDevQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                } );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ----- DRI DEFICIENCY AVERAGE CONSTRAINT -----
+            try {
+                Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevSumDeficiencyLhsTask( mixid, lifestageid ) );
+                LhsContainer container = taskLhs.get();
+                double[] coefficients = container.getCoefficients();
+                int relationshipid = 3;
+                int b = 0;
+                lpmodel.addConstraint( coefficients, relationshipid, 0 );
+                StringBuilder constraintName = new StringBuilder();
+                constraintName.append( "Dri Deficiency Average" );
+                printLongLp.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                printShortLp.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ----- NUTRIENT CONSTRAINTS -----
+            try {
+                Future<List<Map<String, Object>>> taskRhs = BackgroundExec.submit( new NutrientRhsTask( mixid ) );
+                List<Map<String, Object>> lst = taskRhs.get();
+                lst.forEach( ( row ) -> {
+                    try {
+                        String nutrientid = ( String ) row.get( "NUTRIENTID" );
+                        Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
+                        Double b = ( Double ) row.get( "B" );
+                        String nutrient = ( String ) row.get( "NUTRIENT" );
+                        String eq = ( String ) row.get( "EQ" );
+                        Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevNutrientLhsTask( mixid, nutrientid ) );
+                        LhsContainer container = taskLhs.get();
+                        double[] coefficients = container.getCoefficients();
+                        lpmodel.addConstraint( coefficients, relationshipid, b );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName
+                                .append( nutrient )
+                                .append( " " )
+                                .append( eq )
+                                .append( " " )
+                                .append( b );
+                        printLongLp.addNutrientConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                        printShortLp.addNutrientConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                } );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ----- NUTRIENT RATIO CONSTRAINTS -----
+            try {
+                Future<List<Map<String, Object>>> task = BackgroundExec.submit( new NutrientRatioRhsTask( mixid ) );
+                List<Map<String, Object>> lst = task.get();
+                lst.forEach( ( row ) -> {
+                    try {
+                        String nutrientid1 = ( String ) row.get( "NUTRIENT_ID_1" );
+                        String nutrientid2 = ( String ) row.get( "NUTRIENT_ID_2" );
+                        int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
+                        BigDecimal a = ( BigDecimal ) row.get( "A" );
+                        BigDecimal b = ( BigDecimal ) row.get( "B" );
+                        String nutrient1 = ( String ) row.get( "NUTRIENT1" );
+                        String nutrient2 = ( String ) row.get( "NUTRIENT2" );
+                        String eq = ( String ) row.get( "EQ" );
+                        Future<double[]> taskLhs = BackgroundExec.submit(
+                                new NutrientRatioLhsTask( mixid, nutrientid1, nutrientid2, relationshipid ) );
+                        double[] coefficients = taskLhs.get();
+                        lpmodel.addConstraint( coefficients, relationshipid, 0.0 );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName
+                                .append( nutrient1 )
+                                .append( " / " )
+                                .append( nutrient2 )
+                                .append( " " )
+                                .append( eq )
+                                .append( " " )
+                                .append( a )
+                                .append( " / " )
+                                .append( b );
+                        printLongLp.addNutrientRatioConstraint( coefficients, relationshipid, 0.0, constraintName.toString() );
+                        printShortLp.addNutrientRatioConstraint( coefficients, relationshipid, 0.0, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                } );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ----- FOOD CONSTRAINTS -----
+            try {
+                Future<List<Map<String, Object>>> task = BackgroundExec.submit( new FoodRhsTask( mixid ) );
+                List<Map<String, Object>> lst = task.get();
+                lst.forEach( ( row ) -> {
+                    try {
+                        String foodid = ( String ) row.get( "FOODID" );
+                        String nutrientid = ( String ) row.get( "NUTRIENTID" );
+                        Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
+                        Double b = ( double ) row.get( "B" );
+                        String food = ( String ) row.get( "FOOD" );
+                        String nutrient = ( String ) row.get( "NUTRIENT" );
+                        String eq = ( String ) row.get( "EQ" );
+                        Future<double[]> taskLhs
+                                = BackgroundExec.submit( new FoodLhsTask( mixid, foodid, nutrientid, relationshipid ) );
+                        double[] coefficients = taskLhs.get();
+                        lpmodel.addConstraint( coefficients, relationshipid, b );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName
+                                .append( food )
+                                .append( " AS " )
+                                .append( nutrient )
+                                .append( " " )
+                                .append( eq )
+                                .append( " " )
+                                .append( b );
+                        printLongLp.addFoodConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                        printShortLp.addFoodConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                } );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ----- FOOD RATIO CONSTRAINTS -----
+            try {
+                Future<List<Map<String, Object>>> task = BackgroundExec.submit( new FoodRatioRhsTask( mixid ) );
+                List<Map<String, Object>> lst = task.get();
+                lst.forEach( ( row ) -> {
+                    try {
+                        String foodid1 = ( String ) row.get( "FOOD_ID_1" );
+                        String nutrientid1 = ( String ) row.get( "NUTRIENT_ID_1" );
+                        String foodid2 = ( String ) row.get( "FOOD_ID_2" );
+                        String nutrientid2 = ( String ) row.get( "NUTRIENT_ID_2" );
+                        int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
+                        BigDecimal a = ( BigDecimal ) row.get( "A" );
+                        BigDecimal b = ( BigDecimal ) row.get( "B" );
+                        String food1 = ( String ) row.get( "FOOD1" );
+                        String nutrient1 = ( String ) row.get( "NUTRIENT1" );
+                        String food2 = ( String ) row.get( "FOOD2" );
+                        String nutrient2 = ( String ) row.get( "NUTRIENT2" );
+                        String eq = ( String ) row.get( "EQ" );
+                        Future<double[]> taskLhs = BackgroundExec.submit(
+                                new FoodRatioLhsTask( mixid, foodid1, nutrientid1, foodid2, nutrientid2, relationshipid ) );
+                        double[] coefficients = taskLhs.get();
+                        lpmodel.addConstraint( coefficients, relationshipid, 0.0 );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName
+                                .append( food1 )
+                                .append( " AS " )
+                                .append( nutrient1 )
+                                .append( " / " )
+                                .append( food2 )
+                                .append( " AS " )
+                                .append( nutrient2 )
+                                .append( " " )
+                                .append( eq )
+                                .append( " " )
+                                .append( a )
+                                .append( " / " )
+                                .append( b );
+                        printLongLp.addFoodRatioConstraint( coefficients, relationshipid, 0.0, constraintName.toString() );
+                        printShortLp.addFoodRatioConstraint( coefficients, relationshipid, 0.0, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                } );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ----- GROUP CONSTRAINTS -----
+            try {
+                Future<List<Map<String, Object>>> task = BackgroundExec.submit( new GroupRhsTask( mixid ) );
+                List<Map<String, Object>> lst = task.get();
+                lst.forEach( ( row ) -> {
+                    try {
+                        String groupid = ( String ) row.get( "GROUPID" );
+                        String nutrientid = ( String ) row.get( "NUTRIENTID" );
+                        Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
+                        Double b = ( double ) row.get( "B" );
+                        String group = ( String ) row.get( "GROUP" );
+                        String nutrient = ( String ) row.get( "NUTRIENT" );
+                        String eq = ( String ) row.get( "EQ" );
+                        Future<double[]> taskLhs
+                                = BackgroundExec.submit( new GroupLhsTask( mixid, groupid, nutrientid, relationshipid ) );
+                        double[] coefficients = taskLhs.get();
+                        lpmodel.addConstraint( coefficients, relationshipid, b );
+                        StringBuilder constraintName = new StringBuilder();
+                        constraintName
+                                .append( group )
+                                .append( " AS " )
+                                .append( nutrient )
+                                .append( " " )
+                                .append( eq )
+                                .append( " " )
+                                .append( b );
+                        printLongLp.addGroupQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                        printShortLp.addGroupQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
+                    } catch ( Exception e ) {
+                        LoggerImpl.INSTANCE.logProblem( e );
+                    }
+                } );
+            } catch ( Exception e ) {
+                LoggerImpl.INSTANCE.logProblem( e );
+            }
+            // ***********
             // ----- LEGENDS -----
-            print.addMixLegend( mixName, optionDescription );
-            print.addFoodLegend( createFoodLegend( mixid ) );
-            solutionFound = program.solve();
+            printLongLp.addMixLegend( mixName, optionDescription );
+            printLongLp.addFoodLegend( createFoodLegend( mixid ) );
+            printShortLp.addMixLegend( mixName, optionDescription );
+            printShortLp.addFoodLegend( createFoodLegend( mixid ) );
+            solutionFound = lpmodel.solve();
             // ----- SOLVE MODEL -----
             if ( solutionFound ) {
-                double[] solutionPoint = program.getPoint();
+                double[] solutionPoint = lpmodel.getPoint();
                 Double theAvgDeficiency = solutionPoint[ solutionPoint.length - 2 ];
                 Double theAvgExcess = solutionPoint[ solutionPoint.length - 1 ];
                 // Cost may be deficiency, deficiency + ul excess or deficiency + dri excess
-                Double theCost = program.getCost();
+                Double theCost = lpmodel.getCost();
                 double tniScore = calculateTni( theAvgDeficiency );
                 BigDecimal deficiency = new BigDecimal( theAvgDeficiency, MathContext.DECIMAL128 );
                 BigDecimal excess = new BigDecimal( theAvgExcess, MathContext.DECIMAL128 );
@@ -4242,8 +4541,10 @@ public class Main {
                 // ---- ADD LOG ENTRIES ----
                 addLogEntries( mix, lifestage, tniScore, optionDescription );
                 // ----- CREATE LPSOLVE MODEL AND SET -----
-                print.feasible();
-                String model = print.toString();
+                printLongLp.feasible();
+                printShortLp.feasible();
+                //String model = printLongLp.toString();
+                String model = printShortLp.toString();
                 // ---- UPDATE DATABASE -----
                 Runnable tasks = () -> {
                     MixFoodsQuery q = new MixFoodsQuery( mixid );
@@ -4264,13 +4565,18 @@ public class Main {
                 mix.setDeficiency( deficiency );
                 mix.setExcess( excess );
                 FileName fileName = new FileName();
-                if ( chkLpsolve.isSelected() ) {
-                    Utilities.write( fileName.getLpsolveFileName(), model );
+                if ( cbPrintLongLp.isSelected() ) {
+                    Utilities.write( fileName.PrintLpLongFileName(), printLongLp.toString() );
+                }
+                if ( cbPrintShortLp.isSelected() ) {
+                    Utilities.write( fileName.PrintLpShortFileName(), printShortLp.toString() );
                 }
             } else {
                 // ----- CREATE LPSOLVE MODEL AND SET -----
-                print.unfeasible();
-                String model = print.toString();
+                printLongLp.unfeasible();
+                printShortLp.unfeasible();
+                //String model = printLongLp.toString();
+                String model = printShortLp.toString();
                 // ----- UPDATE DATABASE -----
                 Runnable tasks = () -> {
                     ( new UpdateMixAction(
@@ -4327,73 +4633,6 @@ public class Main {
                 null,
                 null,
                 null );
-    }
-
-
-    private void minimizeDRIDeficiency(
-            String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid ) {
-        // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency -----
-        createDeficiencyObjectiveFunction( mixid, program, print );
-        // ----- DRI DEVIATION TNI CONSTRAINTS -----
-        createDriDeviationTniConstraint( mixid, lifestageid, program, print );
-        // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
-        createDriDeviationSumDeficiencyConstraint( mixid, lifestageid, program, print );
-        // ----- NUTRIENT CONSTRAINTS -----
-        createNutrientConstraints( mixid, program, print );
-        // ----- NUTRIENT RATIO CONSTRAINTS -----
-        createNutrientRatioConstraint( mixid, program, print );
-        // ----- FOOD CONSTRAINTS -----
-        createFoodConstraint( mixid, program, print );
-        // ----- FOOD RATIO CONSTRAINTS -----
-        createFoodRatioConstraint( mixid, program, print );
-        // ----- GROUP CONSTRAINTS -----
-        createGroupConstraint( mixid, program, print );
-    }
-
-
-    private void minimizeDRIDeficiencyAndULExcess(
-            String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid ) {
-        // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and UL Excess -----
-        createDeficiencyAndExcessObjectiveFunction( mixid, program, print );
-        // ----- DRI DEVIATION TNI CONSTRAINTS -----
-        createDriDeviationTniConstraint( mixid, lifestageid, program, print );
-        // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
-        createDriDeviationSumDeficiencyConstraint( mixid, lifestageid, program, print );
-        // ----- UL DEVIATION SUM EXCESS CONSTRAINT -----
-        createULDeviationSumExcessConstraint( mixid, lifestageid, program, print );
-        // ----- NUTRIENT CONSTRAINTS -----
-        createNutrientConstraints( mixid, program, print );
-        // ----- NUTRIENT RATIO CONSTRAINTS -----
-        createNutrientRatioConstraint( mixid, program, print );
-        // ----- FOOD CONSTRAINTS -----
-        createFoodConstraint( mixid, program, print );
-        // ----- FOOD RATIO CONSTRAINTS -----
-        createFoodRatioConstraint( mixid, program, print );
-        // ----- GROUP CONSTRAINTS -----
-        createGroupConstraint( mixid, program, print );
-    }
-
-
-    private void minimizeDRIDeficiencyAndDRIExcess(
-            String mixid, LinearProgram program, LpsolvePrintOut print, Integer lifestageid ) {
-        // ----- OBJECTIVE FUNCTION - Minimizes DRI Deficiency and DRI Excess -----
-        createDeficiencyAndExcessObjectiveFunction( mixid, program, print );
-        // ----- DRI DEVIATION TNI CONSTRAINTS -----
-        createDriDeviationTniConstraint( mixid, lifestageid, program, print );
-        // ----- DRI DEVIATION SUM DEFICIENCY CONSTRAINT -----
-        createDriDeviationSumDeficiencyConstraint( mixid, lifestageid, program, print );
-        // ----- DRI DEVIATION SUM EXCESS CONSTRAINT -----
-        createDriDeviationSumExcessConstraint( mixid, lifestageid, program, print );
-        // ----- NUTRIENT CONSTRAINTS -----
-        createNutrientConstraints( mixid, program, print );
-        // ----- NUTRIENT RATIO CONSTRAINTS -----
-        createNutrientRatioConstraint( mixid, program, print );
-        // ----- FOOD CONSTRAINTS -----
-        createFoodConstraint( mixid, program, print );
-        // ----- FOOD RATIO CONSTRAINTS -----
-        createFoodRatioConstraint( mixid, program, print );
-        // ----- GROUP CONSTRAINTS -----
-        createGroupConstraint( mixid, program, print );
     }
 
 
@@ -4459,236 +4698,14 @@ public class Main {
             sb.append( String.format( "%1$2d) %2$s", size + 16, "Excess - Vitamins, Choline (mg)" ) );
             sb.append( "\n" );
             //Add average deficiency
-            sb.append( String.format( "%1$2d) %2$s", size + 17, "Mean Of The Ratios Of Nutrient Intake Deficiency To The Corresponding Age- And Sex-specific DRI" ) );
+            sb.append( String.format( "%1$2d) %2$s", size + 17, "Average Of The Nutrient Deficiency Percentages" ) );
             sb.append( "\n" );
             //Add average excess
-            sb.append( String.format( "%1$2d) %2$s", size + 18, "Mean Of The Ratios Of Nutrient Intake Excess To The Corresponding Age- And Sex-specific DRI Or UL" ) );
+            sb.append( String.format( "%1$2d) %2$s", size + 18, "Average Of The Nutrient Excess Percentages" ) );
         } catch ( Exception e ) {
             LoggerImpl.INSTANCE.logProblem( e );
         }
         return sb.toString();
-    }
-
-
-    private void createDeficiencyObjectiveFunction( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevObjectiveDeficiencyLhsTask( mixid ) );
-            LhsContainer container = taskLhs.get();
-            double[] coefficients = container.getCoefficients();
-            lpmodel.addObjectiveFunction( coefficients );
-            lpsolve.addObjectiveFunction( coefficients, "Minimize" );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createDeficiencyAndExcessObjectiveFunction(
-            String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevObjectiveLhsTask( mixid ) );
-            LhsContainer container = taskLhs.get();
-            double[] coefficients = container.getCoefficients();
-            lpmodel.addObjectiveFunction( coefficients );
-            lpsolve.addObjectiveFunction( coefficients, "Minimize" );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createNutrientConstraints( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<List<Map<String, Object>>> taskRhs = BackgroundExec.submit( new NutrientRhsTask( mixid ) );
-            List<Map<String, Object>> lst = taskRhs.get();
-            lst.forEach( ( row ) -> {
-                try {
-                    String nutrientid = ( String ) row.get( "NUTRIENTID" );
-                    Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
-                    Double b = ( Double ) row.get( "B" );
-                    String nutrient = ( String ) row.get( "NUTRIENT" );
-                    String eq = ( String ) row.get( "EQ" );
-                    Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevNutrientLhsTask( mixid, nutrientid ) );
-                    LhsContainer container = taskLhs.get();
-                    double[] coefficients = container.getCoefficients();
-                    lpmodel.addConstraint( coefficients, relationshipid, b );
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName
-                            .append( nutrient )
-                            .append( " " )
-                            .append( eq )
-                            .append( " " )
-                            .append( b );
-                    lpsolve.addNutrientConstraint( coefficients, relationshipid, b, constraintName.toString() );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-            } );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createNutrientRatioConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit( new NutrientRatioRhsTask( mixid ) );
-            List<Map<String, Object>> lst = task.get();
-            lst.forEach( ( row ) -> {
-                try {
-                    String nutrientid1 = ( String ) row.get( "NUTRIENT_ID_1" );
-                    String nutrientid2 = ( String ) row.get( "NUTRIENT_ID_2" );
-                    int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
-                    BigDecimal a = ( BigDecimal ) row.get( "A" );
-                    BigDecimal b = ( BigDecimal ) row.get( "B" );
-                    String nutrient1 = ( String ) row.get( "NUTRIENT1" );
-                    String nutrient2 = ( String ) row.get( "NUTRIENT2" );
-                    String eq = ( String ) row.get( "EQ" );
-                    Future<double[]> taskLhs = BackgroundExec.submit(
-                            new NutrientRatioLhsTask( mixid, nutrientid1, nutrientid2, relationshipid ) );
-                    double[] coefficients = taskLhs.get();
-                    lpmodel.addConstraint( coefficients, relationshipid, 0.0 );
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName
-                            .append( nutrient1 )
-                            .append( " / " )
-                            .append( nutrient2 )
-                            .append( " " )
-                            .append( eq )
-                            .append( " " )
-                            .append( a )
-                            .append( " / " )
-                            .append( b );
-                    lpsolve.addNutrientRatioConstraint( coefficients, relationshipid, 0.0, constraintName.toString() );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-            } );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createFoodConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit( new FoodRhsTask( mixid ) );
-            List<Map<String, Object>> lst = task.get();
-            lst.forEach( ( row ) -> {
-                try {
-                    String foodid = ( String ) row.get( "FOODID" );
-                    String nutrientid = ( String ) row.get( "NUTRIENTID" );
-                    Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
-                    Double b = ( double ) row.get( "B" );
-                    String food = ( String ) row.get( "FOOD" );
-                    String nutrient = ( String ) row.get( "NUTRIENT" );
-                    String eq = ( String ) row.get( "EQ" );
-                    Future<double[]> taskLhs
-                            = BackgroundExec.submit( new FoodLhsTask( mixid, foodid, nutrientid, relationshipid ) );
-                    double[] coefficients = taskLhs.get();
-                    lpmodel.addConstraint( coefficients, relationshipid, b );
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName
-                            .append( food )
-                            .append( " AS " )
-                            .append( nutrient )
-                            .append( " " )
-                            .append( eq )
-                            .append( " " )
-                            .append( b );
-                    lpsolve.addFoodConstraint( coefficients, relationshipid, b, constraintName.toString() );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-            } );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createFoodRatioConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit( new FoodRatioRhsTask( mixid ) );
-            List<Map<String, Object>> lst = task.get();
-            lst.forEach( ( row ) -> {
-                try {
-                    String foodid1 = ( String ) row.get( "FOOD_ID_1" );
-                    String nutrientid1 = ( String ) row.get( "NUTRIENT_ID_1" );
-                    String foodid2 = ( String ) row.get( "FOOD_ID_2" );
-                    String nutrientid2 = ( String ) row.get( "NUTRIENT_ID_2" );
-                    int relationshipid = ( int ) row.get( "RELATIONSHIPID" );
-                    BigDecimal a = ( BigDecimal ) row.get( "A" );
-                    BigDecimal b = ( BigDecimal ) row.get( "B" );
-                    String food1 = ( String ) row.get( "FOOD1" );
-                    String nutrient1 = ( String ) row.get( "NUTRIENT1" );
-                    String food2 = ( String ) row.get( "FOOD2" );
-                    String nutrient2 = ( String ) row.get( "NUTRIENT2" );
-                    String eq = ( String ) row.get( "EQ" );
-                    Future<double[]> taskLhs = BackgroundExec.submit(
-                            new FoodRatioLhsTask( mixid, foodid1, nutrientid1, foodid2, nutrientid2, relationshipid ) );
-                    double[] coefficients = taskLhs.get();
-                    lpmodel.addConstraint( coefficients, relationshipid, 0.0 );
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName
-                            .append( food1 )
-                            .append( " AS " )
-                            .append( nutrient1 )
-                            .append( " / " )
-                            .append( food2 )
-                            .append( " AS " )
-                            .append( nutrient2 )
-                            .append( " " )
-                            .append( eq )
-                            .append( " " )
-                            .append( a )
-                            .append( " / " )
-                            .append( b );
-                    lpsolve.addFoodRatioConstraint( coefficients, relationshipid, 0.0, constraintName.toString() );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-            } );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createGroupConstraint( String mixid, LinearProgram lpmodel, LpsolvePrintOut lpsolve ) {
-        try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit( new GroupRhsTask( mixid ) );
-            List<Map<String, Object>> lst = task.get();
-            lst.forEach( ( row ) -> {
-                try {
-                    String groupid = ( String ) row.get( "GROUPID" );
-                    String nutrientid = ( String ) row.get( "NUTRIENTID" );
-                    Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
-                    Double b = ( double ) row.get( "B" );
-                    String group = ( String ) row.get( "GROUP" );
-                    String nutrient = ( String ) row.get( "NUTRIENT" );
-                    String eq = ( String ) row.get( "EQ" );
-                    Future<double[]> taskLhs
-                            = BackgroundExec.submit( new GroupLhsTask( mixid, groupid, nutrientid, relationshipid ) );
-                    double[] coefficients = taskLhs.get();
-                    lpmodel.addConstraint( coefficients, relationshipid, b );
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName
-                            .append( group )
-                            .append( " AS " )
-                            .append( nutrient )
-                            .append( " " )
-                            .append( eq )
-                            .append( " " )
-                            .append( b );
-                    lpsolve.addGroupQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-            } );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
     }
 
 
@@ -6078,98 +6095,6 @@ public class Main {
         Splash f = new Splash();
         f.initiate();
         new Main( f );
-    }
-
-
-    private void createDriDeviationTniConstraint(
-            String mixid, Integer lifestageId, LinearProgram program, LpsolvePrintOut print ) {
-        try {
-            Future<List<Map<String, Object>>> taskRhs = BackgroundExec.submit( new DriDevTniRhsTask( mixid, lifestageId ) );
-            List<Map<String, Object>> lst = taskRhs.get();
-            lst.forEach( ( row ) -> {
-                try {
-                    String nutrientid = ( String ) row.get( "NUTRIENTID" );
-                    Integer relationshipid = ( Integer ) row.get( "RELATIONSHIPID" );
-                    Double b = ( Double ) row.get( "B" );
-                    String nutrient = ( String ) row.get( "NUTRIENT" );
-                    String nutrientlabel = ( String ) row.get( "NUTRIENTLABEL" );
-                    String eq = ( String ) row.get( "EQ" );
-                    Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevTniLhsTask( mixid, nutrientid ) );
-                    LhsContainer container = taskLhs.get();
-                    double[] coefficients = container.getCoefficients();
-                    program.addConstraint( coefficients, relationshipid, b );
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName.append( "Dri Deviation For " ).append( nutrient );
-                    print.addDriDevQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
-                } catch ( Exception e ) {
-                    LoggerImpl.INSTANCE.logProblem( e );
-                }
-            } );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createDriDeviationSumDeficiencyConstraint(
-            String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print ) {
-        try {
-            Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevSumDeficiencyLhsTask( mixid, lifestyleid ) );
-            LhsContainer container = taskLhs.get();
-            double[] coefficients = container.getCoefficients();
-            int relationshipid = 3;
-            int b = 0;
-            program.addConstraint( coefficients, relationshipid, 0 );
-            StringBuilder constraintName = new StringBuilder();
-            constraintName.append( "Dri Deficiency" );
-            print.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createDriDeviationSumExcessConstraint(
-            String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print ) {
-        try {
-            Future<LhsContainer> taskLhs = BackgroundExec.submit( new DriDevSumExcessLhsTask( mixid, lifestyleid ) );
-            LhsContainer container = taskLhs.get();
-            double[] coefficients = container.getCoefficients();
-            int relationshipid = 3;
-            int b = 0;
-            program.addConstraint( coefficients, relationshipid, 0 );
-            StringBuilder constraintName = new StringBuilder();
-            constraintName.append( "Dri Excess" );
-            print.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
-    }
-
-
-    private void createULDeviationSumExcessConstraint(
-            String mixid, int lifestyleid, LinearProgram program, LpsolvePrintOut print ) {
-        // Add ul nutrient deficiency variables
-        // Add ul nutrient excess variables
-        // Add ul average deficiency variable
-        // Add ul average excess variable
-        // Food variables + 8 dri deficiency + 8 dri excess + 1 avg dri deficiency + 1
-        // avg dri excess +
-        // 8 UL deficiency + 8 UL excess + 1 avg UL deficiency + 1 avg UL excess
-        try {
-            StringBuilder sb = new StringBuilder();
-            Future<LhsContainer> taskLhs = BackgroundExec.submit( new ULDevSumExcessLhsTask( mixid, lifestyleid ) );
-            LhsContainer container = taskLhs.get();
-            double[] coefficients = container.getCoefficients();
-            int relationshipid = 3;
-            int b = 0;
-            program.addConstraint( coefficients, relationshipid, 0 );
-            StringBuilder constraintName = new StringBuilder();
-            constraintName.append( "UL Excess" );
-            print.addDriDevSumQuantityConstraint( coefficients, relationshipid, b, constraintName.toString() );
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
-        }
     }
 
 

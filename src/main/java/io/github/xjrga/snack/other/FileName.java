@@ -5,16 +5,19 @@ public class FileName {
     private final String cplexFileName;
     private final String glpkFileName;
     private final String glpkFileNameExp;
-    private final String lpsolveFileName;
+    private final String printLpLongFileName;
+    private final String printLpShortFileName;
     private final String reportDataFileName;
     private final String reportDataFileNameExp;
     private final String reportFileName;
     private final String reportFileNameExp;
+    private final String latexFileName;
 
 
     public FileName() {
         String time = Utilities.getCurrentTimeMillisTxt();
-        lpsolveFileName = "models/snack_lpsolve_" + time + ".lp";
+        printLpLongFileName = "models/snack_lpsolve_long_" + time + ".lp";
+        printLpShortFileName = "models/snack_lpsolve_short_" + time + ".lp";
         cplexFileName = "models/snack_cplex_" + time + ".lp";
         glpkFileName = "models/snack_glpk_" + time + ".mod";
         glpkFileNameExp = "models/snack_glpk_" + time + "_exp.mod";
@@ -22,6 +25,7 @@ public class FileName {
         reportFileNameExp = "snack_report_" + time + "_exp.txt";
         reportDataFileName = "snack_report_data_" + time + ".csv";
         reportDataFileNameExp = "snack_report_data_" + time + "_exp.csv";
+        latexFileName = "models/snack_latex_" + time + ".tex";
     }
 
 
@@ -40,8 +44,13 @@ public class FileName {
     }
 
 
-    public String getLpsolveFileName() {
-        return lpsolveFileName;
+    public String PrintLpLongFileName() {
+        return printLpLongFileName;
+    }
+
+
+    public String PrintLpShortFileName() {
+        return printLpShortFileName;
     }
 
 
@@ -62,5 +71,10 @@ public class FileName {
 
     public String getReportFileNameExp() {
         return reportFileNameExp;
+    }
+
+
+    public String getLatexFileName() {
+        return latexFileName;
     }
 }

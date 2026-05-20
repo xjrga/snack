@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="project.name" basedir="." default="">
+<project name="Snack" basedir="." default="">
     <tstamp>
         <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
     </tstamp>
@@ -7,12 +7,7 @@
         <format property="backup_timestamp" pattern="yyyy_MM_dd_HH_mm_ss"/>
     </tstamp>
     <path id="libraries">
-        <fileset dir="libraries">
-            <include name="**/*.jar"/>
-        </fileset>
-    </path>
-    <path id="libraries">
-        <fileset dir="libraries">
+        <fileset dir="lib">
             <include name="**/*.jar"/>
         </fileset>
     </path>
@@ -36,8 +31,8 @@
                 <attribute name="Class-Path" value="${manifest-classpath}"/>
             </manifest>
         </jar>
-        <copy todir="distribution/${project.package.name}/libraries">
-            <fileset dir="libraries">
+        <copy todir="distribution/${project.package.name}/lib">
+            <fileset dir="lib">
                 <include name="**/*.jar"/>
             </fileset>
         </copy>
@@ -62,7 +57,7 @@
     <target name="app-fat" depends="read-properties,app-clean">
         <echo>${timestamp}</echo>
         <unzip dest="build/main/classes" overwrite="true">
-            <fileset dir="libraries">
+            <fileset dir="lib">
                 <include name="**/*.jar"/>
             </fileset>
         </unzip>
@@ -132,16 +127,16 @@
         <echo>${timestamp}</echo>
         <!--> Build main classes </-->
         <mkdir dir="build/main/classes"/>
-        <javac release="21" includeantruntime="false" srcdir="source" destdir="build/main/classes" debug="true">
+        <javac release="25" includeantruntime="false" srcdir="src/main/java" destdir="build/main/classes" debug="true">
             <classpath refid="libraries"/>
         </javac>
         <!--> Build test classes </-->
         <mkdir dir="build/test/classes"/>
         <mkdir dir="distribution"/>
-        <javac release="21" includeAntRuntime="false" srcdir="test" destdir="build/test/classes" debug="true">
+        <javac release="25" includeAntRuntime="false" srcdir="src/test/java" destdir="build/test/classes" debug="true">
             <classpath>
                 <path>
-                    <fileset dir="libraries">
+                    <fileset dir="lib">
                         <include name="**/*.jar"/>
                     </fileset>
                 </path>
@@ -151,7 +146,7 @@
         <!--> Copy resources </-->
         <mkdir dir="build/main/classes/resources"/>
         <copy todir="build/main/classes/resources">
-            <fileset dir="resources">
+            <fileset dir="src/main/resources">
                 <include name="**/*.*"/>
             </fileset>
         </copy>
@@ -166,7 +161,7 @@
         <java classname="${project.class}" fork="true" failonerror="true">
             <classpath>
                 <path>
-                    <fileset dir="libraries">
+                    <fileset dir="lib">
                         <include name="**/*.jar"/>
                     </fileset>
                 </path>
@@ -192,13 +187,13 @@
     </target>
     <target name="source-javadoc" depends="read-properties">
         <javadoc destdir="docs/html" author="true" version="true" use="true">
-            <fileset dir="source" defaultexcludes="yes">
+            <fileset dir="src/main/java" defaultexcludes="yes">
                 <include name="io/github/xjrga/**"/>
                 <!--<exclude name="io/github/xjrga/MyTest*"/>-->
             </fileset>
             <classpath>
                 <path>
-                    <fileset dir="libraries">
+                    <fileset dir="lib">
                         <include name="**/*.jar"/>
                     </fileset>
                 </path>
@@ -210,7 +205,7 @@
         <junit printsummary="true" fork="true" dir=".">
             <classpath>
                 <path>
-                    <fileset dir="libraries">
+                    <fileset dir="lib">
                         <include name="**/*.jar"/>
                     </fileset>
                 </path>
@@ -237,23 +232,27 @@
     </target>
     <target name="source-zip" depends="read-properties">
         <echo>${timestamp}</echo>
-        <zip destfile="distribution/${project.package.name}-sources.zip" basedir="source" includes="**/*.java"/>
+        <zip destfile="distribution/${project.package.name}-sources.zip" basedir="src/main/java" includes="**/*.java"/>
     </target>
     <target name="dir-create" depends="">
         <echo>${timestamp}</echo>
+        <mkdir dir="lib"/>
+        <mkdir dir="src"/>
+        <mkdir dir="src/main"/>
+        <mkdir dir="src/main/java"/>
+        <mkdir dir="src/main/resources"/>
+        <mkdir dir="src/test"/>
+        <mkdir dir="src/test/java"/>
+        <mkdir dir="src/test/resources"/>
         <mkdir dir="build/main/classes"/>
         <mkdir dir="build/main/classes/resources"/>
         <mkdir dir="build/test/classes"/>
-        <mkdir dir="build/test/data"/>
         <mkdir dir="build/test/classes/resources"/>
-        <mkdir dir="database"/>
+        <mkdir dir="build/test/data"/>
+        <mkdir dir="database/db"/>
         <mkdir dir="database/sql"/>
         <mkdir dir="distribution"/>
         <mkdir dir="docs/html"/>
-        <mkdir dir="libraries"/>
-        <mkdir dir="resources"/>
-        <mkdir dir="test"/>
-        <mkdir dir="source"/>
     </target>
     <!-- Compound Targets -->
     <target name="source-build-and-run" depends="read-properties,source-build,source-run">
