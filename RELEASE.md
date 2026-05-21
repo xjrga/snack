@@ -1,5 +1,10 @@
 ### Release Notes
 
+### 1670 - May 21, 2026
+
+  * Improved lp model printout readability
+  * Bug fixes
+
 ### 1660 - March 30, 2026
 
   * Added tni nutrient food items
