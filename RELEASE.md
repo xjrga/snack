@@ -1,5 +1,11 @@
 ### Release Notes
 
+### 1680 - June 04, 2026
+
+  * Added source code generation (java, c, rust, R)
+  * Added new test script
+  * Added new objective value panel
+
 ### 1670 - May 21, 2026
 
   * Improved lp model printout readability

@@ -17,26 +17,24 @@ public class DeleteFoodInFoodGroupTask implements Callable<Boolean> {
     private final String mixid;
     private final String foodid;
 
-
-    public DeleteFoodInFoodGroupTask( String groupid, String mixid, String foodid ) {
+    public DeleteFoodInFoodGroupTask(String groupid, String mixid, String foodid) {
         this.groupid = groupid;
         this.mixid = mixid;
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public Boolean call() throws Exception {
         boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroupList_Delete( ?, ?, ? )}" ) ) {
-            proc.setString( 1, groupid );
-            proc.setString( 2, mixid );
-            proc.setString( 3, foodid );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroupList_Delete( ?, ?, ? )}")) {
+            proc.setString(1, groupid);
+            proc.setString(2, mixid);
+            proc.setString(3, foodid);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return completed;
     }

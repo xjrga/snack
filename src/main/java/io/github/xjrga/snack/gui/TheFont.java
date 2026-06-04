@@ -17,17 +17,15 @@ public final class TheFont {
     private Font font;
     private float size = 13f;
 
-
     /**
      * TheFont constructor
      *
      * @param path
      * @see java.awt.Font
      */
-    public TheFont( String path ) {
-        set_font_file_path( path );
+    public TheFont(String path) {
+        set_font_file_path(path);
     }
-
 
     /**
      * @return A Font object
@@ -37,35 +35,32 @@ public final class TheFont {
         return font;
     }
 
-
     /**
      * @param path Path to truetype font
      */
-    public void set_font_file_path( String path ) {
+    public void set_font_file_path(String path) {
         try {
-            font = Font.createFont( Font.TRUETYPE_FONT, new File( path ) ).deriveFont( size );
-        } catch ( FontFormatException | IOException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(path)).deriveFont(size);
+        } catch (FontFormatException | IOException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
     }
-
 
     /**
      * @param fontStream InputStream
      */
-    public void set_font_file_stream( InputStream fontStream ) {
+    public void set_font_file_stream(InputStream fontStream) {
         try {
-            font = Font.createFont( Font.TRUETYPE_FONT, fontStream ).deriveFont( size );
-        } catch ( FontFormatException | IOException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+            font = Font.createFont(Font.TRUETYPE_FONT, fontStream).deriveFont(size);
+        } catch (FontFormatException | IOException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
     }
-
 
     /**
      * @param size Font size
      */
-    public void set_size( float size ) {
+    public void set_size(float size) {
         this.size = size;
     }
 }

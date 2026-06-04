@@ -20,7 +20,6 @@ public class MergeFoodRatioConstraintTask implements Callable<Boolean> {
     private final BigDecimal B;
     private final Connection connection;
 
-
     public MergeFoodRatioConstraintTask(
             String mixid,
             String foodid1,
@@ -29,7 +28,7 @@ public class MergeFoodRatioConstraintTask implements Callable<Boolean> {
             String nutrientid2,
             Integer relationshipid,
             BigDecimal A,
-            BigDecimal B ) {
+            BigDecimal B) {
         this.mixid = mixid;
         this.foodid1 = foodid1;
         this.nutrientid1 = nutrientid1;
@@ -41,24 +40,23 @@ public class MergeFoodRatioConstraintTask implements Callable<Boolean> {
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public Boolean call() throws Exception {
         boolean completed = false;
-        try ( CallableStatement proc
-                = connection.prepareCall( "{CALL public.FoodNutrientRatio_Merge( ?, ?, ?, ?, ?, ?, ?, ? )}" ) ) {
-            proc.setString( 1, mixid );
-            proc.setString( 2, foodid1 );
-            proc.setString( 3, nutrientid1 );
-            proc.setString( 4, foodid2 );
-            proc.setString( 5, nutrientid2 );
-            proc.setInt( 6, relationshipid );
-            proc.setBigDecimal( 7, A );
-            proc.setBigDecimal( 8, B );
+        try (CallableStatement proc
+                = connection.prepareCall("{CALL public.FoodNutrientRatio_Merge( ?, ?, ?, ?, ?, ?, ?, ? )}")) {
+            proc.setString(1, mixid);
+            proc.setString(2, foodid1);
+            proc.setString(3, nutrientid1);
+            proc.setString(4, foodid2);
+            proc.setString(5, nutrientid2);
+            proc.setInt(6, relationshipid);
+            proc.setBigDecimal(7, A);
+            proc.setBigDecimal(8, B);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return completed;
     }

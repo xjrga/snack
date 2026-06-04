@@ -14,24 +14,22 @@ public class CreateAllFoodsReportTask implements Runnable {
 
     private final JFrame frm;
 
-
-    public CreateAllFoodsReportTask( JFrame frm ) {
+    public CreateAllFoodsReportTask(JFrame frm) {
         this.frm = frm;
     }
-
 
     @Override
     public void run() {
         try {
-            ( new AllFoodsReport() ).create();
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+            (new AllFoodsReport()).create();
+        } catch (Exception e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         } finally {
             Runnable r = () -> {
-                frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-                Message.showMessage( "All Foods Report created." );
+                frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                Message.showMessage("All Foods Report created.");
             };
-            SwingUtilities.invokeLater( r );
+            SwingUtilities.invokeLater(r);
         }
     }
 }

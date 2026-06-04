@@ -16,24 +16,22 @@ public class GetFoodXmlTask implements Callable<String> {
     private final Connection connection;
     private final String foodid;
 
-
-    public GetFoodXmlTask( String foodid ) {
+    public GetFoodXmlTask(String foodid) {
         this.foodid = foodid;
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public String call() {
         String xml = "";
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.getFoodXml( ? )}" ) ) {
-            proc.setString( 1, foodid );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.getFoodXml( ? )}")) {
+            proc.setString(1, foodid);
             ResultSet rs = proc.executeQuery();
-            while ( rs.next() ) {
-                xml = rs.getString( 1 );
+            while (rs.next()) {
+                xml = rs.getString(1);
             }
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return xml;
     }

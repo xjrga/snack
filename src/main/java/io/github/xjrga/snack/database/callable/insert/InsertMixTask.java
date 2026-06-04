@@ -15,8 +15,7 @@ public class InsertMixTask implements Callable<Boolean> {
     private final Integer lifestageid;
     private final String model;
 
-
-    public InsertMixTask( MixDO mix ) {
+    public InsertMixTask(MixDO mix) {
         this.mixid = mix.getMixid();
         this.name = mix.getName();
         this.lifestageid = mix.getLifestageid();
@@ -24,18 +23,17 @@ public class InsertMixTask implements Callable<Boolean> {
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public Boolean call() throws Exception {
         boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.snack_mix_insertmix( ?, ?, ?, ?)}" ) ) {
-            proc.setString( 1, mixid );
-            proc.setString( 2, name );
-            proc.setString( 3, String.valueOf( lifestageid ) );
-            proc.setString( 4, model );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.snack_mix_insertmix( ?, ?, ?, ?)}")) {
+            proc.setString(1, mixid);
+            proc.setString(2, name);
+            proc.setString(3, String.valueOf(lifestageid));
+            proc.setString(4, model);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             // LoggerImpl.INSTANCE.logProblem(e);
         }
         return completed;

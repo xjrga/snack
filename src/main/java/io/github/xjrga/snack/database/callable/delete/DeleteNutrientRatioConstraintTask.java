@@ -18,9 +18,8 @@ public class DeleteNutrientRatioConstraintTask implements Callable<Boolean> {
     private final String nutrientid2;
     private final Integer relationshipid;
 
-
     public DeleteNutrientRatioConstraintTask(
-            String mixid, String nutrientid1, String nutrientid2, Integer relationshipid ) {
+            String mixid, String nutrientid1, String nutrientid2, Integer relationshipid) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.nutrientid1 = nutrientid1;
@@ -28,19 +27,18 @@ public class DeleteNutrientRatioConstraintTask implements Callable<Boolean> {
         this.relationshipid = relationshipid;
     }
 
-
     @Override
     public Boolean call() throws Exception {
         Boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.NutrientRatio_Delete( ?, ?, ?, ? )}" ) ) {
-            proc.setString( 1, mixid );
-            proc.setString( 2, nutrientid1 );
-            proc.setString( 3, nutrientid2 );
-            proc.setInt( 4, relationshipid );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.NutrientRatio_Delete( ?, ?, ?, ? )}")) {
+            proc.setString(1, mixid);
+            proc.setString(2, nutrientid1);
+            proc.setString(3, nutrientid2);
+            proc.setInt(4, relationshipid);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return completed;
     }

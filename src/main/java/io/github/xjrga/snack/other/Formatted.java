@@ -7,22 +7,20 @@ public class Formatted {
 
     private String fx = null;
 
-
-    public Formatted( double x, int precision ) {
+    public Formatted(double x, int precision) {
         DecimalFormat formatter = new DecimalFormat();
-        formatter.setRoundingMode( RoundingMode.HALF_EVEN );
+        formatter.setRoundingMode(RoundingMode.HALF_EVEN);
         StringBuilder sb = new StringBuilder();
-        sb.append( "#####" );
-        if ( precision > 0 ) {
-            sb.append( "." );
+        sb.append("#####");
+        if (precision > 0) {
+            sb.append(".");
         }
-        for ( int i = 0; i < precision; i++ ) {
-            sb.append( "#" );
+        for (int i = 0; i < precision; i++) {
+            sb.append("#");
         }
-        formatter.applyPattern( sb.toString() );
-        fx = formatter.format( x );
+        formatter.applyPattern(sb.toString());
+        fx = formatter.format(x);
     }
-
 
     @Override
     public String toString() {

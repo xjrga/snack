@@ -4,11 +4,9 @@ public class MinimumNutrientRequirements {
 
     private final Double weightinlbs;
 
-
-    public MinimumNutrientRequirements( Double weightinlbs ) {
+    public MinimumNutrientRequirements(Double weightinlbs) {
         this.weightinlbs = weightinlbs;
     }
-
 
     public double getCarbohydrateHigh() {
 
@@ -41,7 +39,6 @@ public class MinimumNutrientRequirements {
         return 50.0D;
     }
 
-
     public double getCarbohydrateMedium() {
 
         /* Amount of Carbohydrate Needed to Appreciably Reduce Ketosis */
@@ -57,7 +54,6 @@ public class MinimumNutrientRequirements {
          */
         return 100.0D;
     }
-
 
     public double getProtein() {
 

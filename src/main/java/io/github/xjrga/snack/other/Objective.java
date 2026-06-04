@@ -3,70 +3,62 @@ package io.github.xjrga.snack.other;
 import org.apache.commons.lang3.StringUtils;
 
 public enum Objective {
-    DRI( getDri(), getDRItip() ),
-    DRIUL( getDriUL(), getDRIULtip() ),
-    DRIDRI( getDriDri(), getDRIDRItip() );
+    DRI(getDri(), getDRItip()),
+    DRIUL(getDriUL(), getDRIULtip()),
+    DRIDRI(getDriDri(), getDRIDRItip());
     private String label;
     private String tooltip;
 
-
-    Objective( String label, String tooltip ) {
-        this.label = StringUtils.center( label, 18 );
+    Objective(String label, String tooltip) {
+        this.label = StringUtils.center(label, 18);
         this.tooltip = tooltip;
     }
-
 
     public String label() {
         return label;
     }
 
-
     public String tooltip() {
         return tooltip;
     }
-
 
     @Override
     public String toString() {
         return label;
     }
 
-
     private static String getDri() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "Inad" );
-        sb.append( " " );
-        sb.appendCodePoint( 0x2193 );
+        sb.append("Inad");
+        sb.append(" ");
+        sb.appendCodePoint(0x2193);
         return sb.toString();
     }
-
 
     private static String getDriUL() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "Inad" );
-        sb.append( " " );
-        sb.appendCodePoint( 0x2193 );
-        sb.append( " " );
-        sb.append( "Exc" );
-        sb.append( " " );
-        sb.appendCodePoint( 0x2193 );
+        sb.append("Inad");
+        sb.append(" ");
+        sb.appendCodePoint(0x2193);
+        sb.append(" ");
+        sb.append("Exc");
+        sb.append(" ");
+        sb.appendCodePoint(0x2193);
         return sb.toString();
     }
-
 
     private static String getDriDri() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "Inad" );
-        sb.append( " " );
-        sb.appendCodePoint( 0x2193 );
-        sb.append( " " );
-        sb.append( "Exc" );
-        sb.append( " " );
-        sb.appendCodePoint( 0x2193 );
-        sb.appendCodePoint( 0x2193 );
+        sb.append("Inad");
+        sb.append(" ");
+        sb.appendCodePoint(0x2193);
+        sb.append(" ");
+        sb.append("Exc");
+        sb.append(" ");
+        sb.appendCodePoint(0x2193);
+        sb.appendCodePoint(0x2193);
         return sb.toString();
     }
-
 
     private static String getDRItip() {
         String style = """
@@ -84,13 +76,12 @@ public enum Objective {
                            </p>
                            """;
         StringBuilder sb = new StringBuilder();
-        sb.append( "<html>" );
-        sb.append( style );
-        sb.append( paragraph );
-        sb.append( "</html>" );
+        sb.append("<html>");
+        sb.append(style);
+        sb.append(paragraph);
+        sb.append("</html>");
         return sb.toString();
     }
-
 
     private static String getDRIULtip() {
         String style = """
@@ -110,13 +101,12 @@ public enum Objective {
                            </p>
                            """;
         StringBuilder sb = new StringBuilder();
-        sb.append( "<html>" );
-        sb.append( style );
-        sb.append( paragraph );
-        sb.append( "</html>" );
+        sb.append("<html>");
+        sb.append(style);
+        sb.append(paragraph);
+        sb.append("</html>");
         return sb.toString();
     }
-
 
     private static String getDRIDRItip() {
         String style = """
@@ -136,10 +126,10 @@ public enum Objective {
                            </p>
                            """;
         StringBuilder sb = new StringBuilder();
-        sb.append( "<html>" );
-        sb.append( style );
-        sb.append( paragraph );
-        sb.append( "</html>" );
+        sb.append("<html>");
+        sb.append(style);
+        sb.append(paragraph);
+        sb.append("</html>");
         return sb.toString();
     }
 }

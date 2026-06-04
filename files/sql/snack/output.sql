@@ -2604,66 +2604,6 @@ END;
 /
 
 
-CREATE PROCEDURE foodnutrientratio_lhs (
---
-IN v_MixId LONGVARCHAR,
---
-IN v_foodid1 LONGVARCHAR,
---
-IN v_nutrientid1 LONGVARCHAR,
---
-IN v_foodid2 LONGVARCHAR,
---
-IN v_nutrientid2 LONGVARCHAR,
---
-IN v_relationshipid INTEGER
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT foodid,
-       c
-FROM (SELECT a.mixid,
-       a.food_id_1,
-       a.nutrient_id_1,
-       a.food_id_2,
-       a.nutrient_id_2,
-       a.relationshipid,
-       b.foodid,
-       CASE
-         WHEN b.foodid = a.food_id_1 THEN (select c from foodfactcoefficient where foodid = a.food_id_1 and nutrientid = a.nutrient_id_1)
-         ELSE 0
-       END * a.b - CASE
-         WHEN b.foodid = a.food_id_2 THEN (select c from foodfactcoefficient where foodid = a.food_id_2 and nutrientid = a.nutrient_id_2)
-         ELSE 0
-       END * a.a AS c
-FROM FoodRatioC a,
-     mixfood b
-WHERE a.mixid = b.mixid
-AND mixid = v_mixid
-AND   a.food_id_1 = v_foodid1
-AND   a.nutrient_id_1 = v_nutrientid1
-AND   a.food_id_2 = v_foodid2
-AND   a.nutrient_id_2 = v_nutrientid2
-AND   a.relationshipid = v_relationshipid
-ORDER BY mixid,
-         food_id_1,
-         nutrient_id_1,
-         food_id_2,
-         nutrient_id_2,
-         relationshipid,
-         foodid
-);
---	    
-OPEN result;
---
-END;
-/
-
-
 CREATE PROCEDURE Food_Select_Details_Exp ()
 --
 MODIFIES SQL DATA
@@ -3184,96 +3124,6 @@ WHERE
 MixId = v_MixId AND GroupId = v_GroupId;
 --
 END;
-/
-
-CREATE PROCEDURE foodnutrient_lhs (
---
-IN v_MixId LONGVARCHAR,
---
-IN v_foodid LONGVARCHAR,
---
-IN v_nutrientid LONGVARCHAR,
---
-IN v_relationshipid INTEGER
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT food_id_b,
-       nutrientid,
-       c
-FROM (SELECT a.mixid,
-       a.foodid as food_id_a,
-       a.relationshipid,
-       b.foodid as food_id_b,
-       a.nutrientid,
-       CASE
-         WHEN b.foodid = a.foodid THEN (select c from foodfactcoefficient where foodid = a.foodid and nutrientid = a.nutrientid)
-         ELSE 0
-       END AS c
-FROM FoodQuantityC a,
-     mixfood b
-WHERE a.mixid = b.mixid
-AND a.mixid = v_mixid
-ORDER BY a.mixid,
-         a.foodid,
-         a.relationshipid,
-         b.foodid
-)
-WHERE mixid = v_mixid
-AND   food_id_a = v_foodid
-AND   nutrientid = v_nutrientid
-AND   relationshipid = v_relationshipid
-ORDER BY mixid,
-         food_id_a,
-         relationshipid,
-         food_id_b,
-         nutrientid;
---	    
-OPEN result;
---
-END
-/
-
-CREATE PROCEDURE foodgroup_lhs (
---
-IN v_mixid LONGVARCHAR,
---
-IN v_groupid LONGVARCHAR,
---
-IN v_nutrientid LONGVARCHAR,
---
-IN v_relationshipid INTEGER
---
-)
---
-MODIFIES SQL DATA
-DYNAMIC RESULT SETS 1
-BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
---
-SELECT a.foodid AS name,
-       IFNULL(b.c,0) AS c
-FROM (SELECT foodid FROM mixfood WHERE mixid = v_mixid) a
-  LEFT JOIN (SELECT mixid,
-                    foodid,
-                    c
-             FROM foodgrouplist a,
-                  foodfactcoefficient b
-             WHERE a.foodid = b.foodid
-             AND   a.mixid = v_mixid
-             AND   a.groupid = v_groupid
-             AND   b.nutrientid = v_nutrientid) b ON a.foodid = b.foodid
-ORDER BY a.foodid;
---
-OPEN result;
---
-END
 /
 
 CREATE PROCEDURE FoodNutrientRatio_Select (
@@ -4582,48 +4432,6 @@ v_Tni
 END;
 /
 
-CREATE PROCEDURE nutrient_lhs (
---
-IN v_MixId LONGVARCHAR,
-IN v_nutrientid LONGVARCHAR,
-IN v_relationshipid INTEGER
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT foodid,
-       c
-FROM
-(
-SELECT a.mixid,
-       a.nutrientid,
-       a.relationshipid,
-       b.foodid,
-       c.c
-FROM NutrientQuantityC a,
-     mixfood b,
-     foodfactcoefficient c
-WHERE a.mixid = b.mixid
-AND   b.foodid = c.foodid
-AND   a.nutrientid = c.nutrientid
-AND   a.mixid = v_mixid
-AND   a.nutrientid = v_nutrientid
-AND   a.relationshipid = v_relationshipid
-ORDER BY a.mixid,
-         a.nutrientid,
-         a.relationshipid,
-         b.foodid
-); 
---	    
-OPEN result;
---
-END;
-/
-
-
 CREATE PROCEDURE nutrient_rhs (
 --
 IN v_MixId LONGVARCHAR
@@ -4904,100 +4712,6 @@ AND
 Nutrient_Id_2 = v_Nutrient_Id_2
 AND
 RelationshipId = v_RelationshipId;
-END;
-/
-
-
-CREATE PROCEDURE nutrientratio_lhs (
---
-IN v_MixId LONGVARCHAR,
---
-IN v_nutrientid1 LONGVARCHAR,
---
-IN v_nutrientid2 LONGVARCHAR,
---
-IN v_relationshipid INTEGER
---
-)
---
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT food_id_1 AS foodid,
-       c
-FROM (SELECT a.mixid,
-             a.food_id_1,
-             a.nutrient_id_1,
-             b.food_id_2,
-             b.nutrient_id_2,
-             a.relationshipid,
-             a.c*b.b - b.c*a.a AS c
-      FROM (SELECT a.mixid,
-                   b,
-                   foodid AS food_id_1,
-                   a.nutrient_id_1,
-                   a.relationshipid,
-                   a.a,
-                   a.b,
-                   b.c
-            FROM NutrientRatioC a,
-                 (SELECT a.mixid,
-                         a.foodid,
-                         b.nutrientid,
-                         b.c
-                  FROM mixfood a,
-                       foodfactcoefficient b
-                  WHERE a.foodid = b.foodid
-                  AND   a.mixid = v_mixid
-                  ORDER BY a.mixid,
-                           a.foodid,
-                           b.nutrientid) b
-            WHERE a.mixid = b.mixid
-            AND   a.mixid = v_mixid
-            AND   a.nutrient_id_1 = b.nutrientid
-            AND   a.nutrient_id_1 = v_nutrientid1
-            AND   a.relationshipid = v_relationshipid) a,
-           (SELECT a.mixid,
-                   b.foodid AS food_id_2,
-                   a.nutrient_id_2,
-                   a.relationshipid,
-                   a.a,
-                   a.b,
-                   b.c
-            FROM NutrientRatioC a,
-                 (SELECT a.mixid,
-                         a.foodid,
-                         b.nutrientid,
-                         b.c
-                  FROM mixfood a,
-                       foodfactcoefficient b
-                  WHERE a.foodid = b.foodid
-                  AND   a.mixid = v_mixid
-                  ORDER BY a.mixid,
-                           a.foodid,
-                           b.nutrientid) b
-            WHERE a.mixid = b.mixid
-            AND   a.mixid = v_mixid
-            AND   a.nutrient_id_2 = b.nutrientid
-            AND   a.nutrient_id_2 = v_nutrientid2
-            AND   a.relationshipid = v_relationshipid) b
-      WHERE a.mixid = b.mixid
-      AND   a.food_id_1 = b.food_id_2
-      AND   a.relationshipid = b.relationshipid
-      AND   a.mixid = v_mixid
-      AND   a.relationshipid = v_relationshipid
-      ORDER BY a.mixid,
-               a.food_id_1,
-               a.nutrient_id_1,
-               b.food_id_2,
-               b.nutrient_id_2,
-               a.relationshipid);
-
---	    
-OPEN result;
-
---
 END;
 /
 
@@ -9098,6 +8812,213 @@ END;
 /
 
 
+CREATE PROCEDURE foodnutrient_lhs (
+--
+IN v_MixId LONGVARCHAR,
+--
+IN v_foodid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR,
+--
+IN v_relationshipid integer
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+    --
+DECLARE
+    result CURSOR FOR
+        SELECT
+            rownum () AS x,
+                name,
+                c
+            FROM (
+                SELECT
+                    name,
+                    c
+                FROM (
+                    SELECT
+                        food_id_b AS name,
+                        nutrientid,
+                        c
+                    FROM (
+                        SELECT
+                            a.mixid,
+                            a.foodid AS food_id_a,
+                            a.relationshipid,
+                            b.foodid AS food_id_b,
+                            a.nutrientid,
+                            CASE WHEN b.foodid = a.foodid THEN
+                            (
+                                SELECT
+                                    c
+                                FROM
+                                    foodfactcoefficient
+                                WHERE
+                                    foodid = a.foodid
+                                    AND nutrientid = a.nutrientid)
+                            ELSE
+                                0
+                            END AS c
+                        FROM
+                            FoodQuantityC a,
+                            mixfood b
+                        WHERE
+                            a.mixid = b.mixid
+                            AND a.mixid = v_mixid
+                        ORDER BY
+                            a.mixid,
+                            a.foodid,
+                            a.relationshipid,
+                            b.foodid)
+                    WHERE
+                        mixid = v_mixid
+                        AND food_id_a = v_foodid
+                        AND nutrientid = v_nutrientid
+                        AND relationshipid = v_relationshipid
+                    ORDER BY
+                        mixid,
+                        food_id_a,
+                        relationshipid,
+                        food_id_b,
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    name,
+                    deficiency
+                FROM (
+                    SELECT
+                        concat('deficiency_', nutrientid) AS name,
+                        0 AS deficiency
+                    FROM
+                        tninutrients
+                    ORDER BY
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    name,
+                    excess
+                FROM (
+                    SELECT
+                        concat('excess_', nutrientid) AS name,
+                        0 AS excess
+                    FROM
+                        tninutrients
+                    ORDER BY
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    'avg_deficiency',
+                    0 AS avg_deficiency
+                FROM (
+                    VALUES (0))
+                UNION ALL
+                SELECT
+                    'avg_excess',
+                    0 AS avg_excess
+                FROM (
+                    VALUES (0)));
+                    --
+                    OPEN result;
+                    --
+END
+/
+
+
+CREATE PROCEDURE foodgroup_lhs (
+--
+IN v_mixid LONGVARCHAR,
+--
+IN v_groupid LONGVARCHAR,
+--
+IN v_nutrientid LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+    --
+DECLARE
+    result CURSOR FOR
+    --
+    SELECT
+        rownum () AS x,
+            name,
+            c
+        FROM (
+            SELECT
+                name,
+                c
+            FROM (
+                SELECT
+                    a.foodid AS name,
+                    IFNULL (b.c, 0) AS c
+                FROM (
+                    SELECT
+                        foodid
+                    FROM
+                        mixfood
+                    WHERE
+                        mixid = v_mixid) a
+                LEFT JOIN (
+                    SELECT
+                        mixid,
+                        foodid,
+                        c
+                    FROM
+                        foodgrouplist a,
+                        foodfactcoefficient b
+                    WHERE
+                        a.foodid = b.foodid
+                        AND a.mixid = v_mixid
+                        AND a.groupid = v_groupid
+                        AND b.nutrientid = v_nutrientid) b ON a.foodid = b.foodid
+                ORDER BY
+                    a.foodid)
+            UNION ALL
+            SELECT
+                name,
+                deficiency
+            FROM (
+                SELECT
+                    concat('deficiency_', nutrientid) AS name,
+                    0 AS deficiency
+                FROM
+                    tninutrients
+                ORDER BY
+                    nutrientid)
+            UNION ALL
+            SELECT
+                name,
+                excess
+            FROM (
+                SELECT
+                    concat('excess_', nutrientid) AS name,
+                    0 AS excess
+                FROM
+                    tninutrients
+                ORDER BY
+                    nutrientid)
+            UNION ALL
+            SELECT
+                'avg_deficiency',
+                0 AS avg_deficiency
+            FROM (
+                VALUES (0))
+            UNION ALL
+            SELECT
+                'avg_excess',
+                0 AS avg_excess
+            FROM (
+                VALUES (0)));
+                --
+                OPEN result;
+                --
+END
+/
+
+
 CREATE PROCEDURE dridev_nutrientquantity_lhs (
 --
 IN v_mixid LONGVARCHAR,
@@ -9106,48 +9027,72 @@ IN v_nutrientid LONGVARCHAR
 --
 )
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
---
-SELECT rownum() AS x,
-       name,
-       c
-FROM (SELECT name, c
-      FROM (SELECT a.foodid AS name,
-                   b.c AS c
-            FROM mixfood a,
-                 foodfactcoefficient b
-            WHERE mixid = v_mixid
-            AND   b.nutrientid = v_nutrientid
-            AND   a.foodid = b.foodid
-            ORDER BY foodid)
-      UNION ALL
-      SELECT name, deficiency
-      FROM (SELECT concat('deficiency_',nutrientid) AS name,
-                   0 AS deficiency
-            FROM tninutrients
-            ORDER BY nutrientid)
-      UNION ALL
-      SELECT name, excess
-      FROM (SELECT concat('excess_',nutrientid) AS name,
-                   0 AS excess
-            FROM tninutrients
-            ORDER BY nutrientid)
-      UNION ALL
-      SELECT 'avg_deficiency',
-             0 AS avg_deficiency
-      FROM (
-           VALUES (0))
-      UNION ALL
-      SELECT 'avg_excess',
-             0 AS avg_excess
-      FROM (
-           VALUES (0)));
---
-OPEN result;
---
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+    --
+DECLARE
+    result CURSOR FOR
+    --
+    SELECT
+        rownum () AS x,
+            name,
+            c
+        FROM (
+            SELECT
+                name,
+                c
+            FROM (
+                SELECT
+                    a.foodid AS name,
+                    b.c AS c
+                FROM
+                    mixfood a,
+                    foodfactcoefficient b
+                WHERE
+                    mixid = v_mixid
+                    AND b.nutrientid = v_nutrientid
+                    AND a.foodid = b.foodid
+                ORDER BY
+                    foodid)
+            UNION ALL
+            SELECT
+                name,
+                deficiency
+            FROM (
+                SELECT
+                    concat('deficiency_', nutrientid) AS name,
+                    0 AS deficiency
+                FROM
+                    tninutrients
+                ORDER BY
+                    nutrientid)
+            UNION ALL
+            SELECT
+                name,
+                excess
+            FROM (
+                SELECT
+                    concat('excess_', nutrientid) AS name,
+                    0 AS excess
+                FROM
+                    tninutrients
+                ORDER BY
+                    nutrientid)
+            UNION ALL
+            SELECT
+                'avg_deficiency',
+                0 AS avg_deficiency
+            FROM (
+                VALUES (0))
+            UNION ALL
+            SELECT
+                'avg_excess',
+                0 AS avg_excess
+            FROM (
+                VALUES (0)));
+                --
+                OPEN result;
+                --
 END;
 /
 
@@ -9166,64 +9111,89 @@ IN v_b DECIMAL
 --
 )
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
---
-SELECT rownum() AS x,
-       name,
-       c
-FROM (SELECT a.foodid AS name,
-             a.c*v_b - b.c*v_a AS c
-      FROM (SELECT a.mixid,
-                   a.foodid,
-                   b.nutrientid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b
-            WHERE a.foodid = b.foodid) a,
-           (SELECT a.mixid,
-                   a.foodid,
-                   b.nutrientid,
-                   b.c
-            FROM mixfood a,
-                 foodfactcoefficient b
-            WHERE a.foodid = b.foodid) b
-      WHERE a.mixid = b.mixid
-      AND   a.foodid = b.foodid
-      AND   a.nutrientid = v_nutrientid1
-      AND   b.nutrientid = v_nutrientid2
-      AND   a.mixid = v_mixid
-      UNION ALL
-      SELECT name,
-             deficiency
-      FROM (SELECT concat('deficiency_',nutrientid) AS name,
-                   0 AS deficiency
-            FROM tninutrients
-            ORDER BY nutrientid)
-      UNION ALL
-      SELECT name,
-             excess
-      FROM (SELECT concat('excess_',nutrientid) AS name,
-                   0 AS excess
-            FROM tninutrients
-            ORDER BY nutrientid)
-      UNION ALL
-      SELECT 'avg_deficiency',
-             0 AS avg_deficiency
-      FROM (
-           VALUES (0))
-      UNION ALL
-      SELECT 'avg_excess',
-             0 AS avg_excess
-      FROM (
-           VALUES (0)));
---
-OPEN result;
---
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+    --
+DECLARE
+    result CURSOR FOR
+    --
+    SELECT
+        rownum () AS x,
+            name,
+            c
+        FROM (
+            SELECT
+                a.foodid AS name,
+                a.c * v_b - b.c * v_a AS c
+            FROM (
+                SELECT
+                    a.mixid,
+                    a.foodid,
+                    b.nutrientid,
+                    b.c
+                FROM
+                    mixfood a,
+                    foodfactcoefficient b
+                WHERE
+                    a.foodid = b.foodid) a,
+                (
+                    SELECT
+                        a.mixid,
+                        a.foodid,
+                        b.nutrientid,
+                        b.c
+                    FROM
+                        mixfood a,
+                        foodfactcoefficient b
+                    WHERE
+                        a.foodid = b.foodid) b
+                WHERE
+                    a.mixid = b.mixid
+                    AND a.foodid = b.foodid
+                    AND a.nutrientid = v_nutrientid1
+                    AND b.nutrientid = v_nutrientid2
+                    AND a.mixid = v_mixid
+                UNION ALL
+                SELECT
+                    name,
+                    deficiency
+                FROM (
+                    SELECT
+                        concat('deficiency_', nutrientid) AS name,
+                        0 AS deficiency
+                    FROM
+                        tninutrients
+                    ORDER BY
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    name,
+                    excess
+                FROM (
+                    SELECT
+                        concat('excess_', nutrientid) AS name,
+                        0 AS excess
+                    FROM
+                        tninutrients
+                    ORDER BY
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    'avg_deficiency',
+                    0 AS avg_deficiency
+                FROM (
+                    VALUES (0))
+                UNION ALL
+                SELECT
+                    'avg_excess',
+                    0 AS avg_excess
+                FROM (
+                    VALUES (0)));
+                    --
+                    OPEN result;
+                    --
 END;
-/           
+/
 
 
 CREATE PROCEDURE dridev_foodquantity_lhs (
@@ -9232,58 +9202,79 @@ IN v_mixid LONGVARCHAR,
 --
 IN v_foodid LONGVARCHAR,
 --
-IN v_nutrientid LONGVARCHAR
-)
+IN v_nutrientid LONGVARCHAR)
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
---
-SELECT rownum() AS x,
-       name,
-       c
-FROM (
-SELECT a.foodid as name, 
-       IFNULL(b.c,0) AS c
-FROM
-(SELECT foodid
-FROM mixfood
-WHERE mixid = v_mixid) a
-LEFT JOIN 
-(SELECT foodid,
-        c
-FROM foodfactcoefficient a
-WHERE nutrientid = v_nutrientid
-AND foodid = v_foodid
-ORDER BY foodid
-) b
-ON a.foodid = b.foodid
-UNION ALL
-SELECT name, 
-       deficiency
-FROM (SELECT concat('deficiency_',nutrientid) AS name,
-             0 AS deficiency
-      FROM tninutrients
-      ORDER BY nutrientid)
-UNION ALL
-SELECT name,
-       excess
-FROM (SELECT concat('excess_',nutrientid) AS name,
-             0 AS excess
-     FROM tninutrients
-     ORDER BY nutrientid)
-UNION ALL
-SELECT 'avg_deficiency',
-        0 AS avg_deficiency
-FROM (VALUES (0))
-UNION ALL
-SELECT 'avg_excess',
-        0 AS avg_excess
-FROM (VALUES (0)));
---
-OPEN result;
---
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+    --
+DECLARE
+    result CURSOR FOR
+    --
+    SELECT
+        rownum () AS x,
+            name,
+            c
+        FROM (
+            SELECT
+                a.foodid AS name,
+                IFNULL (b.c, 0) AS c
+            FROM (
+                SELECT
+                    foodid
+                FROM
+                    mixfood
+                WHERE
+                    mixid = v_mixid) a
+            LEFT JOIN (
+                SELECT
+                    foodid,
+                    c
+                FROM
+                    foodfactcoefficient a
+                WHERE
+                    nutrientid = v_nutrientid
+                    AND foodid = v_foodid
+                ORDER BY
+                    foodid) b ON a.foodid = b.foodid
+            UNION ALL
+            SELECT
+                name,
+                deficiency
+            FROM (
+                SELECT
+                    concat('deficiency_', nutrientid) AS name,
+                    0 AS deficiency
+                FROM
+                    tninutrients
+                ORDER BY
+                    nutrientid)
+            UNION ALL
+            SELECT
+                name,
+                excess
+            FROM (
+                SELECT
+                    concat('excess_', nutrientid) AS name,
+                    0 AS excess
+                FROM
+                    tninutrients
+                ORDER BY
+                    nutrientid)
+            UNION ALL
+            SELECT
+                'avg_deficiency',
+                0 AS avg_deficiency
+            FROM (
+                VALUES (0))
+            UNION ALL
+            SELECT
+                'avg_excess',
+                0 AS avg_excess
+            FROM (
+                VALUES (0)));
+                --
+                OPEN result;
+                --
 END;
 /
 
@@ -9306,59 +9297,87 @@ IN v_b DECIMAL
 --
 )
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
---
-DECLARE result CURSOR
-FOR
-SELECT rownum() AS x,
-       name,
-       c
-FROM (SELECT foodid AS name,
-             CASE
-               WHEN foodid = v_foodid1 THEN (SELECT c
-                                             FROM foodfactcoefficient
-                                             WHERE foodid = v_foodid1
-                                             AND   nutrientid = v_nutrientid1)
-               ELSE 0
-             END * v_b -
-             CASE
-               WHEN foodid = v_foodid2 THEN (SELECT c
-                                             FROM foodfactcoefficient
-                                             WHERE foodid = v_foodid2
-                                             AND   nutrientid = v_nutrientid2)
-               ELSE 0
-             END * v_a AS c
-      FROM mixfood
-      WHERE mixid = v_mixid
-      UNION ALL
-      SELECT name,
-             deficiency
-      FROM (SELECT concat('deficiency_',nutrientid) AS name,
-                   0 AS deficiency
-            FROM tninutrients
-            ORDER BY nutrientid)
-      UNION ALL
-      SELECT name,
-             excess
-      FROM (SELECT concat('excess_',nutrientid) AS name,
-                   0 AS excess
-            FROM tninutrients
-            ORDER BY nutrientid)
-      UNION ALL
-      SELECT 'avg_deficiency',
-             0 AS avg_deficiency
-      FROM (
-           VALUES (0))
-      UNION ALL
-      SELECT 'avg_excess',
-             0 AS avg_excess
-      FROM (
-           VALUES (0)));
---
-OPEN result;
---
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+BEGIN ATOMIC
+    --
+DECLARE
+    result CURSOR FOR
+        SELECT
+            rownum () AS x,
+                name,
+                c
+            FROM (
+                SELECT
+                    foodid AS name,
+                    CASE WHEN foodid = v_foodid1 THEN
+                    (
+                        SELECT
+                            c
+                        FROM
+                            foodfactcoefficient
+                        WHERE
+                            foodid = v_foodid1
+                            AND nutrientid = v_nutrientid1)
+                    ELSE
+                        0
+                    END * v_b - CASE WHEN foodid = v_foodid2 THEN
+                    (
+                        SELECT
+                            c
+                        FROM
+                            foodfactcoefficient
+                        WHERE
+                            foodid = v_foodid2
+                            AND nutrientid = v_nutrientid2)
+                    ELSE
+                        0
+                    END * v_a AS c
+                FROM
+                    mixfood
+                WHERE
+                    mixid = v_mixid
+                UNION ALL
+                SELECT
+                    name,
+                    deficiency
+                FROM (
+                    SELECT
+                        concat('deficiency_', nutrientid) AS name,
+                        0 AS deficiency
+                    FROM
+                        tninutrients
+                    ORDER BY
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    name,
+                    excess
+                FROM (
+                    SELECT
+                        concat('excess_', nutrientid) AS name,
+                        0 AS excess
+                    FROM
+                        tninutrients
+                    ORDER BY
+                        nutrientid)
+                UNION ALL
+                SELECT
+                    'avg_deficiency',
+                    0 AS avg_deficiency
+                FROM (
+                    VALUES (0))
+                UNION ALL
+                SELECT
+                    'avg_excess',
+                    0 AS avg_excess
+                FROM (
+                    VALUES (0)));
+                    --
+                    OPEN result;
+                    --
 END;
 /
+
 
 CREATE PROCEDURE dridev_sum_deficiency_lhs (
 --

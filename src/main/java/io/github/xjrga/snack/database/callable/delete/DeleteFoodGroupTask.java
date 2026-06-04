@@ -15,23 +15,21 @@ public class DeleteFoodGroupTask implements Callable<Boolean> {
     private final String mixid;
     private final String groupid;
 
-
-    public DeleteFoodGroupTask( String mixid, String groupid ) {
+    public DeleteFoodGroupTask(String mixid, String groupid) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
         this.groupid = groupid;
     }
 
-
     @Override
     public Boolean call() throws Exception {
         Boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.FoodGroup_Delete( ?, ? )}" ) ) {
-            proc.setString( 1, mixid );
-            proc.setString( 2, groupid );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.FoodGroup_Delete( ?, ? )}")) {
+            proc.setString(1, mixid);
+            proc.setString(2, groupid);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
         }
         return completed;
     }

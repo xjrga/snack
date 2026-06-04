@@ -63,6 +63,15 @@ Jorge R Garcia de Alba
 
 #### License
 
+GPL2.0
+
+#### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally
+submitted for inclusion in the work by you shall be GPL2.0 licensed 
+without any additional terms or conditions.
+
+#### Data
 
 Project uses data subset from:
 

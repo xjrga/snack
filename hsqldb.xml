@@ -8,8 +8,8 @@
   <tstamp>
     <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
   </tstamp>
-  <path id="libraries">
-    <fileset dir="libraries">
+  <path id="lib">
+    <fileset dir="lib">
       <include name="**/*.jar"/>
     </fileset>
   </path>
@@ -18,7 +18,7 @@
     <java classname="org.hsqldb.server.Server" fork="true" failonerror="true">
       <classpath>
         <path>
-          <fileset dir="libraries">
+          <fileset dir="lib">
             <include name="**/*.jar"/>
           </fileset>
         </path>
@@ -31,7 +31,7 @@
     <java classname="org.hsqldb.server.Server" fork="true" failonerror="true">
       <classpath>
         <path>
-          <fileset dir="libraries">
+          <fileset dir="lib">
             <include name="**/*.jar"/>
           </fileset>
         </path>
@@ -41,13 +41,13 @@
   </target>
   <target name="stop" description="Stop HSQL Server">
     <echo>${timestamp}</echo>
-    <java jar="libraries/sqltool-2.7.4.jar" fork="true" failonerror="true" maxmemory="2g">
+    <java jar="lib/sqltool-2.7.4.jar" fork="true" failonerror="true" maxmemory="2g">
       <arg line="--inlineRc=url=jdbc:hsqldb:hsql://localhost/database,username='sa',password='' --sql 'SHUTDOWN;'"/>
     </java>
   </target>
   <target name="start-manager" description="Start Database Manager">
     <echo>${timestamp}</echo>
-    <java jar="libraries/hsqldb-2.7.4.jar" fork="true" failonerror="true" maxmemory="2g">          
+    <java jar="lib/hsqldb-2.7.4.jar" fork="true" failonerror="true" maxmemory="2g">          
     </java>
   </target>
   <target name="start-file-prompt" description="Start HSQL Server Using File Catalog And Prompt For File Path">

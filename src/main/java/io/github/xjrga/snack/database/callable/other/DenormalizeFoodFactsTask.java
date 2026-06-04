@@ -15,22 +15,20 @@ public class DenormalizeFoodFactsTask implements Callable<Boolean> {
     private final Connection connection;
     private final String foodid;
 
-
-    public DenormalizeFoodFactsTask( String foodid ) {
+    public DenormalizeFoodFactsTask(String foodid) {
         connection = Connect.getInstance().getConnection();
         this.foodid = foodid;
     }
 
-
     @Override
     public Boolean call() throws Exception {
         Boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL CopyFoodFactsToDenormalizedTableExp( ? )}" ) ) {
-            proc.setString( 1, foodid );
+        try (CallableStatement proc = connection.prepareCall("{CALL CopyFoodFactsToDenormalizedTableExp( ? )}")) {
+            proc.setString(1, foodid);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return completed;
     }

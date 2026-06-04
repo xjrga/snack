@@ -11,18 +11,16 @@ public class RegexCheck {
 
     private final String regex;
 
-
-    public RegexCheck( String regex ) {
+    public RegexCheck(String regex) {
         this.regex = regex;
     }
-
 
     public boolean pass() {
         boolean valid = false;
         try {
-            Pattern.compile( regex );
+            Pattern.compile(regex);
             valid = true;
-        } catch ( PatternSyntaxException e ) {
+        } catch (PatternSyntaxException e) {
         }
         return valid;
     }

@@ -17,26 +17,24 @@ public class GetFoodXmlFixedCategoryTask implements Callable<String> {
     private final String foodId;
     private final String categoryId;
 
-
-    public GetFoodXmlFixedCategoryTask( String foodId, String categoryId ) {
+    public GetFoodXmlFixedCategoryTask(String foodId, String categoryId) {
         this.foodId = foodId;
         this.categoryId = categoryId;
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public String call() {
         String xml = "";
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.getFoodXmlFixedCategory( ?, ? )}" ) ) {
-            proc.setString( 1, foodId );
-            proc.setString( 2, categoryId );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.getFoodXmlFixedCategory( ?, ? )}")) {
+            proc.setString(1, foodId);
+            proc.setString(2, categoryId);
             ResultSet rs = proc.executeQuery();
-            while ( rs.next() ) {
-                xml = rs.getString( 1 );
+            while (rs.next()) {
+                xml = rs.getString(1);
             }
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return xml;
     }

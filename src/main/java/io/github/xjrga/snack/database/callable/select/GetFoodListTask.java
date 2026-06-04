@@ -18,25 +18,23 @@ public class GetFoodListTask implements Callable<List<FoodListRecord>> {
 
     private final Connection connection;
 
-
     public GetFoodListTask() {
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public List<FoodListRecord> call() {
         List<FoodListRecord> list = new ArrayList<>();
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.getFoodList()}" ) ) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.getFoodList()}")) {
             ResultSet rs = proc.executeQuery();
-            while ( rs.next() ) {
-                String foodid = rs.getString( 1 );
-                String name = rs.getString( 2 );
-                FoodListRecord food = new FoodListRecord( foodid, name );
-                list.add( food );
+            while (rs.next()) {
+                String foodid = rs.getString(1);
+                String name = rs.getString(2);
+                FoodListRecord food = new FoodListRecord(foodid, name);
+                list.add(food);
             }
-        } catch ( SQLException e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (SQLException e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
         return list;
     }

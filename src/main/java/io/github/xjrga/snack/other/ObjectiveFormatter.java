@@ -7,16 +7,14 @@ public class ObjectiveFormatter extends AbstractFormatter {
 
     private Object value;
 
-
     @Override
-    public String valueToString( Object value ) throws ParseException {
+    public String valueToString(Object value) throws ParseException {
         this.value = value;
         return value.toString();
     }
 
-
     @Override
-    public Object stringToValue( String text ) throws ParseException {
+    public Object stringToValue(String text) throws ParseException {
         return value;
     }
 }

@@ -14,8 +14,7 @@ public class InsertMealTask implements Callable<Boolean> {
     private final Integer order;
     private final Connection connection;
 
-
-    public InsertMealTask( String mixid, Integer mealid, String name, Integer order ) {
+    public InsertMealTask(String mixid, Integer mealid, String name, Integer order) {
         this.mixid = mixid;
         this.mealid = mealid;
         this.name = name;
@@ -23,18 +22,17 @@ public class InsertMealTask implements Callable<Boolean> {
         connection = Connect.getInstance().getConnection();
     }
 
-
     @Override
     public Boolean call() throws Exception {
         boolean completed = false;
-        try ( CallableStatement proc = connection.prepareCall( "{CALL public.Meal_insert_02( ?, ?, ?, ? )}" ) ) {
-            proc.setString( 1, mixid );
-            proc.setInt( 2, mealid );
-            proc.setString( 3, name );
-            proc.setInt( 4, order );
+        try (CallableStatement proc = connection.prepareCall("{CALL public.Meal_insert_02( ?, ?, ?, ? )}")) {
+            proc.setString(1, mixid);
+            proc.setInt(2, mealid);
+            proc.setString(3, name);
+            proc.setInt(4, order);
             proc.execute();
             completed = true;
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             // LoggerImpl.INSTANCE.logProblem(e);
         }
         return completed;

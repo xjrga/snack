@@ -16,38 +16,36 @@ public class AllFoodsReport {
 
     private final Connection connection;
 
-
     public AllFoodsReport() {
         connection = Connect.getInstance().getConnection();
     }
 
-
     public void create() {
-        try ( FileWriter fileWriter = new FileWriter( "models/allfoods.csv" ) ) {
-            CallableStatement proc = connection.prepareCall( "{CALL public.getNutrients()}" );
+        try (FileWriter fileWriter = new FileWriter("models/allfoods.csv")) {
+            CallableStatement proc = connection.prepareCall("{CALL public.getNutrients()}");
             ResultSet rs = proc.executeQuery();
             StringBuilder comment = new StringBuilder();
-            comment.append( "Nutritional Values For Common Foods And Products" );
+            comment.append("Nutritional Values For Common Foods And Products");
             CSVFormat csvFormat = CSVFormat.DEFAULT
                     .builder()
-                    .setCommentMarker( '#' )
-                    .setHeaderComments( "All Foods Report", comment.toString(), LocalDateTime.now() )
-                    .setHeader( rs )
+                    .setCommentMarker('#')
+                    .setHeaderComments("All Foods Report", comment.toString(), LocalDateTime.now())
+                    .setHeader(rs)
                     .get();
-            CSVPrinter csvPrinter = new CSVPrinter( fileWriter, csvFormat );
-            while ( rs.next() ) {
-                String foodid = rs.getString( 1 );
-                String nutrientid = rs.getString( 2 );
-                String food = rs.getString( 3 );
-                String nutrient = rs.getString( 4 );
-                BigDecimal q = rs.getBigDecimal( 5 );
-                String units = rs.getString( 6 );
-                Integer dri = rs.getInt( 7 );
-                Integer calculated = rs.getInt( 8 );
-                csvPrinter.printRecord( foodid, nutrientid, food, nutrient, Utilities.strip( q ), units, dri, calculated );
+            CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
+            while (rs.next()) {
+                String foodid = rs.getString(1);
+                String nutrientid = rs.getString(2);
+                String food = rs.getString(3);
+                String nutrient = rs.getString(4);
+                BigDecimal q = rs.getBigDecimal(5);
+                String units = rs.getString(6);
+                Integer dri = rs.getInt(7);
+                Integer calculated = rs.getInt(8);
+                csvPrinter.printRecord(foodid, nutrientid, food, nutrient, Utilities.strip(q), units, dri, calculated);
             }
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+        } catch (Exception e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         }
     }
 }

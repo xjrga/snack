@@ -14,24 +14,22 @@ public class CreateAllFoodsReportDnTask implements Runnable {
 
     private final JFrame frm;
 
-
-    public CreateAllFoodsReportDnTask( JFrame frm ) {
+    public CreateAllFoodsReportDnTask(JFrame frm) {
         this.frm = frm;
     }
-
 
     @Override
     public void run() {
         try {
-            ( new AllFoodsReportDn() ).create();
-        } catch ( Exception e ) {
-            LoggerImpl.INSTANCE.logProblem( e );
+            (new AllFoodsReportDn()).create();
+        } catch (Exception e) {
+            LoggerImpl.INSTANCE.logProblem(e);
         } finally {
             Runnable r = () -> {
-                frm.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-                Message.showMessage( "All Foods Report Denormalized created." );
+                frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                Message.showMessage("All Foods Report Denormalized created.");
             };
-            SwingUtilities.invokeLater( r );
+            SwingUtilities.invokeLater(r);
         }
     }
 }

@@ -9,17 +9,15 @@ public class Shutdown {
 
     private final Connection connection;
 
-
     public Shutdown() {
         connection = Connect.getInstance().getConnection();
     }
 
-
     public void execute() {
         String sql = "SHUTDOWN;";
-        try ( Statement stmt = connection.createStatement() ) {
-            stmt.executeUpdate( sql );
-        } catch ( SQLException e ) {
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
         }
     }
 }
