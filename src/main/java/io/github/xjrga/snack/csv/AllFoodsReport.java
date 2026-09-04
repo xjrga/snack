@@ -2,7 +2,7 @@ package io.github.xjrga.snack.csv;
 
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -42,7 +42,7 @@ public class AllFoodsReport {
                 String units = rs.getString(6);
                 Integer dri = rs.getInt(7);
                 Integer calculated = rs.getInt(8);
-                csvPrinter.printRecord(foodid, nutrientid, food, nutrient, Utilities.strip(q), units, dri, calculated);
+                csvPrinter.printRecord(foodid, nutrientid, food, nutrient, U.strip(q), units, dri, calculated);
             }
         } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);

@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -79,7 +79,7 @@ public class LpToCplexExp implements LpTo {
 
     @Override
     public void addMixLegend(String mix) {
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         mixLegend.append("/*\n");
         mixLegend.append(String.format(" %1$9s %2$s", "PROBLEM: ", mix));
         mixLegend.append("\n");
@@ -90,7 +90,7 @@ public class LpToCplexExp implements LpTo {
 
     @Override
     public void addMixLegend(String mixname, String optionDescription) {
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         mixLegend.append("/*\n");
         mixLegend.append(String.format(" %1$11s %2$s", "PROBLEM:", mixname));
         mixLegend.append("\n");
@@ -204,24 +204,23 @@ public class LpToCplexExp implements LpTo {
         return buildModel();
     }
 
-    private void setConstraintCoefficients(StringBuilder sb, double[] coefficients, int rel, double value) {
+    private void setConstraintCoefficients(StringBuilder sb, double[] coefficients, int rel, double b) {
+        String bPlain = U.plain(b);
         String relationship = LpText.getCplexRelationship(rel);
         StringBuilder isb = new StringBuilder();
         for (int i = 0; i < coefficients.length; i++) {
             double c = coefficients[i];
-            String cst = BigDecimal.valueOf(Math.abs(c))
-                    .stripTrailingZeros()
-                    .toPlainString();
+            String cst = U.plain(Math.abs(c));
             if (c < 0) {
-                isb.append(String.format(" - %1$s x%2$02d", cst, i + 1));
+                isb.append(String.format(" - %s x%02d", cst, i + 1));
             } else {
-                isb.append(String.format(" + %1$s x%2$02d", cst, i + 1));
+                isb.append(String.format(" + %s x%02d", cst, i + 1));
             }
         }
         String constraint = isb.toString();
         sb.append(constraint.replaceFirst("\\+", ""));
         sb.append(" ");
-        sb.append(String.format("%1$2s %2$ 11.5f", relationship, value));
+        sb.append(String.format("%2s %s", relationship, bPlain));
         sb.append(";");
         sb.append("\n\n");
     }

@@ -3,7 +3,7 @@ package io.github.xjrga.snack.csv;
 import io.github.xjrga.snack.jcomponents.TableMix;
 import io.github.xjrga.snack.jcomponents.TableMixDiff;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,8 +43,7 @@ public class MixComparisonReport {
                 BigDecimal mixa = ((BigDecimal) tblMixDiff.getValueAt(j, 2));
                 BigDecimal mixb = ((BigDecimal) tblMixDiff.getValueAt(j, 3));
                 BigDecimal diff = ((BigDecimal) tblMixDiff.getValueAt(j, 4));
-                csvPrinter.printRecord(
-                        category, nutrient, Utilities.strip(mixa), Utilities.strip(mixb), Utilities.strip(diff));
+                csvPrinter.printRecord(category, nutrient, U.strip(mixa), U.strip(mixb), U.strip(diff));
             }
         } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);

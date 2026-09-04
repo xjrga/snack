@@ -51,7 +51,7 @@ and share their insight.
 
 #### Build
 
-1670
+1690
 
 #### User Guide
 
@@ -68,7 +68,7 @@ GPL2.0
 #### Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally
-submitted for inclusion in the work by you shall be GPL2.0 licensed 
+submitted for inclusion in the work by you shall be GPL2.0 licensed
 without any additional terms or conditions.
 
 #### Data

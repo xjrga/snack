@@ -5,7 +5,7 @@ import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reloader;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -58,15 +58,14 @@ public class MealPlanCaloriesReport {
                         BigDecimal eCarbs = (BigDecimal) row.get(5);
                         BigDecimal eProtein = (BigDecimal) row.get(7);
                         BigDecimal eAlcohol = (BigDecimal) row.get(8);
-                        csvPrinter.printRecord(
-                                meal,
-                                Utilities.strip(weight),
-                                Utilities.strip(eGross),
-                                Utilities.strip(eDigestible),
-                                Utilities.strip(eFat),
-                                Utilities.strip(eCarbs),
-                                Utilities.strip(eProtein),
-                                Utilities.strip(eAlcohol));
+                        csvPrinter.printRecord(meal,
+                                U.strip(weight),
+                                U.strip(eGross),
+                                U.strip(eDigestible),
+                                U.strip(eFat),
+                                U.strip(eCarbs),
+                                U.strip(eProtein),
+                                U.strip(eAlcohol));
                     } catch (Exception e) {
                         LoggerImpl.INSTANCE.logProblem(e);
                     }

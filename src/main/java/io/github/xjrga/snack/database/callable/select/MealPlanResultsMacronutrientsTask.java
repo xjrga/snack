@@ -34,26 +34,28 @@ public class MealPlanResultsMacronutrientsTask implements Callable<List<List>> {
             }
             while (rs.next()) {
                 ArrayList row = new ArrayList();
+                // meal order
+                row.add(rs.getInt(1));
                 // name
-                row.add(rs.getString(1));
+                row.add(rs.getString(2));
                 // weight
-                row.add(rs.getBigDecimal(2));
+                row.add(rs.getBigDecimal(3));
                 // fat
-                row.add(rs.getBigDecimal(10));
-                // carbs
                 row.add(rs.getBigDecimal(11));
-                // protein
+                // carbs
                 row.add(rs.getBigDecimal(12));
-                // complete
+                // protein
                 row.add(rs.getBigDecimal(13));
-                // alcohol
+                // complete
                 row.add(rs.getBigDecimal(14));
-                // fiber
+                // alcohol
                 row.add(rs.getBigDecimal(15));
-                // sodium
+                // fiber
                 row.add(rs.getBigDecimal(16));
-                // potassium
+                // sodium
                 row.add(rs.getBigDecimal(17));
+                // potassium
+                row.add(rs.getBigDecimal(18));
                 table.add(row);
             }
         } catch (SQLException e) {

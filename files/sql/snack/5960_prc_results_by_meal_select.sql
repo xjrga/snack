@@ -4,7 +4,8 @@ BEGIN ATOMIC
 DECLARE result CURSOR
 FOR
 --
-SELECT a.name,
+SELECT a.mealorder,
+       a.name,
        a.amt AS weight,
        b.amt AS egross,
        c.amt AS edigest,
@@ -282,7 +283,8 @@ AND   a.mealorder = p.mealorder
 --
 UNION
 --
-SELECT 'Total' AS name,
+SELECT 1000000 AS mealorder,
+       'Total' AS name,
        a.amt AS weight,
        b.amt AS egross,
        c.amt AS edigest,

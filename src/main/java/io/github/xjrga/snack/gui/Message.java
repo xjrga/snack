@@ -1,7 +1,7 @@
 package io.github.xjrga.snack.gui;
 
 import io.github.xjrga.snack.other.ImageUtilities;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 public class Message {
 
     private static final BufferedImage logo
-            = ImageUtilities.readImageFromUrl(Utilities.getResourceAsUrl("/resources/images/logo.png"));
+            = ImageUtilities.readImageFromUrl(U.getResourceAsUrl("/resources/images/logo.png"));
 
     public static void showMessage(JComponent[] inputs, String title) {
         JOptionPane optionPane = new JOptionPane(inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);

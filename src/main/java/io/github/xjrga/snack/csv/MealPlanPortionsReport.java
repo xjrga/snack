@@ -4,7 +4,7 @@ import io.github.xjrga.snack.database.callable.BackgroundExec;
 import io.github.xjrga.snack.database.callable.select.MealPlanPortionsTask;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -56,15 +56,14 @@ public class MealPlanPortionsReport {
                     BigDecimal expectedwt = (BigDecimal) row.get(6);
                     BigDecimal actualwt = (BigDecimal) row.get(7);
                     Integer mealorder = (Integer) row.get(8);
-                    csvPrinter.printRecord(
-                            mixid,
+                    csvPrinter.printRecord(mixid,
                             mealid,
                             foodid,
                             meal,
                             food,
-                            Utilities.strip(pct),
-                            Utilities.strip(expectedwt),
-                            Utilities.strip(actualwt),
+                            U.strip(pct),
+                            U.strip(expectedwt),
+                            U.strip(actualwt),
                             mealorder);
                 } catch (Exception e) {
                     LoggerImpl.INSTANCE.logProblem(e);

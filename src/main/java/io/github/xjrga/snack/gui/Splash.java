@@ -2,7 +2,7 @@ package io.github.xjrga.snack.gui;
 
 import io.github.xjrga.snack.other.ElapsedTime;
 import io.github.xjrga.snack.other.ImageUtilities;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
@@ -24,7 +24,7 @@ public class Splash extends JFrame {
         add(lbl);
         setTitle(" Snack is loading your food items");
         setVisible(true);
-        BufferedImage logo = ImageUtilities.readImageFromUrl(Utilities.getResourceAsUrl("/resources/images/logo.png"));
+        BufferedImage logo = ImageUtilities.readImageFromUrl(U.getResourceAsUrl("/resources/images/logo.png"));
         setIconImage(logo);
         toFront();
     }

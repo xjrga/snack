@@ -3,7 +3,7 @@ package io.github.xjrga.snack.csv;
 import io.github.xjrga.snack.jcomponents.TableFood;
 import io.github.xjrga.snack.jcomponents.TableFoodDiff;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,8 +43,7 @@ public class FoodComparisonReport {
                 BigDecimal fooda = ((BigDecimal) modelTableFoodDiff.getValueAt(j, 2));
                 BigDecimal foodb = ((BigDecimal) modelTableFoodDiff.getValueAt(j, 3));
                 BigDecimal diff = ((BigDecimal) modelTableFoodDiff.getValueAt(j, 4));
-                csvPrinter.printRecord(
-                        category, nutrient, Utilities.strip(fooda), Utilities.strip(foodb), Utilities.strip(diff));
+                csvPrinter.printRecord(category, nutrient, U.strip(fooda), U.strip(foodb), U.strip(diff));
             }
         } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);

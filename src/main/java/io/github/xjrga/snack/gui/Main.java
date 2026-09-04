@@ -196,7 +196,7 @@ import io.github.xjrga.snack.other.RegexCheck;
 import io.github.xjrga.snack.other.Shutdown;
 import io.github.xjrga.snack.other.StringCheck;
 import io.github.xjrga.snack.other.TableColumnWidth;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import io.github.xjrga.snack.records.FoodListRecord;
 import io.github.xjrga.snack.records.TableCategoryRow;
 import io.github.xjrga.snack.renderers.ComboMixRenderer;
@@ -326,7 +326,7 @@ public class Main {
     private final JButton btnDeletePortion;
     private final JButton btnRenameFood;
     private final JButton btnSolve;
-    private final JButton btnUpdateFood;
+    private final JButton btnDeriveFood;
     private final JButton btnUpdateMeal;
     private final JButton btnUpdatePortionWeight;
     private final JButton btnBlock;
@@ -467,7 +467,7 @@ public class Main {
     public Main(Splash splash) {
         selectedMixId = "";
         LoggerImpl.INSTANCE.filter("io.github.xjrga.*");
-        logo = ImageUtilities.readImageFromUrl(Utilities.getResourceAsUrl("/resources/images/logo.png"));
+        logo = ImageUtilities.readImageFromUrl(U.getResourceAsUrl("/resources/images/logo.png"));
         cc = new CellConstraints();
         cmbFoodQuantityFood = new ComboBox();
         cmbFoodGroup = new ComboBox();
@@ -508,7 +508,7 @@ public class Main {
         btnDeletePortion = new JButton("-");
         btnRenameFood = new JButton("r");
         btnSolve = new JButton("Solve");
-        btnUpdateFood = new JButton("u");
+        btnDeriveFood = new JButton("d");
         btnUpdateMeal = new JButton("u");
         btnUpdatePortionWeight = new JButton("w");
         btnBlock = new JButton("Block");
@@ -662,7 +662,7 @@ public class Main {
         try {
             Future<List<List>> task = BackgroundExec.submit(new MixesTask());
             List<List> lst = task.get();
-            List<MixDO> mixesList = Utilities.createMixDOList(lst);
+            List<MixDO> mixesList = U.createMixDOList(lst);
             cmbMixes.reload(mixesList);
             tblMixDiffA.reload(lst);
             tblMixDiffB.reload(lst);
@@ -955,7 +955,7 @@ public class Main {
         );
         pnl.setLayout(lyo);
         try {
-            URL url = Utilities.getResourceAsUrl("/resources/fonts/inconsolata.ttf");
+            URL url = U.getResourceAsUrl("/resources/fonts/inconsolata.ttf");
             InputStream is = url.openStream();
             Font font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(13f);
             txaLpProgram.setFont(font);
@@ -1301,20 +1301,21 @@ public class Main {
                 "m:grow,8px,m:grow", // columns
                 "fill:200px,8px,fill:min:grow,min" // rows
         );
+        lyoMain.setColumnGroups(new int[][]{{1, 3}});
         FormLayout lyoCategories = new FormLayout(
                 "min,min:grow", // columns
                 "8px,fill:28px,fill:min:grow" // rows
         );
         FormLayout lyoAllFoods = new FormLayout(
                 "min,min:grow", // columns
-                "fill:28px,fill:min:grow" // rows
+                "8px,fill:28px,fill:min:grow" // rows
         );
         FormLayout lyoCategoryFoods = new FormLayout(
                 "min,min:grow", // columns
                 "fill:28px,fill:min:grow" // rows
         );
         FormLayout lyoButtons = new FormLayout(
-                "m:grow,300px,150px,m:grow", // columns
+                "m:grow,min,min,m:grow", // columns
                 "min,8px" // rows
         );
         JLabel lblSearchCategories = new JLabel("Search: ");
@@ -1365,13 +1366,13 @@ public class Main {
         pnlCategoryFoods.add(lblSearchFoodsInCategory, cc.xy(1, 1));
         pnlCategoryFoods.add(txtSearchFoodsInCategory, cc.xy(2, 1));
         pnlCategoryFoods.add(scrFoodsInCategory, cc.xyw(1, 2, 2));
-        pnlAllFoods.add(lblSearchAllFoods, cc.xy(1, 1));
-        pnlAllFoods.add(txtSearchAllFoods, cc.xy(2, 1));
-        pnlAllFoods.add(scrAllFoods, cc.xyw(1, 2, 2));
-        pnlMain.add(pnlCategories, cc.xyw(1, 1, 3));
-        pnlMain.add(pnlAllFoods, cc.xy(1, 3));
+        pnlAllFoods.add(lblSearchAllFoods, cc.xy(1, 2));
+        pnlAllFoods.add(txtSearchAllFoods, cc.xy(2, 2));
+        pnlAllFoods.add(scrAllFoods, cc.xyw(1, 3, 2));
+        pnlMain.add(pnlAllFoods, cc.xywh(1, 1, 1, 4));
+        pnlMain.add(pnlCategories, cc.xy(3, 1));
         pnlMain.add(pnlCategoryFoods, cc.xy(3, 3));
-        pnlMain.add(pnlButtons, cc.xyw(1, 4, 3));
+        pnlMain.add(pnlButtons, cc.xy(3, 4));
         try {
             Future<List<TableCategoryRow>> task = BackgroundExec.submit(new FoodCategoriesTaskUsingRecords());
             List<TableCategoryRow> foodcategories = task.get();
@@ -1587,12 +1588,21 @@ public class Main {
         });
         JPopupMenu pmn = new JPopupMenu();
         JMenuItem item01 = new JMenuItem("Plus");
+        JMenuItem item02 = new JMenuItem("Minus");
         pmn.add(item01);
+        pmn.add(item02);
         item01.addActionListener((ActionEvent evt) -> {
             if (txtFoodQuantityValue.getText().isBlank()) {
                 return;
             }
             Double total = plusQuantity(Double.valueOf(txtFoodQuantityValue.getText()));
+            txtFoodQuantityValue.setText(String.valueOf(total));
+        });
+        item02.addActionListener((ActionEvent evt) -> {
+            if (txtFoodQuantityValue.getText().isBlank()) {
+                return;
+            }
+            Double total = minusQuantity(Double.valueOf(txtFoodQuantityValue.getText()));
             txtFoodQuantityValue.setText(String.valueOf(total));
         });
         txtFoodQuantityValue.addMouseListener(new MouseAdapter() {
@@ -1636,7 +1646,7 @@ public class Main {
         searchPanel.add(label, cc.xy(1, 2));
         searchPanel.add(tblFoodFacts.getTxtSearch(), cc.xy(2, 2));
         buttonPanel.add(btnAddFood, cc.xy(2, 1));
-        buttonPanel.add(btnUpdateFood, cc.xy(3, 1));
+        buttonPanel.add(btnDeriveFood, cc.xy(3, 1));
         buttonPanel.add(btnRenameFood, cc.xy(4, 1));
         buttonPanel.add(btnDeleteFood, cc.xy(5, 1));
         pnl.add(searchPanel, cc.xyw(2, 1, 2));
@@ -1644,15 +1654,15 @@ public class Main {
         pnl.add(selectorFoodFactsTable, cc.xy(4, 2));
         pnl.add(buttonPanel, cc.xyw(2, 4, 3));
         scrollPaneTable01.setBorder(new TitledBorder("Food List"));
-        btnAddFood.setToolTipText("Add food item");
-        btnUpdateFood.setToolTipText("Update food item");
+        btnAddFood.setToolTipText("Add new food item");
+        btnDeriveFood.setToolTipText("Create new food item from existing one");
         btnRenameFood.setToolTipText("Rename food item");
         btnDeleteFood.setToolTipText("Delete food item");
         btnAddFood.addActionListener((ActionEvent evt) -> {
             addFoodToDatabase();
         });
-        btnUpdateFood.addActionListener((ActionEvent evt) -> {
-            addDerivativeFoodToDatabase();
+        btnDeriveFood.addActionListener((ActionEvent evt) -> {
+            addDerivedFoodToDatabase();
         });
         btnRenameFood.addActionListener((ActionEvent evt) -> {
             renameFood();
@@ -1819,7 +1829,7 @@ public class Main {
     private JPanel getMealCaloriesPanel() {
         JPanel pnl = new JPanel();
         ColumnBuild columns = new ColumnBuild();
-        columns.add(803);
+        columns.add(878);
         RowBuild rows = new RowBuild();
         rows.add(RowBuild.rowAlignment.FILL, RowBuild.componentSize.MIN, RowBuild.resizeBehavior.GROW);
         FormLayout lyo = new FormLayout(columns.get(), rows.get());
@@ -1833,7 +1843,7 @@ public class Main {
     private JPanel getMealMacronutrientsPanel() {
         JPanel pnl = new JPanel();
         ColumnBuild columns = new ColumnBuild();
-        columns.add(878);
+        columns.add(953);
         RowBuild rows = new RowBuild();
         rows.add(RowBuild.rowAlignment.FILL, RowBuild.componentSize.MIN, RowBuild.resizeBehavior.GROW);
         FormLayout lyo = new FormLayout(columns.get(), rows.get());
@@ -1851,7 +1861,7 @@ public class Main {
         columns.add(ColumnBuild.componentSize.PREF);
         columns.add(ColumnBuild.componentSize.PREF);
         columns.add(ColumnBuild.componentSize.PREF);
-        columns.add(800);
+        columns.add(812);
         columns.add(ColumnBuild.componentSize.PREF);
         columns.add(ColumnBuild.componentSize.PREF);
         columns.add(ColumnBuild.componentSize.PREF);
@@ -2188,7 +2198,7 @@ public class Main {
                 try {
                     Future<List<List>> task = BackgroundExec.submit(new MixesTask());
                     List<List> lst = task.get();
-                    List<MixDO> mixesList = Utilities.createMixDOList(lst);
+                    List<MixDO> mixesList = U.createMixDOList(lst);
                     cmbMixes.reload(mixesList);
                     cmbMixes.setSelectedItem(mix);
                     LifeStageDO find
@@ -3117,7 +3127,7 @@ public class Main {
                     for (FoodListRecord record : list) {
                         Future<String> getXml = BackgroundExec.submit(new GetFoodXmlFixedCategoryTask(record.foodId(), selectedValue.categoryId()));
                         String xml = getXml.get();
-                        String fdoc = Utilities.formatXmlDoc(xml);
+                        String fdoc = U.formatXmlDoc(xml);
                         writer.write(fdoc);
                     }
                     writer.write("</foods>");
@@ -3156,7 +3166,7 @@ public class Main {
                     for (FoodListRecord record : list) {
                         Future<String> getXml = BackgroundExec.submit(new GetFoodXmlTask(record.foodId()));
                         String xml = getXml.get();
-                        String fdoc = Utilities.formatXmlDoc(xml);
+                        String fdoc = U.formatXmlDoc(xml);
                         writer.write(fdoc);
                     }
                     writer.write("</foods>");
@@ -3272,7 +3282,7 @@ public class Main {
         }
     }
 
-    private void addDerivativeFoodToDatabase() {
+    private void addDerivedFoodToDatabase() {
         if (!tblFoodFacts.isSelectionEmpty()) {
             TableFoodFacts.Row foodfact = tblFoodFacts.getSelectedValue();
             TableFoodFactInput tbl = new TableFoodFactInput();
@@ -4346,7 +4356,7 @@ public class Main {
                                 .append(" ")
                                 .append(eq)
                                 .append(" ")
-                                .append(b);
+                                .append(U.plain(b));
                         lpToCplexExp.addNutrientConstraint(coefficients, relationshipid, b, constraintName.toString());
                         lpToCplex.addNutrientConstraint(coefficients, relationshipid, b, constraintName.toString());
                         lpToR.addNutrientConstraint(coefficients, relationshipid, b, constraintName.toString());
@@ -4386,9 +4396,9 @@ public class Main {
                                 .append(" ")
                                 .append(eq)
                                 .append(" ")
-                                .append(a)
+                                .append(U.plain(a))
                                 .append(" / ")
-                                .append(b);
+                                .append(U.plain(b));
                         lpToCplexExp.addNutrientRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
                         lpToCplex.addNutrientRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
                         lpToR.addNutrientRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
@@ -4428,7 +4438,7 @@ public class Main {
                                 .append(" ")
                                 .append(eq)
                                 .append(" ")
-                                .append(b);
+                                .append(U.plain(b));
                         lpToCplexExp.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
                         lpToCplex.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
                         lpToR.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
@@ -4477,9 +4487,9 @@ public class Main {
                                 .append(" ")
                                 .append(eq)
                                 .append(" ")
-                                .append(A)
+                                .append(U.plain(A))
                                 .append(" / ")
-                                .append(B);
+                                .append(U.plain(B));
                         lpToCplexExp.addFoodRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
                         lpToCplex.addFoodRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
                         lpToR.addFoodRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
@@ -4519,7 +4529,7 @@ public class Main {
                                 .append(" ")
                                 .append(eq)
                                 .append(" ")
-                                .append(b);
+                                .append(U.plain(b));
                         lpToCplexExp.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
                         lpToCplex.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
                         lpToR.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
@@ -4588,25 +4598,25 @@ public class Main {
                 mix.setDeficiency(deficiency);
                 mix.setExcess(excess);
                 FileName fileName = new FileName();
-                String time = Utilities.getCurrentTimeMillisTxt();
+                String time = U.getCurrentTimeMillisTxt();
                 fileName.setVariableText(time);
                 if (cbToCplexExp.isSelected()) {
-                    Utilities.write(fileName.lpsolve_cplex_exp(), lpToCplexExp.toString());
+                    U.write(fileName.lpsolve_cplex_exp(), lpToCplexExp.toString());
                 }
                 if (cbToCplex.isSelected()) {
-                    Utilities.write(fileName.lpsolve_cplex(), lpToCplex.toString());
+                    U.write(fileName.lpsolve_cplex(), lpToCplex.toString());
                 }
                 if (cbToR.isSelected()) {
-                    Utilities.write(fileName.lpsolve_r(), lpToR.toString());
+                    U.write(fileName.lpsolve_r(), lpToR.toString());
                 }
                 if (cbToJava.isSelected()) {
-                    Utilities.write(fileName.commons_math(), lpToJava.toString());
+                    U.write(fileName.commons_math(), lpToJava.toString());
                 }
                 if (cbToRust.isSelected()) {
-                    Utilities.write(fileName.lpsolve_rust(), lpToRust.toString());
+                    U.write(fileName.lpsolve_rust(), lpToRust.toString());
                 }
                 if (cbToC.isSelected()) {
-                    Utilities.write(fileName.lpsolve_c(), lpToC.toString());
+                    U.write(fileName.lpsolve_c(), lpToC.toString());
                 }
             } else {
                 // ----- CREATE LPSOLVE MODEL AND SET -----
@@ -4778,14 +4788,14 @@ public class Main {
     private void showAbout() {
         JTextPane txp = new JTextPane();
         txp.setEditorKit(JEditorPane.createEditorKitForContentType("text/html"));
-        txp.setText(Utilities.getResourceAsString("/resources/html/about.html"));
+        txp.setText(U.getResourceAsString("/resources/html/about.html"));
         txp.setEditable(false);
         txp.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
         txp.setCaretPosition(0);
         txp.addHyperlinkListener((HyperlinkEvent e) -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                 if (Desktop.isDesktopSupported()) {
-                    Utilities.openUrl(e.getURL().toString());
+                    U.openUrl(e.getURL().toString());
                 }
             }
         });
@@ -5045,7 +5055,7 @@ public class Main {
                         frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         return;
                     }
-                    writer.write(Utilities.formatXmlDoc(doc));
+                    writer.write(U.formatXmlDoc(doc));
                     frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     StringBuilder sb = new StringBuilder();
                     sb.append("Document saved to ");
@@ -5178,7 +5188,7 @@ public class Main {
             try {
                 Future<List<List>> task = BackgroundExec.submit(new MixesTask());
                 List<List> lst = task.get();
-                List<MixDO> mixesList = Utilities.createMixDOList(lst);
+                List<MixDO> mixesList = U.createMixDOList(lst);
                 cmbMixes.reload(mixesList);
                 tblMixDiffA.reload(lst);
                 tblMixDiffB.reload(lst);
@@ -5205,7 +5215,7 @@ public class Main {
                     try {
                         Future<List<List>> task2 = BackgroundExec.submit(new MixesTask());
                         List<List> lst = task2.get();
-                        List<MixDO> mixesList = Utilities.createMixDOList(lst);
+                        List<MixDO> mixesList = U.createMixDOList(lst);
                         cmbMixes.reload(mixesList);
                         tblMixDiffA.reload(lst);
                         tblMixDiffB.reload(lst);
@@ -5238,7 +5248,7 @@ public class Main {
                 try {
                     Future<List<List>> task2 = BackgroundExec.submit(new MixesTask());
                     List<List> lst = task2.get();
-                    List<MixDO> mixesList = Utilities.createMixDOList(lst);
+                    List<MixDO> mixesList = U.createMixDOList(lst);
                     cmbMixes.reload(mixesList);
                     tblMixDiffA.reload(lst);
                     tblMixDiffB.reload(lst);
@@ -5484,7 +5494,7 @@ public class Main {
                 try {
                     Future<List<List>> task = BackgroundExec.submit(new MixesTask());
                     List<List> lst = task.get();
-                    List<MixDO> mixesList = Utilities.createMixDOList(lst);
+                    List<MixDO> mixesList = U.createMixDOList(lst);
                     cmbMixes.reload(mixesList);
                     tblMixDiffA.reload(lst);
                     tblMixDiffB.reload(lst);
@@ -6063,7 +6073,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            URL url = Utilities.getResourceAsUrl("/resources/fonts/inconsolata.ttf");
+            URL url = U.getResourceAsUrl("/resources/fonts/inconsolata.ttf");
             InputStream is = url.openStream();
             Font font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(13f);
             MetalLookAndFeel.setCurrentTheme(new io.github.xjrga.looks.themes.Dawn_150(font));
@@ -6490,6 +6500,7 @@ public class Main {
     private Double plusQuantity(Double oldq) {
         Double total = 0.0;
         JTextField txtInput = new JTextField();
+        txtInput.setText("0.0");
         JPanel pnl = new JPanel();
         txtInput.setPreferredSize(new Dimension(50, 25));
         pnl.add(new JLabel("How much would like to add?"));
@@ -6509,6 +6520,37 @@ public class Main {
                     Message.showMessage("Numbers only");
                 }
             }
+        } else {
+            total = oldq;
+        }
+        return total;
+    }
+
+    private Double minusQuantity(Double oldq) {
+        Double total = 0.0;
+        JTextField txtInput = new JTextField();
+        txtInput.setText("0.0");
+        JPanel pnl = new JPanel();
+        txtInput.setPreferredSize(new Dimension(50, 25));
+        pnl.add(new JLabel("How much would like to subtract?"));
+        pnl.add(txtInput);
+        JComponent[] inputs = {pnl};
+        int optionValue = Message.showOptionDialogOkCancel(inputs, "Minus");
+        if (optionValue == 0) {
+            String s = txtInput.getText();
+            if (s != null && s.length() > 0) {
+                StringBuilder sb = new StringBuilder();
+                NumberCheck checkNumber = new NumberCheck();
+                checkNumber.addToUncheckedList(s);
+                if (checkNumber.pass()) {
+                    Double newq = Double.valueOf(s);
+                    total = oldq - newq;
+                } else {
+                    Message.showMessage("Numbers only");
+                }
+            }
+        } else {
+            total = oldq;
         }
         return total;
     }

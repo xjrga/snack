@@ -33,6 +33,7 @@ public class TableMealCalories extends JTable {
     public TableMealCalories() {
         searchField = new JTextField();
         dm = new DataModel();
+        dm.addColumn("Order");
         dm.addColumn("Meal");
         dm.addColumn("Weight");
         dm.addColumn("eGross");
@@ -128,16 +129,18 @@ public class TableMealCalories extends JTable {
     }
 
     private Row getRow(int selectedRowNo) {
-        String meal = (String) getValueAt(selectedRowNo, 0);
-        BigDecimal weight = (BigDecimal) getValueAt(selectedRowNo, 1);
-        BigDecimal egross = (BigDecimal) getValueAt(selectedRowNo, 2);
-        BigDecimal edigest = (BigDecimal) getValueAt(selectedRowNo, 3);
-        BigDecimal efat = (BigDecimal) getValueAt(selectedRowNo, 4);
-        BigDecimal ecarbs = (BigDecimal) getValueAt(selectedRowNo, 5);
-        BigDecimal efatplus = (BigDecimal) getValueAt(selectedRowNo, 6);
-        BigDecimal eprotein = (BigDecimal) getValueAt(selectedRowNo, 7);
-        BigDecimal ealcohol = (BigDecimal) getValueAt(selectedRowNo, 8);
+        Integer order = (Integer) getValueAt(selectedRowNo, 0);
+        String meal = (String) getValueAt(selectedRowNo, 1);
+        BigDecimal weight = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal egross = (BigDecimal) getValueAt(selectedRowNo, 3);
+        BigDecimal edigest = (BigDecimal) getValueAt(selectedRowNo, 4);
+        BigDecimal efat = (BigDecimal) getValueAt(selectedRowNo, 5);
+        BigDecimal ecarbs = (BigDecimal) getValueAt(selectedRowNo, 6);
+        BigDecimal efatplus = (BigDecimal) getValueAt(selectedRowNo, 7);
+        BigDecimal eprotein = (BigDecimal) getValueAt(selectedRowNo, 8);
+        BigDecimal ealcohol = (BigDecimal) getValueAt(selectedRowNo, 9);
         Row row = new Row();
+        row.setOrder(order);
         row.setMeal(meal);
         row.setWeight(weight);
         row.setEgross(egross);
@@ -165,7 +168,7 @@ public class TableMealCalories extends JTable {
     }
 
     private void adjustColumnWidth() {
-        getColumnModel().getColumn(0).setMinWidth(200);
+        getColumnModel().getColumn(1).setMinWidth(200);
     }
 
     public void roundUp() {
@@ -177,7 +180,6 @@ public class TableMealCalories extends JTable {
     }
 
     private void roundQuantity(DefaultTableCellRenderer renderer) {
-        getColumnModel().getColumn(1).setCellRenderer(renderer);
         getColumnModel().getColumn(2).setCellRenderer(renderer);
         getColumnModel().getColumn(3).setCellRenderer(renderer);
         getColumnModel().getColumn(4).setCellRenderer(renderer);
@@ -185,12 +187,14 @@ public class TableMealCalories extends JTable {
         getColumnModel().getColumn(6).setCellRenderer(renderer);
         getColumnModel().getColumn(7).setCellRenderer(renderer);
         getColumnModel().getColumn(8).setCellRenderer(renderer);
+        getColumnModel().getColumn(9).setCellRenderer(renderer);
         revalidate();
         repaint();
     }
 
     public class Row {
 
+        private Integer order;
         private String meal;
         private BigDecimal weight;
         private BigDecimal egross;
@@ -202,6 +206,7 @@ public class TableMealCalories extends JTable {
         private BigDecimal ealcohol;
 
         public Row() {
+            order = -1;
             meal = null;
             weight = null;
             egross = null;
@@ -211,6 +216,14 @@ public class TableMealCalories extends JTable {
             efatplus = null;
             eprotein = null;
             ealcohol = null;
+        }
+
+        public Integer getOrder() {
+            return order;
+        }
+
+        public void setOrder(Integer order) {
+            this.order = order;
         }
 
         public String getMeal() {
@@ -292,6 +305,7 @@ public class TableMealCalories extends JTable {
 
     public class NullRow extends Row {
 
+        @Override
         public boolean isNull() {
             return true;
         }
@@ -323,6 +337,9 @@ public class TableMealCalories extends JTable {
             Class columnClass = BigDecimal.class;
             switch (c) {
                 case 0 -> {
+                    columnClass = Integer.class;
+                }
+                case 1 -> {
                     columnClass = String.class;
                 }
             }
@@ -404,5 +421,5 @@ public class TableMealCalories extends JTable {
         };
     }
     protected String[] columnToolTips
-            = new String[]{"Meal", "Weight", "EGross", "EDigest", "EFat", "ECarbs", "EFatPlus", "EProtein", "EAlcohol"};
+            = new String[]{"Order", "Meal", "Weight", "EGross", "EDigest", "EFat", "ECarbs", "EFatPlus", "EProtein", "EAlcohol"};
 }

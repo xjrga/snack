@@ -42,7 +42,7 @@ import io.github.xjrga.snack.dataobject.Xml_nutrient_constraint;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_ratio_constraint;
 import io.github.xjrga.snack.gui.Message;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -93,7 +93,7 @@ public class MixImporter {
 
     private boolean validateMixSchema(String path) {
         boolean validated = true;
-        URL schemaUrl = Utilities.getResourceAsUrl("/resources/schemas/snacks.xsd");
+        URL schemaUrl = U.getResourceAsUrl("/resources/schemas/snacks.xsd");
         Source xmlFile = new StreamSource(new File(path));
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = null;

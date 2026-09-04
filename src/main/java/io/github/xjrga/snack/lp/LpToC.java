@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +48,7 @@ public class LpToC implements LpTo {
                   int main() {
                   """);
         sb.append("\n");
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         sb.append("  // clang-format off");
         sb.append("\n");
         sb.append("  // ");

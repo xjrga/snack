@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.renderers;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.awt.Color;
 import java.awt.Component;
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ public class UpperLimitDownRenderer extends DefaultTableCellRenderer {
         DecimalFormat df = new DecimalFormat("####0.000");
         BigDecimal d = (BigDecimal) value;
         txt = df.format(d);
-        if (Utilities.moreThan(d, new BigDecimal("99.99999"))) {
+        if (U.moreThan(d, new BigDecimal("99.99999"))) {
             setForeground(Color.PINK);
         } else {
             setForeground(Color.decode("0xbec6cc"));

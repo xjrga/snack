@@ -41,7 +41,7 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 
-public class Utilities {
+public class U {
 
     public static void appendToFile(String filePath, String txt) {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -141,15 +141,14 @@ public class Utilities {
     }
 
     public static File getResourceAsFile(String path) {
-        return new File(Utilities.class.getClassLoader().getResource(path).getFile());
+        return new File(U.class.getClassLoader().getResource(path).getFile());
     }
 
     public static Path getResourceAsPath(String path) {
         Path get = null;
         try {
-            get = Paths.get(
-                    Objects.requireNonNull(Utilities.class.getClassLoader().getResource(path))
-                            .toURI());
+            get = Paths.get(Objects.requireNonNull(U.class.getClassLoader().getResource(path))
+                    .toURI());
         } catch (URISyntaxException e) {
             LoggerImpl.INSTANCE.logProblem(e);
         }
@@ -157,16 +156,16 @@ public class Utilities {
     }
 
     public static InputStream getResourceAsStream(String path) {
-        return Utilities.class.getResourceAsStream(path);
+        return U.class.getResourceAsStream(path);
     }
 
     public static StreamSource getResourceAsStreamSource(String path) {
-        InputStream is = Utilities.class.getResourceAsStream(path);
+        InputStream is = U.class.getResourceAsStream(path);
         return new StreamSource(is);
     }
 
     public static String getResourceAsString(String path) {
-        InputStream is = Utilities.class.getResourceAsStream(path);
+        InputStream is = U.class.getResourceAsStream(path);
         StringBuilder sb = new StringBuilder();
         InputStreamReader isr = new InputStreamReader(is);
         try {
@@ -182,7 +181,7 @@ public class Utilities {
     }
 
     public static URL getResourceAsUrl(String resource_path) {
-        return Utilities.class.getResource(resource_path);
+        return U.class.getResource(resource_path);
     }
 
     public static boolean isDoubleEqual(double value, double dot_product) {
@@ -310,5 +309,16 @@ public class Utilities {
             list.add(mix);
         });
         return list;
+    }
+
+    public static String plain(double b) {
+        return BigDecimal.valueOf(b)
+                .stripTrailingZeros()
+                .toPlainString();
+    }
+
+    public static String plain(BigDecimal b) {
+        return b.stripTrailingZeros()
+                .toPlainString();
     }
 }

@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.renderers;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.awt.Color;
 import java.awt.Component;
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ public class DriUpRenderer extends DefaultTableCellRenderer {
         DecimalFormat df = new DecimalFormat("###0.0");
         final BigDecimal bvalue = (BigDecimal) value;
         txt = df.format(bvalue);
-        if (Utilities.lessThan(bvalue, new BigDecimal("99.99999"))) {
+        if (U.lessThan(bvalue, new BigDecimal("99.99999"))) {
             setForeground(Color.PINK);
         } else {
             setForeground(Color.decode("0xbec6cc"));
@@ -50,10 +50,13 @@ public class DriUpRenderer extends DefaultTableCellRenderer {
         String nutrientid = (String) table.getValueAt(row, 0);
         switch (nutrientid) {
             case "301", "304", "306", "421", "320", "401", "328", "323" -> {
-                if (Utilities.lessThan(bValue, new BigDecimal("99.99999"))) {
+                if (U.lessThan(bValue, new BigDecimal("99.99999"))) {
                     setForeground(Color.RED);
                 }
             }
+
+
+
         }
         c.setToolTipText((new DecimalFormat("######0.0#################")).format(bValue));
         return c;

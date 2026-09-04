@@ -5,7 +5,7 @@ import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reloader;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -62,17 +62,16 @@ public class MealPlanMacronutrientsReport {
                         BigDecimal fiber = (BigDecimal) row.get(7);
                         BigDecimal sodium = (BigDecimal) row.get(8);
                         BigDecimal potassium = (BigDecimal) row.get(9);
-                        csvPrinter.printRecord(
-                                meal,
-                                Utilities.strip(weight),
-                                Utilities.strip(fat),
-                                Utilities.strip(carbs),
-                                Utilities.strip(protein),
-                                Utilities.strip(complete),
-                                Utilities.strip(alcohol),
-                                Utilities.strip(fiber),
-                                Utilities.strip(sodium),
-                                Utilities.strip(potassium));
+                        csvPrinter.printRecord(meal,
+                                U.strip(weight),
+                                U.strip(fat),
+                                U.strip(carbs),
+                                U.strip(protein),
+                                U.strip(complete),
+                                U.strip(alcohol),
+                                U.strip(fiber),
+                                U.strip(sodium),
+                                U.strip(potassium));
                     } catch (Exception e) {
                         LoggerImpl.INSTANCE.logProblem(e);
                     }

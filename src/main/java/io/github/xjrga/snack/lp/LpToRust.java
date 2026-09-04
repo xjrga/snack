@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class LpToRust implements LpTo {
         sb.append("\n\n");
         sb.append("fn main() -> Result<()> {");
         sb.append("\n\n");
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         sb.append("// ");
         sb.append(String.format(" %1$11s %2$s", "PROBLEM:", mixName));
         sb.append("\n");

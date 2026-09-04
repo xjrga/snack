@@ -4,7 +4,7 @@ import io.github.xjrga.snack.database.callable.BackgroundExec;
 import io.github.xjrga.snack.database.callable.select.NutrientContainingFoodsTask;
 import io.github.xjrga.snack.dataobject.NutrientDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -55,7 +55,7 @@ public class NutrientContentReport {
                         String food = (String) row.get(1);
                         BigDecimal weight = (BigDecimal) row.get(2);
                         BigDecimal calories = (BigDecimal) row.get(3);
-                        csvPrinter.printRecord(foodid, food, Utilities.strip(weight), Utilities.strip(calories));
+                        csvPrinter.printRecord(foodid, food, U.strip(weight), U.strip(calories));
                     } catch (IOException e) {
                         LoggerImpl.INSTANCE.logProblem(e);
                     }

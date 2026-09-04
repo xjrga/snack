@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.lp;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +41,7 @@ public class LpToR implements LpTo {
     @Override
     public String buildModel() {
         StringBuilder sb = new StringBuilder();
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         sb.append("library(lpSolve)");
         sb.append("\n");
         sb.append("\n");

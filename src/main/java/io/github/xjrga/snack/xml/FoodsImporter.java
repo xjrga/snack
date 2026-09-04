@@ -2,7 +2,7 @@ package io.github.xjrga.snack.xml;
 
 import io.github.xjrga.snack.gui.Message;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -77,7 +77,7 @@ public class FoodsImporter {
         boolean flag = true;
         // Validate
         try {
-            URL xsd_doc_url = Utilities.getResourceAsUrl(foodListSchema);
+            URL xsd_doc_url = U.getResourceAsUrl(foodListSchema);
             Source xml_doc_source = new StreamSource(new File(xml_doc_path));
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             schema = schemaFactory.newSchema(xsd_doc_url);

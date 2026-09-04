@@ -1,7 +1,6 @@
 package io.github.xjrga.snack.lp;
 
-import io.github.xjrga.snack.other.Utilities;
-import java.math.BigDecimal;
+import io.github.xjrga.snack.other.U;
 import java.util.Date;
 
 public class LpToCplex implements LpTo {
@@ -78,7 +77,7 @@ public class LpToCplex implements LpTo {
 
     @Override
     public void addMixLegend(String mix) {
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         mixLegend.append("/*\n");
         mixLegend.append(String.format(" %1$9s %2$s", "PROBLEM: ", mix));
         mixLegend.append("\n");
@@ -89,7 +88,7 @@ public class LpToCplex implements LpTo {
 
     @Override
     public void addMixLegend(String mixname, String optionDescription) {
-        String date = Utilities.formatDate(new Date());
+        String date = U.formatDate(new Date());
         mixLegend.append("/*\n");
         mixLegend.append(String.format(" %1$11s %2$s", "PROBLEM:", mixname));
         mixLegend.append("\n");
@@ -187,9 +186,7 @@ public class LpToCplex implements LpTo {
         StringBuilder isb = new StringBuilder();
         for (int i = 0; i < coefficients.length; i++) {
             Double c = coefficients[i];
-            String cst = BigDecimal.valueOf(Math.abs(c))
-                    .stripTrailingZeros()
-                    .toPlainString();
+            String cst = U.plain(Math.abs(c));
             if (c.compareTo(0.0) == 0) {
             } else {
                 if (c < 0) {
@@ -210,27 +207,26 @@ public class LpToCplex implements LpTo {
         objFunction.append("\n");
     }
 
-    private void setConstraintCoefficients(StringBuilder sb, double[] coefficients, int rel, double value) {
+    private void setConstraintCoefficients(StringBuilder sb, double[] coefficients, int rel, double b) {
+        String bPlain = U.plain(b);
         String relationship = LpText.getCplexRelationship(rel);
         StringBuilder isb = new StringBuilder();
         for (int i = 0; i < coefficients.length; i++) {
             Double c = coefficients[i];
-            String cst = BigDecimal.valueOf(Math.abs(c))
-                    .stripTrailingZeros()
-                    .toPlainString();
+            String cst = U.plain(Math.abs(c));
             if (c.compareTo(0.0) == 0) {
             } else {
                 if (c < 0) {
                     if (c == -1) {
-                        isb.append(String.format(" - %1$s x%2$02d", "", i + 1));
+                        isb.append(String.format(" - %s x%02d", "", i + 1));
                     } else {
-                        isb.append(String.format(" - %1$s x%2$02d", cst, i + 1));
+                        isb.append(String.format(" - %s x%02d", cst, i + 1));
                     }
                 } else {
                     if (c == 1) {
-                        isb.append(String.format(" + %1$s x%2$02d", "", i + 1));
+                        isb.append(String.format(" + %s x%02d", "", i + 1));
                     } else {
-                        isb.append(String.format(" + %1$s x%2$02d", cst, i + 1));
+                        isb.append(String.format(" + %s x%02d", cst, i + 1));
                     }
                 }
             }
@@ -238,7 +234,7 @@ public class LpToCplex implements LpTo {
         String constraint = isb.toString();
         sb.append(constraint.replaceFirst("\\+", ""));
         sb.append(" ");
-        sb.append(String.format("%1$2s %2$ 11.5f", relationship, value));
+        sb.append(String.format("%2s %s", relationship, bPlain));
         sb.append(";");
         sb.append("\n\n");
     }

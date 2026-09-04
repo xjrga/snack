@@ -1,5 +1,10 @@
 ### Release Notes
 
+### 1690 - September 04, 2026
+
+  * Graphical User Interface changes
+  * Bug fixes
+
 ### 1680 - June 04, 2026
 
   * Added source code generation (java, c, rust, R)

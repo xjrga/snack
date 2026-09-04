@@ -1,0 +1,8 @@
+[package]
+name = "snack"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lpsolve = "1.0.1"
+lpsolve-sys = "5.5.2"

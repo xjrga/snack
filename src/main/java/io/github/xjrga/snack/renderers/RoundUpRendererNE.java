@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.renderers;
 
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.awt.Color;
 import java.awt.Component;
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ public class RoundUpRendererNE extends DefaultTableCellRenderer {
         DecimalFormat df = new DecimalFormat("###0.0");
         BigDecimal d = (BigDecimal) value;
         txt = df.format(d);
-        if (!Utilities.equalTo(d, new BigDecimal("0"))) {
+        if (!U.equalTo(d, new BigDecimal("0"))) {
             setForeground(Color.decode("0x00FF00"));
         } else {
             setForeground(Color.decode("0xbec6cc"));

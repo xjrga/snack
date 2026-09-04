@@ -34,40 +34,42 @@ public class MealPlanResultsTask implements Callable<List<List>> {
             }
             while (rs.next()) {
                 ArrayList row = new ArrayList();
+                // meal order
+                row.add(rs.getInt(1));
                 // name
-                row.add(rs.getString(1));
+                row.add(rs.getString(2));
                 // weight
-                row.add(rs.getBigDecimal(2));
-                // egross
                 row.add(rs.getBigDecimal(3));
-                // edigest
+                // egross
                 row.add(rs.getBigDecimal(4));
-                // efat
+                // edigest
                 row.add(rs.getBigDecimal(5));
-                // ecarbs
+                // efat
                 row.add(rs.getBigDecimal(6));
-                // efatcarbs
+                // ecarbs
                 row.add(rs.getBigDecimal(7));
-                // eprotein
+                // efatcarbs
                 row.add(rs.getBigDecimal(8));
-                // ealcohol
+                // eprotein
                 row.add(rs.getBigDecimal(9));
-                // fat
+                // ealcohol
                 row.add(rs.getBigDecimal(10));
-                // carbs
+                // fat
                 row.add(rs.getBigDecimal(11));
-                // protein
+                // carbs
                 row.add(rs.getBigDecimal(12));
-                // complete
+                // protein
                 row.add(rs.getBigDecimal(13));
-                // alcohol
+                // complete
                 row.add(rs.getBigDecimal(14));
-                // fiber
+                // alcohol
                 row.add(rs.getBigDecimal(15));
-                // sodium
+                // fiber
                 row.add(rs.getBigDecimal(16));
-                // potassium
+                // sodium
                 row.add(rs.getBigDecimal(17));
+                // potassium
+                row.add(rs.getBigDecimal(18));
                 table.add(row);
             }
         } catch (SQLException e) {

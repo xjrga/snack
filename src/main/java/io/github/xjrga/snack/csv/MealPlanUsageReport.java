@@ -3,7 +3,7 @@ package io.github.xjrga.snack.csv;
 import io.github.xjrga.snack.database.callable.BackgroundExec;
 import io.github.xjrga.snack.database.callable.select.MealPlanUsageResultsTask;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -49,13 +49,12 @@ public class MealPlanUsageReport {
                         BigDecimal oz = ((BigDecimal) row.get(3));
                         BigDecimal lb = ((BigDecimal) row.get(4));
                         BigDecimal kg = ((BigDecimal) row.get(5));
-                        csvPrinter.printRecord(
-                                foodid,
+                        csvPrinter.printRecord(foodid,
                                 foodname,
-                                Utilities.strip(g),
-                                Utilities.strip(oz),
-                                Utilities.strip(lb),
-                                Utilities.strip(kg));
+                                U.strip(g),
+                                U.strip(oz),
+                                U.strip(lb),
+                                U.strip(kg));
                     } catch (Exception e) {
                         LoggerImpl.INSTANCE.logProblem(e);
                     }

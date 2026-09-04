@@ -42,6 +42,7 @@ public class TablePortion extends JTable {
         dm.addColumn("Pct");
         dm.addColumn("Expected");
         dm.addColumn("Actual");
+        dm.addColumn("Order");
         setModel(dm);
         ListSelectionModel selectionModel = new DefaultListSelectionModel();
         setSelectionMode(selectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -138,6 +139,7 @@ public class TablePortion extends JTable {
         BigDecimal pct = (BigDecimal) getValueAt(selectedRowNo, 5);
         BigDecimal actual = (BigDecimal) getValueAt(selectedRowNo, 6);
         BigDecimal expected = (BigDecimal) getValueAt(selectedRowNo, 7);
+        Integer order = (Integer) getValueAt(selectedRowNo, 8);
         Row row = new Row();
         row.setMixid(mixid);
         row.setMealid(mealid);
@@ -147,6 +149,7 @@ public class TablePortion extends JTable {
         row.setPct(pct);
         row.setActual(actual);
         row.setExpected(expected);
+        row.setOrder(order);
         return row;
     }
 
@@ -212,6 +215,7 @@ public class TablePortion extends JTable {
         private BigDecimal pct;
         private BigDecimal actual;
         private BigDecimal expected;
+        private Integer order;
 
         public Row() {
             mixid = "";
@@ -222,6 +226,7 @@ public class TablePortion extends JTable {
             pct = new BigDecimal("0.0");
             actual = new BigDecimal("0.0");
             expected = new BigDecimal("0.0");
+            order = -1;
         }
 
         public String getMixid() {
@@ -288,6 +293,14 @@ public class TablePortion extends JTable {
             this.expected = expected;
         }
 
+        public Integer getOrder() {
+            return order;
+        }
+
+        public void setOrder(Integer order) {
+            this.order = order;
+        }
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
@@ -300,6 +313,7 @@ public class TablePortion extends JTable {
             sb.append(", pct=").append(pct);
             sb.append(", actual=").append(actual);
             sb.append(", expected=").append(expected);
+            sb.append(", order=").append(order);
             sb.append('}');
             return sb.toString();
         }
@@ -344,7 +358,7 @@ public class TablePortion extends JTable {
                 case 0, 2, 3, 4 -> {
                     columnClass = String.class;
                 }
-                case 1 -> {
+                case 1, 5 -> {
                     columnClass = Integer.class;
                 }
             }
@@ -399,6 +413,7 @@ public class TablePortion extends JTable {
             fireTableDataChanged();
         }
 
+        @Override
         public void reload(List<List> data) {
             this.data = data;
             setRowCount();
@@ -433,5 +448,5 @@ public class TablePortion extends JTable {
         };
     }
     protected String[] columnToolTips
-            = new String[]{"MixId", "MealId", "FoodId", "Meal", "Food", "Pct", "Expected", "Actual"};
+            = new String[]{"MixId", "MealId", "FoodId", "Meal", "Food", "Pct", "Expected", "Actual", "Order"};
 }

@@ -4,7 +4,7 @@ import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.dataobject.LifeStageDO;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
-import io.github.xjrga.snack.other.Utilities;
+import io.github.xjrga.snack.other.U;
 import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -48,14 +48,13 @@ public class DriReport {
                 BigDecimal pctdri = rs.getBigDecimal(5);
                 BigDecimal driul = rs.getBigDecimal(6);
                 BigDecimal pctdriul = rs.getBigDecimal(7);
-                csvPrinter.printRecord(
-                        nutrientid,
+                csvPrinter.printRecord(nutrientid,
                         name,
-                        Utilities.strip(mixq),
-                        Utilities.strip(dri),
-                        Utilities.strip(pctdri),
-                        Utilities.strip(driul),
-                        Utilities.strip(pctdriul));
+                        U.strip(mixq),
+                        U.strip(dri),
+                        U.strip(pctdri),
+                        U.strip(driul),
+                        U.strip(pctdriul));
             }
         } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);

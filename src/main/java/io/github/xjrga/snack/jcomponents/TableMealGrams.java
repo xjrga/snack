@@ -33,6 +33,7 @@ public class TableMealGrams extends JTable {
     public TableMealGrams() {
         searchField = new JTextField();
         dm = new DataModel();
+        dm.addColumn("Order");
         dm.addColumn("Meal");
         dm.addColumn("Weight");
         dm.addColumn("Fat");
@@ -129,17 +130,19 @@ public class TableMealGrams extends JTable {
     }
 
     private Row getRow(int selectedRowNo) {
-        String meal = (String) getValueAt(selectedRowNo, 0);
-        BigDecimal weight = (BigDecimal) getValueAt(selectedRowNo, 1);
-        BigDecimal fat = (BigDecimal) getValueAt(selectedRowNo, 2);
-        BigDecimal carbs = (BigDecimal) getValueAt(selectedRowNo, 3);
-        BigDecimal protein = (BigDecimal) getValueAt(selectedRowNo, 4);
-        BigDecimal complete = (BigDecimal) getValueAt(selectedRowNo, 5);
-        BigDecimal alcohol = (BigDecimal) getValueAt(selectedRowNo, 6);
-        BigDecimal fiber = (BigDecimal) getValueAt(selectedRowNo, 7);
-        BigDecimal sodium = (BigDecimal) getValueAt(selectedRowNo, 8);
-        BigDecimal potassium = (BigDecimal) getValueAt(selectedRowNo, 9);
+        Integer order = (Integer) getValueAt(selectedRowNo, 0);
+        String meal = (String) getValueAt(selectedRowNo, 1);
+        BigDecimal weight = (BigDecimal) getValueAt(selectedRowNo, 2);
+        BigDecimal fat = (BigDecimal) getValueAt(selectedRowNo, 3);
+        BigDecimal carbs = (BigDecimal) getValueAt(selectedRowNo, 4);
+        BigDecimal protein = (BigDecimal) getValueAt(selectedRowNo, 5);
+        BigDecimal complete = (BigDecimal) getValueAt(selectedRowNo, 6);
+        BigDecimal alcohol = (BigDecimal) getValueAt(selectedRowNo, 7);
+        BigDecimal fiber = (BigDecimal) getValueAt(selectedRowNo, 8);
+        BigDecimal sodium = (BigDecimal) getValueAt(selectedRowNo, 9);
+        BigDecimal potassium = (BigDecimal) getValueAt(selectedRowNo, 10);
         Row row = new Row();
+        row.setOrder(order);
         row.setMeal(meal);
         row.setWeight(weight);
         row.setFat(fat);
@@ -168,7 +171,7 @@ public class TableMealGrams extends JTable {
     }
 
     private void adjustColumnWidth() {
-        getColumnModel().getColumn(0).setMinWidth(200);
+        getColumnModel().getColumn(1).setMinWidth(200);
     }
 
     public void roundUp() {
@@ -180,7 +183,6 @@ public class TableMealGrams extends JTable {
     }
 
     private void roundQuantity(DefaultTableCellRenderer renderer) {
-        getColumnModel().getColumn(1).setCellRenderer(renderer);
         getColumnModel().getColumn(2).setCellRenderer(renderer);
         getColumnModel().getColumn(3).setCellRenderer(renderer);
         getColumnModel().getColumn(4).setCellRenderer(renderer);
@@ -189,12 +191,14 @@ public class TableMealGrams extends JTable {
         getColumnModel().getColumn(7).setCellRenderer(renderer);
         getColumnModel().getColumn(8).setCellRenderer(renderer);
         getColumnModel().getColumn(9).setCellRenderer(renderer);
+        getColumnModel().getColumn(10).setCellRenderer(renderer);
         revalidate();
         repaint();
     }
 
     public class Row {
 
+        private Integer order;
         private String meal;
         private BigDecimal weight;
         private BigDecimal fat;
@@ -207,6 +211,7 @@ public class TableMealGrams extends JTable {
         private BigDecimal potassium;
 
         public Row() {
+            order = -1;
             meal = null;
             weight = null;
             fat = null;
@@ -217,6 +222,14 @@ public class TableMealGrams extends JTable {
             fiber = null;
             sodium = null;
             potassium = null;
+        }
+
+        public Integer getOrder() {
+            return order;
+        }
+
+        public void setOrder(Integer order) {
+            this.order = order;
         }
 
         public String getMeal() {
@@ -337,34 +350,10 @@ public class TableMealGrams extends JTable {
             Class columnClass = BigDecimal.class;
             switch (c) {
                 case 0 -> {
-                    columnClass = String.class;
+                    columnClass = Integer.class;
                 }
                 case 1 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 2 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 3 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 4 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 5 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 6 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 7 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 8 -> {
-                    columnClass = BigDecimal.class;
-                }
-                case 9 -> {
-                    columnClass = BigDecimal.class;
+                    columnClass = String.class;
                 }
             }
             return columnClass;
@@ -407,9 +396,9 @@ public class TableMealGrams extends JTable {
         public void setValueAt(Object o, int r, int c) {
             data.get(r).set(c, o);
             fireTableCellUpdated(r, c);
-            ;
         }
 
+        @Override
         public void reload(List<List> data) {
             this.data = data;
             setRowCount();
@@ -444,6 +433,6 @@ public class TableMealGrams extends JTable {
         };
     }
     protected String[] columnToolTips = new String[]{
-        "Meal", "Weight", "Fat", "Carbs", "Protein", "Complete", "Alcohol", "Fiber", "Sodium", "Potassium"
+        "Order", "Meal", "Weight", "Fat", "Carbs", "Protein", "Complete", "Alcohol", "Fiber", "Sodium", "Potassium"
     };
 }
