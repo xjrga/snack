@@ -3259,25 +3259,48 @@ public class Main {
         FoodFactInputPanel pnlFoodFactsInput = new FoodFactInputPanel(tbl);
         JPanel pnl = pnlFoodFactsInput.getPanel();
         JComponent[] inputs = {pnl};
-        int optionValue = Message.showOptionDialogOkCancel(
-                inputs, "Add New Food Item - Would you like to save specified values?");
-        if (optionValue == 0) {
-            Food food = pnlFoodFactsInput.getFood();
-            Boolean completed = new FoodCreator(food).create();
-            if (completed) {
-                reloadFoods();
-                try {
-                    Future<List<List>> task = BackgroundExec.submit(new NamedMixFoodSortedByNameTask(selectedMixId));
-                    List<List> foods = task.get();
-                    tblMixFood.reload(foods);
-                    tblSelectedFoods.reload(foods);
-                } catch (Exception e) {
-                    LoggerImpl.INSTANCE.logProblem(e);
+        showCreateNewFoodItemDialog(inputs, pnlFoodFactsInput);
+    }
+
+    private void showCreateNewFoodItemDialog(JComponent[] inputs, FoodFactInputPanel pnlFoodFactsInput) {
+        int firstCheck = Message.showOptionDialogOkCancel(inputs, "Create a new food item");
+        switch (firstCheck) {
+            case 0 -> {
+                JLabel label = new JLabel();
+                label.setText("Are you sure?");
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                int secondCheck = Message.showOptionDialogYesNo(new JComponent[]{label}, "Create a new food item");
+                switch (secondCheck) {
+                    case 0 -> {
+                        Food food = pnlFoodFactsInput.getFood();
+                        Boolean completed = new FoodCreator(food).create();
+                        if (completed) {
+                            reloadFoods();
+                            try {
+                                Future<List<List>> task = BackgroundExec.submit(new NamedMixFoodSortedByNameTask(selectedMixId));
+                                List<List> foods = task.get();
+                                tblMixFood.reload(foods);
+                                tblSelectedFoods.reload(foods);
+                            } catch (Exception e) {
+                                LoggerImpl.INSTANCE.logProblem(e);
+                            }
+                            setQuantityScale();
+                            int rowIndex = tblFoodFacts.find(food.getFoodId());
+                            tblFoodFacts.showRow(rowIndex);
+                            tblFoodFacts.selectRow(rowIndex);
+                        }
+                    }
+                    case 1 -> {
+                        showCreateNewFoodItemDialog(inputs, pnlFoodFactsInput);
+                    }
+
                 }
-                setQuantityScale();
-                int rowIndex = tblFoodFacts.find(food.getFoodId());
-                tblFoodFacts.showRow(rowIndex);
-                tblFoodFacts.selectRow(rowIndex);
+            }
+            case 1 -> {
+                //
+            }
+            case 2 -> {
+                //
             }
         }
     }
@@ -3297,18 +3320,41 @@ public class Main {
             foodFactsInputPanel.setFoodName(foodfact.getId_food_name());
             JPanel panel = foodFactsInputPanel.getPanel();
             JComponent[] inputs = {panel};
-            int optionValue = Message.showOptionDialogOkCancel(
-                    inputs, "Update New Food Item - Would you like to save specified values?");
-            if (optionValue == 0) {
-                Food food = foodFactsInputPanel.getFood();
-                Boolean completed = new FoodCreator(food).create();
-                if (completed) {
-                    reloadFoods();
-                    setQuantityScale();
-                    int rowIndex = tblFoodFacts.find(food.getCheckSum());
-                    tblFoodFacts.showRow(rowIndex);
-                    tblFoodFacts.selectRow(rowIndex);
+            showDeriveNewFoodItemDialog(inputs, foodFactsInputPanel);
+        }
+    }
+
+    private void showDeriveNewFoodItemDialog(JComponent[] inputs, FoodFactInputPanel pnlFoodFactsInput) {
+        int firstCheck = Message.showOptionDialogOkCancel(inputs, "Derive a new food item");
+        switch (firstCheck) {
+            case 0 -> {
+                JLabel label = new JLabel();
+                label.setText("Are you sure?");
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                int secondCheck = Message.showOptionDialogYesNo(new JComponent[]{label}, "Derive a new food item");
+                switch (secondCheck) {
+                    case 0 -> {
+                        Food food = pnlFoodFactsInput.getFood();
+                        Boolean completed = new FoodCreator(food).create();
+                        if (completed) {
+                            reloadFoods();
+                            setQuantityScale();
+                            int rowIndex = tblFoodFacts.find(food.getCheckSum());
+                            tblFoodFacts.showRow(rowIndex);
+                            tblFoodFacts.selectRow(rowIndex);
+                        }
+                    }
+                    case 1 -> {
+                        showDeriveNewFoodItemDialog(inputs, pnlFoodFactsInput);
+                    }
+
                 }
+            }
+            case 1 -> {
+                //
+            }
+            case 2 -> {
+                //
             }
         }
     }

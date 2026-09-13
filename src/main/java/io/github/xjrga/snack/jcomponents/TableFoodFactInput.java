@@ -2,6 +2,7 @@ package io.github.xjrga.snack.jcomponents;
 
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.Reload;
+import io.github.xjrga.snack.renderers.StripTrailingZerosEditor;
 import io.github.xjrga.snack.renderers.RoundDownRenderer;
 import io.github.xjrga.snack.renderers.RoundUpRenderer2;
 import java.awt.Rectangle;
@@ -144,6 +145,7 @@ public class TableFoodFactInput extends JTable {
         dm.clear();
         dm.reload(data);
         adjustColumnWidth();
+        toPlainString();
     }
 
     public void clear() {
@@ -166,6 +168,12 @@ public class TableFoodFactInput extends JTable {
         getColumnModel().getColumn(0).setMaxWidth(0);
         getColumnModel().getColumn(1).setMinWidth(150);
         getColumnModel().getColumn(2).setMinWidth(300);
+    }
+
+    public void toPlainString() {
+        getColumnModel().getColumn(3).setCellEditor(new StripTrailingZerosEditor());
+        revalidate();
+        repaint();
     }
 
     public void roundUp() {

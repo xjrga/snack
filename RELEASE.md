@@ -1,5 +1,9 @@
 ### Release Notes
 
+### 1700 - September 13, 2026
+
+  * Graphical User Interface changes
+
 ### 1690 - September 04, 2026
 
   * Graphical User Interface changes

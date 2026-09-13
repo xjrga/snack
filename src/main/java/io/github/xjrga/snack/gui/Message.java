@@ -102,6 +102,26 @@ public class Message {
         return value;
     }
 
+    public static int showOptionDialogYesNoCancel(JComponent[] inputs, String title) {
+        JOptionPane optionPane = new JOptionPane(inputs, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
+        JDialog dialog = optionPane.createDialog(" " + title);
+        dialog.setIconImage(logo);
+        dialog.setVisible(true);
+        // 0 - Ok
+        // 2 - Cancel
+        // null - x
+        Object optionValue = optionPane.getValue();
+        int value = -1;
+        if (optionValue != null) {
+            value = (int) optionValue;
+        }
+        return value;
+    }
+
+    public void sdiosido() {
+
+    }
+
     public Message() {
     }
 }
