@@ -24,7 +24,7 @@ FROM (SELECT name, c
       SELECT name, deficiency
       FROM (SELECT concat('deficiency_',nutrientid) as name,
                    b.cq AS deficiency
-            FROM tninutrients a,
+            FROM balancednutrients a,
                  rdacoefficients b
             WHERE a.nutrientid = b.nutrientid
             AND   b.lifestageid = v_lifestageid
@@ -33,11 +33,11 @@ FROM (SELECT name, c
       SELECT name, excess
       FROM (SELECT concat('excess_',nutrientid) as name,
                    0 AS excess
-            FROM tninutrients a
+            FROM balancednutrients a
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',
-             -8 AS avg_deficiency
+             -9 AS avg_deficiency
       FROM (
            VALUES (0))
       UNION ALL

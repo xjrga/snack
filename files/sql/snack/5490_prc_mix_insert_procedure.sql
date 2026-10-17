@@ -18,14 +18,12 @@ Name,
 LifeStageId,
 Model,
 MixCost,
-MixDeficiency,
-MixExcess
+TniScore
 ) VALUES (
 newid2,
 v_Name,
-8,
+22,
 '',
-1.0,
 1.0,
 1.0
 );

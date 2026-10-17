@@ -26,7 +26,7 @@ public class DRIExcessAndDeficiencyLhsTask implements Callable<LhsContainer> {
     @Override
     public LhsContainer call() {
         LhsContainer container = new LhsContainer();
-        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_tni_lhs( ?, ? )}")) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.dridev_balanced_lhs( ?, ? )}")) {
             proc.setString(1, mixid);
             proc.setString(2, nutrientid);
             ResultSet rs = proc.executeQuery();

@@ -7,7 +7,7 @@ IN v_Label LONGVARCHAR,
 IN v_Units LONGVARCHAR,
 IN v_Dri INTEGER,
 IN v_Calculated INTEGER,
-IN v_Tni INTEGER
+IN v_Balanced INTEGER
 --
 )
 --
@@ -22,7 +22,7 @@ Label,
 Units,
 Dri,
 Calculated,
-Tni
+Balanced
 ) VALUES (
 v_NutrientId,
 v_Name,
@@ -31,7 +31,7 @@ v_Label,
 v_Units,
 v_Dri,
 v_Calculated,
-v_Tni
+v_Balanced
 );
 --
 END;

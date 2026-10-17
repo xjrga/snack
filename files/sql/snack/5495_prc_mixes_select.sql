@@ -8,8 +8,7 @@ SELECT MixId,
        LifeStageId,
        Model,
        MixCost,
-       MixDeficiency,
-       MixExcess
+       TniScore
 FROM Mix
 ORDER BY Name;
 --

@@ -12,23 +12,23 @@ public class ResultsByMealIndexer {
     public ResultsByMealIndexer() {
         indexes = new ArrayList();
         map = new HashMap();
-        map.put("name", 0);
-        map.put("weight", 1);
-        map.put("egross", 2);
-        map.put("edigest", 3);
-        map.put("efat", 4);
-        map.put("ecarbs", 5);
-        map.put("efatcarbs", 6);
-        map.put("eprotein", 7);
-        map.put("ealcohol", 8);
-        map.put("fat", 9);
-        map.put("carbs", 10);
-        map.put("protein", 11);
-        map.put("complete", 12);
-        map.put("alcohol", 13);
-        map.put("fiber", 14);
-        map.put("sodium", 15);
-        map.put("potassium", 16);
+        map.put("name", 1);
+        map.put("weight", 2);
+        map.put("egross", 3);
+        map.put("edigest", 4);
+        map.put("efat", 5);
+        map.put("ecarbs", 6);
+        map.put("efatcarbs", 7);
+        map.put("eprotein", 8);
+        map.put("ealcohol", 9);
+        map.put("fat", 10);
+        map.put("carbs", 11);
+        map.put("protein", 12);
+        map.put("complete", 13);
+        map.put("alcohol", 14);
+        map.put("fiber", 15);
+        map.put("sodium", 16);
+        map.put("potassium", 17);
     }
 
     public void setName() {

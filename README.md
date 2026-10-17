@@ -21,37 +21,40 @@ better results so you can rapidly learn and improve.
 nutrition / food / animal science students and food producers to use the application
 and share their insight.
 
-#### Features:
+#### Snack Nutrition Software Benefits
 
-  * Minimize both Daily Reference Intake (DRI) deficiency and the Tolerable Upper Intake Level (UL) excess
-  * Calculate Total Nutrient Index (TNI) score
-  * Quantify and summarize food intake
-  * Calculate Total Nutrient Index (TNI) score
-  * Track important nutrients that have an impact on health
-  * Search for food sources of specific nutrients
-  * Keep a food journal and track progress
-  * Compare two foods or meals to see difference in nutritional value
-  * Compare meals against life stage specific dietary reference intake (DRI) values
-  * Compare meals against life stage specific upper limit (UL) values
-  * Create nutritional reports
-  * Quantify and summarize any popular diet plan for comparison and research purposes
-  * Calculate basal metabolic rate (BMR)
-  * Calculate glycemic index (GI) and glycemic load (GL) of a meal
-  * Check glycemic index range
-  * Calculate macronutrient energy percentages and nutrient ratios
-  * Calculate food quotient (FQ)
-  * Convert percent daily value (%DV) of a nutrient to grams
-  * Exchange mix, food and meal plan data easily through simple text document (xml)
-  * Easily generate reports and export them to text file (csv)
-  * Generate linear programming model files for lpsolve solver
-  * Facilitate learning/teaching anyone with interest in nutrition
-  * Create food demand forecasts
-  * Is free and open source
+ Welcome to Snack Nutrition Software. There are many benefits that come from using Snack.
+
+ Some of these are:
+
+* Helps you to inexpensively experiment
+* Helps you to rapidly learn about food choices
+* Minimizes sodium intake automatically
+* Maximizes nutritional value automatically
+* Improves food selection process
+* Quantifies and summarizes your food intake
+* Tracks nutrients that are important for your health
+* Easily identifies nutrient food sources
+* Saves the user a buck or two if used wisely
+* Quantifies and summarizes any popular diet plan
+* Easily exchanges mix, food and meal data
+* Easily generates nutritional value reports
+* Compares foods or meal plans to show difference in nutritional value
+* Compares foods or meal plans against dietary reference intakes to see  deficiencies or excesses
+* Estimates Total Nutrient Index (TNI) score
+* Estimates basal metabolic rate (BMR)
+* Estimates macronutrient energy percentages
+* Estimates food quotients (FQ)
+* Converts percent daily values (%DV) to grams
+* Shows glycemic index range
+* Estimates your periodic food expenditure easily for grocery shopping
+* Creates nutritional reports for analysis
+* Generates linear programming models for lpsolve, c, java, rust and R to solve
 
 
 #### Build
 
-1700
+1710
 
 #### User Guide
 

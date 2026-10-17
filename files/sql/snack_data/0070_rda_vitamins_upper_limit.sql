@@ -372,4 +372,20 @@ call Rda_Update_UL('435',21,1000);
 /
 call Rda_Update_UL('421',21,3500);
 /
-
+--Daily Value -> 22
+call Rda_Update_UL('320',22,3000);
+/
+call Rda_Update_UL('401',22,2000);
+/
+call Rda_Update_UL('328',22,100);
+/
+call Rda_Update_UL('323',22,1000);
+/
+call Rda_Update_UL('406',22,35);
+/
+call Rda_Update_UL('415',22,100);
+/
+call Rda_Update_UL('435',22,1000);
+/
+call Rda_Update_UL('421',22,3500);
+/

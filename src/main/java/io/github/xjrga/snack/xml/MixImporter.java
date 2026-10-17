@@ -971,7 +971,7 @@ public class MixImporter {
                                 created = task.get();
                                 if (!created) {
                                     Message.showMessage("Mix already exists.");
-                                    return new MixDO("");
+                                    return new MixDO();
                                 }
                             } catch (Exception e) {
                                 LoggerImpl.INSTANCE.logProblem(e);

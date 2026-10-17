@@ -1,4 +1,4 @@
-CREATE PROCEDURE dridev_tni_rhs (
+CREATE PROCEDURE dridev_balanced_rhs (
 --
 IN v_mixid LONGVARCHAR,
 IN v_lifestageid INTEGER
@@ -21,7 +21,7 @@ FROM nutrient b,
      relationship c,
      rda d
 WHERE relationshipid = 3
-AND b.tni = 1
+AND b.balanced = 1
 AND b.nutrientid = d.nutrientid
 AND d.lifestageid = v_lifestageid
 ORDER BY nutrientid;

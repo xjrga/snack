@@ -27,8 +27,7 @@ public class MixDO implements Comparator {
     private String name;
     private Integer lifestageid;
     private BigDecimal cost;
-    private BigDecimal deficiency;
-    private BigDecimal excess;
+    private BigDecimal tniScore;
 
     public MixDO() {
         this.mixid = "";
@@ -36,8 +35,7 @@ public class MixDO implements Comparator {
         this.model = "";
         this.lifestageid = -1;
         this.cost = new BigDecimal("1.0");
-        this.deficiency = new BigDecimal("1.0");
-        this.excess = new BigDecimal("1.0");
+        this.tniScore = new BigDecimal("1.0");
     }
 
     public MixDO(String mixid, String name) {
@@ -46,8 +44,7 @@ public class MixDO implements Comparator {
         this.model = "";
         this.lifestageid = -1;
         this.cost = new BigDecimal("1.0");
-        this.deficiency = new BigDecimal("1.0");
-        this.excess = new BigDecimal("1.0");
+        this.tniScore = new BigDecimal("1.0");
     }
 
     public MixDO(String mixid) {
@@ -55,8 +52,7 @@ public class MixDO implements Comparator {
         this.model = "";
         this.lifestageid = -1;
         this.cost = new BigDecimal("1.0");
-        this.deficiency = new BigDecimal("1.0");
-        this.excess = new BigDecimal("1.0");
+        this.tniScore = new BigDecimal("1.0");
     }
 
     public String getMixid() {
@@ -99,20 +95,12 @@ public class MixDO implements Comparator {
         this.cost = cost;
     }
 
-    public BigDecimal getDeficiency() {
-        return deficiency;
+    public BigDecimal getTniScore() {
+        return tniScore;
     }
 
-    public void setDeficiency(BigDecimal deficiency) {
-        this.deficiency = deficiency;
-    }
-
-    public BigDecimal getExcess() {
-        return excess;
-    }
-
-    public void setExcess(BigDecimal excess) {
-        this.excess = excess;
+    public void setTniScore(BigDecimal tniScore) {
+        this.tniScore = tniScore;
     }
 
     @Override

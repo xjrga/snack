@@ -1,5 +1,10 @@
 ### Release Notes
 
+### 1710 - October 17, 2026
+
+  * Included sodium as part of the minimization objective function
+  * Bug fixes
+
 ### 1700 - September 13, 2026
 
   * Graphical User Interface changes

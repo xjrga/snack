@@ -147,18 +147,12 @@ public class LpToRust implements LpTo {
         sb.append("        .solve()?;");
         sb.append("\n\n");
         sb.append("""
-                  // Calculate total nutrient index
-                  let length = solution.variables().expect("").len() as i32;
-                  let x: Option<f64> = solution.variable(length - 1);
-                  let tni = (1.0 - x.unwrap_or(0.0)) * 100.0;
-
                   // Print solution
                   //println!("Variables: {:?}", solution.variables());
                   //println!("Status: {:?}", solution.status());
                   println!("");
                   println!("-----------------------------------------------------");
                   println!("Success: the objective function is {}", solution.objective_value());
-                  println!("Total Nutrient Index: {:?}", tni);
                   println!("-----------------------------------------------------");
                   println!("");
 

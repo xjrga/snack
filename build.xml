@@ -1,117 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="Snack" basedir="." default="">
+<?xml version='1.0' encoding='UTF-8'?>
+<project name="Snack" default="" basedir=".">
+    <!-->Properties</-->
+    <property name="project.creator">Jorge R. Garcia de Alba</property>
+    <property name="project.name">snack</property>
+    <property name="project.zip">snack-1710</property>
+    <property name="project.jar">snack</property>
+    <property name="project.class">io.github.xjrga.snack.gui.Main</property>
+    <property name="project.backup.dir">/mnt/backup/Backup</property>
+    <property name="project.backup.tgz">snack-1710</property>
+    <property name="project.site.dir">${user.home}"</property>
+    <property name="project.jpda.address">5010</property>
+    <!-->Timestamps</-->
     <tstamp>
         <format property="timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
     </tstamp>
     <tstamp>
         <format property="backup_timestamp" pattern="yyyy_MM_dd_HH_mm_ss"/>
     </tstamp>
+    <!-->Libraries</-->
     <path id="libraries">
         <fileset dir="lib">
             <include name="**/*.jar"/>
         </fileset>
     </path>
-    <target name="read-properties">
-        <property file="config/build.properties"/>
-    </target>
-    <target name="app-clean" depends="read-properties">
+    <!-->Targets</-->
+    <target name="app-clean" depends="">
         <echo>${timestamp}</echo>
         <delete dir="distribution"/>
     </target>
     <!-->Create thin application</-->
-    <target name="app-thin" depends="read-properties,app-clean">
+    <target name="app-thin" depends="app-clean">
         <echo>${timestamp}</echo>
-        <manifestclasspath property="manifest-classpath" jarfile="${project.package.jar}.jar">
+        <manifestclasspath property="manifest-classpath" jarfile="${project.jar}.jar">
             <classpath refid="libraries"/>
         </manifestclasspath>
-        <jar destfile="distribution/${project.package.name}/${project.package.jar}.jar" basedir="build/main/classes" excludes="">
+        <jar destfile="distribution/${project.zip}/${project.jar}.jar" excludes="" basedir="build/main/classes">
             <manifest>
                 <attribute name="Created-By" value="${project.creator}"/>
                 <attribute name="Main-Class" value="${project.class}"/>
                 <attribute name="Class-Path" value="${manifest-classpath}"/>
             </manifest>
         </jar>
-        <copy todir="distribution/${project.package.name}/lib">
+        <copy todir="distribution/${project.zip}/lib">
             <fileset dir="lib">
                 <include name="**/*.jar"/>
             </fileset>
         </copy>
-        <copy todir="distribution/${project.package.name}/config">
+        <copy todir="distribution/${project.zip}/config">
             <fileset dir="config">
                 <include name="**/*.*"/>
-                <exclude name="build.properties*"/>
             </fileset>
         </copy>
-        <copy todir="distribution/${project.package.name}/database">
+        <copy todir="distribution/${project.zip}/database">
             <fileset dir="database">
                 <include name="**/*.*"/>
             </fileset>
         </copy>
-        <copy todir="distribution/${project.package.name}/models">
+        <copy todir="distribution/${project.zip}/models">
             <fileset dir="models">
-                <include name="**/*.*"/>
+                <include name="**/*"/>
             </fileset>
         </copy>
     </target>
     <!-->Create fat application</-->
-    <target name="app-fat" depends="read-properties,app-clean">
+    <target name="app-fat" depends="app-clean">
         <echo>${timestamp}</echo>
-        <unzip dest="build/main/classes" overwrite="true">
+        <unzip overwrite="true" dest="build/main/classes">
             <fileset dir="lib">
                 <include name="**/*.jar"/>
             </fileset>
         </unzip>
-        <manifestclasspath property="manifest-classpath" jarfile="build/${project.package.jar}.jar">
+        <manifestclasspath property="manifest-classpath" jarfile="build/${project.jar}.jar">
             <classpath refid="libraries"/>
         </manifestclasspath>
-        <jar destfile="distribution/${project.package.name}/${project.package.jar}.jar" basedir="build/main/classes" excludes="">
+        <jar destfile="distribution/${project.zip}/${project.jar}.jar" excludes="" basedir="build/main/classes">
             <manifest>
                 <attribute name="Created-By" value="${project.creator}"/>
                 <attribute name="Main-Class" value="${project.class}"/>
                 <attribute name="Class-Path" value="${manifest-classpath}"/>
             </manifest>
         </jar>
-        <copy todir="distribution/${project.package.name}/config">
+        <copy todir="distribution/${project.zip}/config">
             <fileset dir="config">
                 <include name="**/*.*"/>
             </fileset>
         </copy>
-        <copy todir="distribution/${project.package.name}/database">
+        <copy todir="distribution/${project.zip}/database">
             <fileset dir="database">
                 <include name="**/*.*"/>
             </fileset>
         </copy>
-        <copy todir="distribution/${project.package.name}/models">
+        <copy todir="distribution/${project.zip}/models">
             <fileset dir="models">
-                <include name="**/*.*"/>
+                <include name="**/*"/>
             </fileset>
         </copy>
     </target>
-    <target name="app-zip" depends="read-properties">
-        <zip destfile="distribution/${project.package.name}.zip" basedir="distribution" includes="${project.package.name}/**"/>
+    <target name="app-zip" depends="">
+        <zip destfile="distribution/${project.zip}.zip" basedir="distribution" includes="${project.zip}/**"/>
     </target>
-    <target name="app-sign" depends="read-properties">
+    <target name="app-sign" depends="">
         <exec executable="gpg">
             <arg line="--output"/>
-            <arg line="distribution/${project.package.name}.zip.asc"/>
+            <arg line="distribution/${project.zip}.zip.asc"/>
             <arg line="--detach-sig"/>
-            <arg line="distribution/${project.package.name}.zip"/>
+            <arg line="distribution/${project.zip}.zip"/>
         </exec>
     </target>
-    <target name="app-verify" depends="read-properties">
+    <target name="app-verify" depends="">
         <exec executable="gpg">
             <arg line="--verify"/>
-            <arg line="distribution/${project.package.name}.zip.asc"/>
-            <arg line="distribution/${project.package.name}.zip"/>
+            <arg line="distribution/${project.zip}.zip.asc"/>
+            <arg line="distribution/${project.zip}.zip"/>
         </exec>
     </target>
-    <target name="app-run" depends="read-properties">
+    <target name="app-run" depends="">
         <echo>${timestamp}</echo>
-        <java jar="distribution/${project.package.name}/${project.package.jar}.jar" fork="true" dir="distribution/${project.package.name}" failonerror="false" maxmemory="2g"/>
+        <java jar="distribution/${project.zip}/${project.jar}.jar" maxmemory="2g" fork="true" dir="distribution/${project.zip}" failonerror="false"/>
     </target>
-    <target name="app-debug" depends="read-properties">
+    <target name="app-debug" depends="">
         <echo>${timestamp}</echo>
-        <java jar="distribution/${project.package.name}/${project.package.jar}.jar" fork="true" dir="distribution/${project.package.name}" failonerror="false" maxmemory="2g">
+        <java jar="distribution/${project.zip}/${project.jar}.jar" maxmemory="2g" fork="true" dir="distribution/${project.zip}" failonerror="false">
             <arg line="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"/>
             <jvmarg value="-agentlib:jdwp=transport=dt_socket,address=${project.jpda.address}"/>
         </java>
@@ -119,21 +128,21 @@
             <arg line="-sourcepath source -classpath build/main/classes:libraries io.github.xjrga.snack.gui.Main"/>
         </exec>
     </target>
-    <target name="source-clean" depends="read-properties">
+    <target name="src-clean" depends="">
         <echo>${timestamp}</echo>
         <delete dir="build"/>
     </target>
-    <target name="source-build" depends="read-properties,source-clean">
+    <target name="src-build" depends="src-clean">
         <echo>${timestamp}</echo>
         <!--> Build main classes </-->
         <mkdir dir="build/main/classes"/>
-        <javac release="25" includeantruntime="false" srcdir="src/main/java" destdir="build/main/classes" debug="true">
+        <javac includeantruntime="false" srcdir="src/main/java" release="21" debug="true" destdir="build/main/classes">
             <classpath refid="libraries"/>
         </javac>
         <!--> Build test classes </-->
         <mkdir dir="build/test/classes"/>
         <mkdir dir="distribution"/>
-        <javac release="25" includeAntRuntime="false" srcdir="src/test/java" destdir="build/test/classes" debug="true">
+        <javac srcdir="src/test/java" release="21" debug="true" destdir="build/test/classes" includeAntRuntime="false">
             <classpath>
                 <path>
                     <fileset dir="lib">
@@ -156,7 +165,7 @@
             </fileset>
         </copy>
     </target>
-    <target name="source-run" depends="read-properties">
+    <target name="src-run" depends="">
         <echo>${timestamp}</echo>
         <java classname="${project.class}" fork="true" failonerror="true">
             <classpath>
@@ -169,24 +178,24 @@
             </classpath>
         </java>
     </target>
-    <target name="source-info" depends="read-properties">
+    <target name="src-info" depends="">
         <echo>Date: ${timestamp}</echo>
         <echo>Name: ${ant.project.name}</echo>
         <echo>Directory:${basedir}</echo>
         <echo>Java version: ${ant.java.version}</echo>
         <echo>Java classpath: "${java.class.path}</echo>
     </target>
-    <target name="source-backup" depends="read-properties,source-clean,app-clean">
-        <echo>Backup files to ${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz</echo>
+    <target name="src-backup" depends="src-clean,app-clean">
+        <echo>Backup files to ${project.backup.dir}/${project.backup.tgz}_${backup_timestamp}.tgz</echo>
         <exec executable="tar">
             <arg line="czfv"/>
-            <arg line="${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz"/>
+            <arg line="${project.backup.dir}/${project.backup.tgz}_${backup_timestamp}.tgz"/>
             <arg line="."/>
         </exec>
-        <echo>Backup files to ${project.backup.dir}/${project.backup.name}_${backup_timestamp}.tgz</echo>
+        <echo>Backup files to ${project.backup.dir}/${project.backup.tgz}_${backup_timestamp}.tgz</echo>
     </target>
-    <target name="source-javadoc" depends="read-properties">
-        <javadoc destdir="docs/html" author="true" version="true" use="true">
+    <target name="src-javadoc" depends="">
+        <javadoc use="true" version="true" destdir="docs/html" author="true">
             <fileset dir="src/main/java" defaultexcludes="yes">
                 <include name="io/github/xjrga/**"/>
                 <!--<exclude name="io/github/xjrga/MyTest*"/>-->
@@ -201,7 +210,7 @@
             </classpath>
         </javadoc>
     </target>
-    <target name="source-test" depends="read-properties,source-clean,source-build">
+    <target name="src-test" depends="src-clean,src-build">
         <junit printsummary="true" fork="true" dir=".">
             <classpath>
                 <path>
@@ -212,29 +221,35 @@
                 <pathelement location="build/main/classes"/>
                 <pathelement location="build/test/classes"/>
             </classpath>
-            <formatter type="plain" usefile="false"/>
+            <formatter usefile="false" type="plain"/>
             <batchtest todir="build/test/data">
                 <fileset dir="build/test/classes"/>
             </batchtest>
         </junit>
     </target>
-    <target name="app-site" depends="read-properties">
+    <target name="app-site" depends="">
         <echo>${timestamp}</echo>
-        <copy file="distribution/${project.package.name}-sources.zip" todir="${project.site.dir}" overwrite="true"/>
-        <copy file="distribution/${project.package.name}.zip" todir="${project.site.dir}" overwrite="true"/>
-        <copy file="distribution/${project.package.name}.zip.asc" todir="${project.site.dir}" overwrite="true"/>
+        <copy todir="${project.site.dir}" overwrite="true" file="distribution/${project.zip}-sources.zip"/>
+        <copy todir="${project.site.dir}" overwrite="true" file="distribution/${project.zip}.zip"/>
+        <copy todir="${project.site.dir}" overwrite="true" file="distribution/${project.zip}.zip.asc"/>
     </target>
-    <target name="app-thin-and-run" depends="source-build,app-thin,app-run,source-zip">
-        <echo>${timestamp}</echo>
-    </target>
-    <target name="app-thin-and-zip" depends="source-build,app-thin,app-zip,source-zip">
+    <target name="app-thin-and-run" depends="src-build,app-thin,app-run,src-zip">
         <echo>${timestamp}</echo>
     </target>
-    <target name="source-zip" depends="read-properties">
+    <target name="app-thin-and-zip" depends="src-build,app-thin,app-zip,src-zip">
         <echo>${timestamp}</echo>
-        <zip destfile="distribution/${project.package.name}-sources.zip" basedir="src/main/java" includes="**/*.java"/>
     </target>
-    <target name="dir-create" depends="">
+    <target name="app-fat-and-run" depends="src-build,app-fat,app-run,src-zip">
+        <echo>${timestamp}</echo>
+    </target>
+    <target name="app-fat-and-zip" depends="src-build,app-fat,app-zip,src-zip">
+        <echo>${timestamp}</echo>
+    </target>
+    <target name="src-zip" depends="">
+        <echo>${timestamp}</echo>
+        <zip destfile="distribution/${project.zip}-sources.zip" basedir="src/main/java" includes="**/*.java"/>
+    </target>
+    <target name="+ create dirs" depends="">
         <echo>${timestamp}</echo>
         <mkdir dir="lib"/>
         <mkdir dir="src"/>
@@ -255,7 +270,7 @@
         <mkdir dir="docs/html"/>
     </target>
     <!-- Compound Targets -->
-    <target name="source-build-and-run" depends="read-properties,source-build,source-run">
+    <target name="src-build-and-run" depends="src-build,src-run">
         <echo>${timestamp}</echo>
     </target>
 </project>

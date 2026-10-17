@@ -23,14 +23,14 @@ FROM (SELECT name,
              deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    0 AS deficiency
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT name,
              excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    0 AS excess
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',

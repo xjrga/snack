@@ -32,7 +32,7 @@ call Nutrient_Insert ('305','Minerals, Phosphorus (mg)','5','minerals-phosphorus
 /
 call Nutrient_Insert ('306','Minerals, Potassium (mg)','5','minerals-potassium','mg',1,0,1);
 /
-call Nutrient_Insert ('307','Minerals, Sodium (mg)','5','minerals-sodium','mg',1,0,0);
+call Nutrient_Insert ('307','Minerals, Sodium (mg)','5','minerals-sodium','mg',1,0,1);
 /
 call Nutrient_Insert ('309','Minerals, Zinc (mg)','5','minerals-zinc','mg',1,0,0);
 /
@@ -1307,76 +1307,52 @@ call Rda_Insert_q('317',21,70);
 call Rda_Insert_q('309',21,12);
 /
 --Daily Value -> 22
---'320','Vitamin A, RAE (µg)'
 call Rda_Insert_q('320',22,900);
 /
---'401','Vitamin C, total (Ascorbic Acid) (mg)'
 call Rda_Insert_q('401',22,90);
 /
---'328','Vitamin D (D2 + D3) (µg)'
-call Rda_Insert_q('328',22,20);
+call Rda_Insert_q('328',22,15);
 /
---'323','Vitamin E (Alpha-Tocopherol) (mg)'
 call Rda_Insert_q('323',22,15);
 /
---'430','Vitamin K (Phylloquinone) (µg)'
 call Rda_Insert_q('430',22,120);
 /
---'404','Thiamin (mg)'
 call Rda_Insert_q('404',22,1.2);
 /
---'405','Riboflavin (mg)'
 call Rda_Insert_q('405',22,1.3);
 /
---'406','Niacin (mg)'
 call Rda_Insert_q('406',22,16);
 /
---'415','Vitamin B-6 (mg)'
 call Rda_Insert_q('415',22,1.7);
 /
---'435','Folate, DFE (µg)'
 call Rda_Insert_q('435',22,400);
 /
---'418','Vitamin B-12 (µg)'
 call Rda_Insert_q('418',22,2.4);
 /
---'410','Pantothenic acid (mg)'
 call Rda_Insert_q('410',22,5);
 /
---'421','Choline, total (mg)'
 call Rda_Insert_q('421',22,550);
 /
---'301','Calcium, Ca (mg)'
-call Rda_Insert_q('301',22,1300);
+call Rda_Insert_q('301',22,1000);
 /
---'306','Potassium, K (mg)'
-call Rda_Insert_q('306',22,4700);
+call Rda_Insert_q('306',22,3400);
 /
---'307','Sodium, Na (mg)'
-call Rda_Insert_q('307',22,2300);
+call Rda_Insert_q('307',22,1500);
 /
---'312','Copper, Cu (mg)'
 call Rda_Insert_q('312',22,0.9);
 /
---'303','Iron, Fe (mg)'
-call Rda_Insert_q('303',22,18);
+call Rda_Insert_q('303',22,8);
 /
---'304','Magnesium, Mg (mg)'
 call Rda_Insert_q('304',22,420);
 /
---'315','Manganese, Mn (mg)'
 call Rda_Insert_q('315',22,2.3);
 /
---'305','Phosphorus, P (mg)'
-call Rda_Insert_q('305',22,1250);
+call Rda_Insert_q('305',22,700);
 /
---'317','Selenium, Se (µg)'
 call Rda_Insert_q('317',22,55);
 /
---'309','Zinc, Zn (mg)'
 call Rda_Insert_q('309',22,11);
 /
-
 
 --Infants (0–6 mo)    -> 0
 call Rda_Update_UL('320',0,600);
@@ -1752,7 +1728,23 @@ call Rda_Update_UL('435',21,1000);
 /
 call Rda_Update_UL('421',21,3500);
 /
-
+--Daily Value -> 22
+call Rda_Update_UL('320',22,3000);
+/
+call Rda_Update_UL('401',22,2000);
+/
+call Rda_Update_UL('328',22,100);
+/
+call Rda_Update_UL('323',22,1000);
+/
+call Rda_Update_UL('406',22,35);
+/
+call Rda_Update_UL('415',22,100);
+/
+call Rda_Update_UL('435',22,1000);
+/
+call Rda_Update_UL('421',22,3500);
+/
 
 
 --Infants (0–6 mo)    -> 0
@@ -1798,6 +1790,8 @@ call Rda_Update_UL('303',2,40);
 /
 call Rda_Update_UL('304',2,65);
 /
+call Rda_Update_UL('307',2,1500);
+/
 call Rda_Update_UL('315',2,2);
 /
 call Rda_Update_UL('305',2,3000);
@@ -1819,6 +1813,8 @@ call Rda_Update_UL('315',3,3);
 /
 call Rda_Update_UL('305',3,3000);
 /
+call Rda_Update_UL('307',3,1900);
+/
 call Rda_Update_UL('317',3,150);
 /
 call Rda_Update_UL('309',3,12);
@@ -1831,6 +1827,8 @@ call Rda_Update_UL('312',4,5);
 call Rda_Update_UL('303',4,40);
 /
 call Rda_Update_UL('304',4,350);
+/
+call Rda_Update_UL('307',4,2200);
 /
 call Rda_Update_UL('315',4,6);
 /
@@ -1849,6 +1847,8 @@ call Rda_Update_UL('303',5,45);
 /
 call Rda_Update_UL('304',5,350);
 /
+call Rda_Update_UL('307',5,2300);
+/
 call Rda_Update_UL('315',5,9);
 /
 call Rda_Update_UL('305',5,4000);
@@ -1866,9 +1866,13 @@ call Rda_Update_UL('303',6,45);
 /
 call Rda_Update_UL('304',6,350);
 /
+call Rda_Update_UL('307',6,2300);
+/
 call Rda_Update_UL('315',6,11);
 /
 call Rda_Update_UL('305',6,4000);
+/
+call Rda_Update_UL('307',20,2300);
 /
 call Rda_Update_UL('317',6,400);
 /
@@ -1887,6 +1891,8 @@ call Rda_Update_UL('315',7,11);
 /
 call Rda_Update_UL('305',7,4000);
 /
+call Rda_Update_UL('307',7,2300);
+/
 call Rda_Update_UL('317',7,400);
 /
 call Rda_Update_UL('309',7,40);
@@ -1904,6 +1910,8 @@ call Rda_Update_UL('315',8,11);
 /
 call Rda_Update_UL('305',8,4000);
 /
+call Rda_Update_UL('307',8,2300);
+/
 call Rda_Update_UL('317',8,400);
 /
 call Rda_Update_UL('309',8,40);
@@ -1916,6 +1924,8 @@ call Rda_Update_UL('312',9,10);
 call Rda_Update_UL('303',9,45);
 /
 call Rda_Update_UL('304',9,350);
+/
+call Rda_Update_UL('307',9,2300);
 /
 call Rda_Update_UL('315',9,11);
 /
@@ -1934,6 +1944,8 @@ call Rda_Update_UL('303',10,40);
 /
 call Rda_Update_UL('304',10,350);
 /
+call Rda_Update_UL('307',10,2200);
+/
 call Rda_Update_UL('315',10,6);
 /
 call Rda_Update_UL('305',10,4000);
@@ -1951,6 +1963,8 @@ call Rda_Update_UL('303',11,45);
 /
 call Rda_Update_UL('304',11,350);
 /
+call Rda_Update_UL('307',11,2300);
+/
 call Rda_Update_UL('315',11,9);
 /
 call Rda_Update_UL('305',11,4000);
@@ -1967,6 +1981,8 @@ call Rda_Update_UL('312',12,10);
 call Rda_Update_UL('303',12,45);
 /
 call Rda_Update_UL('304',12,350);
+/
+call Rda_Update_UL('307',12,2300);
 /
 call Rda_Update_UL('315',12,11);
 /
@@ -1989,6 +2005,8 @@ call Rda_Update_UL('315',13,11);
 /
 call Rda_Update_UL('305',13,4000);
 /
+call Rda_Update_UL('307',13,2300);
+/
 call Rda_Update_UL('317',13,400);
 /
 call Rda_Update_UL('309',13,40);
@@ -2002,9 +2020,11 @@ call Rda_Update_UL('303',14,45);
 /
 call Rda_Update_UL('304',14,350);
 /
-call Rda_Update_UL('315',14,11);
-/
 call Rda_Update_UL('305',14,4000);
+/
+call Rda_Update_UL('307',14,2300);
+/
+call Rda_Update_UL('315',14,11);
 /
 call Rda_Update_UL('317',14,400);
 /
@@ -2018,6 +2038,8 @@ call Rda_Update_UL('312',15,10);
 call Rda_Update_UL('303',15,45);
 /
 call Rda_Update_UL('304',15,350);
+/
+call Rda_Update_UL('307',15,2300);
 /
 call Rda_Update_UL('315',15,11);
 /
@@ -2036,13 +2058,15 @@ call Rda_Update_UL('303',16,45);
 /
 call Rda_Update_UL('304',16,350);
 /
-call Rda_Update_UL('315',16,9);
-/
 call Rda_Update_UL('305',16,3500);
 /
-call Rda_Update_UL('317',16,400);
+call Rda_Update_UL('307',16,2300);
 /
 call Rda_Update_UL('309',16,34);
+/
+call Rda_Update_UL('315',16,9);
+/
+call Rda_Update_UL('317',16,400);
 /
 --Pregnancy (19–30 y) -> 17
 call Rda_Update_UL('301',17,2500);
@@ -2052,6 +2076,8 @@ call Rda_Update_UL('312',17,10);
 call Rda_Update_UL('303',17,45);
 /
 call Rda_Update_UL('304',17,350);
+/
+call Rda_Update_UL('307',17,2300);
 /
 call Rda_Update_UL('315',17,11);
 /
@@ -2074,6 +2100,8 @@ call Rda_Update_UL('315',18,11);
 /
 call Rda_Update_UL('305',18,3500);
 /
+call Rda_Update_UL('307',18,2300);
+/
 call Rda_Update_UL('317',18,400);
 /
 call Rda_Update_UL('309',18,40);
@@ -2091,6 +2119,8 @@ call Rda_Update_UL('315',19,9);
 /
 call Rda_Update_UL('305',19,4000);
 /
+call Rda_Update_UL('307',19,2300);
+/
 call Rda_Update_UL('317',19,400);
 /
 call Rda_Update_UL('309',19,34);
@@ -2103,6 +2133,8 @@ call Rda_Update_UL('312',20,10);
 call Rda_Update_UL('303',20,45);
 /
 call Rda_Update_UL('304',20,350);
+/
+call Rda_Update_UL('307',20,2300);
 /
 call Rda_Update_UL('315',20,11);
 /
@@ -2125,12 +2157,31 @@ call Rda_Update_UL('315',21,11);
 /
 call Rda_Update_UL('305',21,4000);
 /
+call Rda_Update_UL('307',21,2300);
+/
 call Rda_Update_UL('317',21,400);
 /
 call Rda_Update_UL('309',21,40);
 /
-
-
+--Daily Value -> 22
+call Rda_Update_UL('301',22,2000);
+/
+call Rda_Update_UL('312',22,10);
+/
+call Rda_Update_UL('303',22,45);
+/
+call Rda_Update_UL('304',22,350);
+/
+call Rda_Update_UL('315',22,11);
+/
+call Rda_Update_UL('305',22,4000);
+/
+call Rda_Update_UL('307',22,1500);
+/
+call Rda_Update_UL('317',22,400);
+/
+call Rda_Update_UL('309',22,40);
+/
 
 --Infants (0–6 mo) -> 0
 call Rda_Insert_q('255',0,700);

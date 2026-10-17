@@ -28,7 +28,7 @@ public class DRIExcessAndDeficiencyRhsTask implements Callable<List<Map<String, 
     @Override
     public List<Map<String, Object>> call() {
         try {
-            CallableStatement proc = connection.prepareCall("{CALL public.dridev_tni_rhs( ?, ? )}");
+            CallableStatement proc = connection.prepareCall("{CALL public.dridev_balanced_rhs( ?, ? )}");
             proc.setString(1, mixid);
             proc.setInt(2, lifestyleid);
             ResultSet rs = proc.executeQuery();

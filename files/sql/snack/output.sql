@@ -310,9 +310,8 @@ CREATE TABLE Mix
   Name            LONGVARCHAR,
   LifeStageId     INTEGER,
   Model           LONGVARCHAR,
-  MixCost         DECIMAL(25,18),
-  MixDeficiency   DECIMAL(25,18),
-  MixExcess       DECIMAL(25,18),
+  MixCost         DECIMAL(25,18) DEFAULT 0.0,
+  TniScore        DECIMAL(25,18) DEFAULT 0.0,
   CONSTRAINT Mix_primary_key PRIMARY KEY (MixId)
 );
 /
@@ -339,6 +338,14 @@ CREATE TABLE MixInventory
   CONSTRAINT MixInventory_primary_key PRIMARY KEY (MixId)
 );
 /
+CREATE TABLE MixPoint
+(
+  MixId   LONGVARCHAR,
+  i       INTEGER,
+  q       DECIMAL(11,5),
+  CONSTRAINT MixPoint_primary_key PRIMARY KEY (MixId,i)
+);
+/
 CREATE TABLE MixResult
 (
   MixId        LONGVARCHAR,
@@ -358,7 +365,7 @@ CREATE TABLE Nutrient
   Units                LONGVARCHAR,
   Dri                  INTEGER,
   Calculated           INTEGER,
-  Tni                  INTEGER,
+  Balanced             INTEGER,
   CONSTRAINT Nutrient_primary_key PRIMARY KEY (NutrientId)
 );
 /
@@ -444,9 +451,9 @@ ALTER TABLE FoodGroupQuantityC ADD CONSTRAINT R10_FoodGroupQuantityC FOREIGN KEY
 /
 ALTER TABLE FoodGroupQuantityC ADD CONSTRAINT R11_FoodGroupQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R12_FoodGroupRatioC FOREIGN KEY (Group_Id_2,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R12_FoodGroupRatioC FOREIGN KEY (Group_Id_1,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R13_FoodGroupRatioC FOREIGN KEY (Group_Id_1,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R13_FoodGroupRatioC FOREIGN KEY (Group_Id_2,MixId) REFERENCES MixFoodGroup (GroupId,MixId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodGroupRatioC ADD CONSTRAINT R14_FoodGroupRatioC FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
@@ -460,9 +467,9 @@ ALTER TABLE FoodQuantityC ADD CONSTRAINT R18_FoodQuantityC FOREIGN KEY (Nutrient
 /
 ALTER TABLE FoodQuantityC ADD CONSTRAINT R19_FoodQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodRatioC ADD CONSTRAINT R20_FoodRatioC FOREIGN KEY (Food_Id_2,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R20_FoodRatioC FOREIGN KEY (Food_Id_1,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE FoodRatioC ADD CONSTRAINT R21_FoodRatioC FOREIGN KEY (Food_Id_1,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE FoodRatioC ADD CONSTRAINT R21_FoodRatioC FOREIGN KEY (Food_Id_2,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
 ALTER TABLE FoodRatioC ADD CONSTRAINT R22_FoodRatioC FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
@@ -486,30 +493,33 @@ ALTER TABLE MixFoodGroup ADD CONSTRAINT R31_MixFoodGroup FOREIGN KEY (MixId) REF
 /
 ALTER TABLE MixInventory ADD CONSTRAINT R32_MixInventory FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MixResult ADD CONSTRAINT R33_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
+ALTER TABLE MixPoint ADD CONSTRAINT R33_MixPoint FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE MixResult ADD CONSTRAINT R34_MixResult FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
+ALTER TABLE MixResult ADD CONSTRAINT R34_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE Nutrient ADD CONSTRAINT R35_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
+ALTER TABLE MixResult ADD CONSTRAINT R35_MixResult FOREIGN KEY (FoodId,MixId) REFERENCES MixFood (FoodId,MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientQuantityC ADD CONSTRAINT R36_NutrientQuantityC FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE Nutrient ADD CONSTRAINT R36_Nutrient FOREIGN KEY (NutrientCategoryId) REFERENCES NutrientCategory (NutrientCategoryId) ON DELETE SET NULL;
 /
-ALTER TABLE NutrientQuantityC ADD CONSTRAINT R37_NutrientQuantityC FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientQuantityC ADD CONSTRAINT R37_NutrientQuantityC FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientQuantityC ADD CONSTRAINT R38_NutrientQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE NutrientQuantityC ADD CONSTRAINT R38_NutrientQuantityC FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatioC ADD CONSTRAINT R39_NutrientRatioC FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
+ALTER TABLE NutrientQuantityC ADD CONSTRAINT R39_NutrientQuantityC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatioC ADD CONSTRAINT R40_NutrientRatioC FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R40_NutrientRatioC FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatioC ADD CONSTRAINT R41_NutrientRatioC FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R41_NutrientRatioC FOREIGN KEY (Nutrient_Id_1) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE NutrientRatioC ADD CONSTRAINT R42_NutrientRatioC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R42_NutrientRatioC FOREIGN KEY (Nutrient_Id_2) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
-ALTER TABLE Rda ADD CONSTRAINT R43_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
+ALTER TABLE NutrientRatioC ADD CONSTRAINT R43_NutrientRatioC FOREIGN KEY (RelationshipId) REFERENCES Relationship (RelationshipId) ON DELETE CASCADE;
 /
-ALTER TABLE Rda ADD CONSTRAINT R44_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE CASCADE;
+ALTER TABLE Rda ADD CONSTRAINT R44_Rda FOREIGN KEY (NutrientId) REFERENCES Nutrient (NutrientId) ON DELETE CASCADE;
 /
+ALTER TABLE Rda ADD CONSTRAINT R45_Rda FOREIGN KEY (LifeStageId) REFERENCES RdaLifeStage (LifeStageId) ON DELETE CASCADE;
+/
+
 
 
 CREATE FUNCTION getFoodQuotient(
@@ -926,6 +936,256 @@ AND b.foodid = v_foodid;
 --
 RETURN v_categoryid;
 --
+END;
+/
+
+CREATE FUNCTION getCalciumPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 20)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '301') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getMagnesiumPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 19)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '304') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getPotassiumPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 18)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '306') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getSodiumPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 17)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '307') B;
+--
+RETURN pct;
+
+END;
+/
+
+
+CREATE FUNCTION getVitAPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 16)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '320') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getVitEPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 15)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '323') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getVitDPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 14)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '328') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getVitCPctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 13)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '401') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getCholinePctOfRda (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE pct DECIMAL(28,15);
+
+--
+SELECT deficiency / dri INTO pct
+FROM
+(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 12)) A,
+(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '421') B;
+--
+RETURN pct;
+
+END;
+/
+
+CREATE FUNCTION getTniScore (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE tniscore DECIMAL(28,15);
+
+--
+SELECT
+(1 - ((
+getCalciumPctOfRda(V_MixId,V_LifestageId) +
+getMagnesiumPctOfRda(V_MixId,V_LifestageId) +
+getPotassiumPctOfRda(V_MixId,V_LifestageId) +
+getVitAPctOfRda(V_MixId,V_LifestageId) +
+getVitEPctOfRda(V_MixId,V_LifestageId) +
+getVitDPctOfRda(V_MixId,V_LifestageId) +
+getVitCPctOfRda(V_MixId,V_LifestageId) +
+getCholinePctOfRda(V_MixId,V_LifestageId) ) / CAST (8.0 AS DECIMAL(25,18)))) * 100 INTO tniscore
+FROM (VALUES(0));
+--
+RETURN tniscore;
+
+END;
+/
+
+CREATE FUNCTION getCost (
+--
+IN V_MixId LONGVARCHAR
+--
+)
+--
+RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
+--
+DECLARE excess DECIMAL(28,15);
+DECLARE deficiency DECIMAL(28,15);
+DECLARE cost DECIMAL(28,15);
+
+--
+SELECT q INTO excess FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 1);
+SELECT q INTO deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 2);
+SET cost = deficiency + excess;
+
+RETURN cost;
+
 END;
 /
 
@@ -3182,24 +3442,20 @@ DECLARE v_Name_Old LONGVARCHAR;
 DECLARE v_LifeStageId INTEGER;
 DECLARE v_Model LONGVARCHAR;
 DECLARE v_MixCost LONGVARCHAR;
-DECLARE v_MixDeficiency LONGVARCHAR;
-DECLARE v_MixExcess LONGVARCHAR;
+DECLARE v_TniScore LONGVARCHAR;
 DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        LifeStageId,
        Model,
        MixCost,
-       MixDeficiency,
-       MixExcess
+       TniScore
 INTO
        v_Name_Old,
        v_LifeStageId,
        v_Model,
        v_MixCost,
-       v_MixDeficiency,
-       v_MixExcess
-       
+       v_TniScore
 FROM Mix
 WHERE MixId = v_MixId_Old;
 --
@@ -3211,16 +3467,14 @@ Name,
 LifeStageId,
 Model,
 MixCost,
-MixDeficiency,
-MixExcess
+TniScore
 ) VALUES (
 newid2,
-v_Name_Old||'_duplicate',
+v_Name_Old||'_copy',
 v_LifeStageId,
 v_Model,
 v_MixCost,
-v_MixDeficiency,
-v_MixExcess 
+v_TniScore
 );
 --
 SET newid = newid2;
@@ -3312,10 +3566,10 @@ FROM (SELECT a.name AS category,
              a.mixa,
              b.mixb,
              a.mixa - b.mixb AS diff
-      FROM (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixa
+      FROM (SELECT IFNULL(TniScore,0) AS mixa
             FROM mix
             WHERE mixid = v_MixId_1) a,
-           (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixb
+           (SELECT IFNULL(TniScore,0) AS mixb
             FROM mix
             WHERE mixid = v_MixId_2) b
       UNION
@@ -3519,14 +3773,12 @@ Name,
 LifeStageId,
 Model,
 MixCost,
-MixDeficiency,
-MixExcess
+TniScore
 ) VALUES (
 newid2,
 v_Name,
-8,
+22,
 '',
-1.0,
 1.0,
 1.0
 );
@@ -3546,8 +3798,7 @@ SELECT MixId,
        LifeStageId,
        Model,
        MixCost,
-       MixDeficiency,
-       MixExcess
+       TniScore
 FROM Mix
 ORDER BY Name;
 --
@@ -3576,13 +3827,7 @@ CREATE PROCEDURE updateMix (
 --
 IN v_MixId LONGVARCHAR,
 IN v_LifeStageId INTEGER,
-IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(25,18)
-,
-IN v_MixDeficiency DECIMAL(25,18)
-,
-IN v_MixExcess DECIMAL(25,18)
-
+IN v_Model LONGVARCHAR
 --
 )
 --
@@ -3593,16 +3838,34 @@ UPDATE
 Mix
 SET
 LifeStageId = v_LifeStageId,
-Model = v_Model,
-MixCost = v_MixCost,
-MixDeficiency = v_MixDeficiency,
-MixExcess = v_MixExcess
+Model = v_Model
 WHERE
 MixId = v_MixId;
 END;
 --
 /
 
+
+CREATE PROCEDURE updateTniScore (
+--
+IN V_MixId LONGVARCHAR,
+IN V_LifestageId INTEGER
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+UPDATE
+Mix
+SET
+MixCost = getCost(V_MixId),
+TniScore = getTniScore(V_MixId, V_LifestageId)
+WHERE
+MixId = V_MixId;
+END;
+--
+/
 
 CREATE PROCEDURE MixFood_Copy (
 --
@@ -4402,7 +4665,7 @@ IN v_Label LONGVARCHAR,
 IN v_Units LONGVARCHAR,
 IN v_Dri INTEGER,
 IN v_Calculated INTEGER,
-IN v_Tni INTEGER
+IN v_Balanced INTEGER
 --
 )
 --
@@ -4417,7 +4680,7 @@ Label,
 Units,
 Dri,
 Calculated,
-Tni
+Balanced
 ) VALUES (
 v_NutrientId,
 v_Name,
@@ -4426,7 +4689,7 @@ v_Label,
 v_Units,
 v_Dri,
 v_Calculated,
-v_Tni
+v_Balanced
 );
 --
 END;
@@ -8359,39 +8622,6 @@ END;
 /
 
 
-CREATE PROCEDURE MixCost_update (
---
-IN v_MixId LONGVARCHAR,
---IN v_Name LONGVARCHAR,
---IN v_NutrientId LONGVARCHAR,
---IN v_Model LONGVARCHAR,
-IN v_MixCost DECIMAL(25,18)
-,
-IN v_MixDeficiency DECIMAL(25,18)
-,
-IN v_MixExcess DECIMAL(25,18)
-
---
-)
---
-MODIFIES SQL DATA
-BEGIN ATOMIC
---
-UPDATE
-Mix
-SET
---Name = v_Name,
---NutrientId = v_NutrientId,
---Model = v_Model,
-MixCost = v_MixCost,
-MixDeficiency = v_MixDeficiency,
-MixExcess = v_MixExcess
-WHERE
-MixId = v_MixId;
-END;
---
-/
-
 CREATE PROCEDURE Units_insert (
 --
 IN v_UnitId INTEGER,
@@ -8591,7 +8821,7 @@ END;
 /
 
 
-CREATE VIEW tninutrients
+CREATE VIEW balancednutrients
 (
   nutrientid,
   name,
@@ -8604,7 +8834,7 @@ SELECT nutrientid,
        label,
        units
 FROM public.nutrient
-WHERE tni = 1;
+WHERE balanced = 1;
 /
 
 
@@ -8649,14 +8879,14 @@ FROM (SELECT name,
              deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    0 AS deficiency
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT name,
              excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    0 AS excess
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',
@@ -8700,14 +8930,14 @@ FROM (SELECT name,
              deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    0 AS deficiency
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT name,
              excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    0 AS excess
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',
@@ -8726,7 +8956,7 @@ END;
 /
 
 
-CREATE PROCEDURE dridev_tni_rhs (
+CREATE PROCEDURE dridev_balanced_rhs (
 --
 IN v_mixid LONGVARCHAR,
 IN v_lifestageid INTEGER
@@ -8749,7 +8979,7 @@ FROM nutrient b,
      relationship c,
      rda d
 WHERE relationshipid = 3
-AND b.tni = 1
+AND b.balanced = 1
 AND b.nutrientid = d.nutrientid
 AND d.lifestageid = v_lifestageid
 ORDER BY nutrientid;
@@ -8760,7 +8990,7 @@ END;
 /
 
 
-CREATE PROCEDURE dridev_tni_lhs (
+CREATE PROCEDURE dridev_balanced_lhs (
 --
 IN v_mixid LONGVARCHAR,
 --
@@ -8789,13 +9019,13 @@ FROM (SELECT name, c
       SELECT name, deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    CASEWHEN(nutrientid = v_nutrientid,1.0,0) AS deficiency
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT name, excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    CASEWHEN(nutrientid = v_nutrientid,-1.0,0) AS excess
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',
@@ -8894,7 +9124,7 @@ DECLARE
                         concat('deficiency_', nutrientid) AS name,
                         0 AS deficiency
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -8906,7 +9136,7 @@ DECLARE
                         concat('excess_', nutrientid) AS name,
                         0 AS excess
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -8987,7 +9217,7 @@ DECLARE
                     concat('deficiency_', nutrientid) AS name,
                     0 AS deficiency
                 FROM
-                    tninutrients
+                    balancednutrients
                 ORDER BY
                     nutrientid)
             UNION ALL
@@ -8999,7 +9229,7 @@ DECLARE
                     concat('excess_', nutrientid) AS name,
                     0 AS excess
                 FROM
-                    tninutrients
+                    balancednutrients
                 ORDER BY
                     nutrientid)
             UNION ALL
@@ -9065,7 +9295,7 @@ DECLARE
                     concat('deficiency_', nutrientid) AS name,
                     0 AS deficiency
                 FROM
-                    tninutrients
+                    balancednutrients
                 ORDER BY
                     nutrientid)
             UNION ALL
@@ -9077,7 +9307,7 @@ DECLARE
                     concat('excess_', nutrientid) AS name,
                     0 AS excess
                 FROM
-                    tninutrients
+                    balancednutrients
                 ORDER BY
                     nutrientid)
             UNION ALL
@@ -9164,7 +9394,7 @@ DECLARE
                         concat('deficiency_', nutrientid) AS name,
                         0 AS deficiency
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -9176,7 +9406,7 @@ DECLARE
                         concat('excess_', nutrientid) AS name,
                         0 AS excess
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -9247,7 +9477,7 @@ DECLARE
                     concat('deficiency_', nutrientid) AS name,
                     0 AS deficiency
                 FROM
-                    tninutrients
+                    balancednutrients
                 ORDER BY
                     nutrientid)
             UNION ALL
@@ -9259,7 +9489,7 @@ DECLARE
                     concat('excess_', nutrientid) AS name,
                     0 AS excess
                 FROM
-                    tninutrients
+                    balancednutrients
                 ORDER BY
                     nutrientid)
             UNION ALL
@@ -9347,7 +9577,7 @@ DECLARE
                         concat('deficiency_', nutrientid) AS name,
                         0 AS deficiency
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -9359,7 +9589,7 @@ DECLARE
                         concat('excess_', nutrientid) AS name,
                         0 AS excess
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -9407,7 +9637,7 @@ FROM (SELECT name, c
       SELECT name, deficiency
       FROM (SELECT concat('deficiency_',nutrientid) as name,
                    b.cq AS deficiency
-            FROM tninutrients a,
+            FROM balancednutrients a,
                  rdacoefficients b
             WHERE a.nutrientid = b.nutrientid
             AND   b.lifestageid = v_lifestageid
@@ -9416,11 +9646,11 @@ FROM (SELECT name, c
       SELECT name, excess
       FROM (SELECT concat('excess_',nutrientid) as name,
                    0 AS excess
-            FROM tninutrients a
+            FROM balancednutrients a
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',
-             -8 AS avg_deficiency
+             -9 AS avg_deficiency
       FROM (
            VALUES (0))
       UNION ALL
@@ -9461,17 +9691,17 @@ FROM (SELECT name, c
       SELECT name, deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    0 AS deficiency
-            FROM tninutrients a
+            FROM balancednutrients a
             ORDER BY nutrientid)
       UNION ALL
       SELECT name, excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    b.cq AS excess
-            FROM tninutrients a,
+            FROM balancednutrients a,
                  rdacoefficients b
             WHERE a.nutrientid = b.nutrientid
             AND   b.lifestageid = v_lifestageid
-            ORDER BY nutrientid            
+            ORDER BY nutrientid
 )
       UNION ALL
       SELECT 'avg_deficiency',
@@ -9480,7 +9710,7 @@ FROM (SELECT name, c
            VALUES (0))
       UNION ALL
       SELECT 'avg_excess',
-             -8 AS avg_excess
+             -9 AS avg_excess
       FROM (
            VALUES (0)));
 --
@@ -9516,17 +9746,17 @@ FROM (SELECT name, c
       SELECT name, deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    0 AS deficiency
-            FROM tninutrients a
+            FROM balancednutrients a
             ORDER BY nutrientid)
       UNION ALL
       SELECT name, excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    b.cul AS excess
-            FROM tninutrients a,
+            FROM balancednutrients a,
                  rdacoefficients b
             WHERE a.nutrientid = b.nutrientid
             AND   b.lifestageid = v_lifestageid
-            ORDER BY nutrientid            
+            ORDER BY nutrientid
 )
       UNION ALL
       SELECT 'avg_deficiency',
@@ -9535,7 +9765,7 @@ FROM (SELECT name, c
            VALUES (0))
       UNION ALL
       SELECT 'avg_excess',
-             -8 AS avg_excess
+             -9 AS avg_excess
       FROM (
            VALUES (0)));
 --
@@ -9661,6 +9891,69 @@ OPEN result;
 END;
 /
 
+
+CREATE PROCEDURE InsertMixPoint (
+--
+IN v_MixId LONGVARCHAR,
+IN v_i INTEGER,
+IN v_q DECIMAL(11,5)
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+INSERT INTO MixPoint (
+MixId,
+i,
+q
+) VALUES (
+v_MixId,
+v_i,
+v_q
+);
+--
+END;
+/
+
+CREATE PROCEDURE UpdateMixPoint (
+--
+IN v_MixId LONGVARCHAR,
+IN v_i INTEGER,
+IN v_q DECIMAL(11,5)
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+UPDATE
+MixPoint
+SET
+q = v_q
+WHERE
+MixId = v_MixId AND
+i = v_i;
+END;
+--
+/
+
+CREATE PROCEDURE DeleteMixPoint (
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+DELETE
+FROM MixPoint
+WHERE
+MixId = v_MixId;
+--
+END;
+/
 
 CREATE VIEW MixInventoryDays
 AS

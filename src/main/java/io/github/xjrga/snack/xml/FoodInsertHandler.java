@@ -248,6 +248,7 @@ public class FoodInsertHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         switch (qName) {
             case "food" -> {
+                //Save to food item to database
                 new FoodCreator(food).create();
             }
             case "food-id" -> {

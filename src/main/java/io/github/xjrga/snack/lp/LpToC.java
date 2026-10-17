@@ -212,11 +212,8 @@ public class LpToC implements LpTo {
 
         sb.append("""
                       printf("\\n", "");
-                      int index = sizeof(variables) / sizeof(variables[0]) - 2;
-                      double tni = (1.0 - variables[index]) * 100.0;
                       printf("---------------------------------------------\\n", "");
                       printf("Success: the objective function is : %f\\n", get_objective(lp));
-                      printf("Total Nutrient Index: %f\\n", tni);
                       printf("---------------------------------------------\\n", "");
                       printf("\\n", "");
                   """);

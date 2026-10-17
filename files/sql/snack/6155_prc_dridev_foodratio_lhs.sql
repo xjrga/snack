@@ -64,7 +64,7 @@ DECLARE
                         concat('deficiency_', nutrientid) AS name,
                         0 AS deficiency
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL
@@ -76,7 +76,7 @@ DECLARE
                         concat('excess_', nutrientid) AS name,
                         0 AS excess
                     FROM
-                        tninutrients
+                        balancednutrients
                     ORDER BY
                         nutrientid)
                 UNION ALL

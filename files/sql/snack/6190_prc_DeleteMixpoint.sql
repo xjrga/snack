@@ -1,0 +1,16 @@
+CREATE PROCEDURE DeleteMixPoint (
+--
+IN v_MixId LONGVARCHAR
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+DELETE
+FROM MixPoint
+WHERE
+MixId = v_MixId;
+--
+END;
+/

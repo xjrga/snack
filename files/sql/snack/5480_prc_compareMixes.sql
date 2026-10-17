@@ -49,10 +49,10 @@ FROM (SELECT a.name AS category,
              a.mixa,
              b.mixb,
              a.mixa - b.mixb AS diff
-      FROM (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixa
+      FROM (SELECT IFNULL(TniScore,0) AS mixa
             FROM mix
             WHERE mixid = v_MixId_1) a,
-           (SELECT IFNULL((1 - mixdeficiency)*100.0,0) AS mixb
+           (SELECT IFNULL(TniScore,0) AS mixb
             FROM mix
             WHERE mixid = v_MixId_2) b
       UNION

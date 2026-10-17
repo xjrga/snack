@@ -34,7 +34,6 @@ public class MixesTask implements Callable<List<List>> {
                 row.add(rs.getString(4));
                 row.add(rs.getBigDecimal(5));
                 row.add(rs.getBigDecimal(6));
-                row.add(rs.getBigDecimal(7));
                 lst.add(row);
             }
         } catch (Exception e) {

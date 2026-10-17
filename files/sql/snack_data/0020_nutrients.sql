@@ -14,7 +14,7 @@ call Nutrient_Insert ('305','Minerals, Phosphorus (mg)','5','minerals-phosphorus
 /
 call Nutrient_Insert ('306','Minerals, Potassium (mg)','5','minerals-potassium','mg',1,0,1);
 /
-call Nutrient_Insert ('307','Minerals, Sodium (mg)','5','minerals-sodium','mg',1,0,0);
+call Nutrient_Insert ('307','Minerals, Sodium (mg)','5','minerals-sodium','mg',1,0,1);
 /
 call Nutrient_Insert ('309','Minerals, Zinc (mg)','5','minerals-zinc','mg',1,0,0);
 /

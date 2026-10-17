@@ -1,4 +1,4 @@
-CREATE PROCEDURE dridev_tni_lhs (
+CREATE PROCEDURE dridev_balanced_lhs (
 --
 IN v_mixid LONGVARCHAR,
 --
@@ -27,13 +27,13 @@ FROM (SELECT name, c
       SELECT name, deficiency
       FROM (SELECT concat('deficiency_',nutrientid) AS name,
                    CASEWHEN(nutrientid = v_nutrientid,1.0,0) AS deficiency
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT name, excess
       FROM (SELECT concat('excess_',nutrientid) AS name,
                    CASEWHEN(nutrientid = v_nutrientid,-1.0,0) AS excess
-            FROM tninutrients
+            FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',

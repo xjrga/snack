@@ -12,24 +12,20 @@ DECLARE v_Name_Old LONGVARCHAR;
 DECLARE v_LifeStageId INTEGER;
 DECLARE v_Model LONGVARCHAR;
 DECLARE v_MixCost LONGVARCHAR;
-DECLARE v_MixDeficiency LONGVARCHAR;
-DECLARE v_MixExcess LONGVARCHAR;
+DECLARE v_TniScore LONGVARCHAR;
 DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        LifeStageId,
        Model,
        MixCost,
-       MixDeficiency,
-       MixExcess
+       TniScore
 INTO
        v_Name_Old,
        v_LifeStageId,
        v_Model,
        v_MixCost,
-       v_MixDeficiency,
-       v_MixExcess
-       
+       v_TniScore
 FROM Mix
 WHERE MixId = v_MixId_Old;
 --
@@ -41,16 +37,14 @@ Name,
 LifeStageId,
 Model,
 MixCost,
-MixDeficiency,
-MixExcess
+TniScore
 ) VALUES (
 newid2,
-v_Name_Old||'_duplicate',
+v_Name_Old||'_copy',
 v_LifeStageId,
 v_Model,
 v_MixCost,
-v_MixDeficiency,
-v_MixExcess 
+v_TniScore
 );
 --
 SET newid = newid2;

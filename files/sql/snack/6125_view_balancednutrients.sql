@@ -1,4 +1,4 @@
-CREATE VIEW tninutrients
+CREATE VIEW balancednutrients
 (
   nutrientid,
   name,
@@ -11,5 +11,5 @@ SELECT nutrientid,
        label,
        units
 FROM public.nutrient
-WHERE tni = 1;
+WHERE balanced = 1;
 /

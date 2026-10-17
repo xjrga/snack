@@ -1,5 +1,6 @@
 package io.github.xjrga.snack.other;
 
+import io.github.xjrga.snack.completablefuture.records.Records.Mix;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import java.awt.Desktop;
@@ -294,7 +295,7 @@ public class U {
         return n.stripTrailingZeros().toPlainString();
     }
 
-    public static List<MixDO> createMixDOList(List<List> data) {
+    public static List<MixDO> createMixDOListFromList(List<List> data) {
         List<MixDO> list = new ArrayList<>();
         data.forEach(row -> {
             MixDO mix = new MixDO();
@@ -302,10 +303,23 @@ public class U {
             mix.setName((String) row.get(1));
             mix.setLifestageid((Integer) row.get(2));
             mix.setModel((String) row.get(3));
-            BigDecimal cost = (BigDecimal) row.get(4);
             mix.setCost((BigDecimal) row.get(4));
-            mix.setDeficiency((BigDecimal) row.get(5));
-            mix.setExcess((BigDecimal) row.get(6));
+            mix.setTniScore((BigDecimal) row.get(5));
+            list.add(mix);
+        });
+        return list;
+    }
+
+    public static List<MixDO> createMixDOListFromRecord(List<Mix> recordList) {
+        List<MixDO> list = new ArrayList<>();
+        recordList.forEach(recordMix -> {
+            MixDO mix = new MixDO();
+            mix.setMixid((String) recordMix.MixId());
+            mix.setName((String) recordMix.MixName());
+            mix.setLifestageid((Integer) recordMix.LifeStageId());
+            mix.setModel((String) recordMix.Model());
+            mix.setCost((BigDecimal) recordMix.Cost());
+            mix.setTniScore((BigDecimal) recordMix.TniScore());
             list.add(mix);
         });
         return list;

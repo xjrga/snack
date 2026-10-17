@@ -159,15 +159,9 @@ public class LpToR implements LpTo {
         sb.append("\n");
         sb.append("point <- result$solution");
         sb.append("\n\n");
-        sb.append("# Calculate total nutrient index");
-        sb.append("\n");
-        sb.append("tni <- (1 - point[length(point)-1]) * 100");
-        sb.append("\n\n");
         sb.append("# Assign variable names");
         sb.append("\n");
         sb.append("names(point) <- names(obj)");
-        sb.append("\n");
-        sb.append("names(tni) <- c(\"Total Nutrient Index\")");
         sb.append("\n\n");
         sb.append("# Print results");
         sb.append("\n");
@@ -182,8 +176,6 @@ public class LpToR implements LpTo {
         sb.append("print(point)");
         sb.append("\n");
         sb.append("print(result)");
-        sb.append("\n");
-        sb.append("print(tni)");
         sb.append("\n");
         return sb.toString();
     }

@@ -20,12 +20,13 @@ public class MealPlanCaloriesReport {
     enum Headers {
         Meal,
         Weight,
-        eGross,
-        eDigestible,
-        eFat,
-        eCarbs,
-        eProtein,
-        eAlcohol
+        Egross,
+        Edigest,
+        Efat,
+        Ecarbs,
+        Efatcarbs,
+        Eprotein,
+        Ealcohol
     }
 
     public MealPlanCaloriesReport() {
@@ -50,22 +51,34 @@ public class MealPlanCaloriesReport {
                 List<List> rows = Reloader.getMealPlanCalories(list);
                 rows.forEach(row -> {
                     try {
+                        // meal
                         String meal = (String) row.get(0);
+                        // weight
                         BigDecimal weight = (BigDecimal) row.get(1);
-                        BigDecimal eGross = (BigDecimal) row.get(2);
-                        BigDecimal eDigestible = (BigDecimal) row.get(3);
-                        BigDecimal eFat = (BigDecimal) row.get(4);
-                        BigDecimal eCarbs = (BigDecimal) row.get(5);
-                        BigDecimal eProtein = (BigDecimal) row.get(7);
-                        BigDecimal eAlcohol = (BigDecimal) row.get(8);
+                        // egross
+                        BigDecimal egross = (BigDecimal) row.get(2);
+                        // edigest
+                        BigDecimal edigest = (BigDecimal) row.get(3);
+                        // efat
+                        BigDecimal efat = (BigDecimal) row.get(4);
+                        // ecarbs
+                        BigDecimal ecarbs = (BigDecimal) row.get(5);
+                        // efatcarbs
+                        BigDecimal efatcarbs = (BigDecimal) row.get(6);
+                        // eprotein
+                        BigDecimal eprotein = (BigDecimal) row.get(7);
+                        // ealcohol
+                        BigDecimal ealcohol = (BigDecimal) row.get(8);
                         csvPrinter.printRecord(meal,
                                 U.strip(weight),
-                                U.strip(eGross),
-                                U.strip(eDigestible),
-                                U.strip(eFat),
-                                U.strip(eCarbs),
-                                U.strip(eProtein),
-                                U.strip(eAlcohol));
+                                U.strip(egross),
+                                U.strip(edigest),
+                                U.strip(efat),
+                                U.strip(ecarbs),
+                                U.strip(efatcarbs),
+                                U.strip(eprotein),
+                                U.strip(ealcohol)
+                        );
                     } catch (Exception e) {
                         LoggerImpl.INSTANCE.logProblem(e);
                     }

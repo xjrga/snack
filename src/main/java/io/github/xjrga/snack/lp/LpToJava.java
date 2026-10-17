@@ -229,15 +229,11 @@ public class LpToJava implements LpTo {
                               sb.append(v);
                               sb.append("\\n");
                           }
-                          double tni = 1.0 - point[point.length - 2];
                           sb.append("\\n");
                           sb.append("------------------------------------------------------");
                           sb.append("\\n");
                           sb.append("Success: the objective function is ");
                           sb.append(cost);
-                          sb.append("\\n");
-                          sb.append("Total Nutrient Index: ");
-                          sb.append(tni * 100);
                           sb.append("\\n");
                           sb.append("------------------------------------------------------");
                           sb.append("\\n");
