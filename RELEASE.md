@@ -1,5 +1,9 @@
 ### Release Notes
 
+### 1720 - October 21, 2026
+
+  * "No feasible solution" bug fix
+
 ### 1710 - October 17, 2026
 
   * Included sodium as part of the minimization objective function

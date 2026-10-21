@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.LinearConstraint;
 import org.apache.commons.math3.optim.linear.LinearConstraintSet;
@@ -108,8 +109,11 @@ public class LP {
                 flag = true;
             }
         } catch (Exception e) {
-            JComponent[] inputs = {component};
-            Message.showMessage(inputs, "No Feasible Solution");
+            final Runnable showNotFeasibleMessage = () -> {
+                JComponent[] inputs = {component};
+                Message.showMessage(inputs, "No Feasible Solution");
+            };
+            SwingUtilities.invokeLater(showNotFeasibleMessage);
         }
         return flag;
     }

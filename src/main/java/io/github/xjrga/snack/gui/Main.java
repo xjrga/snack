@@ -701,17 +701,6 @@ public class Main {
         }
     }
 
-    //TODO  - DELETE
-    public void reloadMixesTask2() {
-        try {
-            Future<List<List>> task = BackgroundExec.submit(new MixesTask());
-            List<List> lst = task.get();
-            reloadMixes(lst);
-        } catch (Exception e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-        }
-    }
-
     public void reloadFoods() {
         try {
             Future<List<List>> task = BackgroundExec.submit(new FoodFactsTask());
@@ -2234,15 +2223,16 @@ public class Main {
                 File file = fch.getSelectedFile();
                 fch.setCurrentDirectory(file);
                 String path = file.getAbsolutePath();
-                MixDO mix = new MixImporter().receive(path);
-                if (mix.toString().isEmpty()) {
+                try {
+                    MixDO mix = new MixImporter().receive(path);
+                    mediator.setMix(mix);
+                    LifeStageDO foundLifestage
+                            = LifestageFinder.find(((SpinnerListModel) spnLifestage.getModel()).getList(), mix.getLifestageid());
+                    spnLifestage.setSelectedItem(foundLifestage);
+                } catch (Exception e) {
                     return;
                 }
-                mediator.setMix(mix);
                 operations.importMix();
-                LifeStageDO foundLifestage
-                        = LifestageFinder.find(((SpinnerListModel) spnLifestage.getModel()).getList(), mix.getLifestageid());
-                spnLifestage.setSelectedItem(foundLifestage);
             }
         });
 
@@ -4674,6 +4664,8 @@ public class Main {
                 try {
                     Future<BigDecimal> task = BackgroundExec.submit(new GetCostTask(mix.getMixid()));
                     BigDecimal cost = task.get();
+                    Optional<BigDecimal> optCost = Optional.ofNullable(cost);
+                    cost = optCost.orElse(BigDecimal.ZERO);
                     mix.setCost(cost);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -4681,6 +4673,8 @@ public class Main {
                 try {
                     Future<BigDecimal> task = BackgroundExec.submit(new GetTniScoreTask(mix.getMixid(), mix.getLifestageid()));
                     BigDecimal tniScore = task.get();
+                    Optional<BigDecimal> optTniScore = Optional.ofNullable(tniScore);
+                    tniScore = optTniScore.orElse(BigDecimal.ZERO);
                     mix.setTniScore(tniScore);
                     addLogEntries(mix, lifestage, tniScore.doubleValue(), optionDescription);
                     opt = Optional.of(mix);
@@ -4708,6 +4702,9 @@ public class Main {
                 if (cbToC.isSelected()) {
                     U.write(fileName.lpsolve_c(), lpToC.toString());
                 }
+            } else {
+                mix.setTniScore(BigDecimal.ZERO);
+                mix.setCost(BigDecimal.ZERO);
             }
             setConstraintCounts();
         } catch (Exception e) {

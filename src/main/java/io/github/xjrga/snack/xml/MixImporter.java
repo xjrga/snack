@@ -82,7 +82,7 @@ public class MixImporter {
     public MixImporter() {
     }
 
-    public MixDO receive(String path) {
+    public MixDO receive(String path) throws Exception {
         MixDO mix = new MixDO("");
         if (!validateMixSchema(path)) {
             return mix;
@@ -91,7 +91,7 @@ public class MixImporter {
         return mix;
     }
 
-    private boolean validateMixSchema(String path) {
+    private boolean validateMixSchema(String path) throws Exception {
         boolean validated = true;
         URL schemaUrl = U.getResourceAsUrl("/resources/schemas/snacks.xsd");
         Source xmlFile = new StreamSource(new File(path));
@@ -103,6 +103,7 @@ public class MixImporter {
             LoggerImpl.INSTANCE.logProblem(e);
             validated = false;
             Message.showMessagePad(800, 300, "File is not valid.", e.getMessage());
+            throw new Exception(e);
         }
         Validator validator = schema.newValidator();
         try {
@@ -111,6 +112,7 @@ public class MixImporter {
             LoggerImpl.INSTANCE.logProblem(e);
             validated = false;
             Message.showMessagePad(800, 300, "File is not valid.", e.getMessage());
+            throw new Exception(e);
         }
         return validated;
     }
