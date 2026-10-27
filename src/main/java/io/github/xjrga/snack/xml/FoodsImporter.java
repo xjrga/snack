@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.XMLReader;
 
 public class FoodsImporter {
@@ -72,7 +73,7 @@ public class FoodsImporter {
         return completed;
     }
 
-    public boolean importFoodListUsingResource(String foodListSchema, String xml_doc_path) {
+    public boolean importFoodListUsingResource(String foodListSchema, String xml_doc_path) throws Exception {
         Schema schema = null;
         boolean flag = true;
         // Validate
@@ -86,7 +87,13 @@ public class FoodsImporter {
         } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);
             flag = false;
-            Message.showMessagePad(800, 300, "File is not valid.", e.getMessage());
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n\n");
+            sb.append(StringUtils.center("***** FILE IS NOT VALID *****", 113));
+            sb.append("\n\n");
+            sb.append(StringUtils.center(e.getMessage(), 113));
+            Message.showMessagePad(800, 200, "FILE IS NOT VALID", sb.toString());
+            throw new Exception(e);
         }
         // Parse
         if (flag) {

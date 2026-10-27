@@ -3,7 +3,7 @@
     <!-->Properties</-->
     <property name="project.creator">Jorge R. Garcia de Alba</property>
     <property name="project.name">snack</property>
-    <property name="project.zip">snack-1720</property>
+    <property name="project.zip">snack-1730</property>
     <property name="project.jar">snack</property>
     <property name="project.class">io.github.xjrga.snack.gui.Main</property>
     <property name="project.backup.dir">/mnt/backup/Backup</property>

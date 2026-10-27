@@ -118,8 +118,8 @@ public class Tasks {
     };
 
     public Consumer<MixDO> selectMix = mix -> {
+        m.selectMix(mix);
         //TODO - DELETE
         Namer.threadName("selectMix");
-        m.selectMix(mix);
     };
 }

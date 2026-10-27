@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelListener;
@@ -43,7 +44,7 @@ public class TableNutrientQuantity extends JTable {
         setModel(dm);
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setFillsViewportHeight(true);
-        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         getTableHeader().setReorderingAllowed(false);
         sorter = new TableRowSorter<>(dm);
         setRowSorter(sorter);
@@ -76,6 +77,10 @@ public class TableNutrientQuantity extends JTable {
             }
         });
         adjustColumnWidth();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
     }
 
     @Override
@@ -156,18 +161,20 @@ public class TableNutrientQuantity extends JTable {
     }
 
     private void adjustColumnWidth() {
-        getColumnModel().getColumn(0).setMinWidth(0);
-        getColumnModel().getColumn(0).setMaxWidth(0);
-        getColumnModel().getColumn(1).setMinWidth(0);
-        getColumnModel().getColumn(1).setMaxWidth(0);
-        getColumnModel().getColumn(2).setMinWidth(0);
-        getColumnModel().getColumn(2).setMaxWidth(0);
-        getColumnModel().getColumn(3).setMinWidth(350);
-        getColumnModel().getColumn(3).setMaxWidth(350);
-        getColumnModel().getColumn(4).setMinWidth(21);
-        getColumnModel().getColumn(4).setMaxWidth(21);
-        getColumnModel().getColumn(5).setMinWidth(90);
-        getColumnModel().getColumn(5).setMaxWidth(90);
+        int maxWidth = 1250;
+        for (int i = 0; i < 3; i++) {
+            getColumnModel().getColumn(i).setMinWidth(0);
+            getColumnModel().getColumn(i).setMaxWidth(0);
+        }
+
+        getColumnModel().getColumn(3).setMaxWidth(maxWidth);
+        getColumnModel().getColumn(3).setPreferredWidth(250);
+
+        getColumnModel().getColumn(4).setMinWidth(45);
+        getColumnModel().getColumn(4).setMaxWidth(45);
+
+        getColumnModel().getColumn(5).setMinWidth(100);
+        getColumnModel().getColumn(5).setMaxWidth(100);
     }
 
     public void roundUp() {

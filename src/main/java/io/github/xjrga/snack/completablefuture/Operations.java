@@ -24,7 +24,7 @@ public class Operations {
         tasks = new Tasks(connection, mediator);
     }
 
-    public void importMix() {
+    public void reloadNewMix() {
 
         CompletableFuture
                 .runAsync(tasks.clearMixDiffSelection, SWING_EXECUTOR);
@@ -51,7 +51,7 @@ public class Operations {
                 .thenAcceptAsync(tasks.reloadMixes, SWING_EXECUTOR);
     }
 
-    public void solve() {
+    public void reloadCurrentMix() {
 
         CompletableFuture
                 .runAsync(tasks.clearMixDiffSelection, SWING_EXECUTOR);

@@ -1,5 +1,10 @@
 ### Release Notes
 
+### 1730 - October 27, 2026
+
+  * Gui changes
+  * Bug fixes
+
 ### 1720 - October 21, 2026
 
   * "No feasible solution" bug fix

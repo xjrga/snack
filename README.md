@@ -54,7 +54,7 @@ and share their insight.
 
 #### Build
 
-1720
+1730
 
 #### User Guide
 
@@ -80,6 +80,7 @@ Project uses data subset from:
 
 #### US Department of Agriculture, Agricultural Research Service, Nutrient Data Laboratory.
 * USDA National Nutrient Database for Standard Reference, Release 28
+* USDA Special Interest Databases on Flavonoids
 
 #### The National Academies of Sciences, Engineering, and Medicine
 * Dietary Reference Intakes Nutrient Recommendations Report from Food and Nutrition Board

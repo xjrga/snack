@@ -45,7 +45,6 @@ import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.U;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -56,7 +55,6 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.Source;
@@ -64,6 +62,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 /**
@@ -102,7 +101,12 @@ public class MixImporter {
         } catch (SAXException e) {
             LoggerImpl.INSTANCE.logProblem(e);
             validated = false;
-            Message.showMessagePad(800, 300, "File is not valid.", e.getMessage());
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n\n");
+            sb.append(StringUtils.center("***** FILE IS NOT VALID *****", 113));
+            sb.append("\n\n");
+            sb.append(StringUtils.center(e.getMessage(), 113));
+            Message.showMessagePad(800, 200, "FILE IS NOT VALID", sb.toString());
             throw new Exception(e);
         }
         Validator validator = schema.newValidator();
@@ -111,22 +115,22 @@ public class MixImporter {
         } catch (IOException | SAXException e) {
             LoggerImpl.INSTANCE.logProblem(e);
             validated = false;
-            Message.showMessagePad(800, 300, "File is not valid.", e.getMessage());
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n\n");
+            sb.append(StringUtils.center("***** FILE IS NOT VALID *****", 113));
+            sb.append("\n\n");
+            sb.append(StringUtils.center(e.getMessage(), 113));
+            Message.showMessagePad(800, 200, "FILE IS NOT VALID", sb.toString());
             throw new Exception(e);
         }
         return validated;
     }
 
-    private MixDO parseMixDocument(String path) {
+    private MixDO parseMixDocument(String path) throws Exception {
         MixDO mix = new MixDO();
-        BufferedReader reader = null;
-        try {
-            XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-            reader = new BufferedReader(new FileReader(new File(path)));
-            eventReader = inputFactory.createXMLEventReader(reader);
-        } catch (FileNotFoundException | XMLStreamException e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-        }
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
+        eventReader = inputFactory.createXMLEventReader(reader);
         Food food = null;
         Xml_nutrient_constraint nutrient_constraint = null;
         Xml_food_nutrient_constraint food_nutrient_constraint = null;
@@ -142,12 +146,7 @@ public class MixImporter {
         O_group group = null;
         O_groupfood groupfood = null;
         while (eventReader.hasNext()) {
-            XMLEvent event = null;
-            try {
-                event = eventReader.nextEvent();
-            } catch (Exception e) {
-                LoggerImpl.INSTANCE.logProblem(e);
-            }
+            XMLEvent event = eventReader.nextEvent();
             switch (event.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT:
                     startElement = event.asStartElement();
@@ -968,54 +967,53 @@ public class MixImporter {
                     endEvent = event.asEndElement().getName().getLocalPart();
                     switch (endEvent) {
                         case "mix":
-                            try {
-                                Future<Boolean> task = BackgroundExec.submit(new InsertMixTask(mix));
-                                created = task.get();
-                                if (!created) {
-                                    Message.showMessage("Mix already exists.");
-                                    return new MixDO();
-                                }
-                            } catch (Exception e) {
-                                LoggerImpl.INSTANCE.logProblem(e);
+                            Future<Boolean> insertMixTask = BackgroundExec.submit(new InsertMixTask(mix));
+                            created = insertMixTask.get();
+                            if (!created) {
+                                StringBuilder sb = new StringBuilder();
+                                sb.append("\n\n");
+                                sb.append(StringUtils.center("***** MIX ID ALREADY EXISTS *****", 113));
+                                sb.append("\n\n");
+                                sb.append(StringUtils.center("Changing the mix id on file will allow you to import mix.", 113));
+                                Message.showMessagePad(800, 200, "MIX ID ALREADY EXISTS", sb.toString());
+                                throw new Exception(new Exception("MIX ID ALREADY EXISTS"));
                             }
                             break;
+
                         case "food":
-                            try {
-                                String foodId = food.getFoodId();
-                                String checkSum = food.getCheckSum();
-                                if (!foodId.equals(checkSum)) {
-                                    StringBuilder sb = new StringBuilder();
-                                    sb.append(
-                                            " ---------------------------------------------------------------------------------- ")
-                                            .append("\n");
-                                    sb.append("        ***** IMPORT FILE HAS BEEN ALTERED *****         ")
-                                            .append("\n");
-                                    sb.append(" ").append(path).append("\n");
-                                    sb.append(" ")
-                                            .append(food.getFoodName())
-                                            .append(": Nutrient values were modified.")
-                                            .append("\n");
-                                    sb.append(" ")
-                                            .append("Original id: ")
-                                            .append(foodId)
-                                            .append("\n");
-                                    sb.append(" ")
-                                            .append("     New id: ")
-                                            .append(checkSum)
-                                            .append("\n");
-                                    sb.append(
-                                            " ----------------------------------------------------------------------------------- ")
-                                            .append("\n");
-                                    System.out.println(sb.toString());
-                                }
-                                new FoodCreator(food).create();
-                                Future<Boolean> task
-                                        = BackgroundExec.submit(new InsertMixFoodTask(mix.getMixid(), checkSum));
-                                task.get();
-                            } catch (Exception e) {
-                                LoggerImpl.INSTANCE.logProblem(e);
+                            String foodId = food.getFoodId();
+                            String checkSum = food.getCheckSum();
+                            if (!foodId.equals(checkSum)) {
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(
+                                        " ---------------------------------------------------------------------------------- ")
+                                        .append("\n");
+                                sb.append("        ***** IMPORT FILE HAS BEEN ALTERED *****         ")
+                                        .append("\n");
+                                sb.append(" ").append(path).append("\n");
+                                sb.append(" ")
+                                        .append(food.getFoodName())
+                                        .append(": Nutrient values were modified.")
+                                        .append("\n");
+                                sb.append(" ")
+                                        .append("Original id: ")
+                                        .append(foodId)
+                                        .append("\n");
+                                sb.append(" ")
+                                        .append("     New id: ")
+                                        .append(checkSum)
+                                        .append("\n");
+                                sb.append(
+                                        " ----------------------------------------------------------------------------------- ")
+                                        .append("\n");
+                                System.out.println(sb.toString());
                             }
+                            new FoodCreator(food).create();
+                            Future<Boolean> insertFoodTask
+                                    = BackgroundExec.submit(new InsertMixFoodTask(mix.getMixid(), checkSum));
+                            insertFoodTask.get();
                             break;
+
                         case "category":
                             if (created) {
                                 food.addCategory(category);
@@ -1024,12 +1022,12 @@ public class MixImporter {
                         case "nutrient_quantity":
                             if (created) {
                                 try {
-                                    Future<Boolean> task
+                                    Future<Boolean> insertNutrientConstraintTask
                                             = BackgroundExec.submit(new MergeNutrientConstraintTask(
                                                     mix.getMixid(), nutrient_constraint.getNutrientid(),
                                                     nutrient_constraint.getRelationshipid(),
                                                     nutrient_constraint.getB()));
-                                    task.get();
+                                    insertNutrientConstraintTask.get();
                                 } catch (Exception e) {
                                     LoggerImpl.INSTANCE.logProblem(e);
                                 }
@@ -1037,59 +1035,47 @@ public class MixImporter {
                             }
                         case "food_quantity":
                             if (created) {
-                                try {
-                                    Future<Boolean> task = BackgroundExec.submit(new MergeFoodConstraintTask(
-                                            mix.getMixid(),
-                                            food_nutrient_constraint.getFoodid(),
-                                            food_nutrient_constraint.getNutrientid(),
-                                            food_nutrient_constraint.getRelationshipid(),
-                                            food_nutrient_constraint.getB()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<Boolean> insertFoodConstraintTask = BackgroundExec.submit(new MergeFoodConstraintTask(
+                                        mix.getMixid(),
+                                        food_nutrient_constraint.getFoodid(),
+                                        food_nutrient_constraint.getNutrientid(),
+                                        food_nutrient_constraint.getRelationshipid(),
+                                        food_nutrient_constraint.getB()));
+                                insertFoodConstraintTask.get();
                                 break;
                             }
                         case "food_ratio":
                             if (created) {
-                                try {
-                                    Future<Boolean> task = BackgroundExec.submit(new MergeFoodRatioConstraintTask(
-                                            mix.getMixid(),
-                                            food_nutrient_ratio_constraint.getFoodid_a(),
-                                            food_nutrient_ratio_constraint.getNutrientid_a(),
-                                            food_nutrient_ratio_constraint.getFoodid_b(),
-                                            food_nutrient_ratio_constraint.getNutrientid_b(),
-                                            food_nutrient_ratio_constraint.getRelationshipid(),
-                                            food_nutrient_ratio_constraint.getA(),
-                                            food_nutrient_ratio_constraint.getB()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<Boolean> insertFoodRatioConstraintTask = BackgroundExec.submit(new MergeFoodRatioConstraintTask(
+                                        mix.getMixid(),
+                                        food_nutrient_ratio_constraint.getFoodid_a(),
+                                        food_nutrient_ratio_constraint.getNutrientid_a(),
+                                        food_nutrient_ratio_constraint.getFoodid_b(),
+                                        food_nutrient_ratio_constraint.getNutrientid_b(),
+                                        food_nutrient_ratio_constraint.getRelationshipid(),
+                                        food_nutrient_ratio_constraint.getA(),
+                                        food_nutrient_ratio_constraint.getB()));
+                                insertFoodRatioConstraintTask.get();
                                 break;
                             }
                         case "nutrient_ratio":
                             if (created) {
-                                try {
-                                    Future<Boolean> task = BackgroundExec.submit(new MergeNutrientRatioConstraintTask(
-                                            mix.getMixid(),
-                                            nutrient_ratio_constraint.getNutrientid_a(),
-                                            nutrient_ratio_constraint.getNutrientid_b(),
-                                            nutrient_ratio_constraint.getRelationshipid(),
-                                            nutrient_ratio_constraint.getA(),
-                                            nutrient_ratio_constraint.getB()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<Boolean> insertNutrientRatioConstraintTask = BackgroundExec.submit(new MergeNutrientRatioConstraintTask(
+                                        mix.getMixid(),
+                                        nutrient_ratio_constraint.getNutrientid_a(),
+                                        nutrient_ratio_constraint.getNutrientid_b(),
+                                        nutrient_ratio_constraint.getRelationshipid(),
+                                        nutrient_ratio_constraint.getA(),
+                                        nutrient_ratio_constraint.getB()));
+                                insertNutrientRatioConstraintTask.get();
                                 break;
                             }
                         case "meal":
                             if (created) {
                                 try {
-                                    Future<Boolean> task = BackgroundExec.submit(new InsertMealTask(
+                                    Future<Boolean> insertMealTask = BackgroundExec.submit(new InsertMealTask(
                                             meal.getMixid(), meal.getMealid(), meal.getName(), meal.getMealOrder()));
-                                    task.get();
+                                    insertMealTask.get();
                                 } catch (Exception e) {
                                     LoggerImpl.INSTANCE.logProblem(e);
                                 }
@@ -1097,66 +1083,46 @@ public class MixImporter {
                             break;
                         case "meal_food_portion":
                             if (created) {
-                                try {
-                                    Future<Boolean> task = BackgroundExec.submit(new InsertFoodPortionTask(
-                                            portion.getMixid(),
-                                            portion.getMealid(),
-                                            portion.getFoodid(),
-                                            portion.getPct(),
-                                            portion.getExpectedwt(),
-                                            portion.getActualwt()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<Boolean> insertFoodPortionConstraintTask = BackgroundExec.submit(new InsertFoodPortionTask(
+                                        portion.getMixid(),
+                                        portion.getMealid(),
+                                        portion.getFoodid(),
+                                        portion.getPct(),
+                                        portion.getExpectedwt(),
+                                        portion.getActualwt()));
+                                insertFoodPortionConstraintTask.get();
                             }
                             break;
                         case "group":
                             if (created) {
-                                try {
-                                    Future<String> task = BackgroundExec.submit(
-                                            new InsertGroupTask(group.getMixid(), group.getGroupid(), group.getName()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<String> insertGroupTask = BackgroundExec.submit(
+                                        new InsertGroupTask(group.getMixid(), group.getGroupid(), group.getName()));
+                                insertGroupTask.get();
                             }
                             break;
                         case "groupfood":
                             if (created) {
-                                try {
-                                    Future<String> task = BackgroundExec.submit(new InsertGroupFoodTask(
-                                            groupfood.getMixid(), groupfood.getGroupid(), groupfood.getFoodid()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<String> insertGroupFoodTask = BackgroundExec.submit(new InsertGroupFoodTask(
+                                        groupfood.getMixid(), groupfood.getGroupid(), groupfood.getFoodid()));
+                                insertGroupFoodTask.get();
                             }
                             break;
                         case "group_quantity":
                             if (created) {
-                                try {
-                                    Future<Boolean> task = BackgroundExec.submit(new MergeGroupConstraintTask(
-                                            mix.getMixid(),
-                                            group_constraint.getGroupid(),
-                                            group_constraint.getNutrientid(),
-                                            group_constraint.getRelationshipid(),
-                                            group_constraint.getB()));
-                                    task.get();
-                                } catch (Exception e) {
-                                    LoggerImpl.INSTANCE.logProblem(e);
-                                }
+                                Future<Boolean> insertGroupConstraintTask = BackgroundExec.submit(new MergeGroupConstraintTask(
+                                        mix.getMixid(),
+                                        group_constraint.getGroupid(),
+                                        group_constraint.getNutrientid(),
+                                        group_constraint.getRelationshipid(),
+                                        group_constraint.getB()));
+                                insertGroupConstraintTask.get();
                                 break;
                             }
                     }
                     break;
             }
         }
-        try {
-            reader.close();
-        } catch (IOException e) {
-            LoggerImpl.INSTANCE.logProblem(e);
-        }
+        reader.close();
         return mix;
     }
 }

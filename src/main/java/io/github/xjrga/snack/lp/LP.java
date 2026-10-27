@@ -16,12 +16,8 @@
  */
 package io.github.xjrga.snack.lp;
 
-import io.github.xjrga.snack.gui.Message;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.LinearConstraint;
 import org.apache.commons.math3.optim.linear.LinearConstraintSet;
@@ -39,7 +35,6 @@ public class LP {
     public static final int EQ = 3;
     public static final int GEQ = 1;
     public static final int LEQ = 2;
-    private JPanel component;
     private final ArrayList constraints;
     private double cost;
     public boolean flag;
@@ -90,11 +85,7 @@ public class LP {
         return flag;
     }
 
-    public void setComponent(JPanel component) {
-        this.component = component;
-    }
-
-    public boolean solve() {
+    public void solve() throws Exception {
         try {
             // Constraint Set
             linearConstraintSet = new LinearConstraintSet(constraints);
@@ -109,12 +100,7 @@ public class LP {
                 flag = true;
             }
         } catch (Exception e) {
-            final Runnable showNotFeasibleMessage = () -> {
-                JComponent[] inputs = {component};
-                Message.showMessage(inputs, "No Feasible Solution");
-            };
-            SwingUtilities.invokeLater(showNotFeasibleMessage);
+            throw new Exception(e);
         }
-        return flag;
     }
 }

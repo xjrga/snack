@@ -28,8 +28,7 @@ public class Mediator {
         if (!solveModel.isEmpty()) {
             (new AllocateAction(mix.getMixid())).execute();
         }
-        MixDO orElse = solveModel.orElse(mix);
-        return orElse;
+        return solveModel.orElse(mix);
     }
 
     public void clearMixDiffSelection() {
