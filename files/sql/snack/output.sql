@@ -12,94 +12,94 @@ CREATE TABLE DnFoodFact
 (
   food_id                            LONGVARCHAR,
   food_name                          LONGVARCHAR,
-  carbohydrates_carbs_by_diff        DECIMAL(25,18),
-  carbohydrates_digestible           DECIMAL(25,18),
-  carbohydrates_fiber                DECIMAL(25,18),
-  carbohydrates_fiber_insoluble      DECIMAL(25,18),
-  carbohydrates_fiber_soluble        DECIMAL(25,18),
-  carbohydrates_fructose             DECIMAL(25,18),
-  carbohydrates_glucose              DECIMAL(25,18),
-  carbohydrates_glycemic_load        DECIMAL(25,18),
-  carbohydrates_lactose              DECIMAL(25,18),
-  carbohydrates_starch               DECIMAL(25,18),
-  carbohydrates_sucrose              DECIMAL(25,18),
-  carbohydrates_sugars               DECIMAL(25,18),
-  energy_alcohol                     DECIMAL(25,18),
-  energy_carbohydrate                DECIMAL(25,18),
-  energy_dha                         DECIMAL(25,18),
-  energy_digestible                  DECIMAL(25,18),
-  energy_epa                         DECIMAL(25,18),
-  energy_fat                         DECIMAL(25,18),
-  energy_fat_and_carbohydrate        DECIMAL(25,18),
-  energy_gross                       DECIMAL(25,18),
-  energy_hcsfa                       DECIMAL(25,18),
-  energy_lcn3pufa                    DECIMAL(25,18),
-  energy_linoleic                    DECIMAL(25,18),
-  energy_linolenic                   DECIMAL(25,18),
-  energy_monounsaturated             DECIMAL(25,18),
-  energy_polyunsaturated             DECIMAL(25,18),
-  energy_protein                     DECIMAL(25,18),
-  energy_protein_and_carbohydrate    DECIMAL(25,18),
-  energy_saturated                   DECIMAL(25,18),
-  fats_cholesterol                   DECIMAL(25,18),
-  fats_dha                           DECIMAL(25,18),
-  fats_epa                           DECIMAL(25,18),
-  fats_hcsfa                         DECIMAL(25,18),
-  fats_lauric                        DECIMAL(25,18),
-  fats_lcn3pufa                      DECIMAL(25,18),
-  fats_linoleic                      DECIMAL(25,18),
-  fats_linolenic                     DECIMAL(25,18),
-  fats_monounsaturated               DECIMAL(25,18),
-  fats_myristic                      DECIMAL(25,18),
-  fats_palmitic                      DECIMAL(25,18),
-  fats_polyunsaturated               DECIMAL(25,18),
-  fats_saturated                     DECIMAL(25,18),
-  fats_stearic                       DECIMAL(25,18),
-  fats_total                         DECIMAL(25,18),
-  minerals_calcium                   DECIMAL(25,18),
-  minerals_copper                    DECIMAL(25,18),
-  minerals_iron                      DECIMAL(25,18),
-  minerals_magnesium                 DECIMAL(25,18),
-  minerals_manganese                 DECIMAL(25,18),
-  minerals_phosphorus                DECIMAL(25,18),
-  minerals_potassium                 DECIMAL(25,18),
-  minerals_selenium                  DECIMAL(25,18),
-  minerals_sodium                    DECIMAL(25,18),
-  minerals_zinc                      DECIMAL(25,18),
-  other_alcohol                      DECIMAL(25,18),
-  other_cost                         DECIMAL(25,18),
-  other_water                        DECIMAL(25,18),
-  other_weight                       DECIMAL(25,18),
-  phytonutrients_anthocyanins        DECIMAL(25,18),
-  phytonutrients_beta_carotene       DECIMAL(25,18),
-  phytonutrients_caffeine            DECIMAL(25,18),
-  phytonutrients_carotenoids         DECIMAL(25,18),
-  phytonutrients_flavanols           DECIMAL(25,18),
-  phytonutrients_flavanones          DECIMAL(25,18),
-  phytonutrients_flavones            DECIMAL(25,18),
-  phytonutrients_flavonoids          DECIMAL(25,18),
-  phytonutrients_flavonols           DECIMAL(25,18),
-  phytonutrients_gamma_tocopherol    DECIMAL(25,18),
-  phytonutrients_isoflavones         DECIMAL(25,18),
-  phytonutrients_lutein_zeaxanthin   DECIMAL(25,18),
-  phytonutrients_lycopene            DECIMAL(25,18),
-  phytonutrients_phytosterols        DECIMAL(25,18),
-  phytonutrients_theobromine         DECIMAL(25,18),
-  protein_complete                   DECIMAL(25,18),
-  protein_total                      DECIMAL(25,18),
-  vitamins_choline                   DECIMAL(25,18),
-  vitamins_folate                    DECIMAL(25,18),
-  vitamins_niacin                    DECIMAL(25,18),
-  vitamins_pantothenic_acid          DECIMAL(25,18),
-  vitamins_riboflavin                DECIMAL(25,18),
-  vitamins_thiamin                   DECIMAL(25,18),
-  vitamins_vitamin_a                 DECIMAL(25,18),
-  vitamins_vitamin_b6                DECIMAL(25,18),
-  vitamins_vitamin_b12               DECIMAL(25,18),
-  vitamins_vitamin_c                 DECIMAL(25,18),
-  vitamins_vitamin_d                 DECIMAL(25,18),
-  vitamins_vitamin_e                 DECIMAL(25,18),
-  vitamins_vitamin_k                 DECIMAL(25,18),
+  carbohydrates_carbs_by_diff        DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_digestible           DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fiber                DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fiber_insoluble      DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fiber_soluble        DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fructose             DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_glucose              DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_glycemic_load        DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_lactose              DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_starch               DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_sucrose              DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_sugars               DECIMAL(25,18) DEFAULT 0.0,
+  energy_alcohol                     DECIMAL(25,18) DEFAULT 0.0,
+  energy_carbohydrate                DECIMAL(25,18) DEFAULT 0.0,
+  energy_dha                         DECIMAL(25,18) DEFAULT 0.0,
+  energy_digestible                  DECIMAL(25,18) DEFAULT 0.0,
+  energy_epa                         DECIMAL(25,18) DEFAULT 0.0,
+  energy_fat                         DECIMAL(25,18) DEFAULT 0.0,
+  energy_fat_and_carbohydrate        DECIMAL(25,18) DEFAULT 0.0,
+  energy_gross                       DECIMAL(25,18) DEFAULT 0.0,
+  energy_hcsfa                       DECIMAL(25,18) DEFAULT 0.0,
+  energy_lcn3pufa                    DECIMAL(25,18) DEFAULT 0.0,
+  energy_linoleic                    DECIMAL(25,18) DEFAULT 0.0,
+  energy_linolenic                   DECIMAL(25,18) DEFAULT 0.0,
+  energy_monounsaturated             DECIMAL(25,18) DEFAULT 0.0,
+  energy_polyunsaturated             DECIMAL(25,18) DEFAULT 0.0,
+  energy_protein                     DECIMAL(25,18) DEFAULT 0.0,
+  energy_protein_and_carbohydrate    DECIMAL(25,18) DEFAULT 0.0,
+  energy_saturated                   DECIMAL(25,18) DEFAULT 0.0,
+  fats_cholesterol                   DECIMAL(25,18) DEFAULT 0.0,
+  fats_dha                           DECIMAL(25,18) DEFAULT 0.0,
+  fats_epa                           DECIMAL(25,18) DEFAULT 0.0,
+  fats_hcsfa                         DECIMAL(25,18) DEFAULT 0.0,
+  fats_lauric                        DECIMAL(25,18) DEFAULT 0.0,
+  fats_lcn3pufa                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_linoleic                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_linolenic                     DECIMAL(25,18) DEFAULT 0.0,
+  fats_monounsaturated               DECIMAL(25,18) DEFAULT 0.0,
+  fats_myristic                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_palmitic                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_polyunsaturated               DECIMAL(25,18) DEFAULT 0.0,
+  fats_saturated                     DECIMAL(25,18) DEFAULT 0.0,
+  fats_stearic                       DECIMAL(25,18) DEFAULT 0.0,
+  fats_total                         DECIMAL(25,18) DEFAULT 0.0,
+  minerals_calcium                   DECIMAL(25,18) DEFAULT 0.0,
+  minerals_copper                    DECIMAL(25,18) DEFAULT 0.0,
+  minerals_iron                      DECIMAL(25,18) DEFAULT 0.0,
+  minerals_magnesium                 DECIMAL(25,18) DEFAULT 0.0,
+  minerals_manganese                 DECIMAL(25,18) DEFAULT 0.0,
+  minerals_phosphorus                DECIMAL(25,18) DEFAULT 0.0,
+  minerals_potassium                 DECIMAL(25,18) DEFAULT 0.0,
+  minerals_selenium                  DECIMAL(25,18) DEFAULT 0.0,
+  minerals_sodium                    DECIMAL(25,18) DEFAULT 0.0,
+  minerals_zinc                      DECIMAL(25,18) DEFAULT 0.0,
+  other_alcohol                      DECIMAL(25,18) DEFAULT 0.0,
+  other_cost                         DECIMAL(25,18) DEFAULT 0.0,
+  other_water                        DECIMAL(25,18) DEFAULT 0.0,
+  other_weight                       DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_anthocyanins        DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_beta_carotene       DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_caffeine            DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_carotenoids         DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavanols           DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavanones          DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavones            DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavonoids          DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavonols           DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_gamma_tocopherol    DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_isoflavones         DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_lutein_zeaxanthin   DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_lycopene            DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_phytosterols        DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_theobromine         DECIMAL(25,18) DEFAULT 0.0,
+  protein_complete                   DECIMAL(25,18) DEFAULT 0.0,
+  protein_total                      DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_choline                   DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_folate                    DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_niacin                    DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_pantothenic_acid          DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_riboflavin                DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_thiamin                   DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_a                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_b6                DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_b12               DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_c                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_d                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_e                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_k                 DECIMAL(25,18) DEFAULT 0.0,
   CONSTRAINT DnFoodFact_primary_key PRIMARY KEY (food_id)
 );
 /
@@ -109,94 +109,94 @@ CREATE TABLE DnMixResult
   mix_id                             LONGVARCHAR,
   food_id                            LONGVARCHAR,
   food_name                          LONGVARCHAR,
-  carbohydrates_carbs_by_diff        DECIMAL(25,18),
-  carbohydrates_digestible           DECIMAL(25,18),
-  carbohydrates_fiber                DECIMAL(25,18),
-  carbohydrates_fiber_insoluble      DECIMAL(25,18),
-  carbohydrates_fiber_soluble        DECIMAL(25,18),
-  carbohydrates_fructose             DECIMAL(25,18),
-  carbohydrates_glucose              DECIMAL(25,18),
-  carbohydrates_glycemic_load        DECIMAL(25,18),
-  carbohydrates_lactose              DECIMAL(25,18),
-  carbohydrates_starch               DECIMAL(25,18),
-  carbohydrates_sucrose              DECIMAL(25,18),
-  carbohydrates_sugars               DECIMAL(25,18),
-  energy_alcohol                     DECIMAL(25,18),
-  energy_carbohydrate                DECIMAL(25,18),
-  energy_dha                         DECIMAL(25,18),
-  energy_digestible                  DECIMAL(25,18),
-  energy_epa                         DECIMAL(25,18),
-  energy_fat                         DECIMAL(25,18),
-  energy_fat_and_carbohydrate        DECIMAL(25,18),
-  energy_gross                       DECIMAL(25,18),
-  energy_hcsfa                       DECIMAL(25,18),
-  energy_lcn3pufa                    DECIMAL(25,18),
-  energy_linoleic                    DECIMAL(25,18),
-  energy_linolenic                   DECIMAL(25,18),
-  energy_monounsaturated             DECIMAL(25,18),
-  energy_polyunsaturated             DECIMAL(25,18),
-  energy_protein                     DECIMAL(25,18),
-  energy_protein_and_carbohydrate    DECIMAL(25,18),
-  energy_saturated                   DECIMAL(25,18),
-  fats_cholesterol                   DECIMAL(25,18),
-  fats_dha                           DECIMAL(25,18),
-  fats_epa                           DECIMAL(25,18),
-  fats_hcsfa                         DECIMAL(25,18),
-  fats_lauric                        DECIMAL(25,18),
-  fats_lcn3pufa                      DECIMAL(25,18),
-  fats_linoleic                      DECIMAL(25,18),
-  fats_linolenic                     DECIMAL(25,18),
-  fats_monounsaturated               DECIMAL(25,18),
-  fats_myristic                      DECIMAL(25,18),
-  fats_palmitic                      DECIMAL(25,18),
-  fats_polyunsaturated               DECIMAL(25,18),
-  fats_saturated                     DECIMAL(25,18),
-  fats_stearic                       DECIMAL(25,18),
-  fats_total                         DECIMAL(25,18),
-  minerals_calcium                   DECIMAL(25,18),
-  minerals_copper                    DECIMAL(25,18),
-  minerals_iron                      DECIMAL(25,18),
-  minerals_magnesium                 DECIMAL(25,18),
-  minerals_manganese                 DECIMAL(25,18),
-  minerals_phosphorus                DECIMAL(25,18),
-  minerals_potassium                 DECIMAL(25,18),
-  minerals_selenium                  DECIMAL(25,18),
-  minerals_sodium                    DECIMAL(25,18),
-  minerals_zinc                      DECIMAL(25,18),
-  other_alcohol                      DECIMAL(25,18),
-  other_cost                         DECIMAL(25,18),
-  other_water                        DECIMAL(25,18),
-  other_weight                       DECIMAL(25,18),
-  phytonutrients_anthocyanins        DECIMAL(25,18),
-  phytonutrients_beta_carotene       DECIMAL(25,18),
-  phytonutrients_caffeine            DECIMAL(25,18),
-  phytonutrients_carotenoids         DECIMAL(25,18),
-  phytonutrients_flavanols           DECIMAL(25,18),
-  phytonutrients_flavanones          DECIMAL(25,18),
-  phytonutrients_flavones            DECIMAL(25,18),
-  phytonutrients_flavonoids          DECIMAL(25,18),
-  phytonutrients_flavonols           DECIMAL(25,18),
-  phytonutrients_gamma_tocopherol    DECIMAL(25,18),
-  phytonutrients_isoflavones         DECIMAL(25,18),
-  phytonutrients_lutein_zeaxanthin   DECIMAL(25,18),
-  phytonutrients_lycopene            DECIMAL(25,18),
-  phytonutrients_phytosterols        DECIMAL(25,18),
-  phytonutrients_theobromine         DECIMAL(25,18),
-  protein_complete                   DECIMAL(25,18),
-  protein_total                      DECIMAL(25,18),
-  vitamins_choline                   DECIMAL(25,18),
-  vitamins_folate                    DECIMAL(25,18),
-  vitamins_niacin                    DECIMAL(25,18),
-  vitamins_pantothenic_acid          DECIMAL(25,18),
-  vitamins_riboflavin                DECIMAL(25,18),
-  vitamins_thiamin                   DECIMAL(25,18),
-  vitamins_vitamin_a                 DECIMAL(25,18),
-  vitamins_vitamin_b6                DECIMAL(25,18),
-  vitamins_vitamin_b12               DECIMAL(25,18),
-  vitamins_vitamin_c                 DECIMAL(25,18),
-  vitamins_vitamin_d                 DECIMAL(25,18),
-  vitamins_vitamin_e                 DECIMAL(25,18),
-  vitamins_vitamin_k                 DECIMAL(25,18),
+  carbohydrates_carbs_by_diff        DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_digestible           DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fiber                DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fiber_insoluble      DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fiber_soluble        DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_fructose             DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_glucose              DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_glycemic_load        DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_lactose              DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_starch               DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_sucrose              DECIMAL(25,18) DEFAULT 0.0,
+  carbohydrates_sugars               DECIMAL(25,18) DEFAULT 0.0,
+  energy_alcohol                     DECIMAL(25,18) DEFAULT 0.0,
+  energy_carbohydrate                DECIMAL(25,18) DEFAULT 0.0,
+  energy_dha                         DECIMAL(25,18) DEFAULT 0.0,
+  energy_digestible                  DECIMAL(25,18) DEFAULT 0.0,
+  energy_epa                         DECIMAL(25,18) DEFAULT 0.0,
+  energy_fat                         DECIMAL(25,18) DEFAULT 0.0,
+  energy_fat_and_carbohydrate        DECIMAL(25,18) DEFAULT 0.0,
+  energy_gross                       DECIMAL(25,18) DEFAULT 0.0,
+  energy_hcsfa                       DECIMAL(25,18) DEFAULT 0.0,
+  energy_lcn3pufa                    DECIMAL(25,18) DEFAULT 0.0,
+  energy_linoleic                    DECIMAL(25,18) DEFAULT 0.0,
+  energy_linolenic                   DECIMAL(25,18) DEFAULT 0.0,
+  energy_monounsaturated             DECIMAL(25,18) DEFAULT 0.0,
+  energy_polyunsaturated             DECIMAL(25,18) DEFAULT 0.0,
+  energy_protein                     DECIMAL(25,18) DEFAULT 0.0,
+  energy_protein_and_carbohydrate    DECIMAL(25,18) DEFAULT 0.0,
+  energy_saturated                   DECIMAL(25,18) DEFAULT 0.0,
+  fats_cholesterol                   DECIMAL(25,18) DEFAULT 0.0,
+  fats_dha                           DECIMAL(25,18) DEFAULT 0.0,
+  fats_epa                           DECIMAL(25,18) DEFAULT 0.0,
+  fats_hcsfa                         DECIMAL(25,18) DEFAULT 0.0,
+  fats_lauric                        DECIMAL(25,18) DEFAULT 0.0,
+  fats_lcn3pufa                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_linoleic                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_linolenic                     DECIMAL(25,18) DEFAULT 0.0,
+  fats_monounsaturated               DECIMAL(25,18) DEFAULT 0.0,
+  fats_myristic                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_palmitic                      DECIMAL(25,18) DEFAULT 0.0,
+  fats_polyunsaturated               DECIMAL(25,18) DEFAULT 0.0,
+  fats_saturated                     DECIMAL(25,18) DEFAULT 0.0,
+  fats_stearic                       DECIMAL(25,18) DEFAULT 0.0,
+  fats_total                         DECIMAL(25,18) DEFAULT 0.0,
+  minerals_calcium                   DECIMAL(25,18) DEFAULT 0.0,
+  minerals_copper                    DECIMAL(25,18) DEFAULT 0.0,
+  minerals_iron                      DECIMAL(25,18) DEFAULT 0.0,
+  minerals_magnesium                 DECIMAL(25,18) DEFAULT 0.0,
+  minerals_manganese                 DECIMAL(25,18) DEFAULT 0.0,
+  minerals_phosphorus                DECIMAL(25,18) DEFAULT 0.0,
+  minerals_potassium                 DECIMAL(25,18) DEFAULT 0.0,
+  minerals_selenium                  DECIMAL(25,18) DEFAULT 0.0,
+  minerals_sodium                    DECIMAL(25,18) DEFAULT 0.0,
+  minerals_zinc                      DECIMAL(25,18) DEFAULT 0.0,
+  other_alcohol                      DECIMAL(25,18) DEFAULT 0.0,
+  other_cost                         DECIMAL(25,18) DEFAULT 0.0,
+  other_water                        DECIMAL(25,18) DEFAULT 0.0,
+  other_weight                       DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_anthocyanins        DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_beta_carotene       DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_caffeine            DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_carotenoids         DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavanols           DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavanones          DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavones            DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavonoids          DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_flavonols           DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_gamma_tocopherol    DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_isoflavones         DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_lutein_zeaxanthin   DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_lycopene            DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_phytosterols        DECIMAL(25,18) DEFAULT 0.0,
+  phytonutrients_theobromine         DECIMAL(25,18) DEFAULT 0.0,
+  protein_complete                   DECIMAL(25,18) DEFAULT 0.0,
+  protein_total                      DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_choline                   DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_folate                    DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_niacin                    DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_pantothenic_acid          DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_riboflavin                DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_thiamin                   DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_a                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_b6                DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_b12               DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_c                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_d                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_e                 DECIMAL(25,18) DEFAULT 0.0,
+  vitamins_vitamin_k                 DECIMAL(25,18) DEFAULT 0.0,
   CONSTRAINT DnMixResult_primary_key PRIMARY KEY (mix_id,food_id)
 );
 /
@@ -306,13 +306,35 @@ CREATE TABLE MealFoodPortion
 /
 CREATE TABLE Mix
 (
-  MixId           LONGVARCHAR,
-  Name            LONGVARCHAR,
-  LifeStageId     INTEGER,
-  Model           LONGVARCHAR,
-  MixCost         DECIMAL(25,18) DEFAULT 0.0,
-  TniScore        DECIMAL(25,18) DEFAULT 0.0,
-  CONSTRAINT Mix_primary_key PRIMARY KEY (MixId)
+        MixId LONGVARCHAR,
+        Name LONGVARCHAR,
+        LifeStageId INTEGER,
+        Model LONGVARCHAR,
+        Deficiency_Ca DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_Mg DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_K DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_Na DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_VitA DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_VitE DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_VitD DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_VitC DECIMAL(25,18) DEFAULT 0.0,
+        Deficiency_Choline DECIMAL(25,18) DEFAULT 0.0,
+        Excess_Ca DECIMAL(25,18) DEFAULT 0.0,
+        Excess_Mg DECIMAL(25,18) DEFAULT 0.0,
+        Excess_K DECIMAL(25,18) DEFAULT 0.0,
+        Excess_Na DECIMAL(25,18) DEFAULT 0.0,
+        Excess_VitA DECIMAL(25,18) DEFAULT 0.0,
+        Excess_VitE DECIMAL(25,18) DEFAULT 0.0,
+        Excess_VitD DECIMAL(25,18) DEFAULT 0.0,
+        Excess_VitC DECIMAL(25,18) DEFAULT 0.0,
+        Excess_Choline DECIMAL(25,18) DEFAULT 0.0,
+        Avg_deficiency DECIMAL(25,18) DEFAULT 0.0,
+        Avg_excess DECIMAL(25,18) DEFAULT 0.0,
+        Cost DECIMAL(25,18) DEFAULT -1.0,
+        TniScore DECIMAL(25,18) DEFAULT 0.0,
+        CONSTRAINT Mix_primary_key PRIMARY KEY (
+        MixId
+        )
 );
 /
 CREATE TABLE MixFood
@@ -336,14 +358,6 @@ CREATE TABLE MixInventory
   MixId   LONGVARCHAR,
   Days    DECIMAL(25,18),
   CONSTRAINT MixInventory_primary_key PRIMARY KEY (MixId)
-);
-/
-CREATE TABLE MixPoint
-(
-  MixId   LONGVARCHAR,
-  i       INTEGER,
-  q       DECIMAL(11,5),
-  CONSTRAINT MixPoint_primary_key PRIMARY KEY (MixId,i)
 );
 /
 CREATE TABLE MixResult
@@ -492,8 +506,6 @@ ALTER TABLE MixFood ADD CONSTRAINT R30_MixFood FOREIGN KEY (MixId) REFERENCES Mi
 ALTER TABLE MixFoodGroup ADD CONSTRAINT R31_MixFoodGroup FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
 ALTER TABLE MixInventory ADD CONSTRAINT R32_MixInventory FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
-/
-ALTER TABLE MixPoint ADD CONSTRAINT R33_MixPoint FOREIGN KEY (MixId) REFERENCES Mix (MixId) ON DELETE CASCADE;
 /
 ALTER TABLE MixResult ADD CONSTRAINT R34_MixResult FOREIGN KEY (FoodId,NutrientId) REFERENCES FoodFactCoefficient (FoodId,NutrientId) ON DELETE CASCADE;
 /
@@ -939,252 +951,66 @@ RETURN v_categoryid;
 END;
 /
 
-CREATE FUNCTION getCalciumPctOfRda (
+CREATE FUNCTION calculateTniScore (
 --
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 20)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '301') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getMagnesiumPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
+IN v_lifestageid INTEGER,
+IN deficiency_Ca DECIMAL(28,15),
+IN deficiency_Mg DECIMAL(28,15),
+IN deficiency_K DECIMAL(28,15),
+IN deficiency_VitA DECIMAL(28,15),
+IN deficiency_VitE DECIMAL(28,15),
+IN deficiency_VitD DECIMAL(28,15),
+IN deficiency_VitC DECIMAL(28,15),
+IN deficiency_Choline DECIMAL(28,15)
 --
 )
 --
 RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
 --
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 19)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '304') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getPotassiumPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 18)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '306') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getSodiumPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 17)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '307') B;
---
-RETURN pct;
-
-END;
-/
-
-
-CREATE FUNCTION getVitAPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 16)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '320') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getVitEPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 15)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '323') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getVitDPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 14)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '328') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getVitCPctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 13)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '401') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getCholinePctOfRda (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
-DECLARE pct DECIMAL(28,15);
-
---
-SELECT deficiency / dri INTO pct
-FROM
-(SELECT q AS deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 12)) A,
-(SELECT q AS dri FROM Rda WHERE LifestageId =  V_LifestageId AND NutrientId = '421') B;
---
-RETURN pct;
-
-END;
-/
-
-CREATE FUNCTION getTniScore (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
---
+DECLARE pct_Ca DECIMAL(28,15);
+DECLARE pct_Mg DECIMAL(28,15);
+DECLARE pct_K DECIMAL(28,15);
+DECLARE pct_VitA DECIMAL(28,15);
+DECLARE pct_VitE DECIMAL(28,15);
+DECLARE pct_VitD DECIMAL(28,15);
+DECLARE pct_VitC DECIMAL(28,15);
+DECLARE pct_Choline DECIMAL(28,15);
 DECLARE tniscore DECIMAL(28,15);
-
+--
+--
+SELECT deficiency_Ca/q INTO pct_Ca FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '301';
+SELECT deficiency_Mg/q INTO pct_Mg FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '304';
+SELECT deficiency_K/q INTO pct_K FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '306';
+SELECT deficiency_VitA/q INTO pct_VitA FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '320';
+SELECT deficiency_VitE/q INTO pct_VitE FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '323';
+SELECT deficiency_VitD/q INTO pct_VitD FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '328';
+SELECT deficiency_VitC/q INTO pct_VitC FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '401';
+SELECT deficiency_Choline/q INTO pct_Choline FROM Rda WHERE LifestageId =  v_lifestageid AND NutrientId = '421';
 --
 SELECT
-(1 - ((
-getCalciumPctOfRda(V_MixId,V_LifestageId) +
-getMagnesiumPctOfRda(V_MixId,V_LifestageId) +
-getPotassiumPctOfRda(V_MixId,V_LifestageId) +
-getVitAPctOfRda(V_MixId,V_LifestageId) +
-getVitEPctOfRda(V_MixId,V_LifestageId) +
-getVitDPctOfRda(V_MixId,V_LifestageId) +
-getVitCPctOfRda(V_MixId,V_LifestageId) +
-getCholinePctOfRda(V_MixId,V_LifestageId) ) / CAST (8.0 AS DECIMAL(25,18)))) * 100 INTO tniscore
-FROM (VALUES(0));
+(1 - ((pct_Ca + pct_Mg + pct_K + pct_VitA + pct_VitE + pct_VitD + pct_VitC + pct_Choline ) /
+CAST (8.0 AS DECIMAL(25,18)))) * 100
+INTO tniscore FROM (VALUES(0));
 --
 RETURN tniscore;
 
 END;
 /
 
-CREATE FUNCTION getCost (
+CREATE FUNCTION fetchTniScore (
 --
-IN V_MixId LONGVARCHAR
+IN v_mixid LONGVARCHAR,
+IN v_lifestageid INTEGER
 --
 )
 --
 RETURNS DECIMAL(28,15) READS SQL DATA BEGIN ATOMIC
 --
-DECLARE excess DECIMAL(28,15);
-DECLARE deficiency DECIMAL(28,15);
-DECLARE cost DECIMAL(28,15);
-
+DECLARE v_tniscore DECIMAL(28,15);
 --
-SELECT q INTO excess FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 1);
-SELECT q INTO deficiency FROM MixPoint WHERE MixId = V_MixId AND i = ((SELECT COUNT(*) FROM MixPoint WHERE MixId = V_MixId) - 2);
-SET cost = deficiency + excess;
-
-RETURN cost;
+SELECT tniscore INTO v_tniscore FROM Mix WHERE MixId =  v_mixid;
+--
+RETURN v_tniscore;
 
 END;
 /
@@ -3441,20 +3267,80 @@ MODIFIES SQL DATA BEGIN ATOMIC
 DECLARE v_Name_Old LONGVARCHAR;
 DECLARE v_LifeStageId INTEGER;
 DECLARE v_Model LONGVARCHAR;
-DECLARE v_MixCost LONGVARCHAR;
-DECLARE v_TniScore LONGVARCHAR;
+DECLARE v_Deficiency_Ca DECIMAL(28,15);
+DECLARE v_Deficiency_Mg DECIMAL(28,15);
+DECLARE v_Deficiency_K DECIMAL(28,15);
+DECLARE v_Deficiency_Na DECIMAL(28,15);
+DECLARE v_Deficiency_vitA DECIMAL(28,15);
+DECLARE v_Deficiency_vitE DECIMAL(28,15);
+DECLARE v_Deficiency_vitD DECIMAL(28,15);
+DECLARE v_Deficiency_vitC DECIMAL(28,15);
+DECLARE v_Deficiency_Choline DECIMAL(28,15);
+DECLARE v_Excess_Ca DECIMAL(28,15);
+DECLARE v_Excess_Mg DECIMAL(28,15);
+DECLARE v_Excess_K DECIMAL(28,15);
+DECLARE v_Excess_Na DECIMAL(28,15);
+DECLARE v_Excess_vitA DECIMAL(28,15);
+DECLARE v_Excess_vitE DECIMAL(28,15);
+DECLARE v_Excess_vitD DECIMAL(28,15);
+DECLARE v_Excess_vitC DECIMAL(28,15);
+DECLARE v_Excess_Choline DECIMAL(28,15);
+DECLARE v_Avg_Deficiency DECIMAL(28,15);
+DECLARE v_Avg_Excess DECIMAL(28,15);
+DECLARE v_Cost DECIMAL(28,15);
+DECLARE v_TniScore DECIMAL(28,15);
 DECLARE newid2 LONGVARCHAR;
 --
 SELECT Name,
        LifeStageId,
        Model,
-       MixCost,
+       Deficiency_Ca,
+       Deficiency_Mg,
+       Deficiency_K,
+       Deficiency_Na,
+       Deficiency_VitA,
+       Deficiency_VitE,
+       Deficiency_VitD,
+       Deficiency_VitC,
+       Deficiency_Choline,
+       Excess_Ca,
+       Excess_Mg,
+       Excess_K,
+       Excess_Na,
+       Excess_VitA,
+       Excess_VitE,
+       Excess_VitD,
+       Excess_VitC,
+       Excess_Choline,
+       Avg_Deficiency,
+       Avg_Excess,
+       Cost,
        TniScore
 INTO
        v_Name_Old,
        v_LifeStageId,
        v_Model,
-       v_MixCost,
+       v_Deficiency_Ca,
+       v_Deficiency_Mg,
+       v_Deficiency_K,
+       v_Deficiency_Na,
+       v_Deficiency_VitA,
+       v_Deficiency_VitE,
+       v_Deficiency_VitD,
+       v_Deficiency_VitC,
+       v_Deficiency_Choline,
+       v_Excess_Ca,
+       v_Excess_Mg,
+       v_Excess_K,
+       v_Excess_Na,
+       v_Excess_VitA,
+       v_Excess_VitE,
+       v_Excess_VitD,
+       v_Excess_VitC,
+       v_Excess_Choline,
+       v_Avg_Deficiency,
+       v_Avg_Excess,
+       v_Cost,
        v_TniScore
 FROM Mix
 WHERE MixId = v_MixId_Old;
@@ -3466,14 +3352,54 @@ MixId,
 Name,
 LifeStageId,
 Model,
-MixCost,
+Deficiency_Ca,
+Deficiency_Mg,
+Deficiency_K,
+Deficiency_Na,
+Deficiency_VitA,
+Deficiency_VitE,
+Deficiency_VitD,
+Deficiency_VitC,
+Deficiency_Choline,
+Excess_Ca,
+Excess_Mg,
+Excess_K,
+Excess_Na,
+Excess_VitA,
+Excess_VitE,
+Excess_VitD,
+Excess_VitC,
+Excess_Choline,
+Avg_Deficiency,
+Avg_Excess,
+Cost,
 TniScore
 ) VALUES (
 newid2,
 v_Name_Old||'_copy',
 v_LifeStageId,
 v_Model,
-v_MixCost,
+v_Deficiency_Ca,
+v_Deficiency_Mg,
+v_Deficiency_K,
+v_Deficiency_Na,
+v_Deficiency_VitA,
+v_Deficiency_VitE,
+v_Deficiency_VitD,
+v_Deficiency_VitC,
+v_Deficiency_Choline,
+v_Excess_Ca,
+v_Excess_Mg,
+v_Excess_K,
+v_Excess_Na,
+v_Excess_VitA,
+v_Excess_VitE,
+v_Excess_VitD,
+v_Excess_VitC,
+v_Excess_Choline,
+v_Avg_Deficiency,
+v_Avg_Excess,
+v_Cost,
 v_TniScore
 );
 --
@@ -3772,7 +3698,7 @@ MixId,
 Name,
 LifeStageId,
 Model,
-MixCost,
+Cost,
 TniScore
 ) VALUES (
 newid2,
@@ -3797,7 +3723,7 @@ SELECT MixId,
        Name,
        LifeStageId,
        Model,
-       MixCost,
+       Cost,
        TniScore
 FROM Mix
 ORDER BY Name;
@@ -3823,6 +3749,72 @@ END;
 /
 
 
+CREATE PROCEDURE Mix_Update (
+--
+IN v_MixId LONGVARCHAR,
+IN v_LifeStageId INTEGER,
+IN v_Model LONGVARCHAR,
+IN v_Deficiency_Ca DECIMAL(28,15),
+IN v_Deficiency_Mg DECIMAL(28,15),
+IN v_Deficiency_K DECIMAL(28,15),
+IN v_Deficiency_Na DECIMAL(28,15),
+IN v_Deficiency_VitA DECIMAL(28,15),
+IN v_Deficiency_VitE DECIMAL(28,15),
+IN v_Deficiency_VitD DECIMAL(28,15),
+IN v_Deficiency_VitC DECIMAL(28,15),
+IN v_Deficiency_Choline DECIMAL(28,15),
+IN v_Excess_Ca DECIMAL(28,15),
+IN v_Excess_Mg DECIMAL(28,15),
+IN v_Excess_K DECIMAL(28,15),
+IN v_Excess_Na DECIMAL(28,15),
+IN v_Excess_VitA DECIMAL(28,15),
+IN v_Excess_VitE DECIMAL(28,15),
+IN v_Excess_VitD DECIMAL(28,15),
+IN v_Excess_VitC DECIMAL(28,15),
+IN v_Excess_Choline DECIMAL(28,15),
+IN v_Avg_Deficiency DECIMAL(28,15),
+IN v_Avg_Excess DECIMAL(28,15),
+IN v_Cost DECIMAL(28,15)
+--IN v_TniScore DECIMAL(28,15)
+--
+)
+--
+MODIFIES SQL DATA
+BEGIN ATOMIC
+--
+UPDATE
+Mix
+SET
+LifeStageId = v_LifeStageId,
+Model = v_Model,
+Deficiency_Ca = v_Deficiency_Ca,
+Deficiency_Mg = v_Deficiency_Mg,
+Deficiency_K = v_Deficiency_K,
+Deficiency_Na = v_Deficiency_Na,
+Deficiency_VitA = v_Deficiency_VitA,
+Deficiency_VitE = v_Deficiency_VitE,
+Deficiency_VitD = v_Deficiency_VitD,
+Deficiency_VitC = v_Deficiency_VitC,
+Deficiency_Choline = v_Deficiency_Choline,
+Excess_Ca = v_Excess_Ca,
+Excess_Mg = v_Excess_Mg,
+Excess_K = v_Excess_K,
+Excess_Na = v_Excess_Na,
+Excess_VitA = v_Excess_VitA,
+Excess_VitE = v_Excess_VitE,
+Excess_VitD = v_Excess_VitD,
+Excess_VitC = v_Excess_VitC,
+Excess_Choline = v_Excess_Choline,
+Avg_Deficiency = v_Avg_Deficiency,
+Avg_Excess = v_Avg_Excess,
+Cost = v_Cost
+--TniScore = v_TniScore
+WHERE
+MixId = v_MixId;
+END;
+--
+/
+
 CREATE PROCEDURE updateMix (
 --
 IN v_MixId LONGVARCHAR,
@@ -3845,27 +3837,6 @@ END;
 --
 /
 
-
-CREATE PROCEDURE updateTniScore (
---
-IN V_MixId LONGVARCHAR,
-IN V_LifestageId INTEGER
---
-)
---
-MODIFIES SQL DATA
-BEGIN ATOMIC
---
-UPDATE
-Mix
-SET
-MixCost = getCost(V_MixId),
-TniScore = getTniScore(V_MixId, V_LifestageId)
-WHERE
-MixId = V_MixId;
-END;
---
-/
 
 CREATE PROCEDURE MixFood_Copy (
 --
@@ -9892,67 +9863,34 @@ END;
 /
 
 
-CREATE PROCEDURE InsertMixPoint (
---
-IN v_MixId LONGVARCHAR,
-IN v_i INTEGER,
-IN v_q DECIMAL(11,5)
---
-)
---
-MODIFIES SQL DATA
-BEGIN ATOMIC
---
-INSERT INTO MixPoint (
-MixId,
-i,
-q
-) VALUES (
-v_MixId,
-v_i,
-v_q
-);
---
-END;
-/
-
-CREATE PROCEDURE UpdateMixPoint (
---
-IN v_MixId LONGVARCHAR,
-IN v_i INTEGER,
-IN v_q DECIMAL(11,5)
---
-)
---
-MODIFIES SQL DATA
-BEGIN ATOMIC
---
-UPDATE
-MixPoint
-SET
-q = v_q
-WHERE
-MixId = v_MixId AND
-i = v_i;
-END;
---
-/
-
-CREATE PROCEDURE DeleteMixPoint (
+CREATE PROCEDURE adjustExpectedWeight (
 --
 IN v_MixId LONGVARCHAR
 --
 )
 --
-MODIFIES SQL DATA
+MODIFIES SQL DATA DYNAMIC RESULT SETS 1
+--
 BEGIN ATOMIC
 --
-DELETE
-FROM MixPoint
-WHERE
-MixId = v_MixId;
+UPDATE
+mealfoodportion c
+SET
+expectedwt = (
+select a.pct * b.x as nweight
+from
+mealfoodportion a,
+mixfood b
+where
+a.mixid = b.mixid and
+a.foodid = b.foodid and
+a.mixid = c.mixid and
+a.foodid = c.foodid and
+a.mealid = c.mealid
+)
+WHERE mixid = v_MixId;
 --
-END;
+END
 /
 
 CREATE VIEW MixInventoryDays
@@ -9968,25 +9906,49 @@ ORDER BY b.name
 
 
 
-CREATE TRIGGER MixCost_rlau_trigger
+CREATE TRIGGER Mix_rlbu_trigger
+BEFORE UPDATE ON Mix
+REFERENCING NEW AS new
+FOR EACH ROW WHEN (new.cost >= 0)
+--
+BEGIN ATOMIC
+--
+SET new.tniscore = calculateTniScore(
+new.lifestageid,
+new.deficiency_Ca,
+new.deficiency_Mg,
+new.deficiency_K,
+new.deficiency_VitA,
+new.deficiency_VitE,
+new.deficiency_VitD,
+new.deficiency_VitC,
+new.deficiency_Choline
+);
+--
+END;
+/
+
+
+CREATE TRIGGER Mix_rlau_trigger
 AFTER UPDATE ON Mix
 REFERENCING NEW AS new
-FOR EACH ROW WHEN (new.mixcost >= 0)
+FOR EACH ROW
 --
 BEGIN ATOMIC
 --
 CALL public.fill_mixresult(new.mixid);
 CALL public.DnMixResult_delete(new.mixid);
 CALL public.fill_DnMixResult(new.mixid);
+CALL public.adjustExpectedWeight(new.mixid);
 --
 END;
 /
 
 
-CREATE TRIGGER MixCost_rlai_trigger
+CREATE TRIGGER Mix_rlai_trigger
 AFTER INSERT ON Mix
 REFERENCING NEW AS new
-FOR EACH ROW WHEN (new.mixcost >= 0)
+FOR EACH ROW
 --
 BEGIN ATOMIC
 --

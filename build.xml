@@ -3,12 +3,13 @@
     <!-->Properties</-->
     <property name="project.creator">Jorge R. Garcia de Alba</property>
     <property name="project.name">snack</property>
-    <property name="project.zip">snack-1730</property>
+    <property name="project.zip">snack-1740</property>
     <property name="project.jar">snack</property>
     <property name="project.class">io.github.xjrga.snack.gui.Main</property>
     <property name="project.backup.dir">/mnt/backup/Backup</property>
-    <property name="project.backup.tgz">snack-1710</property>
-    <property name="project.site.dir">${user.home}</property>
+    <property name="project.backup.tgz">snack-1740</property>
+    <!--    <property name="project.site.dir">${user.home}</property>-->
+    <property name="project.site.dir">/tmp</property>
     <property name="project.jpda.address">5010</property>
     <!-->Timestamps</-->
     <tstamp>

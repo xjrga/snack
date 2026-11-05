@@ -1,4 +1,4 @@
-package io.github.xjrga.snack.database.callable;
+package io.github.xjrga.snack.launcher;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-public class BackgroundExec {
+public class TaskLauncher {
 
     private static ExecutorService backgroundExec;
 

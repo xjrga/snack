@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.database.callable.select;
 
-import io.github.xjrga.snack.completablefuture.records.Records.Mix;
+import io.github.xjrga.snack.records.Records.Mix;
 import io.github.xjrga.snack.database.Connect;
 import java.sql.CallableStatement;
 import java.sql.Connection;

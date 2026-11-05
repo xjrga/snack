@@ -12,30 +12,33 @@ import java.util.concurrent.Callable;
 /**
  * @author jr
  */
-public class GetCostTask implements Callable<BigDecimal> {
+public class FetchTniScoreTask implements Callable<BigDecimal> {
 
     private final Connection connection;
     private final String mixid;
-    private BigDecimal cost;
+    private final Integer lifestageid;
+    private BigDecimal tniScore;
 
-    public GetCostTask(String mixid) {
+    public FetchTniScoreTask(String mixid, Integer lifestageid) {
         connection = Connect.getInstance().getConnection();
         this.mixid = mixid;
+        this.lifestageid = lifestageid;
     }
 
     @Override
     public BigDecimal call() throws Exception {
-        try (CallableStatement proc = connection.prepareCall("{CALL public.getCost( ? )}")) {
+        try (CallableStatement proc = connection.prepareCall("{CALL public.fetchTniScore( ?, ? )}")) {
             proc.setString(1, mixid);
+            proc.setInt(2, lifestageid);
             proc.execute();
             try (ResultSet set = proc.getResultSet()) {
                 set.next();
-                cost = set.getBigDecimal(1);
+                tniScore = set.getBigDecimal(1);
             }
         } catch (SQLException e) {
             LoggerImpl.INSTANCE.logProblem(e);
         }
-        return cost;
+        return tniScore;
     }
 
 }

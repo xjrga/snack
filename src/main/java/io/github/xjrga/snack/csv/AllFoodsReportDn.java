@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.csv;
 
-import io.github.xjrga.snack.completablefuture.records.Records.FoodDetails;
+import io.github.xjrga.snack.records.Records.FoodDetails;
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.U;

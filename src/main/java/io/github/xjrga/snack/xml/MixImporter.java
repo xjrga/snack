@@ -15,7 +15,7 @@
  */
 package io.github.xjrga.snack.xml;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.FoodCreator;
 import io.github.xjrga.snack.database.callable.insert.InsertFoodPortionTask;
 import io.github.xjrga.snack.database.callable.insert.InsertGroupFoodTask;
@@ -967,7 +967,7 @@ public class MixImporter {
                     endEvent = event.asEndElement().getName().getLocalPart();
                     switch (endEvent) {
                         case "mix":
-                            Future<Boolean> insertMixTask = BackgroundExec.submit(new InsertMixTask(mix));
+                            Future<Boolean> insertMixTask = TaskLauncher.submit(new InsertMixTask(mix));
                             created = insertMixTask.get();
                             if (!created) {
                                 StringBuilder sb = new StringBuilder();
@@ -1010,7 +1010,7 @@ public class MixImporter {
                             }
                             new FoodCreator(food).create();
                             Future<Boolean> insertFoodTask
-                                    = BackgroundExec.submit(new InsertMixFoodTask(mix.getMixid(), checkSum));
+                                    = TaskLauncher.submit(new InsertMixFoodTask(mix.getMixid(), checkSum));
                             insertFoodTask.get();
                             break;
 
@@ -1023,7 +1023,7 @@ public class MixImporter {
                             if (created) {
                                 try {
                                     Future<Boolean> insertNutrientConstraintTask
-                                            = BackgroundExec.submit(new MergeNutrientConstraintTask(
+                                            = TaskLauncher.submit(new MergeNutrientConstraintTask(
                                                     mix.getMixid(), nutrient_constraint.getNutrientid(),
                                                     nutrient_constraint.getRelationshipid(),
                                                     nutrient_constraint.getB()));
@@ -1035,7 +1035,7 @@ public class MixImporter {
                             }
                         case "food_quantity":
                             if (created) {
-                                Future<Boolean> insertFoodConstraintTask = BackgroundExec.submit(new MergeFoodConstraintTask(
+                                Future<Boolean> insertFoodConstraintTask = TaskLauncher.submit(new MergeFoodConstraintTask(
                                         mix.getMixid(),
                                         food_nutrient_constraint.getFoodid(),
                                         food_nutrient_constraint.getNutrientid(),
@@ -1046,7 +1046,7 @@ public class MixImporter {
                             }
                         case "food_ratio":
                             if (created) {
-                                Future<Boolean> insertFoodRatioConstraintTask = BackgroundExec.submit(new MergeFoodRatioConstraintTask(
+                                Future<Boolean> insertFoodRatioConstraintTask = TaskLauncher.submit(new MergeFoodRatioConstraintTask(
                                         mix.getMixid(),
                                         food_nutrient_ratio_constraint.getFoodid_a(),
                                         food_nutrient_ratio_constraint.getNutrientid_a(),
@@ -1060,7 +1060,7 @@ public class MixImporter {
                             }
                         case "nutrient_ratio":
                             if (created) {
-                                Future<Boolean> insertNutrientRatioConstraintTask = BackgroundExec.submit(new MergeNutrientRatioConstraintTask(
+                                Future<Boolean> insertNutrientRatioConstraintTask = TaskLauncher.submit(new MergeNutrientRatioConstraintTask(
                                         mix.getMixid(),
                                         nutrient_ratio_constraint.getNutrientid_a(),
                                         nutrient_ratio_constraint.getNutrientid_b(),
@@ -1073,7 +1073,7 @@ public class MixImporter {
                         case "meal":
                             if (created) {
                                 try {
-                                    Future<Boolean> insertMealTask = BackgroundExec.submit(new InsertMealTask(
+                                    Future<Boolean> insertMealTask = TaskLauncher.submit(new InsertMealTask(
                                             meal.getMixid(), meal.getMealid(), meal.getName(), meal.getMealOrder()));
                                     insertMealTask.get();
                                 } catch (Exception e) {
@@ -1083,7 +1083,7 @@ public class MixImporter {
                             break;
                         case "meal_food_portion":
                             if (created) {
-                                Future<Boolean> insertFoodPortionConstraintTask = BackgroundExec.submit(new InsertFoodPortionTask(
+                                Future<Boolean> insertFoodPortionConstraintTask = TaskLauncher.submit(new InsertFoodPortionTask(
                                         portion.getMixid(),
                                         portion.getMealid(),
                                         portion.getFoodid(),
@@ -1095,21 +1095,21 @@ public class MixImporter {
                             break;
                         case "group":
                             if (created) {
-                                Future<String> insertGroupTask = BackgroundExec.submit(
+                                Future<String> insertGroupTask = TaskLauncher.submit(
                                         new InsertGroupTask(group.getMixid(), group.getGroupid(), group.getName()));
                                 insertGroupTask.get();
                             }
                             break;
                         case "groupfood":
                             if (created) {
-                                Future<String> insertGroupFoodTask = BackgroundExec.submit(new InsertGroupFoodTask(
+                                Future<String> insertGroupFoodTask = TaskLauncher.submit(new InsertGroupFoodTask(
                                         groupfood.getMixid(), groupfood.getGroupid(), groupfood.getFoodid()));
                                 insertGroupFoodTask.get();
                             }
                             break;
                         case "group_quantity":
                             if (created) {
-                                Future<Boolean> insertGroupConstraintTask = BackgroundExec.submit(new MergeGroupConstraintTask(
+                                Future<Boolean> insertGroupConstraintTask = TaskLauncher.submit(new MergeGroupConstraintTask(
                                         mix.getMixid(),
                                         group_constraint.getGroupid(),
                                         group_constraint.getNutrientid(),

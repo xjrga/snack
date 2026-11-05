@@ -7,7 +7,7 @@ SELECT MixId,
        Name,
        LifeStageId,
        Model,
-       MixCost,
+       Cost,
        TniScore
 FROM Mix
 ORDER BY Name;

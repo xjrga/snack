@@ -16,7 +16,7 @@
  */
 package io.github.xjrga.snack.datamodel;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.NamedMixFoodSortedByNameTask;
 import io.github.xjrga.snack.dataobject.MixFoodDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
@@ -39,7 +39,7 @@ public class MixFoodLoader implements ReloadMixid {
     public void reload(String mixid) {
         food_list = new ArrayList();
         try {
-            Future<List<List>> task = BackgroundExec.submit(new NamedMixFoodSortedByNameTask(mixid));
+            Future<List<List>> task = TaskLauncher.submit(new NamedMixFoodSortedByNameTask(mixid));
             List<List> foods = task.get();
             foods.forEach(row -> {
                 String foodid = (String) row.get(0);

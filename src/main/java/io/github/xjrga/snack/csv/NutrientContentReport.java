@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.csv;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.NutrientContainingFoodsTask;
 import io.github.xjrga.snack.dataobject.NutrientDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
@@ -47,7 +47,7 @@ public class NutrientContentReport {
             try {
                 String nutrientid = nutrientDO.getNutr_no();
                 BigDecimal dri = new BigDecimal(textFieldNutrientLookup.getText());
-                Future<List<List>> task = BackgroundExec.submit(new NutrientContainingFoodsTask(nutrientid, dri));
+                Future<List<List>> task = TaskLauncher.submit(new NutrientContainingFoodsTask(nutrientid, dri));
                 List<List> results = task.get();
                 results.forEach(row -> {
                     try {

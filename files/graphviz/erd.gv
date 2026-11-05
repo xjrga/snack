@@ -1,7 +1,7 @@
 digraph erd {
 
     labelloc = "t";
-    label = "snack Entity Relationship Diagram";
+    label = "ENTITY RELATIONSHIP DIAGRAM (ERD) FOR SNACK NUTRITION SOFTWARE";
     fontsize = 20;
     fontname = "Liberation Mono Bold"
     size = "100,100";
@@ -24,7 +24,6 @@ DnFoodFact [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">food_name: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">...</td></tr>
         </table>
     >]
 DnMixResult [shape=Mrecord, label=<
@@ -34,7 +33,6 @@ DnMixResult [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">food_id: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">food_name: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">...</td></tr>
         </table>
     >]
 Food [shape=record, label=<
@@ -160,10 +158,28 @@ Mix [shape=record, label=<
                <tr><td bgcolor="#ECEEE9" align="left">Name: LONGVARCHAR</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">LifeStageId: INTEGER (FK)</td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Model: LONGVARCHAR</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixCost: DECIMAL(11,5)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixDeficiency: DECIMAL(11,5)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixExcess: DECIMAL(11,5)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixTniScore: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_Ca: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_Mg: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_K: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_Na: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_VitA: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_VitE: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_VitD: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_VitC: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Deficiency_Choline: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_Ca: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_Mg: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_K: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_Na: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_VitA: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_VitE: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_VitD: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_VitC: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Excess_Choline: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Avg_Deficiency: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Avg_Excess: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">Cost: DECIMAL(11,5)</td></tr>
+               <tr><td bgcolor="#ECEEE9" align="left">TniScore: DECIMAL(11,5)</td></tr>
         </table>
     >]
 MixFood [shape=Mrecord, label=<
@@ -190,15 +206,6 @@ MixInventory [shape=Mrecord, label=<
                <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
               <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
                <tr><td bgcolor="#ECEEE9" align="left">Days: DECIMAL(11,5)</td></tr>
-        </table>
-    >]
-MixPoint [shape=Mrecord, label=<
-        <table border="0" cellborder="0" cellspacing="0" cellpadding="4">
-            <tr><td bgcolor="#CECFC3"><b>MixPoint</b></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">MixId: LONGVARCHAR (FK)</td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">i: INTEGER </td></tr>
-              <tr><td sides="t" border="1px solid black" bgcolor="#ECEEE9" colspan="100%"></td></tr>
-               <tr><td bgcolor="#ECEEE9" align="left">q: DECIMAL(11,5)</td></tr>
         </table>
     >]
 MixResult [shape=Mrecord, label=<
@@ -358,8 +365,6 @@ edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot,
 Mix -> MixFoodGroup [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 Mix -> MixInventory [dir=forward,weight=1];
-edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
-Mix -> MixPoint [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]
 FoodFactCoefficient -> MixResult [dir=forward,weight=1];
 edge [penwidth=1,fontname="Liberation Mono" len=5, arrowsize=0.5, arrowhead=dot, arrowtail=none, dir=forward, style=solid]

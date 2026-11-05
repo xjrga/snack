@@ -16,7 +16,7 @@
  */
 package io.github.xjrga.snack.datamodel;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.VisibleNutrientsTask;
 import io.github.xjrga.snack.dataobject.NutrientDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
@@ -40,7 +40,7 @@ public class NutrientLoader implements Reload {
     public void reload() {
         nutrient_list = new ArrayList();
         try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new VisibleNutrientsTask());
+            Future<List<Map<String, Object>>> task = TaskLauncher.submit(new VisibleNutrientsTask());
             List<Map<String, Object>> list = task.get();
             if (list.isEmpty()) {
                 return;

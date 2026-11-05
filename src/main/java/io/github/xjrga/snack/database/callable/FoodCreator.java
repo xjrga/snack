@@ -1,5 +1,6 @@
 package io.github.xjrga.snack.database.callable;
 
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.Connect;
 import io.github.xjrga.snack.database.callable.insert.InsertFoodCategoryLinkTask;
 import io.github.xjrga.snack.database.callable.insert.InsertFoodCategoryTask;
@@ -42,22 +43,22 @@ public class FoodCreator {
         Boolean task3Completed = false;
         Boolean task4Completed = false;
         try {
-            task0 = BackgroundExec.submit(new InsertFoodTask(foodid, foodname));
+            task0 = TaskLauncher.submit(new InsertFoodTask(foodid, foodname));
             task0Completed = task0.get();
             if (task0Completed) {
-                task1 = BackgroundExec.submit(new InsertFoodFactTask(food));
+                task1 = TaskLauncher.submit(new InsertFoodFactTask(food));
                 task1Completed = task1.get();
             }
             String categoryid;
             while (categoryIterator.hasNext()) {
                 Category next = categoryIterator.next();
                 categoryid = next.getCategoryId();
-                task2 = BackgroundExec.submit(new InsertFoodCategoryTask(categoryid, next.getCategoryName()));
+                task2 = TaskLauncher.submit(new InsertFoodCategoryTask(categoryid, next.getCategoryName()));
                 task2Completed = task2.get();
-                task3 = BackgroundExec.submit(new InsertFoodCategoryLinkTask(categoryid, foodid));
+                task3 = TaskLauncher.submit(new InsertFoodCategoryLinkTask(categoryid, foodid));
                 task3Completed = task3.get();
             }
-            task4 = BackgroundExec.submit(new PrepareFoodDataTask(foodid));
+            task4 = TaskLauncher.submit(new PrepareFoodDataTask(foodid));
             task4Completed = task4.get();
             completed = true;
         } catch (Exception e) {

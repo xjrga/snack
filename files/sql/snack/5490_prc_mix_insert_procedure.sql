@@ -17,7 +17,7 @@ MixId,
 Name,
 LifeStageId,
 Model,
-MixCost,
+Cost,
 TniScore
 ) VALUES (
 newid2,

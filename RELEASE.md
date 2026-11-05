@@ -1,5 +1,10 @@
 ### Release Notes
 
+### 1740 - November 06, 2026
+
+  * Added new type of linear programming model printout to represent meals
+  * Bug fixes
+
 ### 1730 - October 27, 2026
 
   * Gui changes

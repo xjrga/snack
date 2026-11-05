@@ -1,4 +1,4 @@
-package io.github.xjrga.snack.completablefuture.records;
+package io.github.xjrga.snack.records;
 
 import java.math.BigDecimal;
 

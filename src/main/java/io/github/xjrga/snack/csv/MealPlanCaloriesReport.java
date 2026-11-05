@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.csv;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.MealPlanResultsTask;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
@@ -46,7 +46,7 @@ public class MealPlanCaloriesReport {
                     .get();
             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat);
             try {
-                Future<List<List>> task = BackgroundExec.submit(new MealPlanResultsTask(mixDataObject.getMixid()));
+                Future<List<List>> task = TaskLauncher.submit(new MealPlanResultsTask(mixDataObject.getMixid()));
                 List<List> list = task.get();
                 List<List> rows = Reloader.getMealPlanCalories(list);
                 rows.forEach(row -> {

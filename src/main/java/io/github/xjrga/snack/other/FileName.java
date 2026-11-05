@@ -23,6 +23,10 @@ public class FileName {
         return "models/snack_cplex_exp_" + vtxt + ".lp";
     }
 
+    public String lpsolve_cplex_meals() {
+        return "models/snack_cplex_meals_" + vtxt + ".lp";
+    }
+
     public String lpsolve_rust() {
         return "models/snack_rust_" + vtxt + ".rs";
     }

@@ -72,7 +72,9 @@ public enum Objective {
                        """;
         String paragraph = """
                            <p>
-                           ✓ Lower Risk of Nutrient Intake Inadequacy
+                           ✓ Lowest Risk of Nutrient Intake Inadequacy
+                           <br>
+                           ✓ Highest Risk of Nutrient Intake Excess
                            </p>
                            """;
         StringBuilder sb = new StringBuilder();

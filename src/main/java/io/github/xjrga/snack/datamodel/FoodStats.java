@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.datamodel;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.FoodStatisticsTask;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import java.math.BigDecimal;
@@ -24,7 +24,7 @@ public class FoodStats implements ReloadMixid {
     public void reload(String foodid) {
         sb = new StringBuilder();
         try {
-            Future<List<Map<String, BigDecimal>>> task = BackgroundExec.submit(new FoodStatisticsTask(foodid));
+            Future<List<Map<String, BigDecimal>>> task = TaskLauncher.submit(new FoodStatisticsTask(foodid));
             List<Map<String, BigDecimal>> stats = task.get();
             DecimalFormat df = new DecimalFormat("######0.0#");
             stats.forEach(row -> {

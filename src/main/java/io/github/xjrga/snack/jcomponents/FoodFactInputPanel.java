@@ -2,7 +2,7 @@ package io.github.xjrga.snack.jcomponents;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.DriNutrientsTask;
 import io.github.xjrga.snack.database.callable.select.LifestageDriTask;
 import io.github.xjrga.snack.database.callable.select.LifestagesTask;
@@ -415,7 +415,7 @@ public class FoodFactInputPanel {
         Double xgrams = -1.0;
         NutrientDO nutrientDO = null;
         try {
-            Future<List<LifeStageDO>> task = BackgroundExec.submit(new LifestagesTask());
+            Future<List<LifeStageDO>> task = TaskLauncher.submit(new LifestagesTask());
             List<LifeStageDO> lifestages = task.get();
             cmbLifeStage.reload(lifestages);
             cmbLifeStage.setSelectedIndex(8);
@@ -423,7 +423,7 @@ public class FoodFactInputPanel {
             LoggerImpl.INSTANCE.logProblem(e);
         }
         try {
-            Future<List<NutrientDO>> task = BackgroundExec.submit(new DriNutrientsTask());
+            Future<List<NutrientDO>> task = TaskLauncher.submit(new DriNutrientsTask());
             List<NutrientDO> list = task.get();
             if (list.isEmpty()) {
                 return;
@@ -444,7 +444,7 @@ public class FoodFactInputPanel {
             s0 = txtDailyValuePct.getText();
             if (s0 != null && s0.length() > 0) {
                 try {
-                    Future<List<DriDO>> task = BackgroundExec.submit(new LifestageDriTask(
+                    Future<List<DriDO>> task = TaskLauncher.submit(new LifestageDriTask(
                             cmbNutrients.getSelectedItem().getNutr_no(),
                             cmbLifeStage.getSelectedItem().getLifeStageId()));
                     List<DriDO> driDOlist = task.get();

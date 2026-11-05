@@ -1,6 +1,6 @@
 package io.github.xjrga.snack.other;
 
-import io.github.xjrga.snack.completablefuture.records.Records.Mix;
+import io.github.xjrga.snack.records.Records.Mix;
 import io.github.xjrga.snack.dataobject.MixDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import java.awt.Desktop;

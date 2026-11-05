@@ -16,7 +16,7 @@
  */
 package io.github.xjrga.snack.datamodel;
 
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.RelationshipsTask;
 import io.github.xjrga.snack.dataobject.RelationshipDO;
 import io.github.xjrga.snack.logger.LoggerImpl;
@@ -40,7 +40,7 @@ public class RelationshipLoader implements Reload {
     public void reload() {
         relationship_list = new ArrayList();
         try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new RelationshipsTask());
+            Future<List<Map<String, Object>>> task = TaskLauncher.submit(new RelationshipsTask());
             List<Map<String, Object>> list = task.get();
             if (list.isEmpty()) {
                 return;

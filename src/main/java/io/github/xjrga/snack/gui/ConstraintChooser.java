@@ -2,7 +2,7 @@ package io.github.xjrga.snack.gui;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import io.github.xjrga.snack.database.callable.BackgroundExec;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.select.NutrientsTask;
 import io.github.xjrga.snack.database.callable.update.UpdateNutrientTask;
 import io.github.xjrga.snack.logger.LoggerImpl;
@@ -36,7 +36,7 @@ public class ConstraintChooser {
         cc = new CellConstraints();
         chkBoxes = new ArrayList();
         try {
-            Future<List<Map<String, Object>>> task = BackgroundExec.submit(new NutrientsTask());
+            Future<List<Map<String, Object>>> task = TaskLauncher.submit(new NutrientsTask());
             List<Map<String, Object>> list = task.get();
             if (list.isEmpty()) {
                 return;
@@ -66,7 +66,7 @@ public class ConstraintChooser {
         chkBoxes.forEach((JCheckBox o) -> {
             if (o.isSelected()) {
                 try {
-                    Future<Boolean> task = BackgroundExec.submit(new UpdateNutrientTask(o.getName(), 1));
+                    Future<Boolean> task = TaskLauncher.submit(new UpdateNutrientTask(o.getName(), 1));
                     Boolean completed = task.get();
                     if (!completed) {
                         return;
@@ -76,7 +76,7 @@ public class ConstraintChooser {
                 }
             } else {
                 try {
-                    Future<Boolean> task = BackgroundExec.submit(new UpdateNutrientTask(o.getName(), 0));
+                    Future<Boolean> task = TaskLauncher.submit(new UpdateNutrientTask(o.getName(), 0));
                     Boolean completed = task.get();
                     if (!completed) {
                         return;
