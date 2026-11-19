@@ -16,6 +16,8 @@ public interface LpTo {
 
     void addFoodRatioConstraint(double[] coefficients, int rel, double value, String name);
 
+    void addGroupRatioConstraint(double[] coefficients, int rel, double value, String name);
+
     void addGroupConstraint(double[] coefficients, int rel, double value, String name);
 
     void addMixLegend(String mix);

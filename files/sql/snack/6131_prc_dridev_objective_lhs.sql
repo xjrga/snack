@@ -4,7 +4,8 @@ IN v_mixid LONGVARCHAR
 --
 )
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+MODIFIES sql data dynamic RESULT sets 1
+BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
@@ -21,14 +22,14 @@ FROM (SELECT name,
       UNION ALL
       SELECT name,
              deficiency
-      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+      FROM (SELECT concat('deficiency_', nutrientid) AS name,
                    0 AS deficiency
             FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
       SELECT name,
              excess
-      FROM (SELECT concat('excess_',nutrientid) AS name,
+      FROM (SELECT concat('excess_', nutrientid) AS name,
                    0 AS excess
             FROM balancednutrients
             ORDER BY nutrientid)

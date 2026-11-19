@@ -28,6 +28,7 @@ import io.github.xjrga.snack.database.callable.delete.DeleteFoodInFoodGroupTask;
 import io.github.xjrga.snack.database.callable.delete.DeleteFoodPortionTask;
 import io.github.xjrga.snack.database.callable.delete.DeleteFoodRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.delete.DeleteFoodTask;
+import io.github.xjrga.snack.database.callable.delete.DeleteGroupRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.delete.DeleteMealPlanUsageTask;
 import io.github.xjrga.snack.database.callable.delete.DeleteMealTask;
 import io.github.xjrga.snack.database.callable.delete.DeleteMixFoodTask;
@@ -48,6 +49,7 @@ import io.github.xjrga.snack.database.callable.insert.InsertMixFoodTask;
 import io.github.xjrga.snack.database.callable.insert.MergeFoodConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeFoodRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeGroupConstraintTask;
+import io.github.xjrga.snack.database.callable.insert.MergeGroupRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeMealPlanUsageTask;
 import io.github.xjrga.snack.database.callable.insert.MergeNutrientConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeNutrientRatioConstraintTask;
@@ -78,6 +80,7 @@ import io.github.xjrga.snack.database.callable.select.GetFoodListTask;
 import io.github.xjrga.snack.database.callable.select.GetFoodXmlFixedCategoryTask;
 import io.github.xjrga.snack.database.callable.select.GetFoodXmlTask;
 import io.github.xjrga.snack.database.callable.select.GroupConstraintsTask;
+import io.github.xjrga.snack.database.callable.select.GroupRatioConstraintsTask;
 import io.github.xjrga.snack.database.callable.select.LifestageDriTask;
 import io.github.xjrga.snack.database.callable.select.LifestagesTask;
 import io.github.xjrga.snack.database.callable.select.MealPlanMealsTask;
@@ -104,6 +107,7 @@ import io.github.xjrga.snack.database.callable.select.lhs.DRIExcessAndDeficiency
 import io.github.xjrga.snack.database.callable.select.lhs.FoodLhsTask;
 import io.github.xjrga.snack.database.callable.select.lhs.FoodRatioLhsTask;
 import io.github.xjrga.snack.database.callable.select.lhs.GroupLhsTask;
+import io.github.xjrga.snack.database.callable.select.lhs.GroupRatioLhsTask;
 import io.github.xjrga.snack.database.callable.select.lhs.NutrientLhsTask;
 import io.github.xjrga.snack.database.callable.select.lhs.NutrientRatioLhsTask;
 import io.github.xjrga.snack.database.callable.select.lhs.ObjectiveDeficiencyLhsTask;
@@ -112,6 +116,7 @@ import io.github.xjrga.snack.database.callable.select.lhs.ULAverageExcessLhsTask
 import io.github.xjrga.snack.database.callable.select.rhs.DRIExcessAndDeficiencyRhsTask;
 import io.github.xjrga.snack.database.callable.select.rhs.FoodRatioRhsTask;
 import io.github.xjrga.snack.database.callable.select.rhs.FoodRhsTask;
+import io.github.xjrga.snack.database.callable.select.rhs.GroupRatioRhsTask;
 import io.github.xjrga.snack.database.callable.select.rhs.GroupRhsTask;
 import io.github.xjrga.snack.database.callable.select.rhs.NutrientRatioRhsTask;
 import io.github.xjrga.snack.database.callable.select.rhs.NutrientRhsTask;
@@ -128,6 +133,7 @@ import io.github.xjrga.snack.database.runnable.CreateAllFoodsReportDnTask;
 import io.github.xjrga.snack.database.runnable.CreateAllFoodsReportTask;
 import io.github.xjrga.snack.database.runnable.UpdateMixTask;
 import io.github.xjrga.snack.datamodel.FoodStats;
+import io.github.xjrga.snack.datamodel.GroupLoader;
 import io.github.xjrga.snack.datamodel.MixFoodLoader;
 import io.github.xjrga.snack.datamodel.NutrientLoader;
 import io.github.xjrga.snack.datamodel.RelationshipLoader;
@@ -154,6 +160,7 @@ import io.github.xjrga.snack.jcomponents.TableFoodFacts;
 import io.github.xjrga.snack.jcomponents.TableFoodQuantityConstraint;
 import io.github.xjrga.snack.jcomponents.TableFoodRatioConstraint;
 import io.github.xjrga.snack.jcomponents.TableGroupQuantityConstraint;
+import io.github.xjrga.snack.jcomponents.TableGroupRatioConstraint;
 import io.github.xjrga.snack.jcomponents.TableGroups;
 import io.github.xjrga.snack.jcomponents.TableInventoryDays;
 import io.github.xjrga.snack.jcomponents.TableLog;
@@ -201,6 +208,7 @@ import io.github.xjrga.snack.other.Shutdown;
 import io.github.xjrga.snack.other.StringCheck;
 import io.github.xjrga.snack.other.U;
 import io.github.xjrga.snack.records.FoodListRecord;
+import io.github.xjrga.snack.records.Records;
 import io.github.xjrga.snack.records.Records.Mix;
 import io.github.xjrga.snack.records.TableCategoryRow;
 import io.github.xjrga.snack.renderers.ComboMixRenderer;
@@ -305,23 +313,30 @@ public class Main {
     private ComboBox<NutrientDO> cmbFoodRatioNutrientA;
     private ComboBox<NutrientDO> cmbFoodRatioNutrientB;
     private ComboBox<NutrientDO> cmbGroupNutrient;
+    private ComboBox<NutrientDO> cmbGroupRatioNutrientA;
+    private ComboBox<NutrientDO> cmbGroupRatioNutrientB;
     private ComboBox<NutrientDO> cmbNutrientContentNutrient;
     private ComboBox<NutrientDO> cmbNutrientQuantityNutrient;
     private ComboBox<NutrientDO> cmbNutrientRatioNutrientA;
     private ComboBox<NutrientDO> cmbNutrientRatioNutrientB;
+    private ComboBox<Records.Group> cmbGroupRatioGroupA;
+    private ComboBox<Records.Group> cmbGroupRatioGroupB;
     private ComboBox<RelationshipDO> cmbFoodQuantityRelationship;
     private ComboBox<RelationshipDO> cmbFoodRatioRelationship;
+    private ComboBox<RelationshipDO> cmbGroupRatioRelationship;
     private ComboBox<RelationshipDO> cmbGroupRelationship;
     private ComboBox<RelationshipDO> cmbNutrientQuantityRelationship;
     private ComboBox<RelationshipDO> cmbNutrientRatioRelationship;
     private Connection connection;
-    private DefaultListModel lstmdl_Tni;
     private DefaultListModel lstmdl_Cost;
+    private DefaultListModel lstmdl_Tni;
     private FoodStats foodStats;
+    private GroupLoader groupLoader;
     private JButton btnAddFood;
     private JButton btnAddFoodQuantityConstraint;
     private JButton btnAddFoodRatioConstraint;
     private JButton btnAddGroupQuantityConstraint;
+    private JButton btnAddGroupRatioConstraint;
     private JButton btnAddMeal;
     private JButton btnAddNutrientConstraint;
     private JButton btnAddNutrientRatio;
@@ -331,6 +346,7 @@ public class Main {
     private JButton btnDeleteFoodQuantityConstraint;
     private JButton btnDeleteFoodRatioConstraint;
     private JButton btnDeleteGroupQuantityConstraint;
+    private JButton btnDeleteGroupRatioConstraint;
     private JButton btnDeleteMeal;
     private JButton btnDeleteNutrientConstraint;
     private JButton btnDeleteNutrientRatio;
@@ -349,12 +365,13 @@ public class Main {
     private JCheckBox cbToR;
     private JCheckBox cbToRust;
     private JCheckBox chkResultRoundUp;
-    private JFileChooser fch_Mix;
     private JFileChooser fch_Foods;
+    private JFileChooser fch_Mix;
     private JFrame frm;
     private JLabel lblFoodCount;
     private JLabel lblFoodRatioCount;
     private JLabel lblGroupCount;
+    private JLabel lblGroupRatioCount;
     private JLabel lblNutrientCount;
     private JLabel lblNutrientRatioCount;
     private JList lst_Cost;
@@ -418,6 +435,8 @@ public class Main {
     private JTextField txtFoodNutrientRatioQuantityB;
     private JTextField txtFoodQuantityValue;
     private JTextField txtGroupQuantityValue;
+    private JTextField txtGroupRatioQuantityA;
+    private JTextField txtGroupRatioQuantityB;
     private JTextField txtNutrientQuantityValue;
     private JTextField txtNutrientRatioNutrientA;
     private JTextField txtNutrientRatioNutrientB;
@@ -446,6 +465,7 @@ public class Main {
     private TableFoodQuantityConstraint tblFoodQuantityConstraint;
     private TableFoodRatioConstraint tblFoodRatioConstraint;
     private TableGroupQuantityConstraint tblGroupQuantityConstraint;
+    private TableGroupRatioConstraint tblGroupRatioConstraint;
     private TableGroups tblFoodGroups;
     private TableInventoryDays tblMealPlanUsage;
     private TableLog tblLog;
@@ -481,11 +501,15 @@ public class Main {
         cmbFoodGroup = new ComboBox();
         cmbFoodRatioFoodA = new ComboBox();
         cmbFoodRatioFoodB = new ComboBox();
+        cmbGroupRatioGroupA = new ComboBox();
+        cmbGroupRatioGroupB = new ComboBox();
         cmbPortionFood = new ComboBox<>();
         cmbFoodQuantityNutrient = new ComboBox();
         cmbGroupNutrient = new ComboBox();
         cmbFoodRatioNutrientA = new ComboBox();
         cmbFoodRatioNutrientB = new ComboBox();
+        cmbGroupRatioNutrientA = new ComboBox();
+        cmbGroupRatioNutrientB = new ComboBox();
         cmbNutrientContentNutrient = new ComboBox();
         cmbNutrientQuantityNutrient = new ComboBox();
         cmbNutrientRatioNutrientA = new ComboBox();
@@ -493,6 +517,7 @@ public class Main {
         cmbFoodQuantityRelationship = new ComboBox();
         cmbGroupRelationship = new ComboBox();
         cmbFoodRatioRelationship = new ComboBox();
+        cmbGroupRatioRelationship = new ComboBox();
         cmbNutrientQuantityRelationship = new ComboBox();
         cmbNutrientRatioRelationship = new ComboBox();
         lstmdl_Tni = new DefaultListModel();
@@ -502,6 +527,7 @@ public class Main {
         btnAddFoodQuantityConstraint = new JButton("+");
         btnAddGroupQuantityConstraint = new JButton("+");
         btnAddFoodRatioConstraint = new JButton("+");
+        btnAddGroupRatioConstraint = new JButton("+");
         btnAddMeal = new JButton("+");
         btnAddNutrientConstraint = new JButton("+");
         btnAddNutrientRatio = new JButton("+");
@@ -510,6 +536,7 @@ public class Main {
         btnDeleteFoodQuantityConstraint = new JButton("-");
         btnDeleteGroupQuantityConstraint = new JButton("-");
         btnDeleteFoodRatioConstraint = new JButton("-");
+        btnDeleteGroupRatioConstraint = new JButton("-");
         btnDeleteMeal = new JButton("-");
         btnDeleteNutrientConstraint = new JButton("-");
         btnDeleteNutrientRatio = new JButton("-");
@@ -535,7 +562,7 @@ public class Main {
         lblFoodCount = new JLabel();
         lblGroupCount = new JLabel();
         lblFoodRatioCount = new JLabel();
-        // lblGroupRatioCount = new JLabel();
+        lblGroupRatioCount = new JLabel();
         lblNutrientCount = new JLabel();
         lblNutrientRatioCount = new JLabel();
         lst_Tni = new JList();
@@ -596,6 +623,8 @@ public class Main {
         txaLpProgram = new JTextArea();
         txtFoodNutrientRatioQuantityA = new JTextField();
         txtFoodNutrientRatioQuantityB = new JTextField();
+        txtGroupRatioQuantityA = new JTextField();
+        txtGroupRatioQuantityB = new JTextField();
         txtFoodQuantityValue = new JTextField();
         txtGroupQuantityValue = new JTextField();
         txtNutrientSearchQuantity = new JTextField();
@@ -607,6 +636,7 @@ public class Main {
         txtMinimization = new JTextArea();
         tree = new JTree();
         mixFoodLoader = new MixFoodLoader();
+        groupLoader = new GroupLoader();
         nutrientLoader = new NutrientLoader();
         relationshipLoader = new RelationshipLoader();
         tblMealPlanUsageMixes = new TableMix();
@@ -792,6 +822,9 @@ public class Main {
         tblFoodRatioConstraint.clear();
         cmbFoodGroup.clear();
         tblGroupQuantityConstraint.clear();
+        cmbGroupRatioGroupA.clear();
+        cmbGroupRatioGroupB.clear();
+        tblGroupRatioConstraint.clear();
         // Model Results Data
         tblMixResults.clear();
         tblDri.clear();
@@ -893,27 +926,27 @@ public class Main {
         int size = 19;
         String txt0 = StringUtils.rightPad("Food List", size);
         String txt1 = StringUtils.rightPad("Nutrient", size);
-        String txt2 = StringUtils.rightPad("Nutrient Ratio", size);
-        String txt3 = StringUtils.rightPad("Food", size);
-        String txt4 = StringUtils.rightPad("Food Ratio", size);
-        String txt5 = StringUtils.rightPad("Group", size);
-        // String txt6 = StringUtils.rightPad("Group Ratio", size);
+        String txt2 = StringUtils.rightPad("Food", size);
+        String txt3 = StringUtils.rightPad("Group", size);
+        String txt4 = StringUtils.rightPad("Nutrient Ratio", size);
+        String txt5 = StringUtils.rightPad("Food Ratio", size);
+        String txt6 = StringUtils.rightPad("Group Ratio", size);
         tab.setBorder(new TitledBorder("Constraints"));
         tab.setTabPlacement(SwingConstants.RIGHT);
         tab.add(txt0, getMixFoodPanel());
         tab.add(txt1, getNutrientConstraintsPanel());
-        tab.add(txt2, getNutrientRatioConstraintsPanel());
-        tab.add(txt3, getFoodConstraintsPanel());
-        tab.add(txt4, getFoodRatioConstraintsPanel());
-        tab.add(txt5, getGroupConstraintsPanel());
-        // tab.add(txt6, new PanelSpacer(new JPanel()));
+        tab.add(txt2, getFoodConstraintsPanel());
+        tab.add(txt3, getGroupConstraintsPanel());
+        tab.add(txt4, getNutrientRatioConstraintsPanel());
+        tab.add(txt5, getFoodRatioConstraintsPanel());
+        tab.add(txt6, getGroupRatioConstraintsPanel());
         tab.setToolTipTextAt(0, "Add food items to this list");
-        tab.setToolTipTextAt(1, "Limit a nutrient");
-        tab.setToolTipTextAt(2, "Create relationship between two nutrients");
-        tab.setToolTipTextAt(3, "Limit a food item");
-        tab.setToolTipTextAt(4, "Create relationship between two food items");
-        tab.setToolTipTextAt(5, "Limit a group");
-        // tab.setToolTipTextAt(6, "Create relationship between two groups");
+        tab.setToolTipTextAt(1, "Specify nutrient requirement");
+        tab.setToolTipTextAt(2, "Specify food requirement");
+        tab.setToolTipTextAt(3, "Specify food group requirement");
+        tab.setToolTipTextAt(4, "Create relationship between two nutrients");
+        tab.setToolTipTextAt(5, "Create relationship between two food items");
+        tab.setToolTipTextAt(6, "Create relationship between two food groups");
         return tab;
     }
 
@@ -1125,7 +1158,7 @@ public class Main {
         );
         FormLayout lyoConstraintCountPanel = new FormLayout(
                 "p,p", // columns
-                "4dlu,min,min,min,min,min,min,4dlu" // rows
+                "4dlu,min,min,min,min,min,min,min,4dlu" // rows
         );
         FormLayout lyoObjective = new FormLayout(
                 "160px", // columns
@@ -1158,6 +1191,7 @@ public class Main {
         JLabel lblFood = new JLabel("Food: ");
         JLabel lblFoodRatio = new JLabel("Food Ratio: ");
         JLabel lblGroup = new JLabel("Group: ");
+        JLabel lblGroupRatio = new JLabel("Group Ratio: ");
         // JLabel lblGroupRatio = new JLabel("Group Ratio: ");
         tblMixResults = new TableMixResults();
         tblDri = new TableDri();
@@ -1179,19 +1213,19 @@ public class Main {
         lblNutrientRatio.setHorizontalAlignment(SwingConstants.RIGHT);
         lblFoodRatio.setHorizontalAlignment(SwingConstants.RIGHT);
         lblGroup.setHorizontalAlignment(SwingConstants.RIGHT);
-        // lblGroupRatio.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblGroupRatio.setHorizontalAlignment(SwingConstants.RIGHT);
         pnlConstraintCount.add(lblNutrient, cc.xy(1, 2));
-        pnlConstraintCount.add(lblNutrientRatio, cc.xy(1, 3));
-        pnlConstraintCount.add(lblFood, cc.xy(1, 4));
-        pnlConstraintCount.add(lblFoodRatio, cc.xy(1, 5));
-        pnlConstraintCount.add(lblGroup, cc.xy(1, 6));
-        // pnlConstraintCount.add(lblGroupRatio, cc.xy(1, 7));
+        pnlConstraintCount.add(lblFood, cc.xy(1, 3));
+        pnlConstraintCount.add(lblGroup, cc.xy(1, 4));
+        pnlConstraintCount.add(lblNutrientRatio, cc.xy(1, 5));
+        pnlConstraintCount.add(lblFoodRatio, cc.xy(1, 6));
+        pnlConstraintCount.add(lblGroupRatio, cc.xy(1, 7));
         pnlConstraintCount.add(lblNutrientCount, cc.xy(2, 2));
-        pnlConstraintCount.add(lblNutrientRatioCount, cc.xy(2, 3));
-        pnlConstraintCount.add(lblFoodCount, cc.xy(2, 4));
-        pnlConstraintCount.add(lblFoodRatioCount, cc.xy(2, 5));
-        pnlConstraintCount.add(lblGroupCount, cc.xy(2, 6));
-        // pnlConstraintCount.add(lblGroupRatioCount, cc.xy(2, 7));
+        pnlConstraintCount.add(lblFoodCount, cc.xy(2, 3));
+        pnlConstraintCount.add(lblGroupCount, cc.xy(2, 4));
+        pnlConstraintCount.add(lblNutrientRatioCount, cc.xy(2, 5));
+        pnlConstraintCount.add(lblFoodRatioCount, cc.xy(2, 6));
+        pnlConstraintCount.add(lblGroupRatioCount, cc.xy(2, 7));
         JPanel pnl = new JPanel();
         FormLayout lyoPnl = new FormLayout(
                 "4px,min:GROW,4px,p,4px", // columns
@@ -1800,6 +1834,53 @@ public class Main {
         return pnl;
     }
 
+    private JPanel getGroupRatioConstraintsPanel() {
+        JPanel pnl = new JPanel();
+        tblGroupRatioConstraint = new TableGroupRatioConstraint();
+        JScrollPane scrollPane = new JScrollPane(tblGroupRatioConstraint);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        JPanel buttons = new JPanel();
+        FormLayout panelLayout = new FormLayout(
+                "255px:GROW,255px:GROW,100px,45px,255px:GROW,255px:GROW,100px,28px", // columns
+                "FILL:28px,FILL:145px:GROW,min" // rows;
+        );
+        pnl.setLayout(panelLayout);
+        scrollPane.setBorder(new TitledBorder("Group Nutrient Ratio Constraints"));
+        pnl.add(cmbGroupRatioGroupA, cc.xy(1, 1));
+        pnl.add(cmbGroupRatioNutrientA, cc.xy(2, 1));
+        pnl.add(txtGroupRatioQuantityA, cc.xy(3, 1));
+        pnl.add(cmbGroupRatioRelationship, cc.xy(4, 1));
+        pnl.add(cmbGroupRatioGroupB, cc.xy(5, 1));
+        pnl.add(cmbGroupRatioNutrientB, cc.xy(6, 1));
+        pnl.add(txtGroupRatioQuantityB, cc.xy(7, 1));
+        pnl.add(scrollPane, cc.xyw(1, 2, 8));
+        buttons.add(btnAddGroupRatioConstraint);
+        buttons.add(btnDeleteGroupRatioConstraint);
+        pnl.add(buttons, cc.xyw(1, 3, 8));
+        btnAddGroupRatioConstraint.setToolTipText("Add Constraint");
+        btnDeleteGroupRatioConstraint.setToolTipText("Delete Constraint");
+        ((JLabel) cmbGroupRatioRelationship.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        btnAddGroupRatioConstraint.addActionListener((ActionEvent evt) -> {
+            addGroupRatioConstraint();
+        });
+        btnDeleteGroupRatioConstraint.addActionListener((ActionEvent evt) -> {
+            if (tblGroupRatioConstraint.isSelectionEmpty()) {
+                return;
+            }
+            deleteGroupRatioConstraint();
+        });
+        tblGroupRatioConstraint.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+            if (tblGroupRatioConstraint.isSelectionEmpty()) {
+                return;
+            }
+            setGroupRatioConstraintGuiValues();
+        });
+        return pnl;
+    }
+
     private JPanel getMealPlanUsagePanel() {
         JPanel pnl = new JPanel();
         FormLayout lyo = new FormLayout(
@@ -2232,6 +2313,7 @@ public class Main {
                             = LifestageFinder.find(((SpinnerListModel) spnLifestage.getModel()).getList(), mix.getLifestageid());
                     spnLifestage.setSelectedItem(foundLifestage);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     frm.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                     return;
                 }
@@ -2257,66 +2339,54 @@ public class Main {
             }
         }
         );
-        mniExportFoods.addActionListener(
-                (ActionEvent evt) -> {
-                    exportAllCategories();
-                }
+        mniExportFoods.addActionListener((ActionEvent evt) -> {
+            exportAllCategories();
+        }
         );
-        mniAbout.addActionListener(
-                (ActionEvent evt) -> {
-                    showAbout();
-                }
+        mniAbout.addActionListener((ActionEvent evt) -> {
+            showAbout();
+        }
         );
-        mniSetConstraints.addActionListener(
-                (ActionEvent evt) -> {
-                    (new ConstraintChooser()).show();
-                    reloadCbNutrientData();
-                }
+        mniSetConstraints.addActionListener((ActionEvent evt) -> {
+            (new ConstraintChooser()).show();
+            reloadCbNutrientData();
+        }
         );
-        chkResultRoundUp.addActionListener(
-                (ActionEvent evt) -> {
-                    setQuantityScale();
-                }
+        chkResultRoundUp.addActionListener((ActionEvent evt) -> {
+            setQuantityScale();
+        }
         );
-        mniExit.addActionListener(
-                (ActionEvent evt) -> {
-                    exit();
-                }
+        mniExit.addActionListener((ActionEvent evt) -> {
+            exit();
+        }
         );
-        mniCreateMix.addActionListener(
-                (ActionEvent evt) -> {
-                    createMix();
-                }
+        mniCreateMix.addActionListener((ActionEvent evt) -> {
+            createMix();
+        }
         );
-        mniDeleteMix.addActionListener(
-                (ActionEvent evt) -> {
-                    deleteMix();
-                }
+        mniDeleteMix.addActionListener((ActionEvent evt) -> {
+            deleteMix();
+        }
         );
-        mniRenameMix.addActionListener(
-                (ActionEvent evt) -> {
-                    renameMix();
-                }
+        mniRenameMix.addActionListener((ActionEvent evt) -> {
+            renameMix();
+        }
         );
-        mniDuplicateMix.addActionListener(
-                (ActionEvent evt) -> {
-                    duplicateMix();
-                }
+        mniDuplicateMix.addActionListener((ActionEvent evt) -> {
+            duplicateMix();
+        }
         );
-        mniConvertMix.addActionListener(
-                (ActionEvent evt) -> {
-                    convertMixToFood();
-                }
+        mniConvertMix.addActionListener((ActionEvent evt) -> {
+            convertMixToFood();
+        }
         );
-        mniPinMixAndDeleteConstraints.addActionListener(
-                (ActionEvent evt) -> {
-                    pinAndDelete();
-                }
+        mniPinMixAndDeleteConstraints.addActionListener((ActionEvent evt) -> {
+            pinAndDelete();
+        }
         );
-        mniPinMixAndKeepConstraints.addActionListener(
-                (ActionEvent evt) -> {
-                    pinAndKeep();
-                }
+        mniPinMixAndKeepConstraints.addActionListener((ActionEvent evt) -> {
+            pinAndKeep();
+        }
         );
         return mnuBar;
     }
@@ -2757,6 +2827,10 @@ public class Main {
         return String.format("%1$ 2d", tblFoodRatioConstraint.getRowCount());
     }
 
+    private String getGroupRatioConstraintCount() {
+        return String.format("%1$ 2d", tblGroupRatioConstraint.getRowCount());
+    }
+
     private String getGroupConstraintCount() {
         return String.format("%1$ 2d", tblGroupQuantityConstraint.getRowCount());
     }
@@ -2834,6 +2908,61 @@ public class Main {
             Message.showMessage("Specify amount");
         }
         if (flag_listFood && flag_listNutrient && flag_listRelationship && flag_quantity) {
+            flag_isReady = true;
+        }
+        return flag_isReady;
+    }
+
+    private Boolean checkGroupRatioConstraint() {
+        boolean flag_isReady = false;
+        boolean flag_mix = false;
+        boolean flag_listGroupA = false;
+        boolean flag_listNutrientA = false;
+        boolean flag_quantityA = false;
+        boolean flag_listGroupB = false;
+        boolean flag_listNutrientB = false;
+        boolean flag_quantityB = false;
+        if (!getSelectedMix().getMixid().isEmpty()) {
+            flag_mix = true;
+        } else {
+            Message.showMessage("Create or import mix");
+        }
+        if (!cmbGroupRatioGroupA.isSelectionEmpty()) {
+            flag_listGroupA = true;
+        } else {
+            Message.showMessage("Select group A");
+        }
+        if (!cmbGroupRatioNutrientA.isSelectionEmpty()) {
+            flag_listNutrientA = true;
+        } else {
+            Message.showMessage("Select nutrient A");
+        }
+        if (!txtGroupRatioQuantityA.getText().isEmpty()) {
+            flag_quantityA = true;
+        } else {
+            Message.showMessage("Specify amount A");
+        }
+        if (!cmbGroupRatioGroupB.isSelectionEmpty()) {
+            flag_listGroupB = true;
+        } else {
+            Message.showMessage("Select group B");
+        }
+        if (!cmbGroupRatioNutrientB.isSelectionEmpty()) {
+            flag_listNutrientB = true;
+        } else {
+            Message.showMessage("Select nutrient B");
+        }
+        if (!txtGroupRatioQuantityB.getText().isEmpty()) {
+            flag_quantityB = true;
+        } else {
+            Message.showMessage("Specify amount B");
+        }
+        if (flag_listGroupA
+                && flag_listNutrientA
+                && flag_quantityA
+                && flag_listGroupB
+                && flag_listNutrientB
+                && flag_quantityB) {
             flag_isReady = true;
         }
         return flag_isReady;
@@ -3379,7 +3508,9 @@ public class Main {
             deleteFoodItem(food.getId_food_id());
             reloadFoodComboBoxes(getSelectedMix().getMixid());
             reloadMixConstraints(getSelectedMix().getMixid());
+            reloadGroupConstraints(getSelectedMix().getMixid());
             mixFoodLoader.reload(getSelectedMix().getMixid());
+            reloadGroupComboBoxes(getSelectedMix().getMixid());
             cmbPortionFood.reload(mixFoodLoader.get());
             setConstraintCounts();
         }
@@ -3419,14 +3550,14 @@ public class Main {
                     LoggerImpl.INSTANCE.logProblem(e);
                 }
                 reloadFoods();
-                String mixid = getSelectedMix().getMixid();
-                reloadFoodComboBoxes(mixid);
+                reloadFoodComboBoxes(getSelectedMix().getMixid());
+                reloadGroupComboBoxes(getSelectedMix().getMixid());
                 reloadMixResults(getSelectedMix());
                 try {
-                    Future<List<List>> task1 = TaskLauncher.submit(new FoodConstraintsTask(mixid));
+                    Future<List<List>> task1 = TaskLauncher.submit(new FoodConstraintsTask(getSelectedMix().getMixid()));
                     List<List> constraints = task1.get();
                     tblFoodQuantityConstraint.reload(constraints);
-                    Future<List<List>> task2 = TaskLauncher.submit(new FoodRatioConstraintsTask(mixid));
+                    Future<List<List>> task2 = TaskLauncher.submit(new FoodRatioConstraintsTask(getSelectedMix().getMixid()));
                     List<List> constraints2 = task2.get();
                     tblFoodRatioConstraint.reload(constraints2);
                 } catch (Exception e) {
@@ -3564,6 +3695,125 @@ public class Main {
         RelationshipDO relationshipDO = new RelationshipDO(3, "=");
         BigDecimal b = new BigDecimal("0.0");
         executeMergeGroupQuantityConstraintTasks(getSelectedMix(), groupDO, nutrientDO, relationshipDO, b);
+    }
+
+    private void addGroupRatioConstraint() {
+        if (checkGroupRatioConstraint()) {
+            NumberCheck numberCheck = new NumberCheck();
+            numberCheck.addToUncheckedList(txtGroupRatioQuantityA.getText());
+            numberCheck.addToUncheckedList(txtGroupRatioQuantityB.getText());
+            if (numberCheck.pass()) {
+                Records.Group groupDOA = cmbGroupRatioGroupA.getSelectedItem();
+                NutrientDO nutrientDOA = cmbGroupRatioNutrientA.getSelectedItem();
+                Records.Group groupDOB = cmbGroupRatioGroupB.getSelectedItem();
+                NutrientDO nutrientDOB = cmbGroupRatioNutrientB.getSelectedItem();
+                BigDecimal a = new BigDecimal(txtGroupRatioQuantityA.getText());
+                BigDecimal b = new BigDecimal(txtGroupRatioQuantityB.getText());
+                RelationshipDO relationshipDO = (RelationshipDO) cmbGroupRatioRelationship.getSelectedItem();
+                try {
+                    Future<Boolean> task0 = TaskLauncher.submit(new MergeGroupRatioConstraintTask(
+                            getSelectedMix().getMixid(),
+                            groupDOA.GroupId(),
+                            nutrientDOA.getNutr_no(),
+                            groupDOB.GroupId(),
+                            nutrientDOB.getNutr_no(),
+                            relationshipDO.getRelationshipid(),
+                            a,
+                            b));
+                    Boolean completed = task0.get();
+                    if (!completed) {
+                        return;
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(groupDOA.Name());
+                    sb.append(" using ");
+                    sb.append(nutrientDOA.getNutrdesc());
+                    sb.append(" / ");
+                    sb.append(groupDOB.Name());
+                    sb.append(" using ");
+                    sb.append(nutrientDOB.getNutrdesc());
+                    sb.append(" ");
+                    sb.append(relationshipDO.getName());
+                    sb.append(" ");
+                    sb.append((new DecimalFormat("######0.0#################")).format(a));
+                    sb.append(" / ");
+                    sb.append((new DecimalFormat("######0.0#################")).format(b));
+                    addLogEntry(getSelectedMix().getName(),
+                            "Add",
+                            "Group Ratio Constraint",
+                            sb.toString(),
+                            getSelectedMix().getMixid(),
+                            groupDOA.GroupId(),
+                            nutrientDOA.getNutr_no(),
+                            groupDOB.GroupId(),
+                            nutrientDOB.getNutr_no(),
+                            relationshipDO.getRelationshipid(),
+                            a,
+                            b);
+                    Future<List<List>> task1 = TaskLauncher.submit(new GroupRatioConstraintsTask(getSelectedMix().getMixid()));
+                    List<List> constraints = task1.get();
+                    tblGroupRatioConstraint.reload(constraints);
+                    setConstraintCounts();
+                } catch (Exception e) {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
+            } else {
+                Message.showMessage("Value must be number greater than zero");
+            }
+        }
+    }
+
+    private void deleteGroupRatioConstraint() {
+        if (!tblGroupRatioConstraint.isSelectionEmpty()) {
+            TableGroupRatioConstraint.Row row = tblGroupRatioConstraint.getSelectedValue();
+            String mixid = row.getMixid();
+            String groupidA = row.getGroupida();
+            String nutrientidA = row.getNutrientida();
+            String groupidB = row.getGroupidb();
+            String nutrientidB = row.getNutrientidb();
+            Integer relationshipid = row.getRelationshipid();
+            try {
+                Future<Boolean> task0 = TaskLauncher.submit(new DeleteGroupRatioConstraintTask(
+                        mixid, groupidA, nutrientidA, groupidB, nutrientidB, relationshipid));
+                Boolean completed = task0.get();
+                if (!completed) {
+                    return;
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append(row.getGroupa());
+                sb.append(" using ");
+                sb.append(row.getNutrienta());
+                sb.append(" / ");
+                sb.append(row.getGroupb());
+                sb.append(" using ");
+                sb.append(row.getNutrientb());
+                sb.append(" ");
+                sb.append(row.getRelationship());
+                sb.append(" ");
+                sb.append((new DecimalFormat("######0.0#################")).format(row.getA()));
+                sb.append(" / ");
+                sb.append((new DecimalFormat("######0.0#################")).format(row.getB()));
+                addLogEntry(
+                        getSelectedMix().getName(),
+                        "Delete",
+                        "Group Ratio Constraint",
+                        sb.toString(),
+                        getSelectedMix().getMixid(),
+                        row.getGroupida(),
+                        row.getNutrientida(),
+                        row.getGroupidb(),
+                        row.getNutrientidb(),
+                        row.getRelationshipid(),
+                        row.getA(),
+                        row.getB());
+                Future<List<List>> task1 = TaskLauncher.submit(new GroupRatioConstraintsTask(mixid));
+                List<List> constraints = task1.get();
+                tblGroupRatioConstraint.reload(constraints);
+                setConstraintCounts();
+            } catch (Exception e) {
+                LoggerImpl.INSTANCE.logProblem(e);
+            }
+        }
     }
 
     private void addFoodRatioConstraint() {
@@ -3920,6 +4170,7 @@ public class Main {
                     LoggerImpl.INSTANCE.logProblem(e);
                 }
                 reloadFoodComboBoxes(getSelectedMix().getMixid());
+                reloadGroupComboBoxes(getSelectedMix().getMixid());
             } catch (Exception e) {
                 LoggerImpl.INSTANCE.logProblem(e);
             }
@@ -3971,7 +4222,10 @@ public class Main {
             LoggerImpl.INSTANCE.logProblem(e);
         }
         reloadFoodComboBoxes(getSelectedMix().getMixid());
+        reloadGroupComboBoxes(getSelectedMix().getMixid());
         reloadMixConstraints(getSelectedMix().getMixid());
+        reloadGroupConstraints(getSelectedMix().getMixid());
+        setConstraintCounts();
         try {
             Future<List<List>> task = TaskLauncher.submit(new MixResultsTask(getSelectedMix().getMixid()));
             List<List> results = task.get();
@@ -4896,6 +5150,8 @@ public class Main {
                             (BigDecimal) row.get(12));
                 });
                 reloadMixConstraints(getSelectedMix().getMixid());
+                reloadGroupConstraints(getSelectedMix().getMixid());
+                setConstraintCounts();
                 tblFoodQuantityConstraint.getStream().forEach(o -> {
                     List row = (List) o;
                     StringBuilder sb = new StringBuilder();
@@ -4959,6 +5215,8 @@ public class Main {
                             null);
                 });
                 reloadMixConstraints(getSelectedMix().getMixid());
+                reloadGroupConstraints(getSelectedMix().getMixid());
+                setConstraintCounts();
                 tblFoodQuantityConstraint.getStream().forEach(o -> {
                     List row = (List) o;
                     StringBuilder sb = new StringBuilder();
@@ -5116,6 +5374,31 @@ public class Main {
         txtFoodQuantityValue.setCaretPosition(0);
     }
 
+    private void setGroupRatioConstraintGuiValues() {
+        TableGroupRatioConstraint.Row row = tblGroupRatioConstraint.getSelectedValue();
+        String groupAid = row.getGroupida();
+        String groupBid = row.getGroupidb();
+        String nutrientAid = row.getNutrientida();
+        String nutrientBid = row.getNutrientidb();
+        Integer relationshipid = row.getRelationshipid();
+        BigDecimal qA = row.getA();
+        BigDecimal qB = row.getB();
+        int groupAIndex = cmbGroupRatioGroupA.index(new Records.Group(getSelectedMix().getMixid(), groupAid, ""));
+        int groupBIndex = cmbGroupRatioGroupB.index(new Records.Group(getSelectedMix().getMixid(), groupBid, ""));
+        int nutrientAindex = cmbGroupRatioNutrientA.index(new NutrientDO(nutrientAid, "", new BigDecimal("-1")));
+        int nutrientBindex = cmbGroupRatioNutrientB.index(new NutrientDO(nutrientBid, "", new BigDecimal("-1")));
+        int relationshipindex = cmbGroupRatioRelationship.index(new RelationshipDO(relationshipid, ""));
+        cmbGroupRatioGroupA.setSelectedIndex(groupAIndex);
+        cmbGroupRatioGroupB.setSelectedIndex(groupBIndex);
+        cmbGroupRatioNutrientA.setSelectedIndex(nutrientAindex);
+        txtGroupRatioQuantityA.setText((new DecimalFormat("######0.0#################")).format(qA));
+        txtGroupRatioQuantityA.setCaretPosition(0);
+        cmbGroupRatioNutrientB.setSelectedIndex(nutrientBindex);
+        txtGroupRatioQuantityB.setText((new DecimalFormat("######0.0#################")).format(qB));
+        txtGroupRatioQuantityB.setCaretPosition(0);
+        cmbGroupRatioRelationship.setSelectedIndex(relationshipindex);
+    }
+
     private void setFoodRatioConstraintGuiValues() {
         TableFoodRatioConstraint.Row row = tblFoodRatioConstraint.getSelectedValue();
         String foodAid = row.getFoodida();
@@ -5199,6 +5482,14 @@ public class Main {
         }
     }
 
+    private void reloadGroupComboBoxes(String mixid) {
+        groupLoader.reload(mixid);
+        if (!groupLoader.get().isEmpty()) {
+            cmbGroupRatioGroupA.reload(groupLoader.get());
+            cmbGroupRatioGroupB.reload(groupLoader.get());
+        }
+    }
+
     private void reloadCbNutrientData() {
         nutrientLoader.reload();
         cmbNutrientQuantityNutrient.reload(nutrientLoader.getList());
@@ -5206,6 +5497,8 @@ public class Main {
         cmbNutrientRatioNutrientB.reload(nutrientLoader.getList());
         cmbFoodQuantityNutrient.reload(nutrientLoader.getList());
         cmbGroupNutrient.reload(nutrientLoader.getList());
+        cmbGroupRatioNutrientA.reload(nutrientLoader.getList());
+        cmbGroupRatioNutrientB.reload(nutrientLoader.getList());
         cmbFoodRatioNutrientA.reload(nutrientLoader.getList());
         cmbFoodRatioNutrientB.reload(nutrientLoader.getList());
         cmbNutrientContentNutrient.reload(nutrientLoader.getList());
@@ -5218,11 +5511,13 @@ public class Main {
         cmbFoodQuantityRelationship.reload(relationshipLoader.get());
         cmbGroupRelationship.reload(relationshipLoader.get());
         cmbFoodRatioRelationship.reload(relationshipLoader.get());
+        cmbGroupRatioRelationship.reload(relationshipLoader.get());
         cmbNutrientQuantityRelationship.setSelectedIndex(2);
         cmbNutrientRatioRelationship.setSelectedIndex(2);
         cmbFoodQuantityRelationship.setSelectedIndex(2);
         cmbGroupRelationship.setSelectedIndex(2);
         cmbFoodRatioRelationship.setSelectedIndex(2);
+        cmbGroupRatioRelationship.setSelectedIndex(2);
     }
 
     private void reloadMixConstraints(String mixid) {
@@ -5231,12 +5526,10 @@ public class Main {
             Future<List<List>> task1 = TaskLauncher.submit(new NutrientRatioConstraintsTask(mixid));
             Future<List<List>> task2 = TaskLauncher.submit(new FoodConstraintsTask(mixid));
             Future<List<List>> task3 = TaskLauncher.submit(new FoodRatioConstraintsTask(mixid));
-            Future<List<List>> task4 = TaskLauncher.submit(new GroupConstraintsTask(mixid));
             List<List> constraints0 = task0.get();
             List<List> constraints1 = task1.get();
             List<List> constraints2 = task2.get();
             List<List> constraints3 = task3.get();
-            List<List> constraints4 = task4.get();
             try {
                 Future<List<List>> task6 = TaskLauncher.submit(new NamedMixFoodSortedByNameTask(mixid));
                 List<List> foods = task6.get();
@@ -5249,10 +5542,21 @@ public class Main {
             tblNutrientRatio.reload(constraints1);
             tblFoodQuantityConstraint.reload(constraints2);
             tblFoodRatioConstraint.reload(constraints3);
-            tblGroupQuantityConstraint.reload(constraints4);
-            setConstraintCounts();
         } catch (Exception e) {
             LoggerImpl.INSTANCE.logProblem(e);
+        }
+    }
+
+    private void reloadGroupConstraints(String mixid) {
+        try {
+            Future<List<List>> task1 = TaskLauncher.submit(new GroupConstraintsTask(mixid));
+            Future<List<List>> task2 = TaskLauncher.submit(new GroupRatioConstraintsTask(mixid));
+            List<List> groupConstraints = task1.get();
+            List<List> groupRatioConstraints = task2.get();
+            tblGroupQuantityConstraint.reload(groupConstraints);
+            tblGroupRatioConstraint.reload(groupRatioConstraints);
+        } catch (Exception ex) {
+            System.getLogger(Main.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
 
@@ -5308,6 +5612,8 @@ public class Main {
         tblFoodQuantityConstraint.roundDown();
         // Food Ratio Constraints
         tblFoodRatioConstraint.roundDown();
+        // Group Ratio Constraints
+        tblGroupRatioConstraint.roundDown();
         // Group Constraints
         tblGroupQuantityConstraint.roundDown();
         // Meal Portions
@@ -5343,6 +5649,8 @@ public class Main {
         tblFoodQuantityConstraint.roundUp();
         // Food Ratio Constraints
         tblFoodRatioConstraint.roundUp();
+        // Group Ratio Constraints
+        tblGroupRatioConstraint.roundUp();
         // Group Constraints
         tblGroupQuantityConstraint.roundUp();
         // Meal Portions
@@ -5357,13 +5665,32 @@ public class Main {
         tblSelectedFoods.clear();
         tblFoodsInFoodGroup.clear();
         reloadFoodComboBoxes(getSelectedMix().getMixid());
+        reloadGroupComboBoxes(getSelectedMix().getMixid());
         reloadMixConstraints(getSelectedMix().getMixid());
+        reloadGroupConstraints(getSelectedMix().getMixid());
         mixFoodLoader.reload(getSelectedMix().getMixid());
         cmbPortionFood.reload(mixFoodLoader.get());
         setConstraintCounts();
         reloadMixResults(getSelectedMix());
         reloadGroups(getSelectedMix().getMixid());
+        reloadGroupComboBoxes(getSelectedMix().getMixid());
         reloadMealResults(getSelectedMix());
+        setComboBoxToWeight();
+    }
+
+    private void setComboBoxToWeight() {
+        NutrientDO nutrientDO = new NutrientDO("10000", "Other, Weight (g)", new BigDecimal("-1"));
+        int index = cmbNutrientQuantityNutrient.index(nutrientDO);
+        cmbNutrientQuantityNutrient.setSelectedIndex(index);
+        cmbFoodQuantityNutrient.setSelectedIndex(index);
+        cmbGroupNutrient.setSelectedIndex(index);
+        cmbNutrientRatioNutrientA.setSelectedIndex(index);
+        cmbNutrientRatioNutrientB.setSelectedIndex(index);
+        cmbFoodRatioNutrientA.setSelectedIndex(index);
+        cmbFoodRatioNutrientB.setSelectedIndex(index);
+        cmbGroupRatioNutrientA.setSelectedIndex(index);
+        cmbGroupRatioNutrientB.setSelectedIndex(index);
+        cmbNutrientContentNutrient.setSelectedIndex(index);
     }
 
     private void solveMixAndUpdateResults() {
@@ -5596,6 +5923,84 @@ public class Main {
                     LoggerImpl.INSTANCE.logProblem(e);
                 }
             });
+            /* FOOD CONSTRAINTS */
+            Future<List<Map<String, Object>>> taskRhs_FOOD_CONSTRAINTS = TaskLauncher.submit(new FoodRhsTask(mixid));
+            List<Map<String, Object>> lst_FOOD_CONSTRAINTS = taskRhs_FOOD_CONSTRAINTS.get();
+            lst_FOOD_CONSTRAINTS.forEach((row) -> {
+                try {
+
+                    String foodid = (String) row.get("FOODID");
+                    String nutrientid = (String) row.get("NUTRIENTID");
+                    Integer relationshipid = (Integer) row.get("RELATIONSHIPID");
+                    Double b = (double) row.get("B");
+                    String food = (String) row.get("FOOD");
+                    String nutrient = (String) row.get("NUTRIENT");
+                    String eq = (String) row.get("EQ");
+                    Future<LhsContainer> taskLhs
+                            = TaskLauncher.submit(new FoodLhsTask(mixid, foodid, nutrientid, relationshipid));
+                    LhsContainer container = taskLhs.get();
+                    double[] coefficients = container.getCoefficients();
+                    lpmodel.addConstraint(coefficients, relationshipid, b);
+                    StringBuilder constraintName = new StringBuilder();
+                    constraintName
+                            .append(food)
+                            .append(" AS ")
+                            .append(nutrient)
+                            .append(" ")
+                            .append(eq)
+                            .append(" ")
+                            .append(U.plain(b));
+                    lpToCplexMeals.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToCplexExp.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToCplex.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToR.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToJava.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToRust.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToC.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
+
+                } catch (Exception e) {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
+            });
+            /* GROUP CONSTRAINTS */
+            Future<List<Map<String, Object>>> taskRhs_GROUP_CONSTRAINTS = TaskLauncher.submit(new GroupRhsTask(mixid));
+            List<Map<String, Object>> lst_GROUP_CONSTRAINTS = taskRhs_GROUP_CONSTRAINTS.get();
+            lst_GROUP_CONSTRAINTS.forEach((row) -> {
+                try {
+
+                    String groupid = (String) row.get("GROUPID");
+                    String nutrientid = (String) row.get("NUTRIENTID");
+                    Integer relationshipid = (Integer) row.get("RELATIONSHIPID");
+                    Double b = (double) row.get("B");
+                    String group = (String) row.get("GROUP");
+                    String nutrient = (String) row.get("NUTRIENT");
+                    String eq = (String) row.get("EQ");
+                    Future<LhsContainer> taskLhs
+                            = TaskLauncher.submit(new GroupLhsTask(mixid, groupid, nutrientid));
+                    LhsContainer container = taskLhs.get();
+                    double[] coefficients = container.getCoefficients();
+                    lpmodel.addConstraint(coefficients, relationshipid, b);
+                    StringBuilder constraintName = new StringBuilder();
+                    constraintName
+                            .append(group)
+                            .append(" AS ")
+                            .append(nutrient)
+                            .append(" ")
+                            .append(eq)
+                            .append(" ")
+                            .append(U.plain(b));
+                    lpToCplexMeals.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToCplexExp.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToCplex.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToR.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToJava.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToRust.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                    lpToC.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+
+                } catch (Exception e) {
+                    LoggerImpl.INSTANCE.logProblem(e);
+                }
+            });
             /* NUTRIENT RATIO CONSTRAINTS */
             Future<List<Map<String, Object>>> taskRhs_NUTRIENT_RATIO_CONSTRAINTS = TaskLauncher.submit(new NutrientRatioRhsTask(mixid));
             List<Map<String, Object>> lst_NUTRIENT_RATIO_CONSTRAINTS = taskRhs_NUTRIENT_RATIO_CONSTRAINTS.get();
@@ -5632,45 +6037,6 @@ public class Main {
                     lpToJava.addNutrientRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
                     lpToRust.addNutrientRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
                     lpToC.addNutrientRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
-
-                } catch (Exception e) {
-                    LoggerImpl.INSTANCE.logProblem(e);
-                }
-            });
-            /* FOOD CONSTRAINTS */
-            Future<List<Map<String, Object>>> taskRhs_FOOD_CONSTRAINTS = TaskLauncher.submit(new FoodRhsTask(mixid));
-            List<Map<String, Object>> lst_FOOD_CONSTRAINTS = taskRhs_FOOD_CONSTRAINTS.get();
-            lst_FOOD_CONSTRAINTS.forEach((row) -> {
-                try {
-
-                    String foodid = (String) row.get("FOODID");
-                    String nutrientid = (String) row.get("NUTRIENTID");
-                    Integer relationshipid = (Integer) row.get("RELATIONSHIPID");
-                    Double b = (double) row.get("B");
-                    String food = (String) row.get("FOOD");
-                    String nutrient = (String) row.get("NUTRIENT");
-                    String eq = (String) row.get("EQ");
-                    Future<LhsContainer> taskLhs
-                            = TaskLauncher.submit(new FoodLhsTask(mixid, foodid, nutrientid, relationshipid));
-                    LhsContainer container = taskLhs.get();
-                    double[] coefficients = container.getCoefficients();
-                    lpmodel.addConstraint(coefficients, relationshipid, b);
-                    StringBuilder constraintName = new StringBuilder();
-                    constraintName
-                            .append(food)
-                            .append(" AS ")
-                            .append(nutrient)
-                            .append(" ")
-                            .append(eq)
-                            .append(" ")
-                            .append(U.plain(b));
-                    lpToCplexMeals.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToCplexExp.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToCplex.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToR.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToJava.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToRust.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToC.addFoodConstraint(coefficients, relationshipid, b, constraintName.toString());
 
                 } catch (Exception e) {
                     LoggerImpl.INSTANCE.logProblem(e);
@@ -5726,46 +6092,55 @@ public class Main {
                     e.printStackTrace();
                 }
             });
-            /* GROUP CONSTRAINTS */
-            Future<List<Map<String, Object>>> taskRhs_GROUP_CONSTRAINTS = TaskLauncher.submit(new GroupRhsTask(mixid));
-            List<Map<String, Object>> lst_GROUP_CONSTRAINTS = taskRhs_GROUP_CONSTRAINTS.get();
-            lst_GROUP_CONSTRAINTS.forEach((row) -> {
+            /* GROUP RATIO CONSTRAINTS */
+            Future<List<Map<String, Object>>> taskRhs_GROUP_RATIO_CONSTRAINTS = TaskLauncher.submit(new GroupRatioRhsTask(mixid));
+            List<Map<String, Object>> lst_GROUP_RATIO_CONSTRAINTS = taskRhs_GROUP_RATIO_CONSTRAINTS.get();
+            lst_GROUP_RATIO_CONSTRAINTS.forEach((row) -> {
                 try {
-
-                    String groupid = (String) row.get("GROUPID");
-                    String nutrientid = (String) row.get("NUTRIENTID");
-                    Integer relationshipid = (Integer) row.get("RELATIONSHIPID");
-                    Double b = (double) row.get("B");
-                    String group = (String) row.get("GROUP");
-                    String nutrient = (String) row.get("NUTRIENT");
+                    String groupidA = (String) row.get("GROUP_ID_1");
+                    String nutrientidA = (String) row.get("NUTRIENT_ID_1");
+                    String groupidB = (String) row.get("GROUP_ID_2");
+                    String nutrientidB = (String) row.get("NUTRIENT_ID_2");
+                    int relationshipid = (int) row.get("RELATIONSHIPID");
+                    BigDecimal A = (BigDecimal) row.get("A");
+                    BigDecimal B = (BigDecimal) row.get("B");
+                    String group1 = (String) row.get("GROUP1");
+                    String nutrient1 = (String) row.get("NUTRIENT1");
+                    String group2 = (String) row.get("GROUP2");
+                    String nutrient2 = (String) row.get("NUTRIENT2");
                     String eq = (String) row.get("EQ");
                     Future<LhsContainer> taskLhs
-                            = TaskLauncher.submit(new GroupLhsTask(mixid, groupid, nutrientid));
+                            = TaskLauncher.submit(new GroupRatioLhsTask(mixid, groupidA, nutrientidA, groupidB, nutrientidB, A, B));
                     LhsContainer container = taskLhs.get();
                     double[] coefficients = container.getCoefficients();
-                    lpmodel.addConstraint(coefficients, relationshipid, b);
+                    lpmodel.addConstraint(coefficients, relationshipid, 0.0);
                     StringBuilder constraintName = new StringBuilder();
                     constraintName
-                            .append(group)
+                            .append(group1)
                             .append(" AS ")
-                            .append(nutrient)
+                            .append(nutrient1)
+                            .append(" / ")
+                            .append(group2)
+                            .append(" AS ")
+                            .append(nutrient2)
                             .append(" ")
                             .append(eq)
                             .append(" ")
-                            .append(U.plain(b));
-                    lpToCplexMeals.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToCplexExp.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToCplex.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToR.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToJava.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToRust.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
-                    lpToC.addGroupConstraint(coefficients, relationshipid, b, constraintName.toString());
+                            .append(U.plain(A))
+                            .append(" / ")
+                            .append(U.plain(B));
+                    lpToCplexMeals.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
+                    lpToCplexExp.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
+                    lpToCplex.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
+                    lpToR.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
+                    lpToJava.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
+                    lpToRust.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
+                    lpToC.addGroupRatioConstraint(coefficients, relationshipid, 0.0, constraintName.toString());
 
                 } catch (Exception e) {
-                    LoggerImpl.INSTANCE.logProblem(e);
+                    e.printStackTrace();
                 }
             });
-
             // ----- LEGENDS -----
             lpToCplexMeals.addMixLegend(mixName, optionDescription);
             lpToCplexExp.addMixLegend(mixName, optionDescription);
@@ -6097,7 +6472,7 @@ public class Main {
         lblFoodCount.setText(getFoodConstraintCount());
         lblNutrientCount.setText(getNutrientQuantityConstraintCount());
         lblGroupCount.setText(getGroupConstraintCount());
-        // lblGroupRatioCount.setText("Fix");
+        lblGroupRatioCount.setText(getGroupRatioConstraintCount());
     }
 
     private void setSplitPanelDivider() {
@@ -6475,6 +6850,8 @@ public class Main {
                         String groupid = task.get();
                         if (task.isDone()) {
                             reloadGroups(getSelectedMix().getMixid());
+                            reloadGroupComboBoxes(getSelectedMix().getMixid());
+                            reloadGroupConstraints(getSelectedMix().getMixid());
                             int rowIndex = tblFoodGroups.find(groupid);
                             tblFoodGroups.selectRow(rowIndex);
                             tblFoodGroups.showRow(rowIndex);
@@ -6499,9 +6876,8 @@ public class Main {
                 if (task.isDone()) {
                     tblFoodsInFoodGroup.clear();
                     reloadGroups(getSelectedMix().getMixid());
-                    Future<List<List>> task1 = TaskLauncher.submit(new GroupConstraintsTask(getSelectedMix().getMixid()));
-                    List<List> constraints = task1.get();
-                    tblGroupQuantityConstraint.reload(constraints);
+                    reloadGroupComboBoxes(getSelectedMix().getMixid());
+                    reloadGroupConstraints(getSelectedMix().getMixid());
                     setConstraintCounts();
                 }
             } catch (Exception e) {
@@ -6525,6 +6901,7 @@ public class Main {
                         task.get();
                         if (task.isDone()) {
                             reloadGroups(getSelectedMix().getMixid());
+                            reloadGroupComboBoxes(getSelectedMix().getMixid());
                             int rowIndex = tblFoodGroups.find(foodgroup.getGroupid());
                             tblFoodGroups.selectRow(rowIndex);
                             tblFoodGroups.showRow(rowIndex);
@@ -6550,6 +6927,7 @@ public class Main {
                 String foodgroupid = task.get();
                 if (task.isDone()) {
                     reloadGroups(getSelectedMix().getMixid());
+                    reloadGroupComboBoxes(getSelectedMix().getMixid());
                     int rowIndex = tblFoodGroups.find(foodgroupid);
                     tblFoodGroups.selectRow(rowIndex);
                     tblFoodGroups.showRow(rowIndex);

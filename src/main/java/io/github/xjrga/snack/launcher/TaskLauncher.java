@@ -27,7 +27,11 @@ public class TaskLauncher {
     private static ExecutorService backgroundExec;
 
     public static void start() {
-        backgroundExec = Executors.newSingleThreadExecutor();
+        backgroundExec = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r, "TaskLauncher");
+            t.setDaemon(false);
+            return t;
+        });
     }
 
     public static void execute(Runnable command) {

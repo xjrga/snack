@@ -54,7 +54,7 @@ and share their insight.
 
 #### Build
 
-1740
+1750
 
 #### User Guide
 
@@ -74,13 +74,21 @@ Unless you explicitly state otherwise, any contribution intentionally
 submitted for inclusion in the work by you shall be GPL2.0 licensed
 without any additional terms or conditions.
 
+#### Bibliography
+
+##### The National Institutes of Health
+* [Dietary Reference Intakes Nutrient Recommendations Report](https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx)
+* [Dietary Reference Intakes Summary Tables](https://www.ncbi.nlm.nih.gov/books/NBK545442/)
+
+##### The National Academies of Sciences, Engineering, and Medicine
+* [Dietary Reference Intakes: The Essential Guide to Nutrient Requirements](https://www.nationalacademies.org/projects/HMD-FNB-18-P-120/publication/11537)
+* [Dietary Reference Intakes Summary Tables](https://www.nationalacademies.org/read/25353/chapter/28)
+
 #### Data
 
-Project uses data subset from:
+##### US Department of Agriculture, Agricultural Research Service, Nutrient Data Laboratory.
+* [USDA National Nutrient Database for Standard Reference, Release 28](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr11-sr28/)
+* [USDA Special Interest Databases on Flavonoids](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/flavonoids/)
 
-#### US Department of Agriculture, Agricultural Research Service, Nutrient Data Laboratory.
-* USDA National Nutrient Database for Standard Reference, Release 28
-* USDA Special Interest Databases on Flavonoids
-
-#### The National Academies of Sciences, Engineering, and Medicine
-* Dietary Reference Intakes Nutrient Recommendations Report from Food and Nutrition Board
+##### Github
+* [Snack Nutrition Software Data Set](https://github.com/xjrga/AllFoods)

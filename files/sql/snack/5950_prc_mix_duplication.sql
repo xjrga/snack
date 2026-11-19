@@ -36,6 +36,8 @@ CALL GroupList_Copy(v_MixId_Old,v_MixId_New);
 --
 CALL GroupConstraint_Copy(v_MixId_Old,v_MixId_New);
 --
+CALL GroupRatio_Copy(v_MixId_Old,v_MixId_New);
+--
 SET newid = v_MixId_New;
 --
 END;

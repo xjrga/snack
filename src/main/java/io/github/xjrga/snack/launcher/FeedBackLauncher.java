@@ -27,7 +27,11 @@ public class FeedBackLauncher {
     private static ExecutorService backgroundExec;
 
     public static void start() {
-        backgroundExec = Executors.newSingleThreadExecutor();
+        backgroundExec = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r, "FeedBackLauncher");
+            t.setDaemon(false);
+            return t;
+        });
     }
 
     public static void execute(Runnable command) {

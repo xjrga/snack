@@ -15,7 +15,6 @@
  */
 package io.github.xjrga.snack.xml;
 
-import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.database.callable.FoodCreator;
 import io.github.xjrga.snack.database.callable.insert.InsertFoodPortionTask;
 import io.github.xjrga.snack.database.callable.insert.InsertGroupFoodTask;
@@ -26,6 +25,7 @@ import io.github.xjrga.snack.database.callable.insert.InsertMixTask;
 import io.github.xjrga.snack.database.callable.insert.MergeFoodConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeFoodRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeGroupConstraintTask;
+import io.github.xjrga.snack.database.callable.insert.MergeGroupRatioConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeNutrientConstraintTask;
 import io.github.xjrga.snack.database.callable.insert.MergeNutrientRatioConstraintTask;
 import io.github.xjrga.snack.dataobject.Category;
@@ -38,9 +38,11 @@ import io.github.xjrga.snack.dataobject.O_groupfood;
 import io.github.xjrga.snack.dataobject.Xml_food_nutrient_constraint;
 import io.github.xjrga.snack.dataobject.Xml_food_nutrient_ratio_constraint;
 import io.github.xjrga.snack.dataobject.Xml_group_constraint;
+import io.github.xjrga.snack.dataobject.Xml_group_ratio_constraint;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_constraint;
 import io.github.xjrga.snack.dataobject.Xml_nutrient_ratio_constraint;
 import io.github.xjrga.snack.gui.Message;
+import io.github.xjrga.snack.launcher.TaskLauncher;
 import io.github.xjrga.snack.logger.LoggerImpl;
 import io.github.xjrga.snack.other.U;
 import java.io.BufferedReader;
@@ -135,6 +137,7 @@ public class MixImporter {
         Xml_nutrient_constraint nutrient_constraint = null;
         Xml_food_nutrient_constraint food_nutrient_constraint = null;
         Xml_food_nutrient_ratio_constraint food_nutrient_ratio_constraint = null;
+        Xml_group_ratio_constraint group_ratio_constraint = null;
         Xml_nutrient_ratio_constraint nutrient_ratio_constraint = null;
         Xml_group_constraint group_constraint = null;
         Category category = null;
@@ -201,6 +204,10 @@ public class MixImporter {
                         }
                         case "group_quantity" -> {
                             group_constraint = new Xml_group_constraint();
+                            mainEvent = startEvent;
+                        }
+                        case "group_ratio" -> {
+                            group_ratio_constraint = new Xml_group_ratio_constraint();
                             mainEvent = startEvent;
                         }
                     }
@@ -308,6 +315,8 @@ public class MixImporter {
                                         nutrient_ratio_constraint.setNutrientid_a(data);
                                     case "food_ratio" ->
                                         food_nutrient_ratio_constraint.setNutrientid_a(data);
+                                    case "group_ratio" ->
+                                        group_ratio_constraint.setNutrientid_a(data);
                                 }
                                 break;
                             case "nutrient-id_b":
@@ -316,6 +325,8 @@ public class MixImporter {
                                         nutrient_ratio_constraint.setNutrientid_b(data);
                                     case "food_ratio" ->
                                         food_nutrient_ratio_constraint.setNutrientid_b(data);
+                                    case "group_ratio" ->
+                                        group_ratio_constraint.setNutrientid_b(data);
                                 }
                                 break;
                             case "relationship-id":
@@ -330,6 +341,8 @@ public class MixImporter {
                                         food_nutrient_ratio_constraint.setRelationshipid(Integer.valueOf(data));
                                     case "group_quantity" ->
                                         group_constraint.setRelationshipid(Integer.valueOf(data));
+                                    case "group_ratio" ->
+                                        group_ratio_constraint.setRelationshipid(Integer.valueOf(data));
                                 }
                                 break;
                             case "a":
@@ -338,6 +351,8 @@ public class MixImporter {
                                         nutrient_ratio_constraint.setA(new BigDecimal(data));
                                     case "food_ratio" ->
                                         food_nutrient_ratio_constraint.setA(new BigDecimal(data));
+                                    case "group_ratio" ->
+                                        group_ratio_constraint.setA(new BigDecimal(data));
                                 }
                             case "b":
                                 switch (mainEvent) {
@@ -351,6 +366,8 @@ public class MixImporter {
                                         food_nutrient_ratio_constraint.setB(new BigDecimal(data));
                                     case "group_quantity" ->
                                         group_constraint.setB(new BigDecimal(data));
+                                    case "group_ratio" ->
+                                        group_ratio_constraint.setB(new BigDecimal(data));
                                 }
                                 break;
                             case "food-name":
@@ -960,6 +977,14 @@ public class MixImporter {
                                 food.setVitamins_thiamin_quantity(data);
                                 food.setVitamins_thiamin_nutr_no(nutr_no);
                                 break;
+                            //
+                            case "group-id_a":
+                                group_ratio_constraint.setGroupid_a(data);
+                                break;
+                            //
+                            case "group-id_b":
+                                group_ratio_constraint.setGroupid_b(data);
+                                break;
                         }
                     }
                     break;
@@ -1116,6 +1141,20 @@ public class MixImporter {
                                         group_constraint.getRelationshipid(),
                                         group_constraint.getB()));
                                 insertGroupConstraintTask.get();
+                                break;
+                            }
+                        case "group_ratio":
+                            if (created) {
+                                Future<Boolean> insertGroupRatioConstraintTask = TaskLauncher.submit(new MergeGroupRatioConstraintTask(
+                                        mix.getMixid(),
+                                        group_ratio_constraint.getGroupid_a(),
+                                        group_ratio_constraint.getNutrientid_a(),
+                                        group_ratio_constraint.getGroupid_b(),
+                                        group_ratio_constraint.getNutrientid_b(),
+                                        group_ratio_constraint.getRelationshipid(),
+                                        group_ratio_constraint.getA(),
+                                        group_ratio_constraint.getB()));
+                                insertGroupRatioConstraintTask.get();
                                 break;
                             }
                     }

@@ -16,6 +16,7 @@ public class LpToCplexMeals implements LpTo {
     private final StringBuilder nutrientRatio;
     private final StringBuilder foodQuantity;
     private final StringBuilder foodRatio;
+    private final StringBuilder groupRatio;
     private final StringBuilder groupQuantity;
     private String model;
 
@@ -30,6 +31,7 @@ public class LpToCplexMeals implements LpTo {
         nutrientRatio = new StringBuilder();
         foodQuantity = new StringBuilder();
         foodRatio = new StringBuilder();
+        groupRatio = new StringBuilder();
         groupQuantity = new StringBuilder();
         model = "";
         objFunction.append("\n");
@@ -56,6 +58,9 @@ public class LpToCplexMeals implements LpTo {
         groupQuantity.append("\n");
         groupQuantity.append("/* ----- GROUP CONSTRAINTS ----- */");
         groupQuantity.append("\n\n");
+        groupRatio.append("\n");
+        groupRatio.append("/* ----- GROUP RATIO CONSTRAINTS ----- */");
+        groupRatio.append("\n\n");
     }
 
     @Override
@@ -71,6 +76,7 @@ public class LpToCplexMeals implements LpTo {
         sb.append(foodQuantity);
         sb.append(foodRatio);
         sb.append(groupQuantity);
+        sb.append(groupRatio);
         sb.append("\n");
         sb.append("/* Model is feasible. A solution exists which satisfies all the constraints. */");
         sb.append("\n");
@@ -178,6 +184,15 @@ public class LpToCplexMeals implements LpTo {
         foodRatio.append(" */");
         foodRatio.append("\n\n");
         setConstraintCoefficients(foodRatio, coefficients, rel, value);
+    }
+
+    @Override
+    public void addGroupRatioConstraint(double[] coefficients, int rel, double value, String name) {
+        groupRatio.append("/* ");
+        groupRatio.append(name);
+        groupRatio.append(" */");
+        groupRatio.append("\n\n");
+        setConstraintCoefficients(groupRatio, coefficients, rel, value);
     }
 
     @Override

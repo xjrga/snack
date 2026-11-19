@@ -322,6 +322,15 @@ public class LpToJava implements LpTo {
         counter++;
     }
 
+    /* GROUP RATIO CONSTRAINTS */
+    @Override
+    public void addGroupRatioConstraint(double[] coefficients, int rel, double value, String name) {
+        lhs.add(coefficients);
+        relationships.add(rel);
+        rhs.add(value);
+        constraintNames.add(name);
+        counter++;
+    }
 
     /* GROUP CONSTRAINTS */
     @Override

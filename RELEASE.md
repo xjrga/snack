@@ -1,5 +1,10 @@
 ### Release Notes
 
+### 1750 - November 18, 2026
+
+  * Added group ratios
+  * Bug fixes
+
 ### 1740 - November 06, 2026
 
   * Added new type of linear programming model printout to represent meals

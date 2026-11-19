@@ -18,7 +18,7 @@
                 <!-- nutrient quantity  -->
                 <xsd:element name="nutrient_quantity_list" type="nutrient_quantity_list" minOccurs="0" maxOccurs="1"/>
                 <!-- nutrient ratio -->
-                <xsd:element name="nutrient_ratio_list" type="nutrient_ratio_list" minOccurs="0" maxOccurs="1"/>                
+                <xsd:element name="nutrient_ratio_list" type="nutrient_ratio_list" minOccurs="0" maxOccurs="1"/>
                 <!-- food quantity -->
                 <xsd:element name="food_quantity_list" type="food_quantity_list" minOccurs="0" maxOccurs="1"/>
                 <!-- food ratio -->
@@ -29,10 +29,12 @@
                 <xsd:element name="meal_food_portion_list" type="meal_food_portion_list" minOccurs="0" maxOccurs="1"/>
                 <!-- group list -->
                 <xsd:element name="group_list" type="group_list" minOccurs="0" maxOccurs="1"/>
-                <!-- groupfood list -->
+                <!-- group food list -->
                 <xsd:element name="groupfood_list" type="groupfood_list" minOccurs="0" maxOccurs="1"/>
                 <!-- group quantity -->
                 <xsd:element name="group_quantity_list" type="group_quantity_list" minOccurs="0" maxOccurs="1"/>
+                <!-- group ratio -->
+                <xsd:element name="group_ratio_list" type="group_ratio_list" minOccurs="0" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
         <xsd:unique name="Uniquely_Specified_Food">
@@ -72,7 +74,15 @@
             <xsd:field xpath="food-id_b"/>
             <xsd:field xpath="nutrient-id_b"/>
             <xsd:field xpath="relationship-id"/>
-        </xsd:unique>        
+        </xsd:unique>
+        <xsd:unique name="Uniquely_Specified_Group_Ratio">
+            <xsd:selector xpath="group_ratio_list/group_ratio"/>
+            <xsd:field xpath="group-id_a"/>
+            <xsd:field xpath="nutrient-id_a"/>
+            <xsd:field xpath="group-id_b"/>
+            <xsd:field xpath="nutrient-id_b"/>
+            <xsd:field xpath="relationship-id"/>
+        </xsd:unique>
         <xsd:unique name="Uniquely_Specified_Meal">
             <xsd:selector xpath="meal_list/meal"/>
             <xsd:field xpath="mix-id"/>
@@ -98,7 +108,7 @@
             <xsd:element name="mix-name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="lifestage-id" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
-    </xsd:complexType>   
+    </xsd:complexType>
     <!-- nutrient quantity list -->
     <xsd:complexType name="nutrient_quantity_list">
         <xsd:sequence>
@@ -113,7 +123,7 @@
             <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
-        <!-- nutrient ratio list -->
+    <!-- nutrient ratio list -->
     <xsd:complexType name="nutrient_ratio_list">
         <xsd:sequence>
             <xsd:element name="nutrient_ratio" type="nutrient_ratio" minOccurs="0" maxOccurs="unbounded"/>
@@ -162,7 +172,24 @@
             <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
-
+    <!-- group ratio_list -->
+    <xsd:complexType name="group_ratio_list">
+        <xsd:sequence>
+            <xsd:element name="group_ratio" type="group_ratio" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- group ratio -->
+    <xsd:complexType name="group_ratio">
+        <xsd:sequence>
+            <xsd:element name="group-id_a" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrient-id_a" type="constraint-metric" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="group-id_b" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="nutrient-id_b" type="constraint-metric" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="relationship-id" type="relationship-id" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="a" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="b" type="xsd:decimal" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
     <xsd:simpleType name="relationship-id">
         <xsd:restriction base="xsd:nonNegativeInteger">
             <!-- GEQ -->
@@ -172,7 +199,7 @@
             <!-- EQ -->
             <xsd:enumeration value = "3"/>
         </xsd:restriction>
-    </xsd:simpleType>    
+    </xsd:simpleType>
     <!-- meal list -->
     <xsd:complexType name="meal_list">
         <xsd:sequence>
@@ -205,7 +232,7 @@
             <xsd:element name="actual-wt" type="xsd:double" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
-    
+
     <!-- group list -->
     <xsd:complexType name="group_list">
         <xsd:sequence>
@@ -231,7 +258,7 @@
         <xsd:sequence>
             <xsd:element name="mix-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="group-id" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="food-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>            
+            <xsd:element name="food-id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     <!-- group quantity list -->

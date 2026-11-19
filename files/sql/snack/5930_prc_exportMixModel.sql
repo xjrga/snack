@@ -56,6 +56,10 @@ call Select_group_constraint_list_as_xml(doc,v_MixId);
 --
 SET doc2 = doc2  + doc;
 --
+call Select_group_ratio_constraint_list_as_xml(doc,v_MixId);
+--
+SET doc2 = doc2  + doc;
+--
 SET doc2 = doc2 + CHAR(10) + '</snack>';
 --
 INSERT INTO temp (txt) VALUES (doc2);

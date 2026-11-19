@@ -6,7 +6,8 @@ IN v_lifestageid INTEGER
 --
 )
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+MODIFIES sql data dynamic RESULT sets 1
+BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
@@ -14,28 +15,30 @@ FOR
 SELECT rownum() AS x,
        name,
        c
-FROM (SELECT name, c
+FROM (SELECT name,
+             c
       FROM (SELECT a.foodid AS name,
                    0 AS c
             FROM mixfood a
             WHERE mixid = v_mixid
             ORDER BY foodid)
       UNION ALL
-      SELECT name, deficiency
-      FROM (SELECT concat('deficiency_',nutrientid) AS name,
+      SELECT name,
+             deficiency
+      FROM (SELECT concat('deficiency_', nutrientid) AS name,
                    0 AS deficiency
             FROM balancednutrients a
             ORDER BY nutrientid)
       UNION ALL
-      SELECT name, excess
-      FROM (SELECT concat('excess_',nutrientid) AS name,
+      SELECT name,
+             excess
+      FROM (SELECT concat('excess_', nutrientid) AS name,
                    b.cul AS excess
             FROM balancednutrients a,
                  rdacoefficients b
             WHERE a.nutrientid = b.nutrientid
             AND   b.lifestageid = v_lifestageid
-            ORDER BY nutrientid
-)
+            ORDER BY nutrientid)
       UNION ALL
       SELECT 'avg_deficiency',
              0 AS avg_deficiency

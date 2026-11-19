@@ -6,7 +6,8 @@ IN v_nutrientid LONGVARCHAR
 --
 )
 --
-MODIFIES SQL DATA DYNAMIC RESULT SETS 1 BEGIN ATOMIC
+MODIFIES sql data dynamic RESULT sets 1
+BEGIN ATOMIC
 --
 DECLARE result CURSOR
 FOR
@@ -14,7 +15,8 @@ FOR
 SELECT rownum() AS x,
        name,
        c
-FROM (SELECT name, c
+FROM (SELECT name,
+             c
       FROM (SELECT a.foodid AS name,
                    b.c AS c
             FROM mixfood a,
@@ -24,15 +26,17 @@ FROM (SELECT name, c
             AND   a.foodid = b.foodid
             ORDER BY foodid)
       UNION ALL
-      SELECT name, deficiency
-      FROM (SELECT concat('deficiency_',nutrientid) AS name,
-                   CASEWHEN(nutrientid = v_nutrientid,1.0,0) AS deficiency
+      SELECT name,
+             deficiency
+      FROM (SELECT concat('deficiency_', nutrientid) AS name,
+                   casewhen(nutrientid = v_nutrientid, 1.0, 0) AS deficiency
             FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL
-      SELECT name, excess
-      FROM (SELECT concat('excess_',nutrientid) AS name,
-                   CASEWHEN(nutrientid = v_nutrientid,-1.0,0) AS excess
+      SELECT name,
+             excess
+      FROM (SELECT concat('excess_', nutrientid) AS name,
+                   casewhen(nutrientid = v_nutrientid, -1.0, 0) AS excess
             FROM balancednutrients
             ORDER BY nutrientid)
       UNION ALL

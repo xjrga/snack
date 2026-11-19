@@ -1,6 +1,7 @@
 package io.github.xjrga.snack.records;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  *
@@ -8,7 +9,51 @@ import java.math.BigDecimal;
  */
 public class Records {
 
-    public record Mix(String MixId, String MixName, Integer LifeStageId, String Model, BigDecimal Cost, BigDecimal TniScore) {}
+    public record Group(
+            String MixId,
+            String GroupId,
+            String Name) {
+
+        @Override
+        public String toString() {
+            return Name;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 79 * hash + Objects.hashCode(this.MixId);
+            hash = 79 * hash + Objects.hashCode(this.GroupId);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Group other = (Group) obj;
+            if (!Objects.equals(this.MixId, other.MixId)) {
+                return false;
+            }
+            return Objects.equals(this.GroupId, other.GroupId);
+        }
+
+    }
+
+    public record Mix(
+            String MixId,
+            String MixName,
+            Integer LifeStageId,
+            String Model,
+            BigDecimal Cost,
+            BigDecimal TniScore) {}
 
     public record FoodDetails(
             String food_id,

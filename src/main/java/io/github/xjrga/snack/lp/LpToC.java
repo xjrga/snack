@@ -303,6 +303,14 @@ public class LpToC implements LpTo {
         counter++;
     }
 
+    @Override
+    public void addGroupRatioConstraint(double[] coefficients, int rel, double value, String name) {
+        lhs.add(coefficients);
+        relationships.add(rel);
+        rhs.add(value);
+        constraints.add(name);
+        counter++;
+    }
 
     /* GROUP CONSTRAINTS */
     @Override
